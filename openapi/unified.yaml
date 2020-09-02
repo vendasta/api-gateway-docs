@@ -1,0 +1,637 @@
+openapi: "3.0.0"
+info:
+  description: "This is the Unified API Set"
+  version: "1.0.0"
+  title: "Vendasta Consolidated Context"
+  termsOfService: "https://vendasta.com/terms"
+  contact:
+    email: api@vendasta.com
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+servers:
+  - url: http://localhost:8080
+    description: Local test server
+
+tags:
+  - name: term
+    description: "Terms are a set of context-specific definitions. They form Data Glossary for the platform."
+  - name: finance-partner
+    description: "A Partner is an entity that has the right to sell products within the platform."
+  - name: hr-employee
+    description: "An employee works for a partner and has access to use the platform."
+  - name: hr-team
+    description: "A team is a group of employees within a partner."
+  - name: hr-role
+    description: "A role is a logical grouping of OAuth2 scopes used to simplify permission management."
+  - name: crm-customer
+    description: "A customer is an entity that has a billing relationship with a partner."
+
+paths:
+  "/org/{org_id}/contexts/{context_id}/terms":
+    options:
+      operationId: opt-terms-type
+      summary: "List valid HTTP verbs"
+      description: "Returns a list of actions that can be taken on this list of terms in the Accept header. This is typically used for CORS"
+      tags:
+        - "term"
+      parameters:
+        - $ref: "#/components/parameters/OrgId"
+        - $ref: "#/components/parameters/ContextId"
+      responses:
+        "204":
+          description: "successful operation"
+          headers:
+            allow:
+              $ref: "#/components/headers/allow"
+    get:
+      operationId: get-terms-type
+      summary: "Get all terms"
+      security:
+        - OAuth2: []
+      tags:
+        - "term"
+      parameters:
+        - $ref: "#/components/parameters/OrgId"
+        - $ref: "#/components/parameters/ContextId"
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/PageOffset"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/TermsResponse"
+        "401":
+          description: "missing authorization header"
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      operationId: post-terms-type
+      summary: "Add a glossary term"
+      security:
+        - OAuth2: ["terms.write"]
+      tags:
+        - "term"
+      parameters:
+        - $ref: "#/components/parameters/OrgId"
+        - $ref: "#/components/parameters/ContextId"
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: "#/components/schemas/TermRequest"
+      responses:
+        "201":
+          description: "created"
+        "401":
+          description: "missing authorization header"
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: "missing required scope"
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: "not created due to conflicting name with existing term"
+  "/org/{org_id}/contexts/{context_id}/terms/{id}":
+    options:
+      operationId: opt-terms
+      summary: "List valid HTTP verbs"
+      tags:
+        - "term"
+      parameters:
+        - $ref: "#/components/parameters/OrgId"
+        - $ref: "#/components/parameters/ContextId"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "204":
+          description: "successful operation"
+          headers:
+            allow:
+              $ref: "#/components/headers/allow"
+    get:
+      operationId: get-terms
+      summary: "Get term with id {id}"
+      security:
+        - OAuth2: []
+      tags:
+        - "term"
+      parameters:
+        - $ref: "#/components/parameters/OrgId"
+        - $ref: "#/components/parameters/ContextId"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/TermResponse"
+        "401":
+          description: "missing authorization header"
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: "not found"
+    put:
+      operationId: put-terms
+      summary: "Update a glossary term"
+      security:
+        - OAuth2: ["terms.write"]
+      tags:
+        - "term"
+      parameters:
+        - $ref: "#/components/parameters/OrgId"
+        - $ref: "#/components/parameters/ContextId"
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: "#/components/schemas/TermRequest"
+      responses:
+        "200":
+          description: "successful operation"
+        "401":
+          description: "missing authorization header"
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: "missing required scope"
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: "not found"
+
+  "/org/{org_id}/contexts/finance/partners":
+    options:
+      operationId: opt-finance-partners-type
+      summary: "List valid HTTP verbs"
+      tags:
+        - "finance-partner"
+      parameters:
+        - $ref: "#/components/parameters/OrgId"
+      responses:
+        "204":
+          description: "successful operation"
+          headers:
+            allow:
+              $ref: "#/components/headers/allow"
+    get:
+      operationId: get-finance-partners-type
+      summary: "List partners"
+      security:
+        - OAuth2: ["finance.partners.read"]
+      tags:
+        - "finance-partner"
+      parameters:
+        - $ref: "#/components/parameters/OrgId"
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/PageOffset"
+      description: ""
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/FinancePartnersResponse"
+        "401":
+          description: "missing authorization header"
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: "missing required scope"
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/org/{org_id}/contexts/finance/partners/{id}":
+    options:
+      operationId: opt-
+      summary: "List valid HTTP verbs"
+      tags:
+        - "finance-partner"
+      parameters:
+        - $ref: "#/components/parameters/OrgId"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "204":
+          description: "successful operation"
+          headers:
+            allow:
+              $ref: "#/components/headers/allow"
+    get:
+      summary: "List partners"
+      security:
+        - OAuth2: ["finance.partners.read"]
+      tags:
+        - "finance-partner"
+      parameters:
+        - $ref: "#/components/parameters/OrgId"
+        - $ref: "#/components/parameters/Id"
+      description: ""
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/FinancePartnersResponse"
+        "401":
+          description: "missing authorization header"
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: "missing required scope"
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+#  "/org/{org_id}/contexts/hr/employees":
+#    $ref: "hr.yaml#/employees-all"
+#  "/org/{org_id}/contexts/hr/employees/{id}":
+#    $ref: "hr.yaml#/employees-one"
+#  "/org/{org_id}/contexts/hr/teams":
+#    $ref: "hr.yaml#/teams-all"
+#  "/org/{org_id}/contexts/hr/teams/{id}":
+#    $ref: "hr.yaml#/teams-one"
+#  "/org/{org_id}/contexts/hr/roles":
+#    $ref: "hr.yaml#/roles-all"
+#  "/org/{org_id}/contexts/hr/roles/{id}":
+#    $ref: "hr.yaml#/roles-one"
+
+#  "/org/{org_id}/contexts/crm/customers":
+#    $ref: "crm.yaml#/customers-all"
+#  "/org/{org_id}/contexts/crm/customers/{id}":
+#    $ref: "crm.yaml#/customers-one"
+#  "/org/{org_id}/contexts/crm/contacts":
+#    $ref: "crm.yaml#/contacts-all"
+#  "/org/{org_id}/contexts/crm/contacts/{id}":
+#    $ref: "crm.yaml#/contacts-one"
+
+# -----------------------------------------------------------------------------
+# - Sales Context (leads, opportunities, orders)
+# -----------------------------------------------------------------------------
+
+#  "/org/{org_id}/contexts/sales/leads":
+#  "/org/{org_id}/contexts/sales/leads/{id}":
+#  "/org/{org_id}/contexts/sales/opportunities":
+#  "/org/{org_id}/contexts/sales/opportunities/{id}":
+#  "/org/{org_id}/contexts/sales/orders":
+#  "/org/{org_id}/contexts/sales/orders/{id}":
+
+# -----------------------------------------------------------------------------
+# - Product Context (product, package)
+# -----------------------------------------------------------------------------
+
+#  "/org/{org_id}/contexts/product/product":
+#  "/org/{org_id}/contexts/product/product/{id}":
+#  "/org/{org_id}/contexts/product/package":
+#  "/org/{org_id}/contexts/product/package/{id}":
+
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: "https://sso-api-demo.apigateway.co/oauth2/auth"
+          tokenUrl: "https://sso-api-demo.apigateway.co/oauth2/token"
+          scopes:
+            terms.write: write terms
+
+            finance.partners.read: read partners
+
+            hr.employees.read: read employees
+            hr.teams.read: read teams
+            hr.roles.read: read roles
+            hr.roles.write: write roles
+
+            crm.customers.read: read customers
+            crm.customers.write: write customers
+            crm.contacts.read: read contacts
+            crm.contacts.write: write contacts
+
+            sales.leads.read: read leads
+            sales.opportunities.read: read opportunities
+            sales.orders.read: read orders
+
+            product.products.read: read products
+            product.packages.read: read packages
+
+  parameters:
+    OrgId:
+      name: org_id
+      in: path
+      required: true
+      schema:
+        type: string
+    ContextId:
+      name: context_id
+      in: path
+      required: true
+      schema:
+        type: string
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+
+    PageSize:
+      name: "page[size]"
+      in: query
+      schema:
+        type: number
+      allowReserved: true
+    PageOffset:
+      name: "page[offset]"
+      in: query
+      schema:
+        type: number
+      allowReserved: true
+    PageCursor:
+      name: "page[cursor]"
+      in: query
+      schema:
+        type: string
+      allowReserved: true
+
+  headers:
+    allow:
+      description: "Allowed HTTP verbs"
+      schema:
+        type: string
+
+  schemas:
+    # -----------------------------------------------------------------------------
+    # - JSON API Types
+    # -----------------------------------------------------------------------------
+    JSONAPILink:
+      type: object
+      required:
+        - href
+      properties:
+        href:
+          type: string
+          description: A URI either absolute or relitive to the root of this domain beging with a slash
+        meta:
+          $ref: "#/components/schemas/JSONAPIMeta"
+
+    JSONAPIMeta:
+      type: object
+      description: Additional info. Generally not included
+      example: {"key1":"value1", "key2":{"a":"value2a", "b":"value2b"}}
+
+    JSONAPIErrors:
+      description: A list of errors that occured during this request.
+      type: array
+      items:
+        type: object
+        required:
+          - code
+          - title
+          - detail
+        properties:
+          code:
+            title: "Error Code"
+            type: string
+            description: A unique value that can be used to react to this error programatically. See GET /errors for a full list
+          title:
+            type: string
+            description: A short human friendly name for the code. It will be translated based on accept-language header on the request but is otherwise static.
+          detail:
+            type: string
+            description: >
+              A longer description of the error including values that change in response to the request. Key value pairs of the dynamic values will be included in the meta section of the error.
+              For error codes that are not typically caused by developer error we aim for this description to be friendly enough to show your users. You may preview
+          status:
+            type: string
+            description: The HTTP status code triggered by this error. When multiple errors are returned in a response the response header will group them as 500 or 400
+          id:
+            type: string
+            description: A unique identifier for this particular occurrence of the problem. It may be referenced in support requests.
+          links:
+            type: object
+            description: >
+              A list of links that may help you solve this error. Links with a meta.title set can be made accessable to end users.
+              There will always be an "about" link included that points to documentation for this error. Other links may be included based on the error.
+            properties:
+              about:
+                $ref: "#/components/schemas/JSONAPILink"
+            additionalProperties:
+              $ref: "#/components/schemas/JSONAPILink"
+
+          source:
+            type: string
+            description: The source will point you to the part of the request that the error relates to
+          meta:
+            $ref: "#/components/schemas/JSONAPIMeta"
+
+    JSONAPISuccessResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+        links:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/JSONAPILink'
+        meta:
+          $ref: '#/components/schemas/JSONAPIMeta'
+
+    # -----------------------------------------------------------------------------
+    # - Root Context
+    # -----------------------------------------------------------------------------
+
+    ErrorResponse:
+      type: object
+      required:
+        - errors
+      properties:
+        links:
+          type: object
+        errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/Error"
+
+    Error:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+
+    PostalAddress:
+      type: object
+      properties:
+        country:
+          type: string
+        state:
+          type: string
+        city:
+          type: string
+        postBox:
+          type: string
+        postCode:
+          type: string
+        address1:
+          type: string
+        address2:
+          type: string
+    FinancePartnersResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/FinancePartnerResource"
+        links:
+          type: object
+        meta:
+          type: object
+        errors:
+          type: array
+          items:
+            type: string
+
+    FinancePartnerResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/FinancePartnerResource"
+        links:
+          type: object
+        errors:
+          type: array
+          items:
+            type: string
+
+    FinancePartnerResource:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        attributes:
+          $ref: "#/components/schemas/FinancePartner"
+        relationships:
+          type: object
+          properties:
+            parent:
+              type: object
+              properties:
+                data:
+                  $ref: "#/components/schemas/FinancePartnerResource"
+
+    FinancePartner:
+      type: object
+      properties:
+        created:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        name:
+          type: string
+
+    TermsResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/TermResource"
+        links:
+          type: object
+        meta:
+          type: object
+        errors:
+          type: array
+          items:
+            type: string
+
+    TermResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/TermResource"
+        links:
+          type: object
+        errors:
+          type: array
+          items:
+            type: string
+
+    TermRequest:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/TermResource"
+
+    TermResource:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        attributes:
+          $ref: "#/components/schemas/Term"
+
+    Term:
+      type: object
+      properties:
+        created:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        name:
+          type: string
+        definition:
+          type: string

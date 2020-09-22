@@ -28,7 +28,7 @@ If you have ideas on how we can support more standards please let us know. We wa
 
 
 ## Self documenting
-In the body of responses you will find links to related actions and helpful details on errors.
+In the body of responses you will find links to related actions and helpful details on errors. This is the HATEOAS part of REST that is so often forgotten.
 
 
 ## Conventions
@@ -104,16 +104,16 @@ Most operations that return on a list of data allow you to filter the list using
 
 
 ### Paging
-All operations that return a list of data will let you specify a query param of `page[limit]` to indicate the max number of records you would like returned in a single batch. The body of the response will provide links that you can use to get the next batch without needing to send the filters again. 
+All operations that return a list of data will let you specify a query param of `page[limit]` to indicate the max number of records you would like returned in a single batch. The body of the response will provide links that you can use to get the next batch without needing to send the filters again. The link will be omitted if not available. 
 
 ```json
 {
   "links": {
-    "self": "http://example.com/articles?page[number]=3&page[size]=1",
-    "first": "http://example.com/articles?page[number]=1&page[size]=1",
-    "prev": "http://example.com/articles?page[number]=2&page[size]=1",
-    "next": "http://example.com/articles?page[number]=4&page[size]=1",
-    "last": "http://example.com/articles?page[number]=13&page[size]=1"
+    "first": "https://prod.apigateway.co/crm/customers?page[cursor]=abc",
+    "prev": "https://prod.apigateway.co/crm/customers?page[cursor]=hij",
+    "self": "https://prod.apigateway.co/crm/customers?page[cursor]=klm",
+    "next": "https://prod.apigateway.co/crm/customers?page[cursor]=nop",
+    "last": "https://prod.apigateway.co/crm/customers?page[cursor]=xyz"
   }
 }
 ```

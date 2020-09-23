@@ -1,0 +1,77 @@
+openapi: 3.0.0
+info:
+  title: Customer Relationship Management
+  version: '1.0'
+  description: ''
+servers:
+  - url: 'https://prod.apigateway.co/crm'
+    description: Production
+  - description: Demo
+    url: 'https://demo.apigateway.co/crm'
+paths:
+  /customers:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CRMCustomer'
+      operationId: get-customers
+      parameters:
+        - schema:
+            type: string
+            minLength: 3
+            maxLength: 100
+          in: query
+          name: 'filter[name][~]'
+          description: Limit results to customers with a name simular to specified value
+        - schema:
+            type: string
+            minLength: 3
+            maxLength: 100
+          in: query
+          name: 'filter[name][=]'
+          description: Limit results to customers with a name exactly matching specified value
+components:
+  schemas:
+    CRMCustomer:
+      type: object
+      properties:
+        created:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        url:
+          type: string
+        email:
+          type: string
+        telephone:
+          type: string
+        name:
+          type: string
+        timeZone:
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: string
+        address:
+          $ref: ../common/models/PostalAddress.yaml
+      title: CRMCustomer
+      description: ''
+  securitySchemes: {}

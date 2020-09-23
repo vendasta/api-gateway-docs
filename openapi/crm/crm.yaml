@@ -11,8 +11,9 @@ servers:
 paths:
   /customers:
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: List Customers
+      tags:
+        - customer
       responses:
         '200':
           description: OK
@@ -24,8 +25,20 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/CRMCustomer'
-      operationId: get-customers
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          example: crmCustomers
+                        attributes:
+                          $ref: '#/components/schemas/CRMCustomer'
+                      required:
+                        - id
+                        - type
+              examples: {}
+      operationId: crm-list-customers
       parameters:
         - schema:
             type: string
@@ -41,10 +54,13 @@ paths:
           in: query
           name: 'filter[name][=]'
           description: Limit results to customers with a name exactly matching specified value
+      description: ''
 components:
   schemas:
     CRMCustomer:
       type: object
+      title: CRMCustomer
+      description: ''
       properties:
         created:
           type: string
@@ -70,8 +86,8 @@ components:
           type: array
           items:
             type: string
-        address:
-          $ref: ../common/models/PostalAddress.yaml
-      title: CRMCustomer
-      description: ''
+      x-tags:
+        - customer
   securitySchemes: {}
+tags:
+  - name: customer

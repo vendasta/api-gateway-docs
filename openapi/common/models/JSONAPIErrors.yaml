@@ -1,0 +1,41 @@
+title: JSONAPIErrors
+description: A list of errors that occured during this request.
+type: array
+items:
+  type: object
+  properties:
+    code:
+      title: Error Code
+      type: string
+      description: A unique value that can be used to react to this error programatically. See GET /errors for a full list
+    title:
+      type: string
+      description: A short human friendly name for the code. It will be translated based on accept-language header on the request but is otherwise static.
+    detail:
+      type: string
+      description: |
+        A longer description of the error including values that change in response to the request. Key value pairs of the dynamic values will be included in the meta section of the error. For error codes that are not typically caused by developer error we aim for this description to be friendly enough to show your users. You may preview
+    status:
+      type: string
+      description: The HTTP status code triggered by this error. When multiple errors are returned in a response the response header will group them as 500 or 400
+    id:
+      type: string
+      description: A unique identifier for this particular occurrence of the problem. It may be referenced in support requests.
+    links:
+      type: object
+      description: |
+        A list of links that may help you solve this error. Links with a meta.title set can be made accessable to end users. There will always be an "about" link included that points to documentation for this error. Other links may be included based on the error.
+      additionalProperties:
+        $ref: '#/components/schemas/JSONAPILink'
+      properties:
+        about:
+          $ref: ./JSONAPILink.yaml
+    source:
+      type: string
+      description: The source will point you to the part of the request that the error relates to
+    meta:
+      $ref: ./JSONAPIMeta.yaml
+  required:
+    - code
+    - title
+    - detail

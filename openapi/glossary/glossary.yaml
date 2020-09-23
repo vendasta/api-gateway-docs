@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  title: Data Glossary Context
+  version: '1.0'
+seservers:
+  - url: 'https://prod.apigateway.co/glossary'
+    description: Production
+  - description: Demo
+    url: 'https://demo.apigateway.co/glossary'0'
+paths:
+  /terms:
+    get:
+      summary: List Terms
+      operationId: glossary-list-terms
+      tags:
+        - term
+      responses:
+        '200':
+          description: OK
+      description: ''
+      parameters: []
+      security:
+        - OAuth2: []
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          scopes:
+            terms.write: write terms
+            finance.partners.read: read partners
+            hr.employees.read: read employees
+            hr.teams.read: read teams
+            hr.roles.read: read roles
+            hr.roles.write: write roles
+            crm.customers.read: read customers
+            crm.customers.write: write customers
+            crm.contacts.read: read contacts
+            crm.contacts.write: write contacts
+            sales.leads.read: read leads
+            sales.opportunities.read: read opportunities
+            sales.orders.read: read orders
+            product.products.read: read products
+            product.packages.read: read packages
+tags:
+  - name: term
+    description: Terms are a set of context-specific definitions. They form Data Glossary for the platform.

@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Customer Relationship Management
   version: '1.0'
-  description: ''
+  description: 'Endpoints within the CRM context are designed for your sales and retention employees.'
 servers:
   - url: 'https://prod.apigateway.co/crm'
     description: Production
@@ -32,6 +32,8 @@ paths:
                         type:
                           type: string
                           example: crmCustomers
+                          enum:
+                            - crmCustomers
                         attributes:
                           $ref: '#/components/schemas/CRMCustomer'
                       required:
@@ -55,6 +57,9 @@ paths:
           name: 'filter[name][=]'
           description: Limit results to customers with a name exactly matching specified value
       description: ''
+      security:
+        - OAuth2: []
+        - JWT: []
 components:
   schemas:
     CRMCustomer:
@@ -88,7 +93,33 @@ components:
             type: string
       x-tags:
         - crm-customer
-  securitySchemes: {}
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          scopes:
+            terms.write: write terms
+            finance.partners.read: read partners
+            hr.employees.read: read employees
+            hr.teams.read: read teams
+            hr.roles.read: read roles
+            hr.roles.write: write roles
+            crm.customers.read: read customers
+            crm.customers.write: write customers
+            crm.contacts.read: read contacts
+            crm.contacts.write: write contacts
+            sales.leads.read: read leads
+            sales.opportunities.read: read opportunities
+            sales.orders.read: read orders
+            product.products.read: read products
+            product.packages.read: read packages
 tags:
   - name: crm-customer
     description: A customer is an entity that has a billing relationship with a partner.

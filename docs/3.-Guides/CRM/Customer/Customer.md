@@ -4,7 +4,7 @@ tags: [customer]
 
 # Customers
 
-A customer is an organization that has purchased a product from your organization. Organizations that have not made a purchase may be accessable as [prospects](<>).
+A customer is an organization that has purchased a product from your organization. Organizations that have not made a purchase may be accessible as [prospects](<>).
 
 ## Common actions
 

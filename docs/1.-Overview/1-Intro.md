@@ -10,7 +10,7 @@ Welcome to the API Gateway. This service has been designed to allow all our part
 ## Broken into contexts
 Our platform serves many different types of users, each with their own frame of reference. If you ask a sales person to describe the properties of a business vs asking someone in accounting you will get two different answers. This is because each have their own context. 
 
-To aid you in presenting the correct version of simularly named fields we have grouped endpoints by the context in which they should be used. 
+To aid you in presenting the correct version of similarly named fields we have grouped endpoints by the context in which they should be used. 
 
 
 ## Stable
@@ -37,9 +37,9 @@ In the body of responses you will find links to related actions and helpful deta
 Every request requires an OAuth2 bearer authorization header that was issued by the API Gateway. [Learn to create them](Authorization.md) 
 
 ### Localization
-Translating the content in the platform is crowed sourced and will improve over time. You are encorraged to provide a list of languages that the user can read using the [Accept-Language](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language) request header. Web browsers will often set this for you by default. If not set `en-US` will be used. 
+Translating the content in the platform is crowed sourced and will improve over time. You are encouraged to provide a list of languages that the user can read using the [Accept-Language](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language) request header. Web browsers will often set this for you by default. If not set `en-US` will be used. 
 
-We will pick the most appropriate locale based on the header and available translations. Resource attributes representing an enum will have both an untranslated `{attribute}Code` and a translated `{attribute}Name` option. Look for the `x-translateable` flag in the documentation. Translateable fields are readonly over API.
+We will pick the most appropriate locale based on the header and available translations. Resource attributes representing an enum will have both an untranslated `{attribute}Code` and a translated `{attribute}Name` option. Look for the `x-translateable` flag in the documentation. Translatable fields are readonly over API.
 
 
 
@@ -48,7 +48,7 @@ They happen. It is a fact of life but we don't think they should be hard to solv
 
 When an error occurs a 4XX or 5xx HTTP status code will be on the response. The body of the response will also contain a list of more specific error messages.
 
-The `code` property will tell you the specific platform error that occured. You can find a complete list of possible errors for the operation in the `x-errors` attribute of the documentation.
+The `code` property will tell you the specific platform error that occurred. You can find a complete list of possible errors for the operation in the `x-errors` attribute of the documentation.
 
 ```json 
 HTTP/1.1 422 Unprocessable Entity

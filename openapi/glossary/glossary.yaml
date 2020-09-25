@@ -3,7 +3,7 @@ info:
   title: Data Glossary Context
   version: Evergreen
   description: Sometimes you need to take a step back to understand exactly what is being discussed. The Data Glossary helps you to define terms used in the platform
-seservers:
+servers:
   - url: 'https://prod.apigateway.co/glossary'
     description: Production
   - description: Demo
@@ -20,7 +20,17 @@ paths:
             application/json:
               schema:
                 type: object
-                properties: {}
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GlossaryTerms'
+                  links:
+                    type: object
+                  included:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GlossaryContext'
       description: |-
         Find the definitions used by terms in a given context.
 
@@ -47,10 +57,17 @@ paths:
           in: query
           name: include
           description: What related resource types would you like to embed?
-      tags:
-        - GlossaryTerms
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+          in: header
+          name: Authorization
+          description: ''
+          required: true
       security:
         - OAuth: []
+      tags:
+        - Glossary-Terms
     parameters: []
   '/terms/{id}':
     parameters:
@@ -61,15 +78,71 @@ paths:
         required: true
     get:
       summary: Get Term
-      tags: []
+      tags:
+        - Glossary-Terms
       responses: {}
       operationId: get-terms-id
   /contexts:
     get:
       summary: List contexts
-      tags: []
-      responses: {}
+      tags:
+        - Glossary-Contexts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GlossaryContext'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                    required:
+                      - self
+                  included:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GlossaryTerms'
+              examples:
+                example-1:
+                  value:
+                    data:
+                      - id: drinks
+                        type: glossaryContexts
+                        attributes:
+                          name: Drinks
+                          definition: A liquid form of food
+                        relationships:
+                          terms:
+                            - data:
+                                id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                                type: glossaryTerms
+                            - data:
+                                id: 6276bba6-bfeb-6276-4993-6276bbbabfeb
+                                type: glossaryTerms
+                    links:
+                      self: 'http://prod.apigateway.co/glossary/contexts'
+                    included:
+                      - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                        type: glossaryTerms
+                        attributes:
+                          name: Milk
+                          definition: A cool white drink
+                      - id: 6276bba6-bfeb-6276-4993-6276bbbabfeb
+                        type: glossaryTerms
+                        attributes:
+                          name: CoCo
+                          definition: A hot brown beverage that is often spilt on pants
       operationId: get-contexts
+      description: Use this endpoint to obtain a list of glossary contexts.
   '/contexts/{id}':
     parameters:
       - schema:
@@ -79,8 +152,60 @@ paths:
         required: true
     get:
       summary: Get context
-      tags: []
-      responses: {}
+      tags:
+        - Glossary-Contexts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/GlossaryContext'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                    required:
+                      - self
+                  included:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GlossaryTerms'
+              examples:
+                example-1:
+                  value:
+                    data:
+                      id: drinks
+                      type: glossaryContexts
+                      attributes:
+                        name: Drinks
+                        definition: A liquid form of food
+                      relationships:
+                        terms:
+                          - data:
+                              id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                              type: glossaryTerms
+                          - data:
+                              id: 6276bba6-bfeb-6276-4993-6276bbbabfeb
+                              type: glossaryTerms
+                    links:
+                      self: 'http://prod.apigateway.co/glossary/contexts'
+                    included:
+                      - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                        type: glossaryTerms
+                        attributes:
+                          name: Milk
+                          definition: A cool white drink
+                      - id: 6276bba6-bfeb-6276-4993-6276bbbabfeb
+                        type: glossaryTerms
+                        attributes:
+                          name: CoCo
+                          definition: A hot brown beverage that is often spilt on pants
       operationId: get-contexts-id
   '/contexts/{id}/terms':
     parameters:
@@ -91,7 +216,9 @@ paths:
         required: true
     get:
       summary: List terms in context
-      tags: []
+      tags:
+        - Glossary-Contexts
+        - Glossary-Terms
       responses: {}
       operationId: get-contexts-id-terms
       description: |-
@@ -180,13 +307,50 @@ components:
               id: drinks
       x-tags:
         - Glossary-Terms
+        - Glossary-Contexts
     GlossaryContext:
-      title: GlossaryContext
+      title: Glossary Context
       type: object
+      description: A context is the frame of reference used when describing a term
+      x-tags:
+        - Glossary-Contexts
       properties:
         id:
           type: string
-      description: ''
+          maxLength: 20
+          minLength: 0
+        type:
+          type: string
+          enum:
+            - glossaryContexts
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+            definition:
+              type: string
+        relationships:
+          type: object
+          properties:
+            terms:
+              type: array
+              items:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                      type:
+                        type: string
+                        enum:
+                          - glossaryTerms
+                    required:
+                      - id
+                      - type
 tags:
-  - name: GlossaryTerms
-    description: Glossary Terms
+  - name: Glossary-Contexts
+  - name: Glossary-Terms

@@ -41,3 +41,6 @@ OPTIONS|{type} options|{type} item options
 Name
 Code
 
+### Tags
+Should be dash seperated and include the context.
+Each resource type that can be included on an endpoint should be taged on the endpoint.

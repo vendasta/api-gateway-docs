@@ -16,13 +16,37 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
       description: |-
         Find the definitions used by terms in a given context.
 
         **Tip**
-        - Use `?filter[contextId]=crm` to list all the terms used within the crm context.
+        - Use `?filter[context.ID]=crm` to list all the terms used within the crm context.
         - Use `?filter[name]=customer` to see how the term customer changes between contexts.
-      parameters: []
+      parameters:
+        - schema:
+            type: string
+            example: crm
+          in: query
+          name: 'filter[context.ID]'
+          description: list all the terms used within the given context
+        - schema:
+            type: string
+          in: query
+          name: 'filter[name]'
+          description: find the terms with the given name
+        - schema:
+            type: array
+            enum:
+              - glossaryContexts
+            minItems: 1
+          in: query
+          name: include
+          description: What related resource types would you like to embed?
       tags:
         - GlossaryTerms
       security:
@@ -107,9 +131,7 @@ components:
     GlossaryTerms:
       title: Terms
       type: object
-      description: Terms are a set of context-specific definitions. They form Data Glossary for the platform.
-      x-tags:
-        - GlossaryTerms
+      description: Terms are a set of context-specific definitions. They form the Data Glossary for the platform.
       properties:
         id:
           type: string
@@ -145,6 +167,19 @@ components:
       required:
         - id
         - type
+      x-examples:
+        'EX: milk':
+          id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          type: glossaryTerms
+          attributes:
+            name: Milk
+            definition: Cold white drink
+          relationships:
+            context:
+              type: glossaryContext
+              id: drinks
+      x-tags:
+        - GlossaryTerms
     GlossaryContext:
       title: GlossaryContext
       type: object
@@ -154,3 +189,4 @@ components:
       description: ''
 tags:
   - name: GlossaryTerms
+    description: Glossary Terms

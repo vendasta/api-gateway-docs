@@ -12,9 +12,13 @@ Each operation, parameter and attribute has its own lifecycle defined in the doc
 Items will progress through the following maturity levels:
 
 **Proposed** - We are considering building this item and would like your feedback. It can only be used with the mock server.
+
 **Experimental** - This item has been implemented but may be removed at any time. 
+
 **Active** - You can use this item with confidence.
+
 **Deprecated** - You can still use this item however should consider using something else. Where possible we will continue to support the item for 2 years between announcing the deprecation and removing it. 
+
 **Removed** - This item has been removed and can no longer be used. 
 
 To aid in your planning the `deprecated` date, `proposedRemoval` date and migration `description` properties will be added.

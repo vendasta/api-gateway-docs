@@ -1,33 +1,86 @@
 openapi: 3.0.0
 info:
   title: Data Glossary Context
-  version: '1.0'
+  version: Evergreen
+  description: Sometimes you need to take a step back to understand exactly what is being discussed. The Data Glossary helps you to define terms used in the platform
 seservers:
   - url: 'https://prod.apigateway.co/glossary'
     description: Production
   - description: Demo
-    url: 'https://demo.apigateway.co/glossary'0'
+    url: 'https://demo.apigateway.co/glossary'
 paths:
   /terms:
     get:
       summary: List Terms
       operationId: glossary-list-terms
-      tags:
-        - term
       responses:
         '200':
           description: OK
-      description: ''
+      description: |-
+        Find the definitions used by terms in a given context.
+
+        **Tip**
+        - Use `?filter[contextId]=crm` to list all the terms used within the crm context.
+        - Use `?filter[name]=customer` to see how the term customer changes between contexts.
       parameters: []
+      tags:
+        - GlossaryTerms
       security:
-        - OAuth2: []
+        - OAuth: []
+    parameters: []
+  '/terms/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Term
+      tags: []
+      responses: {}
+      operationId: get-terms-id
+  /contexts:
+    get:
+      summary: List contexts
+      tags: []
+      responses: {}
+      operationId: get-contexts
+  '/contexts/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get context
+      tags: []
+      responses: {}
+      operationId: get-contexts-id
+  '/contexts/{id}/terms':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: List terms in context
+      tags: []
+      responses: {}
+      operationId: get-contexts-id-terms
+      description: |-
+        This is effectivly the same as `/terms?filter[context]={id}`
+
+        You can sideload this list along with the context info using `/contexts/{contextID}?include=glossaryTerms`
 components:
   securitySchemes:
     JWT:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    OAuth2:
+    OAuth:
       type: oauth2
       flows:
         authorizationCode:
@@ -49,6 +102,55 @@ components:
             sales.orders.read: read orders
             product.products.read: read products
             product.packages.read: read packages
+      description: ''
+  schemas:
+    GlossaryTerms:
+      title: Terms
+      type: object
+      description: Terms are a set of context-specific definitions. They form Data Glossary for the platform.
+      x-tags:
+        - GlossaryTerms
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Readonly record reference assigned by the server. Must be included in all requests except create.
+        type:
+          type: string
+          enum:
+            - glossaryTerms
+          description: Must always be set to "glossaryTerms"
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+            definition:
+              type: string
+        relationships:
+          type: object
+          properties:
+            context:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - glossaryContext
+                id:
+                  type: string
+              required:
+                - type
+                - id
+      required:
+        - id
+        - type
+    GlossaryContext:
+      title: GlossaryContext
+      type: object
+      properties:
+        id:
+          type: string
+      description: ''
 tags:
-  - name: term
-    description: Terms are a set of context-specific definitions. They form Data Glossary for the platform.
+  - name: GlossaryTerms

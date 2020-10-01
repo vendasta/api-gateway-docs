@@ -8,6 +8,8 @@ servers:
     description: Production
   - description: Demo
     url: 'https://demo.apigateway.co/glossary'
+  - description: Localhost
+    url: '{localhost}/glossary'
 paths:
   /terms:
     get:
@@ -51,9 +53,12 @@ paths:
           description: find the terms with the given name
         - schema:
             type: array
+            items:
+              type: string
             enum:
               - glossaryContexts
             minItems: 1
+            uniqueItems: true
           in: query
           name: include
           description: What related resource types would you like to embed?
@@ -69,6 +74,50 @@ paths:
       tags:
         - Glossary-Terms
     parameters: []
+    post:
+      summary: Create Term
+      operationId: glossary-post-terms
+      responses:
+        '201':
+          description: Created
+      description: Create a new term
+      security:
+        - OAuth:
+            - terms.write
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - glossaryTerms
+                  description: Must always be set to "glossaryTerms"
+                attributes:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    definition:
+                      type: string
+                relationships:
+                  type: object
+                  properties:
+                    context:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          enum:
+                            - glossaryContext
+                          description: Must always be set to "glossaryContext"
+                        id:
+                          type: string
+                      required:
+                        - type
+                        - id
   '/terms/{id}':
     parameters:
       - schema:
@@ -80,8 +129,35 @@ paths:
       summary: Get Term
       tags:
         - Glossary-Terms
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/GlossaryTerms'
       operationId: get-terms-id
+    patch:
+      summary: Update Term
+      operationId: patch-glossary-terms-id
+      responses:
+        '204':
+          description: No Content
+      description: Update specific fields of the term
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/GlossaryTerms'
+      security:
+        - OAuth:
+            - terms.write
   /contexts:
     get:
       summary: List contexts
@@ -219,7 +295,18 @@ paths:
       tags:
         - Glossary-Contexts
         - Glossary-Terms
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GlossaryTerms'
       operationId: get-contexts-id-terms
       description: |-
         This is effectivly the same as `/terms?filter[context]={id}`
@@ -262,7 +349,6 @@ components:
       properties:
         id:
           type: string
-          format: uuid
           description: Readonly record reference assigned by the server. Must be included in all requests except create.
         type:
           type: string
@@ -343,7 +429,6 @@ components:
                     properties:
                       id:
                         type: string
-                        format: uuid
                       type:
                         type: string
                         enum:

@@ -1,0 +1,377 @@
+openapi: 3.0.0
+info:
+  title: Task Management
+servers:
+  - url: 'http://localhost:3000'
+paths: {}
+components:
+  schemas:
+    buyerTask:
+      title: buyerTask
+      type: object
+      properties:
+        id:
+          type: string
+    fulfillmentTask:
+      title: Fulfillment Task
+      type: object
+      description: The view of task data used by a fufillment perfesional to track work to be done by themselves or a teammate.
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        attributes:
+          type: object
+          properties:
+            taskType:
+              type: string
+              enum:
+                - custom
+                - listing
+                - mention
+                - socialPost
+                - onboarding
+                - socialize
+                - googleQA
+                - review
+                - meeting
+              description: The type of task. You will most likely want to use "custome". The other types can only be created by the platform.
+            title:
+              type: string
+              maxLength: 255
+              minLength: 1
+              description: The summary/name displayed for the task
+            description:
+              type: string
+              maxLength: 4000
+              minLength: 0
+              description: 'Full details of the work to be completed. '
+            privateNotes:
+              type: string
+              description: Notes to be shared with other fufillment team members
+              minLength: 0
+              maxLength: 4000
+            publicNotes:
+              type: string
+              description: Notes that will be made visable to anyone with access to this task.
+              maxLength: 4000
+              minLength: 0
+            createdDate:
+              type: string
+              description: 'Readonly: The date the task was created. Will be set by the platform. '
+            modifiedDate:
+              type: string
+              description: 'Readonly: The last time the task was modified. Will be set by the platform. '
+            completionDate:
+              type: string
+              description: 'Readonly: The date the status of the task is updated to completed. It is set by the platform. It will be blank for all other statuses.'
+            dueDate:
+              type: string
+              description: The date that was set for a tast to be completed by. It defaults to 24 hours after the task was created.
+            version:
+              type: integer
+              description: 'A number that will be increased each time the task is modified. '
+        relationships:
+          type: object
+          properties:
+            attachments:
+              type: array
+              description: A reference to uploaded files relating to this task
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  type:
+                    type: string
+            assignee:
+              type: array
+              description: The user assigned to work on the task. Use the List Assignees endpoint to get the display name
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  type:
+                    type: string
+            customer:
+              type: object
+              description: The customer that requested the work to be done (Account)
+              properties:
+                id:
+                  type: string
+                type:
+                  type: string
+            status:
+              type: object
+              properties:
+                type:
+                  type: string
+                id:
+                  type: string
+            history:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  id:
+                    type: string
+            owner:
+              type: object
+              description: The organization that created this task.
+              properties:
+                type:
+                  type: string
+                id:
+                  type: string
+    taskStatus:
+      title: taskStatus
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+    attachments:
+      title: attachments
+      type: object
+      properties:
+        id:
+          type: string
+    fufillmentProject:
+      title: fufillmentProject
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+            dueDate:
+              type: string
+              format: date-time
+            visableToCustomer:
+              type: string
+            description:
+              type: string
+            complete:
+              type: boolean
+              description: 'Readonly: Indicates that all subtasks have been completed. If there are no subtasks the project will show as incomplete.'
+        relationship:
+          type: object
+          properties:
+            customer:
+              type: object
+              description: The organization that the work is being completed for
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    id:
+                      type: string
+            assignees:
+              type: string
+            subtasks:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      id:
+                        type: string
+                meta:
+                  type: object
+                  properties:
+                    totalSubtasks:
+                      type: integer
+                    completedSubtasks:
+                      type: integer
+            owner:
+              type: object
+              description: The organization that created this task.
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    id:
+                      type: string
+    fufillmentSubtask:
+      title: Fulfillment SubTask
+      type: object
+      description: The view of task data used by a fufillment perfesional to track work to be done by themselves or a teammate.
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        attributes:
+          type: object
+          properties:
+            taskType:
+              type: string
+            title:
+              type: string
+            description:
+              type: string
+            privateNotes:
+              type: string
+            publicNotes:
+              type: string
+            buyerVisible:
+              type: boolean
+              description: Can the customer that the task is being completed for view the details of the task
+            enableBuyerFeedback:
+              type: boolean
+            buyerFeedbackStatus:
+              type: string
+              description: 'Readonly: Set by the buyer'
+              enum:
+                - buyerRequestedChanges
+                - buyerApproved
+                - waitingOnBuyer
+                - notEnabled
+            dependentDaysToComplete:
+              type: integer
+              description: This task will be due X days after the prior task is completed
+            dueDate:
+              type: string
+              format: date-time
+            completionDate:
+              type: string
+              format: date-time
+            createdDate:
+              type: string
+              format: date-time
+            modifiedDate:
+              type: string
+              format: date-time
+            version:
+              type: integer
+              description: 'A number that will be increased each time the task is modified. '
+              minimum: 0
+        relationships:
+          type: object
+          properties:
+            attachments:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  type:
+                    type: string
+            assignees:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  type:
+                    type: string
+            customer:
+              type: object
+              properties:
+                id:
+                  type: string
+                type:
+                  type: string
+                  enum:
+                    - task-conversation
+                  default: task-conversation
+            status:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - taskStatus
+                  default: taskStatus
+                id:
+                  type: string
+            '':
+              type: string
+            history:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  id:
+                    type: string
+            dependsOn:
+              type: object
+              description: 'A link to a subtask within the same project that must be completed before this task can be started. The due date of this task will be set based on the "DependentDaysToComplete" '
+              properties:
+                type:
+                  type: string
+                id:
+                  type: string
+            project:
+              type: object
+              description: A link to the project that this task is a part of
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    id:
+                      type: string
+    taskHistory:
+      title: taskHistory
+      type: object
+      description: Provides a readonly list of each time the task was edited or a comment was made on it
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        attributes:
+          type: object
+          properties:
+            user:
+              type: string
+              description: The display name of the user who took the action
+            message:
+              type: string
+              description: 'A description of the event. '
+            eventDate:
+              type: string
+              format: date-time
+              description: The time at which the event occured
+    assignee:
+      title: assignee
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        attributes:
+          type: object
+          properties:
+            displayName:
+              type: string

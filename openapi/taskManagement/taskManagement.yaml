@@ -1,9 +1,129 @@
 openapi: 3.0.0
 info:
   title: Task Management
+  description: ''
 servers:
   - url: 'http://localhost:3000'
-paths: {}
+paths:
+  /tasks/fulfillmentTasks:
+    get:
+      summary: List Tasks
+      tags: []
+      responses: {}
+      operationId: list-tasks
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: 'filter[owner]'
+        - schema:
+            type: string
+          in: query
+          name: 'filter[customer]'
+        - schema:
+            type: string
+          in: query
+          name: 'filter[status]'
+          description: 'TODO What syntax do we want to use for exclusions? Internal API uses "-{status name}"'
+        - schema:
+            type: string
+          in: query
+          name: 'filter[assignee]'
+        - schema:
+            type: string
+          in: query
+          name: 'filter[type]'
+          description: 'TODO What syntax do we want to use for exclusions? Internal API uses "-{type name}"'
+        - schema:
+            type: string
+          in: query
+          name: 'filter[projectID]'
+        - schema:
+            type: string
+          in: query
+          name: 'filter[title]'
+        - schema:
+            type: string
+          in: query
+          name: 'filter[createdDate]'
+        - schema:
+            type: string
+          in: query
+          name: 'filter[dueDate][<=]'
+        - schema:
+            type: string
+          in: query
+          name: 'filter[completedDate]'
+          description: To search for tasks with a blank completed date search for a task status other than "Completed"
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: 'filter[dueDate][>]'
+        - schema:
+            type: boolean
+          in: query
+          name: 'filter[enableBuyerFeedback]'
+        - schema:
+            type: boolean
+          in: query
+          name: 'filter[buyerVisable]'
+        - schema:
+            type: integer
+          in: query
+          name: 'page[limit]'
+        - schema:
+            type: array
+            enum:
+              - type
+              - '-type'
+              - title
+              - '-title'
+              - dueDate
+              - '-dueDate'
+              - completionDate
+              - '-completionDate'
+              - createdDate
+              - '-createdDate'
+          in: query
+          name: sort
+          description: A comma seperated list of attributes to sort the results by. You may prefix the attribute name with a `-` to sort decending.
+        - schema:
+            type: string
+          in: query
+          name: 'page[cursor]'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/fulfillmentTask'
+                meta:
+                  type: object
+                  properties:
+                    totalHits:
+                      type: number
+                    hasMore:
+                      type: boolean
+                links:
+                  type: object
+                  properties:
+                    next:
+                      type: string
+                    self:
+                      type: string
+                      description: ''
+                    first:
+                      type: string
+                    prior:
+                      type: string
+                    last:
+                      type: string
+    parameters: []
 components:
   schemas:
     buyerTask:
@@ -36,7 +156,9 @@ components:
                 - googleQA
                 - review
                 - meeting
-              description: The type of task. You will most likely want to use "custome". The other types can only be created by the platform.
+              description: |-
+                The type of task. You will most likely want to use "custome". The other types can only be created by the platform. 
+                This can not be updated after creation.
             title:
               type: string
               maxLength: 255
@@ -71,7 +193,7 @@ components:
               description: The date that was set for a tast to be completed by. It defaults to 24 hours after the task was created.
             version:
               type: integer
-              description: 'A number that will be increased each time the task is modified. '
+              description: 'Raedonly: A number that will be increased each time the task is modified. '
         relationships:
           type: object
           properties:
@@ -97,7 +219,9 @@ components:
                     type: string
             customer:
               type: object
-              description: The customer that requested the work to be done (Account)
+              description: |-
+                The customer that requested the work to be done (Account)
+                It can not be updated after creation.
               properties:
                 id:
                   type: string
@@ -112,6 +236,7 @@ components:
                   type: string
             history:
               type: array
+              description: 'Readonly: Created by the platform'
               items:
                 type: object
                 properties:
@@ -121,7 +246,9 @@ components:
                     type: string
             owner:
               type: object
-              description: The organization that created this task.
+              description: |-
+                The organization that created this task.
+                It can not be updated after creation.
               properties:
                 type:
                   type: string
@@ -143,9 +270,35 @@ components:
     attachments:
       title: attachments
       type: object
+      description: |-
+        Attachments can be created and deleted but not updated.
+
+        To create an attachment 
       properties:
         id:
           type: string
+        type:
+          type: string
+        data:
+          type: object
+          properties:
+            filename:
+              type: string
+            contentType:
+              type: string
+            '':
+              type: string
+        links:
+          type: object
+          properties:
+            download:
+              type: string
+              format: uri
+        relationships:
+          type: object
+          properties:
+            task:
+              type: string
     fufillmentProject:
       title: fufillmentProject
       type: object
@@ -169,7 +322,7 @@ components:
             complete:
               type: boolean
               description: 'Readonly: Indicates that all subtasks have been completed. If there are no subtasks the project will show as incomplete.'
-        relationship:
+        relationships:
           type: object
           properties:
             customer:
@@ -183,8 +336,16 @@ components:
                       type: string
                     id:
                       type: string
-            assignees:
-              type: string
+            assignee:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    id:
+                      type: string
             subtasks:
               type: object
               properties:
@@ -229,6 +390,12 @@ components:
           properties:
             taskType:
               type: string
+              description: It can not be updated after creation.
+              enum:
+                - customSubtask
+                - contentCall
+                - clientReview
+                - schedueledSocialPost
             title:
               type: string
             description:
@@ -265,6 +432,7 @@ components:
             modifiedDate:
               type: string
               format: date-time
+              description: The last time the task was updated
             version:
               type: integer
               description: 'A number that will be increased each time the task is modified. '
@@ -290,16 +458,6 @@ components:
                     type: string
                   type:
                     type: string
-            customer:
-              type: object
-              properties:
-                id:
-                  type: string
-                type:
-                  type: string
-                  enum:
-                    - task-conversation
-                  default: task-conversation
             status:
               type: object
               properties:
@@ -310,8 +468,6 @@ components:
                   default: taskStatus
                 id:
                   type: string
-            '':
-              type: string
             history:
               type: array
               items:
@@ -323,7 +479,9 @@ components:
                     type: string
             dependsOn:
               type: object
-              description: 'A link to a subtask within the same project that must be completed before this task can be started. The due date of this task will be set based on the "DependentDaysToComplete" '
+              description: |-
+                A link to a subtask within the same project that must be completed before this task can be started. The due date of this task will be set based on the "DependentDaysToComplete" 
+                It can not be updated to a task that has already been completed.
               properties:
                 type:
                   type: string
@@ -331,7 +489,9 @@ components:
                   type: string
             project:
               type: object
-              description: A link to the project that this task is a part of
+              description: |-
+                A link to the project that this task is a part of
+                It can not be updated after creation.
               properties:
                 data:
                   type: object
@@ -375,3 +535,8 @@ components:
           properties:
             displayName:
               type: string
+    Test:
+      title: Test
+      allOf:
+        - $ref: '#/components/schemas/fufillmentSubtask'
+        - $ref: '#/components/schemas/fufillmentProject'

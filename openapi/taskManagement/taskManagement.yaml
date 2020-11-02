@@ -7,73 +7,185 @@ servers:
 paths:
   /tasks/fulfillmentTasks:
     get:
-      summary: List Tasks
+      summary: List Fulfillment Tasks
       tags: []
-      responses: {}
-      operationId: list-tasks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/fulfillmentTasks'
+                  meta:
+                    type: object
+                    properties:
+                      totalHits:
+                        type: number
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                        format: uri
+                      prior:
+                        type: string
+                        format: uri
+                      self:
+                        type: string
+                        description: ''
+                        format: uri
+                      next:
+                        type: string
+                        format: uri
+                      last:
+                        type: string
+                        format: uri
+                  included:
+                    type: array
+                    items:
+                      oneOf:
+                        - $ref: '#/components/schemas/fulfillmentTasks'
+      operationId: get-tasks-fulfillmentTasks
       parameters:
         - schema:
             type: string
           in: query
-          name: 'filter[owner]'
+          name: 'filter[owner.id]'
+          description: The ID of the organization that created this task
         - schema:
             type: string
           in: query
-          name: 'filter[customer]'
+          name: 'filter[customer.id]'
+          description: Only return tasks that were created to track work for this organization id. Multiple values may be specified.
         - schema:
             type: string
           in: query
-          name: 'filter[status]'
-          description: 'TODO What syntax do we want to use for exclusions? Internal API uses "-{status name}"'
+          name: 'filter[status.code]'
+          description: Only return tasks with a status having one of the listed codes
         - schema:
             type: string
           in: query
-          name: 'filter[assignee]'
+          name: 'filter[status.code][!=]'
+          description: A comma seperated list of task status codes to be excluded from the results.
         - schema:
             type: string
           in: query
-          name: 'filter[type]'
-          description: 'TODO What syntax do we want to use for exclusions? Internal API uses "-{type name}"'
+          name: 'filter[assignee.id]'
+          description: Only return tasks that are assigned to one of the listed users. Use the value "Unassigned" to include tasks that are not currently assigned to anyone.
+        - schema:
+            type: string
+            enum:
+              - custom
+              - listing
+              - mention
+              - socialPost
+              - onboarding
+              - socialize
+              - googleQA
+              - review
+              - meeting
+              - project
+              - customSubtask
+              - contentCallSubtask
+              - clientReviewSubtask
+              - scheduledSocialPostSubtask
+          in: query
+          name: 'filter[typeCode]'
+          description: Only return tasks that are of a type in the list
+        - schema:
+            type: string
+            enum:
+              - custom
+              - listing
+              - mention
+              - socialPost
+              - onboarding
+              - socialize
+              - googleQA
+              - review
+              - meeting
+              - project
+              - customSubtask
+              - contentCallSubtask
+              - clientReviewSubtask
+              - scheduledSocialPostSubtask
+          in: query
+          name: 'filter[typeCode][!=]'
+          description: A comma seperated list of task type codes to be excluded from the results.
         - schema:
             type: string
           in: query
-          name: 'filter[projectID]'
+          name: 'filter[project.id]'
+          description: Only return subtasks that are part of one of the specified projects
         - schema:
             type: string
           in: query
-          name: 'filter[title]'
-        - schema:
-            type: string
-          in: query
-          name: 'filter[createdDate]'
-        - schema:
-            type: string
-          in: query
-          name: 'filter[dueDate][<=]'
-        - schema:
-            type: string
-          in: query
-          name: 'filter[completedDate]'
-          description: To search for tasks with a blank completed date search for a task status other than "Completed"
+          name: 'filter[title][~]'
+          description: Filter the list to tasks with a name similar to the specified value.
         - schema:
             type: string
             format: date-time
           in: query
-          name: 'filter[dueDate][>]'
+          name: 'filter[createdAt][>]'
+          description: Only show tasks created after the specified time
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: 'filter[createdAt][<=]'
+          description: Only show tasks created before the specified time
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: 'filter[dueAt][>]'
+          description: Only show tasks due after the specified time
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: 'filter[dueAt][<=]'
+          description: Only show tasks due before the specified time
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: 'filter[completedAt][>]'
+          description: |-
+            Only show tasks completed after the specified time.
+            To search for tasks with a blank completed date use `filter[status.code][!=]="COMPLETED"`
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: 'filter[completedDate][<=]'
+          description: |-
+            Only show tasks completed before the specified time.
+            To search for tasks with a blank completed date use `filter[status.code][!=]="COMPLETED"`
         - schema:
             type: boolean
           in: query
           name: 'filter[enableBuyerFeedback]'
+          description: Only show tasks that have allowed the buyer to provide feedback.
         - schema:
             type: boolean
           in: query
           name: 'filter[buyerVisable]'
+          description: |-
+            Only show tasks that can be viewed by the buyer. 
+            Note: This endpoint should not be used when displaying the tasks to the buyer. Use the `/tasks/buyerTasks` endpoint instead.
         - schema:
-            type: integer
+            type: string
           in: query
-          name: 'page[limit]'
+          name: 'filter[id]'
+          description: A comma seperated list of tasks to be returned by ID
         - schema:
-            type: array
+            type: string
             enum:
               - type
               - '-type'
@@ -89,41 +201,208 @@ paths:
           name: sort
           description: A comma seperated list of attributes to sort the results by. You may prefix the attribute name with a `-` to sort decending.
         - schema:
+            type: integer
+            default: 10
+            minimum: 0
+            maximum: 50
+          in: query
+          name: 'page[limit]'
+          description: 'The maximum number of tasks you would like returned in a single batch. Use the `links.next` member in the response to get the remainder. '
+        - schema:
             type: string
           in: query
           name: 'page[cursor]'
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+        - schema:
+            type: string
+            enum:
+              - project
+              - dependsOn
+              - subtasks
+              - status
+              - attachments
+          in: query
+          name: include
+          description: A list of related resources to be included in the response.
+        - schema:
+            type: string
+          in: query
+          name: 'fields[tasks-fulfillmentTasks]'
+          description: |-
+            A list of field paths from the `tasks-fulfillmentTasks` model that should be included in the response.
+
+            It is best practice to always include this field to aid in API evolution.
+        - schema:
+            type: string
+          in: query
+          name: 'fields[tasks-fulfillmentAttachments]'
+          description: A list of field paths from the `tasks-fulfillmentAttachments` model that should be included in the response when `include=attachments`.
+        - schema:
+            type: string
+          in: query
+          name: 'fields[tasks-fulfillmentStatuses]'
+          description: A list of field paths from the `tasks-fulfillmentStatuses` model that should be included in the response when `include=status`.
+      description: 'Produce a list a of tasks for a fulfillment agent based on the specified filters. '
+    parameters: []
+    post:
+      summary: Create Fulfillment Task
+      operationId: post-tasks-fulfillmentTasks
+      responses:
+        '201':
+          description: Created
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/fulfillmentTasks'
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The URI of the newly created task
       requestBody:
         content:
-          application/json:
+          application/vnd.api+json:
             schema:
-              type: object
-              properties:
-                data:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/fulfillmentTask'
-                meta:
-                  type: object
-                  properties:
-                    totalHits:
-                      type: number
-                    hasMore:
-                      type: boolean
-                links:
-                  type: object
-                  properties:
-                    next:
-                      type: string
-                    self:
-                      type: string
-                      description: ''
-                    first:
-                      type: string
-                    prior:
-                      type: string
-                    last:
-                      type: string
-    parameters: []
+              oneOf:
+                - $ref: '#/components/schemas/fulfillmentCreateProject'
+                - $ref: '#/components/schemas/fulfillmentCreateCustomTask'
+                - $ref: '#/components/schemas/fulfillmentCreateCustomSubtask'
+        description: ''
+      description: Create a new task
+    options:
+      summary: Fulfillment Tasks Options
+      operationId: options-tasks-fulfillmentTasks
+      responses:
+        '200':
+          description: OK
+  '/tasks/fulfillmentTasks/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Fulfillment Task
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/fulfillmentTasks'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+      operationId: get-tasks-fulfillmentTasks-id
+      description: Get a single fulfillment task by ID
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - project
+              - dependsOn
+              - subtasks
+              - status
+              - attachments
+          in: query
+          name: include
+          description: A list of related resources to be included in the response.
+        - schema:
+            type: string
+          in: query
+          name: 'fields[tasks-fulfillmentTasks]'
+          description: |-
+            A list of field paths from the `tasks-fulfillmentTasks` model that should be included in the response.
+
+            It is best practice to always include this field to aid in API evolution.
+        - schema:
+            type: string
+          in: query
+          name: 'fields[tasks-fulfillmentAttachments]'
+          description: A list of field paths from the `tasks-fulfillmentAttachments` model that should be included in the response when `include=attachments`.
+        - schema:
+            type: string
+          in: query
+          name: 'fields[tasks-fulfillmentStatuses]'
+          description: A list of field paths from the `tasks-fulfillmentStatuses` model that should be included in the response when `include=status`.
+    patch:
+      summary: Update Fulfillment Task
+      operationId: patch-tasks-fulfillmentTasks-id
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Delete Fulfillment Task
+      operationId: delete-tasks-fulfillmentTasks-id
+      responses:
+        '200':
+          description: OK
+    options:
+      summary: Fulfillment Tasks Item Options
+      operationId: options-tasks-fulfillmentTasks-id
+      responses:
+        '200':
+          description: OK
+  '/tasks/fulfillmentTasks/{taskId}/attachments':
+    parameters:
+      - schema:
+          type: string
+        name: taskId
+        in: path
+        required: true
+    get:
+      summary: List attachments for the Fulfillment Task
+      tags: []
+      responses: {}
+      operationId: get-tasks-fulfillmentTasks-taskId-attachments
+  /tasks/fulfillmentAttachments:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-tasks-fulfillmentAttachments
+    post:
+      summary: ''
+      operationId: post-tasks-fulfillmentAttachments
+      responses:
+        '200':
+          description: OK
+  '/tasks/fulfillmentAttachments/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-tasks-fulfillmentAttachments-id
+    patch:
+      summary: ''
+      operationId: patch-tasks-fulfillmentAttachments-id
+      responses:
+        '200':
+          description: OK
+  /tasks/fulfillmentCustomers:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-tasks-fulfillmentCustomers
 components:
   schemas:
     buyerTask:
@@ -132,128 +411,6 @@ components:
       properties:
         id:
           type: string
-    fulfillmentTask:
-      title: Fulfillment Task
-      type: object
-      description: The view of task data used by a fufillment perfesional to track work to be done by themselves or a teammate.
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-        attributes:
-          type: object
-          properties:
-            taskType:
-              type: string
-              enum:
-                - custom
-                - listing
-                - mention
-                - socialPost
-                - onboarding
-                - socialize
-                - googleQA
-                - review
-                - meeting
-              description: |-
-                The type of task. You will most likely want to use "custome". The other types can only be created by the platform. 
-                This can not be updated after creation.
-            title:
-              type: string
-              maxLength: 255
-              minLength: 1
-              description: The summary/name displayed for the task
-            description:
-              type: string
-              maxLength: 4000
-              minLength: 0
-              description: 'Full details of the work to be completed. '
-            privateNotes:
-              type: string
-              description: Notes to be shared with other fufillment team members
-              minLength: 0
-              maxLength: 4000
-            publicNotes:
-              type: string
-              description: Notes that will be made visable to anyone with access to this task.
-              maxLength: 4000
-              minLength: 0
-            createdDate:
-              type: string
-              description: 'Readonly: The date the task was created. Will be set by the platform. '
-            modifiedDate:
-              type: string
-              description: 'Readonly: The last time the task was modified. Will be set by the platform. '
-            completionDate:
-              type: string
-              description: 'Readonly: The date the status of the task is updated to completed. It is set by the platform. It will be blank for all other statuses.'
-            dueDate:
-              type: string
-              description: The date that was set for a tast to be completed by. It defaults to 24 hours after the task was created.
-            version:
-              type: integer
-              description: 'Raedonly: A number that will be increased each time the task is modified. '
-        relationships:
-          type: object
-          properties:
-            attachments:
-              type: array
-              description: A reference to uploaded files relating to this task
-              items:
-                type: object
-                properties:
-                  id:
-                    type: string
-                  type:
-                    type: string
-            assignee:
-              type: array
-              description: The user assigned to work on the task. Use the List Assignees endpoint to get the display name
-              items:
-                type: object
-                properties:
-                  id:
-                    type: string
-                  type:
-                    type: string
-            customer:
-              type: object
-              description: |-
-                The customer that requested the work to be done (Account)
-                It can not be updated after creation.
-              properties:
-                id:
-                  type: string
-                type:
-                  type: string
-            status:
-              type: object
-              properties:
-                type:
-                  type: string
-                id:
-                  type: string
-            history:
-              type: array
-              description: 'Readonly: Created by the platform'
-              items:
-                type: object
-                properties:
-                  type:
-                    type: string
-                  id:
-                    type: string
-            owner:
-              type: object
-              description: |-
-                The organization that created this task.
-                It can not be updated after creation.
-              properties:
-                type:
-                  type: string
-                id:
-                  type: string
     taskStatus:
       title: taskStatus
       type: object
@@ -266,6 +423,10 @@ components:
           type: object
           properties:
             name:
+              type: string
+            code:
+              type: string
+            color:
               type: string
     attachments:
       title: attachments
@@ -286,7 +447,7 @@ components:
               type: string
             contentType:
               type: string
-            '':
+            contentHash:
               type: string
         links:
           type: object
@@ -294,213 +455,14 @@ components:
             download:
               type: string
               format: uri
+            upload:
+              type: string
         relationships:
           type: object
           properties:
             task:
               type: string
-    fufillmentProject:
-      title: fufillmentProject
-      type: object
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-        attributes:
-          type: object
-          properties:
-            name:
-              type: string
-            dueDate:
-              type: string
-              format: date-time
-            visableToCustomer:
-              type: string
-            description:
-              type: string
-            complete:
-              type: boolean
-              description: 'Readonly: Indicates that all subtasks have been completed. If there are no subtasks the project will show as incomplete.'
-        relationships:
-          type: object
-          properties:
-            customer:
-              type: object
-              description: The organization that the work is being completed for
-              properties:
-                data:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                    id:
-                      type: string
-            assignee:
-              type: object
-              properties:
-                data:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                    id:
-                      type: string
-            subtasks:
-              type: object
-              properties:
-                data:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                      id:
-                        type: string
-                meta:
-                  type: object
-                  properties:
-                    totalSubtasks:
-                      type: integer
-                    completedSubtasks:
-                      type: integer
-            owner:
-              type: object
-              description: The organization that created this task.
-              properties:
-                data:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                    id:
-                      type: string
-    fufillmentSubtask:
-      title: Fulfillment SubTask
-      type: object
-      description: The view of task data used by a fufillment perfesional to track work to be done by themselves or a teammate.
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-        attributes:
-          type: object
-          properties:
-            taskType:
-              type: string
-              description: It can not be updated after creation.
-              enum:
-                - customSubtask
-                - contentCall
-                - clientReview
-                - schedueledSocialPost
-            title:
-              type: string
-            description:
-              type: string
-            privateNotes:
-              type: string
-            publicNotes:
-              type: string
-            buyerVisible:
-              type: boolean
-              description: Can the customer that the task is being completed for view the details of the task
-            enableBuyerFeedback:
-              type: boolean
-            buyerFeedbackStatus:
-              type: string
-              description: 'Readonly: Set by the buyer'
-              enum:
-                - buyerRequestedChanges
-                - buyerApproved
-                - waitingOnBuyer
-                - notEnabled
-            dependentDaysToComplete:
-              type: integer
-              description: This task will be due X days after the prior task is completed
-            dueDate:
-              type: string
-              format: date-time
-            completionDate:
-              type: string
-              format: date-time
-            createdDate:
-              type: string
-              format: date-time
-            modifiedDate:
-              type: string
-              format: date-time
-              description: The last time the task was updated
-            version:
-              type: integer
-              description: 'A number that will be increased each time the task is modified. '
-              minimum: 0
-        relationships:
-          type: object
-          properties:
-            attachments:
-              type: array
-              items:
-                type: object
-                properties:
-                  id:
-                    type: string
-                  type:
-                    type: string
-            assignees:
-              type: array
-              items:
-                type: object
-                properties:
-                  id:
-                    type: string
-                  type:
-                    type: string
-            status:
-              type: object
-              properties:
-                type:
-                  type: string
-                  enum:
-                    - taskStatus
-                  default: taskStatus
-                id:
-                  type: string
-            history:
-              type: array
-              items:
-                type: object
-                properties:
-                  type:
-                    type: string
-                  id:
-                    type: string
-            dependsOn:
-              type: object
-              description: |-
-                A link to a subtask within the same project that must be completed before this task can be started. The due date of this task will be set based on the "DependentDaysToComplete" 
-                It can not be updated to a task that has already been completed.
-              properties:
-                type:
-                  type: string
-                id:
-                  type: string
-            project:
-              type: object
-              description: |-
-                A link to the project that this task is a part of
-                It can not be updated after creation.
-              properties:
-                data:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                    id:
-                      type: string
-    taskHistory:
+    del-taskHistory:
       title: taskHistory
       type: object
       description: Provides a readonly list of each time the task was edited or a comment was made on it
@@ -535,8 +497,621 @@ components:
           properties:
             displayName:
               type: string
-    Test:
-      title: Test
-      allOf:
-        - $ref: '#/components/schemas/fufillmentSubtask'
-        - $ref: '#/components/schemas/fufillmentProject'
+    fulfillmentTasks:
+      title: Fulfillment Tasks
+      type: object
+      description: The view of task data used by a fulfillment agent to track work to be done by themselves or a teammate.
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          description: The type of record being transmitted to indicate what attributes and relationships you may expect.
+          enum:
+            - tasks-fulfillmentTasks
+        attributes:
+          type: object
+          properties:
+            typeCode:
+              type: string
+              enum:
+                - custom
+                - listing
+                - mention
+                - socialPost
+                - onboarding
+                - socialize
+                - googleQA
+                - review
+                - meeting
+                - project
+                - customSubtask
+                - contentCallSubtask
+                - clientReviewSubtask
+                - scheduledSocialPostSubtask
+              description: |-
+                The type of task. You will most likely want to use "custome", "project" or "customeSubtask". The other types can only be created by the platform. 
+                This can not be updated after creation.
+            title:
+              type: string
+              maxLength: 255
+              minLength: 1
+              description: The summary/name displayed for the task. This is visable to customers.
+            description:
+              type: string
+              maxLength: 4000
+              minLength: 0
+              description: Full details of the work to be completed. This field will not be displayed to customers.
+            privateNotes:
+              type: string
+              description: Notes to be shared with other fufillment team members
+              minLength: 0
+              maxLength: 4000
+            publicNotes:
+              type: string
+              description: Notes that will be made visable to anyone with access to this task.
+              maxLength: 4000
+              minLength: 0
+            createdAt:
+              type: string
+              description: 'Readonly: The date the task was created. Will be set by the platform. '
+              format: date-time
+            modifiedAt:
+              type: string
+              description: 'Readonly: The last time the task was modified. Will be set by the platform. '
+              format: date-time
+            completedAt:
+              type: string
+              description: 'Readonly: The date the status of the task is updated to completed. It is set by the platform. It will be blank for all other statuses.'
+              format: date-time
+            dueAt:
+              type: string
+              description: The date that was set for a tast to be completed by. It defaults to 24 hours after the task was created.
+              format: date-time
+            version:
+              type: integer
+              description: 'Raedonly: A number that will be increased each time the task is modified. '
+            typeName:
+              type: string
+              description: 'Readonly: Translated display name for the task type. Use typeCode to set the value.'
+            visableToCustomer:
+              type: boolean
+              description: Can the customer that the task is being completed for view the details of the task
+            complete:
+              type: boolean
+              description: 'Readonly: Indicates that this task and all subtasks have been completed. For projects if there are no subtasks the project will show as incomplete.'
+            supportsSubtasks:
+              type: boolean
+              description: 'Readonly: Indicates that subtasks can be added to this record. Currently only true for `project` type tasks.'
+            supportsCustomerFeedback:
+              type: boolean
+              description: 'Readonly: Indicates that this type of task can be sent to the customer to request feedback. Currently only true of subtasks.'
+            enableCustomerFeedback:
+              type: boolean
+              description: Should the customer be allowed to approve or add comments to the task? This field will always be false when the task is not visable to the customer.
+            customerFeedbackStatusCode:
+              type: string
+              description: 'Readonly: Set by the buyer'
+              enum:
+                - buyerRequestedChanges
+                - buyerApproved
+                - waitingOnBuyer
+                - notEnabled
+            customerFeedbackStatusName:
+              type: string
+              description: The translated status title
+            dependentDaysToComplete:
+              type: integer
+              description: Applies only to tasks that have a dependsOn relationship with another task being completed before they can be started. This task will be due X days after the prior task is completed.
+              minimum: 0
+              maximum: 365
+        relationships:
+          type: object
+          properties:
+            attachments:
+              type: object
+              description: A reference to uploaded files relating to this task
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                          - tasks-fulfillmentAttachments
+            assignee:
+              type: object
+              description: The user assigned to work on the task. Use the List Assignees endpoint to get the display name
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentAssignees
+            customer:
+              type: object
+              description: |-
+                The customer that requested the work to be done (Account)
+                It can not be updated after creation.
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentCustomers
+            status:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentStatuses
+            owner:
+              type: object
+              description: |-
+                The organization that created this task.
+                It can not be updated after creation.
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentOrg
+            subtasks:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - tasks-fulfillmentTasks
+                      id:
+                        type: string
+                meta:
+                  type: object
+                  properties:
+                    totalSubtasks:
+                      type: integer
+                    completedSubtasks:
+                      type: integer
+                links:
+                  type: object
+                  properties:
+                    first:
+                      type: string
+                    prev:
+                      type: string
+                    next:
+                      type: string
+                    last:
+                      type: string
+            dependsOn:
+              type: object
+              description: |-
+                A link to a subtask within the same project that must be completed before this task can be started. The due date of this task will be set based on the "DependentDaysToComplete" 
+                It can not be updated to a task that has already been completed.
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentTasks
+            project:
+              type: object
+              description: |-
+                A link to the project that this task is a part of
+                It can not be updated after creation.
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentTasks
+                    id:
+                      type: string
+      required:
+        - id
+        - type
+    fulfillmentCreateCustomSubtask:
+      title: Fulfillment Create Custom Subtask
+      type: object
+      description: The view of task data used by a fulfillment agent to track work to be done by themselves or a teammate.
+      properties:
+        type:
+          type: string
+          description: The type of record being transmitted to indicate what attributes and relationships you may expect.
+          enum:
+            - tasks-fulfillmentTasks
+        attributes:
+          type: object
+          properties:
+            typeCode:
+              type: string
+              enum:
+                - customSubtask
+              description: |-
+                The type of task. You will most likely want to use "custome", "project" or "customeSubtask". The other types can only be created by the platform. 
+                This can not be updated after creation.
+            title:
+              type: string
+              maxLength: 255
+              minLength: 1
+              description: The summary/name displayed for the task. This is visable to customers.
+            description:
+              type: string
+              maxLength: 4000
+              minLength: 0
+              description: Full details of the work to be completed. This field will not be displayed to customers.
+            privateNotes:
+              type: string
+              description: Notes to be shared with other fufillment team members
+              minLength: 0
+              maxLength: 4000
+            publicNotes:
+              type: string
+              description: Notes that will be made visable to anyone with access to this task.
+              maxLength: 4000
+              minLength: 0
+            dueAt:
+              type: string
+              description: The date that was set for a tast to be completed by. It defaults to 24 hours after the task was created.
+              format: date-time
+            visableToCustomer:
+              type: boolean
+              description: Can the customer that the task is being completed for view the details of the task
+            enableCustomerFeedback:
+              type: boolean
+              description: Should the customer be allowed to approve or add comments to the task? This field will always be false when the task is not visable to the customer.
+            customerFeedbackStatusCode:
+              type: string
+              description: 'Readonly: Set by the buyer'
+              enum:
+                - buyerRequestedChanges
+                - buyerApproved
+                - waitingOnBuyer
+                - notEnabled
+            dependentDaysToComplete:
+              type: integer
+              description: Applies only to tasks that have a dependsOn relationship with another task being completed before they can be started. This task will be due X days after the prior task is completed.
+              minimum: 0
+              maximum: 365
+          required:
+            - typeCode
+            - title
+        relationships:
+          type: object
+          properties:
+            assignee:
+              type: object
+              description: The user assigned to work on the task. Use the List Assignees endpoint to get the display name
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentAssignees
+                  required:
+                    - id
+                    - type
+            status:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentStatuses
+                  required:
+                    - id
+                    - type
+            dependsOn:
+              type: object
+              description: |-
+                A link to a subtask within the same project that must be completed before this task can be started. The due date of this task will be set based on the "DependentDaysToComplete" 
+                It can not be updated to a task that has already been completed.
+              properties:
+                data:
+                  type: object
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentTasks
+            project:
+              type: object
+              description: |-
+                A link to the project that this task is a part of
+                It can not be updated after creation.
+              required:
+                - data
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentTasks
+                    id:
+                      type: string
+          required:
+            - project
+      required:
+        - type
+    fulfillmentCreateProject:
+      title: Fulfillment Create Project
+      type: object
+      description: The view of task data used by a fulfillment agent to track work to be done by themselves or a teammate.
+      properties:
+        type:
+          type: string
+          description: The type of record being transmitted to indicate what attributes and relationships you may expect.
+          enum:
+            - tasks-fulfillmentTasks
+        attributes:
+          type: object
+          properties:
+            typeCode:
+              type: string
+              enum:
+                - project
+              description: |-
+                The type of task. You will most likely want to use "custome", "project" or "customeSubtask". The other types can only be created by the platform. 
+                This can not be updated after creation.
+            title:
+              type: string
+              maxLength: 255
+              minLength: 1
+              description: The summary/name displayed for the task. This is visable to customers.
+            description:
+              type: string
+              maxLength: 4000
+              minLength: 0
+              description: Full details of the work to be completed. This field will not be displayed to customers.
+            dueAt:
+              type: string
+              description: The date that was set for a tast to be completed by. It defaults to 24 hours after the task was created.
+              format: date-time
+            visableToCustomer:
+              type: boolean
+              description: Can the customer that the task is being completed for view the details of the task
+          required:
+            - typeCode
+            - title
+        relationships:
+          type: object
+          properties:
+            assignee:
+              type: object
+              description: The user assigned to work on the task. Use the List Assignees endpoint to get the display name
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentAssignees
+            customer:
+              type: object
+              description: |-
+                The customer that requested the work to be done (Account)
+                It can not be updated after creation.
+              required:
+                - data
+              properties:
+                data:
+                  type: object
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentCustomers
+            status:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentStatuses
+            owner:
+              type: object
+              description: |-
+                The organization that created this task.
+                It can not be updated after creation.
+              required:
+                - data
+              properties:
+                data:
+                  type: object
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentOrg
+          required:
+            - customer
+            - owner
+      required:
+        - type
+    fulfillmentCreateCustomTask:
+      title: Fulfillment Create Custom Task
+      type: object
+      description: The view of task data used by a fulfillment agent to track work to be done by themselves or a teammate.
+      properties:
+        type:
+          type: string
+          description: The type of record being transmitted to indicate what attributes and relationships you may expect.
+          enum:
+            - tasks-fulfillmentTasks
+        attributes:
+          type: object
+          properties:
+            typeCode:
+              type: string
+              enum:
+                - custom
+              description: |-
+                The type of task. You will most likely want to use "custome", "project" or "customeSubtask". The other types can only be created by the platform. 
+                This can not be updated after creation.
+            title:
+              type: string
+              maxLength: 255
+              minLength: 1
+              description: The summary/name displayed for the task. This is visable to customers.
+            description:
+              type: string
+              maxLength: 4000
+              minLength: 0
+              description: Full details of the work to be completed. This field will not be displayed to customers.
+            privateNotes:
+              type: string
+              description: Notes to be shared with other fufillment team members
+              minLength: 0
+              maxLength: 4000
+            publicNotes:
+              type: string
+              description: Notes that will be made visable to anyone with access to this task.
+              maxLength: 4000
+              minLength: 0
+            dueAt:
+              type: string
+              format: date-time
+              description: The date that was set for a tast to be completed by. It defaults to 24 hours after the task was created.
+        relationships:
+          type: object
+          properties:
+            assignee:
+              type: object
+              description: The user assigned to work on the task. Use the List Assignees endpoint to get the display name
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentAssignees
+            customer:
+              type: object
+              description: |-
+                The customer that requested the work to be done (Account)
+                It can not be updated after creation.
+              required:
+                - data
+              properties:
+                data:
+                  type: object
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentCustomers
+            status:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentStatuses
+            owner:
+              type: object
+              description: |-
+                The organization that created this task.
+                It can not be updated after creation.
+              required:
+                - data
+              properties:
+                data:
+                  type: object
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentOrg
+          required:
+            - customer
+            - owner
+      required:
+        - type

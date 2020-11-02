@@ -22,7 +22,7 @@ The platform is rapidly changing but you should not have to update your integrat
 ## Built on standards
 We can all be more efficient when we follow the same way of doing things. When facing a design decision we have opted to follow existing standards instead of defining yet another way.
 
-Most notably we use [JSON:API](https://jsonapi.org/examples/) as the default format for requests.
+Most notably we use [JSON:API](https://jsonapi.org/examples/) as the default [format for requests](RequestFormat.md).
 
 If you have ideas on how we can support more standards please let us know. We want developers to be able to reuse their favorite tools.
 

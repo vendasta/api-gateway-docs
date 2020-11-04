@@ -2,6 +2,7 @@ openapi: 3.0.0
 info:
   title: Task Management
   description: ''
+  version: Evergreen
 servers:
   - url: 'http://localhost:3000'
 paths:
@@ -24,8 +25,9 @@ paths:
                   meta:
                     type: object
                     properties:
-                      totalHits:
+                      total:
                         type: number
+                        description: The total number of tasks that matched the filters. If this is greator than what has been returned so far you will see a URI to get the next batch at `links.next`
                   links:
                     type: object
                     properties:
@@ -50,6 +52,7 @@ paths:
                     items:
                       oneOf:
                         - $ref: '#/components/schemas/fulfillmentTasks'
+                        - $ref: '#/components/schemas/fulfillmentAttachments'
       operationId: get-tasks-fulfillmentTasks
       parameters:
         - schema:
@@ -170,12 +173,12 @@ paths:
         - schema:
             type: boolean
           in: query
-          name: 'filter[enableBuyerFeedback]'
+          name: 'filter[enableCustomerFeedback]'
           description: Only show tasks that have allowed the buyer to provide feedback.
         - schema:
             type: boolean
           in: query
-          name: 'filter[buyerVisable]'
+          name: 'filter[visableToCustomer]'
           description: |-
             Only show tasks that can be viewed by the buyer. 
             Note: This endpoint should not be used when displaying the tasks to the buyer. Use the `/tasks/buyerTasks` endpoint instead.
@@ -283,9 +286,11 @@ paths:
     parameters:
       - schema:
           type: string
+          example: TK-7828EC895B6A0C9AACA43AC802730B0F4A9EE4A1
         name: id
         in: path
         required: true
+        description: The ID of the task to be updated
     get:
       summary: Get Fulfillment Task
       tags: []
@@ -342,13 +347,36 @@ paths:
       operationId: patch-tasks-fulfillmentTasks-id
       responses:
         '200':
-          description: OK
+          description: OK - Updated record
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/fulfillmentTasks'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      description: 'Update the fields of the fulfillment task. '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/fulfillmentTasks'
+        description: 'You should only send attributes and relationships that have changed. '
     delete:
       summary: Delete Fulfillment Task
       operationId: delete-tasks-fulfillmentTasks-id
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
+      description: Soft delete the task with the specified ID from the system
     options:
       summary: Fulfillment Tasks Item Options
       operationId: options-tasks-fulfillmentTasks-id
@@ -365,20 +393,98 @@ paths:
     get:
       summary: List attachments for the Fulfillment Task
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/fulfillmentAttachments'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
       operationId: get-tasks-fulfillmentTasks-taskId-attachments
+      description: Returns the details of the attachments related to the specified task
   /tasks/fulfillmentAttachments:
     get:
-      summary: Your GET endpoint
+      summary: List Fulfillment Attachments
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/fulfillmentAttachments'
+                  links:
+                    type: object
       operationId: get-tasks-fulfillmentAttachments
+      description: Produce a list of task attachments sutible for a fulfillment agent
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: 'fields[tasks-fulfillmentAttachments]'
+          description: |-
+            A list of field paths from the `tasks-fulfillmentAttachments` model that should be included in the response.
+
+            It is best practice to always include this field to aid in API evolution.
+        - schema:
+            type: string
+          in: query
+          name: 'filter[tasks.id]'
+          description: Only include attachments that relate to one of the specified task ids
+        - schema:
+            type: string
+          in: query
+          name: 'filter[customer.id]'
+          description: Only return attachments that relate to tasks for the specified customer id.
+        - schema:
+            type: boolean
+          in: query
+          name: 'filter[visableToCustomer]'
+          description: Only return attachments that are/are not able to be seen by customers
     post:
-      summary: ''
+      summary: Create Fulfillment Attachment
       operationId: post-tasks-fulfillmentAttachments
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/fulfillmentAttachments'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+      description: 'Use this operation to record the meta data about the file attachment. The response body will include an `links.upload` member containing a URI that you should make a PUT request to with the content of the file. '
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/fulfillmentCreateAttachments'
   '/tasks/fulfillmentAttachments/{id}':
     parameters:
       - schema:
@@ -387,19 +493,29 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: Get Fulfillment Attachment
       tags: []
-      responses: {}
-      operationId: get-tasks-fulfillmentAttachments-id
-    patch:
-      summary: ''
-      operationId: patch-tasks-fulfillmentAttachments-id
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/fulfillmentAttachments'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+      operationId: get-tasks-fulfillmentAttachments-id
+      description: Returns the details about a specific attachment
   /tasks/fulfillmentCustomers:
     get:
-      summary: Your GET endpoint
+      summary: List Fulfillment Customers
       tags: []
       responses: {}
       operationId: get-tasks-fulfillmentCustomers
@@ -428,40 +544,119 @@ components:
               type: string
             color:
               type: string
-    attachments:
-      title: attachments
+    fulfillmentAttachments:
+      title: Fulfillment Attachments
       type: object
-      description: |-
-        Attachments can be created and deleted but not updated.
-
-        To create an attachment 
+      description: Attachments can be created and deleted but not updated.
       properties:
         id:
           type: string
         type:
           type: string
-        data:
+          enum:
+            - tasks-fulfillmentAttachments
+        attributes:
           type: object
           properties:
             filename:
               type: string
+              description: The name of the file with extention that should be presented to users
             contentType:
               type: string
+              description: The MIME type used to describe the attached file's contents
             contentHash:
               type: string
+              description: A MD5 hash of the file contents. This can be used to verify that the uploaded content matches your local version.
+            visableToCustomer:
+              type: boolean
+              description: 'Indicates that this attachment can be viewed by customers. It only applies when the containing task is visable to customers as well. '
         links:
           type: object
           properties:
             download:
               type: string
               format: uri
+              description: Once content has been uploaded a GET request may be made to this URI to fetch the file contents.
             upload:
               type: string
+              description: 'If the file has not been uploaded yet, you may may make a PUT request to this URI to upload the document content.'
+              format: uri
         relationships:
           type: object
           properties:
             task:
+              type: object
+              required:
+                - data
+              properties:
+                data:
+                  type: object
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentTasks
+      required:
+        - id
+        - type
+    fulfillmentCreateAttachments:
+      title: Fulfillment Create Attachments
+      type: object
+      description: Attachments can be created and deleted but not updated.
+      properties:
+        type:
+          type: string
+          enum:
+            - tasks-fulfillmentAttachments
+        attributes:
+          type: object
+          required:
+            - filename
+            - contentType
+          properties:
+            filename:
               type: string
+              description: The name of the file with extention that should be presented to users
+            contentType:
+              type: string
+              description: The MIME type used to describe the attached file's contents
+            contentHash:
+              type: string
+              description: A MD5 hash of the file contents. This can be used to verify that the uploaded content matches your local version.
+            visableToCustomer:
+              type: boolean
+              description: 'Indicates that this attachment can be viewed by customers. It only applies when the containing task is visable to customers as well. '
+        relationships:
+          type: object
+          required:
+            - task
+          properties:
+            task:
+              type: object
+              required:
+                - data
+              properties:
+                data:
+                  type: object
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - tasks-fulfillmentTasks
+      required:
+        - type
+        - attributes
+        - relationships
     del-taskHistory:
       title: taskHistory
       type: object

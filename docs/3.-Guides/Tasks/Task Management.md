@@ -1,4 +1,4 @@
-# Task Managment
+ # Task Managment
 The task managment domain has been broken into 4 contexts. Each context represents the frame of mind that a user consuming the API results is in. 
 - **Fufillment Agent**: The user is an employee of the organization that is responcible for completing the task.
 - Proposed: **Vendor Agent**: The user is an employee of a different organization that the completion of the task has been outsourced to.
@@ -19,7 +19,23 @@ There are several types of tasks each with a unique set of properties and valida
 
 ## Use Cases
 
-List all meeting or generic tasks due between Oct 1 and Oct 31
+### As an external task managment system, I want to be notified as soon as a task is updated so that I can update my representation
+
+### As an external task managment system, I want to audit recently changed tasks against my own
+
+### As an external task managment system, I want to upload files to be attached to the task on behalf of a fulfillment agent
+
+### As an external task managment system, I want to upload files to be attached to the task on behalf of a customer
+
+### As an external task managment system, I want to find the ID of the platform user who matches my user so I can can assign a task to them
+
+### As a fufillment agent list all upcomming due dates
+
+### As a fufillment agent list all work for an account
+
+### As a fufillment agent 
+
+### List all meeting or generic tasks due between Oct 1 and Oct 31
 
 ```json http
 {

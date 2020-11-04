@@ -16,7 +16,10 @@ IDs
 
 ### Paths
 
-### Field Names
+### Attribute Names
+Date fields should end with `Date`
+Date/Time fields should end with `At`
+Fields containing enums should end with `Code`. A second readonly field ending with `Name` should be added containg the translated display text.
 
 ### Operations
 

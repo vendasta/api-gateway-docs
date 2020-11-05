@@ -4,12 +4,22 @@ info:
   description: ''
   version: Evergreen
 servers:
-  - url: 'http://localhost:3000'
+  - url: 'https://prod.apigateway.co'
+    description: Production
+  - description: Demo
+    url: 'https://demo.apigateway.co'
+  - description: Localhost
+    url: '{localhost}'
 paths:
   /tasks/fulfillmentTasks:
     get:
       summary: List Fulfillment Tasks
-      tags: []
+      tags:
+        - tasks
+      security:
+        - OAuth:
+            - task
+            - 'task:read'
       responses:
         '200':
           description: OK
@@ -55,6 +65,13 @@ paths:
                         - $ref: '#/components/schemas/fulfillmentAttachments'
       operationId: get-tasks-fulfillmentTasks
       parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
         - schema:
             type: string
           in: query
@@ -249,6 +266,19 @@ paths:
     parameters: []
     post:
       summary: Create Fulfillment Task
+      tags:
+        - tasks
+      security:
+        - OAuth:
+            - task
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
       operationId: post-tasks-fulfillmentTasks
       responses:
         '201':
@@ -276,12 +306,6 @@ paths:
                 - $ref: '#/components/schemas/fulfillmentCreateCustomSubtask'
         description: ''
       description: Create a new task
-    options:
-      summary: Fulfillment Tasks Options
-      operationId: options-tasks-fulfillmentTasks
-      responses:
-        '200':
-          description: OK
   '/tasks/fulfillmentTasks/{id}':
     parameters:
       - schema:
@@ -293,7 +317,12 @@ paths:
         description: The ID of the task to be updated
     get:
       summary: Get Fulfillment Task
-      tags: []
+      tags:
+        - tasks
+      security:
+        - OAuth:
+            - task
+            - 'task:read'
       responses:
         '200':
           description: OK
@@ -313,6 +342,13 @@ paths:
       operationId: get-tasks-fulfillmentTasks-id
       description: Get a single fulfillment task by ID
       parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
         - schema:
             type: string
             enum:
@@ -344,6 +380,19 @@ paths:
           description: A list of field paths from the `tasks-fulfillmentStatuses` model that should be included in the response when `include=status`.
     patch:
       summary: Update Fulfillment Task
+      tags:
+        - tasks
+      security:
+        - OAuth:
+            - task
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
       operationId: patch-tasks-fulfillmentTasks-id
       responses:
         '200':
@@ -372,17 +421,24 @@ paths:
         description: 'You should only send attributes and relationships that have changed. '
     delete:
       summary: Delete Fulfillment Task
+      tags:
+        - tasks
+      security:
+        - OAuth:
+            - task
       operationId: delete-tasks-fulfillmentTasks-id
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
       responses:
         '204':
           description: No Content
       description: Soft delete the task with the specified ID from the system
-    options:
-      summary: Fulfillment Tasks Item Options
-      operationId: options-tasks-fulfillmentTasks-id
-      responses:
-        '200':
-          description: OK
   '/tasks/fulfillmentTasks/{taskId}/attachments':
     parameters:
       - schema:
@@ -392,7 +448,20 @@ paths:
         required: true
     get:
       summary: List attachments for the Fulfillment Task
-      tags: []
+      tags:
+        - tasks
+      security:
+        - OAuth:
+            - task
+            - 'task:read'
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
       responses:
         '200':
           description: OK
@@ -416,7 +485,12 @@ paths:
   /tasks/fulfillmentAttachments:
     get:
       summary: List Fulfillment Attachments
-      tags: []
+      tags:
+        - tasks
+      security:
+        - OAuth:
+            - task
+            - 'task:read'
       responses:
         '200':
           description: OK
@@ -434,6 +508,13 @@ paths:
       operationId: get-tasks-fulfillmentAttachments
       description: Produce a list of task attachments sutible for a fulfillment agent
       parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
         - schema:
             type: string
           in: query
@@ -459,7 +540,20 @@ paths:
           description: Only return attachments that are/are not able to be seen by customers
     post:
       summary: Create Fulfillment Attachment
+      tags:
+        - tasks
+      security:
+        - OAuth:
+            - task
       operationId: post-tasks-fulfillmentAttachments
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
       responses:
         '200':
           description: OK
@@ -494,7 +588,20 @@ paths:
         required: true
     get:
       summary: Get Fulfillment Attachment
-      tags: []
+      tags:
+        - tasks
+      security:
+        - OAuth:
+            - task
+            - 'task:read'
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
       responses:
         '200':
           description: OK
@@ -516,17 +623,62 @@ paths:
   /tasks/fulfillmentCustomers:
     get:
       summary: List Fulfillment Customers
-      tags: []
+      tags:
+        - tasks
+      security:
+        - OAuth:
+            - task
+            - 'task:read'
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
       responses: {}
       operationId: get-tasks-fulfillmentCustomers
+      description: '`Proposed`: A way to list customer accounts that tasks can be created for has been proposed but the design is being reconsidered in favor of a single platform wide resouce.'
+  /tasks/fulfillmentStatuses:
+    get:
+      summary: List Fulfillment Statuses
+      tags:
+        - tasks
+      security:
+        - OAuth:
+            - task
+            - 'task:read'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/taskStatus'
+      operationId: get-tasks-fulfillmentStatuses
+      description: |-
+        Returns a list of statues that can be used for tasks. 
+        Note: Not all statuses can be used by all tasks. 
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[owner.id]'
 components:
   schemas:
-    buyerTask:
-      title: buyerTask
-      type: object
-      properties:
-        id:
-          type: string
     taskStatus:
       title: taskStatus
       type: object
@@ -941,7 +1093,7 @@ components:
     fulfillmentCreateCustomSubtask:
       title: Fulfillment Create Custom Subtask
       type: object
-      description: The view of task data used by a fulfillment agent to track work to be done by themselves or a teammate.
+      description: This model is a subset of "Fulfillment Tasks" used to document the specifics of creating a task within a project.
       properties:
         type:
           type: string
@@ -1083,7 +1235,7 @@ components:
     fulfillmentCreateProject:
       title: Fulfillment Create Project
       type: object
-      description: The view of task data used by a fulfillment agent to track work to be done by themselves or a teammate.
+      description: This model is a subset of "Fulfillment Tasks" used to document the specifics of creating a project.
       properties:
         type:
           type: string
@@ -1196,7 +1348,7 @@ components:
     fulfillmentCreateCustomTask:
       title: Fulfillment Create Custom Task
       type: object
-      description: The view of task data used by a fulfillment agent to track work to be done by themselves or a teammate.
+      description: This model is a subset of "Fulfillment Tasks" used to document the specifics of creating a Custom top level task.
       properties:
         type:
           type: string
@@ -1310,3 +1462,18 @@ components:
             - owner
       required:
         - type
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          scopes:
+            task: Grants the user access to read or write tasks
+            'task:read': Grants read only access to tasks
+      description: ''

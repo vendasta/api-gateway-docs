@@ -1,0 +1,507 @@
+openapi: 3.0.0
+info:
+  title: Platform REST APIs
+  version: Evergreen
+servers:
+  - url: 'https://prod.apigateway.co/platform'
+    description: Production
+  - description: Demo
+    url: 'https://demo.apigateway.co/platform'
+  - description: Localhost
+    url: '{localhost}/platform'
+  - url: 'https://vendasta.stoplight.io/mocks/vendasta/openapi-specs/1808816'
+    description: Mock
+paths:
+  /accountContacts:
+    post:
+      summary: Create Account Contact
+      operationId: post-accountContacts
+      responses:
+        '201':
+          description: Created
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/accountContacts'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                        description: The address of the newly created account contact
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The address of the newly created account contact
+      description: |-
+        Create a new Account Contact. It is recomended that 
+
+        At least one of `name.first`, `name.last`, `phone.raw` or `email` must be provided when creating a contact.
+      security:
+        - OAuth:
+            - sales.contact
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/accountContacts'
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - name.first
+              - name.last
+              - name.greeting
+              - phone
+              - email
+              - owner
+              - locations
+              - languageCode
+          in: query
+          name: 'fields[accountContact]'
+          description: A comma seperated list of fields from the newly created record to be returned in the response.
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+  '/accountContacts/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of the contact to be returned
+    get:
+      summary: Get Account Contact
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/accountContacts'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      operationId: get-accountContacts-id
+      security:
+        - OAuth:
+            - sales.contact
+      description: Fetch the current values for the specified account contact
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - name.first
+              - name.last
+              - name.greeting
+              - phone
+              - email
+              - owner
+              - locations
+              - languageCode
+          in: query
+          name: 'fields[accountContact]'
+          description: A comma seperated list of fields from the newly created record to be returned in the response.
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+  '/accountContacts/{contactID}/relationships/locations':
+    parameters:
+      - schema:
+          type: string
+        name: contactID
+        in: path
+        required: true
+  /accountLocations:
+    post:
+      summary: Create Account Location
+      operationId: post-accountLocations
+      responses:
+        '201':
+          description: Created
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/accountLocations'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                        description: The address of the newly created account location
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The address of the newly created account contact
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/accountLocations'
+      description: |-
+        Used to record basic data for a new location.
+
+        The following members must be populated during creation:
+        - `relationships.owner.data.id`
+        - `relationships.market.data.id`
+        - `attributes.name`
+        - `attributes.address.countryCode` as well as other address fields based on the norms of the country.
+        - `relationships.categories.data.[].id` - At least one category must be provided
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            enum:
+              - name
+              - address.line1
+              - address.line2
+              - address.city
+              - address.zip
+              - address.state
+              - address.countryCode
+              - phone
+              - owner
+          in: query
+          name: 'fields[accountLocations]'
+          description: A comma seperated list of fields from the newly created record to be returned in the response.
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      security:
+        - OAuth:
+            - account
+  '/accountLocations/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Account Location
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/accountLocations'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      operationId: get-accountLocations-id
+      description: Returns basic data about the account location.
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+      security:
+        - OAuth:
+            - account
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          scopes:
+            sales.contact: Read-write access to sales contact details
+            account: Read-write access to account details
+  schemas:
+    accountLocations:
+      title: Account Location
+      type: object
+      description: |
+        Any entity that works with a provider company (two-way communication). These generally have a sustained relationship with the provider company. This may include a potential buyer, an existing client, or a past client that has churned.
+      properties:
+        id:
+          type: string
+          example: AG-1234567
+        type:
+          type: string
+          default: accountLocations
+          enum:
+            - accountLocations
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: The common name for this location
+            address:
+              type: object
+              properties:
+                line1:
+                  type: string
+                line2:
+                  type: string
+                city:
+                  type: string
+                state:
+                  type: string
+                zip:
+                  type: string
+                countryCode:
+                  type: string
+                  maxLength: 2
+                  minLength: 2
+                  example: CA
+                  description: 'The two letter country code defined by ISO 3166-1 https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes'
+            phone:
+              type: array
+              items:
+                type: object
+                properties:
+                  countryCode:
+                    type: string
+                    description: An optional 2 character country code used to aid in parcing the raw number. If not specified the value from address.countryCode will be assumed.
+                    maxLength: 2
+                    minLength: 2
+                  raw:
+                    type: string
+                    description: |-
+                      The complete phone number for the location.
+                      Formating characters may be included. 
+
+                      **Extentions**
+
+                      It is recommended that extentions are included at the end of the number after an appropriate seperator: Pause: `,` Wait: `;` Default: `ext.`
+
+                      You may test the parsibility of a number using https://phonenumbers.temba.io/
+                required:
+                  - raw
+            serviceAreaBusiness:
+              type: boolean
+              description: When true the address will be used as the center of the area that this location services instead of being displayed.
+        relationships:
+          type: object
+          properties:
+            owner:
+              type: object
+              description: A link to the organization that owns this record. Account Locations are typically owned by a partner.
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                      default: organizations
+                      enum:
+                        - organizations
+                    id:
+                      type: string
+                      example: ABC
+              required:
+                - data
+    accountContacts:
+      title: Account Contact
+      type: object
+      description: |-
+        An account contact is a person who works for the account that your sales, fulfillment, billing and support teams may send communications to reguarding the account.
+
+        At least one of `name.first`, `name.last`, `phone.raw` or `email` must be provided when creating a contact.
+      properties:
+        type:
+          type: string
+          default: accountContacts
+          example: accountContacts
+          enum:
+            - accountContacts
+        id:
+          type: string
+          description: The id will be assigned by the server and must be included on all update requests. Values sent during creation will be ignored.
+        attributes:
+          type: object
+          properties:
+            name:
+              type: object
+              properties:
+                first:
+                  type: string
+                  maxLength: 25
+                  description: The given name of the contact
+                last:
+                  type: string
+                  maxLength: 25
+                  description: The surname of the contact
+                greeting:
+                  type: string
+                  maxLength: 25
+                  description: The name to use in email messages. Defaults to first name.
+            phone:
+              type: object
+              description: The primary phone number for the contact
+              properties:
+                countryCode:
+                  type: string
+                  description: 'An optional 2 character country code used to aid in parcing the raw number. '
+                  maxLength: 2
+                  minLength: 2
+                raw:
+                  type: string
+                  description: |-
+                    The complete primary phone number for the contact.
+                    Formating characters may be included. 
+
+                    **Extentions**
+
+                    It is recommended that extentions are included at the end of the number after an appropriate seperator: Pause: `,` Wait: `;` Default: `ext.`
+
+                    You may test the parsibility of a number using https://phonenumbers.temba.io/
+              required:
+                - raw
+            email:
+              type: string
+              format: email
+              description: The primary email address for the contact
+            languageCode:
+              type: string
+              default: en-US
+              enum:
+                - en-US
+                - cs-CZ
+                - fr-FR
+                - nl-NL
+              description: |-
+                The local language that communications to this contact should be sent in. 
+                Note: We currently have a limited set of allowed languages but expect to support many more in the future.
+        relationships:
+          type: object
+          properties:
+            owner:
+              type: object
+              description: A link to the organization that owns this record. Account Contacts are typically owned by a partner.
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                      default: organizations
+                      enum:
+                        - organizations
+                    id:
+                      type: string
+                      example: ABC
+              required:
+                - data
+            locations:
+              type: object
+              description: The account locations that this contact has a connection to
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: AG-1234
+                      type:
+                        type: string
+                        default: accountLocations
+                        enum:
+                          - accountLocations
+                    required:
+                      - id
+                      - type
+                links:
+                  type: object
+                  description: Readonly
+                  properties:
+                    self:
+                      type: string
+                      format: uri
+                      example: 'https://prod.apigateway.co/platform/accountContacts/U-123/relationships/locations'
+                    next:
+                      type: string
+                      format: uri
+                      example: 'https://prod.apigateway.co/platform/accountContacts/U-123/relationships/locations?page[cursor]=567'
+                meta:
+                  type: object
+                  properties:
+                    total:
+                      type: integer
+                      description: 'Readonly: The total number of locations connected to this contact'
+      required:
+        - type

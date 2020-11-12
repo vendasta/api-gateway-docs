@@ -11,8 +11,8 @@ If you’re anxious to get started right now, why not dive into our API explorer
 ## Recipes
 A lot of the time people know that they want to see improvement but are unsure where to start. Here is a list of ready to go “recipes” that you can either directly leverage or simply gather inspiration for your own integration efforts:
 
-- Triggering external workflows on business creation
-- Adding contacts and customers from an external Marketing System
+- Triggering external workflows on account creation
+- Adding contacts and accounts from an external Marketing System
 
 ## Customer Case Studies
 If you’re not ready to get started with integrations yet, but would like to hear about the experience of some of our customers with these APIs, here are a set of case studies describing the journey of other Vendasta partners who have found success.

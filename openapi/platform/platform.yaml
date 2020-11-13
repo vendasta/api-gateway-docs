@@ -208,9 +208,9 @@ paths:
               - address.line2
               - address.city
               - address.zip
-              - address.state
+              - address.stateCode
               - address.countryCode
-              - phone
+              - phoneNumbers
               - owner
           in: query
           name: 'fields[accountLocations]'
@@ -255,6 +255,21 @@ paths:
       operationId: get-accountLocations-id
       description: Returns basic data about the account location.
       parameters:
+        - schema:
+            type: string
+            enum:
+              - name
+              - address.line1
+              - address.line2
+              - address.city
+              - address.zip
+              - address.stateCode
+              - address.countryCode
+              - phoneNumbers
+              - owner
+          in: query
+          name: 'fields[accountLocations]'
+          description: A comma seperated list of fields from the newly created record to be returned in the response.
         - schema:
             type: string
             example: Bearer <Access Token>
@@ -311,8 +326,12 @@ components:
                   type: string
                 city:
                   type: string
-                state:
+                stateCode:
                   type: string
+                  maxLength: 2
+                  minLength: 2
+                  example: CA
+                  description: 'The two letter state code within the country'
                 zip:
                   type: string
                 countryCode:
@@ -321,7 +340,7 @@ components:
                   minLength: 2
                   example: CA
                   description: 'The two letter country code defined by ISO 3166-1 https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes'
-            phone:
+            phoneNumbers:
               type: array
               items:
                 type: object

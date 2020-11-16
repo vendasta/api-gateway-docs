@@ -7,10 +7,12 @@ servers:
     description: Production
   - description: Demo
     url: 'https://demo.apigateway.co/platform'
-  - description: Localhost
-    url: '{localhost}/platform'
+  - description: Local
+    url: '{local}/platform'
   - url: 'https://vendasta.stoplight.io/mocks/vendasta/openapi-specs/1808816'
     description: Mock
+  - url: 'http://localhost:11001/platform'
+    description: Localhost
 paths:
   /accountContacts:
     post:
@@ -140,6 +142,45 @@ paths:
           name: Authorization
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
+  '/accountContacts/{contactID}/locations':
+    parameters:
+      - schema:
+          type: string
+        name: contactID
+        in: path
+        required: true
+    get:
+      summary: List Locations related to Contact
+      tags:
+        - accountContacts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/accountLocations'
+      operationId: get-accountContacts-contactID-locations
+      description: |-
+        `Proposed`
+        Returns a list of locations that are related to the contact
+      security:
+        - OAuth:
+            - sales.contact
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
   '/accountContacts/{contactID}/relationships/locations':
     parameters:
       - schema:
@@ -147,6 +188,218 @@ paths:
         name: contactID
         in: path
         required: true
+    get:
+      summary: List Location IDs related to Contact
+      operationId: get-accountContacts-contactID-relationships-locations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          enum:
+                            - accountLocations
+                          default: accountLocations
+                        id:
+                          type: string
+                          example: AG-123
+                      required:
+                        - type
+                        - id
+                  links:
+                    type: object
+                    required:
+                      - related
+                      - self
+                    properties:
+                      related:
+                        type: string
+                        format: uri
+                      self:
+                        type: string
+                        format: uri
+                required:
+                  - data
+                  - links
+      security:
+        - OAuth:
+            - sales.contact
+      description: |-
+        `Proposed`
+        Lists the IDs of the Account Locations that are related to this Account Contact
+      tags:
+        - accountContacts
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+    post:
+      summary: Add locations to contact
+      operationId: post-accountContacts-contactID-relationships-locations
+      responses:
+        '200':
+          description: OK
+      description: |-
+        `Proposed`
+        Adds the listed account locations to the specified account contact. Locations that are already linked will be ignored. 
+      security:
+        - OAuth:
+            - sales.contact
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                data:
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - accountLocations
+                      id:
+                        type: string
+                        example: AG-123
+                    required:
+                      - type
+                      - id
+              required:
+                - data
+      tags:
+        - accountContacts
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+    patch:
+      summary: Set Locations for Contact
+      operationId: patch-accountContacts-contactID-relationships-locations
+      responses:
+        '200':
+          description: OK
+      description: |-
+        `Proposed`
+        Replaces all existing locations for the contact with the new list.
+
+        Note: This can be completed as a single action with updating the contact's other attributes.
+      tags:
+        - accountContacts
+      security:
+        - OAuth:
+            - sales.contact
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+    delete:
+      summary: Remove locations from contact
+      operationId: delete-accountContacts-contactID-relationships-locations
+      responses:
+        '204':
+          description: No Content
+      description: |-
+        `Proposed`
+        Removes the specified location(s) from the contact. Locations that have already been removed will be ignored.
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                data:
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - accountLocations
+                      id:
+                        type: string
+                        example: AG-123
+                    required:
+                      - type
+                      - id
+              required:
+                - data
+      tags:
+        - accountContacts
+      security:
+        - OAuth:
+            - sales.contact
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
   /accountLocations:
     post:
       summary: Create Account Location
@@ -227,6 +480,8 @@ paths:
       security:
         - OAuth:
             - account
+      tags:
+        - accountLocations
   '/accountLocations/{id}':
     parameters:
       - schema:
@@ -236,7 +491,8 @@ paths:
         required: true
     get:
       summary: Get Account Location
-      tags: []
+      tags:
+        - accountLocations
       responses:
         '200':
           description: OK
@@ -331,7 +587,7 @@ components:
                   maxLength: 2
                   minLength: 2
                   example: CA
-                  description: 'The two letter state code within the country'
+                  description: The two letter state code within the country
                 zip:
                   type: string
                 countryCode:
@@ -524,3 +780,6 @@ components:
                       description: 'Readonly: The total number of locations connected to this contact'
       required:
         - type
+tags:
+  - name: accountContacts
+  - name: accountLocations

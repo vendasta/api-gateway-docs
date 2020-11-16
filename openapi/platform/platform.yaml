@@ -88,6 +88,8 @@ paths:
           name: Content-Type
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      tags:
+        - accountContacts
   '/accountContacts/{id}':
     parameters:
       - schema:
@@ -98,7 +100,8 @@ paths:
         description: The ID of the contact to be returned
     get:
       summary: Get Account Contact
-      tags: []
+      tags:
+        - accountContacts
       responses:
         '200':
           description: OK
@@ -645,6 +648,8 @@ components:
                       example: ABC
               required:
                 - data
+      x-tags:
+        - accountLocations
     accountContacts:
       title: Account Contact
       type: object
@@ -780,6 +785,8 @@ components:
                       description: 'Readonly: The total number of locations connected to this contact'
       required:
         - type
+      x-tags:
+        - accountContacts
 tags:
   - name: accountContacts
   - name: accountLocations

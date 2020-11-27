@@ -598,6 +598,80 @@ paths:
       tags:
         - options
         - accountLocations
+  '/partners/{id}':
+    parameters:
+      - schema:
+          type: string
+          minLength: 2
+          maxLength: 4
+          pattern: '^[A-Z]{2,4}$'
+          example: ABC
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Partner
+      tags:
+        - partners
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/partners'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                  included:
+                    type: array
+                    items:
+                      anyOf:
+                        - $ref: '#/components/schemas/partners'
+      operationId: get-partners-id
+      security:
+        - OAuth:
+            - partner
+      description: Fetch the current values for the specified partner
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - name
+          in: query
+          name: 'fields[accountLocations]'
+          description: A comma separated list of fields to be returned in the response.
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            enum:
+              - parent
+          in: query
+          name: include
+          description: A comma separated list of related records that should be embedded in the response
+    options:
+      operationId: options-partners-id
+      summary: 'List valid HTTP verbs for /partners/{id}'
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - options
+        - partners
 components:
   securitySchemes:
     JWT:
@@ -613,6 +687,7 @@ components:
           scopes:
             sales.contact: Read-write access to sales contact details
             account: Read-write access to account details
+            partner: Read-write access to details about your partners
   schemas:
     accountLocations:
       title: Account Location
@@ -845,7 +920,68 @@ components:
         - type
       x-tags:
         - accountContacts
+    partners:
+      title: partners
+      type: object
+      description: A partner is an organization that has a store filled with products that other organizations can purchase.
+      properties:
+        id:
+          type: string
+          minLength: 3
+          maxLength: 4
+        type:
+          type: string
+          enum:
+            - partners
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: The public name for the organization
+          required:
+            - name
+        relationships:
+          type: object
+          properties:
+            parent:
+              type: object
+              description: 'The parent partner is the partner that this partner primarily purchases stuff from. '
+              properties:
+                data:
+                  type: object
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                      minLength: 3
+                      maxLength: 4
+                    type:
+                      type: string
+                      enum:
+                        - partners
+              required:
+                - data
+      required:
+        - id
+        - type
+      x-tags:
+        - partners
+      x-examples:
+        example-1:
+          id: ABC
+          type: partners
+          attributes:
+            name: Mountain Media
+          relationships:
+            parent:
+              data:
+                id: VMF
+                type: partners
 tags:
   - name: accountContacts
   - name: accountLocations
   - name: options
+  - name: partners

@@ -12,10 +12,10 @@ servers:
   - url: 'http://localhost:11001/platform'
     description: Localhost
 paths:
-  /accountContacts:
+  /businessContacts:
     post:
-      summary: Create Account Contact
-      operationId: post-accountContacts
+      summary: Create Business Contact
+      operationId: post-businessContacts
       responses:
         '201':
           description: Created
@@ -25,26 +25,26 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/accountContacts'
+                    $ref: '#/components/schemas/businessContacts'
                   links:
                     type: object
                     properties:
                       self:
                         type: string
                         format: uri
-                        description: The address of the newly created account contact
+                        description: The address of the newly created business contact
           headers:
             Location:
               schema:
                 type: string
                 format: uri
-              description: The address of the newly created account contact
+              description: The address of the newly created business contact
       x-lifecycle:
         status: proposed
       description: |-
         [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
 
-        Use this operation to create a new Contact for an account.
+        Use this operation to create a new Contact for a business.
 
         At least one of `name.first`, `name.last`, `phone.raw` or `email` must be provided when creating a contact.
       security:
@@ -57,7 +57,7 @@ paths:
               type: object
               properties:
                 data:
-                  $ref: '#/components/schemas/accountContacts'
+                  $ref: '#/components/schemas/businessContacts'
       parameters:
         - schema:
             type: string
@@ -71,7 +71,7 @@ paths:
               - locations
               - languageCode
           in: query
-          name: 'fields[accountContact]'
+          name: 'fields[businessContact]'
           description: A comma seperated list of fields from the newly created record to be returned in the response.
         - schema:
             type: string
@@ -91,18 +91,18 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       tags:
-        - accountContacts
+        - businessContacts
     options:
-      operationId: options-accountContacts
+      operationId: options-businessContacts
       tags:
         - options
-        - accountContacts
-      summary: List valid HTTP verbs for /accountContacts
+        - businessContacts
+      summary: List valid HTTP verbs for /businessContacts
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       responses:
         '204':
           description: No Content
-  '/accountContacts/{id}':
+  '/businessContacts/{id}':
     parameters:
       - schema:
           type: string
@@ -111,9 +111,9 @@ paths:
         required: true
         description: The ID of the contact to be returned
     get:
-      summary: Get Account Contact
+      summary: Get Business Contact
       tags:
-        - accountContacts
+        - businessContacts
       responses:
         '200':
           description: OK
@@ -123,13 +123,13 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/accountContacts'
+                    $ref: '#/components/schemas/businessContacts'
                   links:
                     type: object
                     properties:
                       self:
                         type: string
-      operationId: get-accountContacts-id
+      operationId: get-businessContacts-id
       security:
         - OAuth:
             - sales.contact
@@ -138,7 +138,7 @@ paths:
       description: |-
         [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
 
-        Fetch the current values for the specified account contact
+        Fetch the current values for the specified business contact
       parameters:
         - schema:
             type: string
@@ -152,7 +152,7 @@ paths:
               - locations
               - languageCode
           in: query
-          name: 'fields[accountContact]'
+          name: 'fields[businessContact]'
           description: A comma seperated list of fields from the newly created record to be returned in the response.
         - schema:
             type: string
@@ -163,16 +163,16 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
     options:
-      operationId: options-accountContacts-id
-      summary: 'List valid HTTP verbs for /accountContacts/{id}'
+      operationId: options-businessContacts-id
+      summary: 'List valid HTTP verbs for /businessContacts/{id}'
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       responses:
         '204':
           description: No Content
       tags:
         - options
-        - accountContacts
-  '/accountContacts/{contactID}/locations':
+        - businessContacts
+  '/businessContacts/{contactID}/locations':
     parameters:
       - schema:
           type: string
@@ -182,7 +182,7 @@ paths:
     get:
       summary: List Locations related to Contact
       tags:
-        - accountContacts
+        - businessContacts
       responses:
         '200':
           description: OK
@@ -194,8 +194,8 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/accountLocations'
-      operationId: get-accountContacts-contactID-locations
+                      $ref: '#/components/schemas/businessLocations'
+      operationId: get-businessContacts-contactID-locations
       x-lifecycle:
         status: proposed
       description: |-
@@ -215,15 +215,15 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
     options:
-      operationId: options-accountContacts-contactID-locations
+      operationId: options-businessContacts-contactID-locations
       tags:
-        - accountContacts
+        - businessContacts
       summary: List valid HTTP verbs
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       responses:
         '204':
           description: No Content
-  '/accountContacts/{contactID}/relationships/locations':
+  '/businessContacts/{contactID}/relationships/locations':
     parameters:
       - schema:
           type: string
@@ -232,7 +232,7 @@ paths:
         required: true
     get:
       summary: List Location IDs related to Contact
-      operationId: get-accountContacts-contactID-relationships-locations
+      operationId: get-businessContacts-contactID-relationships-locations
       responses:
         '200':
           description: OK
@@ -252,8 +252,8 @@ paths:
                         type:
                           type: string
                           enum:
-                            - accountLocations
-                          default: accountLocations
+                            - businessLocations
+                          default: businessLocations
                         id:
                           type: string
                           example: AG-123
@@ -283,9 +283,9 @@ paths:
       description: |-
         [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
 
-        Lists the IDs of the Account Locations that are related to this Account Contact
+        Lists the IDs of the Business Locations that are related to this Business Contact
       tags:
-        - accountContacts
+        - businessContacts
       parameters:
         - schema:
             type: string
@@ -297,7 +297,7 @@ paths:
           required: true
     post:
       summary: Add locations to contact
-      operationId: post-accountContacts-contactID-relationships-locations
+      operationId: post-businessContacts-contactID-relationships-locations
       responses:
         '200':
           description: OK
@@ -306,7 +306,7 @@ paths:
       description: |-
         [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
 
-        Adds the listed account locations to the specified account contact. Locations that are already linked will be ignored. 
+        Adds the listed business locations to the specified business contact. Locations that are already linked will be ignored. 
       security:
         - OAuth:
             - sales.contact
@@ -327,7 +327,7 @@ paths:
                       type:
                         type: string
                         enum:
-                          - accountLocations
+                          - businessLocations
                       id:
                         type: string
                         example: AG-123
@@ -337,7 +337,7 @@ paths:
               required:
                 - data
       tags:
-        - accountContacts
+        - businessContacts
       parameters:
         - schema:
             type: string
@@ -358,7 +358,7 @@ paths:
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
     patch:
       summary: Set Locations for Contact
-      operationId: patch-accountContacts-contactID-relationships-locations
+      operationId: patch-businessContacts-contactID-relationships-locations
       responses:
         '200':
           description: OK
@@ -371,7 +371,7 @@ paths:
 
         Note: This can be completed as a single action with updating the contact's other attributes.
       tags:
-        - accountContacts
+        - businessContacts
       security:
         - OAuth:
             - sales.contact
@@ -395,7 +395,7 @@ paths:
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
     delete:
       summary: Remove locations from contact
-      operationId: delete-accountContacts-contactID-relationships-locations
+      operationId: delete-businessContacts-contactID-relationships-locations
       responses:
         '204':
           description: No Content
@@ -422,7 +422,7 @@ paths:
                       type:
                         type: string
                         enum:
-                          - accountLocations
+                          - businessLocations
                       id:
                         type: string
                         example: AG-123
@@ -432,7 +432,7 @@ paths:
               required:
                 - data
       tags:
-        - accountContacts
+        - businessContacts
       security:
         - OAuth:
             - sales.contact
@@ -455,19 +455,19 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
     options:
-      operationId: options-accountContacts-contactID-relationships-locations
-      summary: 'List valid HTTP verbs for /accountContacts/{contactID}/relationships/locations'
+      operationId: options-businessContacts-contactID-relationships-locations
+      summary: 'List valid HTTP verbs for /businessContacts/{contactID}/relationships/locations'
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       responses:
         '204':
           description: No Content
       tags:
         - options
-        - accountContacts
-  /accountLocations:
+        - businessContacts
+  /businessLocations:
     post:
-      summary: Create Account Location
-      operationId: post-accountLocations
+      summary: Create Business Location
+      operationId: post-businessLocations
       responses:
         '201':
           description: Created
@@ -477,20 +477,20 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/accountLocations'
+                    $ref: '#/components/schemas/businessLocations'
                   links:
                     type: object
                     properties:
                       self:
                         type: string
                         format: uri
-                        description: The address of the newly created account location
+                        description: The address of the newly created business location
           headers:
             Location:
               schema:
                 type: string
                 format: uri
-              description: The address of the newly created account contact
+              description: The address of the newly created business contact
       requestBody:
         content:
           application/vnd.api+json:
@@ -498,7 +498,7 @@ paths:
               type: object
               properties:
                 data:
-                  $ref: '#/components/schemas/accountLocations'
+                  $ref: '#/components/schemas/businessLocations'
       x-lifecycle:
         status: proposed
       description: |-
@@ -533,7 +533,7 @@ paths:
               - phoneNumbers
               - owner
           in: query
-          name: 'fields[accountLocations]'
+          name: 'fields[businessLocations]'
           description: A comma seperated list of fields from the newly created record to be returned in the response.
         - schema:
             type: string
@@ -546,20 +546,20 @@ paths:
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
         - OAuth:
-            - account
+            - business
       tags:
-        - accountLocations
+        - businessLocations
     options:
-      operationId: options-accountLocations
-      summary: List valid HTTP verbs for /accountLocations
+      operationId: options-businessLocations
+      summary: List valid HTTP verbs for /businessLocations
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       responses:
         '204':
           description: No Content
       tags:
         - options
-        - accountLocations
-  '/accountLocations/{id}':
+        - businessLocations
+  '/businessLocations/{id}':
     parameters:
       - schema:
           type: string
@@ -567,9 +567,9 @@ paths:
         in: path
         required: true
     get:
-      summary: Get Account Location
+      summary: Get Business Location
       tags:
-        - accountLocations
+        - businessLocations
       responses:
         '200':
           description: OK
@@ -579,19 +579,19 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/accountLocations'
+                    $ref: '#/components/schemas/businessLocations'
                   links:
                     type: object
                     properties:
                       self:
                         type: string
-      operationId: get-accountLocations-id
+      operationId: get-businessLocations-id
       x-lifecycle:
         status: proposed
       description: |-
         [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
 
-        Returns basic data about the account location.
+        Returns basic data about the business location.
       parameters:
         - schema:
             type: string
@@ -606,7 +606,7 @@ paths:
               - phoneNumbers
               - owner
           in: query
-          name: 'fields[accountLocations]'
+          name: 'fields[businessLocations]'
           description: A comma seperated list of fields from the newly created record to be returned in the response.
         - schema:
             type: string
@@ -618,17 +618,17 @@ paths:
           required: true
       security:
         - OAuth:
-            - account
+            - business
     options:
-      operationId: options-accountLocations-id
-      summary: 'List valid HTTP verbs for /accountLocations/{id}'
+      operationId: options-businessLocations-id
+      summary: 'List valid HTTP verbs for /businessLocations/{id}'
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       responses:
         '204':
           description: No Content
       tags:
         - options
-        - accountLocations
+        - businessLocations
   '/partners/{id}':
     parameters:
       - schema:
@@ -722,11 +722,11 @@ components:
           tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
           scopes:
             sales.contact: Read-write access to sales contact details
-            account: Read-write access to account details
+            business: Read-write access to business details
             partner: Read-write access to details about your partners
   schemas:
-    accountLocations:
-      title: Account Location
+    businessLocations:
+      title: Business Location
       type: object
       x-lifecycle:
         status: proposed
@@ -740,9 +740,9 @@ components:
           example: AG-1234567
         type:
           type: string
-          default: accountLocations
+          default: businessLocations
           enum:
-            - accountLocations
+            - businessLocations
         attributes:
           type: object
           properties:
@@ -803,7 +803,7 @@ components:
           properties:
             owner:
               type: object
-              description: A link to the organization that owns this record. Account Locations are typically owned by a partner.
+              description: A link to the organization that owns this record. Business Locations are typically owned by a partner.
               properties:
                 data:
                   type: object
@@ -822,25 +822,25 @@ components:
               required:
                 - data
       x-tags:
-        - accountLocations
-    accountContacts:
-      title: Account Contact
+        - businessLocations
+    businessContacts:
+      title: Business Contact
       type: object
       x-lifecycle:
         status: proposed
       description: |-
         [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
 
-        An account contact is a person who works for the account that your sales, fulfillment, billing and support teams may send communications to reguarding the account.
+        A business contact is a person who works for the business that your sales, fulfillment, billing and support teams may send communications to reguarding the business.
 
         At least one of `name.first`, `name.last`, `phone.raw` or `email` must be provided when creating a contact.
       properties:
         type:
           type: string
-          default: accountContacts
-          example: accountContacts
+          default: businessContacts
+          example: businessContacts
           enum:
-            - accountContacts
+            - businessContacts
         id:
           type: string
           description: The id will be assigned by the server and must be included on all update requests. Values sent during creation will be ignored.
@@ -904,7 +904,7 @@ components:
           properties:
             owner:
               type: object
-              description: A link to the organization that owns this record. Account Contacts are typically owned by a partner.
+              description: A link to the organization that owns this record. Business Contacts are typically owned by a partner.
               properties:
                 data:
                   type: object
@@ -924,7 +924,7 @@ components:
                 - data
             locations:
               type: object
-              description: The account locations that this contact has a connection to
+              description: The business locations that this contact has a connection to
               properties:
                 data:
                   type: array
@@ -936,9 +936,9 @@ components:
                         example: AG-1234
                       type:
                         type: string
-                        default: accountLocations
+                        default: businessLocations
                         enum:
-                          - accountLocations
+                          - businessLocations
                     required:
                       - id
                       - type
@@ -949,11 +949,11 @@ components:
                     self:
                       type: string
                       format: uri
-                      example: 'https://prod.apigateway.co/platform/accountContacts/U-123/relationships/locations'
+                      example: 'https://prod.apigateway.co/platform/businessContacts/U-123/relationships/locations'
                     next:
                       type: string
                       format: uri
-                      example: 'https://prod.apigateway.co/platform/accountContacts/U-123/relationships/locations?page[cursor]=567'
+                      example: 'https://prod.apigateway.co/platform/businessContacts/U-123/relationships/locations?page[cursor]=567'
                 meta:
                   type: object
                   properties:
@@ -963,7 +963,7 @@ components:
       required:
         - type
       x-tags:
-        - accountContacts
+        - businessContacts
     partners:
       title: partners
       type: object
@@ -1030,7 +1030,7 @@ components:
                 id: VMF
                 type: partners
 tags:
-  - name: accountContacts
-  - name: accountLocations
+  - name: businessContacts
+  - name: businessLocations
   - name: options
   - name: partners

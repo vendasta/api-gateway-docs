@@ -763,6 +763,20 @@ paths:
           in: query
           name: 'filter[createdAt][<]'
           description: Only return invoices created before the specified time
+        - schema:
+            type: integer
+            minLength: 0
+            minimum: 0
+            maximum: 100
+            default: 10
+          in: query
+          name: 'page[limit]'
+          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+        - schema:
+            type: string
+          in: query
+          name: 'page[cursor]'
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
       responses:
         '200':
           description: OK
@@ -780,6 +794,15 @@ paths:
                     properties:
                       self:
                         type: string
+                        format: uri
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                      next:
+                        type: string
+                        description: The URI at which the next batch of invoices can be gotten from
+                        format: uri
 components:
   securitySchemes:
     JWT:

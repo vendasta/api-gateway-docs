@@ -1,20 +1,22 @@
 ---
-tags: [accounts, accountLocations, accountContacts]
+tags: [businesses, businessLocations, businessContacts]
 ---
-# Accounts
+# Businesses
 
-An `Account` is the basic record for storing information about an orginization that you have a sustained relationship with. This may include a potential buyer, an existing client, or a past client that has churned.
+A `Business Location` is the basic record for storing information about an organization that is generally part of their 
+public profile. More sensitive data can be found in related resources. 
+The location may be a retail store, the business' headquarters or identify an area they serve.
 
 ## Common Actions
 
-### Creating an Account Location
+### Creating a Business Location
 
-To create a new Account Location make the following call
+To create a new Business Location make the following call
 
 ```json http
 {
   "method": "post",
-  "url": "https://prod.apigateway.co/platform/accountLocations",
+  "url": "https://prod.apigateway.co/platform/businessLocations",
   "query": {},
   "headers": {
     "Authorization": "Bearer <Access Token>",
@@ -22,7 +24,7 @@ To create a new Account Location make the following call
   },
   "body": {
     "data": {
-      "type": "accountLocations",
+      "type": "businessLocations",
       "attributes": {
         "name": "Fred's Fish on Young",
         "address": {
@@ -59,7 +61,7 @@ It will return the newly created record including any server populated values. B
 ```json
 {
     "data": {
-      "type": "accountLocations",
+      "type": "businessLocations",
       "id": "AG-123",
       "attributes": {
         "name": "Fred's Fish on Young",
@@ -89,20 +91,20 @@ It will return the newly created record including any server populated values. B
       }
     },
     "links": {
-      "self": "https://prod.apigateway.co/platform/accountLocations/AG-123"
+      "self": "https://prod.apigateway.co/platform/businessLocations/AG-123"
     }
   }
 ```
 
 
-### Creating an Account Contact
+### Creating a Business Contact
 
-When creating a Contact for an Account you may also link that Contact to one or more Locations in the same API call.
+When creating a Contact for a Business you may also link that Contact to one or more Locations in the same API call.
 
 ```json http
 {
   "method": "post",
-  "url": "https://prod.apigateway.co/platform/accountContacts",
+  "url": "https://prod.apigateway.co/platform/businessContacts",
   "query": {},
   "headers": {
     "Authorization": "Bearer <Token>",
@@ -110,7 +112,7 @@ When creating a Contact for an Account you may also link that Contact to one or 
   },
   "body": {
     "data": {
-      "type": "accountContacts",
+      "type": "businessContacts",
       "attributes": {
         "name": {
           "first": "Samantha",
@@ -135,11 +137,11 @@ When creating a Contact for an Account you may also link that Contact to one or 
           "data": [
             {
               "id": "AG-1234",
-              "type": "accountLocations"
+              "type": "businessLocations"
             },
             {
               "id": "AG-4567",
-              "type": "accountLocations"
+              "type": "businessLocations"
             }
           ]
         }
@@ -155,7 +157,7 @@ It will return the newly created record including any server populated values. B
 {
   {
     "data": {
-      "type": "accountContacts",
+      "type": "businessContacts",
       "id": "U-1234",
       "attributes": {
         "name": {
@@ -179,12 +181,12 @@ It will return the newly created record including any server populated values. B
         },
         "locations": {
           "links": {
-            "self": "https://prod.apigateway.co/platform/accountContacts/U-1234/relationships/locations"
+            "self": "https://prod.apigateway.co/platform/businessContacts/U-1234/relationships/locations"
           }
         }
       },
       "links":{
-        "self":"https://prod.apigateway.co/platform/accountContacts/U-1234"
+        "self":"https://prod.apigateway.co/platform/businessContacts/U-1234"
       }
     }
   }
@@ -193,15 +195,15 @@ It will return the newly created record including any server populated values. B
 
 ## Proposed future actions
 
-### Get a list of your account locations
+### Get a list of your business locations
 
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/platform/accountLocations",
+  "url": "https://prod.apigateway.co/platform/businessLocations",
   "query": {
     "filter[parent]": "me",
-    "fields[accountLocations]": "name",
+    "fields[businessLocations]": "name",
     "page[limit]": 2
   },
   "headers": {
@@ -218,14 +220,14 @@ Will return something like
 {
   "data": [
     {
-      "type": "accountLocations",
+      "type": "businessLocations",
       "id": "AG-1234",
       "attributes": {
         "name": "Bill's Bakery"
       }
     },
     {
-      "type": "accountLocations",
+      "type": "businessLocations",
       "id": "AG-5642",
       "attributes": {
         "name": "Shane's Snack Hut"
@@ -233,10 +235,10 @@ Will return something like
     }
   ],
   "links": {
-    "first": "https://prod.apigateway.co/platform/accountLocations?page[cursor]=abc",
-    "self": "https://prod.apigateway.co/platform/accountLocations?page[cursor]=klm",
-    "next": "https://prod.apigateway.co/platform/accountLocations?page[cursor]=nop",
-    "last": "https://prod.apigateway.co/platform/accountLocations?page[cursor]=xyz"
+    "first": "https://prod.apigateway.co/platform/businessLocations?page[cursor]=abc",
+    "self": "https://prod.apigateway.co/platform/businessLocations?page[cursor]=klm",
+    "next": "https://prod.apigateway.co/platform/businessLocations?page[cursor]=nop",
+    "last": "https://prod.apigateway.co/platform/businessLocations?page[cursor]=xyz"
   },
   "meta": {
     "total": 234

@@ -1,5 +1,5 @@
 ---
-tags: [businesses, businessLocations, businessContacts]
+tags: [businesses, businessLocations, contacts]
 ---
 # Businesses
 
@@ -104,7 +104,7 @@ When creating a Contact for a Business you may also link that Contact to one or 
 ```json http
 {
   "method": "post",
-  "url": "https://prod.apigateway.co/platform/businessContacts",
+  "url": "https://prod.apigateway.co/platform/contacts",
   "query": {},
   "headers": {
     "Authorization": "Bearer <Token>",
@@ -112,7 +112,7 @@ When creating a Contact for a Business you may also link that Contact to one or 
   },
   "body": {
     "data": {
-      "type": "businessContacts",
+      "type": "contacts",
       "attributes": {
         "name": {
           "first": "Samantha",
@@ -157,7 +157,7 @@ It will return the newly created record including any server populated values. B
 {
   {
     "data": {
-      "type": "businessContacts",
+      "type": "contacts",
       "id": "U-1234",
       "attributes": {
         "name": {
@@ -181,12 +181,12 @@ It will return the newly created record including any server populated values. B
         },
         "locations": {
           "links": {
-            "self": "https://prod.apigateway.co/platform/businessContacts/U-1234/relationships/locations"
+            "self": "https://prod.apigateway.co/platform/contacts/U-1234/relationships/locations"
           }
         }
       },
       "links":{
-        "self":"https://prod.apigateway.co/platform/businessContacts/U-1234"
+        "self":"https://prod.apigateway.co/platform/contacts/U-1234"
       }
     }
   }

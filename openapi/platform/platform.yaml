@@ -765,7 +765,6 @@ paths:
           description: Only return invoices created before the specified time
         - schema:
             type: integer
-            minLength: 0
             minimum: 0
             maximum: 100
             default: 10
@@ -830,6 +829,8 @@ components:
         [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
 
         Any entity that works with a provider company (two-way communication). These generally have a sustained relationship with the provider company. This may include a potential buyer, an existing client, or a past client that has churned.
+      x-tags:
+        - businessLocations
       properties:
         id:
           type: string
@@ -870,27 +871,17 @@ components:
                   description: 'The two letter country code defined by ISO 3166-1 https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes'
             phoneNumbers:
               type: array
+              description: |-
+                The standard phone numbers for the location.
+                Formating characters may be included. 
+
+                **Extentions**
+
+                It is recommended that extentions are included at the end of the number after an appropriate seperator: Pause: `,` Wait: `;` Default: `ext.`
+
+                You may test the parsibility of a number using https://phonenumbers.temba.io/ All phone numbers are assumed to be in the same country as this business location.
               items:
-                type: object
-                properties:
-                  countryCode:
-                    type: string
-                    description: An optional 2 character country code used to aid in parcing the raw number. If not specified the value from address.countryCode will be assumed.
-                    maxLength: 2
-                    minLength: 2
-                  raw:
-                    type: string
-                    description: |-
-                      The complete phone number for the location.
-                      Formating characters may be included. 
-
-                      **Extentions**
-
-                      It is recommended that extentions are included at the end of the number after an appropriate seperator: Pause: `,` Wait: `;` Default: `ext.`
-
-                      You may test the parsibility of a number using https://phonenumbers.temba.io/
-                required:
-                  - raw
+                type: string
             serviceAreaBusiness:
               type: boolean
               description: When true the address will be used as the center of the area that this location services instead of being displayed.
@@ -917,8 +908,6 @@ components:
                       example: ABC
               required:
                 - data
-      x-tags:
-        - businessLocations
     businessContacts:
       title: Business Contact
       type: object
@@ -1069,6 +1058,14 @@ components:
         [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
 
         A partner is an organization that has a store filled with products that other organizations can purchase.
+
+
+        Partners may fill one or more of the following roles:
+        - **Business Partner**: Have a direct billing relationship with SMBs
+        - **Vendor**: Integrate goods into the Vendasta platform to be sold by Business Partners to SMBs
+        - **Service Provider**: Integrate services into the Vendasta platform that they will fulfill for SMBs
+
+        Note: Small/Medium-Sized Businesses (SMBs) are represented by their primary Business Location record. They may only buy products through their Business Partner.
       properties:
         id:
           type: string
@@ -1199,17 +1196,17 @@ components:
                     type: string
                     description: The ID of the organization that purchased the product
                   amount:
-                    type: string
                     description: The wholesale cost of the product before discounts or taxes are applied.
+                    type: integer
                   discountAmount:
-                    type: string
                     description: The total amount the cost of this product has been reduced by
+                    type: integer
                   taxAmount:
-                    type: string
                     description: The total amount of tax charged for this product
+                    type: integer
                   total:
-                    type: string
                     description: The final cost of the product accounting for any applied discounts or taxes
+                    type: integer
         relationships:
           type: object
           properties:

@@ -38,7 +38,7 @@ To create a new Business Location make the following call
         "phone": [
           {
             "countryCode": "CA",
-            "raw": "1 (555) 323-1234"
+            "value": "1 (555) 323-1234"
           }
         ],
         "serviceAreaBusiness": false
@@ -76,7 +76,7 @@ It will return the newly created record including any server populated values. B
         "phone": [
           {
             "countryCode": "CA",
-            "raw": "1 (555) 323-1234"
+            "value": "1 (555) 323-1234"
           }
         ],
         "serviceAreaBusiness": false
@@ -121,7 +121,7 @@ When creating a Contact for a Business you may also link that Contact to one or 
         },
         "phone": {
           "countryCode": "CA",
-          "raw": "15553061234"
+          "value": "15553061234"
         },
         "email": "user@example.com",
         "languageCode": "en-US"
@@ -167,7 +167,7 @@ It will return the newly created record including any server populated values. B
         },
         "phone": {
           "countryCode": "CA",
-          "raw": "15553061234"
+          "value": "15553061234"
         },
         "email": "user@example.com",
         "languageCode": "en-US"

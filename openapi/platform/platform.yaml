@@ -46,7 +46,7 @@ paths:
 
         Use this operation to create a new Contact for a business.
 
-        At least one of `name.first`, `name.last`, `phone.raw` or `email` must be provided when creating a contact.
+        At least one of `name.first`, `name.last`, `phone.value` or `email` must be provided when creating a contact.
       security:
         - OAuth:
             - sales.contact
@@ -918,7 +918,7 @@ components:
 
         A contact is a person who works for the business that your sales, fulfillment, billing and support teams may send communications to reguarding the business.
 
-        At least one of `name.first`, `name.last`, `phone.raw` or `email` must be provided when creating a contact.
+        At least one of `name.first`, `name.last`, `phone.value` or `email` must be provided when creating a contact.
       properties:
         type:
           type: string
@@ -953,10 +953,10 @@ components:
               properties:
                 countryCode:
                   type: string
-                  description: 'An optional 2 character country code used to aid in parcing the raw number. '
+                  description: 'An optional 2 character country code used to aid in parsing the raw number. '
                   maxLength: 2
                   minLength: 2
-                raw:
+                value:
                   type: string
                   description: |-
                     The complete primary phone number for the contact.
@@ -968,7 +968,7 @@ components:
 
                     You may test the parsibility of a number using https://phonenumbers.temba.io/
               required:
-                - raw
+                - value
             email:
               type: string
               format: email

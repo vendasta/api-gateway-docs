@@ -44,7 +44,7 @@ To create a new Business Location make the following call
         "serviceAreaBusiness": false
       },
       "relationships": {
-        "owner": {
+        "businessPartner": {
           "data": {
             "type": "organizations",
             "id": "ABC"
@@ -82,7 +82,7 @@ It will return the newly created record including any server populated values. B
         "serviceAreaBusiness": false
       },
       "relationships": {
-        "owner": {
+        "businessPartner": {
           "data": {
             "type": "organizations",
             "id": "ABC"
@@ -127,7 +127,7 @@ When creating a Contact for a Business you may also link that Contact to one or 
         "languageCode": "en-US"
       },
       "relationships": {
-        "owner": {
+        "businessPartner": {
           "data": {
             "type": "organizations",
             "id": "ABC"
@@ -173,7 +173,7 @@ It will return the newly created record including any server populated values. B
         "languageCode": "en-US"
       },
       "relationships": {
-        "owner": {
+        "businessPartner": {
           "data": {
             "type": "organizations",
             "id": "ABC"

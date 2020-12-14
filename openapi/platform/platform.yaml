@@ -1,0 +1,1241 @@
+openapi: 3.0.0
+info:
+  title: Platform REST APIs
+  version: Evergreen
+servers:
+  - url: 'https://prod.apigateway.co/platform'
+    description: Production
+  - description: Demo
+    url: 'https://demo.apigateway.co/platform'
+  - description: Local
+    url: '{local}/platform'
+  - url: 'http://localhost:11001/platform'
+    description: Localhost
+paths:
+  /contacts:
+    post:
+      summary: Create Contact
+      operationId: post-contacts
+      responses:
+        '201':
+          description: Created
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/contacts'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                        description: The address of the newly created contact
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The address of the newly created contact
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        Use this operation to create a new Contact for a business.
+
+        At least one of `name.first`, `name.last`, `phone.value` or `email` must be provided when creating a contact.
+      security:
+        - OAuth:
+            - sales.contact
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/contacts'
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - name.first
+              - name.last
+              - name.greeting
+              - phone
+              - email
+              - businessPartner
+              - locations
+              - languageCode
+          in: query
+          name: 'fields[businessContact]'
+          description: A comma seperated list of fields from the newly created record to be returned in the response.
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      tags:
+        - contacts
+    options:
+      operationId: options-contacts
+      tags:
+        - options
+        - contacts
+      summary: List valid HTTP verbs for /contacts
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+  '/contacts/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of the contact to be returned
+    get:
+      summary: Get Contact
+      tags:
+        - contacts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/contacts'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      operationId: get-contacts-id
+      security:
+        - OAuth:
+            - sales.contact
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        Fetch the current values for the specified contact
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - name.first
+              - name.last
+              - name.greeting
+              - phone
+              - email
+              - businessPartner
+              - locations
+              - languageCode
+          in: query
+          name: 'fields[businessContact]'
+          description: A comma seperated list of fields from the newly created record to be returned in the response.
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+    options:
+      operationId: options-contacts-id
+      summary: 'List valid HTTP verbs for /contacts/{id}'
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - options
+        - contacts
+  '/contacts/{contactID}/locations':
+    parameters:
+      - schema:
+          type: string
+        name: contactID
+        in: path
+        required: true
+    get:
+      summary: List Locations related to Contact
+      tags:
+        - contacts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/businessLocations'
+      operationId: get-contacts-contactID-locations
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        Returns a list of locations that are related to the contact
+      security:
+        - OAuth:
+            - sales.contact
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+    options:
+      operationId: options-contacts-contactID-locations
+      tags:
+        - contacts
+      summary: List valid HTTP verbs
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+  '/contacts/{contactID}/relationships/locations':
+    parameters:
+      - schema:
+          type: string
+        name: contactID
+        in: path
+        required: true
+    get:
+      summary: List Location IDs related to Contact
+      operationId: get-contacts-contactID-relationships-locations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          enum:
+                            - businessLocations
+                          default: businessLocations
+                        id:
+                          type: string
+                          example: AG-123
+                      required:
+                        - type
+                        - id
+                  links:
+                    type: object
+                    required:
+                      - related
+                      - self
+                    properties:
+                      related:
+                        type: string
+                        format: uri
+                      self:
+                        type: string
+                        format: uri
+                required:
+                  - data
+                  - links
+      security:
+        - OAuth:
+            - sales.contact
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        Lists the IDs of the Business Locations that are related to this Contact
+      tags:
+        - contacts
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+    post:
+      summary: Add locations to contact
+      operationId: post-contacts-contactID-relationships-locations
+      responses:
+        '200':
+          description: OK
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        Adds the listed business locations to the specified contact. Locations that are already linked will be ignored.
+      security:
+        - OAuth:
+            - sales.contact
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                data:
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - businessLocations
+                      id:
+                        type: string
+                        example: AG-123
+                    required:
+                      - type
+                      - id
+              required:
+                - data
+      tags:
+        - contacts
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+    patch:
+      summary: Set Locations for Contact
+      operationId: patch-contacts-contactID-relationships-locations
+      responses:
+        '200':
+          description: OK
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        Replaces all existing locations for the contact with the new list.
+
+        Note: This can be completed as a single action with updating the contact's other attributes.
+      tags:
+        - contacts
+      security:
+        - OAuth:
+            - sales.contact
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+    delete:
+      summary: Remove locations from contact
+      operationId: delete-contacts-contactID-relationships-locations
+      responses:
+        '204':
+          description: No Content
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        Removes the specified location(s) from the contact. Locations that have already been removed will be ignored.
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                data:
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - businessLocations
+                      id:
+                        type: string
+                        example: AG-123
+                    required:
+                      - type
+                      - id
+              required:
+                - data
+      tags:
+        - contacts
+      security:
+        - OAuth:
+            - sales.contact
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+    options:
+      operationId: options-contacts-contactID-relationships-locations
+      summary: 'List valid HTTP verbs for /contacts/{contactID}/relationships/locations'
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - options
+        - contacts
+  /businessLocations:
+    post:
+      summary: Create Business Location
+      operationId: post-businessLocations
+      responses:
+        '201':
+          description: Created
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/businessLocations'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                        description: The address of the newly created business location
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The address of the newly created contact
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/businessLocations'
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        Used to record basic data for a new location.
+
+        The following members must be populated during creation:
+        - `relationships.businessPartner.data.id`
+        - `attributes.name`
+        - `attributes.address.countryCode` as well as other address fields based on the norms of the country.
+        - `relationships.categories.data.[].id` - At least one category must be provided
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            enum:
+              - name
+              - address.line1
+              - address.line2
+              - address.city
+              - address.zip
+              - address.stateCode
+              - address.countryCode
+              - phoneNumbers
+              - businessPartner
+          in: query
+          name: 'fields[businessLocations]'
+          description: A comma seperated list of fields from the newly created record to be returned in the response.
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      security:
+        - OAuth:
+            - business
+      tags:
+        - businessLocations
+    options:
+      operationId: options-businessLocations
+      summary: List valid HTTP verbs for /businessLocations
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - options
+        - businessLocations
+  '/businessLocations/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Business Location
+      tags:
+        - businessLocations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/businessLocations'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      operationId: get-businessLocations-id
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        Returns basic data about the business location.
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - name
+              - address.line1
+              - address.line2
+              - address.city
+              - address.zip
+              - address.stateCode
+              - address.countryCode
+              - phoneNumbers
+              - businessPartner
+          in: query
+          name: 'fields[businessLocations]'
+          description: A comma seperated list of fields from the newly created record to be returned in the response.
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+      security:
+        - OAuth:
+            - business
+    options:
+      operationId: options-businessLocations-id
+      summary: 'List valid HTTP verbs for /businessLocations/{id}'
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - options
+        - businessLocations
+  '/partners/{id}':
+    parameters:
+      - schema:
+          type: string
+          minLength: 2
+          maxLength: 4
+          pattern: '^[A-Z]{2,4}$'
+          example: ABC
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Partner
+      tags:
+        - partners
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/partners'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                  included:
+                    type: array
+                    items:
+                      anyOf:
+                        - $ref: '#/components/schemas/partners'
+      operationId: get-partners-id
+      security:
+        - OAuth:
+            - partner
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        Fetch the current values for the specified partner
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - name
+          in: query
+          name: 'fields[partners]'
+          description: A comma separated list of fields to be returned in the response.
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            enum:
+              - parent
+          in: query
+          name: include
+          description: A comma separated list of related records that should be embedded in the response
+    options:
+      operationId: options-partners-id
+      summary: 'List valid HTTP verbs for /partners/{id}'
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - options
+        - partners
+  /wholesaleInvoices:
+    get:
+      summary: List Wholesale Invoices
+      tags:
+        - wholesaleInvoices
+      operationId: get-wholesaleInvoices
+      security:
+        - OAuth:
+            - financial
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        Produces a list of invoices for wholesale fees
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - createdAt
+              - subTotal
+              - discountAmount
+              - taxAmount
+              - total
+              - currencyCode
+              - lineItems
+          in: query
+          name: 'fields[wholesaleInvoices]'
+          description: A comma separated list of fields to be returned in the response.
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[recipient.id]'
+          description: Only return invoices that were sent to the specified partner
+          required: true
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: 'filter[createdAt][>]'
+          description: Only return invoices created after the specified time
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: 'filter[createdAt][<]'
+          description: Only return invoices created before the specified time
+        - schema:
+            type: integer
+            minimum: 0
+            maximum: 100
+            default: 10
+          in: query
+          name: 'page[limit]'
+          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+        - schema:
+            type: string
+          in: query
+          name: 'page[cursor]'
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/wholesaleInvoices'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                      next:
+                        type: string
+                        description: The URI at which the next batch of invoices can be gotten from
+                        format: uri
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          scopes:
+            sales.contact: Read-write access to sales contact details
+            business: Read-write access to business details
+            partner: Read-write access to details about your partners
+            financial: Read-write access to financial details
+  schemas:
+    businessLocations:
+      title: Business Location
+      type: object
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        Any entity that works with a provider company (two-way communication). These generally have a sustained relationship with the provider company. This may include a potential buyer, an existing client, or a past client that has churned.
+      x-tags:
+        - businessLocations
+      properties:
+        id:
+          type: string
+          example: AG-1234567
+        type:
+          type: string
+          default: businessLocations
+          enum:
+            - businessLocations
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: The common name for this location
+            address:
+              type: object
+              properties:
+                line1:
+                  type: string
+                line2:
+                  type: string
+                city:
+                  type: string
+                stateCode:
+                  type: string
+                  maxLength: 2
+                  minLength: 2
+                  example: CA
+                  description: The two letter state code within the country
+                zip:
+                  type: string
+                countryCode:
+                  type: string
+                  maxLength: 2
+                  minLength: 2
+                  example: CA
+                  description: 'The two letter country code defined by ISO 3166-1 https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes'
+            phoneNumbers:
+              type: array
+              description: |-
+                The standard phone numbers for the location.
+                Formating characters may be included.
+
+                **Extentions**
+
+                It is recommended that extentions are included at the end of the number after an appropriate seperator: Pause: `,` Wait: `;` Default: `ext.`
+
+                You may test the parsibility of a number using https://phonenumbers.temba.io/ All phone numbers are assumed to be in the same country as this business location.
+              items:
+                type: string
+            serviceAreaBusiness:
+              type: boolean
+              description: When true the address will be used as the center of the area that this location services instead of being displayed.
+        relationships:
+          type: object
+          properties:
+            businessPartner:
+              type: object
+              description: A link to the organization that provides the platform to this business location.
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                      default: organizations
+                      enum:
+                        - organizations
+                    id:
+                      type: string
+                      example: ABC
+              required:
+                - data
+    contacts:
+      title: Contact
+      type: object
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        A contact is a person who works for the business that your sales, fulfillment, billing and support teams may send communications to reguarding the business.
+
+        At least one of `name.first`, `name.last`, `phone.value` or `email` must be provided when creating a contact.
+      properties:
+        type:
+          type: string
+          default: contacts
+          example: contacts
+          enum:
+            - contacts
+        id:
+          type: string
+          description: The id will be assigned by the server and must be included on all update requests. Values sent during creation will be ignored.
+        attributes:
+          type: object
+          properties:
+            name:
+              type: object
+              properties:
+                first:
+                  type: string
+                  maxLength: 25
+                  description: The given name of the contact
+                last:
+                  type: string
+                  maxLength: 25
+                  description: The surname of the contact
+                greeting:
+                  type: string
+                  maxLength: 25
+                  description: The name to use in email messages. Defaults to first name.
+            phone:
+              type: object
+              description: The primary phone number for the contact
+              properties:
+                countryCode:
+                  type: string
+                  description: 'An optional 2 character country code used to aid in parsing the raw number. '
+                  maxLength: 2
+                  minLength: 2
+                value:
+                  type: string
+                  description: |-
+                    The complete primary phone number for the contact.
+                    Formating characters may be included.
+
+                    **Extentions**
+
+                    It is recommended that extentions are included at the end of the number after an appropriate seperator: Pause: `,` Wait: `;` Default: `ext.`
+
+                    You may test the parsibility of a number using https://phonenumbers.temba.io/
+              required:
+                - value
+            email:
+              type: string
+              format: email
+              description: The primary email address for the contact
+            languageCode:
+              type: string
+              default: en-US
+              enum:
+                - en-US
+                - cs-CZ
+                - fr-FR
+                - nl-NL
+              description: |-
+                The local language that communications to this contact should be sent in.
+                Note: We currently have a limited set of allowed languages but expect to support many more in the future.
+        relationships:
+          type: object
+          properties:
+            businessPartner:
+              type: object
+              description: A link to the organization that provides the platform to this contact. It will almost always be the business partner of the location they work for.
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                      default: organizations
+                      enum:
+                        - organizations
+                    id:
+                      type: string
+                      example: ABC
+              required:
+                - data
+            locations:
+              type: object
+              description: The business locations that this contact has a connection to
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: AG-1234
+                      type:
+                        type: string
+                        default: businessLocations
+                        enum:
+                          - businessLocations
+                    required:
+                      - id
+                      - type
+                links:
+                  type: object
+                  description: Readonly
+                  properties:
+                    self:
+                      type: string
+                      format: uri
+                      example: 'https://prod.apigateway.co/platform/contacts/U-123/relationships/locations'
+                    next:
+                      type: string
+                      format: uri
+                      example: 'https://prod.apigateway.co/platform/contacts/U-123/relationships/locations?page[cursor]=567'
+                meta:
+                  type: object
+                  properties:
+                    total:
+                      type: integer
+                      description: 'Readonly: The total number of locations connected to this contact'
+      required:
+        - type
+      x-tags:
+        - contacts
+    partners:
+      title: partners
+      type: object
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        A partner is an organization that has a store filled with products that other organizations can purchase.
+
+
+        Partners may fill one or more of the following roles:
+        - **Business Partner**: Have a direct billing relationship with SMBs
+        - **Vendor**: Integrate goods into the Vendasta platform to be sold by Business Partners to SMBs
+        - **Service Provider**: Integrate services into the Vendasta platform that they will fulfill for SMBs
+
+        Note: Small/Medium-Sized Businesses (SMBs) are represented by their primary Business Location record. They may only buy products through their Business Partner.
+      properties:
+        id:
+          type: string
+          minLength: 3
+          maxLength: 4
+        type:
+          type: string
+          enum:
+            - partners
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: The public name for the organization
+          required:
+            - name
+        relationships:
+          type: object
+          properties:
+            parent:
+              type: object
+              description: 'The parent partner is the partner that this partner primarily purchases stuff from. '
+              properties:
+                data:
+                  type: object
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                      minLength: 3
+                      maxLength: 4
+                    type:
+                      type: string
+                      enum:
+                        - partners
+              required:
+                - data
+      required:
+        - id
+        - type
+      x-tags:
+        - partners
+      x-examples:
+        example-1:
+          id: ABC
+          type: partners
+          attributes:
+            name: Mountain Media
+          relationships:
+            parent:
+              data:
+                id: VMF
+                type: partners
+    wholesaleInvoices:
+      title: wholesaleInvoices
+      type: object
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        Invoices generated by the platform to record the wholesale fees that are charged to a partner for products they sell to their customers. One time fees and each renewal will appear as seperate line items broken out per customer.
+
+
+        All amounts will be specified in the minor unit of the invoice's currency. For example in the case of USD that would be cents. For more info on converting between minor and major units see [this wikipedia article](https://en.wikipedia.org/wiki/ISO_4217#Minor_units_of_currency).
+      x-tags:
+        - wholesaleInvoices
+      properties:
+        id:
+          type: string
+          description: 'A platform generated identifier for the invoice '
+        type:
+          type: string
+          enum:
+            - wholesaleInvoices
+        attributes:
+          type: object
+          properties:
+            createdAt:
+              description: The time at which the invoice was created
+              format: date-time
+              type: string
+            statusCode:
+              type: string
+              enum:
+                - draft
+                - due
+                - overdue
+                - paid
+                - uncollectible
+              description: |-
+                The payment status of the invoice will be one of the following:
+                - `draft`:  Indicates the invoice is not closed yet. New line items can be added when the invoice is in this state.
+                - `due`: The invoice has been finialized and is ready to be paid.
+                - `overdue`: The invoice is unpaid and has past the due date
+                - `paid`: The full amount has been paid.
+                - `uncollectible`: After multiple failed attempts to collect payment it's unlikely that this invoice will be paid
+            subTotal:
+              type: integer
+              description: The purchase amount before discounts or taxes are applied
+            discountAmount:
+              type: integer
+              description: The sum of all price reductions applied to products
+            taxAmount:
+              type: integer
+              description: The sum of all governmental fees collected as part of the invoice
+            total:
+              type: integer
+              description: 'The total amount the invoice is for, accounting for any applied discounts or taxes'
+            currencyCode:
+              type: string
+              minLength: 3
+              maxLength: 3
+              example: CAD
+              description: 'The 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)'
+            lineItems:
+              type: array
+              items:
+                type: object
+                properties:
+                  sku:
+                    type: string
+                    description: The unique identifier for the product that was purchased
+                  customerId:
+                    type: string
+                    description: The ID of the organization that purchased the product
+                  amount:
+                    description: The wholesale cost of the product before discounts or taxes are applied.
+                    type: integer
+                  discountAmount:
+                    description: The total amount the cost of this product has been reduced by
+                    type: integer
+                  taxAmount:
+                    description: The total amount of tax charged for this product
+                    type: integer
+                  total:
+                    description: The final cost of the product accounting for any applied discounts or taxes
+                    type: integer
+        relationships:
+          type: object
+          properties:
+            recipient:
+              type: object
+              description: The partner that the invoice is being sent to. They will be the one who purchased the product at a wholesale rate and activated it for one of their customers
+              properties:
+                data:
+                  type: object
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                      minLength: 3
+                      maxLength: 4
+                    type:
+                      type: string
+                      enum:
+                        - partners
+              required:
+                - data
+      required:
+        - id
+        - type
+tags:
+  - name: contacts
+  - name: businessLocations
+  - name: options
+  - name: partners
+  - name: wholesaleInvoices

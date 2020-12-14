@@ -102,9 +102,6 @@ Content-Type: application/vnd.api+json
 ### Filters
 Most operations that return on a list of data allow you to filter the list using query params in the form of `&filter[fieledName1]=value1&filter[sub.fieledName3]=value2`.
 
-
-
-
 ### Paging
 All operations that return a list of data will let you specify a query param of `page[limit]` to indicate the max number of records you would like returned in a single batch. The body of the response will provide links that you can use to get the next batch without needing to send the filters again. The link will be omitted if not available. 
 
@@ -121,7 +118,7 @@ All operations that return a list of data will let you specify a query param of 
 ```
 
 ### Dates & times
-Dates are formatted according to [RFC-3339](https://tools.ietf.org/html/rfc3339) which is an extention of [ISO 8601](https://www.w3.org/TR/NOTE-datetime).
+Dates are formatted according to [RFC-3339](https://tools.ietf.org/html/rfc3339) which is an extension of [ISO 8601](https://www.w3.org/TR/NOTE-datetime).
 
 
 Type | Form | Example
@@ -129,4 +126,3 @@ Type | Form | Example
  Date, hour, minute and second in UTC | YYYY-MM-DDTHH:MM:SSTZD | 2020-10-28T10:37:23Z
  Date, hour and minute in Saskatoon (UTC-6) | YYYY-MM-DDTHH:MMTZD | 2020-10-28T4:37-6:00
  Date | YYYY-MM-DD | 2001-12-25
- 

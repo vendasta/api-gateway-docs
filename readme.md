@@ -17,9 +17,14 @@ IDs
 ### Paths
 
 ### Attribute Names
-Date fields should end with `Date`
-Date/Time fields should end with `At`
-Fields containing enums should end with `Code`. A second readonly field ending with `Name` should be added containg the translated display text.
+Fields containing enums should end with `Code`. A second readonly field ending with `Name` should be added containing the translated display text.
+
+Date fields should end with `Date`.
+
+Date-time fields should end with `At`.
+
+Since JSON does not have a native time format this will allow identifying them 
+without needing to look at the documentation. (They should follow RFC-3339/ISO-8601)
 
 ### Operations
 
@@ -47,3 +52,6 @@ Code
 ### Tags
 Should be dash seperated and include the context.
 Each resource type that can be included on an endpoint should be taged on the endpoint.
+
+## Standard Codes
+Countries should use the 2 letter [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) country code

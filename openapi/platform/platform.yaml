@@ -708,12 +708,12 @@ paths:
       tags:
         - options
         - partners
-  /payableInvoices:
+  /invoices:
     get:
       summary: List Payable Invoices
       tags:
-        - payableInvoices
-      operationId: get-payableInvoices
+        - invoices
+      operationId: get-invoices
       security:
         - OAuth:
             - financial
@@ -734,7 +734,7 @@ paths:
               - currencyCode
               - lineItems
           in: query
-          name: 'fields[payableInvoices]'
+          name: 'fields[invoices]'
           description: A comma separated list of fields to be returned in the response.
         - schema:
             type: string
@@ -786,7 +786,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/payableInvoices'
+                      $ref: '#/components/schemas/invoices'
                   links:
                     type: object
                     properties:
@@ -1121,8 +1121,8 @@ components:
               data:
                 id: VMF
                 type: partners
-    payableInvoices:
-      title: payableInvoices
+    invoices:
+      title: invoices
       type: object
       x-lifecycle:
         status: proposed
@@ -1134,7 +1134,7 @@ components:
 
         All amounts will be specified in the minor unit of the invoice's currency. For example in the case of USD that would be cents. For more info on converting between minor and major units see [this wikipedia article](https://en.wikipedia.org/wiki/ISO_4217#Minor_units_of_currency).
       x-tags:
-        - payableInvoices
+        - invoices
       properties:
         id:
           type: string
@@ -1142,7 +1142,7 @@ components:
         type:
           type: string
           enum:
-            - payableInvoices
+            - invoices
         attributes:
           type: object
           properties:
@@ -1234,4 +1234,4 @@ tags:
   - name: businessLocations
   - name: options
   - name: partners
-  - name: payableInvoices
+  - name: invoices

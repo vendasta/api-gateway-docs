@@ -1,5 +1,5 @@
 ---
-tags: [businesses, businessLocations, businessContacts]
+tags: [businesses, businessLocations, contacts]
 ---
 # Businesses
 
@@ -38,13 +38,13 @@ To create a new Business Location make the following call
         "phone": [
           {
             "countryCode": "CA",
-            "raw": "1 (555) 323-1234"
+            "value": "1 (555) 323-1234"
           }
         ],
         "serviceAreaBusiness": false
       },
       "relationships": {
-        "owner": {
+        "businessPartner": {
           "data": {
             "type": "organizations",
             "id": "ABC"
@@ -76,13 +76,13 @@ It will return the newly created record including any server populated values. B
         "phone": [
           {
             "countryCode": "CA",
-            "raw": "1 (555) 323-1234"
+            "value": "1 (555) 323-1234"
           }
         ],
         "serviceAreaBusiness": false
       },
       "relationships": {
-        "owner": {
+        "businessPartner": {
           "data": {
             "type": "organizations",
             "id": "ABC"
@@ -104,7 +104,7 @@ When creating a Contact for a Business you may also link that Contact to one or 
 ```json http
 {
   "method": "post",
-  "url": "https://prod.apigateway.co/platform/businessContacts",
+  "url": "https://prod.apigateway.co/platform/contacts",
   "query": {},
   "headers": {
     "Authorization": "Bearer <Token>",
@@ -112,7 +112,7 @@ When creating a Contact for a Business you may also link that Contact to one or 
   },
   "body": {
     "data": {
-      "type": "businessContacts",
+      "type": "contacts",
       "attributes": {
         "name": {
           "first": "Samantha",
@@ -121,13 +121,13 @@ When creating a Contact for a Business you may also link that Contact to one or 
         },
         "phone": {
           "countryCode": "CA",
-          "raw": "15553061234"
+          "value": "15553061234"
         },
         "email": "user@example.com",
         "languageCode": "en-US"
       },
       "relationships": {
-        "owner": {
+        "businessPartner": {
           "data": {
             "type": "organizations",
             "id": "ABC"
@@ -157,7 +157,7 @@ It will return the newly created record including any server populated values. B
 {
   {
     "data": {
-      "type": "businessContacts",
+      "type": "contacts",
       "id": "U-1234",
       "attributes": {
         "name": {
@@ -167,13 +167,13 @@ It will return the newly created record including any server populated values. B
         },
         "phone": {
           "countryCode": "CA",
-          "raw": "15553061234"
+          "value": "15553061234"
         },
         "email": "user@example.com",
         "languageCode": "en-US"
       },
       "relationships": {
-        "owner": {
+        "businessPartner": {
           "data": {
             "type": "organizations",
             "id": "ABC"
@@ -181,12 +181,12 @@ It will return the newly created record including any server populated values. B
         },
         "locations": {
           "links": {
-            "self": "https://prod.apigateway.co/platform/businessContacts/U-1234/relationships/locations"
+            "self": "https://prod.apigateway.co/platform/contacts/U-1234/relationships/locations"
           }
         }
       },
       "links":{
-        "self":"https://prod.apigateway.co/platform/businessContacts/U-1234"
+        "self":"https://prod.apigateway.co/platform/contacts/U-1234"
       }
     }
   }

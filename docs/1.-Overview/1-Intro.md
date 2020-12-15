@@ -22,7 +22,7 @@ The platform is rapidly changing but you should not have to update your integrat
 ## Built on standards
 We can all be more efficient when we follow the same way of doing things. When facing a design decision we have opted to follow existing standards instead of defining yet another way.
 
-Most notably we use [JSON:API](https://jsonapi.org/examples/) as the default format for requests.
+Most notably we use [JSON:API](https://jsonapi.org/examples/) as the default [format for requests](RequestFormat.md).
 
 If you have ideas on how we can support more standards please let us know. We want developers to be able to reuse their favorite tools.
 
@@ -100,8 +100,7 @@ Content-Type: application/vnd.api+json
 
 
 ### Filters
-Most operations that return on a list of data allow you to filter the list using query params in the form of `&filter[fieledName1]=value1&filter[sub.fieledName3]=value2`
-
+Most operations that return on a list of data allow you to filter the list using query params in the form of `&filter[fieledName1]=value1&filter[sub.fieledName3]=value2`.
 
 ### Paging
 All operations that return a list of data will let you specify a query param of `page[limit]` to indicate the max number of records you would like returned in a single batch. The body of the response will provide links that you can use to get the next batch without needing to send the filters again. The link will be omitted if not available. 
@@ -118,3 +117,12 @@ All operations that return a list of data will let you specify a query param of 
 }
 ```
 
+### Dates & times
+Dates are formatted according to [RFC-3339](https://tools.ietf.org/html/rfc3339) which is an extension of [ISO 8601](https://www.w3.org/TR/NOTE-datetime).
+
+
+Type | Form | Example
+---------|----------|---------
+ Date, hour, minute and second in UTC | YYYY-MM-DDTHH:MM:SSTZD | 2020-10-28T10:37:23Z
+ Date, hour and minute in Saskatoon (UTC-6) | YYYY-MM-DDTHH:MMTZD | 2020-10-28T4:37-6:00
+ Date | YYYY-MM-DD | 2001-12-25

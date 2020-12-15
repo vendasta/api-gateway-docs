@@ -708,12 +708,12 @@ paths:
       tags:
         - options
         - partners
-  /wholesaleInvoices:
+  /payableInvoices:
     get:
-      summary: List Wholesale Invoices
+      summary: List Payable Invoices
       tags:
-        - wholesaleInvoices
-      operationId: get-wholesaleInvoices
+        - payableInvoices
+      operationId: get-payableInvoices
       security:
         - OAuth:
             - financial
@@ -735,7 +735,7 @@ paths:
               - currencyCode
               - lineItems
           in: query
-          name: 'fields[wholesaleInvoices]'
+          name: 'fields[payableInvoices]'
           description: A comma separated list of fields to be returned in the response.
         - schema:
             type: string
@@ -788,7 +788,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/wholesaleInvoices'
+                      $ref: '#/components/schemas/payableInvoices'
                   links:
                     type: object
                     properties:
@@ -1125,8 +1125,8 @@ components:
               data:
                 id: VMF
                 type: partners
-    wholesaleInvoices:
-      title: wholesaleInvoices
+    payableInvoices:
+      title: payableInvoices
       type: object
       x-lifecycle:
         status: proposed
@@ -1138,7 +1138,7 @@ components:
 
         All amounts will be specified in the minor unit of the invoice's currency. For example in the case of USD that would be cents. For more info on converting between minor and major units see [this wikipedia article](https://en.wikipedia.org/wiki/ISO_4217#Minor_units_of_currency). 
       x-tags:
-        - wholesaleInvoices
+        - payableInvoices
       properties:
         id:
           type: string
@@ -1146,7 +1146,7 @@ components:
         type:
           type: string
           enum:
-            - wholesaleInvoices
+            - payableInvoices
         attributes:
           type: object
           properties:
@@ -1198,7 +1198,7 @@ components:
                   customerId:
                     type: string
                     description: The ID of the organization that purchased the product
-                  amount:
+                  unitPrice:
                     type: string
                     description: The wholesale cost of the product before discounts or taxes are applied.
                   discountAmount:
@@ -1241,4 +1241,4 @@ tags:
   - name: businessLocations
   - name: options
   - name: partners
-  - name: wholesaleInvoices
+  - name: payableInvoices

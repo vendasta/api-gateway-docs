@@ -708,12 +708,12 @@ paths:
       tags:
         - options
         - partners
-  /wholesaleInvoices:
+  /invoices:
     get:
-      summary: List Wholesale Invoices
+      summary: List Invoices
       tags:
-        - wholesaleInvoices
-      operationId: get-wholesaleInvoices
+        - invoices
+      operationId: get-invoices
       security:
         - OAuth:
             - financial
@@ -728,14 +728,13 @@ paths:
             type: string
             enum:
               - createdAt
-              - subTotal
               - discountAmount
               - taxAmount
               - total
               - currencyCode
               - lineItems
           in: query
-          name: 'fields[wholesaleInvoices]'
+          name: 'fields[invoices]'
           description: A comma separated list of fields to be returned in the response.
         - schema:
             type: string
@@ -787,7 +786,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/wholesaleInvoices'
+                      $ref: '#/components/schemas/invoices'
                   links:
                     type: object
                     properties:
@@ -1122,8 +1121,8 @@ components:
               data:
                 id: VMF
                 type: partners
-    wholesaleInvoices:
-      title: wholesaleInvoices
+    invoices:
+      title: invoices
       type: object
       x-lifecycle:
         status: proposed
@@ -1135,7 +1134,7 @@ components:
 
         All amounts will be specified in the minor unit of the invoice's currency. For example in the case of USD that would be cents. For more info on converting between minor and major units see [this wikipedia article](https://en.wikipedia.org/wiki/ISO_4217#Minor_units_of_currency).
       x-tags:
-        - wholesaleInvoices
+        - invoices
       properties:
         id:
           type: string
@@ -1143,7 +1142,7 @@ components:
         type:
           type: string
           enum:
-            - wholesaleInvoices
+            - invoices
         attributes:
           type: object
           properties:
@@ -1166,9 +1165,6 @@ components:
                 - `overdue`: The invoice is unpaid and has past the due date
                 - `paid`: The full amount has been paid.
                 - `uncollectible`: After multiple failed attempts to collect payment it's unlikely that this invoice will be paid
-            subTotal:
-              type: integer
-              description: The purchase amount before discounts or taxes are applied
             discountAmount:
               type: integer
               description: The sum of all price reductions applied to products
@@ -1195,7 +1191,7 @@ components:
                   customerId:
                     type: string
                     description: The ID of the organization that purchased the product
-                  amount:
+                  unitAmount:
                     description: The wholesale cost of the product before discounts or taxes are applied.
                     type: integer
                   discountAmount:
@@ -1238,4 +1234,4 @@ tags:
   - name: businessLocations
   - name: options
   - name: partners
-  - name: wholesaleInvoices
+  - name: invoices

@@ -8,7 +8,7 @@ For advanced usage see the [full details](https://vendasta.stoplight.io/docs/ope
 
 ### View invoices sent to you
 
-To view the invoices that have been sent to you make the following request filling in your partner ID and an [access token](https://vendasta.stoplight.io/docs/openapi-specs/docs/2.-Authorization/2-legged-oauth/3.-UsingAServiceAccount.md).
+To view the invoices that have been sent to you make the following request filling in your partner ID and an [access token](https://vendasta.stoplight.io/docs/openapi-specs/docs/2.-Authorization/2-legged-oauth/3.-UsingAServiceAccount.md). This example filters the list to the first 10 invoices created between Dec 10th and 20th. 
 
 ```json http
 {
@@ -16,6 +16,8 @@ To view the invoices that have been sent to you make the following request filli
   "url": "https://prod.apigateway.co/platform/invoices",
   "query": {
     "filter[recipient.id]": "<Your partner ID>",
+    "filter[createdAt][>]": "2020-12-10T00:00:00Z",
+    "filter[createdAt][<]": "2020-12-20T00:00:00Z",
     "page[limit]": "10"
   },
   "headers": {

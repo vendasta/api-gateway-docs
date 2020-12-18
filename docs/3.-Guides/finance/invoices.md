@@ -2,6 +2,8 @@
 
 Invoices are used to track requests for payment from one organization to another for products that have been provided. 
 
+For advanced usage see the [full details](https://vendasta.stoplight.io/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1invoices/get).
+
 ## Common Actions
 
 ### View invoices sent to you

@@ -46,7 +46,9 @@ paths:
 
         Use this operation to create a new Contact for a business.
 
-        At least one of `name.first`, `name.last`, `phone.value` or `email` must be provided when creating a contact.
+        An `email` and business location must be provided when creating a contact.
+
+        Note: Currently when creating a contact you must specify exactly 1 businessLocations id for it to be linked to. We intend to expand this limit.
       security:
         - OAuth:
             - sales.contact
@@ -927,7 +929,9 @@ components:
 
         A contact is a person who works for the business that your sales, fulfillment, billing and support teams may send communications to reguarding the business.
 
-        At least one of `name.first`, `name.last`, `phone.value` or `email` must be provided when creating a contact.
+        Note: Currently when creating a contact you must specify exactly 1 businessLocations id for it to be linked to. We intend to expand this limit.
+      x-tags:
+        - contacts
       properties:
         type:
           type: string
@@ -941,58 +945,38 @@ components:
         attributes:
           type: object
           properties:
-            name:
-              type: object
-              properties:
-                first:
-                  type: string
-                  maxLength: 25
-                  description: The given name of the contact
-                last:
-                  type: string
-                  maxLength: 25
-                  description: The surname of the contact
-                greeting:
-                  type: string
-                  maxLength: 25
-                  description: The name to use in email messages. Defaults to first name.
+            givenName:
+              type: string
+              maxLength: 25
+              description: 'Given name(s) or first name(s) of the Contact. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters.'
+            familyName:
+              type: string
+              maxLength: 25
+              description: 'Surname(s) or last name(s) of the Contact. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters.'
+            greeting:
+              type: string
+              maxLength: 25
+              description: The name to use in at the opening of messages addressed to the user. Note that in some cultures this is an alternate spelling or shortend form of the first name. Defaults to givenName.
             phone:
-              type: object
-              description: The primary phone number for the contact
-              properties:
-                countryCode:
-                  type: string
-                  description: 'An optional 2 character country code used to aid in parsing the raw number. '
-                  maxLength: 2
-                  minLength: 2
-                value:
-                  type: string
-                  description: |-
-                    The complete primary phone number for the contact.
-                    Formating characters may be included.
+              type: string
+              description: |-
+                The complete primary phone number for the contact.
+                Formating characters may be included.
 
-                    **Extentions**
+                **Extentions**
 
-                    It is recommended that extentions are included at the end of the number after an appropriate seperator: Pause: `,` Wait: `;` Default: `ext.`
+                It is recommended that extentions are included at the end of the number after a supported seperator: `,` (touch tone Pause),  `;` (touch tone Wait), `;ext=` (RFC3966/SIP/ tel: link protocol),  `ext.` (default)
 
-                    You may test the parsibility of a number using https://phonenumbers.temba.io/
-              required:
-                - value
+                You may test the parsibility of a number using https://phonenumbers.temba.io/
+            phoneCountryCode:
+              type: string
+              description: 'An optional 2 character country code used to aid in parsing the raw number. '
+              maxLength: 2
+              minLength: 2
             email:
               type: string
               format: email
-              description: The primary email address for the contact
-            languageCode:
-              type: string
-              default: en-US
-              enum:
-                - en-US
-                - cs-CZ
-                - fr-FR
-                - nl-NL
-              description: |-
-                The local language that communications to this contact should be sent in.
-                Note: We currently have a limited set of allowed languages but expect to support many more in the future.
+              description: 'Required during creation: The primary email address for the contact'
         relationships:
           type: object
           properties:
@@ -1022,6 +1006,8 @@ components:
               properties:
                 data:
                   type: array
+                  minItems: 1
+                  maxItems: 1
                   items:
                     type: object
                     properties:
@@ -1038,7 +1024,7 @@ components:
                       - type
                 links:
                   type: object
-                  description: Readonly
+                  description: Readonly links for pagging over the list of locations
                   properties:
                     self:
                       type: string
@@ -1050,14 +1036,13 @@ components:
                       example: 'https://prod.apigateway.co/platform/contacts/U-123/relationships/locations?page[cursor]=567'
                 meta:
                   type: object
+                  description: Readonly
                   properties:
                     total:
                       type: integer
                       description: 'Readonly: The total number of locations connected to this contact'
       required:
         - type
-      x-tags:
-        - contacts
     partners:
       title: partners
       type: object

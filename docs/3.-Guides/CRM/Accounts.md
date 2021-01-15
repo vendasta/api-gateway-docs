@@ -97,14 +97,14 @@ It will return the newly created record including any server populated values. B
 ```
 
 
-### Creating a Business Contact
+### Creating a Sales Contact 
 
 When creating a Contact for a Business you may also link that Contact to one or more Locations in the same API call.
 
 ```json http
 {
   "method": "post",
-  "url": "https://prod.apigateway.co/platform/contacts",
+  "url": "https://prod.apigateway.co/platform/salesContacts",
   "query": {},
   "headers": {
     "Authorization": "Bearer <Token>",
@@ -112,35 +112,19 @@ When creating a Contact for a Business you may also link that Contact to one or 
   },
   "body": {
     "data": {
-      "type": "contacts",
+      "type": "salesContacts",
       "attributes": {
-        "name": {
-          "first": "Samantha",
-          "last": "Green",
-          "greeting": "Sam"
-        },
-        "phone": {
-          "countryCode": "CA",
-          "value": "15553061234"
-        },
-        "email": "user@example.com",
-        "languageCode": "en-US"
+        "givenName": "Samantha",
+        "familyName": "Green",
+        "phone": "+1 306-555-1234 ext. 89",
+        "phoneCountryCode": "CA",
+        "email": "user@example.com"
       },
       "relationships": {
-        "businessPartner": {
-          "data": {
-            "type": "organizations",
-            "id": "ABC"
-          }
-        },
         "locations": {
           "data": [
             {
               "id": "AG-1234",
-              "type": "businessLocations"
-            },
-            {
-              "id": "AG-4567",
               "type": "businessLocations"
             }
           ]
@@ -160,33 +144,21 @@ It will return the newly created record including any server populated values. B
       "type": "contacts",
       "id": "U-1234",
       "attributes": {
-        "name": {
-          "first": "Samantha",
-          "last": "Green",
-          "greeting": "Sam"
-        },
-        "phone": {
-          "countryCode": "CA",
-          "value": "15553061234"
-        },
-        "email": "user@example.com",
-        "languageCode": "en-US"
+        "givenName": "Samantha",
+        "familyName": "Green",
+        "phone": "+1 306-555-1234 ext. 89",
+        "phoneCountryCode": "CA",
+        "email": "user@example.com"
       },
       "relationships": {
-        "businessPartner": {
-          "data": {
-            "type": "organizations",
-            "id": "ABC"
-          }
-        },
         "locations": {
           "links": {
-            "self": "https://prod.apigateway.co/platform/contacts/U-1234/relationships/locations"
+            "self": "https://prod.apigateway.co/platform/salesContacts/U-1234/relationships/locations"
           }
         }
       },
       "links":{
-        "self":"https://prod.apigateway.co/platform/contacts/U-1234"
+        "self":"https://prod.apigateway.co/platform/salesContacts/U-1234"
       }
     }
   }

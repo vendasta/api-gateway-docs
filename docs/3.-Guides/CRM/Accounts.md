@@ -9,6 +9,8 @@ The location may be a retail store, the business' headquarters or identify an ar
 
 ## Common Actions
 
+> For info on creating an access token see the [Authorization guide](https://vendasta.stoplight.io/docs/openapi-specs/docs/2.-Authorization/1.-Authorization.md)
+
 ### Creating a Business Location
 
 To create a new Business Location make the following call
@@ -19,7 +21,7 @@ To create a new Business Location make the following call
   "url": "https://prod.apigateway.co/platform/businessLocations",
   "query": {},
   "headers": {
-    "Authorization": "Bearer <Access Token>",
+    "Authorization": "Bearer <Access Token with `business` scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "body": {
@@ -97,50 +99,34 @@ It will return the newly created record including any server populated values. B
 ```
 
 
-### Creating a Business Contact
+### Creating a Sales Contact 
 
 When creating a Contact for a Business you may also link that Contact to one or more Locations in the same API call.
 
 ```json http
 {
   "method": "post",
-  "url": "https://prod.apigateway.co/platform/contacts",
+  "url": "https://prod.apigateway.co/platform/salesContacts",
   "query": {},
   "headers": {
-    "Authorization": "Bearer <Token>",
+    "Authorization": "Bearer <Token with `sales.contact` scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "body": {
     "data": {
-      "type": "contacts",
+      "type": "salesContacts",
       "attributes": {
-        "name": {
-          "first": "Samantha",
-          "last": "Green",
-          "greeting": "Sam"
-        },
-        "phone": {
-          "countryCode": "CA",
-          "value": "15553061234"
-        },
-        "email": "user@example.com",
-        "languageCode": "en-US"
+        "givenName": "Samantha",
+        "familyName": "Green",
+        "phone": "+1 306-555-1234 ext. 89",
+        "phoneCountryCode": "CA",
+        "email": "user@example.com"
       },
       "relationships": {
-        "businessPartner": {
-          "data": {
-            "type": "organizations",
-            "id": "ABC"
-          }
-        },
         "locations": {
           "data": [
             {
               "id": "AG-1234",
-              "type": "businessLocations"
-            },
-            {
-              "id": "AG-4567",
               "type": "businessLocations"
             }
           ]
@@ -155,38 +141,28 @@ It will return the newly created record including any server populated values. B
 
 ```json
 {
-  {
-    "data": {
-      "type": "contacts",
-      "id": "U-1234",
-      "attributes": {
-        "name": {
-          "first": "Samantha",
-          "last": "Green",
-          "greeting": "Sam"
+  "data": {
+    "type": "salesContacts",
+    "id": "CO-0739c46cc4794157bf962bd73ce897a7",
+    "attributes": {
+      "givenName": "Samantha",
+      "familyName": "Green",
+      "phone": "+1 306-555-1234 ext. 89",
+      "phoneCountryCode": "CA",
+      "email": "user@example.com"
+    },
+    "relationships": {
+      "locations": {
+        "links": {
+          "related": "https://prod.apigateway.co/platform/salesContacts/CO-0739c46cc4794157bf962bd73ce897a7/locations",
+          "self": "https://prod.apigateway.co/platform/salesContacts/CO-0739c46cc4794157bf962bd73ce897a7/relationships/locations"
         },
-        "phone": {
-          "countryCode": "CA",
-          "value": "15553061234"
-        },
-        "email": "user@example.com",
-        "languageCode": "en-US"
-      },
-      "relationships": {
-        "businessPartner": {
-          "data": {
-            "type": "organizations",
-            "id": "ABC"
+        "data": [
+          {
+            "type": "businessLocations",
+            "id": "AG-123"
           }
-        },
-        "locations": {
-          "links": {
-            "self": "https://prod.apigateway.co/platform/contacts/U-1234/relationships/locations"
-          }
-        }
-      },
-      "links":{
-        "self":"https://prod.apigateway.co/platform/contacts/U-1234"
+        ]
       }
     }
   }

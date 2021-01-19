@@ -517,6 +517,7 @@ paths:
         - schema:
             type: string
             enum:
+              - customerIdentifier
               - name
               - address.line1
               - address.line2
@@ -530,7 +531,7 @@ paths:
           name: 'fields[businessLocations]'
           description: |-
             [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
-          
+
             A comma seperated list of fields from the newly created record to be returned in the response.
         - schema:
             type: string
@@ -593,6 +594,7 @@ paths:
         - schema:
             type: string
             enum:
+              - customerIdentifier
               - name
               - address.line1
               - address.line2
@@ -606,7 +608,7 @@ paths:
           name: 'fields[businessLocations]'
           description: |-
             [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
-            
+
             A comma seperated list of fields from the newly created record to be returned in the response.
         - schema:
             type: string
@@ -653,6 +655,7 @@ paths:
         - schema:
             type: string
             enum:
+              - customerIdentifier
               - name
               - address.line1
               - address.line2
@@ -666,7 +669,7 @@ paths:
           name: 'fields[businessLocations]'
           description: |-
             [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
-            
+
             A comma seperated list of fields from the newly created record to be returned in the response.
         - schema:
             type: string
@@ -929,6 +932,9 @@ components:
         attributes:
           type: object
           properties:
+            customerIdentifier:
+              type: string
+              description: 'A value assigned by the business partner to reference this business location. Customer ID is currently NOT enforced to be unique, and there may be negative side effects to having a duplicate and/or changing a customer ID, specifically around legacy SSO. Use caution when editing a customer ID.'
             name:
               type: string
               description: The common name for this location
@@ -954,7 +960,7 @@ components:
                   maxLength: 2
                   minLength: 2
                   example: CA
-                  description: 'The two letter country code defined by ISO 3166-1 https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes'
+                  description: 'The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
             phoneNumbers:
               type: array
               description: |-

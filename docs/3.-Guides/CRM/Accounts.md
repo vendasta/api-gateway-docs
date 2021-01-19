@@ -169,6 +169,34 @@ It will return the newly created record including any server populated values. B
 }
 ```
 
+### Update attribute on a business location
+When updating the values for a business location you only need to send the fields that have changed. In this example we are updating the `customerIdentifier` on the business location with ID `AG-3VDRVLBNJG`. Note that the ID gets set in both the path and body. 
+
+```json http
+{
+  "method": "patch",
+  "url": "https://prod.apigateway.co/platform/businessLocations/AG-3VDRVLBNJG",
+  "query": {
+    "fields[businessLocations]": "customerIdentifier"
+  },
+  "headers": {
+    "Authorization": "Bearer <Access Token with `business` scope>",
+    "Content-Type": "application/vnd.api+json"
+  },
+  "body": {
+    "data": {
+      "id": "AG-3VDRVLBNJG",
+      "type": "businessLocations",
+      "attributes": {
+        "customerIdentifier": "CUST-5"
+      }
+    }
+  }
+}
+```
+For more details on this endpoint see [Update Business Locations](https://vendasta.stoplight.io/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1businessLocations~1%7Bid%7D/patch)
+
+
 ## Proposed future actions
 
 ### Get a list of your business locations
@@ -222,6 +250,3 @@ Will return something like
 }
 ```
 
-### Find a customer using the ID from your external system
-
-Comming soon

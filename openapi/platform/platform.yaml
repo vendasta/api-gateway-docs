@@ -528,7 +528,10 @@ paths:
               - businessPartner
           in: query
           name: 'fields[businessLocations]'
-          description: A comma seperated list of fields from the newly created record to be returned in the response.
+          description: |-
+            [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+          
+            A comma seperated list of fields from the newly created record to be returned in the response.
         - schema:
             type: string
             default: application/vnd.api+json
@@ -601,7 +604,10 @@ paths:
               - businessPartner
           in: query
           name: 'fields[businessLocations]'
-          description: A comma seperated list of fields from the newly created record to be returned in the response.
+          description: |-
+            [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+            
+            A comma seperated list of fields from the newly created record to be returned in the response.
         - schema:
             type: string
             example: Bearer <Access Token>
@@ -626,14 +632,80 @@ paths:
     patch:
       summary: Update Business Location
       operationId: patch-businessLocations-id
-      responses:
-        '200':
-          description: OK
-      description: |-
-        Update the existing business location. 
-        Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
       tags:
         - businessLocations
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Experimental`
+
+        Update the existing business location. 
+        Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
+      x-lifecycle:
+        status: experimental
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            enum:
+              - name
+              - address.line1
+              - address.line2
+              - address.city
+              - address.zip
+              - address.stateCode
+              - address.countryCode
+              - phoneNumbers
+              - businessPartner
+          in: query
+          name: 'fields[businessLocations]'
+          description: |-
+            [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+            
+            A comma seperated list of fields from the newly created record to be returned in the response.
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      security:
+        - OAuth:
+            - business
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/businessLocations'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                        description: The address of the newly created business location
+          headers: {}
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/businessLocations'
   '/partners/{id}':
     parameters:
       - schema:

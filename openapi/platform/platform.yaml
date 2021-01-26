@@ -891,6 +891,77 @@ paths:
       tags:
         - options
         - invoices
+  /businessCategories:
+    get:
+      summary: List Business Categories
+      operationId: get-businessCategories
+      tags:
+        - businessCategories
+      security:
+        - OAuth:
+            - business
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        Produces a list of business categories
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - name
+          in: query
+          name: 'fields[businessCategories]'
+          description: A comma separated list of fields to be returned in the response.
+          allowEmptyValue: true
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: integer
+            minimum: 0
+            maximum: 1000
+            default: 10
+          in: query
+          name: 'page[limit]'
+          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+        - schema:
+            type: string
+          in: query
+          name: 'page[cursor]'
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/businessCategories'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                      next:
+                        type: string
+                        description: The URI at which the next batch of invoices can be gotten from
+                        format: uri
 components:
   securitySchemes:
     JWT:
@@ -1291,9 +1362,39 @@ components:
       required:
         - id
         - type
+    businessCategories:
+      title: Business Categories
+      type: object
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        The taxonomy to be applied to business locations indicating the type of services that they provide. 
+      x-tags:
+        - businessCategories
+      properties:
+        id:
+          type: string
+          example: AG-1234567
+          readOnly: true
+        type:
+          type: string
+          default: businessCategories
+          enum:
+            - businessCategories
+          readOnly: true
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: The common name for this location
+              readOnly: true
 tags:
   - name: salesContacts
   - name: businessLocations
   - name: options
   - name: partners
   - name: invoices
+  - name: businessCategories

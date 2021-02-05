@@ -517,6 +517,13 @@ paths:
         - schema:
             type: string
             enum:
+              - businessCategories
+          in: query
+          name: include
+          description: A comma separated list of related records that should be embedded in the response
+        - schema:
+            type: string
+            enum:
               - customerIdentifier
               - name
               - address.line1
@@ -527,6 +534,7 @@ paths:
               - address.countryCode
               - phoneNumbers
               - businessPartner
+              - businessCategories
           in: query
           name: 'fields[businessLocations]'
           description: |-
@@ -604,12 +612,20 @@ paths:
               - address.countryCode
               - phoneNumbers
               - businessPartner
+              - businessCategories
           in: query
           name: 'fields[businessLocations]'
           description: |-
             [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
 
             A comma seperated list of fields from the newly created record to be returned in the response.
+        - schema:
+            type: string
+            enum:
+              - businessCategories
+          in: query
+          name: include
+          description: A comma separated list of related records that should be embedded in the response
         - schema:
             type: string
             example: Bearer <Access Token>
@@ -665,12 +681,20 @@ paths:
               - address.countryCode
               - phoneNumbers
               - businessPartner
+              - businessCategories
           in: query
           name: 'fields[businessLocations]'
           description: |-
             [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
 
             A comma seperated list of fields from the newly created record to be returned in the response.
+        - schema:
+            type: string
+            enum:
+              - businessCategories
+          in: query
+          name: include
+          description: A comma separated list of related records that should be embedded in the response
         - schema:
             type: string
             default: application/vnd.api+json
@@ -1075,6 +1099,29 @@ components:
                       example: ABC
               required:
                 - data
+            businessCategories:
+              type: object
+              description: A list of the types of business this location should be compared against. If not set during creation it will default "other".
+              properties:
+                data:
+                  type: array
+                  maxItems: 3
+                  minItems: 1
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        default: businessCategories
+                        enum:
+                          - businessCategories
+                        example: businessCategories
+                      id:
+                        type: string
+                        example: 'active:diving:freediving'
+                    required:
+                      - type
+                      - id
     salesContacts:
       title: Sales Contact
       type: object

@@ -4,7 +4,7 @@ tags: [businesses, businessLocations, contacts]
 # Businesses
 
 A `Business Location` is the basic record for storing information about an organization that is generally part of their 
-public profile. More sensitive data can be found in related resources. Collectivly your sales team may refer to this as an "Account".
+public profile. More sensitive data can be found in related resources. Collectively your sales team may refer to this as an "Account".
 The location may be a retail store, the business' headquarters or identify an area they serve.
 
 ## Common Actions
@@ -37,11 +37,9 @@ To create a new Business Location make the following call, replacing values as a
           "zip": "O2C 4W9",
           "countryCode": "CA"
         },
-        "phone": [
-          {
-            "countryCode": "CA",
-            "value": "1 (555) 323-1234"
-          }
+        "phoneNumbers": [ 
+           "1 (555) 323-1234",
+           "1 800 Go Green"
         ],
         "serviceAreaBusiness": false
       },
@@ -52,18 +50,18 @@ To create a new Business Location make the following call, replacing values as a
             "id": "ABC"
           }
         },
-      "businessCategories": {
-        "data": [
-          {
-            "type": "businessCategories",
-            "id": "restaurants:buffets"
-          },
-          {
-            "type": "businessCategories",
-            "id": "restaurants:fishnchips"
-          }
-        ]
-      }
+        "businessCategories": {
+          "data": [
+            {
+              "type": "businessCategories",
+              "id": "restaurants:buffets"
+            },
+            {
+              "type": "businessCategories",
+              "id": "restaurants:fishnchips"
+            }
+          ]
+        }
       }
     }
   }
@@ -74,40 +72,56 @@ It will return the newly created record including any server populated values. B
 
 ```json
 {
-    "data": {
-      "type": "businessLocations",
-      "id": "AG-123",
-      "attributes": {
-        "name": "Fred's Fish on Young",
-        "address": {
-          "line1": "123 Young St",
-          "line2": "",
-          "city": "Toronto",
-          "stateCode": "ON",
-          "zip": "O2C 4W9",
-          "countryCode": "CA"
-        },
-        "phone": [
-          {
-            "countryCode": "CA",
-            "value": "1 (555) 323-1234"
-          }
-        ],
-        "serviceAreaBusiness": false
+  "data": {
+    "type": "businessLocations",
+    "id": "AG-123",
+    "attributes": {
+      "customerIdentifier": "",
+      "name": "Fred's Fish on Young",
+      "address": {
+        "line1": "123 Young St",
+        "line2": "",
+        "city": "Toronto",
+        "stateCode": "ON",
+        "zip": "O2C 4W9",
+        "countryCode": "CA"
       },
-      "relationships": {
-        "businessPartner": {
-          "data": {
-            "type": "organizations",
-            "id": "ABC"
+      "serviceAreaBusiness": false,
+      "phoneNumbers": [
+        "1 (555) 323-1234",
+        "1 800 Go Green"
+      ]
+    },
+    "relationships": {
+      "businessCategories": {
+        "links": {
+          "related": "https://prod.apigateway.co/platform/businessLocations/AG-123/businessCategories",
+          "self": "https://prod.apigateway.co/platform/businessLocations/AG-123/relationships/businessCategories"
+        },
+        "data": [
+          {
+            "type": "businessCategories",
+            "id": "restaurants:buffets"
+          },
+          {
+            "type": "businessCategories",
+            "id": "restaurants:fishnchips"
           }
+        ]
+      },
+      "businessPartner": {
+        "links": {
+          "related": "https://prod.apigateway.co/platform/businessLocations/AG-123/businessPartner",
+          "self": "https://prod.apigateway.co/platform/businessLocations/AG-123/relationships/businessPartner"
+        },
+        "data": {
+          "type": "organizations",
+          "id": "ABC"
         }
       }
-    },
-    "links": {
-      "self": "https://prod.apigateway.co/platform/businessLocations/AG-123"
     }
   }
+}
 ```
 
 For more details on this endpoint see [Create Business Locations](/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1businessLocations/post)

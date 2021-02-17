@@ -2,6 +2,9 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2021-02-16
+Added support for setting and retrieving the lat/long on businessLocations
+
 ## 2021-02-05
 Added support for setting the businessCategories relationship on businessLocations
 

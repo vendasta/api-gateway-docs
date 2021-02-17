@@ -1076,6 +1076,26 @@ components:
             serviceAreaBusiness:
               type: boolean
               description: When true the address will be used as the center of the area that this location services instead of being displayed.
+            geoCoordinate:
+              type: object
+              description: |-
+                The point where the map pin for the location should be displayed. 
+
+                The values will **not** be automatically updated when the address is updated. If not provided when creating the location they will be initilized based on the address.
+
+                It is expressed as a pair of numbers to represent degrees latitude and degrees longitude in accordance with the [WGS84](https://en.wikipedia.org/wiki/World_Geodetic_System) standard (the one used by your GPS).
+              properties:
+                latitude:
+                  type: number
+                  minimum: -90
+                  maximum: 90
+                longitude:
+                  type: number
+                  minimum: -180
+                  maximum: 180
+              required:
+                - latitude
+                - longitude
         relationships:
           type: object
           properties:

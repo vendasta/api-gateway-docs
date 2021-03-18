@@ -29,4 +29,4 @@ We may add new optional fields or valid values at any time. These will be docume
 All properties should have clear validation rules in the documentation including data type, min/max length or regular expression. If you find one that is unclear please report this bug in our documentation. Once documented we may loosen the restriction but will not tighten them without warning.
 
 ## Warning system
-It is strongly recommended that you tell us which fields you are using by including the `fields` query parameter on every request that returns data. That will allow us to warn you if you are using fields that have been deprecated on a resource. It will also stop surprise new fields being added to your response.
+It is strongly recommended that you tell us which fields you are using by including the `fields` query parameter on every request that returns data. That will allow us to warn you if you are using fields that have been deprecated on a resource. 

@@ -40,7 +40,7 @@ paths:
                 format: uri
               description: The address of the newly created contact
       x-lifecycle:
-        status: proposed
+        status: experimental
       description: |-
         [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Experimental`
 
@@ -159,272 +159,6 @@ paths:
     options:
       operationId: options-salesContacts-id
       summary: 'List valid HTTP verbs for /salesContacts/{id}'
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
-      responses:
-        '204':
-          description: No Content
-      tags:
-        - options
-        - salesContacts
-  '/salesContacts/{contactID}/locations':
-    parameters:
-      - schema:
-          type: string
-        name: contactID
-        in: path
-        required: true
-    get:
-      summary: List Locations related to the Sales Contact
-      tags:
-        - salesContacts
-      responses:
-        '200':
-          description: OK
-          content:
-            application/vnd.api+json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/businessLocations'
-      operationId: get-salesContacts-contactID-locations
-      x-lifecycle:
-        status: proposed
-      description: |-
-        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
-
-        Returns a list of locations that are related to the Sales Contact
-      security:
-        - OAuth:
-            - sales.contact
-      parameters:
-        - schema:
-            type: string
-            example: Bearer <Access Token>
-            pattern: ^Bearer\s\S+
-          in: header
-          name: Authorization
-          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
-          required: true
-    options:
-      operationId: options-salesContacts-contactID-locations
-      tags:
-        - salesContacts
-      summary: List valid HTTP verbs
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
-      responses:
-        '204':
-          description: No Content
-  '/salesContacts/{contactID}/relationships/locations':
-    parameters:
-      - schema:
-          type: string
-        name: contactID
-        in: path
-        required: true
-    get:
-      summary: List Location IDs related to Sales Contact
-      operationId: get-salesContacts-contactID-relationships-locations
-      responses:
-        '200':
-          description: OK
-          content:
-            application/vnd.api+json:
-              schema:
-                description: ''
-                type: object
-                properties:
-                  data:
-                    type: array
-                    uniqueItems: true
-                    minItems: 1
-                    items:
-                      type: object
-                      properties:
-                        type:
-                          type: string
-                          enum:
-                            - businessLocations
-                          default: businessLocations
-                        id:
-                          type: string
-                          example: AG-123
-                      required:
-                        - type
-                        - id
-                  links:
-                    type: object
-                    required:
-                      - related
-                      - self
-                    properties:
-                      related:
-                        type: string
-                        format: uri
-                      self:
-                        type: string
-                        format: uri
-                required:
-                  - data
-                  - links
-      security:
-        - OAuth:
-            - sales.contact
-      x-lifecycle:
-        status: proposed
-      description: |-
-        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
-
-        Lists the IDs of the Business Locations that are related to this Sales Contact
-      tags:
-        - salesContacts
-      parameters:
-        - schema:
-            type: string
-            example: Bearer <Access Token>
-            pattern: ^Bearer\s\S+
-          in: header
-          name: Authorization
-          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
-          required: true
-    post:
-      summary: Add locations to Sales Contact
-      operationId: post-salesContacts-contactID-relationships-locations
-      responses:
-        '200':
-          description: OK
-      x-lifecycle:
-        status: proposed
-      description: |-
-        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
-
-        Adds the listed business locations to the specified sales contact. Locations that are already linked will be ignored.
-      security:
-        - OAuth:
-            - sales.contact
-      requestBody:
-        content:
-          application/vnd.api+json:
-            schema:
-              description: ''
-              type: object
-              properties:
-                data:
-                  type: array
-                  uniqueItems: true
-                  minItems: 1
-                  items:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                        enum:
-                          - businessLocations
-                      id:
-                        type: string
-                        example: AG-123
-                    required:
-                      - type
-                      - id
-              required:
-                - data
-      tags:
-        - salesContacts
-      parameters:
-        - schema:
-            type: string
-            example: Bearer <Access Token>
-            pattern: ^Bearer\s\S+
-          in: header
-          name: Authorization
-          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
-          required: true
-        - schema:
-            type: string
-            default: application/vnd.api+json
-            enum:
-              - application/vnd.api+json
-          in: header
-          name: Content-Type
-          required: true
-          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
-    patch:
-      summary: Set Locations for Sales Contact
-      operationId: patch-salesContacts-contactID-relationships-locations
-      responses:
-        '200':
-          description: OK
-      x-lifecycle:
-        status: proposed
-      description: |-
-        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
-
-        Replaces all existing locations for the sales contact with the new list.
-
-        Note: This can be completed as a single action with updating the contact's other attributes.
-      tags:
-        - salesContacts
-      security:
-        - OAuth:
-            - sales.contact
-      parameters:
-        - schema:
-            type: string
-            example: Bearer <Access Token>
-            pattern: ^Bearer\s\S+
-          in: header
-          name: Authorization
-          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
-          required: true
-        - schema:
-            type: string
-            default: application/vnd.api+json
-            enum:
-              - application/vnd.api+json
-          in: header
-          name: Content-Type
-          required: true
-          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
-    delete:
-      summary: Remove locations from Sales Contact
-      operationId: delete-salesContacts-contactID-relationships-locations
-      responses:
-        '204':
-          description: No Content
-      x-lifecycle:
-        status: proposed
-      description: |-
-        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
-
-        Removes the specified location(s) from the contact. Locations that have already been removed will be ignored.
-      tags:
-        - salesContacts
-      security:
-        - OAuth:
-            - sales.contact
-      parameters:
-        - schema:
-            type: string
-            example: Bearer <Access Token>
-            pattern: ^Bearer\s\S+
-          in: header
-          name: Authorization
-          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
-          required: true
-        - schema:
-            type: string
-            default: application/vnd.api+json
-            enum:
-              - application/vnd.api+json
-          in: header
-          name: Content-Type
-          required: true
-          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
-    options:
-      operationId: options-salesContacts-contactID-relationships-locations
-      summary: 'List valid HTTP verbs for /salesContacts/{contactID}/relationships/locations'
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       responses:
         '204':
@@ -693,85 +427,6 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/businessLocations'
-  '/partners/{id}':
-    parameters:
-      - schema:
-          type: string
-          minLength: 2
-          maxLength: 4
-          pattern: '^[A-Z]{2,4}$'
-          example: ABC
-        name: id
-        in: path
-        required: true
-    get:
-      summary: Get Partner
-      tags:
-        - partners
-      responses:
-        '200':
-          description: OK
-          content:
-            application/vnd.json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/partners'
-                  links:
-                    type: object
-                    properties:
-                      self:
-                        type: string
-                        format: uri
-                  included:
-                    type: array
-                    items:
-                      anyOf:
-                        - $ref: '#/components/schemas/partners'
-      operationId: get-partners-id
-      security:
-        - OAuth:
-            - partner
-      x-lifecycle:
-        status: proposed
-      description: |-
-        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
-
-        Fetch the current values for the specified partner
-      parameters:
-        - schema:
-            type: string
-            enum:
-              - name
-          in: query
-          name: 'fields[partners]'
-          description: A comma separated list of fields to be returned in the response.
-        - schema:
-            type: string
-            example: Bearer <Access Token>
-            pattern: ^Bearer\s\S+
-          in: header
-          name: Authorization
-          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
-          required: true
-        - schema:
-            type: string
-            enum:
-              - parent
-          in: query
-          name: include
-          description: A comma separated list of related records that should be embedded in the response
-    options:
-      operationId: options-partners-id
-      summary: 'List valid HTTP verbs for /partners/{id}'
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
-      responses:
-        '204':
-          description: No Content
-      tags:
-        - options
-        - partners
   /invoices:
     get:
       summary: List Invoices
@@ -885,9 +540,9 @@ paths:
         - OAuth:
             - business
       x-lifecycle:
-        status: proposed
+        status: experimental
       description: |-
-        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Experimental`
 
         Produces a list of business categories
       parameters:
@@ -1021,7 +676,7 @@ paths:
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
         - OAuth:
-            - orders
+            - order
       tags:
         - orders
   /orders/{id}:
@@ -1054,13 +709,13 @@ paths:
       operationId: get-orders-id
       security:
         - OAuth:
-            - orders
+            - order
       x-lifecycle:
         status: experimental
       description: |-
         [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Experimental`
 
-        Fetch the current values for the specified order
+        Fetch the current values for the specified order.
       parameters:
         - schema:
             type: string
@@ -1582,9 +1237,9 @@ components:
       title: Business Categories
       type: object
       x-lifecycle:
-        status: proposed
+        status: experimental
       description: |-
-        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Experimental`
 
         The taxonomy to be applied to business locations indicating the type of services that they provide. 
       x-tags:

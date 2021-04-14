@@ -91,11 +91,11 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       tags:
-        - Contact
+        - Contacts
     options:
       operationId: options-contact
       tags:
-        - Contact
+        - Contacts
       summary: List valid HTTP verbs for /contact
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       responses:
@@ -112,7 +112,7 @@ paths:
     get:
       summary: Get Contact
       tags:
-        - Contact
+        - Contacts
       responses:
         '200':
           description: OK
@@ -167,7 +167,7 @@ paths:
         '204':
           description: No Content
       tags:
-        - Contact
+        - Contacts
   /businessLocations:
     post:
       summary: Create Business Location
@@ -256,7 +256,7 @@ paths:
         - OAuth:
             - business
       tags:
-        - Business Location
+        - Business Locations
     options:
       operationId: options-businessLocation
       summary: List valid HTTP verbs for /businessLocation
@@ -265,7 +265,7 @@ paths:
         '204':
           description: No Content
       tags:
-        - Business Location
+        - Business Locations
   '/businessLocations/{id}':
     parameters:
       - schema:
@@ -276,7 +276,7 @@ paths:
     get:
       summary: Get Business Location
       tags:
-        - Business Location
+        - Business Locations
       responses:
         '200':
           description: OK
@@ -338,12 +338,12 @@ paths:
         '204':
           description: No Content
       tags:
-        - Business Location
+        - Business Locations
     patch:
       summary: Update Business Location
       operationId: patch-businessLocation-id
       tags:
-        - Business Location
+        - Business Locations
       description: |-
         [Status](/docs/versioning): `Experimental`
 
@@ -421,7 +421,7 @@ paths:
     get:
       summary: List Invoices
       tags:
-        - Invoice
+        - Invoices
       operationId: get-invoice
       security:
         - OAuth:
@@ -518,7 +518,7 @@ paths:
         '204':
           description: No Content
       tags:
-        - Invoice
+        - Invoices
   /businessCategories:
     get:
       summary: List Business Categories
@@ -673,7 +673,7 @@ paths:
         - OAuth:
             - order
       tags:
-        - Order
+        - Orders
   /orders/{id}:
     parameters:
       - schema:
@@ -685,7 +685,7 @@ paths:
     get:
       summary: Get Order
       tags:
-        - Order
+        - Orders
       responses:
         '200':
           description: OK
@@ -740,7 +740,7 @@ paths:
         '204':
           description: No Content
       tags:
-        - Order
+        - Orders
 components:
   securitySchemes:
     JWT:
@@ -769,7 +769,7 @@ components:
 
         Any entity that works with a provider company (two-way communication). These generally have a sustained relationship with the provider company. This may include a potential buyer, an existing client, or a past client that has churned.
       x-tags:
-        - Business Location
+        - Business Locations
       properties:
         id:
           type: string
@@ -905,7 +905,7 @@ components:
 
         Note: Currently when creating a contact you must specify exactly 1 businessLocation id for it to be linked to. We intend to expand this limit.
       x-tags:
-        - Contact
+        - Contacts
       properties:
         type:
           type: string
@@ -1016,7 +1016,7 @@ components:
 
         All amounts will be specified in the minor unit of the invoice's currency. For example in the case of USD that would be cents. For more info on converting between minor and major units see [this wikipedia article](https://en.wikipedia.org/wiki/ISO_4217#Minor_units_of_currency).
       x-tags:
-        - Invoice
+        - Invoices
       properties:
         id:
           type: string
@@ -1121,7 +1121,7 @@ components:
 
         An order for a business location.
       x-tags:
-        - Order
+        - Orders
       properties:
         id:
           type: string
@@ -1217,7 +1217,7 @@ components:
         - id
         - type
       x-tags:
-        - Partner
+        - Partners
       x-examples:
         example-1:
           id: ABC
@@ -1259,9 +1259,9 @@ components:
               description: A user friendly description for the category. It will have been translated based on the Accept-Language header.
               readOnly: true
 tags:
-  - name: Contact
-  - name: Business Location
-  - name: Partner
-  - name: Invoice
+  - name: Contacts
+  - name: Business Locations
+  - name: Partners
+  - name: Invoices
   - name: Business Categories
-  - name: Order
+  - name: Orders

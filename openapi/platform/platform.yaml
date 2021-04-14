@@ -763,7 +763,7 @@ components:
         relationships:
           type: object
           properties:
-            businessPartner:
+            partner:
               type: object
               description: A link to the organization that provides the platform to this business location.
               properties:
@@ -775,15 +775,15 @@ components:
                   properties:
                     type:
                       type: string
-                      default: organizations
+                      default: partners
                       enum:
-                        - organizations
+                        - partners
                     id:
                       type: string
                       example: ABC
               required:
                 - data
-            businessCategory:
+            businessCategories:
               type: object
               description: A list of the types of business this location should be compared against. If not set during creation it will default "other".
               properties:
@@ -796,10 +796,10 @@ components:
                     properties:
                       type:
                         type: string
-                        default: businessCategory
+                        default: businessCategories
                         enum:
-                          - businessCategory
-                        example: businessCategory
+                          - businessCategories
+                        example: businessCategories
                       id:
                         type: string
                         example: 'active:diving:freediving'
@@ -870,7 +870,7 @@ components:
           properties:
             locations:
               type: object
-              description: 'Required during creation: The business locations that this contact has a connection to'
+              description: 'Required during creation: The business location that this contact is for'
               properties:
                 data:
                   type: array
@@ -1069,6 +1069,31 @@ components:
           maxLength: 3
           example: CAD
           description: 'The 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)'
+        relationships:
+          type: object
+          properties:
+            locations:
+              type: object
+              description: 'Required during creation: The business location the order is for'
+              properties:
+                data:
+                  type: array
+                  minItems: 1
+                  maxItems: 1
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: AG-1234
+                      type:
+                        type: string
+                        default: businessLocation
+                        enum:
+                          - businessLocation
+                    required:
+                      - id
+                      - type
     partner:
       title: Partner
       type: object
@@ -1160,9 +1185,9 @@ components:
           readOnly: true
         type:
           type: string
-          default: businessCategory
+          default: businessCategories
           enum:
-            - businessCategory
+            - businessCategories
           readOnly: true
         attributes:
           type: object

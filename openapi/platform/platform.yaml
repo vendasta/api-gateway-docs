@@ -883,6 +883,79 @@ components:
                   readOnly: true
       required:
         - type
+    partners:
+      title: Partner
+      type: object
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
+
+        A partner is an organization that has a store filled with products that other organizations can purchase.
+
+
+        Partners may fill one or more of the following roles:
+        - **Business Partner**: Have a direct billing relationship with SMBs
+        - **Vendor**: Integrate goods into the Vendasta platform to be sold by Business Partners to SMBs
+        - **Service Provider**: Integrate services into the Vendasta platform that they will fulfill for SMBs
+
+        Note: Small/Medium-Sized Businesses (SMBs) are represented by their primary Business Location record. They may only buy products through their Business Partner.
+      properties:
+        id:
+          type: string
+          minLength: 3
+          maxLength: 4
+        type:
+          type: string
+          enum:
+            - partners
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: The public name for the organization
+          required:
+            - name
+        relationships:
+          type: object
+          properties:
+            parent:
+              type: object
+              description: 'The parent partner is the partner that this partner primarily purchases stuff from. '
+              properties:
+                data:
+                  type: object
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                      minLength: 3
+                      maxLength: 4
+                    type:
+                      type: string
+                      enum:
+                        - partners
+              required:
+                - data
+      required:
+        - id
+        - type
+      x-tags:
+        - Partners
+      x-examples:
+        example-1:
+          id: ABC
+          type: partner
+          attributes:
+            name: Mountain Media
+          relationships:
+            parent:
+              data:
+                id: VMF
+                type: partners
     invoices:
       title: Invoice
       type: object
@@ -1062,79 +1135,6 @@ components:
                     required:
                       - id
                       - type
-    partners:
-      title: Partner
-      type: object
-      x-lifecycle:
-        status: proposed
-      description: |-
-        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Proposed`
-
-        A partner is an organization that has a store filled with products that other organizations can purchase.
-
-
-        Partners may fill one or more of the following roles:
-        - **Business Partner**: Have a direct billing relationship with SMBs
-        - **Vendor**: Integrate goods into the Vendasta platform to be sold by Business Partners to SMBs
-        - **Service Provider**: Integrate services into the Vendasta platform that they will fulfill for SMBs
-
-        Note: Small/Medium-Sized Businesses (SMBs) are represented by their primary Business Location record. They may only buy products through their Business Partner.
-      properties:
-        id:
-          type: string
-          minLength: 3
-          maxLength: 4
-        type:
-          type: string
-          enum:
-            - partners
-        attributes:
-          type: object
-          properties:
-            name:
-              type: string
-              description: The public name for the organization
-          required:
-            - name
-        relationships:
-          type: object
-          properties:
-            parent:
-              type: object
-              description: 'The parent partner is the partner that this partner primarily purchases stuff from. '
-              properties:
-                data:
-                  type: object
-                  required:
-                    - id
-                    - type
-                  properties:
-                    id:
-                      type: string
-                      minLength: 3
-                      maxLength: 4
-                    type:
-                      type: string
-                      enum:
-                        - partners
-              required:
-                - data
-      required:
-        - id
-        - type
-      x-tags:
-        - Partners
-      x-examples:
-        example-1:
-          id: ABC
-          type: partner
-          attributes:
-            name: Mountain Media
-          relationships:
-            parent:
-              data:
-                id: VMF
-                type: partners
     businessCategories:
       title: Business Category
       type: object

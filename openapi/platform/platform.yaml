@@ -187,7 +187,7 @@ paths:
         Used to record basic data for a new location.
 
         The following members must be populated during creation:
-        - `relationships.partners.data.id`
+        - `relationships.businessPartner.data.id`
         - `attributes.name`
         - `attributes.address.countryCode` as well as other address fields based on the norms of the country.
         - `relationships.categories.data.[].id` - At least one category must be provided
@@ -285,7 +285,7 @@ paths:
       description: |-
         [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Experimental`
 
-        Update the existing business location. 
+        Update the existing business location.
         Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
       x-lifecycle:
         status: experimental
@@ -336,12 +336,12 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/businessLocations'
-  /invoices:
+  /purchases:
     get:
-      summary: List Invoices
+      summary: List Purchases
       tags:
-        - Invoices
-      operationId: get-invoices
+        - Purchases
+      operationId: get-purchases
       security:
         - OAuth:
             - financial
@@ -350,7 +350,7 @@ paths:
       description: |-
         [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Experimental`
 
-        Produces a list of invoices for wholesale fees
+        Produces a list of wholesale purchases made.
       parameters:
         - schema:
             type: string
@@ -364,20 +364,20 @@ paths:
             type: string
           in: query
           name: 'filter[partner.id]'
-          description: Only return invoices that were sent to the specified partner
+          description: Only return purchases that for the specified partner
           required: true
         - schema:
             type: string
             format: date-time
           in: query
           name: 'filter[createdAt][>]'
-          description: Only return invoices created after the specified time
+          description: Only return purchases created after the specified time
         - schema:
             type: string
             format: date-time
           in: query
           name: 'filter[createdAt][<]'
-          description: Only return invoices created before the specified time
+          description: Only return purchases created before the specified time
         - schema:
             type: integer
             minimum: 0
@@ -402,7 +402,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/invoices'
+                      $ref: '#/components/schemas/purchases'
                   links:
                     type: object
                     properties:
@@ -415,17 +415,17 @@ paths:
                         format: uri
                       next:
                         type: string
-                        description: The URI at which the next batch of invoices can be gotten from
+                        description: The URI at which the next batch of purchases can be gotten from
                         format: uri
     options:
-      operationId: options-invoices
-      summary: 'List valid HTTP verbs for /invoices'
+      operationId: options-purchases
+      summary: 'List valid HTTP verbs for /purchases'
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       responses:
         '204':
           description: No Content
       tags:
-        - Invoices
+        - Purchases
   /businessCategories:
     get:
       summary: List Business Categories
@@ -491,7 +491,7 @@ paths:
                         format: uri
                       next:
                         type: string
-                        description: The URI at which the next batch of invoice can be gotten from
+                        description: The URI at which the next batch of purchases can be gotten from
                         format: uri
     options:
       operationId: options-businessCategories
@@ -711,7 +711,7 @@ components:
             geoCoordinate:
               type: object
               description: |-
-                The point where the map pin for the location should be displayed. 
+                The point where the map pin for the location should be displayed.
 
                 The values will **not** be automatically updated when the address is updated. If not provided when creating the location they will be initilized based on the address.
 
@@ -743,9 +743,9 @@ components:
                   properties:
                     type:
                       type: string
-                      default: partners
+                      default: businessPartner
                       enum:
-                        - partners
+                        - businessPartner
                     id:
                       type: string
                       example: ABC
@@ -852,26 +852,12 @@ components:
                         example: AG-1234567
                       type:
                         type: string
-                        default: businessLocations
+                        default: businessLocation
                         enum:
-                          - businessLocations
+                          - businessLocation
                     required:
                       - id
                       - type
-                links:
-                  type: object
-                  description: Readonly links for pagging over the list of locations
-                  properties:
-                    self:
-                      type: string
-                      format: uri
-                      example: 'https://prod.apigateway.co/platform/salesContacts/U-123/relationships/locations'
-                      readOnly: true
-                    next:
-                      type: string
-                      format: uri
-                      example: 'https://prod.apigateway.co/platform/salesContacts/U-123/relationships/locations?page[cursor]=567'
-                      readOnly: true
                   readOnly: true
                 meta:
                   type: object
@@ -958,7 +944,7 @@ components:
               data:
                 id: VMF
                 type: partners
-    invoices:
+    purchases:
       title: Invoice
       type: object
       x-lifecycle:
@@ -966,26 +952,26 @@ components:
       description: |-
         [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Experimental`
 
-        Invoices generated by the platform to record the wholesale fees that are charged to a partner for products they sell to their customers. One time fees and each renewal will appear as seperate line items broken out per customer.
+        Purchases generated by the platform to record the wholesale fees that are charged to a partner for products they sell to their customers. One time fees and each renewal will appear as seperate line items broken out per customer.
 
 
-        All amounts will be specified in the minor unit of the invoice's currency. For example in the case of USD that would be cents. For more info on converting between minor and major units see [this wikipedia article](https://en.wikipedia.org/wiki/ISO_4217#Minor_units_of_currency).
+        All amounts will be specified in the minor unit of the purchase's currency. For example in the case of USD that would be cents. For more info on converting between minor and major units see [this wikipedia article](https://en.wikipedia.org/wiki/ISO_4217#Minor_units_of_currency).
       x-tags:
-        - Invoices
+        - Purchases
       properties:
         id:
           type: string
-          description: 'A platform generated identifier for the invoice '
+          description: 'A platform generated identifier for the purchase '
         type:
           type: string
           enum:
-            - invoices
+            - purchases
           readOnly: true
         attributes:
           type: object
           properties:
             createdAt:
-              description: The time at which the invoice was created
+              description: The time at which the purchase was created
               format: date-time
               type: string
             statusCode:
@@ -997,21 +983,21 @@ components:
                 - paid
                 - uncollectible
               description: |-
-                The payment status of the invoice will be one of the following:
-                - `draft`:  Indicates the invoice is not closed yet. New line items can be added when the invoice is in this state.
-                - `due`: The invoice has been finialized and is ready to be paid.
-                - `overdue`: The invoice is unpaid and has past the due date
+                The payment status of the purchase will be one of the following:
+                - `draft`:  Indicates the purchase is not closed yet. New line items can be added when the purchase is in this state.
+                - `due`: The purchase has been finialized and is ready to be paid.
+                - `overdue`: The purchase is unpaid and has past the due date
                 - `paid`: The full amount has been paid.
-                - `uncollectible`: After multiple failed attempts to collect payment it's unlikely that this invoice will be paid
+                - `uncollectible`: After multiple failed attempts to collect payment it's unlikely that this purchase will be paid
             discountAmount:
               type: integer
               description: The sum of all price reductions applied to products
             taxAmount:
               type: integer
-              description: The sum of all taxes applied to items of the invoice
+              description: The sum of all taxes applied to items of the purchase
             total:
               type: integer
-              description: 'The total amount the invoice is for, accounting for any applied discounts or taxes'
+              description: 'The total amount the purchase is for, accounting for any applied discounts or taxes'
             currencyCode:
               type: string
               minLength: 3
@@ -1046,7 +1032,7 @@ components:
           properties:
             recipient:
               type: object
-              description: The partner that the invoice is being sent to. They will be the one who purchased the product at a wholesale rate and activated it for one of their customers
+              description: The partner that the purchase is being sent to. They will be the one who purchased the product at a wholesale rate and activated it for one of their customers
               properties:
                 data:
                   type: object
@@ -1061,7 +1047,7 @@ components:
                     type:
                       type: string
                       enum:
-                        - partners
+                        - partner
               required:
                 - data
       required:
@@ -1138,9 +1124,9 @@ components:
                         example: AG-1234567
                       type:
                         type: string
-                        default: businessLocations
+                        default: businessLocation
                         enum:
-                          - businessLocations
+                          - businessLocation
                     required:
                       - id
                       - type
@@ -1152,7 +1138,7 @@ components:
       description: |-
         [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Experimental`
 
-        The taxonomy to be applied to business locations indicating the type of services that they provide. 
+        The taxonomy to be applied to business locations indicating the type of services that they provide.
       x-tags:
         - Business Categories
       properties:
@@ -1177,6 +1163,6 @@ tags:
   - name: Business Categories
   - name: Business Locations
   - name: Sales Contacts
-  - name: Invoices
+  - name: Purchases
   - name: Orders
   - name: Partners

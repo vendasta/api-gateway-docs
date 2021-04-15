@@ -1095,19 +1095,24 @@ components:
             properties:
               sku:
                 type: string
-                description: The unique identifier of a product or service
-              editionId:
-                type: string
-                description: The edition of a product or service
-              packageId:
-                type: string
-                description: The unique identifier of a store package
+                description: The unique identifier of a product, product edition or package
               quantity:
                 type: integer
-                description: The number of units ordered
+                description: The number of units to ordered
+                default: 1
               amount:
                 type: integer
-                description: The amount in cents of the item
+                description: The unit price in cents
+                default: 0
+              interval:
+                type: string
+                enum:
+                  - onetime
+                  - monthly
+                  - yearly
+                description: The billing frequency
+            required:
+              - sku
         currencyCode:
           type: string
           minLength: 3

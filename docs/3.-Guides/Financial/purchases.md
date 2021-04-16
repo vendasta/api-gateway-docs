@@ -1,21 +1,21 @@
-# Invoices
+# Purchases
 
-Invoices are used to track requests for payment from one organization to another for products that have been provided. 
+Purchases are used to track whole sales transactions for products that have been provided. 
 
-For advanced usage see the [full details](https://vendasta.stoplight.io/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1invoices/get).
+For advanced usage see the [full details](https://vendasta.stoplight.io/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1purchases/get).
 
 ## Common Actions
 
-### View invoices sent to you
+### View your purchases
 
-To view the invoices that have been sent to you make the following request filling in your partner ID and an [access token](https://vendasta.stoplight.io/docs/openapi-specs/docs/2.-Authorization/2-legged-oauth/3.-UsingAServiceAccount.md). This example filters the list to the first 10 invoices created between Dec 10th and 20th. 
+To view the purchases that have been sent to you make the following request filling in your partner ID and an [access token](https://vendasta.stoplight.io/docs/openapi-specs/docs/2.-Authorization/2-legged-oauth/3.-UsingAServiceAccount.md). This example filters the list to the first 10 purchases created between Dec 10th and 20th. 
 
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/platform/invoices",
+  "url": "https://prod.apigateway.co/platform/purchases",
   "query": {
-    "filter[recipient.id]": "<Your partner ID>",
+    "filter[partner.id]": "<Your partner ID>",
     "filter[createdAt][>]": "2020-12-10T00:00:00Z",
     "filter[createdAt][<]": "2020-12-20T00:00:00Z",
     "page[limit]": "10"
@@ -31,12 +31,12 @@ That will give you a response similar to
 ```json
 {
   "links": {
-    "first": "https://prod.apigateway.co/platform/invoices?filter[recipient.id]=VUNI&page[cursor]=&page[limit]=2",
-    "next": "https://prod.apigateway.co/platform/invoices?filter[recipient.id]=VUNI&page[cursor]=Mg==&page[limit]=2"
+    "first": "https://prod.apigateway.co/platform/purchases?filter[partner.id]=VUNI&page[cursor]=&page[limit]=2",
+    "next": "https://prod.apigateway.co/platform/purchases?filter[partner.id]=VUNI&page[cursor]=Mg==&page[limit]=2"
   },
   "data": [
     {
-      "type": "invoices",
+      "type": "purchases",
       "id": "3114ee2969c2f4ec",
       "attributes": {
         "createdAt": "2020-12-18T17:16:24Z",
@@ -60,18 +60,18 @@ That will give you a response similar to
       "relationships": {
         "recipient": {
           "links": {
-            "related": "https://prod.apigateway.co/platform/invoices/3114ee2969c2f4ec/recipient",
-            "self": "https://prod.apigateway.co/platform/invoices/3114ee2969c2f4ec/relationships/recipient"
+            "related": "https://prod.apigateway.co/platform/purchases/3114ee2969c2f4ec/partner",
+            "self": "https://prod.apigateway.co/platform/purchases/3114ee2969c2f4ec/relationships/partner"
           },
           "data": {
-            "type": "invoices",
+            "type": "purchases",
             "id": "VUNI"
           }
         }
       }
     },
     {
-      "type": "invoices",
+      "type": "purchases",
       "id": "6771d24790d2c0a9",
       "attributes": {
         "createdAt": "2020-12-18T17:12:30Z",
@@ -95,11 +95,11 @@ That will give you a response similar to
       "relationships": {
         "recipient": {
           "links": {
-            "related": "https://prod.apigateway.co/platform/invoices/6771d24790d2c0a9/recipient",
-            "self": "https://prod.apigateway.co/platform/invoices/6771d24790d2c0a9/relationships/recipient"
+            "related": "https://prod.apigateway.co/platform/purchases/6771d24790d2c0a9/partner",
+            "self": "https://prod.apigateway.co/platform/purchases/6771d24790d2c0a9/relationships/partner"
           },
           "data": {
-            "type": "invoices",
+            "type": "purchases",
             "id": "VUNI"
           }
         }
@@ -109,14 +109,14 @@ That will give you a response similar to
 }
 ```
 
-If there are a large number of invoices they will be broken into multiple pages. Notice the `links.next` in the response. You may make a GET request to that URI with your Authorization header to retrive the next page of matches. 
+If there are a large number of purchases they will be broken into multiple pages. Notice the `links.next` in the response. You may make a GET request to that URI with your Authorization header to retrieve the next page of matches. 
 
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/platform/invoices",
+  "url": "https://prod.apigateway.co/platform/purchases",
   "query": {
-    "filter[recipient.id]": "VUNI",
+    "filter[partner.id]": "VUNI",
     "page[cursor]": "Mg==",
     "page[limit]": "2"
   },

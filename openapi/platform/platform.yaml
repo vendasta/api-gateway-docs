@@ -1084,40 +1084,44 @@ components:
           readOnly: true
         type:
           type: string
+          default: orders
           enum:
             - orders
           readOnly: true
-        lineItems:
-          type: array
-          items:
-            type: object
-            properties:
-              sku:
-                type: string
-                description: The unique identifier of a product, product edition or package
-              quantity:
-                type: integer
-                description: The number of units to ordered
-                default: 1
-              amount:
-                type: integer
-                description: The unit price in cents
-                default: 0
-              interval:
-                type: string
-                enum:
-                  - onetime
-                  - monthly
-                  - yearly
-                description: The billing frequency
-            required:
-              - sku
-        currencyCode:
-          type: string
-          minLength: 3
-          maxLength: 3
-          example: CAD
-          description: 'The 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)'
+        attributes:
+          type: object
+          properties:
+            currencyCode:
+              type: string
+              minLength: 3
+              maxLength: 3
+              example: CAD
+              description: 'The 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)'
+            lineItems:
+              type: array
+              items:
+                type: object
+                properties:
+                  sku:
+                    type: string
+                    description: The unique identifier of a product, product edition or package
+                  quantity:
+                    type: integer
+                    description: The number of units to ordered
+                    default: 1
+                  amount:
+                    type: integer
+                    description: The unit price in cents
+                    default: 0
+                  interval:
+                    type: string
+                    enum:
+                      - onetime
+                      - monthly
+                      - yearly
+                    description: The billing frequency
+                required:
+                  - sku
         relationships:
           type: object
           properties:

@@ -638,6 +638,61 @@ paths:
       tags:
         - Options
         - Orders
+    get:
+      summary: ''
+      operationId: get-orders
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/orders'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                      next:
+                        type: string
+                        description: The URI at which the next batch of purchases can be gotten from
+                        format: uri
+      description: |-
+        [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Experimental`
+
+        Produces a list of orders.
+      security:
+        - OAuth:
+            - order
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: 'filter[businessPartner.id]'
+          description: Return business locations for the specified partner
+        - schema:
+            type: string
+          in: query
+          name: 'page[cursor]'
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+        - schema:
+            type: string
+          in: query
+          name: 'page[limit]'
+          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+      tags:
+        - Options
+        - Orders
   '/orders/{id}':
     parameters:
       - schema:

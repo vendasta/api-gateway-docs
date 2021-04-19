@@ -1249,39 +1249,23 @@ components:
                   - sku
             statusCode:
               type: string
-              default: scheduled
+              default: processing
               readOnly: true
               enum:
-                - submitted
-                - approved
-                - declined
                 - draft
-                - fulfilled
                 - processing
+                - declined
+                - fulfilled
                 - error
                 - archived
-                - submittedForCustomerApproval
-                - cancellationRequested
-                - canceled
-                - scheduled
-                - processingPayment
-                - resubmitted
               description: |-
                 The order status of the order will be one of the following:
-                - `submitted`: The order is ready for admin approval
-                - `approved`: The order has been approved by an admin
-                - `declined`: The order has been declined by an admin or a customer
                 - `draft`: The order has not yet been sent for approval
-                - `fulfilled`: The order and its items have been sucessfuly processed
                 - `processing`: The order and its items are being processed
+                - `declined`: The order has been declined by an admin or a customer
+                - `fulfilled`: The order and its items have been sucessfuly processed
                 - `error`: One or more of the orders items failed to be processed
                 - `archived`: The order has been marched as archived
-                - `submittedForCustomerApproval`: The order has been sent to a customer to approve
-                - `cancellationRequested`: The order has been requested to be canceled
-                - `canceled`: An admin has has approved the cancellation request
-                - `scheduled`: The status of an order when an admin requests to activate products on the contract start date
-                - `processingPayment`: The order is awaiting customer payment
-                - `resubmitted`: The order has been resubmitted for admin approval
         relationships:
           type: object
           properties:

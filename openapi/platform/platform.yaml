@@ -261,11 +261,13 @@ paths:
           in: header
           name: Authorization
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
         - schema:
             type: string
           in: query
           name: 'filter[businessPartner.id]'
           description: Return business locations for the specified partner
+          required: true
         - schema:
             type: string
           in: query
@@ -638,7 +640,7 @@ paths:
         - Options
         - Orders
     get:
-      summary: 'List Orders'
+      summary: List Orders
       operationId: get-orders
       responses:
         '200':
@@ -679,6 +681,7 @@ paths:
           in: query
           name: 'filter[partner.id]'
           description: Return orders for the specified partner
+          required: true
         - schema:
             type: string
           in: query
@@ -689,6 +692,12 @@ paths:
           in: query
           name: 'page[limit]'
           description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
       tags:
         - Orders
   '/orders/{id}':

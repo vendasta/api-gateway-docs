@@ -918,7 +918,7 @@ components:
       description: |-
         [Status](https://vendasta.stoplight.io/docs/openapi-specs/docs/1.-Overview/Versioning.md): `Experimental`
 
-        A Sales Contact is a person who works for the business that your sales team may send communications to regaurding the business.
+        A Sales Contact is a person who works for the business that your sales team may send communications to regarding the business.
 
         Note: Currently when creating a contact you must specify exactly 1 businessLocations id for it to be linked to. We intend to expand this limit.
       x-tags:
@@ -1112,6 +1112,8 @@ components:
               type: string
             statusCode:
               type: string
+              default: draft
+              readOnly: true
               enum:
                 - draft
                 - due
@@ -1236,7 +1238,7 @@ components:
                     type: integer
                     description: The unit price in cents
                     default: 0
-                  interval:
+                  intervalCode:
                     type: string
                     enum:
                       - onetime
@@ -1245,6 +1247,25 @@ components:
                     description: The billing frequency
                 required:
                   - sku
+            statusCode:
+              type: string
+              default: processing
+              readOnly: true
+              enum:
+                - draft
+                - processing
+                - declined
+                - fulfilled
+                - error
+                - archived
+              description: |-
+                The order status of the order will be one of the following:
+                - `draft`: The order has not yet been sent for approval
+                - `processing`: The order and its items are being processed
+                - `declined`: The order has been declined by an admin or a customer
+                - `fulfilled`: The order and its items have been sucessfuly processed
+                - `error`: One or more of the orders items failed to be processed
+                - `archived`: The order has been marched as archived
         relationships:
           type: object
           properties:

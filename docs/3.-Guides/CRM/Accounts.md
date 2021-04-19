@@ -333,9 +333,6 @@ When updating the values for a business location you only need to send the field
 ```
 For more details on this endpoint see [Update Business Locations](/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1businessLocations~1%7Bid%7D/patch)
 
-
-## Proposed future actions
-
 ### Get a list of your business locations
 
 ```json http
@@ -355,7 +352,7 @@ For more details on this endpoint see [Update Business Locations](/docs/openapi-
 }
 ```
 
-Will return something like 
+Will return a list of business location:
 
 ```json
 {
@@ -387,3 +384,4 @@ Will return something like
 }
 ```
 
+For more details on this endpoint see [List Business Locations](/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1businessLocations~1%7Bid%7D/get)

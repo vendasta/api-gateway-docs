@@ -1236,7 +1236,7 @@ components:
                     type: integer
                     description: The unit price in cents
                     default: 0
-                  interval:
+                  intervalCode:
                     type: string
                     enum:
                       - onetime
@@ -1245,22 +1245,37 @@ components:
                     description: The billing frequency
                 required:
                   - sku
-            status:
+            statusCode:
               type: string
-              description: The status of the order
               enum:
                 - submitted
                 - approved
                 - declined
+                - draft
                 - processing
                 - error
                 - archived
-                - submittedforcustomerapproval
-                - cancellationrequested
+                - submittedForCustomerApproval
+                - cancellationRequested
                 - canceled
                 - scheduled
-                - processingpayment
+                - processingPayment
                 - resubmitted
+              description: |-
+                The order status of the order will be one of the following:
+                - `submitted`: The order is ready for admin approval
+                - `approved`: The order has been approved by an admin
+                - `declined`: The order has been declined by an admin or a customer
+                - `draft`: The order has not yet been sent for approval
+                - `processing`: The order and its items are being processed
+                - `error`: One or more of the orders items failed to be processed
+                - `archived`: The order has been marched as archived
+                - `submittedForCustomerApproval`: The order has been sent to a customer to approve
+                - `cancellationRequested`: The order has been requested to be canceled
+                - `canceled`: An admin has has approved the cancellation request
+                - `scheduled`: The status of an order when an admin requests to activate products on the contract start date
+                - `processingPayment`: The order is awaiting customer payment
+                - `resubmitted`: The order has been resubmitted for admin approval
         relationships:
           type: object
           properties:

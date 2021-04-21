@@ -2,7 +2,7 @@
 
 Purchases are used to track whole sales transactions for products that have been provided. 
 
-For advanced usage see the [full details](https://vendasta.stoplight.io/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1purchases/get).
+For advanced usage see the [full details](../../openapi/platform/platform.yaml/paths/~1purchases/get).
 
 ## Common Actions
 

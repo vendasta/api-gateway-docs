@@ -34,7 +34,7 @@ In the body of responses you will find links to related actions and helpful deta
 ## Conventions
 
 ### Authentication
-Every request requires an OAuth2 bearer authorization header that was issued by the API Gateway. [Learn to create them](Authorization.md) 
+Every request requires an OAuth2 bearer authorization header that was issued by the API Gateway. [Learn to create them](../Authorization/Authorization.md) 
 
 ### Localization
 Translating the content in the platform is crowed sourced and will improve over time. You are encouraged to provide a list of languages that the user can read using the [Accept-Language](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language) request header. Web browsers will often set this for you by default. If not set `en-US` will be used. 

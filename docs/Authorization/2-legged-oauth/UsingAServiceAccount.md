@@ -1,7 +1,7 @@
 # Obtaining an Access Token for a service account
 
 <!-- theme: info -->
-> These directions assume you have already [created a service account](2.-CreatingAServiceAccount.md)
+> These directions assume you have already [created a service account](CreatingAServiceAccount.md)
 
 
 

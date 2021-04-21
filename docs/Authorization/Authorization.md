@@ -21,4 +21,4 @@ Using either of these options follows the same basic flow
 Access Tokens do expire so you may need to refresh them from time to time. You will also need to obtain a new one if the scope (set of things you wish to access) changes.
 
 
-Next: [Setup service account](./2-legged-oauth/1.-Overview.md)
+Next: [Setup service account](2-legged-oauth/Overview.md)

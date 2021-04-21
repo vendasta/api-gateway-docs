@@ -9,7 +9,7 @@ The location may be a retail store, the business' headquarters or identify an ar
 
 ## Common Actions
 
-> For info on creating an access token see the [Authorization guide](https://vendasta.stoplight.io/docs/openapi-specs/docs/2.-Authorization/1.-Authorization.md)
+> For info on creating an access token see the [Authorization guide](../Authorization/Authorization.md)
 
 ### Creating a Business Location
 
@@ -124,7 +124,7 @@ It will return the newly created record including any server populated values. B
 }
 ```
 
-For more details on this endpoint see [Create Business Locations](/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1businessLocations/post)
+For more details on this endpoint see [Create Business Locations](../../openapi/platform/platform.yaml/paths/~1businessLocations/post)
 
 ### List valid Business Categories
 When creating a business location you will likely want to know what ids you can use for the businessCategories field. 
@@ -231,7 +231,7 @@ Response
   ]
 }
 ```
-For more details on this endpoint see [List Business Categories](/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1businessCategories/get)
+For more details on this endpoint see [List Business Categories](../../openapi/platform/platform.yaml/paths/~1businessCategories/get)
 
 
 ### Creating a Sales Contact 
@@ -304,7 +304,7 @@ It will return the newly created record including any server populated values. B
 }
 ```
 
-For more details on this endpoint see [Create Sales Contacts](/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1salesContacts/post)
+For more details on this endpoint see [Create Sales Contacts](../../openapi/platform/platform.yaml/paths/~1salesContacts/post)
 
 ### Update attribute on a business location
 When updating the values for a business location you only need to send the fields that have changed. In this example we are updating the `customerIdentifier` on the business location with ID `AG-3VDRVLBNJG`. Note that the ID gets set in both the path and body. 
@@ -331,7 +331,7 @@ When updating the values for a business location you only need to send the field
   }
 }
 ```
-For more details on this endpoint see [Update Business Locations](/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1businessLocations~1%7Bid%7D/patch)
+For more details on this endpoint see [Update Business Locations](../../openapi/platform/platform.yaml/paths/~1businessLocations~1%7Bid%7D/patch)
 
 ### Get a list of your business locations
 
@@ -384,4 +384,4 @@ Will return a list of business location:
 }
 ```
 
-For more details on this endpoint see [List Business Locations](/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1businessLocations~1%7Bid%7D/get)
+For more details on this endpoint see [List Business Locations](../../openapi/platform/platform.yaml/paths/~1businessLocations~1%7Bid%7D/get)

@@ -7,6 +7,10 @@ servers:
     description: Production
   - description: Demo
     url: 'https://demo.apigateway.co/platform'
+  - description: Local
+    url: '{local}/platform'
+  - url: 'http://localhost:11001/platform'
+    description: Localhost
 paths:
   /salesContacts:
     post:
@@ -867,7 +871,7 @@ components:
         relationships:
           type: object
           properties:
-            partners:
+            businessPartner:
               type: object
               description: A link to the organization that provides the platform to this business location.
               properties:
@@ -994,7 +998,6 @@ components:
                     required:
                       - id
                       - type
-                  readOnly: true
                 meta:
                   type: object
                   description: Readonly
@@ -1212,7 +1215,6 @@ components:
           default: orders
           enum:
             - orders
-          readOnly: true
         attributes:
           type: object
           properties:

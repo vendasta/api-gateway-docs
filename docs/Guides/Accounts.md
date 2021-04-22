@@ -21,7 +21,7 @@ To create a new Business Location make the following call, replacing values as a
   "url": "https://prod.apigateway.co/platform/businessLocations",
   "query": {},
   "headers": {
-    "Authorization": "Bearer <Access Token with `business` scope>",
+    "Authorization": "Bearer <Access Token with 'business' scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "body": {
@@ -46,7 +46,7 @@ To create a new Business Location make the following call, replacing values as a
       "relationships": {
         "businessPartner": {
           "data": {
-            "type": "organizations",
+            "type": "partners",
             "id": "ABC"
           }
         },
@@ -86,6 +86,10 @@ It will return the newly created record including any server populated values. B
         "zip": "O2C 4W9",
         "countryCode": "CA"
       },
+      "geoCoordinate": {
+        "latitude": 0,
+        "longitude": 0
+      },
       "serviceAreaBusiness": false,
       "phoneNumbers": [
         "1 (555) 323-1234",
@@ -115,7 +119,7 @@ It will return the newly created record including any server populated values. B
           "self": "https://prod.apigateway.co/platform/businessLocations/AG-123/relationships/businessPartner"
         },
         "data": {
-          "type": "organizations",
+          "type": "partners",
           "id": "ABC"
         }
       }
@@ -139,7 +143,7 @@ This example will return the first 3 in Canadian French. Change the `Accept-Lang
     "page[limit]": "3"
   },
   "headers": {
-    "Authorization": "Bearer <Access Token with `business` scope>",
+    "Authorization": "Bearer <Access Token with 'business' scope>",
     "Accept-Language": "fr-CA"
   }
 }
@@ -191,7 +195,7 @@ There are over 700 categories to pick from currently. To view them all you have 
     "page[cursor]": "eyJsYXN0UGFnZVN0YXJ0IjowLCJsYXN0UGFnZUVuZCI6MywiZm9yUGFnZVR5cGUiOiJuZXh0IiwibGltaXQiOjN9"
   },
   "headers": {
-    "Authorization": "Bearer <Access Token with `business` scope>",
+    "Authorization": "Bearer <Access Token with 'business' scope>",
     "Accept-Language": "fr-CA"
   }
 }
@@ -244,7 +248,7 @@ When creating a Contact for a Business you may also link that Contact to a Locat
   "url": "https://prod.apigateway.co/platform/salesContacts",
   "query": {},
   "headers": {
-    "Authorization": "Bearer <Token with `sales.contact` scope>",
+    "Authorization": "Bearer <Token with 'sales.contact' scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "body": {
@@ -258,7 +262,7 @@ When creating a Contact for a Business you may also link that Contact to a Locat
         "email": "user@example.com"
       },
       "relationships": {
-        "locations": {
+        "businessLocations": {
           "data": [
             {
               "id": "AG-1234",
@@ -287,15 +291,15 @@ It will return the newly created record including any server populated values. B
       "email": "user@example.com"
     },
     "relationships": {
-      "locations": {
+      "businessLocations": {
         "links": {
-          "related": "https://prod.apigateway.co/platform/salesContacts/CO-0739c46cc4794157bf962bd73ce897a7/locations",
-          "self": "https://prod.apigateway.co/platform/salesContacts/CO-0739c46cc4794157bf962bd73ce897a7/relationships/locations"
+          "related": "https://prod.apigateway.co/platform/salesContacts/CO-0739c46cc4794157bf962bd73ce897a7/businessLocations",
+          "self": "https://prod.apigateway.co/platform/salesContacts/CO-0739c46cc4794157bf962bd73ce897a7/relationships/businessLocations"
         },
         "data": [
           {
             "type": "businessLocations",
-            "id": "AG-123"
+            "id": "AG-1234"
           }
         ]
       }
@@ -317,7 +321,7 @@ When updating the values for a business location you only need to send the field
     "fields[businessLocations]": "customerIdentifier"
   },
   "headers": {
-    "Authorization": "Bearer <Access Token with `business` scope>",
+    "Authorization": "Bearer <Access Token with 'business' scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "body": {
@@ -340,12 +344,12 @@ For more details on this endpoint see [Update Business Locations](../../openapi/
   "method": "get",
   "url": "https://prod.apigateway.co/platform/businessLocations",
   "query": {
-    "filter[businessPartner]": "me",
+    "filter[businessPartner.id]": "ABC",
     "fields[businessLocations]": "name",
-    "page[limit]": 2
+    "page[limit]": "2"
   },
   "headers": {
-    "Authorization": "Bearer {your token}",
+    "Authorization": "Bearer <Access Token with 'business' scope>",
     "Content-Type": "application/vnd.api+json",
     "Accept-Encoding": "application/vnd.api+json"
   }
@@ -374,12 +378,7 @@ Will return a list of business location:
   ],
   "links": {
     "first": "https://prod.apigateway.co/platform/businessLocations?page[cursor]=abc",
-    "self": "https://prod.apigateway.co/platform/businessLocations?page[cursor]=klm",
-    "next": "https://prod.apigateway.co/platform/businessLocations?page[cursor]=nop",
-    "last": "https://prod.apigateway.co/platform/businessLocations?page[cursor]=xyz"
-  },
-  "meta": {
-    "total": 234
+    "next": "https://prod.apigateway.co/platform/businessLocations?page[cursor]=nop"
   }
 }
 ```

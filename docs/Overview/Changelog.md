@@ -2,6 +2,16 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2021-04-19
+Added `orders` resource along with create, get and list operations. This will allow you to activate products for a business location.  
+
+## 2021-04-18
+Implemented proposed get and list `salesContacts` operations.
+
+## 2021-04-16
+Refactored some proposed and unused experimental features for consistency. 
+Renamed experimental `invoices` resource to `purchases` to clear up confusion regarding rollup invoices. 
+
 ## 2021-02-16
 Added support for setting and retrieving the lat/long on businessLocations
 

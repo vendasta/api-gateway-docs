@@ -24,4 +24,4 @@ In order to authenticate against a Vendasta API you will need to accomplish each
    1. Exchange the **client assertion** for an **access token** by calling Vendasta's **token endpoint**.
    1. Use this **access token** as a **bearer token** in the **Authorization** header when calling Vendasta endpoints.
 
-Next: [Create a Service Account](2.-CreatingAServiceAccount.md)
+Next: [Create a Service Account](CreatingAServiceAccount.md)

@@ -9,7 +9,7 @@ The location may be a retail store, the business' headquarters or identify an ar
 
 ## Common Actions
 
-> For info on creating an access token see the [Authorization guide](https://vendasta.stoplight.io/docs/openapi-specs/docs/2.-Authorization/1.-Authorization.md)
+> For info on creating an access token see the [Authorization guide](../Authorization/Authorization.md)
 
 ### Creating a Business Location
 
@@ -21,7 +21,7 @@ To create a new Business Location make the following call, replacing values as a
   "url": "https://prod.apigateway.co/platform/businessLocations",
   "query": {},
   "headers": {
-    "Authorization": "Bearer <Access Token with `business` scope>",
+    "Authorization": "Bearer <Access Token with 'business' scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "body": {
@@ -46,7 +46,7 @@ To create a new Business Location make the following call, replacing values as a
       "relationships": {
         "businessPartner": {
           "data": {
-            "type": "organizations",
+            "type": "partners",
             "id": "ABC"
           }
         },
@@ -86,6 +86,10 @@ It will return the newly created record including any server populated values. B
         "zip": "O2C 4W9",
         "countryCode": "CA"
       },
+      "geoCoordinate": {
+        "latitude": 0,
+        "longitude": 0
+      },
       "serviceAreaBusiness": false,
       "phoneNumbers": [
         "1 (555) 323-1234",
@@ -115,7 +119,7 @@ It will return the newly created record including any server populated values. B
           "self": "https://prod.apigateway.co/platform/businessLocations/AG-123/relationships/businessPartner"
         },
         "data": {
-          "type": "organizations",
+          "type": "partners",
           "id": "ABC"
         }
       }
@@ -124,7 +128,7 @@ It will return the newly created record including any server populated values. B
 }
 ```
 
-For more details on this endpoint see [Create Business Locations](/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1businessLocations/post)
+For more details on this endpoint see [Create Business Locations](../../openapi/platform/platform.yaml/paths/~1businessLocations/post)
 
 ### List valid Business Categories
 When creating a business location you will likely want to know what ids you can use for the businessCategories field. 
@@ -139,7 +143,7 @@ This example will return the first 3 in Canadian French. Change the `Accept-Lang
     "page[limit]": "3"
   },
   "headers": {
-    "Authorization": "Bearer <Access Token with `business` scope>",
+    "Authorization": "Bearer <Access Token with 'business' scope>",
     "Accept-Language": "fr-CA"
   }
 }
@@ -191,7 +195,7 @@ There are over 700 categories to pick from currently. To view them all you have 
     "page[cursor]": "eyJsYXN0UGFnZVN0YXJ0IjowLCJsYXN0UGFnZUVuZCI6MywiZm9yUGFnZVR5cGUiOiJuZXh0IiwibGltaXQiOjN9"
   },
   "headers": {
-    "Authorization": "Bearer <Access Token with `business` scope>",
+    "Authorization": "Bearer <Access Token with 'business' scope>",
     "Accept-Language": "fr-CA"
   }
 }
@@ -231,7 +235,7 @@ Response
   ]
 }
 ```
-For more details on this endpoint see [List Business Categories](/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1businessCategories/get)
+For more details on this endpoint see [List Business Categories](../../openapi/platform/platform.yaml/paths/~1businessCategories/get)
 
 
 ### Creating a Sales Contact 
@@ -244,7 +248,7 @@ When creating a Contact for a Business you may also link that Contact to a Locat
   "url": "https://prod.apigateway.co/platform/salesContacts",
   "query": {},
   "headers": {
-    "Authorization": "Bearer <Token with `sales.contact` scope>",
+    "Authorization": "Bearer <Token with 'sales.contact' scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "body": {
@@ -258,7 +262,7 @@ When creating a Contact for a Business you may also link that Contact to a Locat
         "email": "user@example.com"
       },
       "relationships": {
-        "locations": {
+        "businessLocations": {
           "data": [
             {
               "id": "AG-1234",
@@ -287,15 +291,15 @@ It will return the newly created record including any server populated values. B
       "email": "user@example.com"
     },
     "relationships": {
-      "locations": {
+      "businessLocations": {
         "links": {
-          "related": "https://prod.apigateway.co/platform/salesContacts/CO-0739c46cc4794157bf962bd73ce897a7/locations",
-          "self": "https://prod.apigateway.co/platform/salesContacts/CO-0739c46cc4794157bf962bd73ce897a7/relationships/locations"
+          "related": "https://prod.apigateway.co/platform/salesContacts/CO-0739c46cc4794157bf962bd73ce897a7/businessLocations",
+          "self": "https://prod.apigateway.co/platform/salesContacts/CO-0739c46cc4794157bf962bd73ce897a7/relationships/businessLocations"
         },
         "data": [
           {
             "type": "businessLocations",
-            "id": "AG-123"
+            "id": "AG-1234"
           }
         ]
       }
@@ -304,7 +308,7 @@ It will return the newly created record including any server populated values. B
 }
 ```
 
-For more details on this endpoint see [Create Sales Contacts](/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1salesContacts/post)
+For more details on this endpoint see [Create Sales Contacts](../../openapi/platform/platform.yaml/paths/~1salesContacts/post)
 
 ### Update attribute on a business location
 When updating the values for a business location you only need to send the fields that have changed. In this example we are updating the `customerIdentifier` on the business location with ID `AG-3VDRVLBNJG`. Note that the ID gets set in both the path and body. 
@@ -317,7 +321,7 @@ When updating the values for a business location you only need to send the field
     "fields[businessLocations]": "customerIdentifier"
   },
   "headers": {
-    "Authorization": "Bearer <Access Token with `business` scope>",
+    "Authorization": "Bearer <Access Token with 'business' scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "body": {
@@ -331,7 +335,7 @@ When updating the values for a business location you only need to send the field
   }
 }
 ```
-For more details on this endpoint see [Update Business Locations](/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1businessLocations~1%7Bid%7D/patch)
+For more details on this endpoint see [Update Business Locations](../../openapi/platform/platform.yaml/paths/~1businessLocations~1%7Bid%7D/patch)
 
 ### Get a list of your business locations
 
@@ -340,12 +344,12 @@ For more details on this endpoint see [Update Business Locations](/docs/openapi-
   "method": "get",
   "url": "https://prod.apigateway.co/platform/businessLocations",
   "query": {
-    "filter[businessPartner]": "me",
+    "filter[businessPartner.id]": "ABC",
     "fields[businessLocations]": "name",
-    "page[limit]": 2
+    "page[limit]": "2"
   },
   "headers": {
-    "Authorization": "Bearer {your token}",
+    "Authorization": "Bearer <Access Token with 'business' scope>",
     "Content-Type": "application/vnd.api+json",
     "Accept-Encoding": "application/vnd.api+json"
   }
@@ -374,14 +378,9 @@ Will return a list of business location:
   ],
   "links": {
     "first": "https://prod.apigateway.co/platform/businessLocations?page[cursor]=abc",
-    "self": "https://prod.apigateway.co/platform/businessLocations?page[cursor]=klm",
-    "next": "https://prod.apigateway.co/platform/businessLocations?page[cursor]=nop",
-    "last": "https://prod.apigateway.co/platform/businessLocations?page[cursor]=xyz"
-  },
-  "meta": {
-    "total": 234
+    "next": "https://prod.apigateway.co/platform/businessLocations?page[cursor]=nop"
   }
 }
 ```
 
-For more details on this endpoint see [List Business Locations](/docs/openapi-specs/openapi/platform/platform.yaml/paths/~1businessLocations~1%7Bid%7D/get)
+For more details on this endpoint see [List Business Locations](../../openapi/platform/platform.yaml/paths/~1businessLocations~1%7Bid%7D/get)

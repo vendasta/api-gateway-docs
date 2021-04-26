@@ -1,9 +1,9 @@
 # Obtaining an Access Token for a service account
 
-<!-- theme: info -->
+<!-- theme: warning -->
 > These directions assume you have already [created a service account](CreatingAServiceAccount.md)
 
-
+sd*fs*df 
 
 ### Building a client assertion
 

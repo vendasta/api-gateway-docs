@@ -1,6 +1,6 @@
 # Sell your products
 
-Products and packages that you have added to your store can be sold to a business location by creating an order.
+Products that you have added to your store can be sold to a business location by creating an order.
 
 You simply need the product SKU ([found here](FindSKU.md)), ID of a previously created business location, and the price you will be charging to your customer. 
 

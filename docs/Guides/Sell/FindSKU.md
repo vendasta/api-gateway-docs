@@ -25,14 +25,14 @@ Addon SKUs start with `A-`. Example: `A-GMXXNQ4ZGD`
 Product | Production SKU | Demo SKU
 --------|----------------|---------
  Express |RM:EDITION-F7JZ5TV8 | RM:EDITION-38SMW45H
- Pro | RM:EDITION-VENDASTAPRO | RM:EDITION-VENDASTAPRO
+ Pro | RM | RM
 
 ### Social Marketing
 
 Product | Production SKU | Demo SKU
 --------|----------------|---------
  Express |SM:EDITION-FVGBNLVZ | SM:EDITION-SWVF3WH8
- Pro | SM:EDITION-VENDASTAPRO | SM:EDITION-VENDASTAPRO
+ Pro | SM | SM
 
 ### Listing Builder
 
@@ -58,9 +58,9 @@ Listing Sync Pro \| Germany Yearly | A-W2GGC7TJW3 | N/A
 Listing Sync Pro \| Germany Monthly | A-JZGCTTMHLG | N/A
 Listing Sync Pro \| Italy Yearly | A-KK3MNLFDP5 | N/A
 Listing Sync Pro \| Italy Monthly | A-CDFBK8XW2W | N/A
-Listing Sync Pro United States Yearly | A-TMPJGS28X7 | N/A
-Listing Sync Pro \| United States Monthly | A-ZR7M2V6TCD | N/A
-Listing Sync Pro \| United States \| Yext | A-WNW446NCNS | N/A
+Listing Sync Pro \| United States \| Yearly | A-TMPJGS28X7 | N/A
+Listing Sync Pro \| United States \| Monthly | A-ZR7M2V6TCD | N/A
+Listing Sync Pro \| United States \| Yext \| Yearly | A-WNW446NCNS | N/A
 Listing Sync Pro \| United States \| Yext \| Monthly | A-8PHKXVRZFS | N/A
 Listing Sync Pro \| United Kingdom \| Yearly | A-WCH8K4S8LS | N/A
 Listing Sync Pro \| United Kingdom \| Monthly | A-FR72RDNMP6 | N/A
@@ -70,14 +70,14 @@ Listing Sync Pro \| United Kingdom \| Monthly | A-FR72RDNMP6 | N/A
 Product | Production SKU | Demo SKU
 --------|----------------|---------
  Express |MP-ee4ea04e553a4b1780caf7aad7be07cd:EDITION-VFNL43ZF | MP-9cc9f21f0a234a46ad78087fc09f16bc:EDITION-RC58KN73
- Pro | MP-ee4ea04e553a4b1780caf7aad7be07cd:EDITION-VENDASTAPRO | MP-9cc9f21f0a234a46ad78087fc09f16bc:EDITION-VENDASTAPRO
+ Pro | MP-ee4ea04e553a4b1780caf7aad7be07cd | MP-9cc9f21f0a234a46ad78087fc09f16bc
 
 ### Customer Voice
 
 Product | Production SKU | Demo SKU
 --------|----------------|---------
  Express |MP-c4974d390a044c28aec31e421aa662b2:EDITION-TC8HJZNS | MP-fba21121b71148c9bb33e11fcd92d520:EDITION-4WWZC3RJ
- Pro | MP-c4974d390a044c28aec31e421aa662b2:EDITION-VENDASTAPRO | MP-fba21121b71148c9bb33e11fcd92d520:EDITION-VENDASTAPRO
+ Pro | MP-c4974d390a044c28aec31e421aa662b2 | MP-fba21121b71148c9bb33e11fcd92d520
 
 ### Advertising Intelligence
 
@@ -97,7 +97,7 @@ Third party products are not activatable on the Demo environment.
 
 Note that Products with Order Forms are not able to be activated via API at this time, and thus are not included in this list. Please Contact support@vendasta.com if there is a Product that you are looking to activate that is not on this list.
  
-Product | Addon | sku
+Product | Addon | Production SKU
 --------|-------|---------
 Google Ads Robot |  | MP-B77R7GG4QHGKF5RMVSLVZPD3D5JSTZ4K
 |  | Google Ads: Monthly Additional Spend | A-SBGZJLT6VD

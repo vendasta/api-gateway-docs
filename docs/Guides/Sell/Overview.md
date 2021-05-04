@@ -154,6 +154,8 @@ will add the number of units specified by the `quantity` attribute to any existi
 
 
 ### Apply default pricing to the order items
+**Coming soon**
+
 If product has been configured with a Retail Price at Partner Center -> Marketplace -> Manage Products -> Product Settings, you may leave off the `amount` and `intervalCode` to have the configured price be used.
 
 ### Sell a product with an order form

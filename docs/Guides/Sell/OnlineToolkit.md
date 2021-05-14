@@ -143,12 +143,6 @@ type: tab-end
 
 
 ## Step 2: Place the order
-<!--
-type: tab
-title: Overview
--->
-
-
 
 <!--
 type: tab

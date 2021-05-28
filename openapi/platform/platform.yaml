@@ -1320,9 +1320,155 @@ components:
               type: string
               description: A user friendly description for the category. It will have been translated based on the Accept-Language header.
               readOnly: true
+    users:
+      title: Users
+      type: object
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Proposed`
+        A person or automated system capable of accessig the system.
+      x-tags:
+        - Users
+      properties:
+        type:
+          type: string
+          default: users
+          enum:
+            - users
+          readOnly: true
+        id:
+          type: string
+          description: The id will be assigned by the server and must be included on all update requests. Values sent during creation will be ignored.
+        attributes:
+          type: object
+          properties:
+            displayName:
+              type: string
+              example: Bill Smith
+              description: The user’s name formatted for display. This will always have a value.
+              readOnly: true
+            givenName:
+              type: string
+              description: 'Given name(s) or first name(s) of the End-User. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters.'
+              minLength: 0
+              maxLength: 20
+              example: William
+            familyName:
+              type: string
+              description: 'Surname(s) or last name(s) of the End-User. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters.'
+              minLength: 0
+              maxLength: 25
+              example: Smith
+            greetingName:
+              type: string
+              description: The name to use at the opening of messages addressed to the user. Note that in some cultures this is an alternate spelling or shortend form of the first name. Defaults to givenName.
+              minLength: 0
+              maxLength: 20
+              example: Billy
+            email:
+              type: string
+              format: email
+              example: bill@example.com
+              minLength: 5
+              description: |-
+                The primary email address for the user.
+                This is required when creating a user.
+            emailVerified:
+              type: boolean
+              default: false
+            emailSet:
+              type: boolean
+            languageLocaleCode:
+              type: string
+            phoneNumbersSet:
+              type: boolean
+            phoneNumbers:
+              type: array
+              items:
+                type: object
+                properties:
+                  phoneNumber:
+                    type: string
+                  type:
+                    type: string
+            address:
+              type: object
+              properties:
+                streetAddress:
+                  type: string
+                additionalAddress:
+                  type: string
+                city:
+                  type: string
+                postalCode:
+                  type: string
+                regionCode:
+                  type: string
+                countryCode:
+                  type: string
+            profileImage:
+              type: string
+              format: uri
+            timeZone:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+        relationships:
+          type: object
+          properties:
+            partner:
+              type: object
+              description: A link to the organization that provides the platform to this user.
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                      default: partners
+                      enum:
+                        - partners
+                    id:
+                      type: string
+                      example: ABC
+              required:
+                - data
+            businessLocations:
+              type: object
+              description: 'The business locations that this user has a direct connection to. '
+              properties:
+                data:
+                  type: array
+                  maxItems: 3
+                  minItems: 1
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        default: businessCategories
+                        enum:
+                          - businessCategories
+                        example: businessCategories
+                      id:
+                        type: string
+                        example: AG-1234567
+                    required:
+                      - type
+                      - id
 tags:
   - name: Business Categories
   - name: Business Locations
+  - name: Users
+  - name: Business Users
   - name: Sales Contacts
   - name: Purchases
   - name: Orders

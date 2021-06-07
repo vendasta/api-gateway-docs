@@ -9,6 +9,7 @@ When creating a new user you will need their email address and the IDs of the pl
 The most common platform features are:
 
 |ID|Description|
+|--|-----------|
 |pc:access|Allows the user to access the admin tools in partner center|
 |ssc:access|Provides access to Sales & Success Center|
 |ssc:manage|Allows access to the management tools in Sales & Success Center|

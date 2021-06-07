@@ -538,6 +538,8 @@ paths:
         - schema:
             type: array
             example: 'U-12342,U-5345'
+            items:
+              type: string
           in: query
           name: 'filter[id]'
           description: A comma separated list of user ids to fetch in a batch
@@ -553,10 +555,12 @@ paths:
           description: A string containing a complete email that must be an exact match.
         - schema:
             type: array
-            enum:
-              - business
-              - partner
-              - bot
+            items:
+              type: string
+              enum:
+                - business
+                - partner
+                - bot
           in: query
           name: 'filter[category]'
           description: 'Filter the users based on the broad category that they fall into. In some rare cases users may be part of multiple categories. '
@@ -700,7 +704,7 @@ paths:
       description: |-
         [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Proposed`
 
-        Deleting a user will remove personal data from it and prevent the ID from being used again in the future. 
+        Deleting a user will remove personal data from it and prevent the ID from being used again in the future.
       security:
         - OAuth:
             - user.admin
@@ -1106,6 +1110,9 @@ paths:
                       - type
               required:
                 - data
+      responses:
+        '204':
+          description: No Content
       x-lifecycle:
         status: proposed
       description: |-
@@ -1725,7 +1732,7 @@ components:
         id:
           type: string
           description: |-
-            The id will be assigned by the server and must be included on all update requests. Values sent during creation will be ignored. It is globally unique across all platform instances and will not change. 
+            The id will be assigned by the server and must be included on all update requests. Values sent during creation will be ignored. It is globally unique across all platform instances and will not change.
 
             You may use the special id `me` to operate on the current user if you have the scope `openid`.
         attributes:
@@ -1774,11 +1781,11 @@ components:
               pattern: '^[a-z]{2}[A-Z]{2}$'
               example: en-US
               description: |-
-                The local language that content should be displayed to this user in. 
+                The local language that content should be displayed to this user in.
 
                 Note: We currently have a limited set of allowed languages but expect to support many more in the future. When the requested language is not supported US English will be used.
 
-                It should be a single BCP47/[RFC5646] language tag. This is an ISO 639-1 Alpha-2 [ISO639‑1] language code in lowercase and an ISO 3166-1 Alpha-2 [ISO3166‑1] country code in uppercase, separated by a dash.  
+                It should be a single BCP47/[RFC5646] language tag. This is an ISO 639-1 Alpha-2 [ISO639‑1] language code in lowercase and an ISO 3166-1 Alpha-2 [ISO3166‑1] country code in uppercase, separated by a dash.
 
                 Examples:
                 - `en-US` English (US)
@@ -1811,7 +1818,7 @@ components:
                     description: |-
                       A classification of what the number should be used for.
 
-                      The mobile number should be preferred when sending SMS messages to the user however they may also be sent to work or home numbers. 
+                      The mobile number should be preferred when sending SMS messages to the user however they may also be sent to work or home numbers.
                     enum:
                       - mobile
                       - work
@@ -1839,7 +1846,7 @@ components:
                 regionCode:
                   type: string
                   description: |-
-                    The code for the top level subdivision within the country (state/province) as defined by [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) format. 
+                    The code for the top level subdivision within the country (state/province) as defined by [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) format.
 
                     Examples: CA-SK, US-FL, AG-08, AU-NSW
                   example: CA-SK
@@ -1854,7 +1861,7 @@ components:
             timeZone:
               type: string
               description: |-
-                The User's time zone in the IANA [time zone database format](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). 
+                The User's time zone in the IANA [time zone database format](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 
                 Example: `America/Los_Angeles`
             createdAt:
@@ -1895,9 +1902,9 @@ components:
               description: |-
                 The business locations that this user is a member of.
 
-                When a new location is added to a user they will be granted the default business user permissions. 
+                When a new location is added to a user they will be granted the default business user permissions.
 
-                Fine grained permissions currently must be managed in Partner Center's UI. We are gathering interest to determine how it should work by API so please send us your use cases. 
+                Fine grained permissions currently must be managed in Partner Center's UI. We are gathering interest to determine how it should work by API so please send us your use cases.
               properties:
                 data:
                   type: array

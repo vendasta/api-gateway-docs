@@ -401,6 +401,318 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/businessLocations'
+  /users:
+    post:
+      summary: Create User
+      operationId: post-users
+      responses:
+        '201':
+          description: Created
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/users'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                        description: The address of the newly created user
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The address of the newly created user
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/users'
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Proposed`
+
+        Used to record basic data for a new location.
+
+        The following members must be populated during creation:
+        - `relationships.partner.data.id`
+        - `attributes.email`
+
+        See the guides for creating [partner users](TODO) and [business users](TODO) for details on granting them permission to access the system.
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      security:
+        - OAuth:
+            - user.admin
+      tags:
+        - Users
+    options:
+      operationId: options-users
+      summary: List valid HTTP verbs for /users
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - Options
+        - Users
+    get:
+      summary: List Users
+      operationId: get-users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/users'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                      next:
+                        type: string
+                        description: The URI at which the next batch of purchases can be gotten from
+                        format: uri
+      description: |-
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Proposed`
+
+        Produces a list of users
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[partner.id]'
+          description: Return users for the specified partner
+          required: true
+        - schema:
+            type: string
+          in: query
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+          name: 'page[cursor]'
+        - schema:
+            type: number
+          in: query
+          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+          name: 'page[limit]'
+        - schema:
+            type: array
+            example: 'U-12342,U-5345'
+          in: query
+          name: 'filter[id]'
+          description: A comma separated list of user ids to fetch in a batch
+        - schema:
+            type: string
+          in: query
+          name: 'filter[searchTerm]'
+          description: A string containing a partial name or email address. The results order is not affected by the quality of this match.
+        - schema:
+            type: string
+          in: query
+          name: 'filter[email]'
+          description: A string containing a complete email that must be an exact match.
+        - schema:
+            type: array
+            enum:
+              - business
+              - partner
+              - bot
+          in: query
+          name: 'filter[category]'
+          description: 'Filter the users based on the broad category that they fall into. In some rare cases users may be part of multiple categories. '
+      security:
+        - OAuth:
+            - user.admin
+            - user.list
+      tags:
+        - Users
+  '/users/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get User
+      tags:
+        - Users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/users'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      operationId: get-users-id
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Proposed`
+
+        Returns information about a single user. The fields you are able to use will be affected by the combination of scopes that you were granted access to.
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+      security:
+        - OAuth:
+            - user.admin
+            - 'user.profile:read'
+            - 'user.contact:read'
+            - 'user.permission:read'
+            - user.permission
+            - self.user.admin
+            - 'self.user.contact:read'
+            - openid
+            - profile
+            - email
+            - phone
+            - address
+    options:
+      operationId: options-users-id
+      summary: 'List valid HTTP verbs for /users/{id}'
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - Options
+        - Users
+    patch:
+      summary: Update User
+      operationId: patch-users-id
+      tags:
+        - Users
+      description: |-
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Proposed`
+
+        Update the existing user.
+        Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
+      x-lifecycle:
+        status: proposed
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      security:
+        - OAuth:
+            - user.admin
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/users'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                        description: The address of the updated user
+          headers: {}
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/users'
+    delete:
+      summary: Delete User
+      operationId: delete-users-id
+      responses:
+        '204':
+          description: No Content
+      description: |-
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Proposed`
+
+        Deleting a user will remove personal data from it and prevent the ID from being used again in the future. 
+      security:
+        - OAuth:
+            - user.admin
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
   /purchases:
     get:
       summary: List Purchases
@@ -760,6 +1072,70 @@ paths:
       tags:
         - Options
         - Orders
+  '/users/{id}/relationships/businessLocations':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    post:
+      summary: Associate user with location
+      operationId: post-users-id-relationships-businessLocations
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  description: A list of business locations to be added
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: AG-1234567
+                        description: The ID of a business location to grant default access to
+                      type:
+                        type: string
+                        description: This should always be `businessLocations`
+                        default: businessLocations
+                        example: businessLocations
+                    required:
+                      - id
+                      - type
+              required:
+                - data
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Proposed`
+        Users can be granted default access to a business location using then operation. If the user is already connected to one of the specified locations it will be ignored. Only new locations need to be specified.
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      security:
+        - OAuth:
+            - user.admin
+      tags:
+        - Users
 components:
   securitySchemes:
     JWT:
@@ -778,6 +1154,19 @@ components:
             partner: Read-write access to details about your partner
             financial: Read-write access to financial details
             order: Read-write access to order details
+            'user.profile:read': Read access to the profile fields of all categories of users
+            'user.contact:read': 'Read access to the contact info (email, phone, address) of all categories of users'
+            'user.permission:read': 'Read access to the permission info (accessible locations, features and roles) of all categories of users'
+            user.permission: 'Read-write access to the permission info (accessible locations, features and roles) of all categories of users'
+            user.admin: Read-write access to manage all users
+            user.list: '''Allows searching for users based on a set of filters. (ex: email, name, category, organization). Without this scope an exact user id is required.'
+            self.user.admin: 'Allows editing the profile, contact info and profile image for the current user.'
+            'self.user.contact:read': 'Read access to the contact info (email, phone, address) of the current user.'
+            openid: Allows getting the user id of the current user
+            profile: 'Readonly access to the user profile, including name, locale, and language preferences.'
+            email: Allows readonly access to the email of the current user.
+            phone: Allows readonly access to the phone numbers of the current user.
+            address: Allows readonly access to the address of the current user.
   schemas:
     businessLocations:
       title: Business Location
@@ -1325,9 +1714,7 @@ components:
       type: object
       x-lifecycle:
         status: proposed
-      description: |-
-        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Proposed`
-        A person or automated system capable of accessig the system.
+      description: "[Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Proposed`\n\t\nA “user” is a person or bot that could potentially interact with the platform. If they have not been granted access to any features they will not be able to do anything after loging in.\n\nA person who is the customer of multiple businesses may have multiple separate user records within the platform so it is important to always include an organization filter when searching by email or name. "
       x-tags:
         - Users
       properties:
@@ -1339,7 +1726,10 @@ components:
           readOnly: true
         id:
           type: string
-          description: The id will be assigned by the server and must be included on all update requests. Values sent during creation will be ignored.
+          description: |-
+            The id will be assigned by the server and must be included on all update requests. Values sent during creation will be ignored. It is globally unique across all platform instances and will not change. 
+
+            You may use the special id `me` to operate on the current user if you have the scope `openid`.
         attributes:
           type: object
           properties:
@@ -1377,10 +1767,27 @@ components:
             emailVerified:
               type: boolean
               default: false
+              description: 'True if the End-User''s e-mail address has been verified; otherwise false. When true affirmative steps to ensure that this e-mail address was controlled by the End-User at the time the verification was performed. '
             emailSet:
               type: boolean
+              description: Indicates there is an email address available that can have messages sent to it using the notifications system.
             languageLocaleCode:
               type: string
+              pattern: '^[a-z]{2}[A-Z]{2}$'
+              example: en-US
+              description: |-
+                The local language that content should be displayed to this user in. 
+
+                Note: We currently have a limited set of allowed languages but expect to support many more in the future. When the requested language is not supported US English will be used.
+
+                It should be a single BCP47/[RFC5646] language tag. This is an ISO 639-1 Alpha-2 [ISO639‑1] language code in lowercase and an ISO 3166-1 Alpha-2 [ISO3166‑1] country code in uppercase, separated by a dash.  
+
+                Examples:
+                - `en-US` English (US)
+                - `fr-FR` French (France)
+                - `cs-Cz` Czech (Czech Republic)
+                - `de-DE` German (Germany)
+                - `nl-BE` Dutch (Belgium)
             phoneNumbersSet:
               type: boolean
             phoneNumbers:
@@ -1388,36 +1795,80 @@ components:
               items:
                 type: object
                 properties:
-                  phoneNumber:
+                  number:
                     type: string
-                  type:
+                    description: |-
+                      The standard phone numbers for the location.
+                      Formating characters may be included.
+
+                      **Extentions**
+
+                      It is recommended that extentions are included at the end of the number after an appropriate seperator: Pause: `,` Wait: `;` Default: `ext.`
+
+                      You may test the parsibility of a number using https://phonenumbers.temba.io/
+
+                      All partial phone numbers are assumed to be in the same country as this user's address.
+                  typeCode:
                     type: string
+                    description: |-
+                      A classification of what the number should be used for.
+
+                      The mobile number should be preferred when sending SMS messages to the user however they may also be sent to work or home numbers. 
+                    enum:
+                      - mobile
+                      - work
+                      - home
+                      - fax
+                      - pager
+                required:
+                  - number
+                  - typeCode
             address:
               type: object
+              description: The primary address where this user can be reached.
               properties:
                 streetAddress:
                   type: string
                 additionalAddress:
                   type: string
+                  description: An additional line of information to add after the stree address.
                 city:
                   type: string
+                  description: 'The city, town or locality component of an address.'
                 postalCode:
                   type: string
+                  description: The zip code or postal code component of an address.
                 regionCode:
                   type: string
+                  description: |-
+                    The code for the top level subdivision within the country (state/province) as defined by [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) format. 
+
+                    Examples: CA-SK, US-FL, AG-08, AU-NSW
+                  example: CA-SK
                 countryCode:
                   type: string
+                  description: "The two letter country code defined by\_[ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) \n\nExamples: `CA`, `US`"
             profileImage:
               type: string
               format: uri
+              description: A photo that can be used to represent this user. If the user does not have a custom image set a default image will be returned.
+              readOnly: true
             timeZone:
               type: string
+              description: |-
+                The User's time zone in the IANA [time zone database format](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). 
+
+                Example: `America/Los_Angeles`
             createdAt:
               type: string
               format: date-time
+              description: The time at which the user was initially created in the platform.
+              readOnly: true
             updatedAt:
               type: string
               format: date-time
+              description: 'The time at which the user’s profile was last updated. Note: Changes to permissions will not affect this field.'
+              readOnly: true
         relationships:
           type: object
           properties:
@@ -1443,7 +1894,12 @@ components:
                 - data
             businessLocations:
               type: object
-              description: 'The business locations that this user has a direct connection to. '
+              description: |-
+                The business locations that this user is a member of.
+
+                When a new location is added to a user they will be granted the default business user permissions. 
+
+                Fine grained permissions currently must be managed in Partner Center's UI. We are gathering interest to determine how it should work by API so please send us your use cases. 
               properties:
                 data:
                   type: array
@@ -1461,6 +1917,7 @@ components:
                       id:
                         type: string
                         example: AG-1234567
+                        description: The ID of a previously created business location record.
                     required:
                       - type
                       - id

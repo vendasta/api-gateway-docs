@@ -75,7 +75,7 @@ The most common platform features are:
 }
 ```
 
-For full details on the available fields see the [API specification](TODO).
+For full details on the available fields see the [API specification](../../openapi/platform/platform.yaml/components/schemas/users).
 
 Creating a user by API does **not** send out a welcome email. You may build your own message or send ours in a later step of your process.
 

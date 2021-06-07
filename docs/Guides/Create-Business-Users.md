@@ -4,7 +4,7 @@ After creating a business location you most likely want to add some users to it 
 
 
 ## Create a new user
-When creating a new user you will need their email address and the IDs of the business locations that you would like to give them access to. For full details on the available fields see the [API specification](TODO).
+When creating a new user you will need their email address and the IDs of the business locations that you would like to give them access to. For full details on the available fields see the [API specification](../../openapi/platform/platform.yaml/components/schemas/users).
 
 
 ```json http

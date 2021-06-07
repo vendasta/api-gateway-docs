@@ -13,8 +13,8 @@ Users within your platform will generally fall into one of the following categor
 
 ## Quick start guides
 - [Get the profile data of a user](./Display-Users.md)
-- [Create a new business user](./Create-Business-User.md)
-- [Create a new partner user](./Create-Partner-User.md)
+- [Create a new business user](Create-Business-Users.md)
+- [Create a new partner user](Create-Partner-Users.md)
 
 
 ## Personal Data Protection

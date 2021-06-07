@@ -6,19 +6,19 @@ Users within your platform will generally fall into one of the following categor
 
 **Business Users:** Are generally the managers of the small businesses that your team sells to.  
 
-**Guest Users:** Are people who are part of a different platform instance from yourself. You are most likely to come accross them if you are using the fulfilment services of another partner or comunicating with a vendor.
+**Guest Users:** Are people who are part of a different platform instance from yourself. You are most likely to come across them if you are using the fulfilment services of another partner or communicating with a vendor.
 
 **Bot Users:** To allow auditing of background tasks completed by your service accounts they have users accounts as well. 
 
 
 ## Quick start guides
-- Get the profile data of a user
+- [Get the profile data of a user](./Display-Users.md)
 - [Create a new business user](./Create-Business-User.md)
 - [Create a new partner user](./Create-Partner-User.md)
 
 
 ## Personal Data Protection
-User records contain sensitive data that we need to work togther to protect, such as the name and contact info of a person. There are a few things we can do to achive that.  
+User records contain sensitive data that we need to work together to protect, such as the name and contact info of a person. There are a few things we can do to achieve that.  
 
 1. You can use the `fields` and `filter*` query parameters to request only the info that you need. 
 2. We will apply security checks to individual fields. If you or the app does not have sufficient access the fields will be left blank, nil or omitted in responses. 
@@ -55,7 +55,7 @@ Info for the user associated with the access token can also be granted.
 `self.user.contact:read` - Allows readonly access to the contact info (email, phone, address) of the current user.
 
 
-`openid` - Allows getting the user record for the currently logged in user by using a user id of me. 
+`openid` - Allows getting the user record for the currently logged-in user by using a user id of me. 
 
 `profile` - Readonly access to the user profile, including name, locale, and language preferences.
 

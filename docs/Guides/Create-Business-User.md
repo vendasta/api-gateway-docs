@@ -79,7 +79,8 @@ If another user already exists within your platform with the same email address 
   "url": "https://prod.apigateway.co/platform/users",
   "query": {
     "filter[partner.id]": "",
-    "filter[email]": "bill@example.com"
+    "filter[email]": "bill@example.com",
+    "fields": "user[displayName]"
   },
   "headers": {
     "Authorization": "Bearer <Access Token with 'user.admin' scope>"

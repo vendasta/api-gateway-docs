@@ -1,6 +1,6 @@
 # Create a Partner User
 
-When you hire a new employee they are going to need access to some of the platform features so they can start selling or fufilling orders.
+When you hire a new employee they are going to need access to some of the platform features so they can start selling or fulfilling orders.
 
 
 ## Create a new user

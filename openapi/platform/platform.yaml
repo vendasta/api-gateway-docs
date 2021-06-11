@@ -1778,7 +1778,7 @@ components:
               description: Indicates there is an email address available that can have messages sent to it using the notifications system.
             languageLocaleCode:
               type: string
-              pattern: '^[a-z]{2}[A-Z]{2}$'
+              pattern: '^[a-z]{2}-[A-Z]{2}$'
               example: en-US
               description: |-
                 The local language that content should be displayed to this user in.
@@ -1923,6 +1923,29 @@ components:
                         type: string
                         example: AG-1234567
                         description: The ID of a previously created business location record.
+                    required:
+                      - type
+                      - id
+            platformAccess:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        default: appFeatures
+                        example: appFeatures
+                      id:
+                        type: string
+                        enum:
+                          - 'pc:access'
+                          - 'ssc:access'
+                          - 'ssc:manage'
+                          - 'tm:access'
+                          - 'tm:manage'
                     required:
                       - type
                       - id

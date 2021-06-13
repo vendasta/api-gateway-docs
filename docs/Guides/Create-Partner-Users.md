@@ -29,7 +29,6 @@ The most common platform features are:
     "data": {
       "type": "users",
       "attributes": {
-        "displayName": "Bill Smith",
         "givenName": "William",
         "familyName": "Smith",
         "greetingName": "Billy",

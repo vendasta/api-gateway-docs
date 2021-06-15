@@ -51,11 +51,11 @@ When creating a new user you will need their email address and the IDs of the bu
         "businessLocations": {
           "data": [
             {
-              "type": "businessCategories",
+              "type": "businessLocations",
               "id": "AG-1234567"
             },
             {
-              "type": "businessCategories",
+              "type": "businessLocations",
               "id": "AG-9876543"
             }
           ]

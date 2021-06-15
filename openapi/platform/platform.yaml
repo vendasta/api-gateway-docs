@@ -1772,12 +1772,12 @@ components:
             emailVerified:
               type: boolean
               default: false
-              readOnly: true
               description: 'True if the End-User''s e-mail address has been verified; otherwise false. When true affirmative steps to ensure that this e-mail address was controlled by the End-User at the time the verification was performed. '
+              readOnly: true
             emailSet:
               type: boolean
-              readOnly: true
               description: Indicates there is an email address available that can have messages sent to it using the notifications system.
+              readOnly: true
             languageLocaleCode:
               type: string
               pattern: '^[a-z]{2}-[A-Z]{2}$'
@@ -1918,17 +1918,16 @@ components:
               properties:
                 data:
                   type: array
-                  maxItems: 3
-                  minItems: 1
                   items:
                     type: object
+                    additionalProperties: false
                     properties:
                       type:
                         type: string
-                        default: businessCategories
+                        default: businessLocations
+                        example: businessLocations
                         enum:
-                          - businessCategories
-                        example: businessCategories
+                          - businessLocations
                       id:
                         type: string
                         example: AG-1234567

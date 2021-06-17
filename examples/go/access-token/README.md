@@ -18,3 +18,17 @@ Example using the prebuilt image for MacOS
 ```shell
 ./bin/access-token-darwin-amd64 ~/.config/api-gateway/demo-9YW9.json business order user.admin
 ```
+
+## Installation
+There are several ways that you can get the tool onto your computer.
+
+1. Download a prebuilt image
+   - [From github](https://github.com/vendasta/api-gateway-docs/tree/master/examples/go/access-token/bin)
+2. Install using go
+   - Install [golang](https://golang.org/doc/install)
+   - Run `go install github.com/vendasta/api-gateway-docs/examples/go/access-token@latest`
+   - Then run `access-token <private key file path> [scope1 [scope2]]`
+3. Run the source code
+   - Install [golang](https://golang.org/doc/install)
+   - Save [main.go](https://github.com/vendasta/api-gateway-docs/blob/master/examples/go/access-token/main.go) to your computer
+   - Run `go run main.go <private key file path> [scope1 [scope2]]`

@@ -612,6 +612,7 @@ paths:
         [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
 
         Use this operation to create a new order for a business.
+        All orders created by API start out in the `processing` status and do not require approval by either the partner admin or SMB admin. 
       parameters:
         - schema:
             type: string
@@ -1260,11 +1261,11 @@ components:
                 - error
                 - archived
               description: |-
-                The order status of the order will be one of the following:
+                The status of the order will be automatically set to one of the following by the system:
                 - `draft`: The order has not yet been sent for approval
                 - `processing`: The order and its items are being processed
                 - `declined`: The order has been declined by an admin or a customer
-                - `fulfilled`: The order and its items have been sucessfuly processed
+                - `fulfilled`: The order and its items have been sucessfuly processed. This includes activating the products with the vendor(s).
                 - `error`: One or more of the orders items failed to be processed
                 - `archived`: The order has been marked as archived
               readOnly: true

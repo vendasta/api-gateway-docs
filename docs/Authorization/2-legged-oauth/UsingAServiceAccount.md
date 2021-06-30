@@ -3,6 +3,11 @@
 <!-- theme: info -->
 > These directions assume you have already [created a service account](CreatingAServiceAccount.md)
 
+## Command Line
+It is generally best to use a library (below) within the same code that you will
+be writing the rest of your application in. For debugging and using the try it now
+features of this site you may use our [command line tool](https://github.com/vendasta/api-gateway-docs/tree/master/examples/go/access-token).
+
 ## Using a library
 We recommend using one of the OAuth2 libraries listed at [jwt.io](https://jwt.io/) to generate your access tokens. Look for one in your preferred programming language that has a green checkmark next to `Sign` and `RS256`.
 

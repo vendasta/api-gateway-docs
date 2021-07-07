@@ -456,7 +456,7 @@ public class ServiceAccountSample {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type",
-                    "application/x-www-form-urlencoded");
+                    "application/vnd.api+json");
 
             connection.setRequestProperty("Content-Length",
                     Integer.toString(urlParameters.getBytes().length));
@@ -475,7 +475,12 @@ public class ServiceAccountSample {
             wr.close();
 
             //Get Response
-            InputStream is = connection.getInputStream();
+            InputStream is = null;
+            if (connection.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                is = connection.getInputStream();
+            } else {
+                is = connection.getErrorStream();
+            }
             BufferedReader rd = new BufferedReader(new InputStreamReader(is));
             StringBuilder response = new StringBuilder(); // or StringBuffer if Java version 5+
             String line;

@@ -4,7 +4,7 @@
 >
 > For info on creating an access token see the [Authorization guide](../Authorization/Authorization.md)
 
-After creating a business location you most likely want to add some users to it who can access Business App and any of the activated products.
+After creating a business location you most likely want to add some users to it who can access Business App and any of the activated products. test
 
 
 ## Create a new user

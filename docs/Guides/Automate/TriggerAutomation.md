@@ -15,7 +15,7 @@ type: tab
 title: Request
 -->
 
-You will need the ID of the automation you previously created as well as the business ID of the business location you would like to trigger that automation for. Add the access token to the headers and send it off. 
+You will need the ID of the automation you previously created as well as the [business ID](../Accounts.md) of the business location you would like to trigger that automation for. Add the access token to the headers and send it off. 
 
 This api call has an empty response.
 
@@ -33,7 +33,6 @@ This api call has an empty response.
   "body": {
      "data": {
         "type": "automationRuns",
-        "attributes": {},
         "relationships": {
             "businessLocation": {
                 "data": {

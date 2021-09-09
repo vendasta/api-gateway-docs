@@ -715,40 +715,40 @@ paths:
         description: The id of the order to be returned
     get:
       summary: Get Order
-        responses:
-          '200':
-            description: OK
-            content:
-              application/vnd.api+json:
-                schema:
-                  type: object
-                  properties:
-                    data:
-                      $ref: '#/components/schemas/orders'
-                    links:
-                      type: object
-                      properties:
-                        self:
-                          type: string
-          operationId: get-orders-id
-          security:
-            - OAuth:
-                - order
-          x-lifecycle:
-            status: experimental
-            description: |-
-              [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/orders'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+        operationId: get-orders-id
+        security:
+          - OAuth:
+              - order
+        x-lifecycle:
+          status: experimental
+          description: |-
+            [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
 
-              Fetch the current values for the specified order.
-            parameters:
-              - schema:
-                  type: string
-                  example: Bearer <Access Token>
-                  pattern: ^Bearer\s\S+
-                in: header
-                name: Authorization
-                description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
-                required: true
+            Fetch the current values for the specified order.
+          parameters:
+            - schema:
+                type: string
+                example: Bearer <Access Token>
+                pattern: ^Bearer\s\S+
+              in: header
+              name: Authorization
+              description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+              required: true
     options:
       operationId: options-order-id
       summary: 'List valid HTTP verbs for /orders/{id}'

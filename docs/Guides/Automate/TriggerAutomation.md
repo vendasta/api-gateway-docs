@@ -32,7 +32,7 @@ This api call has an empty response.
   },
   "body": {
      "data": {
-        "type": "automationRun",
+        "type": "automationRuns",
         "attributes": {},
         "relationships": {
             "businessLocation": {

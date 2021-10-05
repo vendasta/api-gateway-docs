@@ -1264,8 +1264,12 @@ components:
               properties:
                 line1:
                   type: string
+                  example: 109 8th Street E.
+                  description: The primary information. Typically a street address.
                 line2:
                   type: string
+                  example: Suite 23
+                  description: An additional line of information to add after the street address.
                 city:
                   type: string
                 stateCode:
@@ -1273,15 +1277,46 @@ components:
                   maxLength: 2
                   minLength: 2
                   example: CA
-                  description: The two letter state code within the country
+                  deprecated: true
+                  description: Deprecated - This field has been replaced by regionCode. The two letter state code within the country
+                  x-lifecycle:
+                    status: deprecated
+                    deprecated: "2021-10-04"
+                    proposedRemoval: "2021-11-04"
+                    description: "This field was replaced by regionCode while at the experimental phase. It will be removed shortly."
                 zip:
                   type: string
+                  deprecated: true
+                  description: Deprecated - This field has been renamed postalCode
+                  x-lifecycle:
+                    status: deprecated
+                    deprecated: "2021-10-04"
+                    proposedRemoval: "2021-11-04"
+                    description: "This field was renamed to postalCode while at the experimental phase. It will be removed shortly."
+                postalCode:
+                  type: string
+                  description: The zip code or postal code component of an address.
+                  example: S7M 1R3
+                regionCode:
+                  type: string
+                  description: |-
+                    The code for the top level subdivision within the country (state/province) as defined by [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) format.
+
+                    Examples: CA-SK, US-FL, AG-08, AU-NSW
+                  example: CA-SK
+                  maxLength: 6
+                  minLength: 4
+                  pattern: '^[A-Z]{2}-[\w]{1,3}$'
                 countryCode:
                   type: string
                   maxLength: 2
                   minLength: 2
                   example: CA
-                  description: 'The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
+                  description: |-
+                    The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
+
+                    Examples: CA, US, AU
+                  pattern: '^[A-Z]{2}$'
             phoneNumbers:
               type: array
               description: |-
@@ -1893,13 +1928,34 @@ components:
               type: object
               description: The primary address where this user can be reached.
               properties:
+                line1:
+                  type: string
+                  example: 109 8th Street E.
+                  description: The primary information. Typically a street address.
+                line2:
+                  type: string
+                  example: Suite 23
+                  description: An additional line of information to add after the street address.
                 streetAddress:
                   type: string
                   example: 109 8th Street E.
+                  deprecated: true
+                  description: Deprecated - This field has been renamed line1
+                  x-lifecycle:
+                    status: deprecated
+                    deprecated: "2021-10-04"
+                    proposedRemoval: "2021-11-04"
+                    description: "This field was renamed to line1 while at the experimental phase. It will be removed shortly."
                 additionalAddress:
                   type: string
-                  description: An additional line of information to add after the stree address.
                   example: Suite 23
+                  deprecated: true
+                  description: Deprecated - This field has been renamed line2. An additional line of information to add after the stree address.
+                  x-lifecycle:
+                    status: deprecated
+                    deprecated: "2021-10-04"
+                    proposedRemoval: "2021-11-04"
+                    description: "This field was renamed to line2 while at the experimental phase. It will be removed shortly."
                 city:
                   type: string
                   description: 'The city, town or locality component of an address.'
@@ -1915,10 +1971,19 @@ components:
 
                     Examples: CA-SK, US-FL, AG-08, AU-NSW
                   example: CA-SK
+                  maxLength: 6
+                  minLength: 4
+                  pattern: '^[A-Z]{2}-[\w]{1,3}$'
                 countryCode:
                   type: string
-                  description: "The two letter country code defined by\_[ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) \n\nExamples: `CA`, `US`"
+                  maxLength: 2
+                  minLength: 2
                   example: CA
+                  description: |-
+                    The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
+
+                    Examples: CA, US, AU
+                  pattern: '^[A-Z]{2}$'
             profileImage:
               type: string
               format: uri
@@ -2100,7 +2165,6 @@ tags:
   - name: Business Categories
   - name: Business Locations
   - name: Users
-  - name: Business Users
   - name: Sales Contacts
   - name: Purchases
   - name: Orders

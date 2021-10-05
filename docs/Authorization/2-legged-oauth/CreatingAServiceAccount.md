@@ -62,7 +62,7 @@ The service account credential JSON file you downloaded should look something li
   "token_uri": "https://sso-api-prod.apigateway.co/oauth2/token",
   "assertionHeaderData": {
     "alg": "RS256",
-    "kid": "<key-id>"
+    "kid": "c0273fce-79b7-4104-8a8c-ea489abb3979"
   },
   "assertionPayloadData": {
     "aud": "https://iam-prod.apigateway.co",

@@ -3,96 +3,55 @@
 <!-- theme: info -->
 > These directions assume you have already [created a service account](CreatingAServiceAccount.md)
 
+## Command Line
+It is generally best to use a library (below) within the same code that you will
+be writing the rest of your application in. For debugging and using the try it now
+features of this site you may use our [command line tool](https://github.com/vendasta/api-gateway-docs/tree/master/examples/go/access-token).
 
+## Using a library
+We recommend using one of the OAuth2 libraries listed at [jwt.io](https://jwt.io/) to generate your access tokens. Look for one in your preferred programming language that has a green checkmark next to `Sign` and `RS256`.
 
-### Building a client assertion
-
-**Note:** many languages provide libraries which abstract over some of the following steps. You may be able to skip certain steps depending on the library you use. This guide will cover the process at a relatively low level.
-
-The assertion we'll use to prove our identity to Vendasta's token endpoint is a [JWT](https://jwt.io/introduction/).
-
-A JWT consists of a _header_ section, a _payload_ section and a _signature_ section.
-
-#### Building the assertion header
-
-The header of your assertion must contain both the algorithm (`alg`) with which the JWT is signed, and the id of the private key used to sign it (`kid`).
-
-Both of these values may be found within the service account credential JSON file you downloaded in a previous step. Here's an example JWT header prior to encoding:
+### Parameters
+Most of the parameters that you need to pass into the library can be found in the json file that was downloaded when you created keys for your service account. As a reminder here is what that file looks like:
 
 ```json
 {
-  "alg": "RS256",
-  "kid": "c0273fce-79b7-4104-8a8c-ea489abb3979"
+  "type": "service_account",
+  "private_key_id": "c0273fce-79b7-4104-8a8c-ea489abb3979",
+  "private_key": "-----BEGIN RSA PRIVATE KEY-----<private-key>-----END RSA PRIVATE KEY-----\n",
+  "client_email": "automated-account-creation@partner-service-account.apigateway.co",
+  "token_uri": "https://sso-api-prod.apigateway.co/oauth2/token",
+  "assertionHeaderData": {
+    "alg": "RS256",
+    "kid": "c0273fce-79b7-4104-8a8c-ea489abb3979"
+  },
+  "assertionPayloadData": {
+    "aud": "https://iam-prod.apigateway.co",
+    "iss": "automated-account-creation@partner-service-account.apigateway.co",
+    "sub": "automated-account-creation@partner-service-account.apigateway.co"
+  }
 }
 ```
 
-Here's where to find each piece:
+The exact format for providing the parameters will change for each library. Generally, they are broken into `assertion header` and `assertion payload` categories. 
 
-- **alg**: Use the value found at the `alg` key in your downloaded JSON file's `assertionHeaderData`.
-- **kid**: Use the value found at the `kid` key in your downloaded JSON file's `assertionHeaderData`.
+#### Assertion Headers Parameters
+- **alg** (AKA Algorithm): Use the value found at the `alg` key in your downloaded JSON file's `assertionHeaderData`.
+- **kid** (AKA Key ID): Use the value found at the `kid` key in your downloaded JSON file's `assertionHeaderData`.
 
 
-#### Building the assertion payload
-
-Now we must build the assertion's payload. Here's an example payload prior to encoding.
-
-```json
-{
-  "aud": "https://iam-prod.apigateway.co",
-  "iat": 1591287394,
-  "exp": 1591287994,
-  "iss": "automated-account-creation@partner-service-account.apigateway.co",
-  "sub": "automated-account-creation@partner-service-account.apigateway.co",
-  "scope": "profile email"
-}
-```
-
-Here's where to find each piece:
+#### Assertion Payload Parameters
 
 - **aud** (AKA audience): Use the value found at the `aud` key in your downloaded JSON file's `assertionPayloadData`.
- - **iat** (AKA issued at): The time the jwt was issued as the number of **seconds** 
-  since the [Unix Epoch](https://en.wikipedia.org/wiki/Unix_time). Most languages include helpers for calculating this.</dd>
-- **exp** (AKA expiry): The time when the token should expire as the number of **seconds** 
+- **iat** (AKA issued at): The current time as the number of **seconds** 
+  since the [Unix Epoch](https://en.wikipedia.org/wiki/Unix_time). Most languages include helpers for calculating this.
+- **exp** (AKA expiry): We recommend a value of 10 minutes (or less) from the current time. The **exp** parameter defines the point at which the request to create an access token is no longer valid. This protects against replay attacks. If your library does not have a helper it should be specified as the number of **seconds** 
   since the [Unix Epoch](https://en.wikipedia.org/wiki/Unix_time). 
-  We recommend a value of 10 minutes (or less) from when the token was issued.</dd>
+
 - **iss** (AKA issuer): Use the value found at the `iss` key in your downloaded JSON file's `assertionPayloadData`.
 - **sub** (AKA subject): Use the value found at the `sub` key in your downloaded JSON file's `assertionPayloadData`.
-- **scope**: Space-separated [scopes](https://tools.ietf.org/html/rfc6749#section-3.3) which should be included on the access token which will be issued. Each of the endpoints will provide a list of scopes. At least one of them must be included here in order to call that endpoint.
+- **scope**: This parameter should contain a space-separated list of the categories of things you would like the access token to be able to use. Each of the API operations provides a list of scopes. At least one of them must be included here to call that endpoint.
 
-**Note:** The `jti` claim, which is a client-provided unique identifier for the JWT (typically a UUID) is not yet supported by Vendasta. It will be ignored if provided.
-
-After constructing a JSON object representing your claims, you'll need to sign it with your private key.
-
-#### Signing the client assertion
-
-The steps required to sign your JWT will vary substantially depending on which 
-language you are working with. Please consult a trusted JWT library in the language of your choice.
-
-Ensure you provide the appropriate headers, use the correct signing algorithm (as specified in your downloaded JSON file) and provide your payload as the JWT's claims. 
-
-The encoded and signed JWT you receive as a result of this process will then be used as your client **assertion** in the next step.
-
-### Exchanging your client assertion for an access token
-
-Now that we have a signed client assertion we can provide it to Vendasta's **token URL** to receive an **access token**.
-
-We need to provide this assertion as a parameter to the **token URL**.
-
-Use your language's provided library to encode the following key-value pairs as form data and set your `Content-Type` header to `application/x-www-form-urlencoded`.
-
-* `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer`
-* `assertion=<client-assertion>` (use the client assertion you built in the previous step)
-
-Construct a `POST` request to URI provided in the `token_uri` field of your downloaded JSON file with the encoded form-data as the body.
-
-Here's an example `curl` command:
-
-```sh
-curl --location --request POST 'https://sso-api-prod.apigateway.co/oauth2/token' \
---header 'Content-Type: application/x-www-form-urlencoded' \
---data-urlencode 'grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer' \
---data-urlencode 'assertion=<your-assertion>'
-```
 
 ### Examples
 
@@ -237,15 +196,47 @@ namespace csharp
     // Object representing our client credentials JSON file
     internal class ClientCredentials
     {
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("assertionHeaderData")]
+        public AssertionHeaderData AssertionHeaderData { get; set; }
+
+        [JsonProperty("assertionPayloadData")]
+        public AssertionPayloadData AssertionPayloadData { get; set; }
+
         [JsonProperty("private_key_id")]
-        public string PrivateKeyId { get; set; }
+        public Guid PrivateKeyId { get; set; }
+
         [JsonProperty("private_key")]
         public string PrivateKey { get; set; }
+
         [JsonProperty("client_email")]
         public string ClientEmail { get; set; }
+
         [JsonProperty("token_uri")]
-        public string TokenUri { get; set; }
-            
+        public Uri TokenUri { get; set; }
+    }
+
+    internal class AssertionHeaderData
+    {
+        [JsonProperty("alg")]
+        public string Alg { get; set; }
+
+        [JsonProperty("kid")]
+        public Guid Kid { get; set; }
+    }
+
+    internal class AssertionPayloadData
+    {
+        [JsonProperty("aud")]
+        public Uri Aud { get; set; }
+
+        [JsonProperty("iss")]
+        public string Iss { get; set; }
+
+        [JsonProperty("sub")]
+        public string Sub { get; set; }
     }
 
     public static class Program
@@ -278,18 +269,18 @@ namespace csharp
             // Build the headers for our assertion jwt
             var headers = new Dictionary<string, object>
             {
-                {"kid", credentials.PrivateKeyId},
-                {"alg", "RS256"},
+                {"kid", credentials.assertionHeaderData.kid},
+                {"alg", credentials.assertionHeaderData.alg},
             };
             
             // Build the payload for our assertion jwt
             var payload = new Dictionary<string, object>
             {
-                {"aud", "https://iam-prod.apigateway.co"},
+                {"aud", credentials.assertionPayloadData.aud},
                 {"iat", now.ToUnixTimeSeconds()},
                 {"exp", now.AddMinutes(10).ToUnixTimeSeconds()},
-                {"iss", credentials.ClientEmail},
-                {"sub", credentials.ClientEmail},
+                {"iss", credentials.assertionPayloadData.iss},
+                {"sub", credentials.assertionPayloadData.sub},
                 {"scope", "profile email"},
             };
             // Parse our PrivateKey PEM
@@ -399,16 +390,16 @@ public class ServiceAccountSample {
 
             // Form and sign the JWT
             Map<String, Object> headerClaims = new HashMap<String, Object>();
-            headerClaims.put("kid", credentials.get("private_key_id"));
-            headerClaims.put("alg", "RS256");
+            headerClaims.put("kid", credentials.get("assertionHeaderData").get("kid"));
+            headerClaims.put("alg", credentials.get("assertionHeaderData").get("alg"));
 
             // jti claim is not yet used by Vendasta, and it will be ignored in the backend; regardless, here is an example of how to make and use the claim
             String jti = UUID.randomUUID().toString();
 
             String token = JWT.create()
-                    .withAudience("https://iam-prod.apigateway.co")
-                    .withIssuer((String) credentials.get("client_email"))
-                    .withSubject((String) credentials.get("client_email"))
+                    .withAudience((String) credentials.get("assertionPayloadData").get("aud"))
+                    .withIssuer((String) credentials.get("assertionPayloadData").get("iss"))
+                    .withSubject((String) credentials.get("assertionPayloadData").get("sub"))
                     .withHeader(headerClaims)
                     .withIssuedAt(Date.from(Instant.now()))
                     .withExpiresAt(Date.from(Instant.now().plusSeconds(10 * 60))) // 10 minutes in the future
@@ -420,7 +411,7 @@ public class ServiceAccountSample {
             // The request scope for the token
             Scope scope = new Scope("profile", "email");
             // The token endpoint
-            URI tokenEndpoint = new URI("https://sso-api-prod.apigateway.co/oauth2/token");
+            URI tokenEndpoint = new URI((string)credentials.get("token_uri");
             // Make the token request
             TokenRequest request = new TokenRequest(tokenEndpoint, bearerGrant, scope);
             TokenResponse response = TokenResponse.parse(request.toHTTPRequest().send());
@@ -465,7 +456,7 @@ public class ServiceAccountSample {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type",
-                    "application/x-www-form-urlencoded");
+                    "application/vnd.api+json");
 
             connection.setRequestProperty("Content-Length",
                     Integer.toString(urlParameters.getBytes().length));
@@ -484,7 +475,12 @@ public class ServiceAccountSample {
             wr.close();
 
             //Get Response
-            InputStream is = connection.getInputStream();
+            InputStream is = null;
+            if (connection.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                is = connection.getInputStream();
+            } else {
+                is = connection.getErrorStream();
+            }
             BufferedReader rd = new BufferedReader(new InputStreamReader(is));
             StringBuilder response = new StringBuilder(); // or StringBuffer if Java version 5+
             String line;
@@ -519,3 +515,93 @@ public class ServiceAccountSample {
 <!-- type: tab-end -->
 
 
+## Manually
+If you like working in obscure languages or doing things the hard way here is a quick overview of the process. For full details you will need to read the [OAuth2 specs](https://oauth.net/specs/) yourself. 
+
+### Building a client assertion
+
+The assertion we'll use to prove our identity to Vendasta's token endpoint is a [JWT](https://jwt.io/introduction/).
+
+A JWT consists of a _header_ section, a _payload_ section and a _signature_ section.
+
+#### Building the assertion header
+
+The header of your assertion must contain both the algorithm (`alg`) with which the JWT is signed, and the id of the private key used to sign it (`kid`).
+
+Both of these values may be found within the service account credential JSON file you downloaded in a previous step. Here's an example JWT header prior to encoding:
+
+```json
+{
+  "alg": "RS256",
+  "kid": "c0273fce-79b7-4104-8a8c-ea489abb3979"
+}
+```
+
+Here's where to find each piece:
+
+- **alg**: Use the value found at the `alg` key in your downloaded JSON file's `assertionHeaderData`.
+- **kid**: Use the value found at the `kid` key in your downloaded JSON file's `assertionHeaderData`.
+
+
+#### Building the assertion payload
+
+Now we must build the assertion's payload. Here's an example payload prior to encoding.
+
+```json
+{
+  "aud": "https://iam-prod.apigateway.co",
+  "iat": 1591287394,
+  "exp": 1591287994,
+  "iss": "automated-account-creation@partner-service-account.apigateway.co",
+  "sub": "automated-account-creation@partner-service-account.apigateway.co",
+  "scope": "profile email"
+}
+```
+
+Here's where to find each piece:
+
+- **aud** (AKA audience): Use the value found at the `aud` key in your downloaded JSON file's `assertionPayloadData`.
+ - **iat** (AKA issued at): The time the jwt was issued as the number of **seconds** 
+  since the [Unix Epoch](https://en.wikipedia.org/wiki/Unix_time). Most languages include helpers for calculating this.</dd>
+- **exp** (AKA expiry): The time when the token should expire as the number of **seconds** 
+  since the [Unix Epoch](https://en.wikipedia.org/wiki/Unix_time). 
+  We recommend a value of 10 minutes (or less) from when the token was issued.</dd>
+- **iss** (AKA issuer): Use the value found at the `iss` key in your downloaded JSON file's `assertionPayloadData`.
+- **sub** (AKA subject): Use the value found at the `sub` key in your downloaded JSON file's `assertionPayloadData`.
+- **scope**: Space-separated [scopes](https://tools.ietf.org/html/rfc6749#section-3.3) which should be included on the access token which will be issued. Each of the endpoints will provide a list of scopes. At least one of them must be included here in order to call that endpoint.
+
+**Note:** The `jti` claim, which is a client-provided unique identifier for the JWT (typically a UUID) is not yet supported by Vendasta. It will be ignored if provided.
+
+After constructing a JSON object representing your claims, you'll need to sign it with your private key.
+
+#### Signing the client assertion
+
+The steps required to sign your JWT will vary substantially depending on which 
+language you are working with. Please consult a trusted JWT library in the language of your choice.
+
+Ensure you provide the appropriate headers, use the correct signing algorithm (as specified in your downloaded JSON file) and provide your payload as the JWT's claims. 
+
+The encoded and signed JWT you receive as a result of this process will then be used as your client **assertion** in the next step.
+
+### Exchanging your client assertion for an access token
+
+Now that we have a signed client assertion we can provide it to Vendasta's **token URL** to receive an **access token**.
+
+We need to provide this assertion as a parameter to the **token URL**.
+
+Use your language's provided library to encode the following key-value pairs as form data and set your `Content-Type` header to `application/x-www-form-urlencoded`.
+
+* `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer`
+* `assertion=<client-assertion>` (use the client assertion you built in the previous step)
+
+Construct a `POST` request to URI provided in the `token_uri` field of your downloaded JSON file with the encoded form-data as the body.
+
+Here's an example `curl` command:
+
+```sh
+curl --location --request POST 'https://sso-api-prod.apigateway.co/oauth2/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer' \
+--data-urlencode 'assertion=<your-signed-assertion>'
+```
+Note that the `<your-signed-assertion>` should be replaced with the encrypted set of characters created by signing the json assertion.

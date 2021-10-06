@@ -23,7 +23,7 @@ Items will progress through the following maturity levels:
 
 **Removed** - The item has been sunset and can no longer be used
 
-To aid in your planning the `deprecated` date, `proposedRemoval` date and migration `description` properties will be added.
+To aid in your planning the `deprecated` date, `proposedRemoval` date and migration `description` properties will be added within the OpenAPI specification files under the `x-lifecycle` property.
 
 ## Other changes
 We may add new optional fields or valid values at any time. These will be documented in the [changelog](Changelog.md)

@@ -13,15 +13,17 @@ Items will progress through the following maturity levels:
 
 **Proposed** - We are considering building this item and would like your feedback. It can only be used with the mock server.
 
-**Experimental** - This item has been implemented but may be removed at any time. 
+**Trusted Tester** - The item is newly built and is undergoing rapid iteration based on feedback from a select set of partners. The item will transition to Early Access after receiving feedback from a sufficient number of partners.  Breaking changes may occur and will be communicated directly to the testing partners.
 
-**Active** - You can use this item with confidence.
+**Early Access** - The item is considered complete and is now in a stabilization period. This is the public beta. We will aim to provide 30 days notice for any breaking changes. The item will transition to General Availability after 90 days of stability.
 
-**Deprecated** - You can still use this item however should consider using something else. Where possible we will continue to support the item for 2 years between announcing the deprecation and removing it. 
+**General Availability** - The item has proven stability under load and no development work is currently being done. New fields, query parameters, or enum values may eventually be added in a backward-compatible way.
 
-**Removed** - This item has been removed and can no longer be used. 
+**Deprecated** - You can still use this item however should consider using something else. Where possible for items that have reached GA we will continue to support the item for 2 years between announcing the deprecation and removing it. This time may be shortened for unused items.
 
-To aid in your planning the `deprecated` date, `proposedRemoval` date and migration `description` properties will be added.
+**Removed** - The item has been sunset and can no longer be used
+
+To aid in your planning the `deprecated` date, `proposedRemoval` date and migration `description` properties will be added within the OpenAPI specification files under the `x-lifecycle` property.
 
 ## Other changes
 We may add new optional fields or valid values at any time. These will be documented in the [changelog](Changelog.md)

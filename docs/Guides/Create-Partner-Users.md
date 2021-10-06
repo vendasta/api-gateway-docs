@@ -2,8 +2,10 @@
 
 When you hire a new employee they are going to need access to some of the platform features so they can start selling or fulfilling orders.
 
+> The ability to manage parter users is comming soon
 
 ## Create a new user
+
 When creating a new user you will need their email address and the IDs of the platform features that you would like to give them access to. 
 
 The most common platform features are:

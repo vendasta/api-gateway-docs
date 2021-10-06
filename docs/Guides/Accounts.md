@@ -33,8 +33,8 @@ To create a new Business Location make the following call, replacing values as a
           "line1": "123 Young St",
           "line2": "",
           "city": "Toronto",
-          "stateCode": "ON",
-          "zip": "O2C 4W9",
+          "regionCode": "CA-ON",
+          "postalCode": "O2C 4W9",
           "countryCode": "CA"
         },
         "phoneNumbers": [ 
@@ -82,8 +82,8 @@ It will return the newly created record including any server populated values. B
         "line1": "123 Young St",
         "line2": "",
         "city": "Toronto",
-        "stateCode": "ON",
-        "zip": "O2C 4W9",
+        "regionCode": "CA-ON",
+        "postalCode": "O2C 4W9",
         "countryCode": "CA"
       },
       "geoCoordinate": {

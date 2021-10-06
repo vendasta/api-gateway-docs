@@ -36,8 +36,8 @@ When creating a new user you will need their email address and the IDs of the bu
           }
         ],
         "address": {
-          "streetAddress": "190 11th Street E.",
-          "additionalAddress": "Unit 342",
+          "line1": "190 11th Street E.",
+          "line2": "Unit 342",
           "city": "Saskatoon",
           "postalCode": "H0H 0H0",
           "regionCode": "CA-SK",
@@ -92,8 +92,11 @@ If another user already exists within your platform with the same email address 
 }
 ```
 
-## Link an existing user
-Adding additional business locations
+
+## Coming soon
+
+### Link an existing user
+You may add one or more add additional business locations to an existing user in the following way.
 
 ```json http
 {

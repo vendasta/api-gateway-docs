@@ -50,12 +50,12 @@ Note: Scopes are normally defined for much larger categories of data which inclu
 
 Info for the user associated with the access token can also be granted.
 
-`self.user` - Allows editing the profile, contact info and profile image for the current user.
+`self.user.admin` - Allows editing the profile, contact info and profile image for the current user.
 
 `self.user.contact:read` - Allows readonly access to the contact info (email, phone, address) of the current user.
 
 
-`openid` - Allows getting the user record for the currently logged-in user by using a user id of me. 
+`openid` - Allows getting the user record for the currently logged-in user by using a user id of `me`. 
 
 `profile` - Readonly access to the user profile, including name, locale, and language preferences.
 

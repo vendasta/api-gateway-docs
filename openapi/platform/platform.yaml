@@ -40,9 +40,9 @@ paths:
                 format: uri
               description: The address of the newly created contact
       x-lifecycle:
-        status: experimental
+        status: trustedTester
       description: |-
-        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
 
         Use this operation to create a new Sales Contact for a business.
 
@@ -122,9 +122,9 @@ paths:
         - OAuth:
             - sales.contact
       x-lifecycle:
-        status: experimental
+        status: trustedTester
       description: |-
-        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
 
         Fetch the current values for the specified sales contact
       parameters:
@@ -182,9 +182,9 @@ paths:
                 data:
                   $ref: '#/components/schemas/businessLocations'
       x-lifecycle:
-        status: experimental
+        status: trustedTester
       description: |-
-        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
 
         Used to record basic data for a new location.
 
@@ -256,7 +256,7 @@ paths:
                         description: The URI at which the next batch of purchases can be gotten from
                         format: uri
       description: |-
-        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
 
         Produces a list of business locations
       parameters:
@@ -287,6 +287,8 @@ paths:
             - business
       tags:
         - Business Locations
+      x-lifecycle:
+        status: trustedTester
   '/businessLocations/{id}':
     parameters:
       - schema:
@@ -315,9 +317,9 @@ paths:
                         type: string
       operationId: get-businessLocations-id
       x-lifecycle:
-        status: experimental
+        status: trustedTester
       description: |-
-        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
 
         Returns basic data about the business location.
       parameters:
@@ -348,12 +350,12 @@ paths:
       tags:
         - Business Locations
       description: |-
-        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
 
         Update the existing business location.
         Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
       x-lifecycle:
-        status: experimental
+        status: trustedTester
       parameters:
         - schema:
             type: string
@@ -401,6 +403,328 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/businessLocations'
+  /users:
+    post:
+      summary: Create User
+      operationId: post-users
+      responses:
+        '201':
+          description: Created
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/users'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                        description: The address of the newly created user
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The address of the newly created user
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/users'
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
+
+        Used to record basic data for a new location.
+
+        The following members must be populated during creation:
+        - `relationships.partner.data.id`
+        - `attributes.email`
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      security:
+        - OAuth:
+            - user.admin
+      tags:
+        - Users
+    options:
+      operationId: options-users
+      summary: List valid HTTP verbs for /users
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - Options
+        - Users
+    get:
+      summary: List Users
+      operationId: get-users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/users'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                      next:
+                        type: string
+                        description: The URI at which the next batch of purchases can be gotten from
+                        format: uri
+      description: |-
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
+
+        Produces a list of users
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[partner.id]'
+          description: Return users for the specified partner. Required except when filtering by id.
+        - schema:
+            type: string
+          in: query
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+          name: 'page[cursor]'
+        - schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 25
+          in: query
+          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+          name: 'page[limit]'
+        - schema:
+            type: array
+            example: 'U-12342,U-5345'
+            items:
+              type: string
+          in: query
+          name: 'filter[id]'
+          description: A comma separated list of user ids to fetch in a batch
+        - schema:
+            type: string
+          in: query
+          name: 'filter[searchTerm]'
+          description: A string containing a partial name or email address. The results order is not affected by the quality of this match.
+        - schema:
+            type: string
+          in: query
+          name: 'filter[email]'
+          description: A string containing a complete email that must be an exact match.
+        - schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - business
+                - partner
+                - bot
+          in: query
+          name: 'filter[category]'
+          description: 'Filter the users based on the broad category that they fall into. In some rare cases users may be part of multiple categories. '
+      security:
+        - OAuth:
+            - user.admin
+            - user.list
+      tags:
+        - Users
+      x-lifecycle:
+        status: trustedTester
+  '/users/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get User
+      tags:
+        - Users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/users'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      operationId: get-users-id
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
+
+        Returns information about a single user. The fields you are able to use will be affected by the combination of scopes that you were granted access to.
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+      security:
+        - OAuth:
+            - user.admin
+            - 'user.profile:read'
+            - 'user.contact:read'
+            - 'user.permission:read'
+            - user.permission
+            - self.user.admin
+            - 'self.user.contact:read'
+            - openid
+            - profile
+            - email
+            - phone
+            - address
+    options:
+      operationId: options-users-id
+      summary: 'List valid HTTP verbs for /users/{id}'
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - Options
+        - Users
+    patch:
+      summary: Update User
+      operationId: patch-users-id
+      tags:
+        - Users
+      description: |-
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Proposed`
+
+        Update the existing user.
+        Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
+      x-lifecycle:
+        status: proposed
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      security:
+        - OAuth:
+            - user.admin
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/users'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                        description: The address of the updated user
+          headers: {}
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/users'
+    delete:
+      summary: Delete User
+      operationId: delete-users-id
+      responses:
+        '204':
+          description: No Content
+      description: |-
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Proposed`
+
+        Deleting a user will remove personal data from it and prevent the ID from being used again in the future.
+      security:
+        - OAuth:
+            - user.admin
+      tags:
+        - Users
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+      x-lifecycle:
+        status: proposed
   /purchases:
     get:
       summary: List Purchases
@@ -411,9 +735,9 @@ paths:
         - OAuth:
             - financial
       x-lifecycle:
-        status: experimental
+        status: trustedTester
       description: |-
-        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
 
         Produces a list of wholesale purchases made.
       parameters:
@@ -502,9 +826,9 @@ paths:
         - OAuth:
             - business
       x-lifecycle:
-        status: experimental
+        status: trustedTester
       description: |-
-        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
 
         Produces a list of business categories
       parameters:
@@ -607,12 +931,12 @@ paths:
                 data:
                   $ref: '#/components/schemas/orders'
       x-lifecycle:
-        status: experimental
+        status: trustedTester
       description: |-
-        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
 
         Use this operation to create a new order for a business.
-        All orders created by API start out in the `processing` status and do not require approval by either the partner admin or SMB admin. 
+        All orders created by API start out in the `processing` status and do not require approval by either the partner admin or SMB admin.
       parameters:
         - schema:
             type: string
@@ -674,7 +998,7 @@ paths:
                         description: The URI at which the next batch of purchases can be gotten from
                         format: uri
       description: |-
-        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
 
         Produces a list of orders.
       security:
@@ -705,6 +1029,8 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
       tags:
         - Orders
+      x-lifecycle:
+        status: trustedTester
   '/orders/{id}':
     parameters:
       - schema:
@@ -737,9 +1063,9 @@ paths:
         - OAuth:
             - order
       x-lifecycle:
-        status: experimental
+        status: trustedTester
       description: |-
-        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
 
         Fetch the current values for the specified order.
       parameters:
@@ -761,6 +1087,127 @@ paths:
       tags:
         - Options
         - Orders
+  '/users/{id}/relationships/businessLocations':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    post:
+      summary: Associate user with location
+      operationId: post-users-id-relationships-businessLocations
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  description: A list of business locations to be added
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: AG-1234567
+                        description: The ID of a business location to grant default access to
+                      type:
+                        type: string
+                        description: This should always be `businessLocations`
+                        default: businessLocations
+                        example: businessLocations
+                    required:
+                      - id
+                      - type
+              required:
+                - data
+      responses:
+        '204':
+          description: No Content
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Proposed`
+
+        Users can be granted default access to a business location using then operation. If the user is already connected to one of the specified locations it will be ignored. Only new locations need to be specified.
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      security:
+        - OAuth:
+            - user.admin
+      tags:
+        - Users
+  /automationRuns:
+    parameters: []
+    post:
+      summary: Create automation run
+      tags:
+        - Automation Runs
+      responses:
+        '202':
+          description: Accepted
+      operationId: post-autoamtionruns
+      security:
+        - OAuth:
+            - business
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
+
+        Create an automation run (to trigger a preconfigured automation)
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+          in: header
+          name: Content-Type
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+          required: true
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/automationRuns'
+    options:
+      operationId: options-automationruns-id
+      summary: List valid HTTP verbs for /automationRuns
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - Options
+        - Automation Runs
 components:
   securitySchemes:
     JWT:
@@ -779,14 +1226,27 @@ components:
             partner: Read-write access to details about your partner
             financial: Read-write access to financial details
             order: Read-write access to order details
+            'user.profile:read': Read access to the profile fields of all categories of users
+            'user.contact:read': 'Read access to the contact info (email, phone, address) of all categories of users'
+            'user.permission:read': 'Read access to the permission info (accessible locations, features and roles) of all categories of users'
+            user.permission: 'Read-write access to the permission info (accessible locations, features and roles) of all categories of users'
+            user.admin: Read-write access to manage all users
+            user.list: '''Allows searching for users based on a set of filters. (ex: email, name, category, organization). Without this scope an exact user id is required.'
+            self.user.admin: 'Allows editing the profile, contact info and profile image for the current user.'
+            'self.user.contact:read': 'Read access to the contact info (email, phone, address) of the current user.'
+            openid: Allows getting the user id of the current user
+            profile: 'Readonly access to the user profile, including name, locale, and language preferences.'
+            email: Allows readonly access to the email of the current user.
+            phone: Allows readonly access to the phone numbers of the current user.
+            address: Allows readonly access to the address of the current user.
   schemas:
     businessLocations:
       title: Business Location
       type: object
       x-lifecycle:
-        status: experimental
+        status: trustedTester
       description: |-
-        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
 
         Any entity that works with a provider company (two-way communication). These generally have a sustained relationship with the provider company. This may include a potential buyer, an existing client, or a past client that has churned.
       x-tags:
@@ -815,8 +1275,12 @@ components:
               properties:
                 line1:
                   type: string
+                  example: 109 8th Street E.
+                  description: The primary information. Typically a street address.
                 line2:
                   type: string
+                  example: Suite 23
+                  description: An additional line of information to add after the street address.
                 city:
                   type: string
                 stateCode:
@@ -824,15 +1288,46 @@ components:
                   maxLength: 2
                   minLength: 2
                   example: CA
-                  description: The two letter state code within the country
+                  deprecated: true
+                  description: Deprecated - This field has been replaced by regionCode. The two letter state code within the country
+                  x-lifecycle:
+                    status: deprecated
+                    deprecated: '2021-10-04'
+                    proposedRemoval: '2021-11-04'
+                    description: This field was replaced by regionCode while at the trusted tester phase. It will be removed shortly.
                 zip:
                   type: string
+                  deprecated: true
+                  description: Deprecated - This field has been renamed postalCode
+                  x-lifecycle:
+                    status: deprecated
+                    deprecated: '2021-10-04'
+                    proposedRemoval: '2021-11-04'
+                    description: This field was renamed to postalCode while at the trusted tester phase. It will be removed shortly.
+                postalCode:
+                  type: string
+                  description: The zip code or postal code component of an address.
+                  example: S7M 1R3
+                regionCode:
+                  type: string
+                  description: |-
+                    The code for the top level subdivision within the country (state/province) as defined by [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) format.
+
+                    Examples: CA-SK, US-FL, AG-08, AU-NSW
+                  example: CA-SK
+                  maxLength: 6
+                  minLength: 4
+                  pattern: '^[A-Z]{2}-[\w]{1,3}$'
                 countryCode:
                   type: string
                   maxLength: 2
                   minLength: 2
                   example: CA
-                  description: 'The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
+                  description: |-
+                    The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
+
+                    Examples: CA, US, AU
+                  pattern: '^[A-Z]{2}$'
             phoneNumbers:
               type: array
               description: |-
@@ -919,9 +1414,9 @@ components:
       title: Sales Contact
       type: object
       x-lifecycle:
-        status: experimental
+        status: trustedTester
       description: |-
-        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
 
         A Sales Contact is a person who works for the business that your sales team may send communications to regarding the business.
 
@@ -1088,9 +1583,9 @@ components:
       title: Purchase
       type: object
       x-lifecycle:
-        status: experimental
+        status: trustedTester
       description: |-
-        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
 
         Purchases are a recipt of items sold to your organization. When selling to another organization you will want to create an Order instead.
 
@@ -1201,9 +1696,9 @@ components:
       title: Order
       type: object
       x-lifecycle:
-        status: experimental
+        status: trustedTester
       description: |-
-        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
 
         An order records a sale to a business location. For example requests see the [Sales guide](../../../../../../docs/Guides/Sell/Overview.md).
       x-tags:
@@ -1298,9 +1793,9 @@ components:
       title: Business Category
       type: object
       x-lifecycle:
-        status: experimental
+        status: trustedTester
       description: |-
-        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Experimental`
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
 
         The taxonomy to be applied to business locations indicating the type of services that they provide.
       x-tags:
@@ -1323,9 +1818,369 @@ components:
               type: string
               description: A user friendly description for the category. It will have been translated based on the Accept-Language header.
               readOnly: true
+    users:
+      title: Users
+      type: object
+      x-lifecycle:
+        status: proposed
+      description: "[Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Proposed`\n\t\nA “user” is a person or bot that could potentially interact with the platform. If they have not been granted access to any features they will not be able to do anything after logging in.\n\nA person who is the customer of multiple businesses may have multiple separate user records within the platform so it is important to always include an organization filter when searching by email or name. \n\nTo learn more and view sample requests visit the [user management guide](../../../../../docs/Guides/Users.md)"
+      x-tags:
+        - Users
+      properties:
+        type:
+          type: string
+          default: users
+          enum:
+            - users
+          readOnly: true
+        id:
+          type: string
+          description: |-
+            The id will be assigned by the server and must be included on all update requests. Values sent during creation will be ignored. It is globally unique across all platform instances and will not change.
+
+            You may use the special id `me` to operate on the current user if you have the scope `openid`.
+        attributes:
+          type: object
+          properties:
+            displayName:
+              type: string
+              example: Bill Smith
+              description: The user’s name formatted for display. This will always have a value.
+              readOnly: true
+            givenName:
+              type: string
+              description: 'Given name(s) or first name(s) of the End-User. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters.'
+              minLength: 0
+              maxLength: 20
+              example: William
+            familyName:
+              type: string
+              description: 'Surname(s) or last name(s) of the End-User. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters.'
+              minLength: 0
+              maxLength: 25
+              example: Smith
+            greetingName:
+              type: string
+              description: The name to use at the opening of messages addressed to the user. Note that in some cultures this is an alternate spelling or shortend form of the first name. Defaults to givenName.
+              minLength: 0
+              maxLength: 20
+              example: Billy
+            email:
+              type: string
+              format: email
+              example: bill@example.com
+              minLength: 5
+              description: |-
+                The primary email address for the user.
+                This is required when creating a user.
+            emailVerified:
+              type: boolean
+              default: false
+              description: 'True if the End-User''s e-mail address has been verified; otherwise false. When true affirmative steps to ensure that this e-mail address was controlled by the End-User at the time the verification was performed. '
+              readOnly: true
+            emailSet:
+              type: boolean
+              description: Indicates there is an email address available that can have messages sent to it using the notifications system.
+              readOnly: true
+            languageLocaleCode:
+              type: string
+              pattern: '^[a-z]{2}-[A-Z]{2}$'
+              example: en-US
+              description: |-
+                The local language that content should be displayed to this user in.
+
+                Note: We currently have a limited set of allowed languages but expect to support many more in the future. When the requested language is not supported US English will be used.
+
+                It should be a single BCP47/RFC5646 language tag. This is an [ISO 639-1 Alpha-2](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) language code in lowercase and an [ISO 3166-1 Alpha-2](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) country code in uppercase, separated by a dash.
+
+                Examples:
+                - `en-US` English (US)
+                - `fr-FR` French (France)
+                - `cs-Cz` Czech (Czech Republic)
+                - `de-DE` German (Germany)
+                - `nl-BE` Dutch (Belgium)
+            phoneNumbersSet:
+              type: boolean
+            phoneNumbers:
+              type: array
+              items:
+                type: object
+                properties:
+                  number:
+                    type: string
+                    description: |-
+                      The standard phone numbers for the location.
+                      Formating characters may be included.
+
+                      **Extentions**
+
+                      It is recommended that extentions are included at the end of the number after an appropriate seperator: Pause: `,` Wait: `;` Default: `ext.`
+
+                      You may test the parsibility of a number using https://phonenumbers.temba.io/
+
+                      All partial phone numbers are assumed to be in the same country as this user's address.
+                    example: +1-306-555-1234 ext. 56
+                  typeCode:
+                    type: string
+                    description: |-
+                      A classification of what the number should be used for.
+
+                      The mobile number should be preferred when sending SMS messages to the user however they may also be sent to work or home numbers.
+                    enum:
+                      - mobile
+                      - work
+                      - home
+                      - fax
+                      - pager
+                required:
+                  - number
+                  - typeCode
+            address:
+              type: object
+              description: The primary address where this user can be reached.
+              properties:
+                line1:
+                  type: string
+                  example: 109 8th Street E.
+                  description: The primary information. Typically a street address.
+                line2:
+                  type: string
+                  example: Suite 23
+                  description: An additional line of information to add after the street address.
+                streetAddress:
+                  type: string
+                  example: 109 8th Street E.
+                  deprecated: true
+                  description: Deprecated - This field has been renamed line1
+                  x-lifecycle:
+                    status: deprecated
+                    deprecated: '2021-10-04'
+                    proposedRemoval: '2021-11-04'
+                    description: This field was renamed to line1 while at the trusted tester phase. It will be removed shortly.
+                additionalAddress:
+                  type: string
+                  example: Suite 23
+                  deprecated: true
+                  description: Deprecated - This field has been renamed line2. An additional line of information to add after the stree address.
+                  x-lifecycle:
+                    status: deprecated
+                    deprecated: '2021-10-04'
+                    proposedRemoval: '2021-11-04'
+                    description: This field was renamed to line2 while at the trusted tester phase. It will be removed shortly.
+                city:
+                  type: string
+                  description: 'The city, town or locality component of an address.'
+                  example: Saskatoon
+                postalCode:
+                  type: string
+                  description: The zip code or postal code component of an address.
+                  example: S7M 1R3
+                regionCode:
+                  type: string
+                  description: |-
+                    The code for the top level subdivision within the country (state/province) as defined by [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) format.
+
+                    Examples: CA-SK, US-FL, AG-08, AU-NSW
+                  example: CA-SK
+                  maxLength: 6
+                  minLength: 4
+                  pattern: '^[A-Z]{2}-[\w]{1,3}$'
+                countryCode:
+                  type: string
+                  maxLength: 2
+                  minLength: 2
+                  example: CA
+                  description: |-
+                    The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
+
+                    Examples: CA, US, AU
+                  pattern: '^[A-Z]{2}$'
+            profileImage:
+              type: string
+              format: uri
+              description: A photo that can be used to represent this user. If the user does not have a custom image set a default image will be returned.
+              example: 'https://storage.googleapis.com/wordpress-www-vendasta/vw-wordpress/Brendan-King-1.jpg'
+              readOnly: true
+            timeZone:
+              type: string
+              description: |-
+                The User's time zone in the IANA [time zone database format](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+
+                Example: `America/Los_Angeles`
+              example: America/Regina
+            createdAt:
+              type: string
+              format: date-time
+              description: The time at which the user was initially created in the platform.
+              readOnly: true
+            updatedAt:
+              type: string
+              format: date-time
+              description: 'The time at which the user’s profile was last updated. Note: Changes to permissions will not affect this field.'
+              readOnly: true
+        relationships:
+          type: object
+          properties:
+            partner:
+              type: object
+              description: A link to the organization that provides the platform to this user.
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                      default: partners
+                      enum:
+                        - partners
+                    id:
+                      type: string
+                      example: ABC
+              required:
+                - data
+            businessLocations:
+              type: object
+              description: |-
+                The business locations that this user is a member of.
+
+                When a new location is added to a user they will be granted the default business user permissions.
+
+                Fine grained permissions currently must be managed in Partner Center's UI. We are gathering interest to determine how it should work by API so please send us your use cases.
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      type:
+                        type: string
+                        default: businessLocations
+                        example: businessLocations
+                        enum:
+                          - businessLocations
+                      id:
+                        type: string
+                        example: AG-1234567
+                        description: The ID of a previously created business location record.
+                    required:
+                      - type
+                      - id
+            platformAccess:
+              type: object
+              description: |-
+                `Proposed` The platform access functionality is still at a `proposed` status. Not all options are currently available. 
+
+                Use this field to grant access to platform level features to your employees and contractors.
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        default: appFeatures
+                        example: appFeatures
+                      id:
+                        type: string
+                        enum:
+                          - 'pc:access'
+                          - 'pc:canCustomizeWhitelabel'
+                          - 'pc:canAccessBilling'
+                          - 'pc:canManageSales'
+                          - 'pc:canManageAccounts'
+                          - 'pc:canManageTasks'
+                          - 'pc:canAccessBrands'
+                          - 'pc:canAccessMarketing'
+                          - 'pc:canAccessDashboard'
+                          - 'pc:canAccessOrders'
+                          - 'pc:canManageAdmins'
+                          - 'pc:canAccessMarketplace'
+                          - 'pc:canEnableApps'
+                          - 'pc:canAccessCompanyProfile'
+                          - 'pc:canAccessAutomations'
+                          - 'ssc:access'
+                          - 'ssc:manage'
+                          - 'tm:access'
+                          - 'tm:manage'
+                        description: 'The platform access functionality is still at a `proposed` status. Not all options are currently available. '
+                    required:
+                      - type
+                      - id
+    automationRuns:
+      title: Automation Run
+      type: object
+      x-examples: {}
+      description: |-
+        [Status](https://docs.apigateway.co/docs/openapi-specs/docs/Overview/Versioning.md): `Trusted Tester`
+
+        An Automation run is the instance of an automation executing its steps for a business location.
+        You may configure the automation definition and obtain its ID within Partner Center.
+      properties:
+        type:
+          type: string
+          default: automationRuns
+          example: automationRuns
+          readOnly: true
+        relationships:
+          type: object
+          required:
+            - businessLocation
+            - automation
+          properties:
+            businessLocation:
+              type: object
+              description: A link to the business location that this automation is being run for.
+              required:
+                - data
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                      default: businessLocations
+                      example: businessLocations
+                    id:
+                      type: string
+                      example: AG-1234567
+                      pattern: ^AG-
+            automation:
+              type: object
+              description: 'A link to the automation definition that is being run. '
+              required:
+                - data
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                      default: automations
+                      example: automations
+                    id:
+                      type: string
+                      example: Automation-91cb048c-c498-43ba-ab99-2ca2d27d2c46
+                      pattern: ^Automation-
+      required:
+        - relationships
+      x-tags:
+        - Automation Runs
 tags:
+  - name: Automation Runs
   - name: Business Categories
   - name: Business Locations
+  - name: Users
   - name: Sales Contacts
   - name: Purchases
   - name: Orders

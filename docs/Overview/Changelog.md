@@ -2,6 +2,24 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2021-10-06
+### Versioning Status Rename
+The names and definitions of the maturity statuses used to define the stability level of API operations in our 
+[versioning policy](Versioning.md) have been clarified and aligned with those used for other Vendasta platform features.
+There is no functional impact to your code.
+
+### Address Fields Reconciled
+The address related fields for the `businessLocations` resource have been reconciled with the new `users` resource 
+fields so that they use consistent field names and values.
+
+For `businessLocations` the `zip` has been renamed `postalCode` to match international best practices.
+As well the `stateCode` has been replaced with `regionCode` which follows the [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) format.
+To migrate you can simply generate the value as `{countryCode}-{stateCode}`.
+
+For `users` the `streetAddress` has been renamed `line1` and `additionalAddress` has been renamed `line2`.
+
+The old fields will continue to work while the trusted tester partners using them are given a chance to migrate. (Targeting 30 days)
+
 ## 2021-04-19
 Added `orders` resource along with create, get and list operations. This will allow you to activate products for a business location.  
 

@@ -130,3 +130,5 @@ Type | Form | Example
 
 ### Naming
 All time fields end with `At` to help you identify them while reading your code
+
+More info comming soon

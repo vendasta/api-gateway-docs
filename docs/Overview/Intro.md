@@ -126,9 +126,3 @@ Type | Form | Example
  Date, hour, minute and second in UTC | YYYY-MM-DDTHH:MM:SSTZD | 2020-10-28T10:37:23Z
  Date, hour and minute in Saskatoon (UTC-6) | YYYY-MM-DDTHH:MMTZD | 2020-10-28T4:37-6:00
  Date | YYYY-MM-DD | 2001-12-25
-
-
-### Naming
-All time fields end with `At` to help you identify them while reading your code
-
-More info comming soon

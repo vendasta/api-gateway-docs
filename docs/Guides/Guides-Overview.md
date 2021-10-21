@@ -3,7 +3,7 @@
 ## Build an integration for yourself
 Save your team time and money by automating many of the repetitive tasks they do within your own instance of the platform. 
 
-Try out our new set of unified [Platform APIs](docs/openapi-specs/) which are currently in early access or make use of some of the [Legacy APIs](docs/legacy/) while we work.
+Try out our new set of unified [Platform APIs](platform) which are currently in early access or make use of some of the [Legacy APIs](api/legacy) while we work.
 
 ## SSO from your Platform to Vendasta
 Authenticate your users in your platform and let them access Vendasta's white-label platform through OAuth2 single sign-on SSO. 

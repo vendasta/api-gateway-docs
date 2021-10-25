@@ -8,7 +8,7 @@ For advanced usage see the [full details](../../openapi/platform/platform.yaml/p
 
 ### View your purchases
 
-To view the purchases that have been sent to you make the following request filling in your partner ID and an [access token](https://vendasta.stoplight.io/docs/openapi-specs/docs/2.-Authorization/2-legged-oauth/3.-UsingAServiceAccount.md). This example filters the list to the first 10 purchases created between Dec 10th and 20th. 
+To view the purchases that have been sent to you make the following request filling in your partner ID and an [access token](../Authorization/2-legged-oauth/UsingAServiceAccount.md). This example filters the list to the first 10 purchases created between Dec 10th and 20th. 
 
 ```json http
 {

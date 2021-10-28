@@ -6,7 +6,7 @@ If you have setup automations in the Vendasta platform you can trigger them for 
 
 Create an access token with at least `business` scopes following the [Authorization guide](../../Authorization/Authorization.md).
 
-Create an automation in the Vendasta platform with the "It's triggered via API" [trigger](https://support.vendasta.com/hc/en-us/articles/4406952880919-Automation-triggers) trigger.
+Create an automation in the Vendasta platform with the "It's triggered via API" [trigger](https://support.vendasta.com/hc/en-us/articles/4406952880919-Automation-triggers).
 
 ## Step 1: Trigger the automation
 

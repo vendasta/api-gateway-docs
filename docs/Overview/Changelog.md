@@ -2,6 +2,9 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2021-11-05
+Proposed adding support for triggering a manual automation based on an order. 
+
 ## 2021-10-06
 ### Versioning Status Rename
 The names and definitions of the maturity statuses used to define the stability level of API operations in our 

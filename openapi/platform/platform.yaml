@@ -2133,29 +2133,8 @@ components:
         relationships:
           type: object
           required:
-            - businessLocation
             - automation
           properties:
-            businessLocation:
-              type: object
-              description: A link to the business location that this automation is being run for.
-              required:
-                - data
-              properties:
-                data:
-                  type: object
-                  required:
-                    - type
-                    - id
-                  properties:
-                    type:
-                      type: string
-                      default: businessLocations
-                      example: businessLocations
-                    id:
-                      type: string
-                      example: AG-1234567
-                      pattern: ^AG-
             automation:
               type: object
               description: 'A link to the automation definition that is being run. '
@@ -2176,6 +2155,42 @@ components:
                       type: string
                       example: Automation-91cb048c-c498-43ba-ab99-2ca2d27d2c46
                       pattern: ^Automation-
+            businessLocation:
+              type: object
+              description: A link to the business location that this automation is being run for. Either the businessLocation or order is required. (It depends on the actions that the automation uses.)
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                      default: businessLocations
+                      example: businessLocations
+                    id:
+                      type: string
+                      example: AG-1234567
+                      pattern: ^AG-
+            order:
+              type: object
+              description: 'Proposed: A link to the order that this automation is being run for. Either the businessLocation or order is required. (It depends on the actions that the automation uses.)'
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - orders
+                      default: orders
+                    id:
+                      type: string
+                      example: 'AG-1234:ORD-1234567'
+                  required:
+                    - type
+                    - id
       required:
         - type
         - relationships

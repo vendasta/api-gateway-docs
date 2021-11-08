@@ -50,7 +50,7 @@ paths:
 
         Note: Currently when creating a contact you must specify exactly 1 Business Location id for it to be linked to. We intend to expand this limit.
       security:
-        - OAuth:
+        - OAuth2:
             - sales.contact
       requestBody:
         content:
@@ -119,7 +119,7 @@ paths:
                         type: string
       operationId: get-salesContacts-id
       security:
-        - OAuth:
+        - OAuth2:
             - sales.contact
       x-lifecycle:
         status: trustedTester
@@ -212,7 +212,7 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth:
+        - OAuth2:
             - business
       tags:
         - Business Locations
@@ -283,7 +283,7 @@ paths:
           description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
           name: 'page[limit]'
       security:
-        - OAuth:
+        - OAuth2:
             - business
       tags:
         - Business Locations
@@ -332,7 +332,7 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
       security:
-        - OAuth:
+        - OAuth2:
             - business
     options:
       operationId: options-businessLocations-id
@@ -375,7 +375,7 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth:
+        - OAuth2:
             - business
       responses:
         '200':
@@ -394,7 +394,7 @@ paths:
                         type: string
                         format: uri
                         description: The address of the updated business location
-          headers: {}
+          headers: { }
       requestBody:
         content:
           application/vnd.api+json:
@@ -467,7 +467,7 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth:
+        - OAuth2:
             - user.admin
       tags:
         - Users
@@ -569,7 +569,7 @@ paths:
           name: 'filter[category]'
           description: 'Filter the users based on the broad category that they fall into. In some rare cases users may be part of multiple categories. '
       security:
-        - OAuth:
+        - OAuth2:
             - user.admin
             - user.list
       tags:
@@ -619,7 +619,7 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
       security:
-        - OAuth:
+        - OAuth2:
             - user.admin
             - 'user.profile:read'
             - 'user.contact:read'
@@ -673,7 +673,7 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth:
+        - OAuth2:
             - user.admin
       responses:
         '200':
@@ -692,7 +692,7 @@ paths:
                         type: string
                         format: uri
                         description: The address of the updated user
-          headers: {}
+          headers: { }
       requestBody:
         content:
           application/vnd.api+json:
@@ -712,7 +712,7 @@ paths:
 
         Deleting a user will remove personal data from it and prevent the ID from being used again in the future.
       security:
-        - OAuth:
+        - OAuth2:
             - user.admin
       tags:
         - Users
@@ -732,7 +732,7 @@ paths:
         - Purchases
       operationId: get-purchases
       security:
-        - OAuth:
+        - OAuth2:
             - financial
       x-lifecycle:
         status: trustedTester
@@ -823,7 +823,7 @@ paths:
       tags:
         - Business Categories
       security:
-        - OAuth:
+        - OAuth2:
             - business
       x-lifecycle:
         status: trustedTester
@@ -956,7 +956,7 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth:
+        - OAuth2:
             - order
     options:
       operationId: options-orders
@@ -1002,7 +1002,7 @@ paths:
 
         Produces a list of orders.
       security:
-        - OAuth:
+        - OAuth2:
             - order
       parameters:
         - schema:
@@ -1060,7 +1060,7 @@ paths:
                         type: string
       operationId: get-orders-id
       security:
-        - OAuth:
+        - OAuth2:
             - order
       x-lifecycle:
         status: trustedTester
@@ -1151,12 +1151,12 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth:
+        - OAuth2:
             - user.admin
       tags:
         - Users
   /automationRuns:
-    parameters: []
+    parameters: [ ]
     post:
       summary: Create automation run
       tags:
@@ -1166,7 +1166,7 @@ paths:
           description: Accepted
       operationId: post-autoamtionruns
       security:
-        - OAuth:
+        - OAuth2:
             - business
       x-lifecycle:
         status: trustedTester
@@ -1274,7 +1274,7 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth:
+        - OAuth2:
             - sales.account
       tags:
         - Sales Accounts
@@ -1287,7 +1287,7 @@ paths:
           description: No Content
       tags:
         - Options
-        - Business Locations
+        - Sales Accounts
     get:
       summary: List Sales Accounts
       operationId: get-salesAccounts
@@ -1345,7 +1345,7 @@ paths:
           description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
           name: 'page[limit]'
       security:
-        - OAuth:
+        - OAuth2:
             - sales.account
       tags:
         - Sales Accounts
@@ -1361,8 +1361,6 @@ paths:
         required: true
     get:
       summary: Get Business Location
-      tags:
-        - Business Locations
       responses:
         '200':
           description: OK
@@ -1395,8 +1393,10 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
       security:
-        - OAuth:
+        - OAuth2:
             - sales.account
+      tags:
+        - Sales Accounts
     options:
       operationId: options-salesAccounts-id
       summary: 'List valid HTTP verbs for /salesAccounts/{id}'
@@ -1438,7 +1438,7 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth:
+        - OAuth2:
             - sales.account
       responses:
         '200':
@@ -1472,7 +1472,7 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    OAuth:
+    OAuth2:
       type: oauth2
       flows:
         authorizationCode:
@@ -2374,44 +2374,26 @@ components:
     automationRuns:
       title: Automation Run
       type: object
-      x-examples: {}
+      x-examples: { }
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         An Automation run is the instance of an automation executing its steps for a business location.
         You may configure the automation definition and obtain its ID within Partner Center.
+      x-tags:
+        - Automation Runs
       properties:
         type:
           type: string
           default: automationRuns
           example: automationRuns
-          readOnly: true
+          enum:
+            - automationRuns
         relationships:
           type: object
           required:
-            - businessLocation
             - automation
           properties:
-            businessLocation:
-              type: object
-              description: A link to the business location that this automation is being run for.
-              required:
-                - data
-              properties:
-                data:
-                  type: object
-                  required:
-                    - type
-                    - id
-                  properties:
-                    type:
-                      type: string
-                      default: businessLocations
-                      example: businessLocations
-                    id:
-                      type: string
-                      example: AG-1234567
-                      pattern: ^AG-
             automation:
               type: object
               description: 'A link to the automation definition that is being run. '
@@ -2432,10 +2414,45 @@ components:
                       type: string
                       example: Automation-91cb048c-c498-43ba-ab99-2ca2d27d2c46
                       pattern: ^Automation-
+            businessLocation:
+              type: object
+              description: A link to the business location that this automation is being run for. Either the businessLocation or order is required. (It depends on the automation type.)
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                      default: businessLocations
+                      example: businessLocations
+                    id:
+                      type: string
+                      example: AG-1234567
+                      pattern: ^AG-
+            order:
+              type: object
+              description: 'Proposed: A link to the order that this automation is being run for. Either the businessLocation or order is required. (It depends on the automation type.)'
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - orders
+                      default: orders
+                    id:
+                      type: string
+                      example: 'AG-1234:ORD-1234567'
+                  required:
+                    - type
+                    - id
       required:
+        - type
         - relationships
-      x-tags:
-        - Automation Runs
     salesAccounts:
       title: salesAccounts
       type: object

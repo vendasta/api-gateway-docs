@@ -1,0 +1,245 @@
+openapi: 3.0.0
+info:
+  title: Advertising Intelligence REST APIs
+  version: '1.0'
+  description: ''
+servers:
+  - url: 'https://prod.apigateway.co/adintel'
+    description: Production
+  - url: 'https://demo.apigateway.co/adintel'
+    description: Demo
+  - url: '{local}/adintel'
+    description: Local
+  - url: 'http://localhost:11001/adintel'
+    description: Localhost
+paths:
+  /accountStats:
+    parameters: []
+    get:
+      summary: Get Account Stats
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    data: []
+                    links:
+                      self: ''
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/accountStats'
+                  links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        type: string
+                required:
+                  - data
+                  - links
+              examples: {}
+      operationId: get-accountStats
+      description: Retrieve account stats for all connected advertising accounts under a specific provider
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+        - $ref: '#/components/parameters/startAt'
+        - $ref: '#/components/parameters/endAt'
+        - $ref: '#/components/parameters/businessLocation.id'
+        - $ref: '#/components/parameters/provider'
+        - $ref: '#/components/parameters/connectedAccount.accountId'
+      security:
+        - OAuth2:
+            - adintel
+  '/accountStats/{connectedAccount.id}':
+    parameters:
+      - $ref: '#/components/parameters/connectedAccount.id'
+    get:
+      summary: Get Account Stats for one Connected Account
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    data: []
+                    links:
+                      self: ''
+                properties:
+                  data:
+                    $ref: '#/components/schemas/accountStats'
+                  links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        type: string
+                required:
+                  - data
+                  - links
+              examples: {}
+        '404':
+          description: Connected Account Not Found
+      operationId: get-accountStats-id
+      description: Retrieve account stats for one connected advertising account
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+        - $ref: '#/components/parameters/startAt'
+        - $ref: '#/components/parameters/endAt'
+      security:
+        - OAuth2:
+            - adintel
+components:
+  schemas:
+    accountStats:
+      title: accountStats
+      type: object
+      x-examples: {}
+      description: Total Stats for a connected Advertising Account
+      properties:
+        id:
+          type: string
+          description: The resource ID of the Connected Advertising Account
+          example: 'AG-HDV4JKPXFR:google:7531238654'
+        type:
+          type: string
+          description: accountStats
+        attributes:
+          type: object
+          properties:
+            impressions:
+              type: number
+              description: Number of times ads under this account were viewed
+            clicks:
+              type: number
+              description: Number of times ads under this account were clicked
+            conversions:
+              type: number
+              description: Total number of conversions from campaigns under this account
+            costMicros:
+              type: number
+              description: Total account spend denoted in millionths of a dollar
+            averageCostPerClickMicros:
+              type: number
+              description: Average cost per click denoted in millionths of a dollar
+            clickThroughRate:
+              type: number
+              description: Rate of the number of clicks per number of impressions
+            currencyCode:
+              type: string
+              description: 'The 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)'
+              minLength: 3
+              maxLength: 3
+            provider:
+              type: string
+              enum:
+                - google
+                - facebook
+                - localads
+              description: Advertising Provider
+      required:
+        - id
+        - type
+        - attributes
+  parameters:
+    connectedAccount.id:
+      name: connectedAccount.id
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 'AG-HDV4JKPXFR:google:7531238654'
+      description: Resource ID of a Connected Advertising Account
+    startAt:
+      name: startAt
+      in: query
+      required: false
+      schema:
+        type: string
+        format: date
+        default: '1970-01-01'
+        example: '2020-01-02'
+      description: Only return stats starting from the specified start date
+    endAt:
+      name: endAt
+      in: query
+      required: false
+      schema:
+        type: string
+        default: Today's date
+        example: '2020-01-02'
+        format: date
+      description: Only return stats from before the specified end date.
+    Authorization:
+      name: Authorization
+      in: header
+      required: false
+      schema:
+        type: string
+        pattern: ^Bearer\s\S+
+        example: Bearer <access token>
+      description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+    Content-Type:
+      name: Content-Type
+      in: header
+      required: false
+      schema:
+        type: string
+        default: application/vnd.api+json
+      description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+    businessLocation.id:
+      name: 'filter[businessLocation.id]'
+      in: query
+      required: true
+      schema:
+        type: string
+        example: AG-HDABCKDEFR
+      description: Comma separated Business Location IDs
+    provider:
+      name: 'filter[provider]'
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+          - google
+          - facebook
+          - localads
+      description: Comma separated list of Advertising Providers
+    connectedAccount.accountId:
+      name: 'filter[connectedAccount.accountId]'
+      in: query
+      required: false
+      schema:
+        type: string
+        example: '1324354657'
+      description: Comma separated list of connected Advertising Account Provider Account IDs
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          refreshUrl: ''
+          scopes:
+            adintel: Access to the Advertising Intelligence REST API

@@ -93,14 +93,14 @@ If another user already exists within your platform with the same email address 
 ```
 
 
-## Coming soon
+## Update business locations for an existing user
+You may update a user's accessible business locations in the following way.
 
-### Link an existing user
-You may add one or more add additional business locations to an existing user in the following way.
+After this operation completes, the user will only have access to the specified locations.
 
 ```json http
 {
-  "method": "post",
+  "method": "patch",
   "url": "https://prod.apigateway.co/platform/users/U-1234567/relationships/businessLocations",
   "headers": {
     "Authorization": "Bearer <Access Token with 'user.admin' scope>",

@@ -4,13 +4,13 @@ info:
   version: '1.0'
   description: ''
 servers:
-  - url: 'https://prod.apigateway.co/adintel'
+  - url: 'https://prod.apigateway.co/products/adintel'
     description: Production
-  - url: 'https://demo.apigateway.co/adintel'
+  - url: 'https://demo.apigateway.co/products/adintel'
     description: Demo
-  - url: '{local}/adintel'
+  - url: '{local}/products/adintel'
     description: Local
-  - url: 'http://localhost:11001/adintel'
+  - url: 'http://localhost:11001/products/adintel'
     description: Localhost
 paths:
   /accountStats:
@@ -56,7 +56,9 @@ paths:
         - $ref: '#/components/parameters/endAt'
         - $ref: '#/components/parameters/businessLocation.id'
         - $ref: '#/components/parameters/provider'
-        - $ref: '#/components/parameters/connectedAccount.accountId'
+        - $ref: '#/components/parameters/connectedAccount.resourceId'
+        - $ref: '#/components/parameters/pageLimit'
+        - $ref: '#/components/parameters/pageCursor'
       security:
         - OAuth2:
             - adintel
@@ -290,10 +292,10 @@ components:
       required: false
       schema:
         type: string
-        format: date
+        format: date-time
         default: '1970-01-01'
-        example: '2020-01-02'
-      description: Only return stats starting from the specified start date
+        example: '2021-01-01T00:00:01Z'
+      description: Only return stats starting from the specified start date and time
     endAt:
       name: endAt
       in: query
@@ -301,9 +303,9 @@ components:
       schema:
         type: string
         default: Today's date
-        example: '2020-01-02'
-        format: date
-      description: Only return stats from before the specified end date.
+        format: date-time
+        example: '2021-01-01T00:00:01Z'
+      description: Only return stats from before the specified end date and time.
     Authorization:
       name: Authorization
       in: header
@@ -324,11 +326,13 @@ components:
     businessLocation.id:
       name: 'filter[businessLocation.id]'
       in: query
-      required: true
       schema:
         type: string
         example: AG-HDABCKDEFR
-      description: Comma separated Business Location IDs
+        uniqueItems: true
+        minItems: 0
+      description: A comma separated list of Business Location IDs
+      allowEmptyValue: true
     provider:
       name: 'filter[provider]'
       in: query
@@ -340,14 +344,32 @@ components:
           - facebook
           - localads
       description: Comma separated list of Advertising Providers
-    connectedAccount.accountId:
-      name: 'filter[connectedAccount.accountId]'
+    connectedAccount.resourceId:
+      name: 'filter[connectedAccount.id]'
+      in: query
+      schema:
+        type: string
+        example: 'AG-AHFJEHD:google:1324354657'
+        uniqueItems: true
+      description: Comma separated list of Resource IDs of Connected Advertising Accounts
+      allowEmptyValue: true
+    pageLimit:
+      name: 'page[limit]'
+      in: query
+      required: false
+      schema:
+        type: number
+        maximum: 100
+        minimum: 1
+        default: 25
+      description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+    pageCursor:
+      name: 'page[cursor]'
       in: query
       required: false
       schema:
         type: string
-        example: '1324354657'
-      description: Comma separated list of connected Advertising Account Provider Account IDs
+      description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
   securitySchemes:
     JWT:
       type: http

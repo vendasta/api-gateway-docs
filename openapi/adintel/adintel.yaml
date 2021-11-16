@@ -105,6 +105,78 @@ paths:
       security:
         - OAuth2:
             - adintel
+  '/connectedAdAccount/{connectedAccount.id}':
+    parameters:
+      - schema:
+          type: string
+        name: connectedAccount.id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vdn.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/connectedAdAccount'
+                  links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        type: string
+                required:
+                  - data
+                  - links
+        '404':
+          description: Connected Account Not Found
+      operationId: get-connectedAdAccount-connectedAdAccount.id
+      description: Retrieve account metadata for one connected advertising account
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+      security:
+        - OAuth2:
+            - adintel
+  /connectedAdAccount:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/connectedAdAccount'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      operationId: get-connectedAdAccount
+      description: 'Gets a list of connected ad accounts, optionally given a filter by provider, one or more business ID, one or more resource ID'
+      security:
+        - OAuth2:
+            - adintel
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+        - $ref: '#/components/parameters/businessLocation.id'
+        - $ref: '#/components/parameters/provider'
+        - $ref: '#/components/parameters/connectedAccount.accountId'
 components:
   schemas:
     accountStats:
@@ -157,6 +229,52 @@ components:
         - id
         - type
         - attributes
+    connectedAdAccount:
+      title: connectedAdAccount
+      type: object
+      description: 'An advertising account that’s connected within Advertising Intelligence from integrated campaign management platforms, including Google Adwords, Facebook Ads and Local Ads.'
+      x-examples: {}
+      properties:
+        id:
+          type: string
+          description: The resource ID of the Advertising Account
+        type:
+          type: string
+          description: connectedAdAccount
+        attributes:
+          type:
+            - string
+            - object
+          properties:
+            userId:
+              type: string
+              description: The Google/Facebook user ID that connected the ad account for the given business
+            name:
+              type: string
+              description: The name of the ad account
+            currencyCode:
+              type: string
+              description: "\t\nThe currency code that the ad account uses"
+            campaignIds:
+              type: array
+              description: 'Optional. Specified when a subset of campaigns under the ad account, instead of the whole account, is connected'
+              items:
+                type: string
+            credentialInvalid:
+              type: boolean
+              description: 'Whether or not if the saved credential for the ad account is invalid, e.g. user no longer have access to the account, or user revoked access.'
+            provider:
+              type: string
+              description: The Advertising provider the account is from
+            created:
+              type: string
+              description: The date time that the ad account is connected
+            updated:
+              type: string
+              description: The date time that the entity was last updated
+      required:
+        - id
+        - type
   parameters:
     connectedAccount.id:
       name: connectedAccount.id

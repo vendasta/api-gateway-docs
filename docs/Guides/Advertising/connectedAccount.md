@@ -13,6 +13,57 @@ Create an access token with `adintel` scopes following the [Authorization guide]
 
 ## Examples
 
+### Retrieving A Connected Account With ID
+
+The ID of a connected account is composite of the following parts, separated by `:`
+1. The Business Location ID
+1. Provider of the account, either `google`, `facebook` or `localAds`
+1. The assigned account ID
+For example, an account with ID `1324354698` from Google Adwords that's connected for business `AG-X5FZQG6T25` would have its ID to be `AG-X5FZQG6T25:google:1324354698`
+
+A connected account can be retrieved using its ID.  This data can be used to provide an overview of a single advertising account for a business when the advertising account ID is known.
+
+<!--
+type: tab
+title: Request
+-->
+```json http
+{
+  "method": "get",
+  "url": "https://prod.apigateway.co/products/adintel/connectedAccount/AG-X5FZQG6T25:google:1324354698",
+  "headers": {
+    "Authorization": "Bearer <Access Token with 'adintel' scope>",
+    "Content-Type": "application/vnd.api+json"
+  }
+}
+```
+
+For more details on this endpoint see [Get A Connected Account](../../../openapi/adintel/adintel.yaml/paths/~1connectedAccount/get)
+<!--
+type: tab
+title: Example Response
+-->
+```json
+{
+  "data": {
+      "type": "connectedAccount",
+      "id": "AG-X5FZQG6T25:google:1324354698",
+      "attributes": {
+        "name": "AdWords Account",
+        "currencyCode": "CAD",
+        "credentialsInvalid": false,
+        "created": "2020-12-10T00:00:00Z",
+        "updated": "2020-12-10T00:00:00Z",
+        "provider": "google"
+      }
+   }
+}
+```
+<!--
+type: tab-end
+-->
+
+
 ### Fetching Connected Accounts For A Business
 
 Connected accounts can be fetched for a single business location using its Business Location ID.  This data can be used to provide an overview of all advertising accounts for a business, or to fetch account stats afterwards for returned connected accounts.  The following request will fetch all advertising accounts connected to a given business.  In this case, `AG-X5FZQG6T25` has both Google and Facebook advertising accounts connected.

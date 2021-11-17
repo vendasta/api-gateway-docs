@@ -1,0 +1,290 @@
+openapi: 3.1.0
+info:
+  title: social
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/users/{userId}':
+    parameters:
+      - schema:
+          type: integer
+        name: userId
+        in: path
+        required: true
+        description: Id of an existing user.
+    get:
+      summary: Get User Info by User ID
+      tags: []
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Get User Alice Smith:
+                  value:
+                    id: 142
+                    firstName: Alice
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+                    dateOfBirth: '1997-10-31'
+                    emailVerified: true
+                    signUpDate: '2019-08-24'
+        '404':
+          description: User Not Found
+      operationId: get-users-userId
+      description: Retrieve the information of the user with the matching user ID.
+    patch:
+      summary: Update User Information
+      operationId: patch-users-userId
+      responses:
+        '200':
+          description: User Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Updated User Rebecca Baker:
+                  value:
+                    id: 13
+                    firstName: Rebecca
+                    lastName: Baker
+                    email: rebecca@gmail.com
+                    dateOfBirth: '1985-10-02'
+                    emailVerified: false
+                    createDate: '2019-08-24'
+        '404':
+          description: User Not Found
+        '409':
+          description: Email Already Taken
+      description: Update the information of an existing user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                  description: 'If a new email is given, the user''s email verified property will be set to false.'
+                dateOfBirth:
+                  type: string
+            examples:
+              Update First Name:
+                value:
+                  firstName: Rebecca
+              Update Email:
+                value:
+                  email: rebecca@gmail.com
+              Update Last Name & Date of Birth:
+                value:
+                  lastName: Baker
+                  dateOfBirth: '1985-10-02'
+        description: Patch user properties to update.
+  /user:
+    post:
+      summary: Create New User
+      operationId: post-user
+      responses:
+        '200':
+          description: User Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                New User Bob Fellow:
+                  value:
+                    id: 12
+                    firstName: Bob
+                    lastName: Fellow
+                    email: bob.fellow@gmail.com
+                    dateOfBirth: '1996-08-24'
+                    emailVerified: false
+                    createDate: '2020-11-18'
+        '400':
+          description: Missing Required Information
+        '409':
+          description: Email Already Taken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                dateOfBirth:
+                  type: string
+                  format: date
+              required:
+                - firstName
+                - lastName
+                - email
+                - dateOfBirth
+            examples:
+              Create User Bob Fellow:
+                value:
+                  firstName: Bob
+                  lastName: Fellow
+                  email: bob.fellow@gmail.com
+                  dateOfBirth: '1996-08-24'
+        description: Post the necessary fields for the API to create a new user.
+      description: Create a new user.
+components:
+  schemas:
+    socialProfiles:
+      title: socialProfiles
+      type: object
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        An entity that contains the information of a connected account or page with a social network.
+      properties:
+        type:
+          type: string
+          default: socialProfiles
+          readOnly: true
+        id:
+          type: string
+          example: FBU-117641035298609261021
+          description: The unique id for this Social Profile.
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              example: John's Delivery
+              description: The name of this profile.
+            avatarUrl:
+              type: string
+              description: The link to an url for the avatar image of this profile.
+            socialNetwork:
+              type: string
+              enum:
+                - ADD ENUM HERE
+              description: A string enum representing which social network this Social Profile is on.
+            isPostable:
+              type: boolean
+              description: A boolean that describes if messages can be scheduled using this Social Profile.
+        relationships:
+          type: object
+          properties:
+            businessLocation:
+              type: object
+              description: The business location that is allowed to post to this socialProfile.
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      default: businessLocations
+                      readOnly: true
+                    id:
+                      type: string
+                      example: AG-12AB5
+                  required:
+                    - type
+                    - id
+          required:
+            - businessLocation
+      required:
+        - type
+    messages:
+      title: Messages
+      type: object
+      description: 'A data structure that describes a message you wish to schedule to be posted on a social network. '
+      properties:
+        type:
+          type: string
+          default: messages
+          readOnly: true
+        id:
+          type: string
+          description: A unique identifier assigned to this message. We will automatically assign the Message one on creation.
+        attributes:
+          type: object
+          properties:
+            messageText:
+              type: string
+              description: 'The text of the message you’re making. This text is subject to limitations depending on what service you are posting to, such as Tweet length for Twitter. '
+            mediaUrls:
+              description: 'Links to pieces of media you want on the message you’re sending. These can be images, videos, and gifs. Media are subject to limitations depending on the social network you are posting to.'
+              type: array
+              items:
+                type: string
+            sendAt:
+              type: number
+              description: |-
+                The time you wish your message to be sent out.
+
+                Defaults to 5 minutes after the Message is made, and must be at least 5 minutes after the Message is created.
+            GMBPostCustomization:
+              type: object
+              description: |-
+                A special data structure that can be passed in to allow for special attached events for messages posted on Google My Business. 
+
+                You can add an Event, a Call to Action, or both. If you want an Event, the `title`, `eventStartAt`, and `eventEndAt` fields must all be filled out. If you want a Call To Action, the `CTAType` and `linkUrl` fields must be filled out. `linkUrl` is optional if the CTAType is CALL_NOW.
+              properties:
+                title:
+                  type: string
+                  description: A title for the attached event.
+                eventStartAt:
+                  type: string
+                  description: The time at which the attached event will start.
+                eventEndAt:
+                  type: string
+                  description: The time at which the attached event will end.
+                CTAType:
+                  type: string
+                  enum:
+                    - BOOK
+                    - ORDER
+                    - LEARN_MORE
+                    - SIGNUP
+                    - SHOP
+                    - CALL_NOW
+                  description: An enum for which Call to Action you wish to use.
+                linkURL:
+                  type: string
+                  description: A Url for a link you want to associate with your Call to Action.
+          required:
+            - messageText
+        relationships:
+          type: object
+          properties:
+            socialProfiles:
+              type: object
+              description: The Social Profiles we’re posting this message under.
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        default: socialProfiles
+                        readOnly: true
+                      id:
+                        type: string
+                    required:
+                      - type
+                      - id
+          required:
+            - socialProfiles
+      required:
+        - type

@@ -133,7 +133,7 @@ paths:
       tags:
         - accountStats
         - options
-  '/connectedAdAccount/{connectedAccount.id}':
+  '/connectedAccount/{connectedAccount.id}':
     parameters:
       - schema:
           type: string
@@ -152,7 +152,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/connectedAdAccount'
+                    $ref: '#/components/schemas/connectedAccount'
                   links:
                     type: object
                     required:
@@ -165,7 +165,7 @@ paths:
                   - links
         '404':
           description: Connected Account Not Found
-      operationId: get-connectedAdAccount-connectedAdAccount.id
+      operationId: get-connectedAccount-connectedAccount.id
       description: Retrieve account metadata for one connected advertising account
       parameters:
         - $ref: '#/components/parameters/Authorization'
@@ -173,7 +173,7 @@ paths:
       security:
         - OAuth2:
             - adintel
-  /connectedAdAccount:
+  /connectedAccount:
     parameter: []
     get:
       summary: Your GET endpoint
@@ -189,13 +189,13 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/connectedAdAccount'
+                      $ref: '#/components/schemas/connectedAccount'
                   links:
                     type: object
                     properties:
                       self:
                         type: string
-      operationId: get-connectedAdAccount
+      operationId: get-connectedAccount
       description: 'Gets a list of connected ad accounts, optionally given a filter by provider, one or more business ID, one or more resource ID'
       security:
         - OAuth2:
@@ -267,8 +267,8 @@ components:
         status: trustedTester
       x-tags:
         - accountStats
-    connectedAdAccount:
-      title: connectedAdAccount
+    connectedAccount:
+      title: connectedAccount
       type: object
       description: 'An advertising account that’s connected within Advertising Intelligence from integrated campaign management platforms, including Google Adwords, Facebook Ads and Local Ads.'
       x-examples: {}
@@ -278,7 +278,7 @@ components:
           description: The resource ID of the Advertising Account
         type:
           type: string
-          description: connectedAdAccount
+          description: connectedAccount
         attributes:
           type:
             - string

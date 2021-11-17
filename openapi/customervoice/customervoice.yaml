@@ -41,13 +41,7 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/reviewRequests'
-        description: |-
-          Ensure that the following members are properly formatted:
-          - `relationships.customer.id` (required) should be in the format `{{business location id}}:{{internal customer id}}` ex. AG-abc123:CUSTOMER-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx
-          - `relationships.primaryTemplate.id` (required) should be in the format `{{business location id}}:{{template type}}:{{template id}}` ex. AG-abc123:sms:TEM-d2f4cf1aa7ae480bbf0a2da67dxxxxxx
-          - `relationships.fallbackTemplate.id` should be in the format `{{business location id}}:{{template type}}:{{template id}}` ex. AG-abc123:email:TEM-d2f4cf1aa7ae480bbf0a2da67dxxxxxx
-
-          Internal customer ids may be in the form of `CUSTOMER-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx`, `CONFLICT-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx` or `CONTACT-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx`. To obtain an internal customer id you must first create a customer using the [Create Customer](https://developers.vendasta.com/vendor/b3A6MTY1Njk0MjA-create-customer) endpoint using a reference id from your own system or fetch a previously created customer using the [Get Customer](https://developers.vendasta.com/vendor/b3A6MjE3MzI1MzM-get-customer) endpoint.
+        description: ''
       parameters:
         - schema:
             type: string
@@ -141,6 +135,18 @@ components:
                 - clicked
                 - dropped
                 - unsubscribed
+              description: |-
+                `sending`- the initial status of a successfully created ReviewRequest.
+
+                `sent`- set when review request delivery is confirmed.
+
+                `opened`- set when an email review request has been opened.
+
+                `clicked`- set when the review site link has been clicked in a review request.
+
+                `dropped`- set when a review request delivery has failed ex. sending an SMS review request to a landline phone number.
+
+                `unsubscribed`- set when attempting to send a request to a customer that has previously unsubscribed from review requests from this business location.
               readOnly: true
             createdAt:
               type: string
@@ -156,40 +162,52 @@ components:
             customer:
               type: object
               properties:
-                id:
-                  type: string
-                  example: 'AG-abc123:CUSTOMER-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx'
-                  maxLength: 256
-                type:
-                  type: string
-                  default: customer
-                  readOnly: true
-              required:
-                - id
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 'AG-abc123:CUSTOMER-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx'
+                      maxLength: 256
+                      description: 'Should be in the format `{{business location id}}:{{internal customer id}}`. Internal customer ids may be in the form of `CUSTOMER-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx`, `CONFLICT-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx` or `CONTACT-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx`. To obtain an internal customer id you must first create a customer using the [Create Customer](https://developers.vendasta.com/vendor/b3A6MTY1Njk0MjA-create-customer) endpoint using a reference id from your own system or fetch a previously created customer using the [Get Customer](https://developers.vendasta.com/vendor/b3A6MjE3MzI1MzM-get-customer) endpoint.'
+                    type:
+                      type: string
+                      default: customer
+                      readOnly: true
+                  required:
+                    - id
             primaryTemplate:
               type: object
               properties:
-                id:
-                  type: string
-                  example: 'AG-abc123:sms:TEM-d2f4cf1aa7ae480bbf0a2da67dxxxxxx'
-                  maxLength: 256
-                type:
-                  type: string
-                  default: template
-                  readOnly: true
-              required:
-                - id
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 'AG-abc123:sms:TEM-d2f4cf1aa7ae480bbf0a2da67dxxxxxx'
+                      maxLength: 256
+                      description: 'Should be in the format `{{business location id}}:{{template type}}:{{template id}}`'
+                    type:
+                      type: string
+                      default: template
+                      readOnly: true
+                  required:
+                    - id
             fallbackTemplate:
               type: object
               properties:
-                id:
-                  type: string
-                  example: 'AG-abc123:email:TEM-d2f4cf1aa7ae480bbf0a2da67dxxxxxx'
-                  maxLength: 256
-                type:
-                  type: string
-                  default: template
-                  readOnly: true
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 'AG-abc123:email:TEM-d2f4cf1aa7ae480bbf0a2da67dxxxxxx'
+                      maxLength: 256
+                      description: 'Should be in the format `{{business location id}}:{{template type}}:{{template id}}`'
+                    type:
+                      type: string
+                      default: template
+                      readOnly: true
 tags:
   - name: Review Requests
 security:

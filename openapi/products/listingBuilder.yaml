@@ -107,31 +107,39 @@ components:
       x-tags:
         - Business Entity Listings
       properties:
-        id:
+        name:
+          description: Public facing name of the source
           type: string
-          example: RVW-4EF5BECE03D24D85AB4045097430A9C0
-        reviewBody:
-          description: The actual body of the review
+          example: HotFrog
+        icon:
+          description: Link to icon provided by Vendasta’s media service
           type: string
-        reviewRating:
-          description: The rating given in this review
+          format: uri
+          example: //www.cdnstyles.com/static/images/icon32/sourceId-10090.png
+        popularity:
+          description: Popularity of the source relative to other sources
+          type: number
+        sourceTypeCode:
+          description: Type of source, business directory, app (Snapchat), GPS app, etc.
           type: string
-        author:
-          description: The creator/author of the review
+          example: BUSINESS_DIRECTORY
+        syncStatusCode:
+          description: The publishing status provided by the sources. Some sources provide confirmation that your data has been published (synced) other sources only provide confirmation that your data has been received (submitted)
           type: string
-        headline:
-          description: Headline of the review
-          type: string
-        publishedAt:
-          description: Date of first broadcast/publication
-          format: date-time
-          type: string
+          example: SYNCED
+        listingScore:
+          description: A score based on the status of your online source
+          type: number
+        maximumlistingScore:
+          description: The maximum score this source can attain
+          type: number
         url:
-          description: The URL to the review
+          description: The online listing
+          format: uri
           type: string
-        comments:
+        syncingError:
           type: array
-          description: 'Comments, typically from users.'
+          description: Any errors reported while publishing your information to the source
           items:
             type: object
             properties:
@@ -156,4 +164,4 @@ components:
           tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
           refreshUrl: ''
           scopes:
-            reputation: Access to the Reputation REST API
+            reputation: Access to the Listing Builder REST API

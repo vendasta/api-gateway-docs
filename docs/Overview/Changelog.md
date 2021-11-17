@@ -2,6 +2,11 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2021-11-17
+### Advertising Intelligence REST API added
+Released the (`GET /products/adintel/accountStats`) endpoints for the Advertising Intelligence product's REST API to trusted testers.
+
+
 ## 2021-11-05
 Proposed adding support for triggering a manual automation based on an order. 
 

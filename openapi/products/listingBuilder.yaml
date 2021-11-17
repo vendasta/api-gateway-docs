@@ -151,8 +151,8 @@ components:
                 description: Human readable details about the error
                 type: string
         syncingWarning:
-          type: array
           description: Any warnings reported while publishing your information to the source
+          type: array
           items:
             type: object
             properties:
@@ -163,6 +163,47 @@ components:
               warningDetails:
                 description: Human readable details about the warning
                 type: string
+        updatedAt:
+          description: The last time this source’s listing was checked by Vendasta’s independent listing verification system
+          format: date
+          type: string
+        address:
+          description: The address information displayed in the online listing
+          type: object
+          properties:
+           streetAddress:
+             description:  The physical address of the entity, if it has one. Vendasta’s platform supports multiple address lines but currently those are combined into a single street address in our listing verification system.
+             type: string
+           city:
+            description: City displayed on the listing itself
+            type: string
+           regionCode:
+             description: TODO
+             type: string
+           countryCode:
+             description: TODO
+             type: string
+           postalCode:
+             description: TODO
+             type: string
+        matches:
+          description: Indicates which parts of your online listing are accurate based on Vendasta’s independent listing verification system
+          type: object
+          properties:
+            streetAddress:
+              type: boolean
+            city:
+              type: boolean
+            regionCode:
+              type: boolean
+            countryCode:
+              type: boolean
+            postalCode:
+              type: boolean
+        accuracyStatusCode:
+          description: Indicates if reporting is available. If available indicates if the listing was found. If the listing was found indicates if all the data is correct on the listing.
+          type: string
+          example: NOT_AVAILABLE, NOT_FOUND, INACCURATE, ACCURATE
   securitySchemes:
     JWT:
       type: http

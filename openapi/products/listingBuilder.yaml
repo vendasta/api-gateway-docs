@@ -143,14 +143,25 @@ components:
           items:
             type: object
             properties:
-              author:
-                description: The creator/author of the comment
+              errorCode:
+                description: self-explanitory
                 type: string
-              headline:
-                description: Headline of the comment
+                example: STREET_ADDRESS, CATEGORIES
+              errorDetails:
+                description: Human readable details about the error
                 type: string
-              commentBody:
-                description: The actual body of the comment
+        syncingWarning:
+          type: array
+          description: Any warnings reported while publishing your information to the source
+          items:
+            type: object
+            properties:
+              warningCode:
+                description: self-explanitory
+                type: string
+                example: DOES_NOT_SUPPORT_SERVICE_AREA_BUSINESS, CLAIMED_BY_OTHERS
+              warningDetails:
+                description: Human readable details about the warning
                 type: string
   securitySchemes:
     JWT:

@@ -1,21 +1,19 @@
 openapi: 3.1.0
 info:
   title: Social
-  version: '1.0'
+  version: Evergreen
   description: These APIs allow users to use Vendasta's social capabilities. All the endpoints require either the `social` or `business` scopes to be accessed.
 servers:
-  - url: 'https://prod.apigateway.co/product/social'
+  - url: 'https://prod.apigateway.co/products/social'
     description: Production
-  - url: 'https://demo.apigateway.co/product/social'
+  - url: 'https://demo.apigateway.co/products/social'
     description: Demo
-  - url: 'http://localhost:3000/product/social'
+  - url: 'http://localhost:3000/products/social'
     description: Local
 paths:
   /socialProfiles:
     get:
       summary: List Social Profiles
-      tags:
-        - socialProfiles
       responses:
         '200':
           description: OK
@@ -53,7 +51,7 @@ paths:
               - instagram
           in: query
           name: 'filter[socialNetworks]'
-          description: Returns only Social Profiles that are of a certain social network.
+          description: Returns only Social Profiles that are of a certain social network.  You may send multiple as a comma-separated list.
         - schema:
             type: string
             enum:
@@ -62,7 +60,9 @@ paths:
               - disabled
           in: query
           name: 'filter[status]'
-          description: Returns only the statuses that are defined.
+          description: Returns only the Social Profiles having one of the specified statuses. You may send multiple as a comma-separated list.
+      tags:
+        - Social Profiles
   /messages:
     post:
       summary: Schedule Message
@@ -79,6 +79,8 @@ paths:
                     $ref: '#/components/schemas/messages'
       description: |-
         If this endpoint is given a message without an id, this endpoint will schedule it to be posted (this to defaults to posting in 5 minutes if no scheduledAt is given).
+
+        This operation will schedule a new message to be posted at the time defined in `sendAt` (this defaults to posting in 5 minutes if no `sendAt` is given)
 
         If scheduling was successful, it will return the Message with an id. If there are validation errors on scheduling for any of the services listed, it will instead give a list of errors.
       requestBody:
@@ -115,8 +117,22 @@ paths:
                 data:
                   $ref: '#/components/schemas/messages'
       tags:
-        - messages
+        - Messages
 components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          scopes:
+            business: Read-write access to business details
+            social: Read-write access to Social Marketing APIs
   schemas:
     socialProfiles:
       title: socialProfiles
@@ -274,3 +290,10 @@ components:
             - socialProfiles
       required:
         - type
+tags:
+  - name: Social Profiles
+  - name: Messages
+security:
+  - OAuth2:
+      - business
+      - social

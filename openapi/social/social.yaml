@@ -1,0 +1,306 @@
+openapi: 3.1.0
+info:
+  title: Social
+  version: Evergreen
+  description: These APIs allow users to use Vendasta's social capabilities. All the endpoints require either the `social` or `business` scopes to be accessed.
+servers:
+  - url: 'https://prod.apigateway.co/products/social'
+    description: Production
+  - url: 'https://demo.apigateway.co/products/social'
+    description: Demo
+  - url: 'http://localhost:3000/products/social'
+    description: Local
+paths:
+  /socialProfiles:
+    get:
+      summary: List Social Profiles
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/socialProfiles'
+      operationId: get-socialProfiles
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+
+        This endpoint returns Social Profile data. It must be called with either `filter[businessLocation.id]` or `filter[partner.id]`.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: 'filter[businessLocation.id]'
+          description: 'Returns all Social Profiles for the given Business Location. Cannot be used with `filter[partner.id]`.'
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[partner.id]'
+          description: 'Returns all Social Profiles under the given partnerId. Cannot be used with `filter[businessLocation]`.'
+          required: true
+        - schema:
+            type: string
+            enum:
+              - facebook
+              - twitter
+              - gmb
+              - linkedin
+              - instagram
+          in: query
+          name: 'filter[socialNetworks]'
+          description: Returns only Social Profiles that are of a certain social network.  You may send multiple as a comma-separated list.
+        - schema:
+            type: string
+            enum:
+              - active
+              - authorizationRequired
+              - disabled
+          in: query
+          name: 'filter[status]'
+          description: Returns only the Social Profiles having one of the specified statuses. You may send multiple as a comma-separated list.
+      tags:
+        - Social Profiles
+  /messages:
+    post:
+      summary: Schedule Message
+      operationId: post-messages
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '':
+                    $ref: '#/components/schemas/messages'
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        This operation will schedule a new message to be posted at the time defined in `sendAt` (this defaults to posting in 5 minutes if no `sendAt` is given)
+
+        If scheduling was successful, it will return the Message with an id. If there are validation errors on scheduling for any of the services listed, it will instead give a list of errors.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  type: messages
+                  id: string
+                  attributes:
+                    messageText: string
+                    mediaUrls:
+                      - string
+                    sendAt: 0
+                    GMBPostCustomization:
+                      title: string
+                      eventStartAt: string
+                      eventEndAt: string
+                      CTAType: BOOK
+                      linkURL: string
+                  relationships:
+                    socialProfiles:
+                      data:
+                        - type: socialProfiles
+                          id: string
+              properties:
+                dryRun:
+                  type: boolean
+                  default: false
+                  description: 'If `true`, will simply return any errors this Message will get from posting. Will return an empty 200 if there are none.'
+                data:
+                  $ref: '#/components/schemas/messages'
+      tags:
+        - Messages
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          scopes:
+            business: Read-write access to business details
+            social: Read-write access to Social Marketing APIs
+  schemas:
+    socialProfiles:
+      title: socialProfiles
+      type: object
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        An entity that contains the information of a connected account or page with a social network.
+      properties:
+        type:
+          type: string
+          default: socialProfiles
+          readOnly: true
+        id:
+          type: string
+          example: FBU-117641035298609261021
+          description: The unique id for this Social Profile.
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              example: John's Delivery
+              description: The name of this profile.
+            avatarUrl:
+              type: string
+              description: The link to an url for the avatar image of this profile.
+            socialNetwork:
+              type: string
+              description: A string enum representing which social network this Social Profile is on.
+              enum:
+                - facebook
+                - twitter
+                - gmb
+                - linkedinCompany
+                - linkedinUser
+                - instagram
+            status:
+              type: string
+              description: A string enum that describes the current status of this Social Profile.
+              enum:
+                - disabled
+                - authroizationRequired
+                - active
+            statusReason:
+              type: string
+              description: 'If status is not ACTIVE, this will be filled with a string describing steps to fix this.'
+        relationships:
+          type: object
+          properties:
+            businessLocation:
+              type: object
+              description: The business location that is allowed to post to this socialProfile.
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      default: businessLocations
+                      readOnly: true
+                    id:
+                      type: string
+                      example: AG-12AB5
+                  required:
+                    - type
+                    - id
+          required:
+            - businessLocation
+      required:
+        - type
+    messages:
+      title: Messages
+      type: object
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        A data structure that describes a message you wish to schedule to be posted on a social network. 
+      examples: []
+      properties:
+        type:
+          type: string
+          default: messages
+          readOnly: true
+        id:
+          type: string
+          description: A unique identifier assigned to this message. We will automatically assign the Message one on creation.
+        attributes:
+          type: object
+          properties:
+            messageText:
+              type: string
+              description: 'The text of the message you’re making. This text is subject to limitations depending on what service you are posting to, such as Tweet length for Twitter. '
+            mediaUrls:
+              description: 'Links to pieces of media you want on the message you’re sending. These can be images, videos, and gifs. Media are subject to limitations depending on the social network you are posting to.'
+              type: array
+              items:
+                type: string
+            sendAt:
+              type: number
+              description: |-
+                The time you wish your message to be sent out.
+
+                Defaults to 5 minutes after the Message is made, and must be at least 5 minutes after the Message is created.
+            GMBPostCustomization:
+              type: object
+              description: |-
+                A special data structure that can be passed in to allow for special attached events for messages posted on Google My Business. 
+
+                You can add an Event, a Call to Action, or both. If you want an Event, the `title`, `eventStartAt`, and `eventEndAt` fields must all be filled out. If you want a Call To Action, the `CTAType` and `linkUrl` fields must be filled out. `linkUrl` is optional if the CTAType is `callNow`.
+              properties:
+                title:
+                  type: string
+                  description: A title for the attached event.
+                eventStartAt:
+                  type: string
+                  description: The time at which the attached event will start.
+                eventEndAt:
+                  type: string
+                  description: The time at which the attached event will end.
+                CTAType:
+                  type: string
+                  enum:
+                    - book
+                    - order
+                    - learnMore
+                    - signup
+                    - shop
+                    - callNow
+                  description: An enum for which Call to Action you wish to use.
+                linkURL:
+                  type: string
+                  description: A Url for a link you want to associate with your Call to Action.
+          required:
+            - messageText
+        relationships:
+          type: object
+          properties:
+            socialProfiles:
+              type: object
+              description: The Social Profiles we’re posting this message under.
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        default: socialProfiles
+                        readOnly: true
+                      id:
+                        type: string
+                    required:
+                      - type
+                      - id
+          required:
+            - socialProfiles
+      required:
+        - type
+tags:
+  - name: Social Profiles
+  - name: Messages
+security:
+  - OAuth2:
+      - business
+      - social

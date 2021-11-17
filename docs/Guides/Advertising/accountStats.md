@@ -1,7 +1,7 @@
 ---
 tags: [Advertising Intelligence, adintel, account, stats, accountstats]
 ---
-# Get Account Stats
+# List Account Stats
 
 `Account Stats` are the total stats of all campaigns under one advertising account that has been connected to a specific Business Location in Advertising Intelligence.  
 
@@ -13,7 +13,7 @@ Create an access token with `adintel` scopes following the [Authorization guide]
 
 ### Fetching Account Stats
 
-In order to fetch account stats you will need the ID of at least one Business Location with a connected advertising account.  In this example, `AG-X5FZQG6T25` has a connected Google Ads account, and `AG-X5FZQG6T25` has both Google and Facebook accounts connected 
+In order to fetch account stats you will need the ID of at least one Business Location with a connected advertising account.  In this example, `AG-JT87JWQ7KN` has a connected Google Ads account, and `AG-X5FZQG6T25` has both Google and Facebook accounts connected 
 
 ```json http
 {

@@ -23,7 +23,7 @@ title: Request
 -->
 ```json http
 {
-  "method": "post",
+  "method": "get",
   "url": "https://prod.apigateway.co/products/adintel/accountStats",
   "headers": {
     "Authorization": "Bearer <Access Token with 'adintel' scope>",
@@ -88,7 +88,7 @@ title: Request
 -->
 ```json http
 {
-  "method": "post",
+  "method": "get",
   "url": "https://prod.apigateway.co/products/adintel/accountStats",
   "headers": {
     "Authorization": "Bearer <Access Token with 'adintel' scope>",
@@ -170,7 +170,7 @@ title: Request
 -->
 ```json http
 {
-  "method": "post",
+  "method": "get",
   "url": "https://prod.apigateway.co/products/adintel/accountStats",
   "headers": {
     "Authorization": "Bearer <Access Token with 'adintel' scope>",

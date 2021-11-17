@@ -1,0 +1,197 @@
+openapi: 3.0.0
+info:
+  title: Customer Voice REST APIs
+  version: '1.0'
+  description: APIs for gathering authentic reviews via email or text using Customer Voice.
+servers:
+  - url: 'https://prod.apigateway.co/products/customervoice'
+    description: Production
+  - url: 'https://demo.apigateway.co/products/customervoice'
+    description: Demo
+  - url: '{local}/products/customervoice'
+    description: Local
+  - url: 'http://localhost:11001/products/customervoice'
+    description: Localhost
+paths:
+  /reviewRequests:
+    post:
+      summary: Create Review Request
+      operationId: post-reviewRequests
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/reviewRequests'
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Sends an email or SMS review request using a Customer Voice template.
+      tags:
+        - Review Requests
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/reviewRequests'
+        description: |-
+          Ensure that the following members are properly formatted:
+          - `relationships.customer.id` (required) should be in the format `{{business location id}}:{{internal customer id}}` ex. AG-abc123:CUSTOMER-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx
+          - `relationships.primaryTemplate.id` (required) should be in the format `{{business location id}}:{{template type}}:{{template id}}` ex. AG-abc123:sms:TEM-d2f4cf1aa7ae480bbf0a2da67dxxxxxx
+          - `relationships.fallbackTemplate.id` should be in the format `{{business location id}}:{{template type}}:{{template id}}` ex. AG-abc123:email:TEM-d2f4cf1aa7ae480bbf0a2da67dxxxxxx
+
+          Internal customer ids may be in the form of `CUSTOMER-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx`, `CONFLICT-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx` or `CONTACT-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx`. To obtain an internal customer id you must first create a customer using the [Create Customer](https://developers.vendasta.com/vendor/b3A6MTY1Njk0MjA-create-customer) endpoint using a reference id from your own system or fetch a previously created customer using the [Get Customer](https://developers.vendasta.com/vendor/b3A6MjE3MzI1MzM-get-customer) endpoint.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: Content-Type
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+          required: true
+      security:
+        - OAuth2:
+            - customervoice
+      x-lifecycle:
+        status: proposed
+    options:
+      summary: Options
+      operationId: options-reviewRequests
+      responses:
+        '200':
+          description: OK
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly.'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+        - schema:
+            type: string
+          in: header
+          name: Content-Type
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+          required: true
+      tags:
+        - Review Requests
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          scopes:
+            customervoice: Read-write access to Social Marketing APIs
+  schemas:
+    reviewRequests:
+      title: reviewRequests
+      type: object
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        A Review Request is an instance of a business location attempting to send an email or SMS review request to a customer.
+      x-lifecycle:
+        status: proposed
+      x-tags:
+        - Review Requests
+      properties:
+        id:
+          type: string
+          example: RQT-00003fa2-bd72-40c2-9101-xxxxxxxxxxxx
+          readOnly: true
+        type:
+          type: string
+          default: reviewRequest
+          readOnly: true
+        attributes:
+          type: object
+          properties:
+            requestType:
+              type: string
+              enum:
+                - email
+                - sms
+              readOnly: true
+            status:
+              type: string
+              enum:
+                - sending
+                - sent
+                - opened
+                - clicked
+                - dropped
+                - unsubscribed
+              readOnly: true
+            createdAt:
+              type: string
+              format: date-time
+              readOnly: true
+            updatedAt:
+              type: string
+              format: date-time
+              readOnly: true
+        relationships:
+          type: object
+          properties:
+            customer:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: 'AG-abc123:CUSTOMER-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx'
+                  maxLength: 256
+                type:
+                  type: string
+                  default: customer
+                  readOnly: true
+              required:
+                - id
+            primaryTemplate:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: 'AG-abc123:sms:TEM-d2f4cf1aa7ae480bbf0a2da67dxxxxxx'
+                  maxLength: 256
+                type:
+                  type: string
+                  default: template
+                  readOnly: true
+              required:
+                - id
+            fallbackTemplate:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: 'AG-abc123:email:TEM-d2f4cf1aa7ae480bbf0a2da67dxxxxxx'
+                  maxLength: 256
+                type:
+                  type: string
+                  default: template
+                  readOnly: true
+tags:
+  - name: Review Requests
+security:
+  - OAuth2:
+      - customervoice

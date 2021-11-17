@@ -46,20 +46,20 @@ paths:
         - schema:
             type: string
             enum:
-              - FACEBOOK
-              - TWITTER
-              - GMB
-              - LINKEDIN
-              - INSTAGRAM
+              - facebook
+              - twitter
+              - gmb
+              - linkedin
+              - instagram
           in: query
           name: 'filter[socialNetworks]'
           description: Returns only Social Profiles that are of a certain social network.
         - schema:
             type: string
             enum:
-              - ACTIVE
-              - AUTHORIZATION_REQUIRED
-              - DISABLED
+              - active
+              - authorizationRequired
+              - disabled
           in: query
           name: 'filter[status]'
           description: Returns only the statuses that are defined.
@@ -148,19 +148,19 @@ components:
               type: string
               description: A string enum representing which social network this Social Profile is on.
               enum:
-                - FACEBOOK
-                - TWITTER
-                - GMB
-                - LINKEDIN_COMPANY
-                - LINKEDIN_USER
-                - INSTAGRAM
+                - facebook
+                - twitter
+                - gmb
+                - linkedinCompany
+                - linkedinUser
+                - instagram
             status:
               type: string
               description: A string enum that describes the current status of this Social Profile.
               enum:
-                - DISABLED
-                - AUTHORIZATION_REQUIRED
-                - ACTIVE
+                - disabled
+                - authroizationRequired
+                - active
             statusReason:
               type: string
               description: 'If status is not ACTIVE, this will be filled with a string describing steps to fix this.'
@@ -192,6 +192,7 @@ components:
       title: Messages
       type: object
       description: 'A data structure that describes a message you wish to schedule to be posted on a social network. '
+      examples: []
       properties:
         type:
           type: string
@@ -222,7 +223,7 @@ components:
               description: |-
                 A special data structure that can be passed in to allow for special attached events for messages posted on Google My Business. 
 
-                You can add an Event, a Call to Action, or both. If you want an Event, the `title`, `eventStartAt`, and `eventEndAt` fields must all be filled out. If you want a Call To Action, the `CTAType` and `linkUrl` fields must be filled out. `linkUrl` is optional if the CTAType is CALL_NOW.
+                You can add an Event, a Call to Action, or both. If you want an Event, the `title`, `eventStartAt`, and `eventEndAt` fields must all be filled out. If you want a Call To Action, the `CTAType` and `linkUrl` fields must be filled out. `linkUrl` is optional if the CTAType is `callNow`.
               properties:
                 title:
                   type: string
@@ -236,12 +237,12 @@ components:
                 CTAType:
                   type: string
                   enum:
-                    - BOOK
-                    - ORDER
-                    - LEARN_MORE
-                    - SIGNUP
-                    - SHOP
-                    - CALL_NOW
+                    - book
+                    - order
+                    - learnMore
+                    - signup
+                    - shop
+                    - callNow
                   description: An enum for which Call to Action you wish to use.
                 linkURL:
                   type: string
@@ -273,4 +274,3 @@ components:
             - socialProfiles
       required:
         - type
-      examples: []

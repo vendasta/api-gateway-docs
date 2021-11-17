@@ -35,7 +35,7 @@ title: Request
 }
 ```
 
-For more details on this endpoint see [List Account Stats](../../openapi/products/adintel.yaml/paths/~1accountStats/get)
+For more details on this endpoint see [List Account Stats](../../openapi/adintel/adintel.yaml/paths/~1accountStats/get)
 <!--
 type: tab
 title: Example Response
@@ -99,7 +99,7 @@ title: Request
   }
 }
 ```
-For more details on this endpoint see [List Account Stats](../../openapi/products/adintel.yaml/paths/~1accountStats/get)
+For more details on this endpoint see [List Account Stats](../../openapi/adintel/adintel.yaml/paths/~1accountStats/get)
 <!--
 type: tab
 title: Example Response
@@ -185,7 +185,7 @@ title: Request
 }
 ```
 
-For more details on this endpoint see [List Account Stats](../../openapi/products/adintel.yaml/paths/~1accountStats/get)
+For more details on this endpoint see [List Account Stats](../../openapi/adintel/adintel.yaml/paths/~1accountStats/get)
 <!--
 type: tab
 title: Example Response

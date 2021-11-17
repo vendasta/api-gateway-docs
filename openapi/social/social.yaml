@@ -27,13 +27,13 @@ paths:
                     items:
                       $ref: '#/components/schemas/socialProfiles'
       operationId: get-socialProfiles
-      description: 'This endpoint returns Social Profile data. It must be called with either `filter[businessLocations.id]` or `filter[partnerIds]`.'
+      description: 'This endpoint returns Social Profile data. It must be called with either `filter[businessLocation.id]` or `filter[partner.id]`.'
       parameters:
         - schema:
             type: string
           in: query
-          name: 'filter[businessLocations.id]'
-          description: 'Returns all Social Profiles for the given Business Location. Cannot be used with `filter[partnerId]`.'
+          name: 'filter[businessLocation.id]'
+          description: 'Returns all Social Profiles for the given Business Location. Cannot be used with `filter[partner.id]`.'
           required: true
         - schema:
             type: string
@@ -78,8 +78,6 @@ paths:
                   '':
                     $ref: '#/components/schemas/messages'
       description: |-
-        If this endpoint is given a message without an id, this endpoint will schedule it to be posted (this to defaults to posting in 5 minutes if no scheduledAt is given).
-
         This operation will schedule a new message to be posted at the time defined in `sendAt` (this defaults to posting in 5 minutes if no `sendAt` is given)
 
         If scheduling was successful, it will return the Message with an id. If there are validation errors on scheduling for any of the services listed, it will instead give a list of errors.

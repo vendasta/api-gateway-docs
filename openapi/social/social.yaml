@@ -41,6 +41,12 @@ paths:
           description: 'Returns all Social Profiles under the given partnerId. Cannot be used with `filter[businessLocation]`.'
         - schema:
             type: string
+            enum:
+              - FACEBOOK
+              - TWITTER
+              - GMB
+              - LINKEDIN
+              - INSTAGRAM
           in: query
           name: 'filter[socialNetworks]'
           description: Returns only Social Profiles that are of a certain social network.
@@ -62,8 +68,11 @@ paths:
                 type: object
                 properties:
                   '':
-                    type: string
-      description: 'If this endpoint is given a message without an id, this endpoint will schedule it to be posted (this to defaults to posting in 5 minutes if no scheduledAt is given).'
+                    $ref: '#/components/schemas/messages'
+      description: |-
+        If this endpoint is given a message without an id, this endpoint will schedule it to be posted (this to defaults to posting in 5 minutes if no scheduledAt is given).
+
+        If scheduling was successful, it will return the Message with an id. If there are validation errors on scheduling for any of the services listed, it will instead give a list of errors.
       requestBody:
         content:
           application/json:
@@ -127,9 +136,14 @@ components:
               description: The link to an url for the avatar image of this profile.
             socialNetwork:
               type: string
-              enum:
-                - ADD ENUM HERE
               description: A string enum representing which social network this Social Profile is on.
+              enum:
+                - FACEBOOK
+                - TWITTER
+                - GMB
+                - LINKEDIN_COMPANY
+                - LINKEDIN_USER
+                - INSTAGRAM
             isPostable:
               type: boolean
               description: A boolean that describes if messages can be scheduled using this Social Profile.

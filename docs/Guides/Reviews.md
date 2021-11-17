@@ -10,7 +10,8 @@ A review of an item - for example, of a restaurant, movie, or store.
 
 ### View reviews for a business location
 
-To view the reviews for a business location make the following request filling in the business location ID and and an [access token](../Authorization/2-legged-oauth/UsingAServiceAccount.md). This example filters the list to the most recent 2 reviews: 
+To view the reviews for a business location make the following request filling in the business location ID and an [access token](../Authorization/2-legged-oauth/UsingAServiceAccount.md). 
+This example filters the list to the most recent 2 reviews: 
 
 
 ```json http

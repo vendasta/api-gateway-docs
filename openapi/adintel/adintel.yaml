@@ -201,9 +201,14 @@ paths:
                       $ref: '#/components/schemas/connectedAccount'
                   links:
                     type: object
+                    required:
+                      - self
                     properties:
                       self:
                         type: string
+                required:
+                  - data
+                  - links
       operationId: get-connectedAccount
       description: 'Gets a list of connected ad accounts, optionally given a filter by provider, one or more business ID, one or more resource ID'
       security:
@@ -292,10 +297,15 @@ components:
       type: object
       description: 'An advertising account that’s connected within Advertising Intelligence from integrated campaign management platforms, including Google Adwords, Facebook Ads and Local Ads.'
       x-examples: {}
+      x-tags:
+        - connectedAccount
+      x-lifecycle:
+        status: trustedTester
       properties:
         id:
           type: string
           description: The resource ID of the Advertising Account
+          example: 'AG-HDV4JKPXFR:google:7531238654'
         type:
           type: string
           description: connectedAccount
@@ -308,13 +318,19 @@ components:
               description: The name of the ad account
             currencyCode:
               type: string
-              description: "\t\nThe currency code that the ad account uses"
-            credentialInvalid:
+              description: "\t\nThe 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)"
+              minLength: 3
+              maxLength: 3
+            credentialsInvalid:
               type: boolean
               description: 'Whether or not if the saved credential for the ad account is invalid, e.g. user no longer have access to the account, or user revoked access.'
             provider:
               type: string
-              description: The Advertising provider the account is from
+              description: The Advertising provider
+              enum:
+                - google
+                - facebook
+                - localads
             created:
               type: string
               description: The date time that the ad account is connected
@@ -324,10 +340,7 @@ components:
       required:
         - id
         - type
-      x-tags:
-        - connectedAccount
-      x-lifecycle:
-        status: trustedTester
+        - attributes
   parameters:
     connectedAccount.id:
       name: connectedAccount.id

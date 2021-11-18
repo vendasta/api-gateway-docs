@@ -389,7 +389,7 @@ components:
       x-lifecycle:
         status: trustedTester
       x-tags:
-        - accountStats
+        - Account Stats
     connectedAccounts:
       title: connectedAccounts
       type: object
@@ -437,6 +437,40 @@ components:
             updated:
               type: string
               description: The date time that the entity was last updated
+      required:
+        - id
+        - type
+        - attributes
+    campaignInfo:
+      title: campaignInfo
+      type: object
+      x-examples: {}
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        Information about an advertising campaign.  Requires the Advanced Reporting Addon to be active on the Business Location to access
+      x-lifecycle:
+        status: trustedTester
+      x-tags:
+        - accountStats
+      properties:
+        id:
+          type: string
+          description: The resource ID of the Connected Advertising Account
+          example: 'AG-HDV4JKHW:google:7531238654:94749174'
+        type:
+          type: string
+          description: campaignInfo
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the Campaign
+            isConnected:
+              type: boolean
+              description: Flag indicating if the campaign is connected to the Business Location
+            campaignId:
+              type: string
       required:
         - id
         - type

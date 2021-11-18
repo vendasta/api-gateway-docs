@@ -57,7 +57,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/listListings'
+                      $ref: '#/components/schemas/businessEntityListings'
                   links:
                     type: object
                     properties:
@@ -89,174 +89,174 @@ paths:
         - Options
         - Business Entity Listings
     parameters: []
-schemas:
-  businessLocationListings:
-    title: Business Entity Listings
-    type: object
-    x-lifecycle:
-      status: trustedTester
-    description: |-
-      [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
-      Gets a list of listings for a business entity
-    x-tags:
-      - Business Entity Listings
-    $ref:
-    properties:
-      id:
-        name:
-          description: Public facing name of the source
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          refreshUrl: ''
+          scopes:
+            listings: Access to the Listing Builder REST API
+  schemas:
+    businessEntityListings:
+      title: Business Entity Listings
+      type: object
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        Gets a list of listings for a business entity
+      x-tags:
+        - Business Entity Listings
+      properties:
+        id:
+          name:
+            description: Public facing name of the source
+            type: string
+            example: HotFrog
+        type:
           type: string
-          example: HotFrog
-      type:
-        type: string
-        default: listings
-        enum:
-          - listings
-      attributes:
-        type: object
-        icon:
-          description: Link to icon provided by Vendasta’s media service
-          type: string
-          format: uri
-          example: //www.cdnstyles.com/static/images/icon32/sourceId-10090.png
-        popularity:
-          description: Popularity of the source relative to other sources
-          type: number
-        sourceTypeCode:
-          description: Type of source, business directory, app (Snapchat), GPS app, etc.
-          type: string
-          example: BUSINESS_DIRECTORY
-        syncStatusCode:
-          description: The publishing status provided by the sources. Some sources provide confirmation that your data has been published (synced) other sources only provide confirmation that your data has been received (submitted)
-          type: string
-          example: SYNCED
-        listingScore:
-          description: A score based on the status of your online source
-          type: number
-        maximumlistingScore:
-          description: The maximum score this source can attain
-          type: number
-        url:
-          description: The online listing
-          format: uri
-          type: string
-        syncingError:
-          type: array
-          description: Any errors reported while publishing your information to the source
-          items:
+          default: listings
+          enum:
+            - listings
+        attributes:
+          type: object
+          icon:
+            description: Link to icon provided by Vendasta’s media service
+            type: string
+            format: uri
+            example: //www.cdnstyles.com/static/images/icon32/sourceId-10090.png
+          popularity:
+            description: Popularity of the source relative to other sources
+            type: number
+          sourceTypeCode:
+            description: Type of source, business directory, app (Snapchat), GPS app, etc.
+            type: string
+            example: BUSINESS_DIRECTORY
+          syncStatusCode:
+            description: The publishing status provided by the sources. Some sources provide confirmation that your data has been published (synced) other sources only provide confirmation that your data has been received (submitted)
+            type: string
+            example: SYNCED
+          listingScore:
+            description: A score based on the status of your online source
+            type: number
+          maximumlistingScore:
+            description: The maximum score this source can attain
+            type: number
+          url:
+            description: The online listing
+            format: uri
+            type: string
+          syncingError:
+            type: array
+            description: Any errors reported while publishing your information to the source
+            items:
+              type: object
+              properties:
+                errorCode:
+                  description: Use this to determine why a publishing listing information to a source has failed
+                  type: string
+                  example: STREET_ADDRESS, CATEGORIES
+                errorDetails:
+                  description: Human readable details about the error
+                  type: string
+          syncingWarning:
+            description: Any warnings reported while publishing your information to the source
+            type: array
+            items:
+              type: object
+              properties:
+                warningCode:
+                  description: Use this to determine why parts of the published information are different or there are possible conflicts with other listings
+                  type: string
+                  example: DOES_NOT_SUPPORT_SERVICE_AREA_BUSINESS, CLAIMED_BY_OTHERS
+                warningDetails:
+                  description: Human readable details about the warning
+                  type: string
+          updatedAt:
+            description: The last time this source’s listing was checked by Vendasta’s independent listing verification system
+            format: date
+            type: string
+          streetAddress:
+            description:  The physical address of the entity, if it has one. Vendasta’s platform supports multiple address lines but currently those are combined into a single street address in our listing verification system.
             type: object
             properties:
-              errorCode:
-                description: Use this to determine why a publishing listing information to a source has failed
+              Value:
+                description: The street address on the listing
                 type: string
-                example: STREET_ADDRESS, CATEGORIES
-              errorDetails:
-                description: Human readable details about the error
+                example: 123 Roast Ave. W. Stairwell 103
+              Match:
+                description: Does the street address match the business’s street address in their Vendasta Business Profile
+                type: boolean
+          city:
+           description: City that the business physically exists in
+           type: object
+           properties:
+             value:
+               description: The city as it appears on the source listing
+               type: string
+               example: Moose Jaw
+             match:
+               description: Does the city match the business’s street address in their Vendasta Business Profile
+               type: boolean
+          region:
+            description: Region that the business physically exists in. Examples of regions are states, provinces, etc.
+            type: object
+            example: Saskatchewan
+            properties:
+              value:
+                description: The region as it appears on the source listing
                 type: string
-        syncingWarning:
-          description: Any warnings reported while publishing your information to the source
-          type: array
-          items:
+              match:
+                description: Does the region match the business’s street address in their Vendasta Business Profile
+                type: boolean
+          country:
+            description: Country that the business physically exists in
             type: object
             properties:
-              warningCode:
-                description: Use this to determine why parts of the published information are different or there are possible conflicts with other listings
+              value:
+                description: The country as it appears on the source listing
                 type: string
-                example: DOES_NOT_SUPPORT_SERVICE_AREA_BUSINESS, CLAIMED_BY_OTHERS
-              warningDetails:
-                description: Human readable details about the warning
+              match:
+                description: Does the country match the business’s street address in their Vendasta Business Profile
+                type: boolean
+          postalCode:
+            description: Postal code of the physical location of the business. In the USA this is the zip code
+            type: object
+            properties:
+              value:
+                description: The postal code as it appears on the source listing
                 type: string
-        updatedAt:
-          description: The last time this source’s listing was checked by Vendasta’s independent listing verification system
-          format: date
-          type: string
-        streetAddress:
-          description:  The physical address of the entity, if it has one. Vendasta’s platform supports multiple address lines but currently those are combined into a single street address in our listing verification system.
-          type: object
-          properties:
-            Value:
-              description: The street address on the listing
-              type: string
-              example: 123 Roast Ave. W. Stairwell 103
-            Match:
-              description: Does the street address match the business’s street address in their Vendasta Business Profile
-              type: boolean
-        city:
-         description: City that the business physically exists in
-         type: object
-         properties:
-           value:
-             description: The city as it appears on the source listing
-             type: string
-             example: Moose Jaw
-           match:
-             description: Does the city match the business’s street address in their Vendasta Business Profile
-             type: boolean
-        region:
-          description: Region that the business physically exists in. Examples of regions are states, provinces, etc.
-          type: object
-          example: Saskatchewan
-          properties:
-            value:
-              description: The region as it appears on the source listing
-              type: string
-            match:
-              description: Does the region match the business’s street address in their Vendasta Business Profile
-              type: boolean
-        country:
-          description: Country that the business physically exists in
-          type: object
-          properties:
-            value:
-              description: The country as it appears on the source listing
-              type: string
-            match:
-              description: Does the country match the business’s street address in their Vendasta Business Profile
-              type: boolean
-        postalCode:
-          description: Postal code of the physical location of the business. In the USA this is the zip code
-          type: object
-          properties:
-            value:
-              description: The postal code as it appears on the source listing
-              type: string
-            match:
-              description: Does the postal code match the business’s street address in their Vendasta Business Profile
-              type: boolean
-        phoneNumber:
-          description: Postal code of the physical location of the business. In the USA this is the zip code
-          type: object
-          properties:
-            value:
-              description: The postal code as it appears on the source listing
-              type: string
-            match:
-              description: Does the postal code match the business’s street address in their Vendasta Business Profile
-              type: boolean
-        website:
-          description: Postal code of the physical location of the business. In the USA this is the zip code
-          type: object
-          properties:
-            value:
-              description: The postal code as it appears on the source listing
-              type: string
-            match:
-              description: Does the postal code match the business’s street address in their Vendasta Business Profile
-              type: boolean
-        accuracyStatusCode:
-          description: Indicates if reporting is available. If available indicates if the listing was found. If the listing was found indicates if all the data is correct on the listing.
-          type: string
-          example: NOT_AVAILABLE, NOT_FOUND, INACCURATE, ACCURATE
-securitySchemes:
-  JWT:
-    type: http
-    scheme: bearer
-  OAuth2:
-    type: oauth2
-    flows:
-      authorizationCode:
-        authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
-        tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
-        refreshUrl: ''
-        scopes:
-          listings: Access to the Listing Builder REST API
+              match:
+                description: Does the postal code match the business’s street address in their Vendasta Business Profile
+                type: boolean
+          phoneNumber:
+            description: Postal code of the physical location of the business. In the USA this is the zip code
+            type: object
+            properties:
+              value:
+                description: The postal code as it appears on the source listing
+                type: string
+              match:
+                description: Does the postal code match the business’s street address in their Vendasta Business Profile
+                type: boolean
+          website:
+            description: Postal code of the physical location of the business. In the USA this is the zip code
+            type: object
+            properties:
+              value:
+                description: The postal code as it appears on the source listing
+                type: string
+              match:
+                description: Does the postal code match the business’s street address in their Vendasta Business Profile
+                type: boolean
+          accuracyStatusCode:
+            description: Indicates if reporting is available. If available indicates if the listing was found. If the listing was found indicates if all the data is correct on the listing.
+            type: string
+            example: NOT_AVAILABLE, NOT_FOUND, INACCURATE, ACCURATE

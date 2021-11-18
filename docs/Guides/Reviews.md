@@ -37,8 +37,33 @@ That will give you a response similar to:
     "next": "https://prod.apigateway.co/products/reputation?filter[businessLocations.id]=AG-123456&page[cursor]=Mg==&page[limit]=2"
   },
   "data": [
-    <insert reviews sample here>
-  ]
+    {
+      "type": "businessLocationReviews",
+      "id": "RVW-05153123B0664BCDBFB0F4499B525C57",
+      "attributes": {
+        "headline": "",
+        "reviewBody": "Great experience!",
+        "reviewRating": "1",
+        "review": "Benjamin Gibbert",
+        "publishedAt": "2019-12-24T12:00:00Z",
+        "url": "",
+        "comments": null
+      }
+    },
+    {
+      "type": "businessLocationReviews",
+      "id": "RVW-045CFF0D3C4A4B26A40B766E0B5588FD",
+      "attributes": {
+        "headline": "Super friendly and helpful",
+        "reviewBody": "Loved the food!",
+        "reviewRating": "5",
+        "review": "Jon O'Flinigan",
+        "publishedAt": "2018-05-21T19:51:54Z",
+        "url": "",
+        "comments": null
+      }
+    }
+  ] 
 }
 ```
 

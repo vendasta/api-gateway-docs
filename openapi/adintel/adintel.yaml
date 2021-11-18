@@ -147,6 +147,40 @@ paths:
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
         - Connected Account
+    get:
+      summary: ''
+      operationId: get-connectedAccounts-connectedAccount.id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vdn.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/connectedAccounts'
+                  links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        type: string
+                required:
+                  - data
+                  - links
+        '404':
+          description: Connected Account Not Found
+      description: Retrieve the metadata of all connected advertising accounts.
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+      security:
+        - OAuth2:
+            - adintel
+      x-lifecycle:
+        status: proposed
   /connectedAccounts:
     parameters: []
     options:
@@ -158,6 +192,45 @@ paths:
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
         - Connected Account
+    get:
+      summary: ''
+      operationId: get-connectedAccounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/connectedAccounts'
+                  links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        type: string
+                required:
+                  - data
+                  - links
+      description: Retrieve all connected advertising accounts.
+      x-lifecycle:
+        status: proposed
+      security:
+        - OAuth2:
+            - adintel
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+        - $ref: '#/components/parameters/businessLocation.id'
+        - $ref: '#/components/parameters/provider'
+        - $ref: '#/components/parameters/connectedAccount.resourceId'
+        - $ref: '#/components/parameters/pageLimit'
+        - $ref: '#/components/parameters/pageCursor'
   /campaignInfo:
     get:
       summary: Your GET endpoint
@@ -267,7 +340,6 @@ components:
       x-examples: {}
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
-
         Total Stats for a connected Advertising Account
       properties:
         id:
@@ -318,41 +390,6 @@ components:
         status: trustedTester
       x-tags:
         - accountStats
-    campaignInfo:
-      title: campaignInfo
-      type: object
-      x-examples: {}
-      description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
-
-        Information about an advertising campaign.  Requires the Advanced Reporting Addon to be active on the Business Location to access
-      x-lifecycle:
-        status: trustedTester
-      x-tags:
-        - accountStats
-      properties:
-        id:
-          type: string
-          description: The resource ID of the Connected Advertising Account
-          example: 'AG-HDV4JKHW:google:7531238654:94749174'
-        type:
-          type: string
-          description: campaignInfo
-        attributes:
-          type: object
-          properties:
-            name:
-              type: string
-              description: Name of the Campaign
-            isConnected:
-              type: boolean
-              description: Flag indicating if the campaign is connected to the Business Location
-            campaignId:
-              type: string
-      required:
-        - id
-        - type
-        - attributes
     connectedAccounts:
       title: connectedAccounts
       type: object
@@ -361,7 +398,7 @@ components:
       x-tags:
         - Connected Account
       x-lifecycle:
-        status: trustedTester
+        status: proposed
       properties:
         id:
           type: string

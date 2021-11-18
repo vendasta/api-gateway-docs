@@ -30,29 +30,8 @@ That will give you a response similar to:
 
 ```json
 {
-  "links": {
-    "first": "https://prod.apigateway.co/products/listingBuilder/listListings?filter[businessLocations.id]=AG-123456&page[cursor]",
-    "next": "https://prod.apigateway.co/products/listingBuilder/listListings?filter[businessLocations.id]=AG-123456&page[cursor]=EYe0ft3HTIG4"
-  },
   "data": [
     <insert reviews sample here>
   ]
-}
-```
-
-If there are a large number of listings they will be broken into multiple pages. Notice the `links.next` in the 
-response. You may make a GET request to that URI with your Authorization header to retrieve the next page of matches.
-
-```json http
-{
-  "method": "get",
-  "url": "https://prod.apigateway.co/products/listingBuilder/listListings",
-  "query": {
-    "filter[businessLocations.id]": "AG-123456",
-    "page[cursor]": "EYe0ft3HTIG4",
-  },
-  "headers": {
-    "Authorization": "Bearer <access token>"
-  }
 }
 ```

@@ -173,7 +173,7 @@ components:
           streetAddress:
             description:  The physical address of the entity, if it has one. Vendasta’s platform supports multiple address lines but currently those are combined into a single street address in our listing verification system.
             type: object
-            Properties:
+            properties:
               Value:
                 description: The street address on the listing
                 type: string
@@ -184,23 +184,45 @@ components:
           city:
            description: City that the business physically exists in
            type: object
-           Attributes:
+           properties:
              Value:
                description: The city as it appears on the source listing
                type: string
+               example: Moose Jaw
              match:
                description: Does the city match the business’s street address in their Vendasta Business Profile
                type: boolean
           region:
-            description: TODO
+            description: Region that the business physically exists in. Examples of regions are states, provinces, etc.
             type: object
+            example: Saskatchewan
+            properties:
+              Value:
+                description: The region as it appears on the source listing
+                type: string
+              Match:
+                description: Does the region match the business’s street address in their Vendasta Business Profile
+                type: boolean
           country:
-            description: TODO
+            description: Country that the business physically exists in
             type: object
+            properties:
+              Value:
+                description: The country as it appears on the source listing
+                type: string
+              Match:
+                description: Does the country match the business’s street address in their Vendasta Business Profile
+                type: boolean
           postalCode:
-            description: TODO
+            description: Postal code of the physical location of the business. In the USA this is the zip code
             type: object
-
+            properties:
+              Value:
+                description: The postal code as it appears on the source listing
+                type: string
+              Match:
+                description: Does the postal code match the business’s street address in their Vendasta Business Profile
+                type: boolean
           accuracyStatusCode:
             description: Indicates if reporting is available. If available indicates if the listing was found. If the listing was found indicates if all the data is correct on the listing.
             type: string

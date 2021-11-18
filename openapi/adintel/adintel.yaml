@@ -147,6 +147,40 @@ paths:
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
         - Connected Account
+    get:
+      summary: ''
+      operationId: get-connectedAccounts-connectedAccount.id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vdn.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/connectedAccounts'
+                  links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        type: string
+                required:
+                  - data
+                  - links
+        '404':
+          description: Connected Account Not Found
+      description: Retrieve the metadata of all connected advertising accounts.
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+      security:
+        - OAuth2:
+            - adintel
+      x-lifecycle:
+        status: proposed
   /connectedAccounts:
     parameters: []
     options:
@@ -158,6 +192,45 @@ paths:
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
         - Connected Account
+    get:
+      summary: ''
+      operationId: get-connectedAccounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/connectedAccounts'
+                  links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        type: string
+                required:
+                  - data
+                  - links
+      description: Retrieve all connected advertising accounts.
+      x-lifecycle:
+        status: proposed
+      security:
+        - OAuth2:
+            - adintel
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+        - $ref: '#/components/parameters/businessLocation.id'
+        - $ref: '#/components/parameters/provider'
+        - $ref: '#/components/parameters/connectedAccount.resourceId'
+        - $ref: '#/components/parameters/pageLimit'
+        - $ref: '#/components/parameters/pageCursor'
 components:
   schemas:
     accountStats:
@@ -223,9 +296,9 @@ components:
       description: 'An advertising account that’s connected within Advertising Intelligence from integrated campaign management platforms, including Google Adwords, Facebook Ads and Local Ads.'
       x-examples: {}
       x-tags:
-        - "Connected Account"
+        - Connected Account
       x-lifecycle:
-        status: trustedTester
+        status: proposed
       properties:
         id:
           type: string

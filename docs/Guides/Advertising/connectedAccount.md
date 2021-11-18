@@ -30,7 +30,7 @@ title: Request
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/products/adintel/connectedAccount/AG-X5FZQG6T25:google:1324354698",
+  "url": "https://prod.apigateway.co/products/adintel/connectedAccounts/AG-X5FZQG6T25:google:1324354698",
   "headers": {
     "Authorization": "Bearer <Access Token with 'adintel' scope>",
     "Content-Type": "application/vnd.api+json"
@@ -38,7 +38,7 @@ title: Request
 }
 ```
 
-For more details on this endpoint see [Get A Connected Account](../../../openapi/adintel/adintel.yaml/paths/~1connectedAccount/get)
+For more details on this endpoint see [Get A Connected Account](../../../openapi/adintel/adintel.yaml/paths/~1connectedAccounts/get)
 <!--
 type: tab
 title: Example Response
@@ -46,7 +46,7 @@ title: Example Response
 ```json
 {
   "data": {
-      "type": "connectedAccount",
+      "type": "connectedAccounts",
       "id": "AG-X5FZQG6T25:google:1324354698",
       "attributes": {
         "name": "AdWords Account",
@@ -75,7 +75,7 @@ title: Request
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/products/adintel/connectedAccount",
+  "url": "https://prod.apigateway.co/products/adintel/connectedAccounts",
   "headers": {
     "Authorization": "Bearer <Access Token with 'adintel' scope>",
     "Content-Type": "application/vnd.api+json"
@@ -86,7 +86,7 @@ title: Request
 }
 ```
 
-For more details on this endpoint see [List Connected Accounts](../../../openapi/adintel/adintel.yaml/paths/~1connectedAccount/get)
+For more details on this endpoint see [List Connected Accounts](../../../openapi/adintel/adintel.yaml/paths/~1connectedAccounts/get)
 <!--
 type: tab
 title: Example Response
@@ -95,7 +95,7 @@ title: Example Response
 {
   "data": [
     {
-      "type": "connectedAccount",
+      "type": "connectedAccounts",
       "id": "AG-X5FZQG6T25:google:1324354698",
       "attributes": {
         "name": "AdWords Account",
@@ -107,7 +107,7 @@ title: Example Response
       }
     },
     {
-      "type": "connectedAccount",
+      "type": "connectedAccounts",
       "id": "AG-X5FZQG6T25:facebook:act_63184543",
       "attributes": {
         "name": "Facebook Account",
@@ -136,7 +136,7 @@ title: Request
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/products/adintel/connectedAccount",
+  "url": "https://prod.apigateway.co/products/adintel/connectedAccounts",
   "headers": {
     "Authorization": "Bearer <Access Token with 'adintel' scope>",
     "Content-Type": "application/vnd.api+json"
@@ -146,7 +146,7 @@ title: Request
   }
 }
 ```
-For more details on this endpoint see [List Connected Accounts](../../../openapi/adintel/adintel.yaml/paths/~1connectedAccount/get)
+For more details on this endpoint see [List Connected Accounts](../../../openapi/adintel/adintel.yaml/paths/~1connectedAccounts/get)
 <!--
 type: tab
 title: Example Response
@@ -155,7 +155,7 @@ title: Example Response
 {
   "data": [
     {
-      "type": "connectedAccount",
+      "type": "connectedAccounts",
       "id": "AG-JT87JWQ7KN:google:1348315432",
       "attributes": {
         "name": "AdWords Account",
@@ -167,7 +167,7 @@ title: Example Response
       }
     },
     {
-      "type": "connectedAccount",
+      "type": "connectedAccounts",
       "id": "AG-X5FZQG6T25:google:1324354698",
       "attributes": {
         "name": "YXE Hairstyles Studio",
@@ -179,7 +179,7 @@ title: Example Response
       }
     },
     {
-      "type": "connectedAccount",
+      "type": "connectedAccounts",
       "id": "AG-X5FZQG6T25:facebook:act_63184543",
       "attributes": {
         "name": "YXE Hairstyles Studio",
@@ -210,7 +210,7 @@ title: Request
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/products/adintel/connectedAccount",
+  "url": "https://prod.apigateway.co/products/adintel/connectedAccounts",
   "headers": {
     "Authorization": "Bearer <Access Token with 'adintel' scope>",
     "Content-Type": "application/vnd.api+json"
@@ -222,7 +222,7 @@ title: Request
 }
 ```
 
-For more details on this endpoint see [List Connected Accounts](../../../openapi/adintel/adintel.yaml/paths/~1connectedAccount/get)
+For more details on this endpoint see [List Connected Accounts](../../../openapi/adintel/adintel.yaml/paths/~1connectedAccounts/get)
 <!--
 type: tab
 title: Example Response
@@ -231,7 +231,7 @@ title: Example Response
 {
   "data": [
     {
-      "type": "connectedAccount",
+      "type": "connectedAccounts",
       "id": "AG-JT87JWQ7KN:google:1348315432",
       "attributes": {
         "name": "YXE Hairstyles Studio",
@@ -243,7 +243,7 @@ title: Example Response
       }
     },
     {
-      "type": "connectedAccount",
+      "type": "connectedAccounts",
       "id": "AG-X5FZQG6T25:google:1324354698",
       "attributes": {
         "name": "Hairstyle Inn",

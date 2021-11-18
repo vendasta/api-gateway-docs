@@ -17,8 +17,6 @@ paths:
     parameters: []
     get:
       summary: List Account Stats
-      tags:
-        - accountStats
       responses:
         '200':
           description: OK
@@ -65,6 +63,8 @@ paths:
             - adintel
       x-lifecycle:
         status: trustedTester
+      tags:
+        - Account Stats
     options:
       summary: List valid HTTP verbs for /accountstats
       operationId: options-accountStats
@@ -79,8 +79,6 @@ paths:
       - $ref: '#/components/parameters/connectedAccount.id'
     get:
       summary: Get Account Stats for one Connected Account
-      tags:
-        - accountStats
       responses:
         '200':
           description: OK
@@ -122,6 +120,8 @@ paths:
             - adintel
       x-lifecycle:
         status: trustedTester
+      tags:
+        - Account Stats
     options:
       summary: 'List valid HTTP verbs for /accountStats/{id}'
       operationId: options-accountStats-id
@@ -158,6 +158,107 @@ paths:
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
         - Connected Account
+  /campaignInfo:
+    get:
+      summary: Your GET endpoint
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/campaignInfo'
+                  links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        type: string
+                required:
+                  - data
+                  - links
+      operationId: get-campaignInfo
+      description: Retrieve information about Ad Campaigns under one or more connected advertising accounts.
+      tags:
+        - Campaign Info
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+        - $ref: '#/components/parameters/connectedAccount.resourceId'
+        - schema:
+            type: boolean
+          in: query
+          name: 'filter[isConnected]'
+          description: Filters results to fetch only connected or not connected campaigns
+          allowEmptyValue: true
+      security:
+        - OAuth2:
+            - adintel
+    options:
+      summary: ''
+      operationId: options-campaignInfo
+      responses:
+        '200':
+          description: OK
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - options
+  '/campaignInfo/{id}':
+    parameters:
+      - schema:
+          type: string
+          example: 'AG-HDV4JKHW:google:7531238654:94749174'
+        name: id
+        in: path
+        required: true
+        description: campaignInfo resource ID
+    get:
+      summary: Your GET endpoint
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/campaignInfo'
+                  links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        type: string
+                required:
+                  - data
+                  - links
+      operationId: get-campaignInfo-id
+      description: Gets information about a single Ad Campaign given its ID
+      tags:
+        - Campaign Info
+      security:
+        - OAuth2:
+            - adintel
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+    options:
+      summary: ''
+      operationId: options-campaignInfo-id
+      responses:
+        '200':
+          description: OK
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - options
 components:
   schemas:
     accountStats:
@@ -217,13 +318,48 @@ components:
         status: trustedTester
       x-tags:
         - accountStats
+    campaignInfo:
+      title: campaignInfo
+      type: object
+      x-examples: {}
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Information about an advertising campaign.  Requires the Advanced Reporting Addon to be active on the Business Location to access
+      x-lifecycle:
+        status: trustedTester
+      x-tags:
+        - accountStats
+      properties:
+        id:
+          type: string
+          description: The resource ID of the Connected Advertising Account
+          example: 'AG-HDV4JKHW:google:7531238654:94749174'
+        type:
+          type: string
+          description: campaignInfo
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the Campaign
+            isConnected:
+              type: boolean
+              description: Flag indicating if the campaign is connected to the Business Location
+            campaignId:
+              type: string
+      required:
+        - id
+        - type
+        - attributes
     connectedAccounts:
       title: connectedAccounts
       type: object
       description: 'An advertising account that’s connected within Advertising Intelligence from integrated campaign management platforms, including Google Adwords, Facebook Ads and Local Ads.'
       x-examples: {}
       x-tags:
-        - "Connected Account"
+        - Connected Account
       x-lifecycle:
         status: trustedTester
       properties:

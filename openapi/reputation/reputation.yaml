@@ -146,40 +146,48 @@ components:
         id:
           type: string
           example: RVW-4EF5BECE03D24D85AB4045097430A9C0
-        reviewBody:
-          description: The actual body of the review
+        type:
           type: string
-        reviewRating:
-          description: The rating given in this review
-          type: string
-        author:
-          description: The creator/author of the review
-          type: string
-        headline:
-          description: Headline of the review
-          type: string
-        publishedAt:
-          description: Date of first broadcast/publication
-          format: date-time
-          type: string
-        url:
-          description: The URL to the review
-          type: string
-        comments:
-          type: array
-          description: Comments, typically from users
-          items:
-            type: object
-            properties:
-              author:
-                description: The creator/author of the comment
-                type: string
-              headline:
-                description: Headline of the comment
-                type: string
-              commentBody:
-                description: The actual body of the comment
-                type: string
+          default: businessLocationReviews
+          enum:
+            - businessLocationReviews
+        attributes:
+          type: object
+          properties:
+            reviewBody:
+              description: The actual body of the review
+              type: string
+            reviewRating:
+              description: The rating given in this review
+              type: string
+            author:
+              description: The creator/author of the review
+              type: string
+            headline:
+              description: Headline of the review
+              type: string
+            publishedAt:
+              description: Date of first broadcast/publication
+              format: date-time
+              type: string
+            url:
+              description: The URL to the review
+              type: string
+            comments:
+              type: array
+              description: Comments, typically from users
+              items:
+                type: object
+                properties:
+                  author:
+                    description: The creator/author of the comment
+                    type: string
+                  headline:
+                    description: Headline of the comment
+                    type: string
+                  commentBody:
+                    description: The actual body of the comment
+                    type: string
   securitySchemes:
     JWT:
       type: http

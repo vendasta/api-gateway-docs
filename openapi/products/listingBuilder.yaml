@@ -102,103 +102,110 @@ components:
       x-tags:
         - Business Entity Listings
       properties:
-        name:
-          description: Public facing name of the source
-          type: string
-          example: HotFrog
-        icon:
-          description: Link to icon provided by Vendasta’s media service
-          type: string
-          format: uri
-          example: //www.cdnstyles.com/static/images/icon32/sourceId-10090.png
-        popularity:
-          description: Popularity of the source relative to other sources
-          type: number
-        sourceTypeCode:
-          description: Type of source, business directory, app (Snapchat), GPS app, etc.
-          type: string
-          example: BUSINESS_DIRECTORY
-        syncStatusCode:
-          description: The publishing status provided by the sources. Some sources provide confirmation that your data has been published (synced) other sources only provide confirmation that your data has been received (submitted)
-          type: string
-          example: SYNCED
-        listingScore:
-          description: A score based on the status of your online source
-          type: number
-        maximumlistingScore:
-          description: The maximum score this source can attain
-          type: number
-        url:
-          description: The online listing
-          format: uri
-          type: string
-        syncingError:
-          type: array
-          description: Any errors reported while publishing your information to the source
-          items:
-            type: object
-            properties:
-              errorCode:
-                description: Use this to determine why a publishing listing information to a source has failed
-                type: string
-                example: STREET_ADDRESS, CATEGORIES
-              errorDetails:
-                description: Human readable details about the error
-                type: string
-        syncingWarning:
-          description: Any warnings reported while publishing your information to the source
-          type: array
-          items:
-            type: object
-            properties:
-              warningCode:
-                description: Use this to determine why parts of the published information are different or there are possible conflicts with other listings
-                type: string
-                example: DOES_NOT_SUPPORT_SERVICE_AREA_BUSINESS, CLAIMED_BY_OTHERS
-              warningDetails:
-                description: Human readable details about the warning
-                type: string
-        updatedAt:
-          description: The last time this source’s listing was checked by Vendasta’s independent listing verification system
-          format: date
-          type: string
-        address:
-          description: The address information displayed in the online listing
-          type: object
-          properties:
-           streetAddress:
-             description:  The physical address of the entity, if it has one. Vendasta’s platform supports multiple address lines but currently those are combined into a single street address in our listing verification system.
-             type: string
-           city:
-            description: City displayed on the listing itself
+        id:
+          name:
+            description: Public facing name of the source
             type: string
-           regionCode:
-             description: TODO
-             type: string
-           countryCode:
-             description: TODO
-             type: string
-           postalCode:
-             description: TODO
-             type: string
-        matches:
-          description: Indicates which parts of your online listing are accurate based on Vendasta’s independent listing verification system
-          type: object
-          properties:
-            streetAddress:
-              type: boolean
-            city:
-              type: boolean
-            regionCode:
-              type: boolean
-            countryCode:
-              type: boolean
-            postalCode:
-              type: boolean
-        accuracyStatusCode:
-          description: Indicates if reporting is available. If available indicates if the listing was found. If the listing was found indicates if all the data is correct on the listing.
+            example: HotFrog
+        type:
           type: string
-          example: NOT_AVAILABLE, NOT_FOUND, INACCURATE, ACCURATE
+          default: listings
+          enum:
+            - listings
+        attributes:
+          icon:
+            description: Link to icon provided by Vendasta’s media service
+            type: string
+            format: uri
+            example: //www.cdnstyles.com/static/images/icon32/sourceId-10090.png
+          popularity:
+            description: Popularity of the source relative to other sources
+            type: number
+          sourceTypeCode:
+            description: Type of source, business directory, app (Snapchat), GPS app, etc.
+            type: string
+            example: BUSINESS_DIRECTORY
+          syncStatusCode:
+            description: The publishing status provided by the sources. Some sources provide confirmation that your data has been published (synced) other sources only provide confirmation that your data has been received (submitted)
+            type: string
+            example: SYNCED
+          listingScore:
+            description: A score based on the status of your online source
+            type: number
+          maximumlistingScore:
+            description: The maximum score this source can attain
+            type: number
+          url:
+            description: The online listing
+            format: uri
+            type: string
+          syncingError:
+            type: array
+            description: Any errors reported while publishing your information to the source
+            items:
+              type: object
+              properties:
+                errorCode:
+                  description: Use this to determine why a publishing listing information to a source has failed
+                  type: string
+                  example: STREET_ADDRESS, CATEGORIES
+                errorDetails:
+                  description: Human readable details about the error
+                  type: string
+          syncingWarning:
+            description: Any warnings reported while publishing your information to the source
+            type: array
+            items:
+              type: object
+              properties:
+                warningCode:
+                  description: Use this to determine why parts of the published information are different or there are possible conflicts with other listings
+                  type: string
+                  example: DOES_NOT_SUPPORT_SERVICE_AREA_BUSINESS, CLAIMED_BY_OTHERS
+                warningDetails:
+                  description: Human readable details about the warning
+                  type: string
+          updatedAt:
+            description: The last time this source’s listing was checked by Vendasta’s independent listing verification system
+            format: date
+            type: string
+          address:
+            description: The address information displayed in the online listing
+            type: object
+            properties:
+             streetAddress:
+               description:  The physical address of the entity, if it has one. Vendasta’s platform supports multiple address lines but currently those are combined into a single street address in our listing verification system.
+               type: string
+             city:
+              description: City displayed on the listing itself
+              type: string
+             regionCode:
+               description: TODO
+               type: string
+             countryCode:
+               description: TODO
+               type: string
+             postalCode:
+               description: TODO
+               type: string
+          matches:
+            description: Indicates which parts of your online listing are accurate based on Vendasta’s independent listing verification system
+            type: object
+            properties:
+              streetAddress:
+                type: boolean
+              city:
+                type: boolean
+              regionCode:
+                type: boolean
+              countryCode:
+                type: boolean
+              postalCode:
+                type: boolean
+          accuracyStatusCode:
+            description: Indicates if reporting is available. If available indicates if the listing was found. If the listing was found indicates if all the data is correct on the listing.
+            type: string
+            example: NOT_AVAILABLE, NOT_FOUND, INACCURATE, ACCURATE
   securitySchemes:
     JWT:
       type: http

@@ -4,21 +4,19 @@ info:
   version: '1.0'
   description: ''
 servers:
-  - url: 'https://prod.apigateway.co/products/adintel'
+  - url: 'https://prod.apigateway.co/products/advertising'
     description: Production
-  - url: 'https://demo.apigateway.co/products/adintel'
+  - url: 'https://demo.apigateway.co/products/advertising'
     description: Demo
-  - url: '{local}/products/adintel'
+  - url: '{local}/products/advertising'
     description: Local
-  - url: 'http://localhost:11001/products/adintel'
+  - url: 'http://localhost:11001/products/advertising'
     description: Localhost
 paths:
   /accountStats:
     parameters: []
     get:
       summary: List Account Stats
-      tags:
-        - accountStats
       responses:
         '200':
           description: OK
@@ -62,9 +60,11 @@ paths:
         - $ref: '#/components/parameters/pageCursor'
       security:
         - OAuth2:
-            - adintel
+            - advertising
       x-lifecycle:
         status: trustedTester
+      tags:
+        - Account Stats
     options:
       summary: List valid HTTP verbs for /accountstats
       operationId: options-accountStats
@@ -79,8 +79,6 @@ paths:
       - $ref: '#/components/parameters/connectedAccount.id'
     get:
       summary: Get Account Stats for one Connected Account
-      tags:
-        - accountStats
       responses:
         '200':
           description: OK
@@ -119,9 +117,11 @@ paths:
         - $ref: '#/components/parameters/endAt'
       security:
         - OAuth2:
-            - adintel
+            - advertising
       x-lifecycle:
         status: trustedTester
+      tags:
+        - Account Stats
     options:
       summary: 'List valid HTTP verbs for /accountStats/{id}'
       operationId: options-accountStats-id
@@ -148,7 +148,7 @@ paths:
       tags:
         - Connected Account
     get:
-      summary: ''
+      summary: List Connected Accounts
       operationId: get-connectedAccounts-connectedAccount.id
       responses:
         '200':
@@ -178,9 +178,11 @@ paths:
         - $ref: '#/components/parameters/Content-Type'
       security:
         - OAuth2:
-            - adintel
+            - advertising
       x-lifecycle:
         status: proposed
+      tags:
+        - Connected Accounts
   /connectedAccounts:
     parameters: []
     options:
@@ -193,7 +195,7 @@ paths:
       tags:
         - Connected Account
     get:
-      summary: ''
+      summary: Get Connected Account
       operationId: get-connectedAccounts
       responses:
         '200':
@@ -222,7 +224,7 @@ paths:
         status: proposed
       security:
         - OAuth2:
-            - adintel
+            - advertising
       parameters:
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/Content-Type'
@@ -231,6 +233,8 @@ paths:
         - $ref: '#/components/parameters/connectedAccount.resourceId'
         - $ref: '#/components/parameters/pageLimit'
         - $ref: '#/components/parameters/pageCursor'
+      tags:
+        - Connected Accounts
 components:
   schemas:
     accountStats:
@@ -289,14 +293,12 @@ components:
       x-lifecycle:
         status: trustedTester
       x-tags:
-        - accountStats
+        - Account Stats
     connectedAccounts:
       title: connectedAccounts
       type: object
       description: 'An advertising account that’s connected within Advertising Intelligence from integrated campaign management platforms, including Google Adwords, Facebook Ads and Local Ads.'
       x-examples: {}
-      x-tags:
-        - Connected Account
       x-lifecycle:
         status: proposed
       properties:
@@ -341,6 +343,8 @@ components:
         - id
         - type
         - attributes
+      x-tags:
+        - Connected Accounts
   parameters:
     connectedAccount.id:
       name: connectedAccount.id
@@ -446,4 +450,4 @@ components:
           tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
           refreshUrl: ''
           scopes:
-            adintel: Access to the Advertising Intelligence REST API
+            advertising: Access to the Advertising Intelligence REST API

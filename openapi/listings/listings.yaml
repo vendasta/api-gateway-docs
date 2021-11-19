@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Listing REST APIs
   version: '1.0'
-  description: ''
+  description: Using this api requires active Liting Builder
 servers:
   - url: 'https://prod.apigateway.co/products/listings/listListings'
     description: Production
@@ -22,6 +22,7 @@ paths:
       security:
         - OAuth2:
             - business
+            - listings
       x-lifecycle:
         status: trustedTester
       description: |-
@@ -58,20 +59,6 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/businessEntityListings'
-                  links:
-                    type: object
-                    properties:
-                      self:
-                        type: string
-                        format: uri
-                      first:
-                        type: string
-                        description: Provides a link back to the first page of results
-                        format: uri
-                      next:
-                        type: string
-                        description: The URI at which the next batch of listings can be gotten from
-                        format: uri
     options:
       operationId: options-businessEntityListings
       summary: List valid HTTP verbs for /businessEntityListings
@@ -131,7 +118,7 @@ components:
               description: Link to icon provided by Vendasta’s media service
               type: string
               format: uri
-              example: https://www.cdnstyles.com/static/images/icon32/sourceId-10090.png
+              example: 'https://www.cdnstyles.com/static/images/icon32/sourceId-10090.png'
             popularity:
               description: Popularity of the source relative to other sources
               type: number
@@ -184,7 +171,10 @@ components:
               format: date
               type: string
             streetAddress:
-              description: 'The physical address of the entity, if it has one. Vendasta’s platform supports multiple address lines but currently those are combined into a single street address in our listing verification system.'
+              description: |-
+                Service area businesses will not have this field.
+
+                For a physical location this physical address of the entity. Vendasta’s platform supports multiple address lines but currently those are combined into a single street address in our listing verification system.
               type: object
               properties:
                 Value:
@@ -195,7 +185,10 @@ components:
                   description: Does the street address match the business’s street address in their Vendasta Business Profile
                   type: boolean
             city:
-              description: City that the business physically exists in
+              description: |-
+                For a service area business this will be the city the business services.
+
+                For a physical location this will be the city that the business physically exists in.
               type: object
               properties:
                 value:
@@ -206,7 +199,12 @@ components:
                   description: Does the city match the business’s street address in their Vendasta Business Profile
                   type: boolean
             region:
-              description: 'Region that the business physically exists in. Examples of regions are states, provinces, etc.'
+              description: |-
+                For a service area business this will be the region that contains the city the business services.
+
+                For a physical location this will be the region that the business physically exists in. 
+
+                Examples of regions are states, provinces, etc.
               type: object
               example: Saskatchewan
               properties:
@@ -217,7 +215,10 @@ components:
                   description: Does the region match the business’s street address in their Vendasta Business Profile
                   type: boolean
             country:
-              description: Country that the business physically exists in
+              description: |-
+                For a service area business this will be the country that contains the city the business services.
+
+                For a physical location this will be the country that the business physically exists in. 
               type: object
               properties:
                 value:
@@ -227,7 +228,7 @@ components:
                   description: Does the country match the business’s street address in their Vendasta Business Profile
                   type: boolean
             postalCode:
-              description: Postal code of the physical location of the business. In the USA this is the zip code
+              description: For a physical location this will be the postal code of the physical location of the business. In the USA this is the zip code
               type: object
               properties:
                 value:
@@ -237,24 +238,27 @@ components:
                   description: Does the postal code match the business’s street address in their Vendasta Business Profile
                   type: boolean
             phoneNumber:
-              description: Postal code of the physical location of the business. In the USA this is the zip code
+              description: |-
+                The contact phone number for the business. This corresponds to the first phone number in the Vendasta business profile.
+
+                This will not be the toll free, cell or fax number.
               type: object
               properties:
                 value:
-                  description: The postal code as it appears on the source listing
+                  description: The phone number as it appears on the listing.
                   type: string
                 match:
-                  description: Does the postal code match the business’s street address in their Vendasta Business Profile
+                  description: 'Does the phone number match the business’s first phone number in their Vendasta Business Profile. Toll free, cell and fax numbers are not considered even if they are the only number on the business profile.'
                   type: boolean
             website:
-              description: Postal code of the physical location of the business. In the USA this is the zip code
+              description: The website of the business entity.
               type: object
               properties:
                 value:
-                  description: The postal code as it appears on the source listing
+                  description: The website as it appears on the online listing.
                   type: string
                 match:
-                  description: Does the postal code match the business’s street address in their Vendasta Business Profile
+                  description: Does the website match the business’s website in their Vendasta Business Profile
                   type: boolean
             accuracyStatusCode:
               description: Indicates if reporting is available. If available indicates if the listing was found. If the listing was found indicates if all the data is correct on the listing.

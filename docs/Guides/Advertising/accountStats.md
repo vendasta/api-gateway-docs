@@ -1,5 +1,5 @@
 ---
-tags: [Advertising Intelligence, adintel, account, stats, accountstats]
+tags: [Advertising Intelligence, advertising, account, stats, accountstats]
 ---
 # Getting Advertising Account Stats
 
@@ -9,7 +9,7 @@ tags: [Advertising Intelligence, adintel, account, stats, accountstats]
 
 ## Setup
 
-Create an access token with `adintel` scopes following the [Authorization guide](../../Authorization/Authorization.md).
+Create an access token with `advertising` scopes following the [Authorization guide](../../Authorization/Authorization.md).
 
 ## Examples
 
@@ -24,9 +24,9 @@ title: Request
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/products/adintel/accountStats",
+  "url": "https://prod.apigateway.co/products/advertising/accountStats",
   "headers": {
-    "Authorization": "Bearer <Access Token with 'adintel' scope>",
+    "Authorization": "Bearer <Access Token with 'advertising' scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "query": {
@@ -35,7 +35,7 @@ title: Request
 }
 ```
 
-For more details on this endpoint see [List Account Stats](../../../openapi/adintel/adintel.yaml/paths/~1accountStats/get)
+For more details on this endpoint see [List Account Stats](../../../openapi/advertising/advertising.yaml/paths/~1accountStats/get)
 <!--
 type: tab
 title: Example Response
@@ -89,9 +89,9 @@ title: Request
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/products/adintel/accountStats",
+  "url": "https://prod.apigateway.co/products/advertising/accountStats",
   "headers": {
-    "Authorization": "Bearer <Access Token with 'adintel' scope>",
+    "Authorization": "Bearer <Access Token with 'advertising' scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "query": {
@@ -99,7 +99,7 @@ title: Request
   }
 }
 ```
-For more details on this endpoint see [List Account Stats](../../../openapi/adintel/adintel.yaml/paths/~1accountStats/get)
+For more details on this endpoint see [List Account Stats](../../../openapi/advertising/advertising.yaml/paths/~1accountStats/get)
 <!--
 type: tab
 title: Example Response
@@ -171,9 +171,9 @@ title: Request
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/products/adintel/accountStats",
+  "url": "https://prod.apigateway.co/products/advertising/accountStats",
   "headers": {
-    "Authorization": "Bearer <Access Token with 'adintel' scope>",
+    "Authorization": "Bearer <Access Token with 'advertising' scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "query": {
@@ -185,7 +185,7 @@ title: Request
 }
 ```
 
-For more details on this endpoint see [List Account Stats](../../../openapi/adintel/adintel.yaml/paths/~1accountStats/get)
+For more details on this endpoint see [List Account Stats](../../../openapi/advertising/advertising.yaml/paths/~1accountStats/get)
 <!--
 type: tab
 title: Example Response

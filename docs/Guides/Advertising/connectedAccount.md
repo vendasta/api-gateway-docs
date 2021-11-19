@@ -1,5 +1,5 @@
 ---
-tags: [Advertising Intelligence, adintel, account, connectedAccount]
+tags: [Advertising Intelligence, advertising, account, connectedAccount]
 ---
 # Getting Advertising Connected Accounts
 
@@ -9,7 +9,7 @@ A `Connected Account` represents the metadata of an advertising account that has
 
 ## Setup
 
-Create an access token with `adintel` scopes following the [Authorization guide](../../Authorization/Authorization.md).
+Create an access token with `advertising` scopes following the [Authorization guide](../../Authorization/Authorization.md).
 
 ## Examples
 
@@ -24,9 +24,9 @@ title: Request
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/products/adintel/connectedAccounts",
+  "url": "https://prod.apigateway.co/products/advertising/connectedAccounts",
   "headers": {
-    "Authorization": "Bearer <Access Token with 'adintel' scope>",
+    "Authorization": "Bearer <Access Token with 'advertising' scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "query": {
@@ -35,7 +35,7 @@ title: Request
 }
 ```
 
-For more details on this endpoint see [List Connected Accounts](../../../openapi/adintel/adintel.yaml/paths/~1connectedAccounts/get)
+For more details on this endpoint see [List Connected Accounts](../../../openapi/advertising/advertising.yaml/paths/~1connectedAccounts/get)
 <!--
 type: tab
 title: Example Response
@@ -85,9 +85,9 @@ title: Request
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/products/adintel/connectedAccounts",
+  "url": "https://prod.apigateway.co/products/advertising/connectedAccounts",
   "headers": {
-    "Authorization": "Bearer <Access Token with 'adintel' scope>",
+    "Authorization": "Bearer <Access Token with 'advertising' scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "query": {
@@ -95,7 +95,7 @@ title: Request
   }
 }
 ```
-For more details on this endpoint see [List Connected Accounts](../../../openapi/adintel/adintel.yaml/paths/~1connectedAccounts/get)
+For more details on this endpoint see [List Connected Accounts](../../../openapi/advertising/advertising.yaml/paths/~1connectedAccounts/get)
 <!--
 type: tab
 title: Example Response
@@ -159,9 +159,9 @@ title: Request
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/products/adintel/connectedAccounts",
+  "url": "https://prod.apigateway.co/products/advertising/connectedAccounts",
   "headers": {
-    "Authorization": "Bearer <Access Token with 'adintel' scope>",
+    "Authorization": "Bearer <Access Token with 'advertising' scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "query": {
@@ -171,7 +171,7 @@ title: Request
 }
 ```
 
-For more details on this endpoint see [List Connected Accounts](../../../openapi/adintel/adintel.yaml/paths/~1connectedAccounts/get)
+For more details on this endpoint see [List Connected Accounts](../../../openapi/advertising/advertising.yaml/paths/~1connectedAccounts/get)
 <!--
 type: tab
 title: Example Response
@@ -221,15 +221,15 @@ title: Request
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/products/adintel/connectedAccounts/AG-X5FZQG6T25:google:1324354698",
+  "url": "https://prod.apigateway.co/products/advertising/connectedAccounts/AG-X5FZQG6T25:google:1324354698",
   "headers": {
-    "Authorization": "Bearer <Access Token with 'adintel' scope>",
+    "Authorization": "Bearer <Access Token with 'advertising' scope>",
     "Content-Type": "application/vnd.api+json"
   }
 }
 ```
 
-For more details on this endpoint see [Get A Connected Account](../../../openapi/adintel/adintel.yaml/paths/~1connectedAccounts/get)
+For more details on this endpoint see [Get A Connected Account](../../../openapi/advertising/advertising.yaml/paths/~1connectedAccounts/get)
 <!--
 type: tab
 title: Example Response

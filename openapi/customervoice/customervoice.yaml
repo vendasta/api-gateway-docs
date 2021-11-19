@@ -4,13 +4,13 @@ info:
   version: '1.0'
   description: APIs for gathering authentic reviews via email or text using Customer Voice.
 servers:
-  - url: 'https://prod.apigateway.co/products/customervoice'
+  - url: 'https://prod.apigateway.co/products/reviewrequest'
     description: Production
-  - url: 'https://demo.apigateway.co/products/customervoice'
+  - url: 'https://demo.apigateway.co/products/reviewrequest'
     description: Demo
-  - url: '{local}/products/customervoice'
+  - url: '{local}/products/reviewrequest'
     description: Local
-  - url: 'http://localhost:11001/products/customervoice'
+  - url: 'http://localhost:11001/products/reviewrequest'
     description: Localhost
 paths:
   /reviewRequests:
@@ -57,7 +57,7 @@ paths:
           required: true
       security:
         - OAuth2:
-            - customervoice
+            - reviewrequest
       x-lifecycle:
         status: proposed
     options:
@@ -95,7 +95,7 @@ components:
           authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
           tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
           scopes:
-            customervoice: Read-write access to Social Marketing APIs
+            reviewrequest: Read-write access to review request APIs
   schemas:
     reviewRequests:
       title: reviewRequests
@@ -212,4 +212,4 @@ tags:
   - name: Review Requests
 security:
   - OAuth2:
-      - customervoice
+      - reviewrequest

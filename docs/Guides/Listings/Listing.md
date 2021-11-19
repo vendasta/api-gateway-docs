@@ -31,7 +31,7 @@ That will give you a response similar to:
 ```json
 {
   "data": [
-    <insert reviews sample here>
+    <insert listing sample here>
   ]
 }
 ```

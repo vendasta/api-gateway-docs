@@ -47,6 +47,11 @@ paths:
             type: string
           in: header
           name: Accept-Language
+        - schema:
+            type: string
+          in: query
+          name: 'filter[cursor]'
+          description: If there are more than 200 listing sources they will be paginated into pages of 200. This is the cursor to the current page in the results
       responses:
         '200':
           description: OK
@@ -125,15 +130,20 @@ components:
               type: number
             sourceTypeCode:
               description: |-
-                Type of listing source
+                The type of listing source.
 
-                siteTypeUnspecified - The listing source type is unknown
-                siteTypeMap - Sites that provide your location on a map like MapQuest or Google Maps
-                siteTypeSocial - Social networks like Facebook
+                unspecified - The listing source type is unknown
+
+                directory - An online listing directory
+
+                map - Sites that have an online map like MapQuest or Google Maps
+
+                social - Social networks like Facebook
                 siteTypeAggregator - Publishers that push their listing information to other listing sources
-                siteTypeApp - Stand alone applications like Snapchat
-                siteTypeGps - These sources power GPS applications
-                siteTypeDirectory - An online listing directory
+
+                app - Stand alone applications like Snapchat that are not GPS services
+
+                gps - These sources power GPS applications
               type: string
               example: BUSINESS_DIRECTORY
             syncStatusCode:

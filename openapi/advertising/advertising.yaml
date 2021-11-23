@@ -47,7 +47,7 @@ paths:
                   - links
               examples: {}
       operationId: get-accountStats
-      description: Retrieve stats for all connected advertising accounts.
+      description: Retrieve stats for all connected advertising accounts for a given business location.
       parameters:
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/Content-Type'
@@ -394,15 +394,16 @@ components:
         default: application/vnd.api+json
       description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
     businessLocation.id:
-      name: 'filter[businessLocation.id]'
+      name: businessLocation.id
       in: query
       schema:
         type: string
         example: AG-HDABCKDEFR
         uniqueItems: true
         minItems: 0
-      description: A comma separated list of Business Location IDs
+      description: A single Business Location ID
       allowEmptyValue: true
+      required: true
     provider:
       name: 'filter[provider]'
       in: query

@@ -47,6 +47,11 @@ paths:
             type: string
           in: header
           name: Accept-Language
+        - schema:
+            type: string
+          in: query
+          name: 'filter[cursor]'
+          description: If there are more than 200 listing sources they will be paginated into pages of 200. This is the cursor to the current page in the results
       responses:
         '200':
           description: OK
@@ -324,3 +329,4 @@ components:
                 accuracyStatusNotFound - No listing was found for this source by Vendasta.
               type: string
               example: 'NOT_AVAILABLE, NOT_FOUND, INACCURATE, ACCURATE'
+      x-internal: false

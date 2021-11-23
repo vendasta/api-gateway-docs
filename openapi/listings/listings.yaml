@@ -51,7 +51,7 @@ paths:
             type: string
           in: query
           name: 'filter[cursor]'
-          description: If there are more than 200 listing sources they will be paginated into pages of 200. This is the cursor to the current page in the results
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
       responses:
         '200':
           description: OK
@@ -64,6 +64,20 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/businessEntityListings'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                      next:
+                        type: string
+                        description: The URI at which the next batch of reviews can be gotten from
+                        format: uri
     options:
       operationId: options-businessEntityListings
       summary: List valid HTTP verbs for /businessEntityListings
@@ -349,4 +363,3 @@ components:
                 notFound - No listing was found for this source by Vendasta.
               type: string
               example: 'NOT_AVAILABLE, NOT_FOUND, INACCURATE, ACCURATE'
-      x-internal: false

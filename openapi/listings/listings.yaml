@@ -106,6 +106,7 @@ components:
         Gets a list of listings for a business entity
       x-tags:
         - Business Entity Listings
+      x-internal: false
       properties:
         id:
           description: Public facing name of the source
@@ -129,32 +130,48 @@ components:
               type: number
             sourceTypeCode:
               description: |-
-                Type of listing source
+                The type of listing source.
 
-                siteTypeUnspecified - The listing source type is unknown
-                siteTypeMap - Sites that provide your location on a map like MapQuest or Google Maps
-                siteTypeSocial - Social networks like Facebook
-                siteTypeAggregator - Publishers that push their listing information to other listing sources
-                siteTypeApp - Stand alone applications like Snapchat
-                siteTypeGps - These sources power GPS applications
-                siteTypeDirectory - An online listing directory
+                unspecified - The listing source type is unknown
+
+                directory - An online listing directory
+
+                map - Sites that have an online map like MapQuest or Google Maps
+
+                social - Social networks like Facebook
+
+                aggregator - Publishers that push their listing information to other listing sources
+
+                app - Stand alone applications like Snapchat that are not GPS services
+
+                gps - These sources power GPS applications
               type: string
               example: BUSINESS_DIRECTORY
             syncStatusCode:
               description: |-
-                The publishing status provided by the listing sources.
+                The listing status provided by the listing sources.
 
-                statusCodeUnknown - Default error value, should never be used intentionally
-                statusCodeSynced - Listing data was submitted to the source, and the source responded that the data is good and in use
-                statusCodeInProgress - Information has been sent to the publisher who are in the process of syncing the information to the listing.
-                statusCodeSyncingWithWarnings - The data has been published by the listing but there are some warnings that many affect the values published.
-                statusCodeHasErrors - There was an error with the data we sent to the publisher causing poublishing all the information to fail.
-                statusCodeSyncDisabled - Publishing information for this source has been disabled.
-                statusCodeClaimedByOthers - Publisher is rejecting our data because this listing has been claimed by another user/service.
-                statusCodeDoesNotSupportServiceAreaBusiness - This publisher does not support service area businesses.
-                statusCodeSubmitted - The business profile information was successfully sent to the publisher. The publisher does not verify when the information was published.
-                statusCodeManualUpdateOnly - This listing cannot be updated by Vendasta's platform with the current set of apps actived for this business. The listing must be updated with the publisher directly by the business.
-                statusCodeNotFound - The publisher does not have a listing for this business.
+                unknown - Default error value, should never be used intentionally
+
+                synced - Listing data was submitted to the listing source, and the source responded that the data is good and in use
+
+                inProgress - Information has been sent to the listing source who is in the process of syncing the information to the listing.
+
+                syncingWithWarnings - The data has been updated by the listing but there are some warnings that many affect the values updated.
+
+                hasErrors - There was an error with the data we sent to the listing source causing updating all the information to fail.
+
+                syncDisabled - Updating information for this source has been disabled.
+
+                claimedByOthers - The listing source is rejecting our data because this listing has been claimed by another user/service.
+
+                doesNotSupportServiceAreaBusiness - This listing source does not support service area businesses.
+
+                submitted - The business profile information was successfully sent to the listing source. The listing source does not verify when the information was published.
+
+                manualUpdateOnly - This listing cannot be updated by Vendasta's platform with the current set of apps actived for this business. The listing must be updated with the listing source directly by the business.
+
+                notFound - The listing source does not have a listing for this business.
               type: string
               example: SYNCED
             listingScore:
@@ -189,10 +206,9 @@ components:
                       paymentOptions
                       photos
                       website
-                      unhandledError
                       existingRelationship
                       chainLocation
-                      unavailableReason
+                      unavailableReason - Superpages is unable to update this listing due to an issue with their database.
                     type: string
                     example: 'STREET_ADDRESS, CATEGORIES'
                   errorDetails:
@@ -322,11 +338,15 @@ components:
               description: |-
                 Indicates if Vendasta's independent accuracy reporting is available, found and whether or not it is active.
 
-                accuracyStatusUnknown - Default error value, should never be used intentionally
-                accuracyStatusAccurate - Listing was independently verified by Vendasta to be accurate
-                accuracyStatusInaccurate - Vendasta found at least one inaccuracy with the listing
-                accuracyStatusNotAvailable - No Vendasta reporting is available for this source
-                accuracyStatusNotFound - No listing was found for this source by Vendasta.
+                unknown - Default error value, should never be used intentionally
+
+                accurate - Listing was independently verified by Vendasta to be accurate
+
+                inaccurate - Vendasta found at least one inaccuracy with the listing
+
+                notAvailable - No Vendasta reporting is available for this source
+
+                notFound - No listing was found for this source by Vendasta.
               type: string
               example: 'NOT_AVAILABLE, NOT_FOUND, INACCURATE, ACCURATE'
       x-internal: false

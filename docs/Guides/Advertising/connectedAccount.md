@@ -93,7 +93,7 @@ title: Request
     "Content-Type": "application/vnd.api+json"
   },
   "query": {
-    "businessLocation.id": "AG-JT87JWQ7KN,AG-X5FZQG6T25",
+    "businessLocation.id": "AG-JT87JWQ7KN",
     "filter[provider]": "google",
     "filter[provider]": "facebook"
   }
@@ -122,7 +122,7 @@ title: Example Response
     },
     {
       "type": "connectedAccounts",
-      "id": "AG-X5FZQG6T25:google:1324354698",
+      "id": "AG-JT87JWQ7KN:google:1324354698",
       "attributes": {
         "name": "Hairstyle Inn",
         "currencyCode": "CAD",
@@ -133,17 +133,17 @@ title: Example Response
       }
     },
     {
-          "type": "connectedAccounts",
-          "id": "AG-X5FZQG6T25:facebook:act_1324354698",
-          "attributes": {
-            "name": "Hairstyle Inn",
-            "currencyCode": "CAD",
-            "credentialsInvalid": false,
-            "created": "2020-12-10T00:00:00Z",
-            "updated": "2020-12-10T00:00:00Z",
-            "provider": "google"
-          }
-        }
+      "type": "connectedAccounts",
+      "id": "AG-JT87JWQ7KN:facebook:act_1324354698",
+      "attributes": {
+        "name": "Hairstyle Inn",
+        "currencyCode": "CAD",
+        "credentialsInvalid": false,
+        "created": "2020-12-10T00:00:00Z",
+        "updated": "2020-12-10T00:00:00Z",
+        "provider": "google"
+      }
+    }
   ]
 }
 ```

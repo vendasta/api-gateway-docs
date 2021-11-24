@@ -1,0 +1,269 @@
+openapi: 3.0.0
+info:
+  title: Listing REST APIs
+  version: '1.0'
+  description: Using this api requires active Liting Builder
+servers:
+  - url: 'https://prod.apigateway.co/products/listings'
+    description: Production
+  - url: 'https://demo.apigateway.co/products/listings'
+    description: Demo
+  - url: '{local}/products/listings'
+    description: Local
+  - url: 'http://localhost:11001/products/listings'
+    description: Localhost
+paths:
+  /businessEntityListings:
+    get:
+      summary: List Business Entity Listings
+      operationId: list-businessListings
+      tags:
+        - Business Entity Listings
+      security:
+        - OAuth2:
+            - business
+            - listings
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        Gets a list of listings for a business entity
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[businessLocation.id]'
+          description: Return listings for the specified business entity
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: Accept-Language
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/businessEntityListings'
+    options:
+      operationId: options-businessEntityListings
+      summary: List valid HTTP verbs for /businessEntityListings
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: User Cannot Access Entity
+        '404':
+          description: Business Not Found
+        '406':
+          description: No Listing Product Active
+      tags:
+        - Options
+        - Business Entity Listings
+    parameters: []
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          refreshUrl: ''
+          scopes:
+            listings: Access to the Listing Builder REST API
+  schemas:
+    businessEntityListings:
+      title: Business Entity Listings
+      type: object
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        Gets a list of listings for a business entity
+      x-tags:
+        - Business Entity Listings
+      properties:
+        id:
+          description: Public facing name of the source
+          type: string
+          example: HotFrog
+        type:
+          type: string
+          default: listings
+          enum:
+            - listings
+        attributes:
+          type: object
+          properties:
+            icon:
+              description: Link to icon provided by Vendasta’s media service
+              type: string
+              format: uri
+              example: 'https://www.cdnstyles.com/static/images/icon32/sourceId-10090.png'
+            popularity:
+              description: Popularity of the source relative to other sources
+              type: number
+            sourceTypeCode:
+              description: 'Type of source, business directory, app (Snapchat), GPS app, etc.'
+              type: string
+              example: BUSINESS_DIRECTORY
+            syncStatusCode:
+              description: The publishing status provided by the sources. Some sources provide confirmation that your data has been published (synced) other sources only provide confirmation that your data has been received (submitted)
+              type: string
+              example: SYNCED
+            listingScore:
+              description: A score based on the status of your online source
+              type: number
+            maximumlistingScore:
+              description: The maximum score this source can attain
+              type: number
+            url:
+              description: The online listing
+              format: uri
+              type: string
+            syncingError:
+              type: array
+              description: Any errors reported while publishing your information to the source
+              items:
+                type: object
+                properties:
+                  errorCode:
+                    description: Use this to determine why a publishing listing information to a source has failed
+                    type: string
+                    example: 'STREET_ADDRESS, CATEGORIES'
+                  errorDetails:
+                    description: Human readable details about the error
+                    type: string
+            syncingWarning:
+              description: Any warnings reported while publishing your information to the source
+              type: array
+              items:
+                type: object
+                properties:
+                  warningCode:
+                    description: Use this to determine why parts of the published information are different or there are possible conflicts with other listings
+                    type: string
+                    example: 'DOES_NOT_SUPPORT_SERVICE_AREA_BUSINESS, CLAIMED_BY_OTHERS'
+                  warningDetails:
+                    description: Human readable details about the warning
+                    type: string
+            updatedAt:
+              description: The last time this source’s listing was checked by Vendasta’s independent listing verification system
+              format: date
+              type: string
+            streetAddress:
+              description: |-
+                Service area businesses will not have this field.
+
+                For a physical location this physical address of the entity. Vendasta’s platform supports multiple address lines but currently those are combined into a single street address in our listing verification system.
+              type: object
+              properties:
+                Value:
+                  description: The street address on the listing
+                  type: string
+                  example: 123 Roast Ave. W. Stairwell 103
+                Match:
+                  description: Does the street address match the business’s street address in their Vendasta Business Profile
+                  type: boolean
+            city:
+              description: |-
+                For a service area business this will be the city the business services.
+
+                For a physical location this will be the city that the business physically exists in.
+              type: object
+              properties:
+                value:
+                  description: The city as it appears on the source listing
+                  type: string
+                  example: Moose Jaw
+                match:
+                  description: Does the city match the business’s street address in their Vendasta Business Profile
+                  type: boolean
+            region:
+              description: |-
+                For a service area business this will be the region that contains the city the business services.
+
+                For a physical location this will be the region that the business physically exists in. 
+
+                Examples of regions are states, provinces, etc.
+              type: object
+              example: Saskatchewan
+              properties:
+                value:
+                  description: The region as it appears on the source listing
+                  type: string
+                match:
+                  description: Does the region match the business’s street address in their Vendasta Business Profile
+                  type: boolean
+            country:
+              description: |-
+                For a service area business this will be the country that contains the city the business services.
+
+                For a physical location this will be the country that the business physically exists in. 
+              type: object
+              properties:
+                value:
+                  description: The country as it appears on the source listing
+                  type: string
+                match:
+                  description: Does the country match the business’s street address in their Vendasta Business Profile
+                  type: boolean
+            postalCode:
+              description: For a physical location this will be the postal code of the physical location of the business. In the USA this is the zip code
+              type: object
+              properties:
+                value:
+                  description: The postal code as it appears on the source listing
+                  type: string
+                match:
+                  description: Does the postal code match the business’s street address in their Vendasta Business Profile
+                  type: boolean
+            phoneNumber:
+              description: |-
+                The contact phone number for the business. This corresponds to the first phone number in the Vendasta business profile.
+
+                This will not be the toll free, cell or fax number.
+              type: object
+              properties:
+                value:
+                  description: The phone number as it appears on the listing.
+                  type: string
+                match:
+                  description: 'Does the phone number match the business’s first phone number in their Vendasta Business Profile. Toll free, cell and fax numbers are not considered even if they are the only number on the business profile.'
+                  type: boolean
+            website:
+              description: The website of the business entity.
+              type: object
+              properties:
+                value:
+                  description: The website as it appears on the online listing.
+                  type: string
+                match:
+                  description: Does the website match the business’s website in their Vendasta Business Profile
+                  type: boolean
+            accuracyStatusCode:
+              description: Indicates if reporting is available. If available indicates if the listing was found. If the listing was found indicates if all the data is correct on the listing.
+              type: string
+              example: 'NOT_AVAILABLE, NOT_FOUND, INACCURATE, ACCURATE'
+tags:
+  - name: Business Entity Listings
+  - name: Options

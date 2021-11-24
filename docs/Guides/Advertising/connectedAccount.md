@@ -1,5 +1,5 @@
 ---
-tags: [Advertising Intelligence, adintel, account, connectedAccount]
+tags: [Advertising Intelligence, advertising, account, connectedAccount]
 ---
 # Getting Advertising Connected Accounts
 
@@ -9,7 +9,7 @@ A `Connected Account` represents the metadata of an advertising account that has
 
 ## Setup
 
-Create an access token with `adintel` scopes following the [Authorization guide](../../Authorization/Authorization.md).
+Create an access token with `advertising` scopes following the [Authorization guide](../../Authorization/Authorization.md).
 
 ## Examples
 
@@ -24,18 +24,18 @@ title: Request
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/products/adintel/connectedAccounts",
+  "url": "https://prod.apigateway.co/products/advertising/connectedAccounts",
   "headers": {
-    "Authorization": "Bearer <Access Token with 'adintel' scope>",
+    "Authorization": "Bearer <Access Token with 'advertising' scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "query": {
-    "filter[businessLocation.id]": "AG-X5FZQG6T25"
+    "businessLocation.id": "AG-X5FZQG6T25"
   }
 }
 ```
 
-For more details on this endpoint see [List Connected Accounts](../../../openapi/adintel/adintel.yaml/paths/~1connectedAccounts/get)
+For more details on this endpoint see [List Connected Accounts](../../../openapi/advertising/advertising.yaml/paths/~1connectedAccounts/get)
 <!--
 type: tab
 title: Example Response
@@ -74,78 +74,6 @@ title: Example Response
 type: tab-end
 -->
 
-### Fetching Connected Accounts For Multiple Businesses
-
-Connected accounts can be fetched for multiple businesses in order to get a high level overview of connection status for multiple businesses at once.  Accounts for multiple businesses are fetched by including multiple Business Location IDs in the request. In this example, `AG-X5FZQG6T25` has a connected Google Ads account, and `AG-X5FZQG6T25` has both Google and Facebook accounts connected.
-
-<!--
-type: tab
-title: Request
--->
-```json http
-{
-  "method": "get",
-  "url": "https://prod.apigateway.co/products/adintel/connectedAccounts",
-  "headers": {
-    "Authorization": "Bearer <Access Token with 'adintel' scope>",
-    "Content-Type": "application/vnd.api+json"
-  },
-  "query": {
-    "filter[businessLocation.id]": "AG-JT87JWQ7KN,AG-X5FZQG6T25"
-  }
-}
-```
-For more details on this endpoint see [List Connected Accounts](../../../openapi/adintel/adintel.yaml/paths/~1connectedAccounts/get)
-<!--
-type: tab
-title: Example Response
--->
-```json
-{
-  "data": [
-    {
-      "type": "connectedAccounts",
-      "id": "AG-JT87JWQ7KN:google:1348315432",
-      "attributes": {
-        "name": "AdWords Account",
-        "currencyCode": "CAD",
-        "credentialsInvalid": false,
-        "created": "2020-12-10T00:00:00Z",
-        "updated": "2020-12-10T00:00:00Z",
-        "provider": "google"
-      }
-    },
-    {
-      "type": "connectedAccounts",
-      "id": "AG-X5FZQG6T25:google:1324354698",
-      "attributes": {
-        "name": "YXE Hairstyles Studio",
-        "currencyCode": "CAD",
-        "credentialsInvalid": false,
-        "created": "2020-12-10T00:00:00Z",
-        "updated": "2020-12-10T00:00:00Z",
-        "provider": "google"
-      }
-    },
-    {
-      "type": "connectedAccounts",
-      "id": "AG-X5FZQG6T25:facebook:act_63184543",
-      "attributes": {
-        "name": "YXE Hairstyles Studio",
-        "currencyCode": "CAD",
-        "credentialsInvalid": false,
-        "created": "2020-12-10T00:00:00Z",
-        "updated": "2020-12-10T00:00:00Z",
-        "provider": "facebook"
-      }
-    }
-  ]
-}
-```
-<!--
-type: tab-end
--->
-
 ### Filtering Accounts By Provider
 
 By default, this endpoint will return connected accounts for all providers. If you want to get accounts for only one provider, you can set the `filter[provider]` parameter to either `google`, `facebook` or `localAds`.
@@ -159,19 +87,20 @@ title: Request
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/products/adintel/connectedAccounts",
+  "url": "https://prod.apigateway.co/products/advertising/connectedAccounts",
   "headers": {
-    "Authorization": "Bearer <Access Token with 'adintel' scope>",
+    "Authorization": "Bearer <Access Token with 'advertising' scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "query": {
-    "filter[businessLocation.id]": "AG-JT87JWQ7KN,AG-X5FZQG6T25",
-    "filter[provider]": "google"
+    "businessLocation.id": "AG-JT87JWQ7KN",
+    "filter[provider]": "google",
+    "filter[provider]": "facebook"
   }
 }
 ```
 
-For more details on this endpoint see [List Connected Accounts](../../../openapi/adintel/adintel.yaml/paths/~1connectedAccounts/get)
+For more details on this endpoint see [List Connected Accounts](../../../openapi/advertising/advertising.yaml/paths/~1connectedAccounts/get)
 <!--
 type: tab
 title: Example Response
@@ -193,7 +122,19 @@ title: Example Response
     },
     {
       "type": "connectedAccounts",
-      "id": "AG-X5FZQG6T25:google:1324354698",
+      "id": "AG-JT87JWQ7KN:google:1324354698",
+      "attributes": {
+        "name": "Hairstyle Inn",
+        "currencyCode": "CAD",
+        "credentialsInvalid": false,
+        "created": "2020-12-10T00:00:00Z",
+        "updated": "2020-12-10T00:00:00Z",
+        "provider": "google"
+      }
+    },
+    {
+      "type": "connectedAccounts",
+      "id": "AG-JT87JWQ7KN:facebook:act_1324354698",
       "attributes": {
         "name": "Hairstyle Inn",
         "currencyCode": "CAD",
@@ -221,15 +162,15 @@ title: Request
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/products/adintel/connectedAccounts/AG-X5FZQG6T25:google:1324354698",
+  "url": "https://prod.apigateway.co/products/advertising/connectedAccounts/AG-X5FZQG6T25:google:1324354698",
   "headers": {
-    "Authorization": "Bearer <Access Token with 'adintel' scope>",
+    "Authorization": "Bearer <Access Token with 'advertising' scope>",
     "Content-Type": "application/vnd.api+json"
   }
 }
 ```
 
-For more details on this endpoint see [Get A Connected Account](../../../openapi/adintel/adintel.yaml/paths/~1connectedAccounts/get)
+For more details on this endpoint see [Get A Connected Account](../../../openapi/advertising/advertising.yaml/paths/~1connectedAccounts/get)
 <!--
 type: tab
 title: Example Response

@@ -4,7 +4,7 @@ The platform is continuously evolving. This page lists the significant changes w
 
 ## 2021-11-17
 ### Advertising Intelligence REST API added
-Released the (`GET /products/adintel/accountStats`) endpoints for the Advertising Intelligence product's REST API to trusted testers.
+Released the (`GET /products/advertising/accountStats`) endpoints for the Advertising Intelligence product's REST API to trusted testers.
 
 
 ## 2021-11-05

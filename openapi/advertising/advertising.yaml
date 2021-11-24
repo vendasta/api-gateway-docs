@@ -4,13 +4,13 @@ info:
   version: '1.0'
   description: ''
 servers:
-  - url: 'https://prod.apigateway.co/products/adintel'
+  - url: 'https://prod.apigateway.co/products/advertising'
     description: Production
-  - url: 'https://demo.apigateway.co/products/adintel'
+  - url: 'https://demo.apigateway.co/products/advertising'
     description: Demo
-  - url: '{local}/products/adintel'
+  - url: '{local}/products/advertising'
     description: Local
-  - url: 'http://localhost:11001/products/adintel'
+  - url: 'http://localhost:11001/products/advertising'
     description: Localhost
 paths:
   /accountStats:
@@ -47,7 +47,7 @@ paths:
                   - links
               examples: {}
       operationId: get-accountStats
-      description: Retrieve stats for all connected advertising accounts.
+      description: Retrieve stats for all connected advertising accounts for a given business location.
       parameters:
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/Content-Type'
@@ -60,7 +60,7 @@ paths:
         - $ref: '#/components/parameters/pageCursor'
       security:
         - OAuth2:
-            - adintel
+            - advertising
       x-lifecycle:
         status: trustedTester
       tags:
@@ -73,7 +73,7 @@ paths:
           description: OK
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
-        - options
+        - Options
   '/accountStats/{connectedAccount.id}':
     parameters:
       - $ref: '#/components/parameters/connectedAccount.id'
@@ -117,7 +117,7 @@ paths:
         - $ref: '#/components/parameters/endAt'
       security:
         - OAuth2:
-            - adintel
+            - advertising
       x-lifecycle:
         status: trustedTester
       tags:
@@ -130,7 +130,7 @@ paths:
           description: OK
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
-        - options
+        - Options
   '/connectedAccounts/{connectedAccount.id}':
     parameters:
       - schema:
@@ -146,9 +146,9 @@ paths:
           description: OK
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
-        - Connected Account
+        - Options
     get:
-      summary: ''
+      summary: Get Connected Account
       operationId: get-connectedAccounts-connectedAccount.id
       responses:
         '200':
@@ -172,15 +172,17 @@ paths:
                   - links
         '404':
           description: Connected Account Not Found
-      description: Retrieve the metadata of all connected advertising accounts.
+      description: Retrieve the metadata of a single connected advertising account.
       parameters:
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/Content-Type'
       security:
         - OAuth2:
-            - adintel
+            - advertising
       x-lifecycle:
         status: proposed
+      tags:
+        - Connected Accounts
   /connectedAccounts:
     parameters: []
     options:
@@ -191,9 +193,9 @@ paths:
           description: OK
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
-        - Connected Account
+        - Options
     get:
-      summary: ''
+      summary: List Connected Accounts
       operationId: get-connectedAccounts
       responses:
         '200':
@@ -222,7 +224,7 @@ paths:
         status: proposed
       security:
         - OAuth2:
-            - adintel
+            - advertising
       parameters:
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/Content-Type'
@@ -231,6 +233,8 @@ paths:
         - $ref: '#/components/parameters/connectedAccount.resourceId'
         - $ref: '#/components/parameters/pageLimit'
         - $ref: '#/components/parameters/pageCursor'
+      tags:
+        - Connected Accounts
   /campaignInfo:
     get:
       summary: Get Campaign Info
@@ -281,7 +285,7 @@ paths:
           description: OK
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
-        - options
+        - Options
   '/campaignInfo/{id}':
     parameters:
       - schema:
@@ -331,11 +335,11 @@ paths:
           description: OK
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
-        - options
+        - Options
 components:
   schemas:
     accountStats:
-      title: accountStats
+      title: Account Stats
       type: object
       x-examples: {}
       description: |-
@@ -395,8 +399,6 @@ components:
       type: object
       description: 'An advertising account that’s connected within Advertising Intelligence from integrated campaign management platforms, including Google Adwords, Facebook Ads and Local Ads.'
       x-examples: {}
-      x-tags:
-        - Connected Account
       x-lifecycle:
         status: proposed
       properties:
@@ -441,6 +443,8 @@ components:
         - id
         - type
         - attributes
+      x-tags:
+        - Connected Accounts
     campaignInfo:
       title: campaignInfo
       type: object
@@ -522,15 +526,16 @@ components:
         default: application/vnd.api+json
       description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
     businessLocation.id:
-      name: 'filter[businessLocation.id]'
+      name: businessLocation.id
       in: query
       schema:
         type: string
         example: AG-HDABCKDEFR
         uniqueItems: true
         minItems: 0
-      description: A comma separated list of Business Location IDs
+      description: A single Business Location ID
       allowEmptyValue: true
+      required: true
     provider:
       name: 'filter[provider]'
       in: query
@@ -580,4 +585,8 @@ components:
           tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
           refreshUrl: ''
           scopes:
-            adintel: Access to the Advertising Intelligence REST API
+            advertising: Access to the Advertising Intelligence REST API
+tags:
+  - name: Account Stats
+  - name: Connected Accounts
+  - name: Options

@@ -140,8 +140,6 @@ components:
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         A review of an item - for example, of a restaurant, movie, or store.
-      x-tags:
-        - Business Location Reviews
       properties:
         id:
           type: string
@@ -175,19 +173,22 @@ components:
               type: string
             comments:
               type: array
-              description: Comments, typically from users
+              description: 'Comments, typically from users'
               items:
                 type: object
                 properties:
                   author:
                     description: The creator/author of the comment
                     type: string
-                  headline:
-                    description: Headline of the comment
-                    type: string
-                  commentBody:
+                  comment:
                     description: The actual body of the comment
                     type: string
+                  publishedAt:
+                    description: Date of first broadcast/publication
+                    format: date-time
+                    type: string
+      x-tags:
+        - Business Location Reviews
   securitySchemes:
     JWT:
       type: http
@@ -201,3 +202,6 @@ components:
           refreshUrl: ''
           scopes:
             reputation: Access to the Reputation REST API
+tags:
+  - name: Business Location Reviews
+  - name: Options

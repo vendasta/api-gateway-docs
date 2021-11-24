@@ -267,13 +267,18 @@ paths:
       parameters:
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/Content-Type'
-        - $ref: '#/components/parameters/connectedAccount.resourceId'
         - schema:
             type: boolean
           in: query
           name: 'filter[isConnected]'
           description: Filters results to fetch only connected or not connected campaigns
           allowEmptyValue: true
+        - schema:
+            type: string
+          in: query
+          name: connectedAccount.id
+          description: Resource ID of a Connected Advertising Account
+          required: true
       security:
         - OAuth2:
             - adintel
@@ -451,7 +456,7 @@ components:
       x-examples: {}
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
-        Information about an advertising campaign.  Requires the Advanced Reporting Addon to be active on the Business Location to access
+        Information about an advertising campaign.  Requires an Advanced Reporting Addon to be active on the Business Location to access
       x-lifecycle:
         status: trustedTester
       x-tags:
@@ -464,6 +469,7 @@ components:
         type:
           type: string
           description: campaignInfo
+          default: campaignInfo
         attributes:
           type: object
           properties:
@@ -472,9 +478,44 @@ components:
               description: Name of the Campaign
             isConnected:
               type: boolean
-              description: Flag indicating if the campaign is connected to the Business Location
-            campaignId:
+              description: Flag indicating if the campaign is connected to the Business Location.  Only stats from connected camapigns will be included in total account stats
+            status:
               type: string
+              enum:
+                - NOT_SET
+                - PENDING
+                - NEEDS_ATTENTION
+                - SCHEDULED
+                - LIVE
+                - PAUSED
+                - REMOVED
+                - ENDED
+              description: |-
+                `NOT_SET` - Default value, Campaign status is unknown or unset
+
+                `PENDING` - Campaign is pending review
+
+                `NEEDS_ATTENTION` - Campaign is experiencing issues during creation that requires user action
+
+                `SCHEDULED` - Campaign is sheduled to begin at a future date
+
+                `LIVE` - Campaign is currently running
+
+                `PAUSED` - Campaign has been paused and is not currently running
+
+                `REMOVED` - Camapign has been removed or deleted
+
+                `ENDED` - Campaign has ended and is no longer runnning
+            startAt:
+              type: string
+              format: date-time
+              example: '2018-10-23T00:00:00Z'
+              description: Start date of the campaign
+            endAt:
+              type: string
+              format: date-time
+              example: '2022-02-17T00:00:00Z'
+              description: End date of the campaign
       required:
         - id
         - type

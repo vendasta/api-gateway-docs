@@ -11,7 +11,7 @@ An online webpage containing an entity's location, service area, hours, and othe
 ## View listings for an entity
 
 To view the listings for a business entity make the following request filling in the business location ID and
-an [access token](../Authorization/2-legged-oauth/UsingAServiceAccount.md)
+an [access token](../../Authorization/2-legged-oauth/UsingAServiceAccount.md)
 
 ```json http
 {
@@ -31,7 +31,7 @@ That will give you a response similar to:
 ```json
 {
   "data": [
-    <insert reviews sample here>
+    <insert listing sample here>
   ]
 }
 ```

@@ -151,7 +151,6 @@ components:
         type:
           type: string
           default: socialProfiles
-          readOnly: true
         id:
           type: string
           example: FBU-117641035298609261021
@@ -218,14 +217,15 @@ components:
 
         A data structure that describes a message you wish to schedule to be posted on a social network. 
       examples: []
+      x-tags:
+        - Messages
       properties:
-        type:
-          type: string
-          default: messages
-          readOnly: true
         id:
           type: string
           description: A unique identifier assigned to this message. We will automatically assign the Message one on creation.
+        type:
+          type: string
+          default: messages
         attributes:
           type: object
           properties:
@@ -299,12 +299,9 @@ components:
             - socialProfiles
       required:
         - type
-      x-tags:
-        - Messages
 tags:
   - name: Social Profiles
   - name: Messages
-  - name: Options
 security:
   - OAuth2:
       - business

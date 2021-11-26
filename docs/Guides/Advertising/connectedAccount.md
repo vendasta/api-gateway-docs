@@ -50,8 +50,8 @@ title: Example Response
         "name": "AdWords Account",
         "currencyCode": "CAD",
         "credentialsInvalid": false,
-        "created": "2020-12-10T00:00:00Z",
-        "updated": "2020-12-10T00:00:00Z",
+        "createdAt": "2020-12-10T00:00:00Z",
+        "updatedAt": "2020-12-10T00:00:00Z",
         "provider": "google"
       }
     },
@@ -62,8 +62,8 @@ title: Example Response
         "name": "Facebook Account",
         "currencyCode": "USD",
         "credentialsInvalid": false,
-        "created": "2021-12-10T00:00:00Z",
-        "updated": "2021-12-10T00:00:00Z",
+        "createdAt": "2021-12-10T00:00:00Z",
+        "updatedAt": "2021-12-10T00:00:00Z",
         "provider": "facebook"
       }
     }
@@ -115,8 +115,8 @@ title: Example Response
         "name": "YXE Hairstyles Studio",
         "currencyCode": "CAD",
         "credentialsInvalid": false,
-        "created": "2020-12-10T00:00:00Z",
-        "updated": "2020-12-10T00:00:00Z",
+        "createdAt": "2020-12-10T00:00:00Z",
+        "updatedAt": "2020-12-10T00:00:00Z",
         "provider": "google"
       }
     },
@@ -127,8 +127,8 @@ title: Example Response
         "name": "Hairstyle Inn",
         "currencyCode": "CAD",
         "credentialsInvalid": false,
-        "created": "2020-12-10T00:00:00Z",
-        "updated": "2020-12-10T00:00:00Z",
+        "createdAt": "2020-12-10T00:00:00Z",
+        "updatedAt": "2020-12-10T00:00:00Z",
         "provider": "google"
       }
     },
@@ -139,8 +139,8 @@ title: Example Response
         "name": "Hairstyle Inn",
         "currencyCode": "CAD",
         "credentialsInvalid": false,
-        "created": "2020-12-10T00:00:00Z",
-        "updated": "2020-12-10T00:00:00Z",
+        "createdAt": "2020-12-10T00:00:00Z",
+        "updatedAt": "2020-12-10T00:00:00Z",
         "provider": "google"
       }
     }
@@ -184,8 +184,8 @@ title: Example Response
         "name": "AdWords Account",
         "currencyCode": "CAD",
         "credentialsInvalid": false,
-        "created": "2020-12-10T00:00:00Z",
-        "updated": "2020-12-10T00:00:00Z",
+        "createdAt": "2020-12-10T00:00:00Z",
+        "updatedAt": "2020-12-10T00:00:00Z",
         "provider": "google"
       }
    }

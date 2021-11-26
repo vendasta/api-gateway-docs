@@ -237,7 +237,7 @@ paths:
         - Connected Accounts
   /campaignInfo:
     get:
-      summary: Get Campaign Info
+      summary: List Campaign Info
       responses:
         '200':
           description: OK
@@ -281,9 +281,11 @@ paths:
           required: true
         - $ref: '#/components/parameters/startAt'
         - $ref: '#/components/parameters/endAt'
+        - $ref: '#/components/parameters/pageLimit'
+        - $ref: '#/components/parameters/pageCursor'
       security:
         - OAuth2:
-            - adintel
+            - advertising
     options:
       summary: ''
       operationId: options-campaignInfo
@@ -303,7 +305,7 @@ paths:
         required: true
         description: campaignInfo resource ID
     get:
-      summary: List Campaign Info
+      summary: Get Campaign Info
       responses:
         '200':
           description: OK

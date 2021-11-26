@@ -48,7 +48,7 @@ title: Example Response
       "attributes": {
         "campaignName": "DIS-821321303-m1555716-3DX Startup - Display",
         "isConnected": true,
-        "status": "PAUSED",
+        "status": "paused",
         "startAt": "2020-08-03T00:00:00Z",
         "endAt": "2021-10-05T00:00:00Z"
       }
@@ -59,7 +59,7 @@ title: Example Response
       "attributes": {
         "campaignName": "DIS-822540313-m1555716-XDI 3DX Manage Light",
         "isConnected": true,
-        "status": "LIVE",
+        "status": "live",
         "startAt": "2020-08-14T00:00:00Z",
         "endAt": "2037-12-30T00:00:00Z"
       }
@@ -70,7 +70,7 @@ title: Example Response
       "attributes": {
         "campaignName": "DIS-822581815-m1562396-XDI 3DX Manage Light",
         "isConnected": false,
-        "status": "ENDED",
+        "status": "ended",
         "startAt": "2020-08-14T00:00:00Z",
         "endAt": "2021-10-09T00:00:00Z"
       }
@@ -81,7 +81,7 @@ title: Example Response
       "attributes": {
         "campaignName": "IP-821321300-m1555716-3DX XDI Manage Light",
         "isConnected": true,
-        "status": "PAUSED",
+        "status": "paused",
         "startAt": "2020-08-03T00:00:00Z",
         "endAt": "2021-10-05T00:00:00Z"
       }
@@ -92,7 +92,7 @@ title: Example Response
       "attributes": {
         "campaignName": "IP-821321301-m1555716-CATIA",
         "isConnected": true,
-        "status": "REMOVED",
+        "status": "removed",
         "startAt": "2020-08-03T00:00:00Z",
         "endAt": "2021-10-05T00:00:00Z"
       }
@@ -103,7 +103,7 @@ title: Example Response
       "attributes": {
         "campaignName": "IP-821321302-m1555716-3DExperience platform for Startups",
         "isConnected": true,
-        "status": "PAUSED",
+        "status": "paused",
         "startAt": "2020-08-03T00:00:00Z",
         "endAt": "2021-10-05T00:00:00Z"
       }
@@ -158,7 +158,7 @@ title: Example Response
       "attributes": {
         "campaignName": "DIS-821321303-m1555716-3DX Startup - Display",
         "isConnected": true,
-        "status": "PAUSED",
+        "status": "paused",
         "startAt": "2020-08-03T00:00:00Z",
         "endAt": "2021-10-05T00:00:00Z"
       }
@@ -169,7 +169,7 @@ title: Example Response
       "attributes": {
         "campaignName": "IP-821321300-m1555716-3DX XDI Manage Light",
         "isConnected": true,
-        "status": "PAUSED",
+        "status": "paused",
         "startAt": "2020-08-03T00:00:00Z",
         "endAt": "2021-10-05T00:00:00Z"
       }
@@ -180,7 +180,7 @@ title: Example Response
       "attributes": {
         "campaignName": "IP-821321301-m1555716-CATIA",
         "isConnected": true,
-        "status": "REMOVED",
+        "status": "removed",
         "startAt": "2020-08-03T00:00:00Z",
         "endAt": "2021-10-05T00:00:00Z"
       }
@@ -191,7 +191,7 @@ title: Example Response
       "attributes": {
         "campaignName": "IP-821321302-m1555716-3DExperience platform for Startups",
         "isConnected": true,
-        "status": "PAUSED",
+        "status": "paused",
         "startAt": "2020-08-03T00:00:00Z",
         "endAt": "2021-10-05T00:00:00Z"
       }

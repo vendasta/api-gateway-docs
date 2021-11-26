@@ -24,9 +24,9 @@ paths:
             - business
             - listings
       x-lifecycle:
-        status: trustedTester
+        status: proposed
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
         Gets a list of listings for a business entity
       parameters:
         - schema:
@@ -47,6 +47,11 @@ paths:
             type: string
           in: header
           name: Accept-Language
+        - schema:
+            type: string
+          in: query
+          name: 'filter[cursor]'
+          description: If there are more than 200 listing sources they will be paginated into pages of 200. This is the cursor to the current page in the results
       responses:
         '200':
           description: OK
@@ -101,6 +106,7 @@ components:
         Gets a list of listings for a business entity
       x-tags:
         - Business Entity Listings
+      x-internal: false
       properties:
         id:
           description: Public facing name of the source
@@ -123,11 +129,49 @@ components:
               description: Popularity of the source relative to other sources
               type: number
             sourceTypeCode:
-              description: 'Type of source, business directory, app (Snapchat), GPS app, etc.'
+              description: |-
+                The type of listing source.
+
+                unspecified - The listing source type is unknown
+
+                directory - An online listing directory
+
+                map - Sites that have an online map like MapQuest or Google Maps
+
+                social - Social networks like Facebook
+
+                aggregator - Publishers that push their listing information to other listing sources
+
+                app - Stand alone applications like Snapchat that are not GPS services
+
+                gps - These sources power GPS applications
               type: string
               example: BUSINESS_DIRECTORY
             syncStatusCode:
-              description: The publishing status provided by the sources. Some sources provide confirmation that your data has been published (synced) other sources only provide confirmation that your data has been received (submitted)
+              description: |-
+                The listing status provided by the listing sources.
+
+                unknown - Default error value, should never be used intentionally
+
+                synced - Listing data was submitted to the listing source, and the source responded that the data is good and in use
+
+                inProgress - Information has been sent to the listing source who is in the process of syncing the information to the listing.
+
+                syncingWithWarnings - The data has been updated by the listing but there are some warnings that many affect the values updated.
+
+                hasErrors - There was an error with the data we sent to the listing source causing updating all the information to fail.
+
+                syncDisabled - Updating information for this source has been disabled.
+
+                claimedByOthers - The listing source is rejecting our data because this listing has been claimed by another user/service.
+
+                doesNotSupportServiceAreaBusiness - This listing source does not support service area businesses.
+
+                submitted - The business profile information was successfully sent to the listing source. The listing source does not verify when the information was published.
+
+                manualUpdateOnly - This listing cannot be updated by Vendasta's platform with the current set of apps actived for this business. The listing must be updated with the listing source directly by the business.
+
+                notFound - The listing source does not have a listing for this business.
               type: string
               example: SYNCED
             listingScore:
@@ -142,25 +186,55 @@ components:
               type: string
             syncingError:
               type: array
-              description: Any errors reported while publishing your information to the source
+              description: Any errors stopping the business information from being updated by the listing source.
               items:
                 type: object
                 properties:
                   errorCode:
-                    description: Use this to determine why a publishing listing information to a source has failed
+                    description: |-
+                      businessName
+                      streetAddress
+                      postalCode
+                      city
+                      wholeAddress - Error is not isolated to street address, city, etc.
+                      phoneNumber
+                      hoursOfOperation
+                      categories
+                      descriptionLong
+                      descriptionShort
+                      email
+                      paymentOptions
+                      photos
+                      website
+                      existingRelationship
+                      chainLocation
+                      unavailableReason - Superpages is unable to update this listing due to an issue with their database.
                     type: string
                     example: 'STREET_ADDRESS, CATEGORIES'
                   errorDetails:
                     description: Human readable details about the error
                     type: string
             syncingWarning:
-              description: Any warnings reported while publishing your information to the source
+              description: Any warnings reported while updating your information on the listing source.
               type: array
               items:
                 type: object
                 properties:
                   warningCode:
-                    description: Use this to determine why parts of the published information are different or there are possible conflicts with other listings
+                    description: |-
+                      businessName
+                      streetAddress
+                      postalCode
+                      phoneNumber
+                      wholeAddress - Error is not isolated to street address, city, etc.
+                      hoursOfOperation
+                      categories
+                      descriptionLong
+                      descriptionShort
+                      email
+                      photos
+                      website
+                      services
                     type: string
                     example: 'DOES_NOT_SUPPORT_SERVICE_AREA_BUSINESS, CLAIMED_BY_OTHERS'
                   warningDetails:
@@ -261,7 +335,18 @@ components:
                   description: Does the website match the business’s website in their Vendasta Business Profile
                   type: boolean
             accuracyStatusCode:
-              description: Indicates if reporting is available. If available indicates if the listing was found. If the listing was found indicates if all the data is correct on the listing.
+              description: |-
+                Indicates if Vendasta's independent accuracy reporting is available, found and whether or not it is active.
+
+                unknown - Default error value, should never be used intentionally
+
+                accurate - Listing was independently verified by Vendasta to be accurate
+
+                inaccurate - Vendasta found at least one inaccuracy with the listing
+
+                notAvailable - No Vendasta reporting is available for this source
+
+                notFound - No listing was found for this source by Vendasta.
               type: string
               example: 'NOT_AVAILABLE, NOT_FOUND, INACCURATE, ACCURATE'
 tags:

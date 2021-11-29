@@ -21,7 +21,7 @@ paths:
         '201':
           description: Created
           content:
-            application/json:
+            application/vnd.api+json:
               schema:
                 type: object
                 properties:
@@ -35,12 +35,13 @@ paths:
         - Review Requests
       requestBody:
         content:
-          application/json:
+          application/vnd.api+json:
             schema:
               type: object
               properties:
                 data:
                   $ref: '#/components/schemas/reviewRequests'
+            examples: {}
         description: ''
       parameters:
         - schema:
@@ -81,7 +82,6 @@ paths:
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
           required: true
       tags:
-        - Options
         - Review Requests
 components:
   securitySchemes:
@@ -109,6 +109,28 @@ components:
         status: proposed
       x-tags:
         - Review Requests
+      x-examples:
+        Example:
+          id: RQT-00003fa2-bd72-40c2-9101-xxxxxxxxxxxx
+          type: reviewRequest
+          attributes:
+            requestType: email
+            status: sending
+            createdAt: '2019-08-24T14:15:22Z'
+            updatedAt: '2019-08-24T14:15:22Z'
+          relationships:
+            customer:
+              data:
+                id: 'AG-abc123:CUSTOMER-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx'
+                type: customer
+            primaryTemplate:
+              data:
+                id: 'AG-abc123:sms:TEM-d2f4cf1aa7ae480bbf0a2da67dxxxxxx'
+                type: template
+            fallbackTemplate:
+              data:
+                id: 'AG-abc123:email:TEM-d2f4cf1aa7ae480bbf0a2da67dxxxxxx'
+                type: template
       properties:
         id:
           type: string
@@ -170,7 +192,7 @@ components:
                       type: string
                       example: 'AG-abc123:CUSTOMER-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx'
                       maxLength: 256
-                      description: 'Should be in the format `{{business location id}}:{{Vendasta customer id}}`. Vendasta customer ids may be in the form of `CUSTOMER-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx`, `CONFLICT-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx` or `CONTACT-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx`.'
+                      description: 'Should be in the format `{{business location id}}:{{Vendasta customer id}}`. Vendasta customer ids may be in the form of `CUSTOMER-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx` or `CONTACT-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx`.'
                     type:
                       type: string
                       default: customer
@@ -211,7 +233,6 @@ components:
                       readOnly: true
 tags:
   - name: Review Requests
-  - name: Options
 security:
   - OAuth2:
       - reviewrequest

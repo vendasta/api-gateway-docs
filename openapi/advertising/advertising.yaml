@@ -328,6 +328,8 @@ paths:
                 required:
                   - data
                   - links
+        '404':
+          description: Campaign Not Found
       operationId: get-campaignInfo-id
       description: Gets information about a single Ad Campaign given its ID
       tags:
@@ -349,6 +351,118 @@ paths:
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
         - Options
+  /campaignStats:
+    get:
+      summary: List Campaign Stats
+      tags:
+        - Campaign Stats
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/campaignStats'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      operationId: get-campaignStats
+      description: Retrieve stats for all connected advertising campaigns for a given connected advertising account.
+      security:
+        - OAuth2:
+            - advertising
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+        - $ref: '#/components/parameters/startAt'
+        - $ref: '#/components/parameters/endAt'
+        - schema:
+            type: string
+          in: query
+          name: connectedAccount.id
+          required: true
+          description: Resource ID of a Connected Advertising Account
+        - $ref: '#/components/parameters/pageLimit'
+        - $ref: '#/components/parameters/pageCursor'
+      x-lifecycle:
+        status: proposed
+    options:
+      summary: ''
+      operationId: options-campaignStats
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/campaignStats'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+  '/campaignStats/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Campaign Stats
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/campaignInfo'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+        '404':
+          description: Connected Campaign Not Found
+      operationId: get-campaignStats-id
+      description: Retrieve account stats for one connected advertising campaign
+      security:
+        - OAuth2:
+            - advertising
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+        - $ref: '#/components/parameters/startAt'
+        - $ref: '#/components/parameters/endAt'
+    options:
+      summary: ''
+      operationId: options-campaignStats-id
+      responses:
+        '200':
+          description: OK
+      tags:
+        - Options
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
 components:
   schemas:
     accountStats:
@@ -356,7 +470,7 @@ components:
       type: object
       x-examples: {}
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
         Total Stats for a connected Advertising Account
       properties:
         id:
@@ -407,6 +521,55 @@ components:
         status: trustedTester
       x-tags:
         - Account Stats
+    campaignStats:
+      title: Campaign Stats
+      type: object
+      x-examples: {}
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        Total Stats for a connected Advertising Account
+      x-lifecycle:
+        status: proposed
+      x-tags:
+        - Campaign Stats
+      properties:
+        id:
+          type: string
+          description: The resource ID of the Connected Advertising Account
+          example: 'AG-HDV4JKPXFR:google:8362684505:14501114557'
+        type:
+          type: string
+          description: campaignStats
+        attributes:
+          type: object
+          properties:
+            impressions:
+              type: integer
+              description: Number of times ads under this account were viewed
+            clicks:
+              type: integer
+              description: Number of times ads under this account were clicked
+            conversions:
+              type: integer
+              description: Total number of conversions from campaigns under this account
+            costMicros:
+              type: integer
+              description: Total account spend denoted in millionths of a dollar
+            averageCostPerClickMicros:
+              type: integer
+              description: Average cost per click denoted in millionths of a dollar
+            clickThroughRate:
+              type: number
+              description: Rate of the number of clicks per number of impressions
+            currencyCode:
+              type: string
+              description: 'The 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)'
+              minLength: 3
+              maxLength: 3
+      required:
+        - id
+        - type
+        - attributes
     connectedAccounts:
       title: connectedAccounts
       type: object
@@ -463,10 +626,10 @@ components:
       type: object
       x-examples: {}
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
         Information about an advertising campaign.  Requires an Advanced Reporting Addon to be active on the Business Location to access
       x-lifecycle:
-        status: trustedTester
+        status: proposed
       x-tags:
         - accountStats
       properties:

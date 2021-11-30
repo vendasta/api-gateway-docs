@@ -6,7 +6,7 @@ tags: [Review Request, Customer Voice]
 With Customer Voice, you can gather authentic reviews via email or text on the sites that matter most, to grow customer loyalty and boost sales.
 
 ## Setup
-Create an access token with `reviewrequest` scopes following the [Authorization guide](../../Authorization/Authorization.md).
+Create an access token with `reviews` scopes following the [Authorization guide](../../Authorization/Authorization.md).
 
 Have an activated Customer Voice product and SMS add-on if you need to send SMS review requests. Ensure your email and SMS templates are configured appropriately and your preferred review sites are configured within the Customer Voice platform.
 
@@ -34,10 +34,10 @@ Using your generated access token in your `Authorization` header, the Vendasta c
 ```json http
 {
   "method": "POST",
-  "url": "https://prod.apigateway.co/products/reviewrequest/reviewRequests",
+  "url": "https://prod.apigateway.co/products/reviews/reviewRequests",
   "query": {},
   "headers": {
-    "Authorization": "Bearer <Token with 'reviewrequest' scope>",
+    "Authorization": "Bearer <Token with 'reviews' scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "body": {

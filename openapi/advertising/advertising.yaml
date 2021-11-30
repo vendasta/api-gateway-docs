@@ -147,7 +147,6 @@ paths:
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
         - Options
-        - Connected Accounts
     get:
       summary: Get Connected Account
       operationId: get-connectedAccounts-connectedAccount.id
@@ -195,7 +194,6 @@ paths:
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
         - Options
-        - Connected Accounts
     get:
       summary: List Connected Accounts
       operationId: get-connectedAccounts
@@ -237,6 +235,120 @@ paths:
         - $ref: '#/components/parameters/pageCursor'
       tags:
         - Connected Accounts
+  /campaignInfo:
+    get:
+      summary: List Campaign Info
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/campaignInfo'
+                  links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        type: string
+                required:
+                  - data
+                  - links
+      operationId: get-campaignInfo
+      description: Retrieve information about Ad Campaigns under a connected advertising account.
+      tags:
+        - Campaign Info
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+        - schema:
+            type: boolean
+          in: query
+          name: 'filter[isConnected]'
+          description: Filters results to fetch only connected or not connected campaigns
+          allowEmptyValue: true
+        - schema:
+            type: string
+          in: query
+          name: connectedAccount.id
+          description: Resource ID of a Connected Advertising Account
+          required: true
+        - $ref: '#/components/parameters/startAt'
+        - $ref: '#/components/parameters/endAt'
+        - $ref: '#/components/parameters/pageLimit'
+        - $ref: '#/components/parameters/pageCursor'
+      security:
+        - OAuth2:
+            - advertising
+      x-lifecycle:
+        status: proposed
+    options:
+      summary: ''
+      operationId: options-campaignInfo
+      responses:
+        '200':
+          description: OK
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+  '/campaignInfo/{id}':
+    parameters:
+      - schema:
+          type: string
+          example: 'AG-HDV4JKHW:google:7531238654:94749174'
+        name: id
+        in: path
+        required: true
+        description: campaignInfo resource ID
+    get:
+      summary: Get Campaign Info
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/campaignInfo'
+                  links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        type: string
+                required:
+                  - data
+                  - links
+      operationId: get-campaignInfo-id
+      description: Gets information about a single Ad Campaign given its ID
+      tags:
+        - Campaign Info
+      security:
+        - OAuth2:
+            - adintel
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+      x-lifecycle:
+        status: proposed
+    options:
+      summary: ''
+      operationId: options-campaignInfo-id
+      responses:
+        '200':
+          description: OK
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
 components:
   schemas:
     accountStats:
@@ -244,8 +356,7 @@ components:
       type: object
       x-examples: {}
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
         Total Stats for a connected Advertising Account
       properties:
         id:
@@ -347,6 +458,76 @@ components:
         - id
         - type
         - attributes
+    campaignInfo:
+      title: campaignInfo
+      type: object
+      x-examples: {}
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        Information about an advertising campaign.  Requires an Advanced Reporting Addon to be active on the Business Location to access
+      x-lifecycle:
+        status: trustedTester
+      x-tags:
+        - accountStats
+      properties:
+        id:
+          type: string
+          description: The resource ID of the Connected Advertising Account
+          example: 'AG-HDV4JKHW:google:7531238654:94749174'
+        type:
+          type: string
+          description: campaignInfo
+          default: campaignInfo
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the Campaign
+            isConnected:
+              type: boolean
+              description: Flag indicating if the campaign is connected to the Business Location.  Only stats from connected camapigns will be included in total account stats
+            status:
+              type: string
+              description: |-
+                `notSet` - Default value, Campaign status is unknown or unset
+
+                `pending` - Campaign is pending review
+
+                `needsAttention` - Campaign is experiencing issues during creation that requires user action
+
+                `scheduled` - Campaign is sheduled to begin at a future date
+
+                `live` - Campaign is currently running
+
+                `paused` - Campaign has been paused and is not currently running
+
+                `removed` - Camapign has been removed or deleted
+
+                `ended` - Campaign has ended and is no longer runnning
+              enum:
+                - notSet
+                - pending
+                - needsAttention
+                - scheduled
+                - live
+                - paused
+                - removed
+                - ended
+            startAt:
+              type: string
+              format: date-time
+              example: '2018-10-23T00:00:00Z'
+              description: Start date of the campaign
+            endAt:
+              type: string
+              format: date-time
+              example: '2022-02-17T00:00:00Z'
+              description: End date of the campaign
+      required:
+        - id
+        - type
+        - attributes
   parameters:
     connectedAccount.id:
       name: connectedAccount.id
@@ -365,7 +546,7 @@ components:
         format: date-time
         default: '1970-01-01'
         example: '2021-01-01T00:00:01Z'
-      description: Only return stats starting from the specified start date and time
+      description: Only return data starting from the specified start date and time
     endAt:
       name: endAt
       in: query
@@ -375,7 +556,7 @@ components:
         default: Today's date
         format: date-time
         example: '2021-01-01T00:00:01Z'
-      description: Only return stats from before the specified end date and time.
+      description: Only return data from before the specified end date and time.
     Authorization:
       name: Authorization
       in: header

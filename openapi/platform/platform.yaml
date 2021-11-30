@@ -394,7 +394,7 @@ paths:
                         type: string
                         format: uri
                         description: The address of the updated business location
-          headers: {}
+          headers: { }
       requestBody:
         content:
           application/vnd.api+json:
@@ -692,7 +692,7 @@ paths:
                         type: string
                         format: uri
                         description: The address of the updated user
-          headers: {}
+          headers: { }
       requestBody:
         content:
           application/vnd.api+json:
@@ -1094,6 +1094,16 @@ paths:
         name: id
         in: path
         required: true
+    options:
+      operationId: options-users-id-relationships-businessLocations
+      summary: List valid HTTP verbs for '/users/{id}/relationships/businessLocations'
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - Options
+        - Users
     post:
       summary: Associate user with location
       operationId: post-users-id-relationships-businessLocations
@@ -1112,7 +1122,191 @@ paths:
                       id:
                         type: string
                         example: AG-1234567
-                        description: The ID of a business location to grant default access to
+                        description: The ID of a business location to grant access to
+                      type:
+                        type: string
+                        description: This should always be `businessLocations`
+                        default: businessLocations
+                        example: businessLocations
+                    required:
+                      - id
+                      - type
+              required:
+                - data
+      responses:
+        '201':
+          description: Created
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/users'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Users can be granted access to business location(s) using the POST operation. After the operation completes, the user will have access to all their previous business locations plus any new locations in the POST request. If the user already has access to one or more of the specified locations they will be silently ignored.
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      security:
+        - OAuth2:
+            - user.admin
+      tags:
+        - Users
+    get:
+      summary: Get user locations
+      operationId: get-users-id-relationships-businessLocations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/users'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Retrieves the business locations to which the User is associated.
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+      security:
+        - OAuth2:
+            - user.admin
+      tags:
+        - Users
+    patch:
+      summary: Replace user location access
+      operationId: patch-users-id-relationships-businessLocations
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  description: A list of business locations to be updated
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: AG-1234567
+                        description: The ID of a business location to grant access to
+                      type:
+                        type: string
+                        description: This should always be `businessLocations`
+                        default: businessLocations
+                        example: businessLocations
+                    required:
+                      - id
+                      - type
+              required:
+                - data
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/users'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Users can be granted access to business location(s) or removed from access to business location(s) using the PATCH operation. After the operation completes, the user will have access only to those business locations specified in the request body (if any).
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      security:
+        - OAuth2:
+            - user.admin
+      tags:
+        - Users
+    delete:
+      summary: Dissociate user from location
+      operationId: delete-users-id-relationships-businessLocations
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  description: A list of business locations to be removed
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: AG-1234567
+                        description: The ID of a business location to remove access
                       type:
                         type: string
                         description: This should always be `businessLocations`
@@ -1127,11 +1321,11 @@ paths:
         '204':
           description: No Content
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Users can be granted default access to a business location using then operation. If the user is already connected to one of the specified locations it will be ignored. Only new locations need to be specified.
+        Access to business locations can be removed from a user with the DELETE operation. If the user does not already have access to one or more of the specified locations, they will be silently ignored.
       parameters:
         - schema:
             type: string
@@ -1156,7 +1350,7 @@ paths:
       tags:
         - Users
   /automationRuns:
-    parameters: []
+    parameters: [ ]
     post:
       summary: Create automation run
       tags:
@@ -1351,7 +1545,7 @@ paths:
         - Sales Accounts
       x-lifecycle:
         status: proposed
-    parameters: []
+    parameters: [ ]
   '/salesAccounts/{id}':
     parameters:
       - schema:
@@ -1457,7 +1651,7 @@ paths:
                         type: string
                         format: uri
                         description: The address of the updated business location
-          headers: {}
+          headers: { }
       requestBody:
         content:
           application/vnd.api+json:
@@ -2379,7 +2573,7 @@ components:
     automationRuns:
       title: Automation Run
       type: object
-      x-examples: {}
+      x-examples: { }
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 

@@ -1,9 +1,9 @@
 ---
-tags: [Advertising Intelligence, advertising, account, stats, accountstats]
+tags: [Advertising Intelligence, advertising, campaign, stats, campaignStats]
 ---
 # Getting Advertising Campaign Stats
 
-`Account Stats` are the stats of connected campaigns under one advertising account that has been connected to a specific Business Location in Advertising Intelligence.  In order to access campagin level information or stats, the Business Location must have advanced reporting enabled.
+`Campaign Stats` are the stats of connected campaigns under one advertising account that has been connected to a specific Business Location in Advertising Intelligence.  In order to access campagin level information or stats, the Business Location must have advanced reporting enabled.
 
 ## Setup
 
@@ -12,7 +12,7 @@ Create an access token with `advertising` scopes following the [Authorization gu
 ## Examples
 
 ### Fetching all Campaign Stats for a connected account
-In order to fetch campaign info for an account, you will need the ID of a Connected Account. 
+In order to fetch campaign stats for an account, you will need the ID of a Connected Account. 
 > For info on Connected Advertising Accounts see the [Connected Accounts guide](./connectedAccount.md)
 The ID will be in the format `AG-X5FZQG6T25:google:1324354698`
 
@@ -34,7 +34,7 @@ title: Request
 }
 ```
 
-For more details on this endpoint see [List Account Stats](../../../openapi/advertising/advertising.yaml/paths/~1accountStats/get)
+For more details on this endpoint see [List Campaign Stats](../../../openapi/advertising/advertising.yaml/paths/~1campaignStats/get)
 <!--
 type: tab
 title: Example Response
@@ -56,7 +56,7 @@ title: Example Response
       }
     },
     {
-      "type": "accountStats",
+      "type": "campaignStats",
       "id": "AG-X5FZQG6T25:google:1324354698:395728305",
       "attributes": {
         "impressions": 5145,
@@ -77,7 +77,7 @@ type: tab-end
 
 ### Filtering Stats By Date
 
-By default, this endpoint will return stats for all time.  If you want to get account stats for a specific date range, you can set `startAt` and `endAt` parameters.
+By default, this endpoint will return stats for all time.  If you want to get campaign stats for a specific date range, you can set `startAt` and `endAt` parameters.
 
 This example will get stats from `2021-01-01` to `2021-02-01` for all campaigns under the connected account `AG-X5FZQG6T25:google:1324354698`
 
@@ -99,7 +99,7 @@ title: Request
 }
 ```
 
-For more details on this endpoint see [List Account Stats](../../../openapi/advertising/advertising.yaml/paths/~1accountStats/get)
+For more details on this endpoint see [List Campaign Stats](../../../openapi/advertising/advertising.yaml/paths/~1campaignStats/get)
 <!--
 type: tab
 title: Example Response
@@ -121,7 +121,7 @@ title: Example Response
       }
     },
     {
-      "type": "accountStats",
+      "type": "campaignStats",
       "id": "AG-X5FZQG6T25:google:1324354698:395728305",
       "attributes": {
         "impressions": 3512,

@@ -95,6 +95,8 @@ title: Request
   },
   "query": {
     "connectedAccount.id": "AG-X5FZQG6T25:google:1324354698"
+    "startAt": "2021-01-01T00:00:00Z",
+    "endAt": "2021-02-01T00:00:00Z"
   }
 }
 ```

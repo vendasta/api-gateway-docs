@@ -93,14 +93,91 @@ If another user already exists within your platform with the same email address 
 ```
 
 
-## Update business locations for an existing user
-You may update a user's accessible business locations in the following way.
+## Update and list business locations for an existing user
 
-After this operation completes, the user will only have access to the specified locations.
+You may list or modify a user's accessible business locations by making requests to the `businessLocations` relationship of that user.
+
+For example, for a user with ID `U-1234567`, the URI path to interact with their business locations is `/platform/users/U-1234567/relationships/businessLocations`.
+
+### List a user's business locations
+
+You can list a user's business locations by making a `GET` request to the `businessLocations` relationship of that user.
+
+```json http
+{
+  "method": "get",
+  "url": "https://prod.apigateway.co/platform/users/U-1234567/relationships/businessLocations",
+  "headers": {
+    "Authorization": "Bearer <Access Token with 'user.admin' scope>",
+    "Content-Type": "application/vnd.api+json"
+  }
+}
+```
+
+
+### Add to a user's business locations
+
+You can add business locations to a user by making a `POST` request to the `businessLocations` relationship of that user.
+
+After this operation completes, the user will have access to any existing locations plus the locations in the request.
+
+Any location(s) in the request to which the user already had access will be silently ignored.
+
+```json http
+{
+  "method": "post",
+  "url": "https://prod.apigateway.co/platform/users/U-1234567/relationships/businessLocations",
+  "headers": {
+    "Authorization": "Bearer <Access Token with 'user.admin' scope>",
+    "Content-Type": "application/vnd.api+json"
+  },
+  "body": {
+    "data": [
+      {
+        "id": "AG-1234567",
+        "type": "businessLocations"
+      }
+    ]
+  }
+}
+```
+
+### Replace all existing locations
+
+You can replace any existing business locations for a user by making a `PATCH` request to the `businessLocations` relationship of that user.
+
+After this operation completes, the user will have access only to the specified locations.
 
 ```json http
 {
   "method": "patch",
+  "url": "https://prod.apigateway.co/platform/users/U-1234567/relationships/businessLocations",
+  "headers": {
+    "Authorization": "Bearer <Access Token with 'user.admin' scope>",
+    "Content-Type": "application/vnd.api+json"
+  },
+  "body": {
+    "data": [
+      {
+        "id": "AG-1234567",
+        "type": "businessLocations"
+      }
+    ]
+  }
+}
+```
+
+### Remove one or more business locations
+
+You can remove existing business location(s) for a user by making a `DELETE` request to the `businessLocations` relationship of that user.
+
+After this operation completes, the user will no longer have access to the specified locations.
+
+Any location(s) in the request to which the user did not already have access will be silently ignored.
+
+```json http
+{
+  "method": "delete",
   "url": "https://prod.apigateway.co/platform/users/U-1234567/relationships/businessLocations",
   "headers": {
     "Authorization": "Bearer <Access Token with 'user.admin' scope>",

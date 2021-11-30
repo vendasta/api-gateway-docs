@@ -108,8 +108,7 @@ You can list a user's business locations by making a `GET` request to the `busin
   "method": "get",
   "url": "https://prod.apigateway.co/platform/users/U-1234567/relationships/businessLocations",
   "headers": {
-    "Authorization": "Bearer <Access Token with 'user.admin' scope>",
-    "Content-Type": "application/vnd.api+json"
+    "Authorization": "Bearer <Access Token with 'user.admin' scope>"
   }
 }
 ```

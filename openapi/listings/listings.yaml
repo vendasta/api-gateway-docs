@@ -24,7 +24,6 @@ paths:
       operationId: list-businessListings
       security:
         - OAuth2:
-            - business
             - listings
       x-lifecycle:
         status: proposed
@@ -46,10 +45,6 @@ paths:
           name: 'filter[businessLocation.id]'
           description: Return listings for the specified business entity
           required: true
-        - schema:
-            type: string
-          in: header
-          name: Accept-Language
         - schema:
             type: string
           in: query
@@ -103,6 +98,35 @@ paths:
         - Options
         - Business Entity Listings
     parameters: []
+  /businessEntityListingScore:
+    get:
+      summary: Get Business Entity Listing Score
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/businessEntityListingScore'
+      operationId: get-businessEntityListingScore
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        Gets the listing score information for a specific business
+      x-lifecycle:
+        status: proposed
+      security:
+        - OAuth2:
+            - listings
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
 components:
   securitySchemes:
     JWT:
@@ -258,10 +282,7 @@ components:
                     description: Human readable details about the warning
                     type: string
             updatedAt:
-              description: |-
-                The last time this source’s listing was checked by Vendasta’s independent listing verification system
-
-                This will be `1970-01-01T00:00:00Z` if we have never verified the listing.
+              description: 'The last time this source’s listing was checked by Vendasta’s independent listing verification system. This will be `1970-01-01T00:00:00Z` if we have never verified the listing.'
               format: date
               type: string
             streetAddress:
@@ -365,3 +386,24 @@ components:
 
                 notFound - No listing was found for this source by Vendasta.
               type: string
+    businessEntityListingScore:
+      title: businessEntityListingScore
+      type: object
+      properties:
+        id:
+          type: string
+          description: Vendasta's unique ID for the business
+        type:
+          type: string
+        attributes:
+          type: object
+          properties:
+            totalScore:
+              type: integer
+              description: The business's current listing score including the score based on online citations
+            industryAverageNinetyFifth:
+              type: integer
+              description: The ninety fifth percentile listing score for businesses in the same industry
+            initialListingScore:
+              type: integer
+              description: The listing score of the business when Listing Builder was first activated

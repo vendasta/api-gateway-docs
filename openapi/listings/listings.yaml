@@ -47,10 +47,6 @@ paths:
           required: true
         - schema:
             type: string
-          in: header
-          name: Accept-Language
-        - schema:
-            type: string
           in: query
           name: 'page[cursor]'
           description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
@@ -116,6 +112,18 @@ paths:
       security:
         - OAuth2:
             - listings
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
 components:
   securitySchemes:
     JWT:

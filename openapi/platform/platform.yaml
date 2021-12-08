@@ -1585,6 +1585,33 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/customers'
+            examples:
+              Example Request:
+                value:
+                  data:
+                    attributes:
+                      givenName: William
+                      familyName: Smith
+                      address:
+                        streetAddress: 123 Fake St.
+                        city: Kalamazoo
+                        regionCode: US-MI
+                        countryCode: US
+                      phoneNumbers:
+                        - '+13065551234'
+                      emailAddresses:
+                        - example@email.com
+                      tags:
+                        - 2021 Christmas Campaign
+                      assignedRepGivenName: Sam
+                      assignedRepSurname: McSales
+                      permissionToContact: true
+                      createdAt: '2019-08-24T14:15:22Z'
+                      updatedAt: '2019-08-24T14:15:22Z'
+                    relationships:
+                      businessLocation:
+                        data:
+                          id: AG-123
       tags:
         - Customers
 components:
@@ -2817,6 +2844,8 @@ components:
               data:
                 id: AG-123
       x-lifecycle: proposed
+      x-tags:
+        - Customers
       properties:
         type:
           type: string
@@ -2824,10 +2853,12 @@ components:
           example: customers
           enum:
             - customers
+          readOnly: true
         id:
           type: string
           minLength: 1
           example: 'AG-123:CUSTOMER-123'
+          readOnly: true
         attributes:
           type: object
           properties:
@@ -2858,24 +2889,12 @@ components:
                   minLength: 1
                   description: 'The code for the top level subdivision within the country (state/province) as defined by ISO 3166-2 format (CA-SK, US-FL, AG-08, AU-NSW)'
                   example: US-MI
-                regionName:
-                  type: string
-                  minLength: 1
-                  example: Michigan
-                  description: The translated name of the state within the country.
-                  readOnly: true
                 countryCode:
                   type: string
                   minLength: 2
                   description: 'The two letter country code defined by ISO 3166-1 (CA, US).'
                   example: US
                   maxLength: 2
-                countryName:
-                  type: string
-                  minLength: 1
-                  description: The translated name of the country.
-                  example: United States
-                  readOnly: true
             phoneNumbers:
               type: array
               description: A comma-separated list of phone numbers for a customer in E.164 format ex. +13065551234. At least one unique phone number or email is required.
@@ -2945,11 +2964,9 @@ components:
                       default: businessLocation
                       enum:
                         - businessLocation
+                      readOnly: true
                   required:
                     - id
-                    - type
-      x-tags:
-        - Customers
 tags:
   - name: Automation Runs
   - name: Business Categories

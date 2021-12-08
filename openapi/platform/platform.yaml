@@ -1660,7 +1660,7 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/salesAccounts'
-  '/accountGroups/{accountGroupID}':
+  /accountGroups:
     post:
       summary: Create Account Group
       operationId: post-accountGroup
@@ -1685,16 +1685,7 @@ paths:
                 type: string
               description: URL to query the operation status
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                  message:
-                    type: string
+          $ref: '#/components/responses/Default-Error'
       description: |-
         This endpoint receives a new account group, including it's custom data. As this operation touches more than one entity internally, we deal with it in an asynchronous way.
 
@@ -1744,6 +1735,20 @@ paths:
         name: accountGroupID
         in: path
         required: true
+  '/accountGroups/{accounrGroupID}':
+    get:
+      summary: Get AccountGroup
+      operationId: get-accountGroups-accountGroupID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountGroup'
+        '500':
+          $ref: '#/components/responses/Default-Error'
+      description: This endpoint fetches an account group by it's ID.
     patch:
       summary: Update Account Group
       operationId: post-accountGroup
@@ -1768,16 +1773,7 @@ paths:
                 type: string
               description: URL to query the operation status
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                  message:
-                    type: string
+          $ref: '#/components/responses/Default-Error'
       description: |-
         This endpoint updates an account group. This operation is executed asynchronously.
 
@@ -1821,17 +1817,6 @@ paths:
                         - type: businessCategories
                           id: 'active:diving:freediving'
                     type: salesAccounts
-    get:
-      summary: Get AccountGroup
-      operationId: get-accountGroups-accountGroupID
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/accountGroup'
-      description: ''
   '/accountGroups-tasks/{taskID}':
     get:
       summary: Your GET endpoint
@@ -1862,6 +1847,8 @@ paths:
               schema:
                 type: string
               description: '/accountGroups/{agid}'
+        '500':
+          $ref: '#/components/responses/Default-Error'
       operationId: get-accountGroup-operation-status
       description: This endpoint is called to check the status of account group operations.
     parameters:
@@ -3382,6 +3369,38 @@ components:
                 - salesAccounts
       required:
         - type
+  responses:
+    Default-Error:
+      description: |-
+        This is a generic error format for the external API's to use.
+        The error response body follow the OData JSON Format 4 (https://docs.oasis-open.org/odata/odata-json-format/v4.01/odata-json-format-v4.01.html#sec_ErrorResponse)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: The value for the code name/value pair is a non-empty language-independent string. Its value is a service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response. It cannot be null.
+                  message:
+                    type: string
+                    description: 'The value for the message name/value pair is a non-empty, language-dependent, human-readable string describing the error. The Content-Language header MUST contain the language code from [RFC5646] corresponding to the language in which the value for message is written. It cannot be null.'
+                  target:
+                    type: string
+                    description: 'The value for the target name/value pair is a potentially empty string indicating the target of the error (for example, the name of the property in error). It can be null.'
+                required:
+                  - code
+                  - message
+          examples:
+            Example 1:
+              value:
+                error:
+                  code: PreConditionFailed
+                  message: Company name should not be empty
+                  target: accountGroup.companyName
 tags:
   - name: Automation Runs
   - name: Business Categories

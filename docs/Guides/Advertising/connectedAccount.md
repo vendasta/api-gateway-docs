@@ -78,7 +78,7 @@ type: tab-end
 
 By default, this endpoint will return connected accounts for all providers. If you want to get accounts for only one provider, you can set the `filter[provider]` parameter to either `google`, `facebook` or `localAds`.
 
-This example will get all Google Ads accounts connected to the businesses `AG-JT87JWQ7KN` and `AG-X5FZQG6T25`.
+This example will get all Google Ads accounts connected to the businesses `AG-JT87JWQ7KN`
 
 <!--
 type: tab

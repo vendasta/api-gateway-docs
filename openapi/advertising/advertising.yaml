@@ -481,6 +481,10 @@ components:
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Total Stats for a connected Advertising Account
+      x-lifecycle:
+        status: trustedTester
+      x-tags:
+        - Account Stats
       properties:
         id:
           type: string
@@ -489,6 +493,9 @@ components:
         type:
           type: string
           description: accountStats
+          default: accountStats
+          enum:
+            - accountStats
         attributes:
           type: object
           properties:
@@ -526,10 +533,6 @@ components:
         - id
         - type
         - attributes
-      x-lifecycle:
-        status: trustedTester
-      x-tags:
-        - Account Stats
     campaignStats:
       title: Campaign Stats
       type: object
@@ -550,6 +553,9 @@ components:
         type:
           type: string
           description: campaignStats
+          default: campaignStats
+          enum:
+            - campaignStats
         attributes:
           type: object
           properties:
@@ -600,6 +606,9 @@ components:
         type:
           type: string
           description: connectedAccounts
+          default: connectedAccounts
+          enum:
+            - connectedAccounts
         attributes:
           type: object
           properties:
@@ -644,6 +653,8 @@ components:
         Information about an advertising campaign.  Requires an Advanced Reporting Addon to be active on the Business Location to access
       x-lifecycle:
         status: trustedTester
+      x-tags:
+        - Campaign Info
       properties:
         id:
           type: string
@@ -653,6 +664,8 @@ components:
           type: string
           description: campaignInfo
           default: campaignInfo
+          enum:
+            - campaignInfo
         attributes:
           type: object
           properties:
@@ -703,8 +716,6 @@ components:
         - id
         - type
         - attributes
-      x-tags:
-        - Campaign Info
   parameters:
     startAt:
       name: startAt
@@ -724,7 +735,7 @@ components:
         type: string
         format: date-time
         example: '2021-01-01T00:00:01Z'
-      description: Only return data from before the specified end date and time.
+      description: Only return data from before the specified end date and time. If not specified all data will be returned.
     Authorization:
       name: Authorization
       in: header
@@ -782,7 +793,7 @@ components:
         maximum: 100
         minimum: 1
         default: 25
-      description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+      description: The maximum number of items you would like returned in a single batch. Use the links.next member in the response to get the next batch.
     pageCursor:
       name: 'page[cursor]'
       in: query

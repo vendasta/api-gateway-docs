@@ -8,12 +8,12 @@ tags: [Review Request, Customer Voice]
 With Customer Voice, you can gather authentic reviews via email or text on the sites that matter most, to grow customer loyalty and boost sales.
 
 ## Setup
-Create an access token with `reviews` scopes following the [Authorization guide](../../Authorization/Authorization.md).
+Create an access token with `reviews` and `customers` scopes following the [Authorization guide](../../Authorization/Authorization.md).
 
 Have an activated Customer Voice product and SMS add-on if you need to send SMS review requests. Ensure your email and SMS templates are configured appropriately and your preferred review sites are configured within the Customer Voice platform.
 
 ## Step 1: Obtain a Vendasta Customer ID
-In order to track the status of a review request within Customer Voice, a Vendasta customer record must exist and the id of this record must be provided. To sync contact information from your system to Vendasta's you can use the `/platform/customers` endpoint.
+In order to track the status of a review request within Customer Voice, a Vendasta customer record must exist and the id of this record must be provided. To sync contact information from your system to Vendasta's you can use the `/business/customers` endpoint.
 <!--
 type: tab
 title: Request
@@ -21,10 +21,10 @@ title: Request
 ``` json http
 {
   "method": "POST",
-  "url": "https://prod.apigateway.co/platform/customers",
+  "url": "https://prod.apigateway.co/business/customers",
   "query": {},
   "headers": {
-    "Authorization": "Bearer <Token with 'customer' scope>",
+    "Authorization": "Bearer <Token with 'customers' scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "body": {
@@ -47,8 +47,6 @@ title: Request
         "tags": [
           "2021 Christmas Campaign"
         ],
-        "assignedRepGivenName": "Sam",
-        "assignedRepSurname": "McSales",
         "permissionToContact": true
       },
       "relationships": {
@@ -89,11 +87,6 @@ If the contact information you provide is valid, it will create a new customer r
     "tags": [
       "2021 Christmas Campaign"
     ],
-    "origins": [
-      "API Gateway"
-    ],
-    "assignedRepGivenName": "Sam",
-    "assignedRepSurname": "McSales",
     "permissionToContact": true,
     "createdAt": "2019-08-24T14:15:22Z",
     "updatedAt": "2019-08-24T14:15:22Z"
@@ -130,7 +123,7 @@ If a customer with a matching email or phone number already exists in Vendasta's
     },
     "links": {
         "self": {
-            "href": "/platform/customers"
+            "href": "/business/customers"
         }
     }
 }

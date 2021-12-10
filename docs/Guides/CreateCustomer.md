@@ -1,7 +1,7 @@
 ---
 tags: [Customers]
 ---
-# Sync Contact Information From Your System to Vendasta
+# Sync Contact Information From Your System to Vendasta Business App
 
 > This guide relies on "Proposed" endpoints and is likely to change until all features have been made generally available.
 
@@ -18,10 +18,10 @@ title: Request
 ``` json http
 {
   "method": "POST",
-  "url": "https://prod.apigateway.co/platform/customers",
+  "url": "https://prod.apigateway.co/business/customers",
   "query": {},
   "headers": {
-    "Authorization": "Bearer <Token with 'customer' scope>",
+    "Authorization": "Bearer <Token with 'customers' scope>",
     "Content-Type": "application/vnd.api+json"
   },
   "body": {
@@ -44,8 +44,6 @@ title: Request
         "tags": [
           "2021 Christmas Campaign"
         ],
-        "assignedRepGivenName": "Sam",
-        "assignedRepSurname": "McSales",
         "permissionToContact": true
       },
       "relationships": {
@@ -86,11 +84,6 @@ If the contact information you provide is valid, it will create a new customer r
     "tags": [
       "2021 Christmas Campaign"
     ],
-    "origins": [
-      "API Gateway"
-    ],
-    "assignedRepGivenName": "Sam",
-    "assignedRepSurname": "McSales",
     "permissionToContact": true,
     "createdAt": "2019-08-24T14:15:22Z",
     "updatedAt": "2019-08-24T14:15:22Z"
@@ -127,7 +120,7 @@ If a customer with a matching email or phone number already exists in Vendasta's
     },
     "links": {
         "self": {
-            "href": "/platform/customers"
+            "href": "/business/customers"
         }
     }
 }

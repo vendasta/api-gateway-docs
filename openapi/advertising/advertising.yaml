@@ -301,7 +301,7 @@ paths:
       x-lifecycle:
         status: trustedTester
     options:
-      summary: ''
+      summary: List valid HTTP verbs for /campaignInfo
       operationId: options-campaignInfo
       responses:
         '200':
@@ -355,7 +355,7 @@ paths:
       x-lifecycle:
         status: trustedTester
     options:
-      summary: ''
+      summary: 'List valid HTTP verbs for /campaignInfo/{id}'
       operationId: options-campaignInfo-id
       responses:
         '200':
@@ -408,7 +408,7 @@ paths:
       x-lifecycle:
         status: trustedTester
     options:
-      summary: ''
+      summary: List valid HTTP verbs for /campaignStats
       operationId: options-campaignStats
       responses:
         '200':
@@ -471,7 +471,7 @@ paths:
       x-lifecycle:
         status: trustedTester
     options:
-      summary: ''
+      summary: 'List valid HTTP verbs for /campaignStats/{id}'
       operationId: options-campaignStats-id
       responses:
         '200':
@@ -489,6 +489,10 @@ components:
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Total Stats for a connected Advertising Account
+      x-lifecycle:
+        status: trustedTester
+      x-tags:
+        - Account Stats
       properties:
         id:
           type: string
@@ -497,6 +501,9 @@ components:
         type:
           type: string
           description: accountStats
+          default: accountStats
+          enum:
+            - accountStats
         attributes:
           type: object
           properties:
@@ -534,10 +541,6 @@ components:
         - id
         - type
         - attributes
-      x-lifecycle:
-        status: trustedTester
-      x-tags:
-        - Account Stats
     campaignStats:
       title: Campaign Stats
       type: object
@@ -558,6 +561,9 @@ components:
         type:
           type: string
           description: campaignStats
+          default: campaignStats
+          enum:
+            - campaignStats
         attributes:
           type: object
           properties:
@@ -608,6 +614,9 @@ components:
         type:
           type: string
           description: connectedAccounts
+          default: connectedAccounts
+          enum:
+            - connectedAccounts
         attributes:
           type: object
           properties:
@@ -652,6 +661,8 @@ components:
         Information about an advertising campaign.  Requires an Advanced Reporting Addon to be active on the Business Location to access
       x-lifecycle:
         status: trustedTester
+      x-tags:
+        - Campaign Info
       properties:
         id:
           type: string
@@ -661,6 +672,8 @@ components:
           type: string
           description: campaignInfo
           default: campaignInfo
+          enum:
+            - campaignInfo
         attributes:
           type: object
           properties:
@@ -711,17 +724,7 @@ components:
         - id
         - type
         - attributes
-      x-tags:
-        - Campaign Info
   parameters:
-    connectedAccount.id:
-      name: connectedAccount.id
-      in: path
-      required: true
-      schema:
-        type: string
-        example: 'AG-HDV4JKPXFR:google:7531238654'
-      description: Resource ID of a Connected Advertising Account
     startAt:
       name: startAt
       in: query
@@ -740,11 +743,11 @@ components:
         type: string
         format: date-time
         example: '2021-01-01T00:00:01Z'
-      description: Only return data from before the specified end date and time.
+      description: Only return data from before the specified end date and time. If not specified all data will be returned.
     Authorization:
       name: Authorization
       in: header
-      required: false
+      required: true
       schema:
         type: string
         pattern: ^Bearer\s\S+
@@ -753,7 +756,7 @@ components:
     Content-Type:
       name: Content-Type
       in: header
-      required: false
+      required: true
       schema:
         type: string
         default: application/vnd.api+json
@@ -798,7 +801,7 @@ components:
         maximum: 100
         minimum: 1
         default: 25
-      description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+      description: The maximum number of items you would like returned in a single batch. Use the links.next member in the response to get the next batch.
     pageCursor:
       name: 'page[cursor]'
       in: query

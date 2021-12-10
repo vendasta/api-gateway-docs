@@ -1,0 +1,830 @@
+openapi: 3.0.0
+info:
+  title: Advertising Intelligence REST APIs
+  version: '1.0'
+  description: ''
+servers:
+  - url: 'https://prod.apigateway.co/products/advertising'
+    description: Production
+  - url: 'https://demo.apigateway.co/products/advertising'
+    description: Demo
+  - url: '{local}/products/advertising'
+    description: Local
+  - url: 'http://localhost:11001/products/advertising'
+    description: Localhost
+paths:
+  /accountStats:
+    parameters: []
+    get:
+      summary: List Account Stats
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    data: []
+                    links:
+                      self: ''
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/accountStats'
+                  links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        type: string
+                      next:
+                        type: string
+                required:
+                  - data
+                  - links
+              examples: {}
+      operationId: get-accountStats
+      description: Retrieve stats for all connected advertising accounts for a given business location.
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+        - $ref: '#/components/parameters/startAt'
+        - $ref: '#/components/parameters/endAt'
+        - $ref: '#/components/parameters/businessLocation.id'
+        - $ref: '#/components/parameters/provider'
+        - $ref: '#/components/parameters/connectedAccount.resourceId'
+        - $ref: '#/components/parameters/pageLimit'
+        - $ref: '#/components/parameters/pageCursor'
+      security:
+        - OAuth2:
+            - advertising
+      x-lifecycle:
+        status: trustedTester
+      tags:
+        - Account Stats
+    options:
+      summary: List valid HTTP verbs for /accountstats
+      operationId: options-accountStats
+      responses:
+        '200':
+          description: OK
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+  '/accountStats/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Resource ID of a Connected Advertising Account
+    get:
+      summary: Get Account Stats for one Connected Account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    data: []
+                    links:
+                      self: ''
+                properties:
+                  data:
+                    $ref: '#/components/schemas/accountStats'
+                  links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        type: string
+                required:
+                  - data
+                  - links
+              examples: {}
+        '404':
+          description: Connected Account Not Found
+      operationId: get-accountStats-id
+      description: Retrieve account stats for one connected advertising account
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+        - $ref: '#/components/parameters/startAt'
+        - $ref: '#/components/parameters/endAt'
+      security:
+        - OAuth2:
+            - advertising
+      x-lifecycle:
+        status: trustedTester
+      tags:
+        - Account Stats
+    options:
+      summary: 'List valid HTTP verbs for /accountStats/{id}'
+      operationId: options-accountStats-id
+      responses:
+        '200':
+          description: OK
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+  '/connectedAccounts/{id}':
+    parameters:
+      - in: path
+        name: id
+        description: Resource ID of a Connected Advertising Account
+        required: true
+        schema:
+          type: string
+    options:
+      summary: 'List valid HTTP verbs for /connectedAccounts/{id}'
+      operationId: options-connectedAccounts-connectedAccount.id
+      responses:
+        '200':
+          description: OK
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+    get:
+      summary: Get Connected Account
+      operationId: get-connectedAccounts-connectedAccount.id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vdn.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/connectedAccounts'
+                  links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        type: string
+                required:
+                  - data
+                  - links
+        '404':
+          description: Connected Account Not Found
+      description: Retrieve the metadata of a single connected advertising account.
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+      security:
+        - OAuth2:
+            - advertising
+      x-lifecycle:
+        status: trustedTester
+      tags:
+        - Connected Accounts
+  /connectedAccounts:
+    parameters: []
+    options:
+      summary: List valid HTTP verbs for /connectedAccounts
+      operationId: options-connectedAccounts
+      responses:
+        '200':
+          description: OK
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+    get:
+      summary: List Connected Accounts
+      operationId: get-connectedAccounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/connectedAccounts'
+                  links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        type: string
+                      next:
+                        type: string
+                required:
+                  - data
+                  - links
+      description: Retrieve all connected advertising accounts.
+      x-lifecycle:
+        status: trustedTester
+      security:
+        - OAuth2:
+            - advertising
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+        - $ref: '#/components/parameters/businessLocation.id'
+        - $ref: '#/components/parameters/provider'
+        - $ref: '#/components/parameters/connectedAccount.resourceId'
+        - $ref: '#/components/parameters/pageLimit'
+        - $ref: '#/components/parameters/pageCursor'
+      tags:
+        - Connected Accounts
+  /campaignInfo:
+    get:
+      summary: List Campaign Info
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/campaignInfo'
+                  links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        type: string
+                      next:
+                        type: string
+                required:
+                  - data
+                  - links
+      operationId: get-campaignInfo
+      description: Retrieve information about Ad Campaigns under a connected advertising account.
+      tags:
+        - Campaign Info
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+        - schema:
+            type: boolean
+          in: query
+          name: 'filter[isConnected]'
+          description: Filters results to fetch only connected or not connected campaigns
+          allowEmptyValue: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[connectedAccount.id]'
+          description: Resource ID of a Connected Advertising Account
+          required: true
+        - $ref: '#/components/parameters/startAt'
+        - $ref: '#/components/parameters/endAt'
+        - $ref: '#/components/parameters/pageLimit'
+        - $ref: '#/components/parameters/pageCursor'
+      security:
+        - OAuth2:
+            - advertising
+      x-lifecycle:
+        status: trustedTester
+    options:
+      summary: List valid HTTP verbs for /campaignInfo
+      operationId: options-campaignInfo
+      responses:
+        '200':
+          description: OK
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+  '/campaignInfo/{id}':
+    parameters:
+      - schema:
+          type: string
+          example: 'AG-HDV4JKHW:google:7531238654:94749174'
+        name: id
+        in: path
+        required: true
+        description: campaignInfo resource ID
+    get:
+      summary: Get Campaign Info
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/campaignInfo'
+                  links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        type: string
+                required:
+                  - data
+                  - links
+        '404':
+          description: Campaign Not Found
+      operationId: get-campaignInfo-id
+      description: Gets information about a single Ad Campaign given its ID
+      tags:
+        - Campaign Info
+      security:
+        - OAuth2:
+            - adintel
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+      x-lifecycle:
+        status: trustedTester
+    options:
+      summary: 'List valid HTTP verbs for /campaignInfo/{id}'
+      operationId: options-campaignInfo-id
+      responses:
+        '200':
+          description: OK
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+  /campaignStats:
+    get:
+      summary: List Campaign Stats
+      tags:
+        - Campaign Stats
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/campaignStats'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                      next:
+                        type: string
+      operationId: get-campaignStats
+      description: Retrieve stats for all connected advertising campaigns for a given connected advertising account.
+      security:
+        - OAuth2:
+            - advertising
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+        - $ref: '#/components/parameters/startAt'
+        - $ref: '#/components/parameters/endAt'
+        - schema:
+            type: string
+          in: query
+          name: 'filter[connectedAccount.id]'
+          required: true
+          description: Resource ID of a Connected Advertising Account
+        - $ref: '#/components/parameters/pageLimit'
+        - $ref: '#/components/parameters/pageCursor'
+      x-lifecycle:
+        status: trustedTester
+    options:
+      summary: List valid HTTP verbs for /campaignStats
+      operationId: options-campaignStats
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/campaignStats'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+  '/campaignStats/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Campaign Stats
+      tags:
+        - Campaign Stats
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/campaignInfo'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+        '404':
+          description: Connected Campaign Not Found
+      operationId: get-campaignStats-id
+      description: Retrieve account stats for one connected advertising campaign
+      security:
+        - OAuth2:
+            - advertising
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/Content-Type'
+        - $ref: '#/components/parameters/startAt'
+        - $ref: '#/components/parameters/endAt'
+      x-lifecycle:
+        status: trustedTester
+    options:
+      summary: 'List valid HTTP verbs for /campaignStats/{id}'
+      operationId: options-campaignStats-id
+      responses:
+        '200':
+          description: OK
+      tags:
+        - Options
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+components:
+  schemas:
+    accountStats:
+      title: Account Stats
+      type: object
+      x-examples: {}
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Total Stats for a connected Advertising Account
+      x-lifecycle:
+        status: trustedTester
+      x-tags:
+        - Account Stats
+      properties:
+        id:
+          type: string
+          description: The resource ID of the Connected Advertising Account
+          example: 'AG-HDV4JKPXFR:google:7531238654'
+        type:
+          type: string
+          description: accountStats
+          default: accountStats
+          enum:
+            - accountStats
+        attributes:
+          type: object
+          properties:
+            impressions:
+              type: integer
+              description: Number of times ads under this account were viewed
+            clicks:
+              type: integer
+              description: Number of times ads under this account were clicked
+            conversions:
+              type: integer
+              description: Total number of conversions from campaigns under this account
+            costMicros:
+              type: integer
+              description: Total account spend denoted in millionths of a dollar
+            averageCostPerClickMicros:
+              type: integer
+              description: Average cost per click denoted in millionths of a dollar
+            clickThroughRate:
+              type: number
+              description: Rate of the number of clicks per number of impressions
+            currencyCode:
+              type: string
+              description: 'The 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)'
+              minLength: 3
+              maxLength: 3
+            provider:
+              type: string
+              enum:
+                - google
+                - facebook
+                - localads
+              description: Advertising Provider
+      required:
+        - id
+        - type
+        - attributes
+    campaignStats:
+      title: Campaign Stats
+      type: object
+      x-examples: {}
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Total Stats for a connected Advertising Campaign
+      x-lifecycle:
+        status: trustedTester
+      x-tags:
+        - Campaign Stats
+      properties:
+        id:
+          type: string
+          description: The resource ID of the Connected Advertising Campaign
+          example: 'AG-HDV4JKPXFR:google:8362684505:14501114557'
+        type:
+          type: string
+          description: campaignStats
+          default: campaignStats
+          enum:
+            - campaignStats
+        attributes:
+          type: object
+          properties:
+            impressions:
+              type: integer
+              description: Number of times ads under this campaign were viewed
+            clicks:
+              type: integer
+              description: Number of times ads under this campaign were clicked
+            conversions:
+              type: integer
+              description: Total number of conversions from campaigns under this account
+            costMicros:
+              type: integer
+              description: Total account spend denoted in millionths of a dollar
+            averageCostPerClickMicros:
+              type: integer
+              description: Average cost per click denoted in millionths of a dollar
+            clickThroughRate:
+              type: number
+              description: Rate of the number of clicks per number of impressions
+            currencyCode:
+              type: string
+              description: 'The 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)'
+              minLength: 3
+              maxLength: 3
+      required:
+        - id
+        - type
+        - attributes
+    connectedAccounts:
+      title: connectedAccounts
+      type: object
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        An advertising account that’s connected within Advertising Intelligence from integrated campaign management platforms, including Google Adwords, Facebook Ads and Local Ads.
+      x-examples: {}
+      x-lifecycle:
+        status: trustedTester
+      x-tags:
+        - Connected Accounts
+      properties:
+        id:
+          type: string
+          description: The resource ID of the Advertising Account
+          example: 'AG-HDV4JKPXFR:google:7531238654'
+        type:
+          type: string
+          description: connectedAccounts
+          default: connectedAccounts
+          enum:
+            - connectedAccounts
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: The name of the ad account
+            currencyCode:
+              type: string
+              description: "\t\nThe 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)"
+              minLength: 3
+              maxLength: 3
+            status:
+              type: string
+              description: 'Whether or not if the saved credential for the ad account is invalid, e.g. user no longer have access to the account, or user revoked access.'
+              enum:
+                - active
+                - reconnectionRequired
+            provider:
+              type: string
+              description: The Advertising provider
+              enum:
+                - google
+                - facebook
+                - localads
+            createdAt:
+              type: string
+              description: The date time that the ad account is connected
+            updatedAt:
+              type: string
+              description: The date time that the entity was last updated
+      required:
+        - id
+        - type
+        - attributes
+    campaignInfo:
+      title: Campaign Info
+      type: object
+      x-examples: {}
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Information about an advertising campaign.  Requires an Advanced Reporting Addon to be active on the Business Location to access
+      x-lifecycle:
+        status: trustedTester
+      x-tags:
+        - Campaign Info
+      properties:
+        id:
+          type: string
+          description: The resource ID of the Connected Advertising Account
+          example: 'AG-HDV4JKHW:google:7531238654:94749174'
+        type:
+          type: string
+          description: campaignInfo
+          default: campaignInfo
+          enum:
+            - campaignInfo
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the Campaign
+            isConnected:
+              type: boolean
+              description: Flag indicating if the campaign is connected to the Business Location.  Only stats from connected camapigns will be included in total account stats
+            status:
+              type: string
+              description: |-
+                `notSet` - Default value, Campaign status is unknown or unset
+
+                `pending` - Campaign is pending review
+
+                `needsAttention` - Campaign is experiencing issues during creation that requires user action
+
+                `scheduled` - Campaign is sheduled to begin at a future date
+
+                `live` - Campaign is currently running
+
+                `paused` - Campaign has been paused and is not currently running
+
+                `removed` - Camapign has been removed or deleted
+
+                `ended` - Campaign has ended and is no longer runnning
+              enum:
+                - notSet
+                - pending
+                - needsAttention
+                - scheduled
+                - live
+                - paused
+                - removed
+                - ended
+            startAt:
+              type: string
+              format: date-time
+              example: '2018-10-23T00:00:00Z'
+              description: Start date of the campaign
+            endAt:
+              type: string
+              format: date-time
+              example: '2022-02-17T00:00:00Z'
+              description: End date of the campaign
+      required:
+        - id
+        - type
+        - attributes
+  parameters:
+    startAt:
+      name: startAt
+      in: query
+      required: false
+      schema:
+        type: string
+        format: date-time
+        default: '1970-01-01T00:00:01Z'
+        example: '2021-01-01T00:00:01Z'
+      description: Only return data starting from the specified start date and time
+    endAt:
+      name: endAt
+      in: query
+      required: false
+      schema:
+        type: string
+        format: date-time
+        example: '2021-01-01T00:00:01Z'
+      description: Only return data from before the specified end date and time. If not specified all data will be returned.
+    Authorization:
+      name: Authorization
+      in: header
+      required: true
+      schema:
+        type: string
+        pattern: ^Bearer\s\S+
+        example: Bearer <access token>
+      description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+    Content-Type:
+      name: Content-Type
+      in: header
+      required: true
+      schema:
+        type: string
+        default: application/vnd.api+json
+      description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+    businessLocation.id:
+      name: 'filter[businessLocation.id]'
+      in: query
+      schema:
+        type: string
+        example: AG-HDABCKDEFR
+        uniqueItems: true
+        minItems: 0
+      description: A single Business Location ID
+      allowEmptyValue: true
+      required: true
+    provider:
+      name: 'filter[provider]'
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+          - google
+          - facebook
+          - localads
+      description: Comma separated list of Advertising Providers
+    connectedAccount.resourceId:
+      name: 'filter[connectedAccount.id]'
+      in: query
+      schema:
+        type: string
+        example: 'AG-AHFJEHD:google:1324354657'
+        uniqueItems: true
+      description: Comma separated list of Resource IDs of Connected Advertising Accounts
+      allowEmptyValue: true
+    pageLimit:
+      name: 'page[limit]'
+      in: query
+      required: false
+      schema:
+        type: number
+        maximum: 100
+        minimum: 1
+        default: 25
+      description: The maximum number of items you would like returned in a single batch. Use the links.next member in the response to get the next batch.
+    pageCursor:
+      name: 'page[cursor]'
+      in: query
+      required: false
+      schema:
+        type: string
+      description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          refreshUrl: ''
+          scopes:
+            advertising: Access to the Advertising Intelligence REST API
+tags:
+  - name: Account Stats
+  - name: Connected Accounts
+  - name: Options
+  - name: Campaign Info
+  - name: Campaign Stats

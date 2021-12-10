@@ -2,6 +2,14 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2021-12-09
+### Advertising Intelligence REST API added
+Trusted testers now have access to `GET` endpoint for the following Advertising Resources:
+- Connected Accounts
+- Account Stats
+- Campaign Info
+- Campaign Stats
+
 ## 2021-11-05
 Proposed adding support for triggering a manual automation based on an order. 
 

@@ -28,43 +28,42 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/socialProfiles'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        format: uri
+                        description: Provides a link back to the first page of results.
+                      next:
+                        type: string
+                        format: uri
+                        description: The URI at which the next page of results can be gotten from.
       operationId: get-socialProfiles
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
 
-        This endpoint returns Social Profile data. It must be called with either `filter[businessLocation.id]` or `filter[partner.id]` (which is currently in development).
+        This endpoint returns Social Profile data for the given BusinessLocation.
       parameters:
         - schema:
             type: string
           in: query
           name: 'filter[businessLocation.id]'
-          description: 'Returns all Social Profiles for the given Business Location. Cannot be used with `filter[partner.id]`.'
+          description: Returns all Social Profiles for the given Business Location.
+          required: true
         - schema:
             type: string
           in: query
-          name: 'filter[partner.id]'
-          description: 'Returns all Social Profiles under the given partnerId. Cannot be used with `filter[businessLocation]`. This is currently unavailable and in development.'
+          name: 'page[cursor]'
         - schema:
             type: string
-            enum:
-              - facebook
-              - twitter
-              - gmb
-              - linkedin
-              - instagram
           in: query
-          name: 'filter[socialNetworks]'
-          description: Returns only Social Profiles that are of a certain social network.  You may send multiple as a comma-separated list.  This is currently unavailable and in development.
-        - schema:
-            type: string
-            enum:
-              - active
-              - authorizationRequired
-              - disabled
-          in: query
-          name: 'filter[status]'
-          description: Returns only the Social Profiles having one of the specified statuses. You may send multiple as a comma-separated list.  This is currently unavailable and in development.
+          name: 'page[limit]'
+          description: The maximum number of Social Profiles you would like to return.
       tags:
         - Social Profiles
   /messages:

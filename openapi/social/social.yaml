@@ -70,7 +70,7 @@ paths:
       tags:
         - Social Profiles
       x-lifecycle:
-        Status: Trusted Tester
+        status: trustedTester
     options:
       summary: ''
       operationId: options-socialProfiles
@@ -81,6 +81,8 @@ paths:
       tags:
         - Options
         - Social Profiles
+      x-lifecycle:
+        status: trustedTester
 components:
   securitySchemes:
     JWT:
@@ -106,6 +108,8 @@ components:
         An entity that contains the information of a connected account or page with a social network.
       x-tags:
         - Social Profiles
+      x-lifecycle:
+        status: trustedTester
       properties:
         type:
           type: string
@@ -136,7 +140,7 @@ components:
                 - instagram
             status:
               type: string
-              description: A string enum that describes the current status of this Social Profile.
+              description: 'A string enum that describes the current state of this Social Profile. This may include possibilities like needing user reauthentication, or being disabled due to edition changes.'
               enum:
                 - disabled
                 - active
@@ -165,8 +169,6 @@ components:
             - businessLocation
       required:
         - type
-      x-lifecycle:
-        Status: Trusted Tester
 tags:
   - name: Social Profiles
   - name: Options

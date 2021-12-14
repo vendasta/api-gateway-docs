@@ -47,18 +47,18 @@ paths:
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
 
-        This endpoint returns Social Profile data for the given BusinessLocation.
+        This endpoint returns Social Profile data for the given BusinessLocation. At least one filter is required to call this endpoint unless you have an existing cursor.
       parameters:
         - schema:
             type: string
           in: query
           name: 'filter[businessLocation.id]'
           description: Returns all Social Profiles for the given Business Location.
-          required: true
         - schema:
             type: string
           in: query
           name: 'page[cursor]'
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
         - schema:
             type: string
           in: query
@@ -66,6 +66,15 @@ paths:
           description: The maximum number of Social Profiles you would like to return.
       tags:
         - Social Profiles
+      x-lifecycle:
+        Status: Trusted Tester
+    options:
+      summary: ''
+      operationId: options-socialProfiles
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
 components:
   securitySchemes:
     JWT:
@@ -124,11 +133,8 @@ components:
               description: A string enum that describes the current status of this Social Profile.
               enum:
                 - disabled
-                - authroizationRequired
                 - active
-            statusReason:
-              type: string
-              description: 'If status is not ACTIVE, this will be filled with a string describing steps to fix this. Currently only in proposed stage.'
+                - authorizationRequired
         relationships:
           type: object
           properties:

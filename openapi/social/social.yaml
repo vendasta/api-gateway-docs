@@ -51,6 +51,7 @@ paths:
       parameters:
         - schema:
             type: string
+            example: AG-12345
           in: query
           name: 'filter[businessLocation.id]'
           description: Returns all Social Profiles for the given Business Location.
@@ -60,7 +61,8 @@ paths:
           name: 'page[cursor]'
           description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
         - schema:
-            type: string
+            type: integer
+            example: '20'
           in: query
           name: 'page[limit]'
           description: The maximum number of Social Profiles you would like to return.
@@ -95,7 +97,7 @@ components:
       title: Social Profile
       type: object
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         An entity that contains the information of a connected account or page with a social network.
       x-tags:
@@ -159,6 +161,8 @@ components:
             - businessLocation
       required:
         - type
+      x-lifecycle:
+        Status: Trusted Tester
 tags:
   - name: Social Profiles
 security:

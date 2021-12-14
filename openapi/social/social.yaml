@@ -1,0 +1,161 @@
+openapi: 3.1.0
+info:
+  title: Social
+  version: Evergreen
+  description: These APIs allow users to use Vendasta's social capabilities. All the endpoints require either the `social` or `business` scopes to be accessed.
+servers:
+  - url: 'https://prod.apigateway.co/products/social'
+    description: Production
+  - url: 'https://demo.apigateway.co/products/social'
+    description: Demo
+  - url: 'http://localhost:3000/products/social'
+    description: Local
+  - description: Localhost
+    url: '{local}/products/social'
+paths:
+  /socialProfiles:
+    get:
+      summary: List Social Profiles
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/socialProfiles'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        format: uri
+                        description: Provides a link back to the first page of results.
+                      next:
+                        type: string
+                        format: uri
+                        description: The URI at which the next page of results can be gotten from.
+      operationId: get-socialProfiles
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+
+        This endpoint returns Social Profile data for the given BusinessLocation.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: 'filter[businessLocation.id]'
+          description: Returns all Social Profiles for the given Business Location.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'page[cursor]'
+        - schema:
+            type: string
+          in: query
+          name: 'page[limit]'
+          description: The maximum number of Social Profiles you would like to return.
+      tags:
+        - Social Profiles
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          scopes:
+            business: Read-write access to business details
+            social: Read-write access to Social Marketing APIs
+  schemas:
+    socialProfiles:
+      title: Social Profile
+      type: object
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        An entity that contains the information of a connected account or page with a social network.
+      x-tags:
+        - Social Profiles
+      properties:
+        type:
+          type: string
+          default: socialProfiles
+        id:
+          type: string
+          example: FBU-117641035298609261021
+          description: The unique id for this Social Profile.
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              example: John's Delivery
+              description: The name of this profile.
+            avatarUrl:
+              type: string
+              description: The link to an url for the avatar image of this profile.
+            socialNetwork:
+              type: string
+              description: A string enum representing which social network this Social Profile is on.
+              enum:
+                - facebook
+                - twitter
+                - gmb
+                - linkedinCompany
+                - linkedinUser
+                - instagram
+            status:
+              type: string
+              description: A string enum that describes the current status of this Social Profile.
+              enum:
+                - disabled
+                - authroizationRequired
+                - active
+            statusReason:
+              type: string
+              description: 'If status is not ACTIVE, this will be filled with a string describing steps to fix this. Currently only in proposed stage.'
+        relationships:
+          type: object
+          properties:
+            businessLocation:
+              type: object
+              description: The business location that is allowed to post to this socialProfile.
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      default: businessLocations
+                      readOnly: true
+                    id:
+                      type: string
+                      example: AG-12AB5
+                  required:
+                    - type
+                    - id
+          required:
+            - businessLocation
+      required:
+        - type
+tags:
+  - name: Social Profiles
+security:
+  - OAuth2:
+      - business
+      - social

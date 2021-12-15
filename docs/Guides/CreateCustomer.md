@@ -26,6 +26,7 @@ title: Request
   },
   "body": {
     "data": {
+      "type": "customers",
       "attributes": {
         "givenName": "William",
         "familyName": "Smith",

@@ -111,11 +111,14 @@ If a customer with a matching email or phone number already exists in Vendasta's
 {
     "errors": [
         {
-              "status": 409,
-              "title": "Conflict",
-              "details": "A Customer with the phone number +13065551234 already exists",
+              "status": "409",
+              "title": "Already exists",
+              "details": "A customers already exists with matching values",
               "meta": {
-                "conflictingCustomerId": "AG-123:CUSTOMER-456"
+                "conflictingCustomerId": "AG-123:CUSTOMER-456",
+                "field": "emailAddresses",
+                "fieldValue": "example@email.com",
+                "resourceType": "customers"
               }
         }
     ],

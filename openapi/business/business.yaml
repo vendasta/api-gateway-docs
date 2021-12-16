@@ -37,42 +37,76 @@ paths:
                 x-examples:
                   example-1:
                     errors:
-                      - status: 409
-                        title: Conflict
-                        details: A Customer with the phone number +13065551234 already exists
+                      - code: ResourceAlreadyExists
+                        title: Already exists
+                        detail: A customers already exists with matching values
+                        status: '409'
                         meta:
-                          conflictingCustomerId: 'AG-123:CUSTOMER-123'
+                          conflictingCustomerID: CUSTOMER-7e5cda73-1d01-42ee-a44a-622b8c3c7c04
+                          field: emailAddresses
+                          fieldValue: tdewald+test@vendasta.com
+                          resourceType: customers
                     meta:
-                      requestId: '123'
+                      requestId: pLSjFbcXoEFfRsWx
+                    links:
+                      self:
+                        href: /business/customers
                 additionalProperties: false
                 properties:
                   errors:
                     type: array
                     uniqueItems: false
+                    minItems: 1
                     items:
                       type: object
                       additionalProperties: false
                       properties:
-                        status:
-                          type: number
-                          default: 409
+                        code:
+                          type: string
+                          default: ResourceAlreadyExists
+                          example: ResourceAlreadyExists
+                          readOnly: true
                         title:
                           type: string
-                          default: Conflict
+                          default: Already exists
+                          example: Already exists
                           readOnly: true
-                        details:
+                        detail:
                           type: string
-                          example: A Customer with the phone number +13065551234 already exists
-                          description: Information on how the attempted customer creation conflicts with an existing customer record's email or phone number.
+                          default: A customers already exists with matching values
+                          example: A customers already exists with matching values
+                          readOnly: true
+                        status:
+                          type: string
+                          default: '409'
+                          example: '409'
                           readOnly: true
                         meta:
                           type: object
                           additionalProperties: false
                           properties:
-                            conflictingCustomerId:
+                            conflictingCustomerID:
                               type: string
                               example: CUSTOMER-123
-                              description: The ID of the existing customer record.
+                              description: The ID of the customer record with a matching email or phone number
+                              readOnly: true
+                            field:
+                              type: string
+                              enum:
+                                - phoneNumbers
+                                - emailAddresses
+                              example: emailAddresses
+                              description: The field that contains the matching value
+                              readOnly: true
+                            fieldValue:
+                              type: string
+                              example: example@email.com
+                              description: The email or phone number value that matches an existing customer
+                              readOnly: true
+                            resourceType:
+                              type: string
+                              default: customers
+                              example: customers
                               readOnly: true
                           readOnly: true
                       readOnly: true
@@ -83,6 +117,19 @@ paths:
                     properties:
                       requestId:
                         type: string
+                        readOnly: true
+                    readOnly: true
+                  links:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      self:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          href:
+                            type: string
+                            readOnly: true
                         readOnly: true
                     readOnly: true
                 readOnly: true
@@ -126,7 +173,7 @@ paths:
               Example Request:
                 value:
                   data:
-                    type: "customers"
+                    type: customers
                     attributes:
                       givenName: William
                       familyName: Smith

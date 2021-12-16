@@ -1684,8 +1684,6 @@ paths:
               schema:
                 type: string
               description: URL to query the operation status
-        '500':
-          $ref: '#/components/responses/Default-Error'
       description: |-
         This endpoint receives a new account group, including it's custom data. As this operation touches more than one entity internally, we deal with it in an asynchronous way.
 
@@ -2929,6 +2927,44 @@ components:
         Any entity that works with a provider company (two-way communication). These generally have a sustained relationship with the provider company. This may include a potential buyer, an existing client, or a past client that has churned.
       x-tags:
         - Sales Accounts
+      x-examples:
+        example-1:
+          id: AG-1234567
+          type: businessLocations
+          attributes:
+            tags:
+              - string
+            customerIdentifier: string
+            name: string
+            address:
+              line1: 109 8th Street E.
+              line2: Suite 23
+              city: string
+              stateCode: CA
+              zip: string
+              postalCode: S7M 1R3
+              regionCode: CA-SK
+              countryCode: CA
+            phoneNumbers:
+              - string
+            serviceAreaBusiness: true
+            geoCoordinate:
+              latitude: -90
+              longitude: -180
+          relationships:
+            salesPeople:
+              data:
+                - id: string
+                  type: users
+            businessPartner:
+              data:
+                type: partners
+                id: ABC
+            businessCategories:
+              data:
+                - type: businessCategories
+                  id: 'active:diving:freediving'
+            type: salesAccounts
       properties:
         id:
           type: string
@@ -2937,7 +2973,7 @@ components:
           type: string
           default: businessLocations
           enum:
-            - businessLocations
+            - salesAccounts
         attributes:
           type: object
           properties:
@@ -3125,44 +3161,6 @@ components:
                 - salesAccounts
       required:
         - type
-      x-examples:
-        example-1:
-          id: AG-1234567
-          type: businessLocations
-          attributes:
-            tags:
-              - string
-            customerIdentifier: string
-            name: string
-            address:
-              line1: 109 8th Street E.
-              line2: Suite 23
-              city: string
-              stateCode: CA
-              zip: string
-              postalCode: S7M 1R3
-              regionCode: CA-SK
-              countryCode: CA
-            phoneNumbers:
-              - string
-            serviceAreaBusiness: true
-            geoCoordinate:
-              latitude: -90
-              longitude: -180
-          relationships:
-            salesPeople:
-              data:
-                - id: string
-                  type: users
-            businessPartner:
-              data:
-                type: partners
-                id: ABC
-            businessCategories:
-              data:
-                - type: businessCategories
-                  id: 'active:diving:freediving'
-            type: salesAccounts
     accountGroup:
       title: accountGroup
       type: object

@@ -65,35 +65,37 @@ title: Customer Created Response
 If the contact information you provide is valid, it will create a new customer record in Vendasta's system and return the newly created record.
 ```json
 {
-  "type": "customers",
-  "id": "AG-123:CUSTOMER-123",
-  "attributes": {
-    "givenName": "William",
-    "familyName": "Smith",
-        "address": {
-          "streetAddress": "123 Fake St.",
-          "city": "Kalamazoo",
-          "regionCode": "US-MI",
-          "countryCode": "US"
-        },
-    "phoneNumbers": [
-      "+13065551234"
-    ],
-    "emailAddresses": [
-      "example@email.com"
-    ],
-    "tags": [
-      "2021 Christmas Campaign"
-    ],
-    "permissionToContact": true,
-    "createdAt": "2019-08-24T14:15:22Z",
-    "updatedAt": "2019-08-24T14:15:22Z"
-  },
-  "relationships": {
-    "businessLocation": {
-      "data": {
-        "type": "businessLocation",
-        "id": "AG-123"
+  "data": {
+    "type": "customers",
+    "id": "AG-123:CUSTOMER-123",
+    "attributes": {
+      "givenName": "William",
+      "familyName": "Smith",
+      "address": {
+        "streetAddress": "123 Fake St.",
+        "city": "Kalamazoo",
+        "regionCode": "US-MI",
+        "countryCode": "US"
+      },
+      "phoneNumbers": [
+        "+13065551234"
+      ],
+      "emailAddresses": [
+        "example@email.com"
+      ],
+      "tags": [
+        "2021 Christmas Campaign"
+      ],
+      "permissionToContact": true,
+      "createdAt": "2019-08-24T14:15:22Z",
+      "updatedAt": "2019-08-24T14:15:22Z"
+    },
+    "relationships": {
+      "businessLocation": {
+        "data": {
+          "type": "businessLocation",
+          "id": "AG-123"
+        }
       }
     }
   }

@@ -5,7 +5,7 @@ tags: [Social Profiles]
 
 A `Social Profile` represents an account on a social network that has been connected to a specific Business Location in Social Marketing.
 
-> For info on Business Locations see the [Businesses guide](../Accounts.md)
+> For info on Business Locations see the [Businesses guide](../Accounts.md).
 
 ## Setup
 
@@ -32,7 +32,7 @@ title: Request
     "Content-Type": "application/vnd.api+json"
   },
   "query": {
-    "businessLocation.id": "AG-ABCD1234G"
+    "filter[businessLocation.id]": "AG-ABCD1234G"
   }
 }
 ```

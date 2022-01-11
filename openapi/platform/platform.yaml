@@ -3,13 +3,13 @@ info:
   title: Platform REST APIs
   version: Evergreen
 servers:
-  - url: 'https://prod.apigateway.co/platform'
+  - url: "https://prod.apigateway.co/platform"
     description: Production
   - description: Demo
-    url: 'https://demo.apigateway.co/platform'
+    url: "https://demo.apigateway.co/platform"
   - description: Local
-    url: '{local}/platform'
-  - url: 'http://localhost:11001/platform'
+    url: "{local}/platform"
+  - url: "http://localhost:11001/platform"
     description: Localhost
 paths:
   /salesContacts:
@@ -17,7 +17,7 @@ paths:
       summary: Create Sales Contact
       operationId: post-salesContacts
       responses:
-        '201':
+        "201":
           description: Created
           content:
             application/vnd.api+json:
@@ -25,7 +25,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/salesContacts'
+                    $ref: "#/components/schemas/salesContacts"
                   links:
                     type: object
                     properties:
@@ -59,7 +59,7 @@ paths:
               type: object
               properties:
                 data:
-                  $ref: '#/components/schemas/salesContacts'
+                  $ref: "#/components/schemas/salesContacts"
       parameters:
         - schema:
             type: string
@@ -86,11 +86,11 @@ paths:
         - Options
         - Sales Contacts
       summary: List valid HTTP verbs for /salesContacts
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
       responses:
-        '204':
+        "204":
           description: No Content
-  '/salesContacts/{id}':
+  "/salesContacts/{id}":
     parameters:
       - schema:
           type: string
@@ -103,7 +103,7 @@ paths:
       tags:
         - Sales Contacts
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/vnd.api+json:
@@ -111,7 +111,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/salesContacts'
+                    $ref: "#/components/schemas/salesContacts"
                   links:
                     type: object
                     properties:
@@ -138,10 +138,10 @@ paths:
           required: true
     options:
       operationId: options-salesContacts-id
-      summary: 'List valid HTTP verbs for /salesContacts/{id}'
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      summary: "List valid HTTP verbs for /salesContacts/{id}"
+      description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
       responses:
-        '204':
+        "204":
           description: No Content
       tags:
         - Options
@@ -151,7 +151,7 @@ paths:
       summary: Create Business Location
       operationId: post-businessLocations
       responses:
-        '201':
+        "201":
           description: Created
           content:
             application/vnd.api+json:
@@ -159,7 +159,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/businessLocations'
+                    $ref: "#/components/schemas/businessLocations"
                   links:
                     type: object
                     properties:
@@ -180,7 +180,7 @@ paths:
               type: object
               properties:
                 data:
-                  $ref: '#/components/schemas/businessLocations'
+                  $ref: "#/components/schemas/businessLocations"
       x-lifecycle:
         status: trustedTester
       description: |-
@@ -219,9 +219,9 @@ paths:
     options:
       operationId: options-businessLocations
       summary: List valid HTTP verbs for /businessLocations
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
       responses:
-        '204':
+        "204":
           description: No Content
       tags:
         - Options
@@ -230,7 +230,7 @@ paths:
       summary: List Business Locations
       operationId: get-businessLocations
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/vnd.api+json:
@@ -240,7 +240,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/businessLocations'
+                      $ref: "#/components/schemas/businessLocations"
                   links:
                     type: object
                     properties:
@@ -269,19 +269,19 @@ paths:
         - schema:
             type: string
           in: query
-          name: 'filter[businessPartner.id]'
+          name: "filter[businessPartner.id]"
           description: Return business locations for the specified partner
           required: true
         - schema:
             type: string
           in: query
           description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
-          name: 'page[cursor]'
+          name: "page[cursor]"
         - schema:
             type: string
           in: query
           description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
-          name: 'page[limit]'
+          name: "page[limit]"
       security:
         - OAuth2:
             - business
@@ -289,7 +289,7 @@ paths:
         - Business Locations
       x-lifecycle:
         status: trustedTester
-  '/businessLocations/{id}':
+  "/businessLocations/{id}":
     parameters:
       - schema:
           type: string
@@ -301,7 +301,7 @@ paths:
       tags:
         - Business Locations
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/vnd.api+json:
@@ -309,7 +309,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/businessLocations'
+                    $ref: "#/components/schemas/businessLocations"
                   links:
                     type: object
                     properties:
@@ -336,10 +336,10 @@ paths:
             - business
     options:
       operationId: options-businessLocations-id
-      summary: 'List valid HTTP verbs for /businessLocations/{id}'
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      summary: "List valid HTTP verbs for /businessLocations/{id}"
+      description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
       responses:
-        '204':
+        "204":
           description: No Content
       tags:
         - Options
@@ -378,7 +378,7 @@ paths:
         - OAuth2:
             - business
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/vnd.api+json:
@@ -386,7 +386,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/businessLocations'
+                    $ref: "#/components/schemas/businessLocations"
                   links:
                     type: object
                     properties:
@@ -402,13 +402,13 @@ paths:
               type: object
               properties:
                 data:
-                  $ref: '#/components/schemas/businessLocations'
+                  $ref: "#/components/schemas/businessLocations"
   /users:
     post:
       summary: Create User
       operationId: post-users
       responses:
-        '201':
+        "201":
           description: Created
           content:
             application/vnd.api+json:
@@ -416,7 +416,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/users'
+                    $ref: "#/components/schemas/users"
                   links:
                     type: object
                     properties:
@@ -437,7 +437,7 @@ paths:
               type: object
               properties:
                 data:
-                  $ref: '#/components/schemas/users'
+                  $ref: "#/components/schemas/users"
       x-lifecycle:
         status: trustedTester
       description: |-
@@ -474,9 +474,9 @@ paths:
     options:
       operationId: options-users
       summary: List valid HTTP verbs for /users
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
       responses:
-        '204':
+        "204":
           description: No Content
       tags:
         - Options
@@ -485,7 +485,7 @@ paths:
       summary: List Users
       operationId: get-users
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/vnd.api+json:
@@ -495,7 +495,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/users'
+                      $ref: "#/components/schemas/users"
                   links:
                     type: object
                     properties:
@@ -524,13 +524,13 @@ paths:
         - schema:
             type: string
           in: query
-          name: 'filter[partner.id]'
+          name: "filter[partner.id]"
           description: Return users for the specified partner. Required except when filtering by id.
         - schema:
             type: string
           in: query
           description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
-          name: 'page[cursor]'
+          name: "page[cursor]"
         - schema:
             type: integer
             minimum: 1
@@ -538,24 +538,24 @@ paths:
             default: 25
           in: query
           description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
-          name: 'page[limit]'
+          name: "page[limit]"
         - schema:
             type: array
-            example: 'U-12342,U-5345'
+            example: "U-12342,U-5345"
             items:
               type: string
           in: query
-          name: 'filter[id]'
+          name: "filter[id]"
           description: A comma separated list of user ids to fetch in a batch
         - schema:
             type: string
           in: query
-          name: 'filter[searchTerm]'
+          name: "filter[searchTerm]"
           description: A string containing a partial name or email address. The results order is not affected by the quality of this match.
         - schema:
             type: string
           in: query
-          name: 'filter[email]'
+          name: "filter[email]"
           description: A string containing a complete email that must be an exact match.
         - schema:
             type: array
@@ -566,8 +566,8 @@ paths:
                 - partner
                 - bot
           in: query
-          name: 'filter[category]'
-          description: 'Filter the users based on the broad category that they fall into. In some rare cases users may be part of multiple categories. '
+          name: "filter[category]"
+          description: "Filter the users based on the broad category that they fall into. In some rare cases users may be part of multiple categories. "
       security:
         - OAuth2:
             - user.admin
@@ -576,7 +576,7 @@ paths:
         - Users
       x-lifecycle:
         status: trustedTester
-  '/users/{id}':
+  "/users/{id}":
     parameters:
       - schema:
           type: string
@@ -588,7 +588,7 @@ paths:
       tags:
         - Users
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/vnd.api+json:
@@ -596,7 +596,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/users'
+                    $ref: "#/components/schemas/users"
                   links:
                     type: object
                     properties:
@@ -621,12 +621,12 @@ paths:
       security:
         - OAuth2:
             - user.admin
-            - 'user.profile:read'
-            - 'user.contact:read'
-            - 'user.permission:read'
+            - "user.profile:read"
+            - "user.contact:read"
+            - "user.permission:read"
             - user.permission
             - self.user.admin
-            - 'self.user.contact:read'
+            - "self.user.contact:read"
             - openid
             - profile
             - email
@@ -634,10 +634,10 @@ paths:
             - address
     options:
       operationId: options-users-id
-      summary: 'List valid HTTP verbs for /users/{id}'
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      summary: "List valid HTTP verbs for /users/{id}"
+      description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
       responses:
-        '204':
+        "204":
           description: No Content
       tags:
         - Options
@@ -676,7 +676,7 @@ paths:
         - OAuth2:
             - user.admin
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/vnd.api+json:
@@ -684,7 +684,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/users'
+                    $ref: "#/components/schemas/users"
                   links:
                     type: object
                     properties:
@@ -700,12 +700,12 @@ paths:
               type: object
               properties:
                 data:
-                  $ref: '#/components/schemas/users'
+                  $ref: "#/components/schemas/users"
     delete:
       summary: Delete User
       operationId: delete-users-id
       responses:
-        '204':
+        "204":
           description: No Content
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
@@ -752,20 +752,20 @@ paths:
         - schema:
             type: string
           in: query
-          name: 'filter[partner.id]'
+          name: "filter[partner.id]"
           description: Only return purchases that for the specified partner
           required: true
         - schema:
             type: string
             format: date-time
           in: query
-          name: 'filter[createdAt][>]'
+          name: "filter[createdAt][>]"
           description: Only return purchases created after the specified time
         - schema:
             type: string
             format: date-time
           in: query
-          name: 'filter[createdAt][<]'
+          name: "filter[createdAt][<]"
           description: Only return purchases created before the specified time
         - schema:
             type: integer
@@ -773,15 +773,15 @@ paths:
             maximum: 100
             default: 10
           in: query
-          name: 'page[limit]'
+          name: "page[limit]"
           description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
         - schema:
             type: string
           in: query
-          name: 'page[cursor]'
+          name: "page[cursor]"
           description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/vnd.api+json:
@@ -791,7 +791,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/purchases'
+                      $ref: "#/components/schemas/purchases"
                   links:
                     type: object
                     properties:
@@ -809,9 +809,9 @@ paths:
     options:
       operationId: options-purchases
       summary: List valid HTTP verbs for /purchases
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
       responses:
-        '204':
+        "204":
           description: No Content
       tags:
         - Options
@@ -846,19 +846,19 @@ paths:
             maximum: 1000
             default: 10
           in: query
-          name: 'page[limit]'
+          name: "page[limit]"
           description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
         - schema:
             type: string
           in: query
-          name: 'page[cursor]'
+          name: "page[cursor]"
           description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
         - schema:
             type: string
           in: header
           name: Accept-Language
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/vnd.api+json:
@@ -868,7 +868,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/businessCategories'
+                      $ref: "#/components/schemas/businessCategories"
                   links:
                     type: object
                     properties:
@@ -886,9 +886,9 @@ paths:
     options:
       operationId: options-businessCategories
       summary: List valid HTTP verbs for /businessCategories
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
       responses:
-        '204':
+        "204":
           description: No Content
       tags:
         - Options
@@ -900,7 +900,7 @@ paths:
         - Orders
       operationId: post-orders
       responses:
-        '201':
+        "201":
           description: Created
           content:
             application/vnd.api+json:
@@ -908,7 +908,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/orders'
+                    $ref: "#/components/schemas/orders"
                   links:
                     type: object
                     properties:
@@ -929,7 +929,7 @@ paths:
               type: object
               properties:
                 data:
-                  $ref: '#/components/schemas/orders'
+                  $ref: "#/components/schemas/orders"
       x-lifecycle:
         status: trustedTester
       description: |-
@@ -960,10 +960,10 @@ paths:
             - order
     options:
       operationId: options-orders
-      summary: 'List valid HTTP verbs for /orders/{id}'
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      summary: "List valid HTTP verbs for /orders/{id}"
+      description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
       responses:
-        '204':
+        "204":
           description: No Content
       tags:
         - Options
@@ -972,7 +972,7 @@ paths:
       summary: List Orders
       operationId: get-orders
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/vnd.api+json:
@@ -982,7 +982,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/orders'
+                      $ref: "#/components/schemas/orders"
                   links:
                     type: object
                     properties:
@@ -1008,18 +1008,18 @@ paths:
         - schema:
             type: string
           in: query
-          name: 'filter[partner.id]'
+          name: "filter[partner.id]"
           description: Return orders for the specified partner
           required: true
         - schema:
             type: string
           in: query
-          name: 'page[cursor]'
+          name: "page[cursor]"
           description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
         - schema:
             type: string
           in: query
-          name: 'page[limit]'
+          name: "page[limit]"
           description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
         - schema:
             type: string
@@ -1031,7 +1031,7 @@ paths:
         - Orders
       x-lifecycle:
         status: trustedTester
-  '/orders/{id}':
+  "/orders/{id}":
     parameters:
       - schema:
           type: string
@@ -1044,7 +1044,7 @@ paths:
       tags:
         - Orders
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/vnd.api+json:
@@ -1052,7 +1052,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/orders'
+                    $ref: "#/components/schemas/orders"
                   links:
                     type: object
                     properties:
@@ -1079,15 +1079,15 @@ paths:
           required: true
     options:
       operationId: options-order-id
-      summary: 'List valid HTTP verbs for /orders/{id}'
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      summary: "List valid HTTP verbs for /orders/{id}"
+      description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
       responses:
-        '204':
+        "204":
           description: No Content
       tags:
         - Options
         - Orders
-  '/users/{id}/relationships/businessLocations':
+  "/users/{id}/relationships/businessLocations":
     parameters:
       - schema:
           type: string
@@ -1096,10 +1096,10 @@ paths:
         required: true
     options:
       operationId: options-users-id-relationships-businessLocations
-      summary: 'List valid HTTP verbs for ''/users/{id}/relationships/businessLocations'''
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      summary: "List valid HTTP verbs for '/users/{id}/relationships/businessLocations'"
+      description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
       responses:
-        '204':
+        "204":
           description: No Content
       tags:
         - Options
@@ -1134,7 +1134,7 @@ paths:
               required:
                 - data
       responses:
-        '201':
+        "201":
           description: Created
           content:
             application/vnd.api+json:
@@ -1142,7 +1142,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/users'
+                    $ref: "#/components/schemas/users"
                   links:
                     type: object
                     properties:
@@ -1181,7 +1181,7 @@ paths:
       summary: Get user locations
       operationId: get-users-id-relationships-businessLocations
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/vnd.api+json:
@@ -1189,7 +1189,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/users'
+                    $ref: "#/components/schemas/users"
                   links:
                     type: object
                     properties:
@@ -1245,7 +1245,7 @@ paths:
               required:
                 - data
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/vnd.api+json:
@@ -1253,7 +1253,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/users'
+                    $ref: "#/components/schemas/users"
                   links:
                     type: object
                     properties:
@@ -1318,7 +1318,7 @@ paths:
               required:
                 - data
       responses:
-        '204':
+        "204":
           description: No Content
       x-lifecycle:
         status: trustedTester
@@ -1356,7 +1356,7 @@ paths:
       tags:
         - Automation Runs
       responses:
-        '202':
+        "202":
           description: Accepted
       operationId: post-autoamtionruns
       security:
@@ -1391,13 +1391,13 @@ paths:
               type: object
               properties:
                 data:
-                  $ref: '#/components/schemas/automationRuns'
+                  $ref: "#/components/schemas/automationRuns"
     options:
       operationId: options-automationruns-id
       summary: List valid HTTP verbs for /automationRuns
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
       responses:
-        '204':
+        "204":
           description: No Content
       tags:
         - Options
@@ -1407,7 +1407,7 @@ paths:
       summary: Create Sales Account
       operationId: post-salesAccounts
       responses:
-        '201':
+        "201":
           description: Created
           content:
             application/vnd.api+json:
@@ -1415,7 +1415,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/salesAccounts'
+                    $ref: "#/components/schemas/salesAccounts"
                   links:
                     type: object
                     properties:
@@ -1436,7 +1436,7 @@ paths:
               type: object
               properties:
                 data:
-                  $ref: '#/components/schemas/salesAccounts'
+                  $ref: "#/components/schemas/salesAccounts"
       x-lifecycle:
         status: proposed
       description: |-
@@ -1475,9 +1475,9 @@ paths:
     options:
       operationId: options-salesAccounts
       summary: List valid HTTP verbs for /salesAccounts
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
       responses:
-        '204':
+        "204":
           description: No Content
       tags:
         - Options
@@ -1486,7 +1486,7 @@ paths:
       summary: List Sales Accounts
       operationId: get-salesAccounts
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/vnd.api+json:
@@ -1496,7 +1496,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/salesAccounts'
+                      $ref: "#/components/schemas/salesAccounts"
                   links:
                     type: object
                     properties:
@@ -1511,6 +1511,50 @@ paths:
                         type: string
                         description: The URI at which the next batch of purchases can be gotten from
                         format: uri
+              examples:
+                example-1:
+                  value:
+                    data:
+                      - id: AG-1234567
+                        type: salesAccounts
+                        attributes:
+                          tags:
+                            - string
+                          customerIdentifier: string
+                          name: string
+                          address:
+                            line1: 109 8th Street E.
+                            line2: Suite 23
+                            city: string
+                            stateCode: CA
+                            zip: string
+                            postalCode: S7M 1R3
+                            regionCode: CA-SK
+                            countryCode: CA
+                          phoneNumbers:
+                            - string
+                          serviceAreaBusiness: true
+                          geoCoordinate:
+                            latitude: -90
+                            longitude: -180
+                        relationships:
+                          salesPeople:
+                            data:
+                              - id: string
+                                type: users
+                          businessPartner:
+                            data:
+                              type: partners
+                              id: ABC
+                          businessCategories:
+                            data:
+                              - type: businessCategories
+                                id: "active:diving:freediving"
+                          type: salesAccounts
+                    links:
+                      self: "http://example.com"
+                      first: "http://example.com"
+                      next: "http://example.com"
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
@@ -1525,19 +1569,19 @@ paths:
         - schema:
             type: string
           in: query
-          name: 'filter[businessPartner.id]'
+          name: "filter[businessPartner.id]"
           description: Return business locations for the specified partner
           required: true
         - schema:
             type: string
           in: query
           description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
-          name: 'page[cursor]'
+          name: "page[cursor]"
         - schema:
             type: string
           in: query
           description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
-          name: 'page[limit]'
+          name: "page[limit]"
       security:
         - OAuth2:
             - sales.account
@@ -1546,7 +1590,7 @@ paths:
       x-lifecycle:
         status: proposed
     parameters: []
-  '/salesAccounts/{id}':
+  "/salesAccounts/{id}":
     parameters:
       - schema:
           type: string
@@ -1556,7 +1600,7 @@ paths:
     get:
       summary: Get Sales Accounts
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/vnd.api+json:
@@ -1564,7 +1608,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/salesAccounts'
+                    $ref: "#/components/schemas/salesAccounts"
                   links:
                     type: object
                     properties:
@@ -1593,10 +1637,10 @@ paths:
         - Sales Accounts
     options:
       operationId: options-salesAccounts-id
-      summary: 'List valid HTTP verbs for /salesAccounts/{id}'
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      summary: "List valid HTTP verbs for /salesAccounts/{id}"
+      description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
       responses:
-        '204':
+        "204":
           description: No Content
       tags:
         - Options
@@ -1635,7 +1679,7 @@ paths:
         - OAuth2:
             - sales.account
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/vnd.api+json:
@@ -1643,7 +1687,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/salesAccounts'
+                    $ref: "#/components/schemas/salesAccounts"
                   links:
                     type: object
                     properties:
@@ -1659,7 +1703,352 @@ paths:
               type: object
               properties:
                 data:
-                  $ref: '#/components/schemas/salesAccounts'
+                  $ref: "#/components/schemas/salesAccounts"
+  "/salesAccounts/{id}/relationships/customData":
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Sales Account Custom Data ID
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: AG-1231231
+                          description: Custom Data ID that is equals to the Sales Account ID
+                        type:
+                          type: string
+                          description: This should always be `salesAccountCustomData`
+                          default: salesAccountCustomData
+                          example: salesAccountCustomData
+                      required:
+                        - id
+                        - type
+              examples:
+                example-1:
+                  value:
+                    links:
+                      related: "http://localhost:11001/platform/salesAccounts/AG-8RWGZ7JVMV/salesAccountCustomData"
+                      self: "http://localhost:11001/platform/salesAccounts/AG-8RWGZ7JVMV/relationships/salesAccountCustomData"
+                    data:
+                      type: salesAccountCustomData
+                      id: AG-123ABC123A
+      operationId: get-salesAccountCustomDataID
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Returns custom metadata about the sales account.
+
+        Attributes can be set up at the partner administration page in Partner Center.
+      security:
+        - OAuth2:
+            - sales.account
+      x-lifecycle:
+        status: proposed
+    options:
+      summary: ""
+      operationId: options-salesAccountCustomData
+      responses:
+        "204":
+          description: No Content
+      description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
+  "/salesAccounts/{id}/customData":
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Sales Account Custom Data
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/salesAccountCustomData"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                      next:
+                        type: string
+                        description: The URI at which the next batch of purchases can be gotten from
+                        format: uri
+              examples:
+                Return Example:
+                  value:
+                    data:
+                      id: AG-123ABC123A
+                      type: salesAccountCustomData
+                      attributes:
+                        partnerFields: {}
+      operationId: get-salesAccountCustomData
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Returns custom metadata about the sales account.
+
+        Attributes can be set up at the partner administration page in Partner Center.
+      security:
+        - OAuth2:
+            - sales.account
+      x-lifecycle:
+        status: proposed
+    options:
+      summary: ""
+      operationId: options-salesAccountCustomData
+      responses:
+        "204":
+          description: No Content
+      description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
+  /salesAccountCustomData:
+    post:
+      summary: Create custom data for a sales account
+      operationId: post-sales-account-id-salesAccountCustomData
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: "#/components/schemas/salesAccountCustomData"
+              required:
+                - data
+            examples:
+              "Example with String, Date and Integer":
+                value:
+                  data:
+                    id: AG-123ABC123A
+                    type: salesAccountCustomData
+                    attributes:
+                      partnerFields: {}
+      responses:
+        "201":
+          description: Created
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/salesAccountCustomData"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+              examples:
+                Return example:
+                  value:
+                    data:
+                      id: AG-123ABC123A
+                      type: salesAccountCustomData
+                      attributes:
+                        customDataFields:
+                          FieldID-12345678-90ab-cdef-1234-567890abcdef:
+                            title: ""
+                            description: ""
+                            value: a string value
+                          FieldID-fedcba09-8765-4321-fedc-ba0987654321:
+                            title: ""
+                            description: ""
+                            value: "2021-11-10T06:00:00Z"
+                          FieldID-98765432-10ab-cdef-9876-543210abcdef:
+                            title: ""
+                            description: ""
+                            value: 123
+                      relationships:
+                        salesAccountPartner:
+                          data:
+                            id: XPTO
+                            type: partners
+                    links:
+                      self: string
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Custom Data are an additional information attached to a Sales Account
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      security:
+        - OAuth2:
+            - sales.account
+      tags:
+        - Sales Account Custom Data
+  "/salesAccountCustomData/{id}":
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        example: AG-1231231
+        description: The ID of the custom data - Combination of a Sales Account Id (which this custom data is being attached) and the Field Schema ID
+    patch:
+      summary: Update custom data for a sales account
+      operationId: patch-sales-account-id-salesAccountCustomData
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: "#/components/schemas/salesAccountCustomData"
+              required:
+                - data
+            examples:
+              "Example with String, Date and Integer":
+                value:
+                  data:
+                    id: AG-123ABC123A
+                    type: salesAccountCustomData
+                    attributes:
+                      partnerFields: {}
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/salesAccountCustomData"
+              examples:
+                Return Example:
+                  value:
+                    data:
+                      id: AG-123ABC123A
+                      type: salesAccountCustomData
+                      attributes:
+                        partnerFields: {}
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Custom Data are an additional information attached to a Sales Account
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      security:
+        - OAuth2:
+            - sales.account
+      tags:
+        - Sales Account Custom Data
+    get:
+      summary: Get Sales Account Custom Data
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/salesAccountCustomData"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                      next:
+                        type: string
+                        description: The URI at which the next batch of purchases can be gotten from
+                        format: uri
+              examples:
+                Return Example:
+                  value:
+                    data:
+                      id: AG-123ABC123A
+                      type: salesAccountCustomData
+                      attributes:
+                        partnerFields: {}
+      operationId: get-salesAccountCustomData
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Returns custom metadata about the sales account.
+
+        Attributes can be set up at the partner administration page in Partner Center.
+      security:
+        - OAuth2:
+            - sales.account
+      x-lifecycle:
+        status: proposed
+    options:
+      summary: ""
+      operationId: options-salesAccountCustomData-id
+      responses:
+        "204":
+          description: No Content
+      description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
 components:
   securitySchemes:
     JWT:
@@ -1670,24 +2059,24 @@ components:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
-          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          authorizationUrl: "https://sso-api-demo.apigateway.co/oauth2/auth"
+          tokenUrl: "https://sso-api-demo.apigateway.co/oauth2/token"
           scopes:
             sales.contact: Read-write access to sales contact details
             business: Read-write access to business details
             partner: Read-write access to details about your partner
             financial: Read-write access to financial details
             order: Read-write access to order details
-            'user.profile:read': Read access to the profile fields of all categories of users
-            'user.contact:read': 'Read access to the contact info (email, phone, address) of all categories of users'
-            'user.permission:read': 'Read access to the permission info (accessible locations, features and roles) of all categories of users'
-            user.permission: 'Read-write access to the permission info (accessible locations, features and roles) of all categories of users'
+            "user.profile:read": Read access to the profile fields of all categories of users
+            "user.contact:read": "Read access to the contact info (email, phone, address) of all categories of users"
+            "user.permission:read": "Read access to the permission info (accessible locations, features and roles) of all categories of users"
+            user.permission: "Read-write access to the permission info (accessible locations, features and roles) of all categories of users"
             user.admin: Read-write access to manage all users
-            user.list: '''Allows searching for users based on a set of filters. (ex: email, name, category, organization). Without this scope an exact user id is required.'
-            self.user.admin: 'Allows editing the profile, contact info and profile image for the current user.'
-            'self.user.contact:read': 'Read access to the contact info (email, phone, address) of the current user.'
+            user.list: "'Allows searching for users based on a set of filters. (ex: email, name, category, organization). Without this scope an exact user id is required."
+            self.user.admin: "Allows editing the profile, contact info and profile image for the current user."
+            "self.user.contact:read": "Read access to the contact info (email, phone, address) of the current user."
             openid: Allows getting the user id of the current user
-            profile: 'Readonly access to the user profile, including name, locale, and language preferences.'
+            profile: "Readonly access to the user profile, including name, locale, and language preferences."
             email: Allows readonly access to the email of the current user.
             phone: Allows readonly access to the phone numbers of the current user.
             address: Allows readonly access to the address of the current user.
@@ -1713,12 +2102,13 @@ components:
           default: businessLocations
           enum:
             - businessLocations
+          readOnly: true
         attributes:
           type: object
           properties:
             customerIdentifier:
               type: string
-              description: 'A value assigned by the business partner to reference this business location. Customer ID is currently NOT enforced to be unique, and there may be negative side effects to having a duplicate and/or changing a customer ID, specifically around legacy SSO. Use caution when editing a customer ID.'
+              description: "A value assigned by the business partner to reference this business location. Customer ID is currently NOT enforced to be unique, and there may be negative side effects to having a duplicate and/or changing a customer ID, specifically around legacy SSO. Use caution when editing a customer ID."
             name:
               type: string
               description: The common name for this location
@@ -1744,8 +2134,8 @@ components:
                   description: Deprecated - This field has been replaced by regionCode. The two letter state code within the country
                   x-lifecycle:
                     status: deprecated
-                    deprecated: '2021-10-04'
-                    proposedRemoval: '2021-11-04'
+                    deprecated: "2021-10-04"
+                    proposedRemoval: "2021-11-04"
                     description: This field was replaced by regionCode while at the trusted tester phase. It will be removed shortly.
                 zip:
                   type: string
@@ -1753,8 +2143,8 @@ components:
                   description: Deprecated - This field has been renamed postalCode
                   x-lifecycle:
                     status: deprecated
-                    deprecated: '2021-10-04'
-                    proposedRemoval: '2021-11-04'
+                    deprecated: "2021-10-04"
+                    proposedRemoval: "2021-11-04"
                     description: This field was renamed to postalCode while at the trusted tester phase. It will be removed shortly.
                 postalCode:
                   type: string
@@ -1779,7 +2169,7 @@ components:
                     The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
 
                     Examples: CA, US, AU
-                  pattern: '^[A-Z]{2}$'
+                  pattern: "^[A-Z]{2}$"
             phoneNumbers:
               type: array
               description: |-
@@ -1858,12 +2248,10 @@ components:
                         example: businessCategories
                       id:
                         type: string
-                        example: 'active:diving:freediving'
+                        example: "active:diving:freediving"
                     required:
                       - type
                       - id
-      required:
-        - type
     salesContacts:
       title: Sales Contact
       type: object
@@ -1883,7 +2271,7 @@ components:
           default: salesContacts
           enum:
             - salesContacts
-          readOnly: falae
+          readOnly: true
         id:
           type: string
           description: The id will be assigned by the server and must be included on all update requests. Values sent during creation will be ignored.
@@ -1893,12 +2281,12 @@ components:
             givenName:
               type: string
               maxLength: 25
-              description: 'Given name(s) or first name(s) of the contact. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters.'
+              description: "Given name(s) or first name(s) of the contact. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters."
               example: Samantha
             familyName:
               type: string
               maxLength: 25
-              description: 'Surname(s) or last name(s) of the contact. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters.'
+              description: "Surname(s) or last name(s) of the contact. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters."
               example: Smith
             phone:
               type: string
@@ -1921,14 +2309,14 @@ components:
             email:
               type: string
               format: email
-              description: 'Required during creation: The primary email address for the contact'
+              description: "Required during creation: The primary email address for the contact"
               example: sam@example.com
         relationships:
           type: object
           properties:
             businessLocations:
               type: object
-              description: 'Required during creation: The business locations that this contact is for'
+              description: "Required during creation: The business locations that this contact is for"
               properties:
                 data:
                   type: array
@@ -1954,7 +2342,7 @@ components:
                   properties:
                     total:
                       type: integer
-                      description: 'Readonly: The total number of locations connected to this contact'
+                      description: "Readonly: The total number of locations connected to this contact"
                       readOnly: true
                   readOnly: true
       required:
@@ -1968,7 +2356,6 @@ components:
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
         A partner is an organization that has a store filled with products that other organizations can purchase.
-
 
         Partners may fill one or more of the following roles:
         - **Business Partner**: Have a direct billing relationship with SMBs
@@ -1985,7 +2372,7 @@ components:
           type: string
           enum:
             - partners
-          readOnly: false
+          readOnly: true
         attributes:
           type: object
           properties:
@@ -1999,7 +2386,7 @@ components:
           properties:
             parent:
               type: object
-              description: 'The parent partner is the partner that this partner primarily purchases stuff from. '
+              description: "The parent partner is the partner that this partner primarily purchases stuff from. "
               properties:
                 data:
                   type: object
@@ -2025,7 +2412,7 @@ components:
       x-examples:
         example-1:
           id: ABC
-          type: partners
+          type: partner
           attributes:
             name: Mountain Media
           relationships:
@@ -2045,19 +2432,18 @@ components:
 
         Purchases generated by the platform to record the wholesale fees that are charged to a partner for products they sell to their customers. One time fees and each renewal will appear as seperate line items broken out per customer.
 
-
         All amounts will be specified in the minor unit of the purchase's currency. For example in the case of USD that would be cents. For more info on converting between minor and major units see [this wikipedia article](https://en.wikipedia.org/wiki/ISO_4217#Minor_units_of_currency).
       x-tags:
         - Purchases
       properties:
         id:
           type: string
-          description: 'A platform generated identifier for the purchase '
+          description: "A platform generated identifier for the purchase "
         type:
           type: string
           enum:
             - purchases
-          readOnly: false
+          readOnly: true
         attributes:
           type: object
           properties:
@@ -2090,13 +2476,13 @@ components:
               description: The sum of all taxes applied to items of the purchase
             total:
               type: integer
-              description: 'The total amount the purchase is for, accounting for any applied discounts or taxes'
+              description: "The total amount the purchase is for, accounting for any applied discounts or taxes"
             currencyCode:
               type: string
               minLength: 3
               maxLength: 3
               example: CAD
-              description: 'The 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)'
+              description: "The 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)"
             lineItems:
               type: array
               items:
@@ -2160,7 +2546,7 @@ components:
       properties:
         id:
           type: string
-          example: 'AG-1234:ORD-1234567'
+          example: "AG-1234:ORD-1234567"
           readOnly: true
         type:
           type: string
@@ -2175,7 +2561,7 @@ components:
               minLength: 3
               maxLength: 3
               example: CAD
-              description: 'The 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)'
+              description: "The 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)"
             lineItems:
               type: array
               items:
@@ -2183,7 +2569,7 @@ components:
                 properties:
                   sku:
                     type: string
-                    description: 'The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md).'
+                    description: "The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md)."
                   quantity:
                     type: integer
                     description: The number of units to ordered
@@ -2225,7 +2611,7 @@ components:
           properties:
             businessLocation:
               type: object
-              description: 'Required during creation: The business location the order is for'
+              description: "Required during creation: The business location the order is for"
               properties:
                 data:
                   type: object
@@ -2243,8 +2629,6 @@ components:
                         - businessLocations
               required:
                 - data
-      required:
-        - type
     businessCategories:
       title: Business Category
       type: object
@@ -2266,6 +2650,7 @@ components:
           default: businessCategories
           enum:
             - businessCategories
+          readOnly: true
         attributes:
           type: object
           properties:
@@ -2273,10 +2658,8 @@ components:
               type: string
               description: A user friendly description for the category. It will have been translated based on the Accept-Language header.
               readOnly: true
-      required:
-        - type
     users:
-      title: Users
+      title: User
       type: object
       x-lifecycle:
         status: proposed
@@ -2289,6 +2672,7 @@ components:
           default: users
           enum:
             - users
+          readOnly: true
         id:
           type: string
           description: |-
@@ -2306,13 +2690,13 @@ components:
               readOnly: true
             givenName:
               type: string
-              description: 'Given name(s) or first name(s) of the End-User. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters.'
+              description: "Given name(s) or first name(s) of the End-User. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters."
               minLength: 0
               maxLength: 20
               example: William
             familyName:
               type: string
-              description: 'Surname(s) or last name(s) of the End-User. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters.'
+              description: "Surname(s) or last name(s) of the End-User. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters."
               minLength: 0
               maxLength: 25
               example: Smith
@@ -2333,7 +2717,7 @@ components:
             emailVerified:
               type: boolean
               default: false
-              description: 'True if the End-User''s e-mail address has been verified; otherwise false. When true affirmative steps to ensure that this e-mail address was controlled by the End-User at the time the verification was performed. '
+              description: "True if the End-User's e-mail address has been verified; otherwise false. When true affirmative steps to ensure that this e-mail address was controlled by the End-User at the time the verification was performed. "
               readOnly: true
             emailSet:
               type: boolean
@@ -2341,7 +2725,7 @@ components:
               readOnly: true
             languageLocaleCode:
               type: string
-              pattern: '^[a-z]{2}-[A-Z]{2}$'
+              pattern: "^[a-z]{2}-[A-Z]{2}$"
               example: en-US
               description: |-
                 The local language that content should be displayed to this user in.
@@ -2411,8 +2795,8 @@ components:
                   description: Deprecated - This field has been renamed line1
                   x-lifecycle:
                     status: deprecated
-                    deprecated: '2021-10-04'
-                    proposedRemoval: '2021-11-04'
+                    deprecated: "2021-10-04"
+                    proposedRemoval: "2021-11-04"
                     description: This field was renamed to line1 while at the trusted tester phase. It will be removed shortly.
                 additionalAddress:
                   type: string
@@ -2421,12 +2805,12 @@ components:
                   description: Deprecated - This field has been renamed line2. An additional line of information to add after the stree address.
                   x-lifecycle:
                     status: deprecated
-                    deprecated: '2021-10-04'
-                    proposedRemoval: '2021-11-04'
+                    deprecated: "2021-10-04"
+                    proposedRemoval: "2021-11-04"
                     description: This field was renamed to line2 while at the trusted tester phase. It will be removed shortly.
                 city:
                   type: string
-                  description: 'The city, town or locality component of an address.'
+                  description: "The city, town or locality component of an address."
                   example: Saskatoon
                 postalCode:
                   type: string
@@ -2451,12 +2835,12 @@ components:
                     The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
 
                     Examples: CA, US, AU
-                  pattern: '^[A-Z]{2}$'
+                  pattern: "^[A-Z]{2}$"
             profileImage:
               type: string
               format: uri
               description: A photo that can be used to represent this user. If the user does not have a custom image set a default image will be returned.
-              example: 'https://storage.googleapis.com/wordpress-www-vendasta/vw-wordpress/Brendan-King-1.jpg'
+              example: "https://storage.googleapis.com/wordpress-www-vendasta/vw-wordpress/Brendan-King-1.jpg"
               readOnly: true
             timeZone:
               type: string
@@ -2473,7 +2857,7 @@ components:
             updatedAt:
               type: string
               format: date-time
-              description: 'The time at which the user’s profile was last updated. Note: Changes to permissions will not affect this field.'
+              description: "The time at which the user’s profile was last updated. Note: Changes to permissions will not affect this field."
               readOnly: true
         relationships:
           type: object
@@ -2545,31 +2929,29 @@ components:
                       id:
                         type: string
                         enum:
-                          - 'pc:access'
-                          - 'pc:canCustomizeWhitelabel'
-                          - 'pc:canAccessBilling'
-                          - 'pc:canManageSales'
-                          - 'pc:canManageAccounts'
-                          - 'pc:canManageTasks'
-                          - 'pc:canAccessBrands'
-                          - 'pc:canAccessMarketing'
-                          - 'pc:canAccessDashboard'
-                          - 'pc:canAccessOrders'
-                          - 'pc:canManageAdmins'
-                          - 'pc:canAccessMarketplace'
-                          - 'pc:canEnableApps'
-                          - 'pc:canAccessCompanyProfile'
-                          - 'pc:canAccessAutomations'
-                          - 'ssc:access'
-                          - 'ssc:manage'
-                          - 'tm:access'
-                          - 'tm:manage'
-                        description: 'The platform access functionality is still at a `proposed` status. Not all options are currently available. '
+                          - "pc:access"
+                          - "pc:canCustomizeWhitelabel"
+                          - "pc:canAccessBilling"
+                          - "pc:canManageSales"
+                          - "pc:canManageAccounts"
+                          - "pc:canManageTasks"
+                          - "pc:canAccessBrands"
+                          - "pc:canAccessMarketing"
+                          - "pc:canAccessDashboard"
+                          - "pc:canAccessOrders"
+                          - "pc:canManageAdmins"
+                          - "pc:canAccessMarketplace"
+                          - "pc:canEnableApps"
+                          - "pc:canAccessCompanyProfile"
+                          - "pc:canAccessAutomations"
+                          - "ssc:access"
+                          - "ssc:manage"
+                          - "tm:access"
+                          - "tm:manage"
+                        description: "The platform access functionality is still at a `proposed` status. Not all options are currently available. "
                     required:
                       - type
                       - id
-      required:
-        - type
     automationRuns:
       title: Automation Run
       type: object
@@ -2595,7 +2977,7 @@ components:
           properties:
             automation:
               type: object
-              description: 'A link to the automation definition that is being run. '
+              description: "A link to the automation definition that is being run. "
               required:
                 - data
               properties:
@@ -2633,7 +3015,7 @@ components:
                       pattern: ^AG-
             order:
               type: object
-              description: 'Proposed: A link to the order that this automation is being run for. Either the businessLocation or order is required. (It depends on the automation type.)'
+              description: "Proposed: A link to the order that this automation is being run for. Either the businessLocation or order is required. (It depends on the automation type.)"
               properties:
                 data:
                   type: object
@@ -2645,7 +3027,7 @@ components:
                       default: orders
                     id:
                       type: string
-                      example: 'AG-1234:ORD-1234567'
+                      example: "AG-1234:ORD-1234567"
                   required:
                     - type
                     - id
@@ -2663,7 +3045,6 @@ components:
         Any entity that works with a provider company (two-way communication). These generally have a sustained relationship with the provider company. This may include a potential buyer, an existing client, or a past client that has churned.
       x-tags:
         - Sales Accounts
-      x-examples: {}
       properties:
         id:
           type: string
@@ -2673,6 +3054,7 @@ components:
           default: salesAccounts
           enum:
             - salesAccounts
+          readOnly: true
         attributes:
           type: object
           properties:
@@ -2683,16 +3065,13 @@ components:
               items:
                 type: string
                 maxLength: 30
-                example: tech
-                minLength: 0
+                minLength: 1
             customerIdentifier:
               type: string
-              description: 'A value assigned by the business partner to reference this business location. Customer ID is currently NOT enforced to be unique, and there may be negative side effects to having a duplicate and/or changing a customer ID, specifically around legacy SSO. Use caution when editing a customer ID.'
-              example: external-custom-id-123-123
+              description: "A value assigned by the business partner to reference this business location. Customer ID is currently NOT enforced to be unique, and there may be negative side effects to having a duplicate and/or changing a customer ID, specifically around legacy SSO. Use caution when editing a customer ID."
             name:
               type: string
               description: The common name for this location
-              example: Company Foo Bar
             address:
               type: object
               properties:
@@ -2706,11 +3085,31 @@ components:
                   description: An additional line of information to add after the street address.
                 city:
                   type: string
-                  example: Saskatoon
+                stateCode:
+                  type: string
+                  maxLength: 2
+                  minLength: 2
+                  example: CA
+                  deprecated: true
+                  description: Deprecated - This field has been replaced by regionCode. The two letter state code within the country
+                  x-lifecycle:
+                    status: deprecated
+                    deprecated: "2021-10-04"
+                    proposedRemoval: "2021-11-04"
+                    description: This field was replaced by regionCode while at the trusted tester phase. It will be removed shortly.
+                zip:
+                  type: string
+                  deprecated: true
+                  description: Deprecated - This field has been renamed postalCode
+                  x-lifecycle:
+                    status: deprecated
+                    deprecated: "2021-10-04"
+                    proposedRemoval: "2021-11-04"
+                    description: This field was renamed to postalCode while at the trusted tester phase. It will be removed shortly.
                 postalCode:
                   type: string
                   description: The zip code or postal code component of an address.
-                  example: S7K5T6
+                  example: S7M 1R3
                 regionCode:
                   type: string
                   description: |-
@@ -2730,7 +3129,7 @@ components:
                     The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
 
                     Examples: CA, US, AU
-                  pattern: '^[A-Z]{2}$'
+                  pattern: "^[A-Z]{2}$"
             phoneNumbers:
               type: array
               description: |-
@@ -2775,7 +3174,7 @@ components:
               properties:
                 data:
                   type: array
-                  description: 'A list of the sales people assigned to this account. The first sales person in the list will be treated as the primary sales person and given special treatment. '
+                  description: "A list of the sales people assigned to this account. The first sales person in the list will be treated as the primary sales person and given special treatment. "
                   items:
                     type: object
                     properties:
@@ -2787,6 +3186,27 @@ components:
                         type: string
                         example: users
                         default: users
+                    required:
+                      - id
+                      - type
+              required:
+                - data
+            customData:
+              type: object
+              properties:
+                data:
+                  type: array
+                  description: Custom Data relative to a sales account
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: ID of custom data
+                      type:
+                        type: string
+                        example: customData
+                        default: customData
                     required:
                       - id
                       - type
@@ -2831,12 +3251,104 @@ components:
                         example: businessCategories
                       id:
                         type: string
-                        example: 'active:diving:freediving'
+                        example: "active:diving:freediving"
                     required:
                       - type
                       - id
+            type:
+              type: string
+              example: salesAccounts
+              default: salesAccounts
+              enum:
+                - salesAccounts
+        included:
+          type: array
+          items:
+            $ref: "#/components/schemas/salesAccountCustomData"
+    salesAccountCustomData:
+      title: Custom Data
+      type: object
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Custom data
+      properties:
+        id:
+          type: string
+          example: AG-1231231
+          description: "An identifier for the parent entity, for example salesAccount (AG-1231231)"
+          readOnly: true
+        type:
+          type: string
+          default: salesAccountCustomData
+          enum:
+            - salesAccountCustomData
+        partnerFields:
+          type: array
+          items:
+            type: object
+            properties:
+              fieldID:
+                type: string
+              stringValue:
+                type: string
+              integerValue:
+                type: integer
+              dateValue:
+                type: string
+              title:
+                type: string
+                readOnly: true
+              description:
+                type: string
+                readOnly: true
+              fieldType:
+                type: string
+                example: string
+                enum:
+                  - string
+                  - interger
+                  - date
       required:
+        - id
         - type
+      x-examples:
+        Custom Data with string value Example:
+          id: AG-1231231
+          type: salesAccountCustomData
+          partnerFields:
+            - fieldID: FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99
+              stringValue: A good string value
+              title: Title of abc448ca field
+              description: Description for abc448ca field
+              fieldType: string
+        Custom Data with integer value Example:
+          id: AG-1231231
+          type: salesAccountCustomData
+          partnerFields:
+            - fieldID: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
+              integerValue: 1000
+              title: Title of 123448ca field
+              description: Description for 123448ca field
+              fieldType: integer
+        Custom Data with Date value Example:
+          id: AG-1231231
+          type: salesAccountCustomData
+          partnerFields:
+            - fieldID: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
+              dateValue: A good date value
+              title: Title of 987448ca field
+              description: Description for 987448ca field
+              fieldType: date
+        Custom Data with Dropdown value Example:
+          id: AG-1231231
+          type: salesAccountCustomData
+          partnerFields:
+            - fieldID: FieldID-567448ca-abc0-abc5-abc2-abc640bf4b99
+              dropdownValue: foo
+              title: Title of 567448ca field
+              description: Description for 567448ca field
+              fieldType: dropdown
 tags:
   - name: Automation Runs
   - name: Business Categories

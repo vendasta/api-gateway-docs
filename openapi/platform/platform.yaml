@@ -1423,6 +1423,46 @@ paths:
                         type: string
                         format: uri
                         description: The address of the newly created business location
+              examples:
+                Return Example (with ID):
+                  value:
+                    id: AG-1234567
+                    type: salesAccounts
+                    attributes:
+                      tags:
+                        - tag1
+                        - tag2
+                      customerIdentifier: User-defined-id-123123
+                      name: Company Example
+                      address:
+                        line1: 109 8th Street E.
+                        line2: Suite 23
+                        city: Saskatoon
+                        stateCode: CA
+                        zip: S7M 1R3
+                        postalCode: S7M 1R3
+                        regionCode: CA-SK
+                        countryCode: CA
+                      phoneNumbers:
+                        - "+13068800001"
+                      serviceAreaBusiness: true
+                      geoCoordinate:
+                        latitude: -90
+                        longitude: -180
+                    relationships:
+                      salesPeople:
+                        data:
+                          - id: U-123123-123123
+                            type: users
+                      businessPartner:
+                        data:
+                          type: partners
+                          id: ABC
+                      businessCategories:
+                        data:
+                          - type: businessCategories
+                            id: "active:diving:freediving"
+                      type: salesAccounts
           headers:
             Location:
               schema:
@@ -1437,6 +1477,45 @@ paths:
               properties:
                 data:
                   $ref: "#/components/schemas/salesAccounts"
+            examples:
+              Insert Sales Account Example:
+                value:
+                  type: salesAccounts
+                  attributes:
+                    tags:
+                      - tag1
+                      - tag2
+                    customerIdentifier: User-defined-id-123123
+                    name: Company Example
+                    address:
+                      line1: 109 8th Street E.
+                      line2: Suite 23
+                      city: Saskatoon
+                      stateCode: CA
+                      zip: S7M 1R3
+                      postalCode: S7M 1R3
+                      regionCode: CA-SK
+                      countryCode: CA
+                    phoneNumbers:
+                      - "+13068800001"
+                    serviceAreaBusiness: true
+                    geoCoordinate:
+                      latitude: -90
+                      longitude: -180
+                  relationships:
+                    salesPeople:
+                      data:
+                        - id: U-123123-123123
+                          type: users
+                    businessPartner:
+                      data:
+                        type: partners
+                        id: ABC
+                    businessCategories:
+                      data:
+                        - type: businessCategories
+                          id: "active:diving:freediving"
+                    type: salesAccounts
       x-lifecycle:
         status: proposed
       description: |-
@@ -1512,49 +1591,58 @@ paths:
                         description: The URI at which the next batch of purchases can be gotten from
                         format: uri
               examples:
-                example-1:
+                Return Example:
                   value:
-                    data:
-                      - id: AG-1234567
-                        type: salesAccounts
-                        attributes:
-                          tags:
-                            - string
-                          customerIdentifier: string
-                          name: string
-                          address:
-                            line1: 109 8th Street E.
-                            line2: Suite 23
-                            city: string
-                            stateCode: CA
-                            zip: string
-                            postalCode: S7M 1R3
-                            regionCode: CA-SK
-                            countryCode: CA
-                          phoneNumbers:
-                            - string
-                          serviceAreaBusiness: true
-                          geoCoordinate:
-                            latitude: -90
-                            longitude: -180
-                        relationships:
-                          salesPeople:
-                            data:
-                              - id: string
-                                type: users
-                          businessPartner:
-                            data:
-                              type: partners
-                              id: ABC
-                          businessCategories:
-                            data:
-                              - type: businessCategories
-                                id: "active:diving:freediving"
-                          type: salesAccounts
-                    links:
-                      self: "http://example.com"
-                      first: "http://example.com"
-                      next: "http://example.com"
+                    id: AG-1234567
+                    type: salesAccounts
+                    attributes:
+                      tags:
+                        - tag1
+                        - tag2
+                      customerIdentifier: User-defined-id-123123
+                      name: Company Example
+                      address:
+                        line1: 109 8th Street E.
+                        line2: Suite 23
+                        city: Saskatoon
+                        stateCode: CA
+                        zip: S7M 1R3
+                        postalCode: S7M 1R3
+                        regionCode: CA-SK
+                        countryCode: CA
+                      phoneNumbers:
+                        - "+13068800001"
+                      serviceAreaBusiness: true
+                      geoCoordinate:
+                        latitude: -90
+                        longitude: -180
+                    relationships:
+                      salesPeople:
+                        data:
+                          - id: U-123123-123123
+                            type: users
+                      customData:
+                        data:
+                          - id: AG-1234567
+                            type: customData
+                      businessPartner:
+                        data:
+                          type: partners
+                          id: ABC
+                      businessCategories:
+                        data:
+                          - type: businessCategories
+                            id: "active:diving:freediving"
+                      type: salesAccounts
+                    included:
+                      - id: AG-1231231
+                        type: salesAccountCustomData
+                        partnerFields:
+                          - fieldID: FieldID-1231231-12312312
+                            stringValue: Text value
+                            title: Title of field FieldID-1231231
+                            description: Description of field FieldID-1231231
+                            fieldType: string
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
@@ -1614,7 +1702,60 @@ paths:
                     properties:
                       self:
                         type: string
-      operationId: get-salesAccounts-id
+              examples:
+                example-1:
+                  value:
+                    id: AG-1234567
+                    type: salesAccounts
+                    attributes:
+                      tags:
+                        - tag1
+                        - tag2
+                      customerIdentifier: User-defined-id-123123
+                      name: Company Example
+                      address:
+                        line1: 109 8th Street E.
+                        line2: Suite 23
+                        city: Saskatoon
+                        stateCode: CA
+                        zip: S7M 1R3
+                        postalCode: S7M 1R3
+                        regionCode: CA-SK
+                        countryCode: CA
+                      phoneNumbers:
+                        - "+13068800001"
+                      serviceAreaBusiness: true
+                      geoCoordinate:
+                        latitude: -90
+                        longitude: -180
+                    relationships:
+                      salesPeople:
+                        data:
+                          - id: U-123123-123123
+                            type: users
+                      customData:
+                        data:
+                          - id: AG-1234567
+                            type: customData
+                      businessPartner:
+                        data:
+                          type: partners
+                          id: ABC
+                      businessCategories:
+                        data:
+                          - type: businessCategories
+                            id: "active:diving:freediving"
+                      type: salesAccounts
+                    included:
+                      - id: AG-1231231
+                        type: salesAccountCustomData
+                        partnerFields:
+                          - fieldID: FieldID-1231231-12312312
+                            stringValue: Text value
+                            title: Title of field FieldID-1231231
+                            description: Description of field FieldID-1231231
+                            fieldType: string
+      operationId: get-salesAccounts-by-id
       x-lifecycle:
         status: proposed
       description: |-
@@ -1636,7 +1777,7 @@ paths:
       tags:
         - Sales Accounts
     options:
-      operationId: options-salesAccounts-id
+      operationId: options-salesAccounts-by-id
       summary: "List valid HTTP verbs for /salesAccounts/{id}"
       description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
       responses:
@@ -1647,7 +1788,7 @@ paths:
         - Sales Accounts
     patch:
       summary: Update Sales Account
-      operationId: patch-salesAccounts-id
+      operationId: patch-salesAccounts-by-id
       tags:
         - Sales Accounts
       description: |-
@@ -1695,6 +1836,46 @@ paths:
                         type: string
                         format: uri
                         description: The address of the updated business location
+              examples:
+                example-1:
+                  value:
+                    id: AG-1234567
+                    type: salesAccounts
+                    attributes:
+                      tags:
+                        - tag1
+                        - tag2
+                      customerIdentifier: User-defined-id-123123
+                      name: Company Example
+                      address:
+                        line1: 109 8th Street E.
+                        line2: Suite 23
+                        city: Saskatoon
+                        stateCode: CA
+                        zip: S7M 1R3
+                        postalCode: S7M 1R3
+                        regionCode: CA-SK
+                        countryCode: CA
+                      phoneNumbers:
+                        - "+13068800001"
+                      serviceAreaBusiness: true
+                      geoCoordinate:
+                        latitude: -90
+                        longitude: -180
+                    relationships:
+                      salesPeople:
+                        data:
+                          - id: U-123123-123123
+                            type: users
+                      businessPartner:
+                        data:
+                          type: partners
+                          id: ABC
+                      businessCategories:
+                        data:
+                          - type: businessCategories
+                            id: "active:diving:freediving"
+                      type: salesAccounts
           headers: {}
       requestBody:
         content:
@@ -1704,6 +1885,46 @@ paths:
               properties:
                 data:
                   $ref: "#/components/schemas/salesAccounts"
+            examples:
+              example-1:
+                value:
+                  id: AG-1234567
+                  type: salesAccounts
+                  attributes:
+                    tags:
+                      - tag1
+                      - tag2
+                    customerIdentifier: User-defined-id-123123
+                    name: Company Example
+                    address:
+                      line1: 109 8th Street E.
+                      line2: Suite 23
+                      city: Saskatoon
+                      stateCode: CA
+                      zip: S7M 1R3
+                      postalCode: S7M 1R3
+                      regionCode: CA-SK
+                      countryCode: CA
+                    phoneNumbers:
+                      - "+13068800001"
+                    serviceAreaBusiness: true
+                    geoCoordinate:
+                      latitude: -90
+                      longitude: -180
+                  relationships:
+                    salesPeople:
+                      data:
+                        - id: U-123123-123123
+                          type: users
+                    businessPartner:
+                      data:
+                        type: partners
+                        id: ABC
+                    businessCategories:
+                      data:
+                        - type: businessCategories
+                          id: "active:diving:freediving"
+                    type: salesAccounts
   "/salesAccounts/{id}/relationships/customData":
     parameters:
       - schema:
@@ -1721,33 +1942,32 @@ paths:
               schema:
                 type: object
                 properties:
+                  links:
+                    type: object
+                    properties:
+                      related:
+                        type: string
+                      self:
+                        type: string
                   data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: string
-                          example: AG-1231231
-                          description: Custom Data ID that is equals to the Sales Account ID
-                        type:
-                          type: string
-                          description: This should always be `salesAccountCustomData`
-                          default: salesAccountCustomData
-                          example: salesAccountCustomData
-                      required:
-                        - id
-                        - type
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: salesAccountCustomData
+                      id:
+                        type: string
+                        example: AG-1234123412
               examples:
-                example-1:
+                Relationship Example:
                   value:
                     links:
-                      related: "http://localhost:11001/platform/salesAccounts/AG-8RWGZ7JVMV/salesAccountCustomData"
-                      self: "http://localhost:11001/platform/salesAccounts/AG-8RWGZ7JVMV/relationships/salesAccountCustomData"
+                      related: "http://example.com/platform/salesAccounts/AG-1234123412/customDatas"
+                      self: "http://example.com/platform/salesAccounts/AG-1234567812/relationships/customDatas"
                     data:
                       type: salesAccountCustomData
-                      id: AG-123ABC123A
-      operationId: get-salesAccountCustomDataID
+                      id: AG-1234123412
+      operationId: get-salesAccountCustomDataID-by-salesAccount
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
@@ -1759,13 +1979,17 @@ paths:
             - sales.account
       x-lifecycle:
         status: proposed
+      tags:
+        - Sales Account Custom Data
     options:
       summary: ""
-      operationId: options-salesAccountCustomData
+      operationId: options-salesAccountCustomDataID-by-salesAccount
       responses:
         "204":
           description: No Content
       description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
+      tags:
+        - Sales Account Custom Data
   "/salesAccounts/{id}/customData":
     parameters:
       - schema:
@@ -1803,11 +2027,26 @@ paths:
                 Return Example:
                   value:
                     data:
-                      id: AG-123ABC123A
+                      id: AG-1231231
                       type: salesAccountCustomData
                       attributes:
-                        partnerFields: {}
-      operationId: get-salesAccountCustomData
+                        partnerFields:
+                          - fieldID: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
+                            integerValue: 1000
+                            title: Title of 123448ca field
+                            description: Description for 123448ca field
+                            fieldType: integer
+                          - fieldID: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
+                            dateValue: A good date value
+                            title: Title of 987448ca field
+                            description: Description for 987448ca field
+                            fieldType: date
+                          - fieldID: FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99
+                            stringValue: A good string value
+                            title: Title of abc448ca field
+                            description: Description for abc448ca field
+                            fieldType: string
+      operationId: get-salesAccountCustomData-by-salesAccount
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
@@ -1819,104 +2058,15 @@ paths:
             - sales.account
       x-lifecycle:
         status: proposed
+      tags:
+        - Sales Account Custom Data
     options:
       summary: ""
-      operationId: options-salesAccountCustomData
+      operationId: options-salesAccountCustomData-by-salesAccount
       responses:
         "204":
           description: No Content
       description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
-  /salesAccountCustomData:
-    post:
-      summary: Create custom data for a sales account
-      operationId: post-sales-account-id-salesAccountCustomData
-      requestBody:
-        content:
-          application/vnd.api+json:
-            schema:
-              type: object
-              properties:
-                data:
-                  $ref: "#/components/schemas/salesAccountCustomData"
-              required:
-                - data
-            examples:
-              "Example with String, Date and Integer":
-                value:
-                  data:
-                    id: AG-123ABC123A
-                    type: salesAccountCustomData
-                    attributes:
-                      partnerFields: {}
-      responses:
-        "201":
-          description: Created
-          content:
-            application/vnd.api+json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: "#/components/schemas/salesAccountCustomData"
-                  links:
-                    type: object
-                    properties:
-                      self:
-                        type: string
-              examples:
-                Return example:
-                  value:
-                    data:
-                      id: AG-123ABC123A
-                      type: salesAccountCustomData
-                      attributes:
-                        customDataFields:
-                          FieldID-12345678-90ab-cdef-1234-567890abcdef:
-                            title: ""
-                            description: ""
-                            value: a string value
-                          FieldID-fedcba09-8765-4321-fedc-ba0987654321:
-                            title: ""
-                            description: ""
-                            value: "2021-11-10T06:00:00Z"
-                          FieldID-98765432-10ab-cdef-9876-543210abcdef:
-                            title: ""
-                            description: ""
-                            value: 123
-                      relationships:
-                        salesAccountPartner:
-                          data:
-                            id: XPTO
-                            type: partners
-                    links:
-                      self: string
-      x-lifecycle:
-        status: proposed
-      description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
-
-        Custom Data are an additional information attached to a Sales Account
-      parameters:
-        - schema:
-            type: string
-            example: Bearer <Access Token>
-            pattern: ^Bearer\s\S+
-          in: header
-          name: Authorization
-          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
-          required: true
-        - schema:
-            type: string
-            default: application/vnd.api+json
-            enum:
-              - application/vnd.api+json
-          in: header
-          name: Content-Type
-          required: true
-          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
-      security:
-        - OAuth2:
-            - sales.account
       tags:
         - Sales Account Custom Data
   "/salesAccountCustomData/{id}":
@@ -1930,7 +2080,7 @@ paths:
         description: The ID of the custom data - Combination of a Sales Account Id (which this custom data is being attached) and the Field Schema ID
     patch:
       summary: Update custom data for a sales account
-      operationId: patch-sales-account-id-salesAccountCustomData
+      operationId: patch-salesAccountCustomData-by-id
       requestBody:
         content:
           application/vnd.api+json:
@@ -1945,10 +2095,16 @@ paths:
               "Example with String, Date and Integer":
                 value:
                   data:
-                    id: AG-123ABC123A
+                    id: AG-1231231
                     type: salesAccountCustomData
                     attributes:
-                      partnerFields: {}
+                      partnerFields:
+                        - fieldID: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
+                          integerValue: 1000
+                        - fieldID: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
+                          dateValue: A good date value
+                        - fieldID: FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99
+                          stringValue: A good string value
       responses:
         "200":
           description: OK
@@ -1963,10 +2119,25 @@ paths:
                 Return Example:
                   value:
                     data:
-                      id: AG-123ABC123A
+                      id: AG-1231231
                       type: salesAccountCustomData
                       attributes:
-                        partnerFields: {}
+                        partnerFields:
+                          - fieldID: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
+                            integerValue: 1000
+                            title: Title of 123448ca field
+                            description: Description for 123448ca field
+                            fieldType: integer
+                          - fieldID: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
+                            dateValue: A good date value
+                            title: Title of 987448ca field
+                            description: Description for 987448ca field
+                            fieldType: date
+                          - fieldID: FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99
+                            stringValue: A good string value
+                            title: Title of abc448ca field
+                            description: Description for abc448ca field
+                            fieldType: string
       x-lifecycle:
         status: proposed
       description: |-
@@ -2026,11 +2197,26 @@ paths:
                 Return Example:
                   value:
                     data:
-                      id: AG-123ABC123A
+                      id: AG-1231231
                       type: salesAccountCustomData
                       attributes:
-                        partnerFields: {}
-      operationId: get-salesAccountCustomData
+                        partnerFields:
+                          - fieldID: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
+                            integerValue: 1000
+                            title: Title of 123448ca field
+                            description: Description for 123448ca field
+                            fieldType: integer
+                          - fieldID: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
+                            dateValue: A good date value
+                            title: Title of 987448ca field
+                            description: Description for 987448ca field
+                            fieldType: date
+                          - fieldID: FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99
+                            stringValue: A good string value
+                            title: Title of abc448ca field
+                            description: Description for abc448ca field
+                            fieldType: string
+      operationId: get-salesAccountCustomData-by-id
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
@@ -2042,13 +2228,17 @@ paths:
             - sales.account
       x-lifecycle:
         status: proposed
+      tags:
+        - Sales Account Custom Data
     options:
       summary: ""
-      operationId: options-salesAccountCustomData-id
+      operationId: options-salesAccountCustomData-by-id
       responses:
         "204":
           description: No Content
       description: "Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user's security. You should not call this operation directly. "
+      tags:
+        - Sales Account Custom Data
 components:
   securitySchemes:
     JWT:
@@ -2271,7 +2461,7 @@ components:
           default: salesContacts
           enum:
             - salesContacts
-          readOnly: false
+          readOnly: true
         id:
           type: string
           description: The id will be assigned by the server and must be included on all update requests. Values sent during creation will be ignored.
@@ -3265,6 +3455,58 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/salesAccountCustomData"
+      x-examples:
+        Sales Account Example:
+          id: AG-1234567
+          type: salesAccounts
+          attributes:
+            tags:
+              - tag1
+              - tag2
+            customerIdentifier: User-defined-id-123123
+            name: Company Example
+            address:
+              line1: 109 8th Street E.
+              line2: Suite 23
+              city: Saskatoon
+              stateCode: CA
+              zip: S7M 1R3
+              postalCode: S7M 1R3
+              regionCode: CA-SK
+              countryCode: CA
+            phoneNumbers:
+              - "+13068800001"
+            serviceAreaBusiness: true
+            geoCoordinate:
+              latitude: -90
+              longitude: -180
+          relationships:
+            salesPeople:
+              data:
+                - id: U-123123-123123
+                  type: users
+            customData:
+              data:
+                - id: AG-1234567
+                  type: customData
+            businessPartner:
+              data:
+                type: partners
+                id: ABC
+            businessCategories:
+              data:
+                - type: businessCategories
+                  id: "active:diving:freediving"
+            type: salesAccounts
+          included:
+            - id: AG-1231231
+              type: salesAccountCustomData
+              partnerFields:
+                - fieldID: FieldID-1231231-12312312
+                  stringValue: Text value
+                  title: Title of field FieldID-1231231
+                  description: Description of field FieldID-1231231
+                  fieldType: string
     salesAccountCustomData:
       title: Custom Data
       type: object
@@ -3275,7 +3517,7 @@ components:
       properties:
         id:
           type: string
-          example: AG-1231231
+          example: AG-1231232
           description: "An identifier for the parent entity, for example salesAccount (AG-1231231)"
           readOnly: true
         type:
@@ -3298,10 +3540,8 @@ components:
                 type: string
               title:
                 type: string
-                readOnly: true
               description:
                 type: string
-                readOnly: true
               fieldType:
                 type: string
                 example: string
@@ -3323,7 +3563,7 @@ components:
               description: Description for abc448ca field
               fieldType: string
         Custom Data with integer value Example:
-          id: AG-1231231
+          id: AG-1231232
           type: salesAccountCustomData
           partnerFields:
             - fieldID: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
@@ -3332,7 +3572,7 @@ components:
               description: Description for 123448ca field
               fieldType: integer
         Custom Data with Date value Example:
-          id: AG-1231231
+          id: AG-1231233
           type: salesAccountCustomData
           partnerFields:
             - fieldID: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
@@ -3341,7 +3581,7 @@ components:
               description: Description for 987448ca field
               fieldType: date
         Custom Data with Dropdown value Example:
-          id: AG-1231231
+          id: AG-1231234
           type: salesAccountCustomData
           partnerFields:
             - fieldID: FieldID-567448ca-abc0-abc5-abc2-abc640bf4b99
@@ -3356,6 +3596,7 @@ tags:
   - name: Users
   - name: Sales Contacts
   - name: Sales Accounts
+  - name: Sales Account Custom Data
   - name: Purchases
   - name: Orders
   - name: Partners

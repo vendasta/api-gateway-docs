@@ -2,6 +2,11 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2022-01-12
+### Sales Account and Sales Account Custom Data REST API added
+Trusted testers now have access to `POST`, `PATCH` and `GET` to Sales Accounts and
+`PATCH` and `GET` for Sales Account Custom Data.
+
 ## 2021-12-14
 ### Social REST API added
 Trusted testers now have access to `GET` endpoint for the following Social Resources:

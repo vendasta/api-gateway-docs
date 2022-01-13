@@ -1,7 +1,8 @@
 ---
 tags: [businesses, businessLocations, contacts]
 ---
-# Businesses
+This is cool.
+
 
 A `Business Location` is the basic record for storing information about an organization that is generally part of their 
 public profile. More sensitive data can be found in related resources. Collectively your sales team may refer to this as an "Account".

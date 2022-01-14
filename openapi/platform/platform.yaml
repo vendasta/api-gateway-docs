@@ -1525,6 +1525,7 @@ paths:
 
         The following members must be populated during creation:
         - `relationships.businessPartner.data.id`
+        - `relationships.salesPeople.data.[].id` - At least one user's id of a sales person must be provided
         - `attributes.name`
         - `attributes.address.countryCode` as well as other address fields based on the norms of the country.
         - `relationships.categories.data.[].id` - At least one category must be provided
@@ -2221,8 +2222,6 @@ paths:
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
         Returns custom metadata about the sales account.
-
-        Attributes can be set up at the partner administration page in Partner Center.
       security:
         - OAuth2:
             - sales.account
@@ -3237,6 +3236,58 @@ components:
         Any entity that works with a provider company (two-way communication). These generally have a sustained relationship with the provider company. This may include a potential buyer, an existing client, or a past client that has churned.
       x-tags:
         - Sales Accounts
+      x-examples:
+        Sales Account Example:
+          id: AG-1234567
+          type: salesAccounts
+          attributes:
+            tags:
+              - tag1
+              - tag2
+            customerIdentifier: User-defined-id-123123
+            name: Company Example
+            address:
+              line1: 109 8th Street E.
+              line2: Suite 23
+              city: Saskatoon
+              stateCode: CA
+              zip: S7M 1R3
+              postalCode: S7M 1R3
+              regionCode: CA-SK
+              countryCode: CA
+            phoneNumbers:
+              - '+13068800001'
+            serviceAreaBusiness: true
+            geoCoordinate:
+              latitude: -90
+              longitude: -180
+          relationships:
+            salesPeople:
+              data:
+                - id: U-123123-123123
+                  type: users
+            customData:
+              data:
+                - id: AG-1234567
+                  type: customData
+            businessPartner:
+              data:
+                type: partners
+                id: ABC
+            businessCategories:
+              data:
+                - type: businessCategories
+                  id: 'active:diving:freediving'
+            type: salesAccounts
+          included:
+            - id: AG-1231231
+              type: salesAccountCustomData
+              partnerFields:
+                - fieldID: FieldID-1231231-12312312
+                  stringValue: Text value
+                  title: Title of field FieldID-1231231
+                  description: Description of field FieldID-1231231
+                  fieldType: string
       properties:
         id:
           type: string
@@ -3373,7 +3424,7 @@ components:
                       id:
                         type: string
                         pattern: ^U-
-                        description: The user id of a salesperson
+                        description: The user id of a salesperson. Can be retrieved using the platform or users endpoint
                       type:
                         type: string
                         example: users
@@ -3394,7 +3445,7 @@ components:
                     properties:
                       id:
                         type: string
-                        description: ID of custom data
+                        description: 'ID of custom data, can be retrived using custom data endpoint'
                       type:
                         type: string
                         example: customData
@@ -3422,6 +3473,7 @@ components:
                     id:
                       type: string
                       example: ABC
+                      description: 'User ID of a salesperson, this can be retrived in the platform or using users endpoint'
               required:
                 - data
             businessCategories:
@@ -3457,103 +3509,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/salesAccountCustomData'
-      x-examples:
-        Sales Account Example:
-          id: AG-1234567
-          type: salesAccounts
-          attributes:
-            tags:
-              - tag1
-              - tag2
-            customerIdentifier: User-defined-id-123123
-            name: Company Example
-            address:
-              line1: 109 8th Street E.
-              line2: Suite 23
-              city: Saskatoon
-              stateCode: CA
-              zip: S7M 1R3
-              postalCode: S7M 1R3
-              regionCode: CA-SK
-              countryCode: CA
-            phoneNumbers:
-              - '+13068800001'
-            serviceAreaBusiness: true
-            geoCoordinate:
-              latitude: -90
-              longitude: -180
-          relationships:
-            salesPeople:
-              data:
-                - id: U-123123-123123
-                  type: users
-            customData:
-              data:
-                - id: AG-1234567
-                  type: customData
-            businessPartner:
-              data:
-                type: partners
-                id: ABC
-            businessCategories:
-              data:
-                - type: businessCategories
-                  id: 'active:diving:freediving'
-            type: salesAccounts
-          included:
-            - id: AG-1231231
-              type: salesAccountCustomData
-              partnerFields:
-                - fieldID: FieldID-1231231-12312312
-                  stringValue: Text value
-                  title: Title of field FieldID-1231231
-                  description: Description of field FieldID-1231231
-                  fieldType: string
     salesAccountCustomData:
       title: Custom Data
       type: object
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Custom data
-      properties:
-        id:
-          type: string
-          example: AG-1231232
-          description: 'An identifier for the parent entity, for example salesAccount (AG-1231231)'
-          readOnly: true
-        type:
-          type: string
-          default: salesAccountCustomData
-          enum:
-            - salesAccountCustomData
-        partnerFields:
-          type: array
-          items:
-            type: object
-            properties:
-              fieldID:
-                type: string
-              stringValue:
-                type: string
-              integerValue:
-                type: integer
-              dateValue:
-                type: string
-              title:
-                type: string
-              description:
-                type: string
-              fieldType:
-                type: string
-                example: string
-                enum:
-                  - string
-                  - interger
-                  - date
-      required:
-        - id
-        - type
+        Custom data associated with a sales account. These attributes should be set up at the partner administration page in Partner Center.
       x-examples:
         Custom Data with string value Example:
           data:
@@ -3620,6 +3582,61 @@ components:
                 title: Title of 567448ca field
                 description: Description for 567448ca field
                 fieldType: dropdown
+      properties:
+        id:
+          type: string
+          example: AG-1231232
+          description: 'An identifier for the parent entity, for example salesAccount (AG-1231231)'
+          readOnly: true
+        type:
+          type: string
+          default: salesAccountCustomData
+          enum:
+            - salesAccountCustomData
+          description: Should always be salesAccountCustomData
+        partnerFields:
+          type: array
+          description: |-
+            List of custom fields.
+            To send a new value each field must have at least the fieldId and its correspondent value.
+            For example a field of type string must have the stringValue attribute filled.
+            string -> stringValue
+            integer -> integerValue
+            date -> dateValue
+          items:
+            type: object
+            properties:
+              fieldID:
+                type: string
+                description: 'Field identifier, can be retrived by listing the attributes'
+              stringValue:
+                type: string
+                description: Required when the field type is 'string'
+              integerValue:
+                type: integer
+                description: Required when the field type is 'integer'
+              dateValue:
+                type: string
+                description: Required when the field type is 'date'
+              title:
+                type: string
+                description: 'The main label for the field, appering in most of UI''s. This field is not read when inserting a value.'
+              description:
+                type: string
+                description: 'A text better explaining the field, it will optionally appears in the UI. This field is not read when inserting a value.'
+              fieldType:
+                type: string
+                example: string
+                enum:
+                  - string
+                  - interger
+                  - date
+                description: 'Shows the type of the field. Its not read when inserting a new value, its value is defined by the schema created in the platform.'
+            required:
+              - fieldID
+      required:
+        - id
+        - type
 tags:
   - name: Automation Runs
   - name: Business Categories

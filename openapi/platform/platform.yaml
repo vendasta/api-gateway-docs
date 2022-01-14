@@ -3315,24 +3315,24 @@ components:
             name:
               type: string
               description: The common name for this location
+              example: CN Tower
             address:
               type: object
               properties:
                 line1:
                   type: string
-                  example: 109 8th Street E.
+                  example: 290 Bremner Blvd
                   description: The primary information. Typically a street address.
                 line2:
                   type: string
-                  example: Suite 23
                   description: An additional line of information to add after the street address.
                 city:
                   type: string
+                  example: Toronto
                 stateCode:
                   type: string
                   maxLength: 2
                   minLength: 2
-                  example: CA
                   deprecated: true
                   description: Deprecated - This field has been replaced by regionCode. The two letter state code within the country
                   x-lifecycle:
@@ -3352,14 +3352,14 @@ components:
                 postalCode:
                   type: string
                   description: The zip code or postal code component of an address.
-                  example: S7M 1R3
+                  example: M5V 3L9
                 regionCode:
                   type: string
                   description: |-
                     The code for the top level subdivision within the country (state/province) as defined by [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) format.
 
                     Examples: CA-SK, US-FL, AG-08, AU-NSW
-                  example: CA-SK
+                  example: ON-SK
                   maxLength: 6
                   minLength: 4
                   pattern: '^[A-Z]{2}-[\w]{1,3}$'
@@ -3386,6 +3386,7 @@ components:
                 You may test the parsibility of a number using https://phonenumbers.temba.io/ All phone numbers are assumed to be in the same country as this business location.
               items:
                 type: string
+                example: '+14168686937'
             serviceAreaBusiness:
               type: boolean
               description: When true the address will be used as the center of the area that this location services instead of being displayed.
@@ -3402,10 +3403,12 @@ components:
                   type: number
                   minimum: -90
                   maximum: 90
+                  example: 43.6425662
                 longitude:
                   type: number
                   minimum: -180
                   maximum: 180
+                  example: -79.3870568
               required:
                 - latitude
                 - longitude

@@ -394,7 +394,7 @@ paths:
                         type: string
                         format: uri
                         description: The address of the updated business location
-          headers: { }
+          headers: {}
       requestBody:
         content:
           application/vnd.api+json:
@@ -541,7 +541,8 @@ paths:
           name: 'page[limit]'
         - schema:
             type: array
-            example: 'U-12342,U-5345'
+            example:
+              - 'U-12342,U-5345'
             items:
               type: string
           in: query
@@ -692,7 +693,7 @@ paths:
                         type: string
                         format: uri
                         description: The address of the updated user
-          headers: { }
+          headers: {}
       requestBody:
         content:
           application/vnd.api+json:
@@ -1096,7 +1097,7 @@ paths:
         required: true
     options:
       operationId: options-users-id-relationships-businessLocations
-      summary: List valid HTTP verbs for '/users/{id}/relationships/businessLocations'
+      summary: 'List valid HTTP verbs for ''/users/{id}/relationships/businessLocations'''
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       responses:
         '204':
@@ -1350,7 +1351,7 @@ paths:
       tags:
         - Users
   /automationRuns:
-    parameters: [ ]
+    parameters: []
     post:
       summary: Create automation run
       tags:
@@ -1517,9 +1518,9 @@ paths:
                           id: 'active:diving:freediving'
                     type: salesAccounts
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Used to record basic data for a new location.
 
@@ -1645,7 +1646,7 @@ paths:
                             description: Description of field FieldID-1231231
                             fieldType: string
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Produces a list of sales accounts
       parameters:
@@ -1671,14 +1672,24 @@ paths:
           in: query
           description: The maximum number of accounts you would like returned in a single batch. Use the links.next member in the response to get the remainder. Any number higher than 25 will be lowered to 25.
           name: 'page[limit]'
+        - schema:
+            type: string
+            enum:
+              - customData
+              - salesPeople
+              - businessCategories
+            uniqueItems: true
+          in: query
+          name: include
+          description: A list of relationships where you would like the related records embedded in the response. This can be used to save a network request.
       security:
         - OAuth2:
             - sales.account
       tags:
         - Sales Accounts
       x-lifecycle:
-        status: proposed
-    parameters: [ ]
+        status: trustedTester
+    parameters: []
   '/salesAccounts/{id}':
     parameters:
       - schema:
@@ -1758,9 +1769,9 @@ paths:
                             fieldType: string
       operationId: get-salesAccounts-by-id
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Returns basic data about the sales account.
       parameters:
@@ -1793,12 +1804,12 @@ paths:
       tags:
         - Sales Accounts
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Update the existing business location.
         Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       parameters:
         - schema:
             type: string
@@ -1877,7 +1888,7 @@ paths:
                           - type: businessCategories
                             id: 'active:diving:freediving'
                       type: salesAccounts
-          headers: { }
+          headers: {}
       requestBody:
         content:
           application/vnd.api+json:
@@ -1972,7 +1983,7 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
-        Returns custom metadata about the sales account.
+        Returns a reference to the custom metadata for this sales account. Use the path without `/relationships/` in it to get the actual data.
 
         Attributes can be set up at the partner administration page in Partner Center.
       security:
@@ -2058,7 +2069,7 @@ paths:
                             fieldType: string
       operationId: get-salesAccountCustomData-by-salesAccount
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Returns custom metadata about the sales account.
 
@@ -2067,7 +2078,7 @@ paths:
         - OAuth2:
             - sales.account
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       tags:
         - Sales Account Custom Data
       parameters:
@@ -2158,9 +2169,9 @@ paths:
                             description: Description for abc448ca field
                             fieldType: string
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Custom Data are an additional information attached to a Sales Account
       parameters:
@@ -2237,14 +2248,14 @@ paths:
                             fieldType: string
       operationId: get-salesAccountCustomData-by-id
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Returns custom metadata about the sales account.
       security:
         - OAuth2:
             - sales.account
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       tags:
         - Sales Account Custom Data
       parameters:
@@ -3172,7 +3183,7 @@ components:
     automationRuns:
       title: Automation Run
       type: object
-      x-examples: { }
+      x-examples: {}
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
@@ -3259,7 +3270,7 @@ components:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Any entity that works with a provider company (two-way communication). These generally have a sustained relationship with the provider company. This may include a potential buyer, an existing client, or a past client that has churned.
+        A Sales Account is used by partners to track their interactions with a Business Location. It contains the public data of a business location plus additional data which is private to the partner.
       x-tags:
         - Sales Accounts
       x-examples:
@@ -3276,8 +3287,6 @@ components:
               line1: 109 8th Street E.
               line2: Suite 23
               city: Saskatoon
-              stateCode: CA
-              zip: S7M 1R3
               postalCode: S7M 1R3
               regionCode: CA-SK
               countryCode: CA
@@ -3355,26 +3364,6 @@ components:
                 city:
                   type: string
                   example: Toronto
-                stateCode:
-                  type: string
-                  maxLength: 2
-                  minLength: 2
-                  deprecated: true
-                  description: Deprecated - This field has been replaced by regionCode. The two letter state code within the country
-                  x-lifecycle:
-                    status: deprecated
-                    deprecated: '2021-10-04'
-                    proposedRemoval: '2021-11-04'
-                    description: This field was replaced by regionCode while at the trusted tester phase. It will be removed shortly.
-                zip:
-                  type: string
-                  deprecated: true
-                  description: Deprecated - This field has been renamed postalCode
-                  x-lifecycle:
-                    status: deprecated
-                    deprecated: '2021-10-04'
-                    proposedRemoval: '2021-11-04'
-                    description: This field was renamed to postalCode while at the trusted tester phase. It will be removed shortly.
                 postalCode:
                   type: string
                   description: The zip code or postal code component of an address.
@@ -3443,10 +3432,10 @@ components:
           properties:
             salesPeople:
               type: object
+              description: 'A list of the sales people assigned to this account. The first sales person in the list will be treated as the primary sales person and given special treatment. '
               properties:
                 data:
                   type: array
-                  description: 'A list of the sales people assigned to this account. The first sales person in the list will be treated as the primary sales person and given special treatment. '
                   items:
                     type: object
                     properties:
@@ -3465,10 +3454,10 @@ components:
                 - data
             customData:
               type: object
+              description: Custom Data relative to a sales account
               properties:
                 data:
                   type: array
-                  description: Custom Data relative to a sales account
                   items:
                     type: object
                     properties:
@@ -3528,23 +3517,26 @@ components:
                     required:
                       - type
                       - id
-            type:
-              type: string
-              example: salesAccounts
-              default: salesAccounts
-              enum:
-                - salesAccounts
         included:
           type: array
+          description: During Get and List operations you may request the related resources be included by using the `include` query parameter. This can save you making an additional network request.
           items:
-            $ref: '#/components/schemas/salesAccountCustomData'
+            discriminator:
+              propertyName: type
+            oneOf:
+              - $ref: '#/components/schemas/salesAccountCustomData'
+              - $ref: '#/components/schemas/users'
+              - $ref: '#/components/schemas/businessCategories'
+          readOnly: true
     salesAccountCustomData:
-      title: Custom Data
+      title: Sales Accounts Custom Data
       type: object
+      x-lifecycle:
+        status: trustedTester
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Custom data associated with a sales account. These attributes should be set up at the partner administration page in Partner Center.
+        Custom data associated with a sales account. These attributes can be managed at Partner Center -> Administration -> Data attributes.
       x-examples:
         Custom Data with string value Example:
           data:
@@ -3572,7 +3564,7 @@ components:
             type: salesAccountCustomData
             partnerFields:
               - fieldID: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
-                dateValue: A good date value
+                dateValue: '2016-01-02T15:04:05Z'
                 title: Title of 987448ca field
                 description: Description for 987448ca field
                 fieldType: date
@@ -3602,7 +3594,7 @@ components:
                 description: Description for 123448ca field
                 fieldType: integer
               - fieldID: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
-                dateValue: A good date value
+                dateValue: '2022-01-02T15:04:05Z'
                 title: Title of 987448ca field
                 description: Description for 987448ca field
                 fieldType: date
@@ -3611,6 +3603,8 @@ components:
                 title: Title of 567448ca field
                 description: Description for 567448ca field
                 fieldType: dropdown
+      x-tags:
+        - Sales Account Custom Data
       properties:
         id:
           type: string
@@ -3626,33 +3620,23 @@ components:
         partnerFields:
           type: array
           description: |-
-            List of custom fields.
+            List of custom fields specific to the partner with a direct relationship to the sales account.
             To send a new value each field must have at least the fieldId and its correspondent value.
             For example a field of type string must have the stringValue attribute filled.
+
             string -> stringValue
+
             integer -> integerValue
+
             date -> dateValue
+
+            Only the fields that you wish to modify need to be sent.
           items:
             type: object
             properties:
               fieldID:
                 type: string
                 description: 'Field identifier, can be retrived by listing the attributes'
-              stringValue:
-                type: string
-                description: Required when the field type is 'string'
-              integerValue:
-                type: integer
-                description: Required when the field type is 'integer'
-              dateValue:
-                type: string
-                description: Required when the field type is 'date'
-              title:
-                type: string
-                description: 'The main label for the field, appering in most of UI''s. This field is not read when inserting a value.'
-              description:
-                type: string
-                description: 'A text better explaining the field, it will optionally appears in the UI. This field is not read when inserting a value.'
               fieldType:
                 type: string
                 example: string
@@ -3661,13 +3645,30 @@ components:
                   - interger
                   - date
                 description: |-
-                  Shows the type of the field. Its not read when inserting a new value, its value is defined by the schema created in the platform.
-
-                  For each type, an associated field must be filled
+                  Indicates which of the value fields to use to read or write the data. It can only be modified from within partner center. 
 
                   string -> stringValue
                   integer -> integerValue
                   date -> dateValue
+                readOnly: true
+              stringValue:
+                type: string
+                description: Required when the field type is `string`
+              integerValue:
+                type: integer
+                description: Required when the field type is `integer`
+              dateValue:
+                type: string
+                description: Required when the field type is `date`
+                format: date-time
+              title:
+                type: string
+                description: 'The main label for the field, appering in most user interfaces that show the value. This field is not read when setting a value.'
+                readOnly: true
+              description:
+                type: string
+                description: 'A longer text explaination of the field, it optionally appears in the UI. This field is not read when setting a value.'
+                readOnly: true
             required:
               - fieldID
       required:

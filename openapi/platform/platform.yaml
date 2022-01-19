@@ -2071,9 +2071,7 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Returns custom metadata about the sales account.
-
-        Attributes can be set up at the partner administration page in Partner Center.
+        This endpoint acts like a alias to '#/paths/salesAccountCustomData/{id}', it returns custom fields about a sales account.
       security:
         - OAuth2:
             - sales.account
@@ -2250,7 +2248,9 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Returns custom metadata about the sales account.
+        Returns custom fields about a sales account.
+
+        Attributes can be set up at the partner administration page in Partner Center.
       security:
         - OAuth2:
             - sales.account
@@ -3442,7 +3442,12 @@ components:
                       id:
                         type: string
                         pattern: ^U-
-                        description: The user id of a salesperson. Can be retrieved using the platform or users endpoint
+                        description: |-
+                          The user id of a salesperson. 
+
+                          Can be retrieved using users endpoint `GET /platform/users?filter[partner.id]=TEST&filter[email]=user@example.com`.
+
+                          For more information access `#/paths/users`
                       type:
                         type: string
                         example: users

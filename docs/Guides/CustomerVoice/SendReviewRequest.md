@@ -156,7 +156,7 @@ type: tab-end
 
 To obtain a customer ID for sending a review request you can access the customer ID from the `data.id` field in a `201 Created` response or the `errors[0].meta.conflictingCustomerId` field in a `409 Conflict` response.
 
-> Our system may require some time to sync a newly created customer for use within other Vendasta products. If you want to send a review request to a newly created customer, you may want to include a wait time of 3000 miliseconds before making a `reviews/reviewRequests` call.
+> Our system may require some time to sync a newly created customer for use within other Vendasta products. If you want to send a review request to a newly created customer, you need to include a wait time of 30000 miliseconds (30 seconds) before making a `reviews/reviewRequests` call.
 
 ## Step 3: Create a Review Request
 <!--
@@ -176,6 +176,7 @@ Using your generated access token in your `Authorization` header, the Vendasta c
   },
   "body": {
      "data": {
+       "type": "reviewRequests",
         "relationships": {
           "customer": {
             "data": {
@@ -204,7 +205,7 @@ title: Example Response
 ```json
 {
   "id": "RQT-00003fa2-bd72-40c2-9101-xxxxxxxxxxxx",
-  "type": "reviewRequest",
+  "type": "reviewRequests",
   "attributes": {
     "requestType": "email",
     "status": "sending",
@@ -215,19 +216,19 @@ title: Example Response
     "customer": {
       "data": {
         "id": "AG-abc123:CUSTOMER-003c26eb-f940-48c6-a5dc-xxxxxxxxxxxx",
-        "type": "customer"
+        "type": "customers"
       }
     },
     "primaryTemplate": {
       "data": {
         "id": "AG-abc123:sms:TEM-d2f4cf1aa7ae480bbf0a2da67dxxxxxx",
-        "type": "template"
+        "type": "templates"
       }
     },
     "fallbackTemplate": {
       "data": {
         "id": "AG-abc123:email:TEM-d2f4cf1aa7ae480bbf0a2da67dxxxxxx",
-        "type": "template"
+        "type": "templates"
       }
     }
   }

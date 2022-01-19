@@ -1622,10 +1622,10 @@ paths:
                         data:
                           - id: U-123123-123123
                             type: users
-                      customData:
+                      customFields:
                         data:
                           - id: AG-1234567
-                            type: customData
+                            type: customFields
                       businessPartner:
                         data:
                           type: partners
@@ -1637,7 +1637,7 @@ paths:
                       type: salesAccounts
                     included:
                       - id: AG-1231231
-                        type: salesAccountCustomData
+                        type: salesAccountCustomFields
                         partnerFields:
                           - fieldID: FieldID-1231231-12312312
                             stringValue: Text value
@@ -1674,7 +1674,7 @@ paths:
         - schema:
             type: string
             enum:
-              - customData
+              - customFields
               - salesPeople
               - businessCategories
             uniqueItems: true
@@ -1744,10 +1744,10 @@ paths:
                         data:
                           - id: U-123123-123123
                             type: users
-                      customData:
+                      customFields:
                         data:
                           - id: AG-1234567
-                            type: customData
+                            type: customFields
                       businessPartner:
                         data:
                           type: partners
@@ -1759,7 +1759,7 @@ paths:
                       type: salesAccounts
                     included:
                       - id: AG-1231231
-                        type: salesAccountCustomData
+                        type: salesAccountCustomFields
                         partnerFields:
                           - fieldID: FieldID-1231231-12312312
                             stringValue: Text value
@@ -1936,7 +1936,7 @@ paths:
                         - type: businessCategories
                           id: 'active:diving:freediving'
                     type: salesAccounts
-  '/salesAccounts/{id}/relationships/customData':
+  '/salesAccounts/{id}/relationships/customFields':
     parameters:
       - schema:
           type: string
@@ -1944,7 +1944,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Get Sales Account Custom Data ID
+      summary: Get Sales Account Custom Fields ID
       responses:
         '200':
           description: OK
@@ -1965,7 +1965,7 @@ paths:
                     properties:
                       type:
                         type: string
-                        example: salesAccountCustomData
+                        example: salesAccountCustomFields
                       id:
                         type: string
                         example: AG-1234123412
@@ -1973,12 +1973,12 @@ paths:
                 Relationship Example:
                   value:
                     links:
-                      related: 'http://example.com/platform/salesAccounts/AG-1234123412/customDatas'
-                      self: 'http://example.com/platform/salesAccounts/AG-1234567812/relationships/customDatas'
+                      related: 'http://example.com/platform/salesAccounts/AG-1234123412/customFields'
+                      self: 'http://example.com/platform/salesAccounts/AG-1234567812/relationships/customFields'
                     data:
-                      type: salesAccountCustomData
+                      type: salesAccountCustomFields
                       id: AG-1234123412
-      operationId: get-salesAccountCustomDataID-by-salesAccount
+      operationId: get-salesAccountCustomFieldsID-by-salesAccount
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
@@ -1991,7 +1991,7 @@ paths:
       x-lifecycle:
         status: proposed
       tags:
-        - Sales Account Custom Data
+        - Sales Account Custom Fields
       parameters:
         - schema:
             type: string
@@ -2003,14 +2003,14 @@ paths:
           required: true
     options:
       summary: ''
-      operationId: options-salesAccountCustomDataID-by-salesAccount
+      operationId: options-salesAccountCustomFieldsID-by-salesAccount
       responses:
         '204':
           description: No Content
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
-        - Sales Account Custom Data
-  '/salesAccounts/{id}/customData':
+        - Sales Account Custom Fields
+  '/salesAccounts/{id}/customFields':
     parameters:
       - schema:
           type: string
@@ -2018,7 +2018,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Get Sales Account Custom Data by Sales Account
+      summary: Get Sales Account Custom Fields by Sales Account
       responses:
         '200':
           description: OK
@@ -2028,7 +2028,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/salesAccountCustomData'
+                    $ref: '#/components/schemas/salesAccountCustomFields'
                   links:
                     type: object
                     properties:
@@ -2048,7 +2048,7 @@ paths:
                   value:
                     data:
                       id: AG-1231231
-                      type: salesAccountCustomData
+                      type: salesAccountCustomFields
                       attributes:
                         partnerFields:
                           - fieldID: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
@@ -2066,18 +2066,18 @@ paths:
                             title: Title of abc448ca field
                             description: Description for abc448ca field
                             fieldType: string
-      operationId: get-salesAccountCustomData-by-salesAccount
+      operationId: get-salesAccountCustomFields-by-salesAccount
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        This endpoint acts like a alias to [Get Sales Account Custom Data by ID endpoint](/platform/branches/np-ag-1371-reform-sales-account/b3A6MzYxMTM5MTY-get-sales-account-custom-data-by-id). It returns custom fields about a sales account.
+        This endpoint acts like a alias to [Get Sales Account Custom Fields by ID endpoint](/platform/branches/np-ag-1371-reform-sales-account/b3A6MzYxMTM5MTY-get-sales-account-custom-data-by-id). It returns custom fields about a sales account.
       security:
         - OAuth2:
             - sales.account
       x-lifecycle:
         status: trustedTester
       tags:
-        - Sales Account Custom Data
+        - Sales Account Custom Fields
       parameters:
         - schema:
             type: string
@@ -2089,14 +2089,14 @@ paths:
           required: true
     options:
       summary: ''
-      operationId: options-salesAccountCustomData-by-salesAccount
+      operationId: options-salesAccountCustomFields-by-salesAccount
       responses:
         '204':
           description: No Content
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
-        - Sales Account Custom Data
-  '/salesAccountCustomData/{id}':
+        - Sales Account Custom Fields
+  '/salesAccountCustomFields/{id}':
     parameters:
       - schema:
           type: string
@@ -2104,10 +2104,10 @@ paths:
         in: path
         required: true
         example: AG-1231231
-        description: The ID of the custom data - Combination of a Sales Account Id (which this custom data is being attached) and the Field Schema ID
+        description: The ID of the Custom Fields - actually the same id of the Sales Account
     patch:
-      summary: Update custom data for a sales account
-      operationId: patch-salesAccountCustomData-by-id
+      summary: Update custom fields for a sales account
+      operationId: patch-salesAccountCustomFields-by-id
       requestBody:
         content:
           application/vnd.api+json:
@@ -2115,7 +2115,7 @@ paths:
               type: object
               properties:
                 data:
-                  $ref: '#/components/schemas/salesAccountCustomData'
+                  $ref: '#/components/schemas/salesAccountCustomFields'
               required:
                 - data
             examples:
@@ -2123,7 +2123,7 @@ paths:
                 value:
                   data:
                     id: AG-1231231
-                    type: salesAccountCustomData
+                    type: salesAccountCustomFields
                     attributes:
                       partnerFields:
                         - fieldID: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
@@ -2141,13 +2141,13 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/salesAccountCustomData'
+                    $ref: '#/components/schemas/salesAccountCustomFields'
               examples:
                 Return Example:
                   value:
                     data:
                       id: AG-1231231
-                      type: salesAccountCustomData
+                      type: salesAccountCustomFields
                       attributes:
                         partnerFields:
                           - fieldID: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
@@ -2170,7 +2170,7 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Custom Data are an additional information attached to a Sales Account
+        Custom Fields are an additional information attached to a Sales Account
       parameters:
         - schema:
             type: string
@@ -2193,9 +2193,9 @@ paths:
         - OAuth2:
             - sales.account
       tags:
-        - Sales Account Custom Data
+        - Sales Account Custom Fields
     get:
-      summary: Get Sales Account Custom Data by ID
+      summary: Get Sales Account Custom Fields by ID
       responses:
         '200':
           description: OK
@@ -2205,7 +2205,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/salesAccountCustomData'
+                    $ref: '#/components/schemas/salesAccountCustomFields'
                   links:
                     type: object
                     properties:
@@ -2225,7 +2225,7 @@ paths:
                   value:
                     data:
                       id: AG-1231231
-                      type: salesAccountCustomData
+                      type: salesAccountCustomFields
                       attributes:
                         partnerFields:
                           - fieldID: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
@@ -2243,7 +2243,7 @@ paths:
                             title: Title of abc448ca field
                             description: Description for abc448ca field
                             fieldType: string
-      operationId: get-salesAccountCustomData-by-id
+      operationId: get-salesAccountCustomFields-by-id
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
@@ -2256,7 +2256,7 @@ paths:
       x-lifecycle:
         status: trustedTester
       tags:
-        - Sales Account Custom Data
+        - Sales Account Custom Fields
       parameters:
         - schema:
             type: string
@@ -2267,13 +2267,13 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
     options:
       summary: ''
-      operationId: options-salesAccountCustomData-by-id
+      operationId: options-salesAccountCustomFields-by-id
       responses:
         '204':
           description: No Content
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
-        - Sales Account Custom Data
+        - Sales Account Custom Fields
 components:
   securitySchemes:
     JWT:
@@ -3300,10 +3300,10 @@ components:
               data:
                 - id: U-123123-123123
                   type: users
-            customData:
+            customFields:
               data:
                 - id: AG-1234567
-                  type: customData
+                  type: customFields
             businessPartner:
               data:
                 type: partners
@@ -3315,7 +3315,7 @@ components:
             type: salesAccounts
           included:
             - id: AG-1231231
-              type: salesAccountCustomData
+              type: salesAccountCustomFields
               partnerFields:
                 - fieldID: FieldID-1231231-12312312
                   stringValue: Text value
@@ -3444,7 +3444,7 @@ components:
                         description: |-
                           The user id of a salesperson. 
 
-                          Can be retrieved using users endpoint `GET /platform/users?filter[partner.id]=TEST&filter[email]=user@example.com`.
+                          TestSalesAccountCustomFields_update/platform/users?filter[partner.id]=TEST&filter[email]=user@example.com`.
 
                           For more information access [GET /platform/users](platform/branches/np-ag-1371-reform-sales-account/b3A6MTMxNTA2NDE-get-user)
                       type:
@@ -3456,9 +3456,9 @@ components:
                       - type
               required:
                 - data
-            customData:
+            customFields:
               type: object
-              description: Custom Data relative to a sales account
+              description: Custom Fields relative to a sales account
               properties:
                 data:
                   type: array
@@ -3467,11 +3467,11 @@ components:
                     properties:
                       id:
                         type: string
-                        description: 'ID of custom data, can be retrived using custom data endpoint'
+                        description: 'ID of custom fields, can be retrived using custom fields endpoint'
                       type:
                         type: string
-                        example: customData
-                        default: customData
+                        example: customFields
+                        default: customFields
                     required:
                       - id
                       - type
@@ -3495,7 +3495,6 @@ components:
                     id:
                       type: string
                       example: ABC
-                      description: 'User ID of a salesperson, this can be retrived in the platform or using users endpoint'
               required:
                 - data
             businessCategories:
@@ -3528,54 +3527,54 @@ components:
             discriminator:
               propertyName: type
             oneOf:
-              - $ref: '#/components/schemas/salesAccountCustomData'
+              - $ref: '#/components/schemas/salesAccountCustomFields'
               - $ref: '#/components/schemas/users'
               - $ref: '#/components/schemas/businessCategories'
           readOnly: true
-    salesAccountCustomData:
-      title: Sales Accounts Custom Data
+    salesAccountCustomFields:
+      title: Sales Accounts Custom Fields
       type: object
       x-lifecycle:
         status: trustedTester
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Custom data associated with a sales account. These attributes can be managed at Partner Center -> Administration -> Data attributes.
+        Custom fields associated with a sales account. These attributes can be managed at Partner Center -> Administration -> Data attributes.
       x-examples:
-        Custom Data with string value Example:
+        Custom Fields with string value Example:
           data:
             id: AG-1231231
-            type: salesAccountCustomData
+            type: salesAccountCustomFields
             partnerFields:
               - fieldID: FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99
                 stringValue: A good string value
                 title: Title of abc448ca field
                 description: Description for abc448ca field
                 fieldType: string
-        Custom Data with integer value Example:
+        Custom Fields with integer value Example:
           data:
             id: AG-1231232
-            type: salesAccountCustomData
+            type: salesAccountCustomFields
             partnerFields:
               - fieldID: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
                 integerValue: 1000
                 title: Title of 123448ca field
                 description: Description for 123448ca field
                 fieldType: integer
-        Custom Data with Date value Example:
+        Custom Fields with Date value Example:
           data:
             id: AG-1231233
-            type: salesAccountCustomData
+            type: salesAccountCustomFields
             partnerFields:
               - fieldID: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
                 dateValue: '2016-01-02T15:04:05Z'
                 title: Title of 987448ca field
                 description: Description for 987448ca field
                 fieldType: date
-        Custom Data Full:
+        Custom Fields Full:
           data:
             id: AG-1231235
-            type: salesAccountCustomData
+            type: salesAccountCustomFields
             partnerFields:
               - fieldID: FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99
                 stringValue: A good string value
@@ -3593,7 +3592,7 @@ components:
                 description: Description for 987448ca field
                 fieldType: date
       x-tags:
-        - Sales Account Custom Data
+        - Sales Account Custom Fields
       properties:
         id:
           type: string
@@ -3602,10 +3601,10 @@ components:
           readOnly: true
         type:
           type: string
-          default: salesAccountCustomData
+          default: salesAccountCustomFields
           enum:
-            - salesAccountCustomData
-          description: Should always be salesAccountCustomData
+            - salesAccountCustomFields
+          description: Should always be salesAccountCustomFields
         partnerFields:
           type: array
           description: |-
@@ -3670,7 +3669,7 @@ tags:
   - name: Users
   - name: Sales Contacts
   - name: Sales Accounts
-  - name: Sales Account Custom Data
+  - name: Sales Account Custom Fields
   - name: Purchases
   - name: Orders
   - name: Partners

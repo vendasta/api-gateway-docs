@@ -52,7 +52,8 @@ This api call has an empty response.
 }
 
 ```
-For more details on this endpoint see [Create Automation Runs](../../../openapi/platform/platform.yaml/paths/~1automationRuns/post).
+For more details on this endpoint see [Create Automation Runs](b3A6MjA0OTU3MTQ-create-automation-run).
+
 
 <!--
 type: tab-end

@@ -2,6 +2,8 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+A demo change
+
 ## 2021-12-14
 ### Social REST API added
 Trusted testers now have access to `GET` endpoint for the following Social Resources:

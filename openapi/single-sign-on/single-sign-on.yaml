@@ -11,31 +11,9 @@ servers:
 paths:
   '/{partnerID}/oauth2/auth':
     get:
-      summary: ''
+      summary: OAuth2 Auth
       operationId: openid-auth
-      responses:
-        '201':
-          description: Created
-          content:
-            application/vnd.api+json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/salesContacts'
-                  links:
-                    type: object
-                    properties:
-                      self:
-                        type: string
-                        format: uri
-                        description: The address of the newly created contact
-          headers:
-            Location:
-              schema:
-                type: string
-                format: uri
-              description: The address of the newly created contact
+      responses: {}
       x-lifecycle:
         status: trustedTester
       description: |-
@@ -107,7 +85,7 @@ paths:
         description: Partner ID providing identity namespacing
   '/{partnerID}/oauth2/logout':
     get:
-      summary: ''
+      summary: OpenID Logout
       operationId: openid-logout
       responses:
         '200':
@@ -148,7 +126,7 @@ paths:
         required: true
         description: Partner ID providing identity namespacing
     post:
-      summary: ''
+      summary: OAuth2 Token
       operationId: openid-token
       responses:
         '200':
@@ -253,9 +231,11 @@ paths:
           in: query
           name: code_verifier
           description: 'When using `authorization_code`: The PKCE code verifier for the `code_challenge` presented to the authorization endpoint starting this flow. This is used to protect against security attacks and should be used by all, but [is required for public clients].'
+      tags:
+        - Single-Sign-On
   /oauth2/user-info:
     get:
-      summary: ''
+      summary: OpenID User Info
       operationId: openid-userinfo
       responses:
         '200':
@@ -331,24 +311,6 @@ paths:
         `email` returns the additional following fields: email and email_verified.
 
         Note: a legacy full-scope token is also allowed access to `profile` at this endpoint. 
-      security: []
-      requestBody:
-        content:
-          application/vnd.api+json:
-            schema:
-              description: ''
-              type: object
-              x-examples:
-                example-1:
-                  sub: '248289761001'
-                  name: Jane Doe
-                  given_name: Jane
-                  family_name: Doe
-                  preferred_username: j.doe
-                  email: janedoe@example.com
-                  picture: 'http://example.com/janedoe/me.jpg'
-            examples: {}
-        description: ''
       parameters:
         - schema:
             type: string

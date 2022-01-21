@@ -44,8 +44,6 @@ paths:
         This endpoint is used for browsers intentful navigation to service with auth by openid connect.
 
         Within the platform an intentful navigation must include: a partner id, a client id (which is associated with a service provider) and a service provider context (example: a specific Business Location id).
-
-        This 
       security: []
       requestBody:
         content:
@@ -115,6 +113,57 @@ paths:
           name: response_type
           required: true
           description: The Open ID authorization response type. Only 'code' is supported.
+      tags:
+        - Single-Sign-On
+    parameters:
+      - schema:
+          type: string
+        name: partnerID
+        in: path
+        required: true
+        description: Partner ID providing identity namespacing
+  '/{partnerID}/oauth2/logout':
+    get:
+      summary: ''
+      operationId: openid-logout
+      responses:
+        '200':
+          description: OK
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Browsers can be directed to this endpoint to logout. This will end the User's Session at Single-Sign-On and Sessions in other services which were accessed using the Single-Sign-On Session.
+      security: []
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+        - schema:
+            type: string
+          in: query
+          name: post_logout_redirect_uri
+          description: 'URI to redirect to after logout. [This must be preregistered (spec), but we do not yet require or allow this].'
+        - schema:
+            type: string
+          in: query
+          name: namespace
+          description: 'Used as the partnerID if the endpoint is called without a partnerID in the path (`/oauth2/token`), and is required when doing so.'
       tags:
         - Single-Sign-On
     parameters:

@@ -18,7 +18,7 @@ Templates control the text and layout of your review request and can be configur
 To obtain a template ID, navigate to the "Templates" tab and select "Edit Template" from the configuration menu of your chosen template. 
 ![Templates list page](./images/edit-template.png)
 
-Scrolling to the bottom of the "Edit Template" page you will see a button for copying the template ID.
+Scrolling to the bottom of the "Edit Template" page you will see a button for copying the template ID. If you do not see this button, contact your support person to enable this or copy the template ID from the URL bar.
 ![Edit template page](./images/copy-template-id.png)
 
 This will copy a string in the form of `TEM-d2f4cf1aa7ae480bbf0a2da67dxxxxxx`.

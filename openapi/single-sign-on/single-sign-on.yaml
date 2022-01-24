@@ -22,6 +22,8 @@ paths:
         This endpoint is used for browsers intentful navigation to service with auth by openid connect.
 
         Within the platform an intentful navigation must include: a partner id, a client id (which is associated with a service provider) and a service provider context (example: a specific Business Location id).
+
+        This operation does not require a token to call, as it is the start of the flow for obtaining tokens for securely calling the Gateway's APIs.
       security: []
       requestBody:
         content:
@@ -96,20 +98,33 @@ paths:
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Browsers can be directed to this endpoint to logout. This will end the User's Session at Single-Sign-On and Sessions in other services which were accessed using the Single-Sign-On Session.
-      security: []
+
+        This operation has no security necessarily, but logout can only act upon a browser's session via the request's `vig_session` cookie.
       parameters:
         - schema:
             type: string
           in: query
           name: post_logout_redirect_uri
-          description: 'URI to redirect to after logout. [This must be preregistered (spec), but we do not yet require or allow this].'
+          description: 'URI to redirect to after logout. [This must be preregistered (spec), but we do not yet require or allow this]. [spec miss: id_token_hint is required when this parameter is used.]'
         - schema:
             type: string
           in: query
           name: namespace
           description: 'Used as the partnerID if the endpoint is called without a partnerID in the path (`/oauth2/token`), and is required when doing so.'
+        - schema:
+            type: string
+          in: cookie
+          name: vig_session
+          description: 'Cookie for a Vendasta Identity Gateway session, stored at namespaced paths.'
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: id_token_hint
+          description: '[spec miss: Identity token of user requesting logout, used to authentically indicate user and service requesting logout. Required if using `post_logout_redirect_uri`.] '
       tags:
         - Single-Sign-On
+      security: []
     parameters:
       - schema:
           type: string
@@ -180,7 +195,7 @@ paths:
                     refresh_token: 8xLOxBtZp8
                     expires_in: 3600
                     id_token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjFlOWdkazcifQ.ewogImlzc yI6ICJodHRwOi8vc2VydmVyLmV4YW1wbGUuY29tIiwKICJzdWIiOiAiMjQ4Mjg5 NzYxMDAxIiwKICJhdWQiOiAiczZCaGRSa3F0MyIsCiAibm9uY2UiOiAibi0wUzZ fV3pBMk1qIiwKICJleHAiOiAxMzExMjgxOTcwLAogImlhdCI6IDEzMTEyODA5Nz AKfQ.ggW8hZ1EuVLuxNuuIJKX_V8a_OMXzR0EHR9R6jgdqrOOF4daGU96Sr_P6q Jp6IcmD3HP99Obi1PRs-cwh3LO-p146waJ8IhehcwL7F09JdijmBqkvPeB2T9CJ NqeGpe-gccMg4vfKjkM8FcGvnzZUN4_KSP0aAp1tOJ1zZwgjxqGByKHiOtX7Tpd QyHE5lcMiKPXfEIQILVq0pc_E2DzL7emopWoaoZTF_m0_N0YzFC6g6EJbOEoRoS K5hoDalrcvRYLSrQAZZKflyuVCyixEoV9GfNQC3_osjzw2PAithfubEEBLuVVk4 XUVrWOLrLl0nx7RkKU8NXNHq-rvKMzqg
-      description: |
+      description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         This is the OpenID Token endpoint, used for obtaining identity (via identity token) and scoped api access (via access tokens).
@@ -190,6 +205,8 @@ paths:
         Scopes of identity and API access must be requested and granted. This is the `authorization_code` grant type.
         2. Presenting a signed assertion JWT, using a client key associated with your user, when acting as the service itself. Scopes are written into the signed assertion JWT or given by query parameter. This is the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant type.
         3. Presenting a refresh token, which acts as a secret that permits your service delegated access even when user is offline from your service. Scopes can be narrowed [but permanently?] from original request. This is the `refresh_token` grant type.
+
+        This operation does not require a token to call, as it is the end of the flow for obtaining tokens for securely calling the Gateway's APIs.
       parameters:
         - schema:
             type: string
@@ -233,6 +250,7 @@ paths:
           description: 'When using `authorization_code`: The PKCE code verifier for the `code_challenge` presented to the authorization endpoint starting this flow. This is used to protect against security attacks and should be used by all, but [is required for public clients].'
       tags:
         - Single-Sign-On
+      security: []
   /oauth2/user-info:
     get:
       summary: OpenID User Info
@@ -311,20 +329,29 @@ paths:
         `email` returns the additional following fields: email and email_verified.
 
         Note: a legacy full-scope token is also allowed access to `profile` at this endpoint. 
-      parameters:
-        - schema:
-            type: string
-            example: Bearer <Access Token>
-            pattern: ^Bearer\s\S+
-          in: header
-          name: Authorization
-          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
-          required: true
+      parameters: []
       tags:
         - Single-Sign-On
+      security:
+        - OAuth2:
+            - openid
+            - email
+            - profile
     parameters: []
 components:
-  securitySchemes: {}
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          refreshUrl: ''
+          scopes:
+            openid: User's ID. See additional details at User Info operation.
+            email: User's Email and Email Verified.
+            profile: User's full personal profile. See details at User Info operation.
+      description: ''
   schemas: null
 tags:
   - name: Single-Sign-On

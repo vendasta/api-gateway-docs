@@ -24,6 +24,8 @@ paths:
         Within the platform an intentful navigation must include: a partner id, a client id (which is associated with a service provider) and a service provider context (example: a specific Business Location id).
 
         This operation does not require a token to call, as it is the start of the flow for obtaining tokens for securely calling the Gateway's APIs.
+
+        To use identity tokens and refresh tokens, you must use OpenID Connect, by requesting the scope `openid` and performing a valid OpenID request. [spec miss on scope must be present]
       security: []
       requestBody:
         content:
@@ -69,6 +71,7 @@ paths:
           in: query
           name: redirect_uri
           description: Redirect URI is where the User will be sent after the Authorization flow with either the result or an error.
+          required: true
         - schema:
             type: string
             example: code
@@ -76,6 +79,26 @@ paths:
           name: response_type
           required: true
           description: The Open ID authorization response type. Only 'code' is supported.
+        - schema:
+            type: string
+          in: query
+          name: code_challenge
+          description: OAuth2 PKCE Code Challenge
+        - schema:
+            type: string
+            example: S256
+            enum:
+              - S256
+              - plain
+          in: query
+          name: code_challenge_method
+          description: OAuth2 PKCE Code Challenge Method.
+        - schema:
+            type: string
+          in: query
+          name: scope
+          required: true
+          description: 'OAuth2 Scopes requested. '
       tags:
         - Single-Sign-On
     parameters:

@@ -27,7 +27,7 @@ paths:
 
         To use identity tokens, you must use OpenID Connect by requesting the scope `openid` and performing a valid OpenID request. [spec miss on scope must be present]
 
-        To use refresh tokens, you must use OpenID Connect, request the scope `offline_access`, and use `prompt=consent`. This explicitly asks the user for the elevated offline access via refresh tokens.
+        To use refresh tokens, you must use OpenID Connect, request the scope `offline_access`, and a request `prompt` of `consent`. This explicitly asks the user for the elevated offline access via refresh tokens. 
       security: []
       parameters:
         - schema:
@@ -55,7 +55,7 @@ paths:
               - select_account
           in: query
           name: prompt
-          description: Prompt controls what prompts will or will not be shown to the user. See details...
+          description: Prompt controls what prompts will or will not be shown to the user.
         - schema:
             type: string
           in: query
@@ -73,21 +73,33 @@ paths:
             type: string
           in: query
           name: code_challenge
-          description: OAuth2 PKCE Code Challenge.
+          description: 'OAuth2 PKCE Code Challenge generated just before making auth request, to be later verified at Token endpoint. Required when not using client secret.'
         - schema:
             type: string
             enum:
               - S256
               - plain
+            example: S256
           in: query
           name: code_challenge_method
-          description: OAuth2 PKCE Code Challenge Method.
+          description: OAuth2 PKCE Code Challenge Method. Required when providing `code_challenge`. See PKCE documentation for details on these methods.
         - schema:
             type: string
+            example: openid
           in: query
           name: scope
           required: true
-          description: 'OAuth2 Scopes requested. '
+          description: 'OAuth2 Scopes being requested. Scopes are used to obtain access to User information and ability to call APIs on their behalf. Consent to scopes can be given and revoked, and requests for only consented scopes will not require interaction for consent unless `prompt=consent` forces it.'
+        - schema:
+            type: string
+          in: query
+          name: nonce
+          description: OpenID Nonce value to be returned in Identity Token. Optional on all supported flows.
+        - schema:
+            type: string
+          in: query
+          name: state
+          description: 'OAuth2 State. Opaque value used to maintain state between the request and the callback. Typically, Cross-Site Request Forgery (CSRF, XSRF) mitigation is done by cryptographically binding the value of this parameter with a browser cookie.'
       tags:
         - Single-Sign-On
     parameters:
@@ -200,7 +212,7 @@ paths:
                   - expires_in
                   - id_token
               examples:
-                Typical Response:
+                example-1:
                   value:
                     access_token: SlAV32hkKG
                     token_type: Bearer

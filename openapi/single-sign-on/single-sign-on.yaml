@@ -27,7 +27,7 @@ paths:
 
         To use identity tokens, you must use OpenID Connect by requesting the scope `openid` and performing a valid OpenID request. [spec miss on scope must be present]
 
-        To use refresh tokens, you must use OpenID Connect, request the scope `offline_access`, and a request a `prompt` of `consent`. This explicitly asks the user for the elevated offline access via refresh tokens. 
+        To use refresh tokens, you must use OpenID Connect, request the scope `offline_access`, and use `prompt=consent`. This explicitly asks the user for the elevated offline access via refresh tokens.
       security: []
       parameters:
         - schema:
@@ -73,10 +73,9 @@ paths:
             type: string
           in: query
           name: code_challenge
-          description: OAuth2 PKCE Code Challenge
+          description: OAuth2 PKCE Code Challenge.
         - schema:
             type: string
-            example: S256
             enum:
               - S256
               - plain
@@ -320,16 +319,14 @@ paths:
                   - email
                   - picture
           headers: {}
-        '':
-          description: 'This is '
       x-lifecycle:
         status: trustedTester
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        This is the OpenID UserInfo endpoint, used for obtaining scoped identity data relating to the token's associated User.
+        This is the OpenID UserInfo endpoint, used for obtaining scoped identity data relating to the bearer token's associated User.
 
-        Requires access token scoped to at least one of the following supported scopes: `openid`, `email`, `profile`.
+        Requires an access token scoped to at least one of the following supported scopes: `openid`, `email`, `profile`.
 
         `openid` or any other supported scope returns the basic user info response:
         - the `sub` field (this is the User's id)
@@ -342,7 +339,12 @@ paths:
         `email` returns the additional following fields: email and email_verified.
 
         Note: a legacy full-scope token is also allowed access to `profile` at this endpoint. 
-      parameters: []
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: 'Access token. See operation description for details on required scopes, and how scopes affect the request..'
       tags:
         - Single-Sign-On
       security:

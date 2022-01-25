@@ -2,10 +2,14 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2022-01-25
+### User Custom Fields REST API added
+Trusted testers now have access to Update and Get User Custom Fields.
+
 ## 2022-01-19
-### Sales Account and Sales Account Custom Data REST API added
+### Sales Account and Sales Account Custom Field REST API added
 Trusted testers now have access to Create, Update, Get and List Sales Accounts as well as
-Get and Update Custom Data fields on the sales accounts.
+Get and Update Custom Fields on the sales accounts.
 
 ## 2021-12-14
 ### Social REST API added

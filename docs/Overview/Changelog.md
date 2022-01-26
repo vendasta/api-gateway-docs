@@ -6,6 +6,9 @@ The platform is continuously evolving. This page lists the significant changes w
 ### User Custom Fields REST API added
 Trusted testers now have access to Update and Get User Custom Fields.
 
+### Create Customer and Send Review Request REST APIs added
+Trusted testers now have access to API endpoints for syncing contact info onto Business App and sending a Customer Voice email or SMS review request.
+
 ## 2022-01-19
 ### Sales Account and Sales Account Custom Field REST API added
 Trusted testers now have access to Create, Update, Get and List Sales Accounts as well as

@@ -242,6 +242,8 @@ components:
       examples: []
       x-tags:
         - Messages
+      x-lifecycle:
+        status: trustedTester
       properties:
         id:
           type: string
@@ -261,11 +263,14 @@ components:
               items:
                 type: string
             sendAt:
-              type: number
+              type: string
               description: |-
                 The time you wish your message to be sent out.
 
                 Defaults to 5 minutes after the Message is made, and must be at least 5 minutes after the Message is created.
+
+                Times used must be in ISO 8601 format, UTC time.
+              example: '2022-02-04T16:52:34.000Z'
             GMBPostCustomization:
               type: object
               description: |-
@@ -322,8 +327,6 @@ components:
             - socialProfiles
       required:
         - type
-      x-lifecycle:
-        status: trustedTester
 tags:
   - name: Social Profiles
   - name: Options

@@ -20,6 +20,14 @@ Product | Production SKU | Demo SKU
  Express |RM:EDITION-F7JZ5TV8 | RM:EDITION-38SMW45H
  Pro | RM | RM
 
+The base Reputation Management product must be already active or included in the same order as any of the addons.
+
+Addon | Production SKU | Demo SKU
+--------|----------------|---------
+Review Display Widget Pro | A-5QGW8G8VVG | A-PRLDSG2NCG
+Premium Apartment Source | A-6XN73QJSG4 | A-RVQCK24434
+Rapid Reviews | A-DVDGNKC4Q3 | A-DJNQ55XZ6T
+
 ### Social Marketing
 
 Product | Production SKU | Demo SKU
@@ -33,7 +41,7 @@ Product | Production SKU | Demo SKU
 --------|----------------|---------
  Listing Builder | MS | MS
 
- The base Listing Builder product must be already active or included in the same order as any of the addons.
+The base Listing Builder product must be already active or included in the same order as any of the addons.
 
 Addon | Production SKU | Demo SKU
 --------|----------------|---------

@@ -130,22 +130,27 @@ paths:
                         - type: socialProfiles
                           id: string
               properties:
-                dryRun:
-                  type: boolean
-                  default: false
-                  description: 'If `true`, will simply return any errors this Message will get from posting. Will return an empty 200 if there are none.'
-                businessLocation:
-                  type: string
-                  description: The Business Location we are scheduling these messages under. This must be the Business Location the Social Profiles are registered to.
-                  example: AG-12345
                 data:
                   $ref: '#/components/schemas/messages'
-              required:
-                - businessLocation
+        description: ''
       tags:
         - Messages
       x-lifecycle:
         status: trustedTester
+      parameters:
+        - schema:
+            type: boolean
+            default: false
+          in: query
+          name: dryRun
+          description: 'If `true`, will simply return any errors this Message will get from posting. Will return an empty 200 if there are none.'
+        - schema:
+            type: string
+            example: AG-12345
+          in: query
+          name: businessLocation
+          description: The Business Location we are scheduling these messages under. This must be the Business Location the Social Profiles are registered to.
+          required: true
 components:
   securitySchemes:
     JWT:

@@ -13,13 +13,13 @@ servers:
   - url: 'http://localhost:11001/products/listings'
     description: Localhost
 tags:
-  - name: Business Location Listings
+  - name: Listing Sync Listings
   - name: Options
 paths:
   /listListingSyncListings:
     get:
       tags:
-        - Business Location Listings
+        - Listing Sync Listings
       summary: List Listing Sync Listings
       operationId: list-businessListings
       security:
@@ -66,7 +66,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/businessLocationListings'
+                      $ref: '#/components/schemas/listingSyncListings'
                   links:
                     type: object
                     properties:
@@ -96,7 +96,7 @@ paths:
           description: No Listing Product Active
       tags:
         - Options
-        - Business Location Listings
+        - Listing Sync Listings
     parameters: []
   '/getListingScores/{id}':
     get:
@@ -111,8 +111,8 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/businessLocationListingScore'
-      operationId: get-businessLocationListingScore
+                    $ref: '#/components/schemas/listingScore'
+      operationId: get-listingScore
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
         Get the listing score information for a specific business
@@ -149,7 +149,7 @@ components:
             listing: Access to the Listing Builder REST API
   schemas:
     businessLocationListings:
-      title: Business Location Listings
+      title: Listing Sync Listings
       type: object
       x-lifecycle:
         status: trustedTester
@@ -391,9 +391,9 @@ components:
                 notFound - No listing was found for this source by Vendasta.
               type: string
       x-tags:
-        - Business Location Listings
-    businessLocationListingScore:
-      title: Business Location Listing Score
+        - Listing Sync Listings
+    listingScore:
+      title: Listing Score
       type: object
       properties:
         id:

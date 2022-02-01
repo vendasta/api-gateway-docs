@@ -16,20 +16,20 @@ tags:
   - name: Business Entity Listings
   - name: Options
 paths:
-  /businessEntityListings:
+  /businessLocationListings:
     get:
       tags:
         - Business Entity Listings
-      summary: List Business Entity Listings
+      summary: List Business Location Listings
       operationId: list-businessListings
       security:
         - OAuth2:
             - listing
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
-        Gets a list of listings for a business entity
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        Gets a list of listings for a business location
       parameters:
         - schema:
             type: string
@@ -98,9 +98,9 @@ paths:
         - Options
         - Business Entity Listings
     parameters: []
-  '/businessEntityListingScores/{id}':
+  '/businessLocationListingScores/{id}':
     get:
-      summary: Get Business Entity Listing Score
+      summary: Get Business Location Listing Score
       tags: []
       responses:
         '200':
@@ -114,10 +114,10 @@ paths:
                     $ref: '#/components/schemas/businessEntityListingScore'
       operationId: get-businessEntityListingScore
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
         Get the listing score information for a specific business
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       security:
         - OAuth2:
             - listing
@@ -149,15 +149,13 @@ components:
             listing: Access to the Listing Builder REST API
   schemas:
     businessEntityListings:
-      title: Business Entity Listings
+      title: Business Location Listings
       type: object
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
-        Gets a list of listings for a business entity
-      x-tags:
-        - Business Entity Listings
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        Gets a list of listings for a business location
       x-internal: false
       properties:
         id:
@@ -392,6 +390,8 @@ components:
 
                 notFound - No listing was found for this source by Vendasta.
               type: string
+      x-tags:
+        - Business Location Listings
     businessEntityListingScore:
       title: businessEntityListingScore
       type: object

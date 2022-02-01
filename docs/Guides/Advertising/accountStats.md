@@ -3,7 +3,7 @@ tags: [Advertising Intelligence, advertising, account, stats, accountstats]
 ---
 # Getting Advertising Account Stats
 
-`Account Stats` are the total stats of all campaigns under one advertising account that has been connected to a specific Business Location in Advertising Intelligence.  
+`Account Stats` are the total stats of all campaigns under one advertising account that has been connected to a specific Business Location in [Advertising Intelligence](https://support.vendasta.com/hc/en-us/articles/4406950929047).  
 
 > For info on Business Locations see the [Businesses guide](../Accounts.md)
 

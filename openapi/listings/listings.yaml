@@ -1,0 +1,433 @@
+openapi: 3.0.0
+info:
+  title: Listing REST APIs
+  version: '1.0'
+  description: Using this api requires active Liting Builder
+servers:
+  - url: 'https://prod.apigateway.co/products/listings'
+    description: Production
+  - url: 'https://demo.apigateway.co/products/listings'
+    description: Demo
+  - url: '{local}/products/listings'
+    description: Local
+  - url: 'http://localhost:11001/products/listings'
+    description: Localhost
+tags:
+  - name: Listing Sync Listings
+  - name: Options
+paths:
+  /listingSyncListings:
+    get:
+      tags:
+        - Listing Sync Listings
+      summary: List Listing Sync Listings
+      operationId: list-listingSyncListings
+      security:
+        - OAuth2:
+            - listing
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        Gets a list of listings for a business location. This corresponds to the Listing Sync page in Listing Builder.
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[businessLocation.id]'
+          description: Return listings for the specified business location
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'page[cursor]'
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+        - schema:
+            type: string
+          in: query
+          name: 'page[limit]'
+          description: For now we only support a value of 200.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/listingSyncListings'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                      next:
+                        type: string
+                        description: The URI at which the next batch of reviews can be gotten from
+                        format: uri
+    options:
+      operationId: options-listingSyncListings
+      summary: List valid HTTP verbs for /listingSyncListings
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: User Cannot Access Business Location
+        '404':
+          description: Business Not Found
+        '406':
+          description: No Listing Product Active
+      tags:
+        - Options
+        - Listing Sync Listings
+    parameters: []
+  '/listingScores/{id}':
+    get:
+      summary: Get Listing Score
+      tags:
+        - Listing Scores
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/listingScores'
+      operationId: get-listingScores
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        Get the listing score information for a specific business
+      x-lifecycle:
+        status: proposed
+      security:
+        - OAuth2:
+            - listing
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    options:
+      summary: List valid HTTP verbs for /listingScores
+      operationId: options-listingScores-id
+      responses:
+        '200':
+          description: OK
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly.'
+      tags:
+        - Options
+        - Listing Scores
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          refreshUrl: ''
+          scopes:
+            listing: Access to the Listing Builder REST API
+  schemas:
+    listingSyncListings:
+      title: Listing Sync Listings
+      type: object
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        A list of listings for a business location
+      x-internal: false
+      properties:
+        id:
+          description: Public facing name of the source
+          type: string
+        type:
+          type: string
+          default: listingSyncListings
+          enum:
+            - listingSyncListings
+        attributes:
+          type: object
+          properties:
+            icon:
+              description: Link to icon provided by Vendasta’s media service
+              type: string
+              format: uri
+              example: 'https://www.cdnstyles.com/static/images/icon32/sourceId-10090.png'
+            popularity:
+              description: Popularity of the source relative to other sources
+              type: number
+            sourceTypeCode:
+              description: |-
+                The type of listing source.
+
+                unspecified - The listing source type is unknown
+
+                directory - An online listing directory
+
+                map - Sites that have an online map like MapQuest or Google Maps
+
+                social - Social networks like Facebook
+
+                aggregator - Publishers that push their listing information to other listing sources
+
+                app - Stand alone applications like Snapchat that are not GPS services
+
+                gps - These sources power GPS applications
+              type: string
+            syncStatusCode:
+              description: |-
+                The listing status provided by the listing sources.
+
+                unknown - Default error value, should never be used intentionally
+
+                synced - Listing data was submitted to the listing source, and the source responded that the data is good and in use
+
+                inProgress - Information has been sent to the listing source who is in the process of syncing the information to the listing.
+
+                syncingWithWarnings - The data has been updated by the listing but there are some warnings that many affect the values updated.
+
+                hasErrors - There was an error with the data we sent to the listing source causing updating all the information to fail.
+
+                syncDisabled - Updating information for this source has been disabled.
+
+                claimedByOthers - The listing source is rejecting our data because this listing has been claimed by another user/service.
+
+                doesNotSupportServiceAreaBusiness - This listing source does not support service area businesses.
+
+                submitted - The business profile information was successfully sent to the listing source. The listing source does not verify when the information was published.
+
+                manualUpdateOnly - This listing cannot be updated by Vendasta's platform with the current set of apps actived for this business. The listing must be updated with the listing source directly by the business.
+
+                notFound - The listing source does not have a listing for this business.
+              type: string
+            listingScore:
+              description: A score based on the status of your online source
+              type: number
+            maximumlistingScore:
+              description: The maximum score this source can attain
+              type: number
+            url:
+              description: The online listing
+              format: uri
+              type: string
+            syncingError:
+              type: array
+              description: Any errors stopping the business information from being updated by the listing source.
+              items:
+                type: object
+                properties:
+                  errorCode:
+                    description: |-
+                      businessName
+                      streetAddress
+                      postalCode
+                      city
+                      wholeAddress - Error is not isolated to street address, city, etc.
+                      phoneNumber
+                      hoursOfOperation
+                      categories
+                      descriptionLong
+                      descriptionShort
+                      email
+                      paymentOptions
+                      photos
+                      website
+                      existingRelationship
+                      chainLocation
+                      unavailableReason - Superpages is unable to update this listing due to an issue with their database.
+                    type: string
+                  errorDetails:
+                    description: Human readable details about the error
+                    type: string
+            syncingWarning:
+              description: Any warnings reported while updating your information on the listing source.
+              type: array
+              items:
+                type: object
+                properties:
+                  warningCode:
+                    description: |-
+                      businessName
+                      streetAddress
+                      postalCode
+                      phoneNumber
+                      wholeAddress - Error is not isolated to street address, city, etc.
+                      hoursOfOperation
+                      categories
+                      descriptionLong
+                      descriptionShort
+                      email
+                      photos
+                      website
+                      services
+                    type: string
+                  warningDetails:
+                    description: Human readable details about the warning
+                    type: string
+            updatedAt:
+              format: date
+              type: string
+              description: 'The last time this source’s listing was checked by Vendasta’s independent listing verification system. This will be `1970-01-01T00:00:00Z` if we have never verified the listing.'
+            streetAddress:
+              description: |-
+                Service area businesses will not have this field.
+
+                For a physical location this physical address of the business. Vendasta’s platform supports multiple address lines but currently those are combined into a single street address in our listing verification system.
+              type: object
+              properties:
+                Value:
+                  description: The street address on the listing
+                  type: string
+                Match:
+                  description: Does the street address match the business’s street address in their Vendasta Business Profile
+                  type: boolean
+            city:
+              description: |-
+                For a service area business this will be the city the business services.
+
+                For a physical location this will be the city that the business physically exists in.
+              type: object
+              properties:
+                value:
+                  description: The city as it appears on the source listing
+                  type: string
+                match:
+                  description: Does the city match the business’s street address in their Vendasta Business Profile
+                  type: boolean
+            region:
+              description: |-
+                For a service area business this will be the region that contains the city the business services.
+
+                For a physical location this will be the region that the business physically exists in. 
+
+                Examples of regions are states, provinces, etc.
+              type: object
+              properties:
+                value:
+                  description: The region as it appears on the source listing
+                  type: string
+                match:
+                  description: Does the region match the business’s street address in their Vendasta Business Profile
+                  type: boolean
+            country:
+              description: |-
+                For a service area business this will be the country that contains the city the business services.
+
+                For a physical location this will be the country that the business physically exists in. 
+              type: object
+              properties:
+                value:
+                  description: The country as it appears on the source listing
+                  type: string
+                match:
+                  description: Does the country match the business’s street address in their Vendasta Business Profile
+                  type: boolean
+            postalCode:
+              description: For a physical location this will be the postal code of the physical location of the business. In the USA this is the zip code
+              type: object
+              properties:
+                value:
+                  description: The postal code as it appears on the source listing
+                  type: string
+                match:
+                  description: Does the postal code match the business’s street address in their Vendasta Business Profile
+                  type: boolean
+            phoneNumber:
+              description: |-
+                The contact phone number for the business. This corresponds to the first phone number in the Vendasta business profile.
+
+                This will not be the toll free, cell or fax number.
+              type: object
+              properties:
+                value:
+                  description: The phone number as it appears on the listing.
+                  type: string
+                match:
+                  description: 'Does the phone number match the business’s first phone number in their Vendasta Business Profile. Toll free, cell and fax numbers are not considered even if they are the only number on the business profile.'
+                  type: boolean
+            website:
+              description: The website of the business location.
+              type: object
+              properties:
+                value:
+                  description: The website as it appears on the online listing.
+                  type: string
+                match:
+                  description: Does the website match the business’s website in their Vendasta Business Profile
+                  type: boolean
+            accuracyStatusCode:
+              description: |-
+                Indicates if Vendasta's independent accuracy reporting is available, found and whether or not it is active.
+
+                unknown - Default error value, should never be used intentionally
+
+                accurate - Listing was independently verified by Vendasta to be accurate
+
+                inaccurate - Vendasta found at least one inaccuracy with the listing
+
+                notAvailable - No Vendasta reporting is available for this source
+
+                notFound - No listing was found for this source by Vendasta.
+              type: string
+      x-tags:
+        - Listing Sync Listings
+    listingScores:
+      title: Listing Scores
+      type: object
+      properties:
+        id:
+          type: string
+          description: Vendasta's unique ID for the business
+        type:
+          type: string
+          default: listingScores
+          enum:
+            - listingScores
+        attributes:
+          type: object
+          properties:
+            totalScore:
+              type: integer
+              description: The business's current listing score including the score based on online citations
+            industryAverageNinetyFifth:
+              type: integer
+              description: The ninety fifth percentile listing score for businesses in the same industry
+            initialListingScore:
+              type: integer
+              description: The listing score of the business when Listing Builder was first activated
+      x-lifecycle: proposed
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        The listing score information for a business location

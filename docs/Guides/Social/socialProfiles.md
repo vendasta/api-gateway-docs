@@ -3,7 +3,7 @@ tags: [Social Profiles]
 ---
 # Getting Social Profiles
 
-A `Social Profile` represents an account on a social network that has been connected to a specific Business Location in Social Marketing.
+A `Social Profile` represents an account on a social network that has been connected to a specific Business Location in [Social Marketing](https://support.vendasta.com/hc/en-us/sections/4406957071383-Social-Marketing).
 
 > For info on Business Locations see the [Businesses guide](../Accounts.md).
 

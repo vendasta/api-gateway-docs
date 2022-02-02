@@ -5,6 +5,8 @@ tags: [Advertising Intelligence, advertising, campaign, info, campaignInfo]
 
 `Campaign Info` contains metadata about the advertising campaigns under a connected advertising account, including wether or not the campaign is connected to the Business Location.  In order to access campagin level information or stats, the Business Location must have advanced reporting enabled.
 
+Active [Advertising Intelligence](https://support.vendasta.com/hc/en-us/articles/4406950929047) account required.
+
 ## Setup
 
 Create an access token with `advertising` scopes following the [Authorization guide](../../Authorization/Authorization.md).

@@ -3,7 +3,7 @@ tags: [Advertising Intelligence, advertising, account, connectedAccount]
 ---
 # Getting Advertising Connected Accounts
 
-A `Connected Account` represents the metadata of an advertising account that has been connected to a specific Business Location in Advertising Intelligence.  
+A `Connected Account` represents the metadata of an advertising account that has been connected to a specific Business Location in [Advertising Intelligence](https://support.vendasta.com/hc/en-us/articles/4406950929047).  
 
 > For info on Business Locations see the [Businesses guide](../Accounts.md)
 

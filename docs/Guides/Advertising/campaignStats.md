@@ -3,7 +3,7 @@ tags: [Advertising Intelligence, advertising, campaign, stats, campaignStats]
 ---
 # Getting Advertising Campaign Stats
 
-`Campaign Stats` are the stats of connected campaigns under one advertising account that has been connected to a specific Business Location in Advertising Intelligence.  In order to access campagin level information or stats, the Business Location must have advanced reporting enabled.
+`Campaign Stats` are the stats of connected campaigns under one advertising account that has been connected to a specific Business Location in [Advertising Intelligence](https://support.vendasta.com/hc/en-us/articles/4406950929047).  In order to access campagin level information or stats, the Business Location must have advanced reporting enabled.
 
 ## Setup
 

@@ -2,21 +2,21 @@
 tags: [listings]
 ---
 
-# Listing
+# (WIP do not push to master) Listing
 
-An online webpage containing an entity's location, service area, hours, and other vital business information.
+An online webpage, GPS directory, data aggregator, etc. containing a business's location, service area, hours, and other vital business information.
 
 ## Common Actions
 
-## View listings for an entity
+## View listings for an business
 
-To view the listings for a business entity make the following request filling in the business location ID and
+To view the listings for a business location make the following request filling in the business location ID and
 an [access token](../../Authorization/2-legged-oauth/UsingAServiceAccount.md)
 
 ```json http
 {
   "method": "get",
-  "url": "https://prod.apigateway.co/products/listingBuilder/listListings",
+  "url": "https://prod.apigateway.co/products/listings/listingSyncListings",
   "query": {
     "filter[businessLocations.id]": "AG-123456",
   },

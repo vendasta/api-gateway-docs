@@ -2356,7 +2356,6 @@ paths:
       tags:
         - Options
         - User Custom Fields
-
   '/userCustomFields/{id}':
     parameters:
       - schema:
@@ -3794,6 +3793,8 @@ components:
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Custom fields associated with a sales account. These attributes can be managed at Partner Center -> Administration -> Data attributes.
+
+        Dropdown possible value and the currency code are also configured in the Administration panel.
       x-examples:
         Custom Fields with string value Example:
           data:
@@ -3845,6 +3846,38 @@ components:
                 title: Title of 987448ca field
                 description: Description for 987448ca field
                 fieldType: date
+              - fieldId: FieldID-987448f2-abc0-abc5-abc2-abc640bf4b00
+                dropdownValue: red
+                title: Title of 987448f2 field
+                description: Description for 987448f2 field
+                fieldType: dropdown
+              - fieldId: FieldID-98744854-abc0-abc5-abc2-abc640bf4b01
+                currencyValue: 10000
+                title: Title of 98744854 field
+                description: Description for 98744854 field
+                fieldType: currency
+                currencyCode: CAD
+        Custom Fields with Dropdown Example:
+          data:
+            id: AG-1231233
+            type: salesAccountCustomFields
+            partnerFields:
+              - fieldId: FieldID-987448f2-abc0-abc5-abc2-abc640bf4b00
+                dropdownValue: red
+                title: Title of 987448f2 field
+                description: Description for 987448f2 field
+                fieldType: dropdown
+        Custom Fields with Currency Example:
+          data:
+            id: AG-1231233
+            type: salesAccountCustomFields
+            partnerFields:
+              - fieldId: FieldID-98744854-abc0-abc5-abc2-abc640bf4b01
+                currencyValue: 10000
+                title: Title of 98744854 field
+                description: Description for 98744854 field
+                fieldType: currency
+                currencyCode: CAD
       x-tags:
         - Sales Account Custom Fields
       properties:
@@ -3886,12 +3919,16 @@ components:
                   - string
                   - interger
                   - date
+                  - dropdown
+                  - currency
                 description: |-
                   Indicates which of the value fields to use to read or write the data. It can only be modified from within partner center. 
 
                   string -> stringValue
                   integer -> integerValue
                   date -> dateValue
+                  dropdown -> dropdownValue
+                  currency -> currencyValue
                 readOnly: true
               stringValue:
                 type: string
@@ -3902,7 +3939,29 @@ components:
               dateValue:
                 type: string
                 description: Required when the field type is `date`
-                format: date-time
+                format: date
+              dropdownValue:
+                type: string
+                description: Required when type is `dropdown`. The possible values can be discovered using the administration panel.
+              currencyValue:
+                type: integer
+                description: |-
+                  Required when the field type is `currency`.
+
+                  This field represents the cents (or the smallest part of the currency).
+
+                  Example:
+                  USD 600.00 -> currencyValue=60000
+              currencyCode:
+                type: string
+                minLength: 3
+                maxLength: 3
+                description: |-
+                  Represents the type of currency when the field is type `currency`. It will be the 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
+
+                  Ex: USD, CAD, AUD
+                example: USD
+                readOnly: true
               title:
                 type: string
                 description: 'The main label for the field, appering in most user interfaces that show the value. This field is not read when setting a value.'
@@ -3925,6 +3984,8 @@ components:
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Custom fields associated with a user. These attributes can be managed at Partner Center -> Administration -> Data attributes.
+
+        Dropdown possible value and the currency code are also configured in the Administration panel.
       x-examples:
         Custom Fields with string value Example:
           data:
@@ -3976,6 +4037,38 @@ components:
                 title: Title of 987448ca field
                 description: Description for 987448ca field
                 fieldType: date
+              - fieldId: FieldID-987448f2-abc0-abc5-abc2-abc640bf4b00
+                dropdownValue: red
+                title: Title of 987448f2 field
+                description: Description for 987448f2 field
+                fieldType: dropdown
+              - fieldId: FieldID-98744854-abc0-abc5-abc2-abc640bf4b01
+                currencyValue: 10000
+                title: Title of 98744854 field
+                description: Description for 98744854 field
+                fieldType: currency
+                currencyCode: CAD
+        Custom Fields with Dropdown Example:
+          data:
+            id: U-12345678-abcd-1234-abcd-123456789abc
+            type: userCustomFields
+            partnerFields:
+              - fieldId: FieldID-987448f2-abc0-abc5-abc2-abc640bf4b00
+                dropdownValue: red
+                title: Title of 987448f2 field
+                description: Description for 987448f2 field
+                fieldType: dropdown
+        Custom Fields with Currency Example:
+          data:
+            id: U-12345678-abcd-1234-abcd-123456789abc
+            type: userCustomFields
+            partnerFields:
+              - fieldId: FieldID-98744854-abc0-abc5-abc2-abc640bf4b01
+                currencyValue: 10000
+                title: Title of 98744854 field
+                description: Description for 98744854 field
+                fieldType: currency
+                currencyCode: CAD
       x-tags:
         - User Custom Fields
       properties:
@@ -4017,12 +4110,16 @@ components:
                   - string
                   - interger
                   - date
+                  - dropdown
+                  - currency
                 description: |-
                   Indicates which of the value fields to use to read or write the data. It can only be modified from within partner center. 
 
                   string -> stringValue
                   integer -> integerValue
                   date -> dateValue
+                  dropdown -> dropdownValue
+                  currency -> currencyValue
                 readOnly: true
               stringValue:
                 type: string
@@ -4034,13 +4131,35 @@ components:
                 type: string
                 description: Required when the field type is `date`
                 format: date
+              dropdownValue:
+                type: string
+                description: Required when type is `dropdown`. The possible values can be discovered using the administration panel.
+              currencyValue:
+                type: integer
+                description: |-
+                  Required when the field type is `currency`.
+
+                  This field represents the cents (or the smallest part of the currency).
+
+                  Example:
+                  USD 600.00 -> currencyValue=60000
+              currencyCode:
+                type: string
+                minLength: 3
+                maxLength: 3
+                description: |-
+                  Represents the type of currency when the field is type `currency`. It will be the 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
+
+                  Ex: USD, CAD, AUD
+                example: USD
+                readOnly: true
               title:
                 type: string
-                description: 'The main label for the field, appering in most user interfaces that show the value. This field is not read when setting a value.'
+                description: 'The main label for the field, appearing in most user interfaces that show the value. This field is not read when setting a value.'
                 readOnly: true
               description:
                 type: string
-                description: 'A longer text explaination of the field, it optionally appears in the UI. This field is not read when setting a value.'
+                description: 'A longer text explanation of the field, it optionally appears in the UI. This field is not read when setting a value.'
                 readOnly: true
             required:
               - fieldId

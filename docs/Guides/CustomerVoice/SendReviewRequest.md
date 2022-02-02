@@ -7,7 +7,7 @@ tags: [Review Request, Customer Voice]
 
 With Customer Voice, you can gather authentic reviews via email or text on the sites that matter most, to grow customer loyalty and boost sales.
 
-[Learn more about Customer Voice](https://support.vendasta.com/hc/en-us/sections/4419496276119-Getting-Started-Customer-Voice)
+[Learn more about Customer Voice](https://support.vendasta.com/hc/en-us/sections/4406957057687-Customer-Voice)
 
 ## Setup
 Create an access token with `reviews` and `customers` scopes following the [Authorization guide](../../Authorization/Authorization.md).

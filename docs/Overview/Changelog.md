@@ -2,6 +2,11 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2022-02-02
+### Proposed new API operations for Listing Builder added
+Added the Listing Sync Listings and Listing Scores API operations.
+This will provide Listing Builder users with the ability to use Listing Builder's data to power their own UIs.
+
 ## 2022-01-25
 ### User Custom Fields REST API added
 Trusted testers now have access to Update and Get User Custom Fields.

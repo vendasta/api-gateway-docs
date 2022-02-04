@@ -938,6 +938,9 @@ paths:
 
         Use this operation to create a new order for a business.
         All orders created by API start out in the `processing` status and do not require approval by either the partner admin or SMB admin.
+
+        Note: For newly created Business Locations/Sales Account it does take a few seconds for the newly created account to be replicated to the billing system and for the billing system to setup some additional records for it. It is usually under 5 seconds  but may take a little longer on high traffic days.
+        We recommend checking for the `NotReady` status code in the error response and retrying on that with an exponential backoff.
       parameters:
         - schema:
             type: string

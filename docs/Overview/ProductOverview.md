@@ -1,35 +1,39 @@
 # Foundational Product Overview
 
-## Calendar Hero
+<table>
+<tr>
+<td>
+<img src="logos/logoCalenderHero.png" alt="Calendar Scheduling" class="sl-image" style="width:75px"/>
+</td><td>
 
-<!--
-focus: false
--->
-![Calendar Scheduling](logos/logoCalenderHero.png "Calendar Scheduling") Calendar Scheduling
+## Calendar Hero
 
 ### Meeting publishing
 
 Create meetings, add contacts, message, and search
 
+</td>
+</tr>
+<tr>
+<td>
+<img src="logos/logoRepMan.png" alt="Managing online reputation" class="sl-image" style="width:75px"/>
+</td><td>
 
 ## Reputation Management
-<!--
-focus: false
--->
-![Managing online reputation](logos/logoRepMan.png "Managing online reputation") 
-
 Managing online reputation
 
 ### Reviews
 
 See what your clients' customers are saying across 50+ review sources
 
-## Social Marketing
+</td>
+</tr>
+<tr>
+<td>
+<img src="logos/logoSM.png" alt="Social Media Management" class="sl-image" style="width:75px"/>
+</td><td>
 
-<!--
-focus: false
--->
-![Social Media Management](logos/logoSM.png "Social Media Management") Social Media Management
+## Social Marketing
 
 ### Social Connections
 
@@ -39,12 +43,14 @@ See your clients' connected social accounts
 
 Contact sales to learn more
 
-## Customer Voice
+</td>
+</tr>
+<tr>
+<td>
+<img src="logos/logoCV.png" alt="Request Reviews" class="sl-image" style="width:75px"/>
+</td><td>
 
-<!--
-focus: false
--->
-![Request Reviews](logos/logoCV.png "Request Reviews") Request Reviews
+## Customer Voice
 
 ### Review Requests
 
@@ -54,12 +60,14 @@ Send an SMS or email review request to your clients' customers
 
 Create and add customers so your clients can send review requests
 
-## Advertising Intelligence 
+</td>
+</tr>
+<tr>
+<td>
+<img src="logos/logoAdIntel.png" alt="Advertising reporting" class="sl-image" style="width:75px"/>
+</td><td>
 
-<!--
-focus: false
--->
-![Advertising reporting](logos/logoAdIntel.png "Advertising reporting") Advertising reporting
+## Advertising Intelligence 
 
 ### Campaign Level Data
 Connect your clients' ad accounts and see campaign reporting across Google, Facebook, and more
@@ -68,13 +76,19 @@ Connect your clients' ad accounts and see campaign reporting across Google, Face
 
 Get a detailed view of your clients' ad performance across Google, Facebook, and more
 
-## Listing Builder
+</td>
+</tr>
+<tr>
+<td>
+<img src="logos/logoLB.png" alt="Listing accuracy" class="sl-image" style="width:75px"/>
+</td><td>
 
-<!--
-focus: false
--->
-![Listing accuracy](logos/logoLB.png "Listing accuracy") Listing accuracy 
+## Listing Builder
 
 ### Listing Data
 
 See where your clients' business information is synced across 100+ listing sources
+
+</td>
+</tr>
+</table>

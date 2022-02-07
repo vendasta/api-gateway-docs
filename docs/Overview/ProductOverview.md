@@ -3,7 +3,7 @@
 <table>
 <tr>
 <td>
-<img src="logos/logoCalenderHero.png" alt="Calendar Scheduling" class="sl-image" style="width:75px"/>
+<img src="https://raw.githubusercontent.com/vendasta/api-gateway-docs/master/docs/Overview/logos/logoCalenderHero.png" alt="Calendar Scheduling" class="sl-image" style="width:75px"/>
 </td><td>
 
 ## Calendar Hero
@@ -16,7 +16,7 @@ Create meetings, add contacts, message, and search
 </tr>
 <tr>
 <td>
-<img src="logos/logoRepMan.png" alt="Managing online reputation" class="sl-image" style="width:75px"/>
+<img src="https://raw.githubusercontent.com/vendasta/api-gateway-docs/master/docs/Overview/logos/logoRepMan.png" alt="Managing online reputation" class="sl-image" style="width:75px"/>
 </td><td>
 
 ## Reputation Management
@@ -30,7 +30,7 @@ See what your clients' customers are saying across 50+ review sources
 </tr>
 <tr>
 <td>
-<img src="logos/logoSM.png" alt="Social Media Management" class="sl-image" style="width:75px"/>
+<img src="https://raw.githubusercontent.com/vendasta/api-gateway-docs/master/docs/Overview/logos/logoSM.png" alt="Social Media Management" class="sl-image" style="width:75px"/>
 </td><td>
 
 ## Social Marketing
@@ -47,7 +47,7 @@ Contact sales to learn more
 </tr>
 <tr>
 <td>
-<img src="logos/logoCV.png" alt="Request Reviews" class="sl-image" style="width:75px"/>
+<img src="https://raw.githubusercontent.com/vendasta/api-gateway-docs/master/docs/Overview/logos/logoCV.png" alt="Request Reviews" class="sl-image" style="width:75px"/>
 </td><td>
 
 ## Customer Voice
@@ -64,7 +64,7 @@ Create and add customers so your clients can send review requests
 </tr>
 <tr>
 <td>
-<img src="logos/logoAdIntel.png" alt="Advertising reporting" class="sl-image" style="width:75px"/>
+<img src="https://raw.githubusercontent.com/vendasta/api-gateway-docs/master/docs/Overview/logos/logoAdIntel.png" alt="Advertising reporting" class="sl-image" style="width:75px"/>
 </td><td>
 
 ## Advertising Intelligence 
@@ -80,7 +80,7 @@ Get a detailed view of your clients' ad performance across Google, Facebook, and
 </tr>
 <tr>
 <td>
-<img src="logos/logoLB.png" alt="Listing accuracy" class="sl-image" style="width:75px"/>
+<img src="https://raw.githubusercontent.com/vendasta/api-gateway-docs/master/docs/Overview/logos/logoLB.png" alt="Listing accuracy" class="sl-image" style="width:75px"/>
 </td><td>
 
 ## Listing Builder

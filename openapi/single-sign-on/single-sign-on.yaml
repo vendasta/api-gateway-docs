@@ -25,7 +25,7 @@ paths:
 
         This operation does not require a token to call, as it is the start of the flow for obtaining tokens for securely calling the Gateway's APIs.
 
-        To use identity tokens, you must use OpenID Connect by requesting the scope `openid` and performing a valid OpenID request. [spec miss on scope must be present]
+        To use identity tokens, you must use OpenID Connect by requesting the scope `openid` and performing a valid OpenID request.
 
         To use refresh tokens, you must use OpenID Connect, request the scope `offline_access`, and a request `prompt` of `consent`. This explicitly asks the user for the elevated offline access via refresh tokens. 
       security: []
@@ -129,7 +129,7 @@ paths:
             type: string
           in: query
           name: post_logout_redirect_uri
-          description: 'URI to redirect to after logout. [This must be preregistered (spec), but we do not yet require or allow this]. [spec miss: id_token_hint is required when this parameter is used.]'
+          description: 'URI to redirect to after logout.'
         - schema:
             type: string
           in: query
@@ -141,11 +141,11 @@ paths:
           name: vig-namespaced-session
           description: 'Cookie for a Vendasta Identity Gateway session, stored at namespaced paths.'
           required: true
-        - schema:
-            type: string
-          in: query
-          name: id_token_hint
-          description: '[spec miss: Identity token of user requesting logout, used to authentically indicate user and service requesting logout. Required if using `post_logout_redirect_uri`.] '
+#        - schema:
+#            type: string
+#          in: query
+#          name: id_token_hint
+#          description: 'Not yet implemented. The identity token of user requesting logout, required when `post_logout_redirect_uri`.'
       tags:
         - Single-Sign-On
       security: []
@@ -275,6 +275,12 @@ paths:
       tags:
         - Single-Sign-On
       security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
   /oauth2/user-info:
     get:
       summary: OpenID User Info

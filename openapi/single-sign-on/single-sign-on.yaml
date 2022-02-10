@@ -109,53 +109,6 @@ paths:
         in: path
         required: true
         description: Partner ID providing identity namespacing
-  '/{partnerID}/oauth2/logout':
-    get:
-      summary: OpenID Logout
-      operationId: openid-logout
-      responses:
-        '200':
-          description: OK
-      x-lifecycle:
-        status: trustedTester
-      description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
-
-        Browsers can be directed to this endpoint to logout. This will end the User's Session at Single-Sign-On and Sessions in other services which were accessed using the Single-Sign-On Session.
-
-        This operation has no security necessarily, but logout can only act upon a browser's session via the request's `vig_session` cookie.
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: post_logout_redirect_uri
-          description: 'URI to redirect to after logout.'
-        - schema:
-            type: string
-          in: query
-          name: namespace
-          description: 'Used as the partnerID if the endpoint is called without a partnerID in the path (`/oauth2/token`), and is required when doing so.'
-        - schema:
-            type: string
-          in: cookie
-          name: vig-namespaced-session
-          description: 'Cookie for a Vendasta Identity Gateway session, stored at namespaced paths.'
-          required: true
-#        - schema:
-#            type: string
-#          in: query
-#          name: id_token_hint
-#          description: 'Not yet implemented. The identity token of user requesting logout, required when `post_logout_redirect_uri`.'
-      tags:
-        - Single-Sign-On
-      security: []
-    parameters:
-      - schema:
-          type: string
-        name: partnerID
-        in: path
-        required: true
-        description: Partner ID providing identity namespacing
   '/{partnerID}/oauth2/token':
     parameters:
       - schema:
@@ -281,6 +234,53 @@ paths:
             schema:
               type: object
               properties: {}
+  '/{partnerID}/oauth2/logout':
+    get:
+      summary: OpenID Logout
+      operationId: openid-logout
+      responses:
+        '200':
+          description: OK
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Browsers can be directed to this endpoint to logout. This will end the User's Session at Single-Sign-On and Sessions in other services which were accessed using the Single-Sign-On Session.
+
+        This operation has no security necessarily, but logout can only act upon a browser's session via the request's `vig_session` cookie.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: post_logout_redirect_uri
+          description: 'URI to redirect to after logout.'
+        - schema:
+            type: string
+          in: query
+          name: namespace
+          description: 'Used as the partnerID if the endpoint is called without a partnerID in the path (`/oauth2/token`), and is required when doing so.'
+        - schema:
+            type: string
+          in: cookie
+          name: vig-namespaced-session
+          description: 'Cookie for a Vendasta Identity Gateway session, stored at namespaced paths.'
+          required: true
+      #        - schema:
+      #            type: string
+      #          in: query
+      #          name: id_token_hint
+      #          description: 'Not yet implemented. The identity token of user requesting logout, required when `post_logout_redirect_uri`.'
+      tags:
+        - Single-Sign-On
+      security: [ ]
+    parameters:
+      - schema:
+          type: string
+        name: partnerID
+        in: path
+        required: true
+        description: Partner ID providing identity namespacing
   /oauth2/user-info:
     get:
       summary: OpenID User Info

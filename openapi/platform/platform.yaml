@@ -1091,6 +1091,339 @@ paths:
       tags:
         - Options
         - Orders
+  '/orders/{id}/relationships/customFields':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Custom Fields ID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    type: object
+                    properties:
+                      related:
+                        type: string
+                      self:
+                        type: string
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: orderCustomFields
+                      id:
+                        type: string
+                        example: AG-1234123412:ORD-1234567
+              examples:
+                Relationship Example:
+                  value:
+                    links:
+                      related: 'http://example.com/platform/orders/AG-1234123412:ORD-1234567/customFields'
+                      self: 'http://example.com/platform/orders/AG-1234123412:ORD-1234567/relationships/customFields'
+                    data:
+                      type: orderCustomFields
+                      id: AG-1234123412:ORD-123456
+      operationId: get-orderCustomFieldsID-by-order
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Returns a reference to the custom metadata for this sales order. Use the path without `/relationships/` in it to get the actual data.
+
+        Attributes can be set up at the partner administration page in Partner Center.
+      security:
+        - OAuth2:
+            - order
+      x-lifecycle:
+        status: trustedTester
+      tags:
+        - Orders
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+    options:
+      summary: ''
+      operationId: options-orderCustomFieldsID-by-order
+      responses:
+        '204':
+          description: No Content
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+        - Orders
+  '/orders/{id}/customFields':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Custom Fields
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/orderCustomFields'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+              examples:
+                Return Example:
+                  value:
+                    data:
+                      id: AG-1231231:ORD-1234567
+                      type: salesAccountCustomFields
+                      attributes:
+                        partnerFields:
+                          - fieldID: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
+                            integerValue: 1000
+                            title: Title of 123448ca field
+                            description: Description for 123448ca field
+                            fieldType: integer
+                          - fieldID: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
+                            dateValue: A good date value
+                            title: Title of 987448ca field
+                            description: Description for 987448ca field
+                            fieldType: date
+                          - fieldID: FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99
+                            stringValue: A good string value
+                            title: Title of abc448ca field
+                            description: Description for abc448ca field
+                            fieldType: string
+      operationId: get-orderCustomFields-by-order
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        This endpoint acts like a alias to [Get Order Custom Fields by ID endpoint](b3A6MzYxMTM5MTY-get-order-custom-data-by-id). It returns custom fields about a sales order.
+      security:
+        - OAuth2:
+            - order
+      x-lifecycle:
+        status: trustedTester
+      tags:
+        - Orders
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+    options:
+      summary: ''
+      operationId: options-orderCustomFields-by-order
+      responses:
+        '204':
+          description: No Content
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+        - Orders
+  '/orderCustomFields/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        example: AG-1231231:ORD-1234567
+        description: The ID of the Custom Fields - actually the same id of the Sales Order
+    patch:
+      summary: Update Custom Fields
+      operationId: patch-orderCustomFields-by-id
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/orderCustomFields'
+              required:
+                - data
+            examples:
+              'Example with String, Date and Integer':
+                value:
+                  data:
+                    id: AG-1231231:ORD-1234567
+                    type: orderCustomFields
+                    attributes:
+                      partnerFields:
+                        - fieldID: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
+                          integerValue: 1000
+                        - fieldID: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
+                          dateValue: A good date value
+                        - fieldID: FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99
+                          stringValue: A good string value
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/orderCustomFields'
+              examples:
+                Return Example:
+                  value:
+                    data:
+                      id: AG-1231231:ORD-1234567
+                      type: orderCustomFields
+                      attributes:
+                        partnerFields:
+                          - fieldID: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
+                            integerValue: 1000
+                            title: Title of 123448ca field
+                            description: Description for 123448ca field
+                            fieldType: integer
+                          - fieldID: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
+                            dateValue: A good date value
+                            title: Title of 987448ca field
+                            description: Description for 987448ca field
+                            fieldType: date
+                          - fieldID: FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99
+                            stringValue: A good string value
+                            title: Title of abc448ca field
+                            description: Description for abc448ca field
+                            fieldType: string
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Custom Fields are an additional information attached to an Order
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      security:
+        - OAuth2:
+            - order
+      tags:
+        - Order Custom Fields
+    get:
+      summary: Get Custom Fields by ID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/orderCustomFields'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                      next:
+                        type: string
+                        description: The URI at which the next batch of purchases can be gotten from
+                        format: uri
+              examples:
+                Return Example:
+                  value:
+                    data:
+                      id: AG-1231231:ORD-1234567
+                      type: orderCustomFields
+                      attributes:
+                        partnerFields:
+                          - fieldID: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
+                            integerValue: 1000
+                            title: Title of 123448ca field
+                            description: Description for 123448ca field
+                            fieldType: integer
+                          - fieldID: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
+                            dateValue: A good date value
+                            title: Title of 987448ca field
+                            description: Description for 987448ca field
+                            fieldType: date
+                          - fieldID: FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99
+                            stringValue: A good string value
+                            title: Title of abc448ca field
+                            description: Description for abc448ca field
+                            fieldType: string
+      operationId: get-orderCustomFields-by-id
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Returns custom fields about a sales order.
+
+        Attributes can be set up at the partner administration page in Partner Center.
+      security:
+        - OAuth2:
+            - order
+      x-lifecycle:
+        status: trustedTester
+      tags:
+        - Order Custom Fields
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+    options:
+      summary: ''
+      operationId: options-orderCustomFields-by-id
+      responses:
+        '204':
+          description: No Content
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+        - Order Custom Fields
   '/users/{id}/relationships/businessLocations':
     parameters:
       - schema:
@@ -1983,7 +2316,7 @@ paths:
                       id: AG-1234123412
       operationId: get-salesAccountCustomFieldsID-by-salesAccount
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Returns a reference to the custom metadata for this sales account. Use the path without `/relationships/` in it to get the actual data.
 
@@ -1992,7 +2325,7 @@ paths:
         - OAuth2:
             - sales.account
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       tags:
         - Sales Accounts
       parameters:
@@ -3120,6 +3453,204 @@ components:
                         - businessLocations
               required:
                 - data
+    orderCustomFields:
+      title: Order Custom Fields
+      type: object
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Custom fields associated with a sales order. The field definitions can be managed at Partner Center -> Administration -> Custom Fields.
+
+        Dropdown possible value and the currency code are also configured in the Administration panel.
+      x-examples:
+        Custom Fields with string value Example:
+          data:
+            id: 'AG-1231231:ORD-1234567'
+            type: orderCustomFields
+            partnerFields:
+              - fieldId: FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99
+                stringValue: A good string value
+                title: Title of abc448ca field
+                description: Description for abc448ca field
+                fieldType: string
+        Custom Fields with integer value Example:
+          data:
+            id: 'AG-1231231:ORD-1234567'
+            type: orderCustomFields
+            partnerFields:
+              - fieldId: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
+                integerValue: 1000
+                title: Title of 123448ca field
+                description: Description for 123448ca field
+                fieldType: integer
+        Custom Fields with Date value Example:
+          data:
+            id: 'AG-1231231:ORD-1234567'
+            type: orderCustomFields
+            partnerFields:
+              - fieldId: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
+                dateValue: '2016-01-02T15:04:05Z'
+                title: Title of 987448ca field
+                description: Description for 987448ca field
+                fieldType: date
+        Custom Fields Full:
+          data:
+            id: 'AG-1231231:ORD-1234567'
+            type: orderCustomFields
+            partnerFields:
+              - fieldId: FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99
+                stringValue: A good string value
+                title: Title of abc448ca field
+                description: Description for abc448ca field
+                fieldType: string
+              - fieldId: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
+                integerValue: 1000
+                title: Title of 123448ca field
+                description: Description for 123448ca field
+                fieldType: integer
+              - fieldId: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
+                dateValue: '2022-01-02T15:04:05Z'
+                title: Title of 987448ca field
+                description: Description for 987448ca field
+                fieldType: date
+              - fieldId: FieldID-987448f2-abc0-abc5-abc2-abc640bf4b00
+                dropdownValue: red
+                title: Title of 987448f2 field
+                description: Description for 987448f2 field
+                fieldType: dropdown
+              - fieldId: FieldID-98744854-abc0-abc5-abc2-abc640bf4b01
+                currencyValue: 10000
+                title: Title of 98744854 field
+                description: Description for 98744854 field
+                fieldType: currency
+                currencyCode: CAD
+        Custom Fields with Dropdown Example:
+          data:
+            id: 'AG-1231231:ORD-1234567'
+            type: orderCustomFields
+            partnerFields:
+              - fieldId: FieldID-987448f2-abc0-abc5-abc2-abc640bf4b00
+                dropdownValue: red
+                title: Title of 987448f2 field
+                description: Description for 987448f2 field
+                fieldType: dropdown
+        Custom Fields with Currency Example:
+          data:
+            id: 'AG-1231231:ORD-1234567'
+            type: orderCustomFields
+            partnerFields:
+              - fieldId: FieldID-98744854-abc0-abc5-abc2-abc640bf4b01
+                currencyValue: 10000
+                title: Title of 98744854 field
+                description: Description for 98744854 field
+                fieldType: currency
+                currencyCode: CAD
+      x-tags:
+        - Order Custom Fields
+      properties:
+        id:
+          type: string
+          example: 'AG-1231231:ORD-1234567'
+          description: 'An identifier for the parent entity, for example order (AG-1231231:ORD-12345671)'
+          readOnly: true
+        type:
+          type: string
+          default: orderCustomFields
+          enum:
+            - orderCustomFields
+          description: Should always be orderCustomFields
+        attributes:
+          type: object
+          properties:
+            partnerFields:
+              type: array
+              description: |-
+                List of custom fields specific to the partner with a direct relationship to the sales order.
+                To send a new value each field must have at least the fieldId and its correspondent value.
+                For example a field of type string must have the stringValue attribute filled.
+                
+                string -> stringValue
+                
+                integer -> integerValue
+                
+                date -> dateValue
+                
+                Only the fields that you wish to modify need to be sent.
+              items:
+                type: object
+                properties:
+                  fieldId:
+                    type: string
+                    description: 'Field identifier, can be retrived by listing the attributes'
+                  fieldType:
+                    type: string
+                    example: string
+                    enum:
+                      - string
+                      - interger
+                      - date
+                      - dropdown
+                      - currency
+                    description: |-
+                      Indicates which of the value fields to use to read or write the data. It can only be modified from within partner center. 
+                      
+                      string -> stringValue
+                      
+                      integer -> integerValue
+                      
+                      date -> dateValue
+                      
+                      dropdown -> dropdownValue
+                      
+                      currency -> currencyValue
+                    readOnly: true
+                  stringValue:
+                    type: string
+                    description: Required when the field type is `string`
+                  integerValue:
+                    type: integer
+                    description: Required when the field type is `integer`
+                  dateValue:
+                    type: string
+                    description: Required when the field type is `date`
+                    format: date
+                  dropdownValue:
+                    type: string
+                    description: Required when type is `dropdown`. The possible values can be discovered using the administration panel.
+                  currencyValue:
+                    type: integer
+                    description: |-
+                      Required when the field type is `currency`.
+                      
+                      This field represents the cents (or the smallest part of the currency).
+                      
+                      Example:
+                      USD 600.00 -> currencyValue=60000
+                  currencyCode:
+                    type: string
+                    minLength: 3
+                    maxLength: 3
+                    description: |-
+                      Represents the type of currency when the field is type `currency`. It will be the 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
+                      
+                      Ex: USD, CAD, AUD
+                    example: USD
+                    readOnly: true
+                  title:
+                    type: string
+                    description: 'The main label for the field, appering in most user interfaces that show the value. This field is not read when setting a value.'
+                    readOnly: true
+                  description:
+                    type: string
+                    description: 'A longer text explaination of the field, it optionally appears in the UI. This field is not read when setting a value.'
+                    readOnly: true
+                required:
+                  - fieldId
+      required:
+        - id
+        - type
     businessCategories:
       title: Business Category
       type: object
@@ -3803,7 +4334,7 @@ components:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Custom fields associated with a sales account. These attributes can be managed at Partner Center -> Administration -> Data attributes.
+        Custom fields associated with a sales account. The field definitions can be managed at Partner Center -> Administration -> Custom Fields.
 
         Dropdown possible value and the currency code are also configured in the Administration panel.
       x-examples:
@@ -3933,7 +4464,7 @@ components:
                   - dropdown
                   - currency
                 description: |-
-                  Indicates which of the value fields to use to read or write the data. It can only be modified from within partner center. 
+                  Indicates which of the value fields to use to read or write the data. It can only be modified from within partner center.
 
                   string -> stringValue
                   integer -> integerValue
@@ -3994,7 +4525,7 @@ components:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Custom fields associated with a user. These attributes can be managed at Partner Center -> Administration -> Data attributes.
+        Custom fields associated with a user. The field definitions can be managed at Partner Center -> Administration -> Custom Fields.
 
         Dropdown possible value and the currency code are also configured in the Administration panel.
       x-examples:
@@ -4124,7 +4655,7 @@ components:
                   - dropdown
                   - currency
                 description: |-
-                  Indicates which of the value fields to use to read or write the data. It can only be modified from within partner center. 
+                  Indicates which of the value fields to use to read or write the data. It can only be modified from within partner center.
 
                   string -> stringValue
                   integer -> integerValue
@@ -4188,5 +4719,6 @@ tags:
   - name: User Custom Fields
   - name: Purchases
   - name: Orders
+  - name: Order Custom Fields
   - name: Partners
   - name: Options

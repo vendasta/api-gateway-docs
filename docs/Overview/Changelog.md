@@ -2,6 +2,10 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2022-03-02
+### Order Custom Fields REST API added
+Trusted testers now have access to Update and Get Order Custom Fields.
+
 ## 2022-02-23
 ### Inflate order products
 Orders can contain packages or products. Now the order line items will contain the products that are part of the packages that are in the order. They have been marked up accordingly so you can differentiate between them.

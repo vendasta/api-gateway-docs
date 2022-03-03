@@ -2,6 +2,10 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2022-03-03
+### List business location reviews 
+Trusted testers now have access to list the reviews that were collected by the Reputation Management product.
+
 ## 2022-03-02
 ### Order Custom Fields REST API added
 Trusted testers now have access to Update and Get Order Custom Fields.

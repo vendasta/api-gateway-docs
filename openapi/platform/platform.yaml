@@ -2052,56 +2052,57 @@ paths:
               examples:
                 example-1:
                   value:
-                    id: AG-1234567
-                    type: salesAccounts
-                    attributes:
-                      tags:
-                        - tag1
-                        - tag2
-                      customerIdentifier: User-defined-id-123123
-                      name: Company Example
-                      address:
-                        line1: 109 8th Street E.
-                        line2: Suite 23
-                        city: Saskatoon
-                        stateCode: CA
-                        zip: S7M 1R3
-                        postalCode: S7M 1R3
-                        regionCode: CA-SK
-                        countryCode: CA
-                      phoneNumbers:
-                        - '+13068800001'
-                      serviceAreaBusiness: true
-                      geoCoordinate:
-                        latitude: -90
-                        longitude: -180
-                    relationships:
-                      salesPeople:
-                        data:
-                          - id: U-123123-123123
-                            type: users
-                      customFields:
-                        data:
-                          - id: AG-1234567
-                            type: customFields
-                      businessPartner:
-                        data:
-                          type: partners
-                          id: ABC
-                      businessCategories:
-                        data:
-                          - type: businessCategories
-                            id: 'active:diving:freediving'
+                    data:
+                      id: AG-1234567
                       type: salesAccounts
-                    included:
-                      - id: AG-1231231
-                        type: salesAccountCustomFields
-                        partnerFields:
-                          - fieldId: FieldID-1231231-12312312
-                            stringValue: Text value
-                            title: Title of field FieldID-1231231
-                            description: Description of field FieldID-1231231
-                            fieldType: string
+                      attributes:
+                        tags:
+                          - tag1
+                          - tag2
+                        customerIdentifier: User-defined-id-123123
+                        name: Company Example
+                        address:
+                          line1: 109 8th Street E.
+                          line2: Suite 23
+                          city: Saskatoon
+                          stateCode: CA
+                          zip: S7M 1R3
+                          postalCode: S7M 1R3
+                          regionCode: CA-SK
+                          countryCode: CA
+                        phoneNumbers:
+                          - '+13068800001'
+                        serviceAreaBusiness: true
+                        geoCoordinate:
+                          latitude: -90
+                          longitude: -180
+                      relationships:
+                        salesPeople:
+                          data:
+                            - id: U-123123-123123
+                              type: users
+                        customFields:
+                          data:
+                            - id: AG-1234567
+                              type: customFields
+                        businessPartner:
+                          data:
+                            type: partners
+                            id: ABC
+                        businessCategories:
+                          data:
+                            - type: businessCategories
+                              id: 'active:diving:freediving'
+                        type: salesAccounts
+                      included:
+                        - id: AG-1231231
+                          type: salesAccountCustomFields
+                          partnerFields:
+                            - fieldId: FieldID-1231231-12312312
+                              stringValue: Text value
+                              title: Title of field FieldID-1231231
+                              description: Description of field FieldID-1231231
+                              fieldType: string
       operationId: get-salesAccounts-by-id
       x-lifecycle:
         status: trustedTester
@@ -2186,6 +2187,57 @@ paths:
               examples:
                 example-1:
                   value:
+                    data:
+                      id: AG-1234567
+                      type: salesAccounts
+                      attributes:
+                        tags:
+                          - tag1
+                          - tag2
+                        customerIdentifier: User-defined-id-123123
+                        name: Company Example
+                        address:
+                          line1: 109 8th Street E.
+                          line2: Suite 23
+                          city: Saskatoon
+                          stateCode: CA
+                          zip: S7M 1R3
+                          postalCode: S7M 1R3
+                          regionCode: CA-SK
+                          countryCode: CA
+                        phoneNumbers:
+                          - '+13068800001'
+                        serviceAreaBusiness: true
+                        geoCoordinate:
+                          latitude: -90
+                          longitude: -180
+                      relationships:
+                        salesPeople:
+                          data:
+                            - id: U-123123-123123
+                              type: users
+                        businessPartner:
+                          data:
+                            type: partners
+                            id: ABC
+                        businessCategories:
+                          data:
+                            - type: businessCategories
+                              id: 'active:diving:freediving'
+                        type: salesAccounts
+          headers: {}
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/salesAccounts'
+            examples:
+              example-1:
+                value:
+                  data:
                     id: AG-1234567
                     type: salesAccounts
                     attributes:
@@ -2223,55 +2275,6 @@ paths:
                           - type: businessCategories
                             id: 'active:diving:freediving'
                       type: salesAccounts
-          headers: {}
-      requestBody:
-        content:
-          application/vnd.api+json:
-            schema:
-              type: object
-              properties:
-                data:
-                  $ref: '#/components/schemas/salesAccounts'
-            examples:
-              example-1:
-                value:
-                  id: AG-1234567
-                  type: salesAccounts
-                  attributes:
-                    tags:
-                      - tag1
-                      - tag2
-                    customerIdentifier: User-defined-id-123123
-                    name: Company Example
-                    address:
-                      line1: 109 8th Street E.
-                      line2: Suite 23
-                      city: Saskatoon
-                      stateCode: CA
-                      zip: S7M 1R3
-                      postalCode: S7M 1R3
-                      regionCode: CA-SK
-                      countryCode: CA
-                    phoneNumbers:
-                      - '+13068800001'
-                    serviceAreaBusiness: true
-                    geoCoordinate:
-                      latitude: -90
-                      longitude: -180
-                  relationships:
-                    salesPeople:
-                      data:
-                        - id: U-123123-123123
-                          type: users
-                    businessPartner:
-                      data:
-                        type: partners
-                        id: ABC
-                    businessCategories:
-                      data:
-                        - type: businessCategories
-                          id: 'active:diving:freediving'
-                    type: salesAccounts
   '/salesAccounts/{id}/relationships/customFields':
     parameters:
       - schema:
@@ -3404,15 +3407,16 @@ components:
         - Partners
       x-examples:
         example-1:
-          id: ABC
-          type: partners
-          attributes:
-            name: Mountain Media
-          relationships:
-            parent:
-              data:
-                id: VMF
-                type: partners
+          data:
+            id: ABC
+            type: partners
+            attributes:
+              name: Mountain Media
+            relationships:
+              parent:
+                data:
+                  id: VMF
+                  type: partners
     purchases:
       title: Purchase
       type: object
@@ -4246,54 +4250,55 @@ components:
         - Sales Accounts
       x-examples:
         Sales Account Example:
-          id: AG-1234567
-          type: salesAccounts
-          attributes:
-            tags:
-              - tag1
-              - tag2
-            customerIdentifier: User-defined-id-123123
-            name: Company Example
-            address:
-              line1: 109 8th Street E.
-              line2: Suite 23
-              city: Saskatoon
-              postalCode: S7M 1R3
-              regionCode: CA-SK
-              countryCode: CA
-            phoneNumbers:
-              - '+13068800001'
-            serviceAreaBusiness: true
-            geoCoordinate:
-              latitude: -90
-              longitude: -180
-          relationships:
-            salesPeople:
-              data:
-                - id: U-123123-123123
-                  type: users
-            customFields:
-              data:
-                - id: AG-1234567
-                  type: customFields
-            businessPartner:
-              data:
-                type: partners
-                id: ABC
-            businessCategories:
-              data:
-                - type: businessCategories
-                  id: 'active:diving:freediving'
+          data:
+            id: AG-1234567
             type: salesAccounts
-          included:
-            - id: AG-1231231
-              type: salesAccountCustomFields
-              partnerFields:
-                - fieldId: FieldID-1231231-12312312
-                  stringValue: Text value
-                  title: Title of field FieldID-1231231
-                  description: Description of field FieldID-1231231
-                  fieldType: string
+            attributes:
+              tags:
+                - tag1
+                - tag2
+              customerIdentifier: User-defined-id-123123
+              name: Company Example
+              address:
+                line1: 109 8th Street E.
+                line2: Suite 23
+                city: Saskatoon
+                postalCode: S7M 1R3
+                regionCode: CA-SK
+                countryCode: CA
+              phoneNumbers:
+                - '+13068800001'
+              serviceAreaBusiness: true
+              geoCoordinate:
+                latitude: -90
+                longitude: -180
+            relationships:
+              salesPeople:
+                data:
+                  - id: U-123123-123123
+                    type: users
+              customFields:
+                data:
+                  - id: AG-1234567
+                    type: customFields
+              businessPartner:
+                data:
+                  type: partners
+                  id: ABC
+              businessCategories:
+                data:
+                  - type: businessCategories
+                    id: 'active:diving:freediving'
+              type: salesAccounts
+            included:
+              - id: AG-1231231
+                type: salesAccountCustomFields
+                partnerFields:
+                  - fieldId: FieldID-1231231-12312312
+                    stringValue: Text value
+                    title: Title of field FieldID-1231231
+                    description: Description of field FieldID-1231231
+                    fieldType: string
       properties:
         id:
           type: string

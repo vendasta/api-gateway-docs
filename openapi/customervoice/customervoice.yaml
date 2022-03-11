@@ -29,6 +29,7 @@ paths:
                     $ref: '#/components/schemas/reviewRequests'
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        
         Sends an email or SMS review request using a Customer Voice template.
       tags:
         - Review Requests
@@ -102,6 +103,7 @@ components:
       type: object
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        
         A Review Request is an instance of a business location attempting to send an email or SMS review request to a customer.
       x-lifecycle:
         status: trustedTester
@@ -158,10 +160,15 @@ components:
                 - unsubscribed
               description: |-
                 `sending`- the initial status of a successfully created ReviewRequest.
+
                 `sent`- set when review request delivery is confirmed.
+
                 `opened`- set when an email review request has been opened.
+
                 `clicked`- set when the review site link has been clicked in a review request.
+
                 `dropped`- set when a review request delivery has failed ex. sending an SMS review request to a landline phone number.
+
                 `unsubscribed`- set when attempting to send a request to a customer that has previously unsubscribed from review requests from this business location.
               readOnly: true
             createdAt:

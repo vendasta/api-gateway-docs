@@ -52,7 +52,6 @@ paths:
       description: Retrieve stats for all connected advertising accounts for a given business location.
       parameters:
         - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/Content-Type'
         - $ref: '#/components/parameters/startAt'
         - $ref: '#/components/parameters/endAt'
         - $ref: '#/components/parameters/businessLocation.id'
@@ -119,7 +118,6 @@ paths:
       description: Retrieve account stats for one connected advertising account
       parameters:
         - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/Content-Type'
         - $ref: '#/components/parameters/startAt'
         - $ref: '#/components/parameters/endAt'
       security:
@@ -183,7 +181,6 @@ paths:
       description: Retrieve the metadata of a single connected advertising account.
       parameters:
         - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/Content-Type'
       security:
         - OAuth2:
             - advertising
@@ -237,7 +234,6 @@ paths:
             - advertising
       parameters:
         - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/Content-Type'
         - $ref: '#/components/parameters/businessLocation.id'
         - $ref: '#/components/parameters/provider'
         - $ref: '#/components/parameters/connectedAccount.resourceId'
@@ -278,7 +274,6 @@ paths:
         - Campaign Info
       parameters:
         - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/Content-Type'
         - schema:
             type: boolean
           in: query
@@ -351,7 +346,6 @@ paths:
             - adintel
       parameters:
         - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/Content-Type'
       x-lifecycle:
         status: trustedTester
     options:
@@ -394,7 +388,6 @@ paths:
             - advertising
       parameters:
         - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/Content-Type'
         - $ref: '#/components/parameters/startAt'
         - $ref: '#/components/parameters/endAt'
         - schema:
@@ -465,7 +458,6 @@ paths:
             - advertising
       parameters:
         - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/Content-Type'
         - $ref: '#/components/parameters/startAt'
         - $ref: '#/components/parameters/endAt'
       x-lifecycle:
@@ -725,6 +717,14 @@ components:
         - type
         - attributes
   parameters:
+    connectedAccount.id:
+      name: connectedAccount.id
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 'AG-HDV4JKPXFR:google:7531238654'
+      description: Resource ID of a Connected Advertising Account
     startAt:
       name: startAt
       in: query

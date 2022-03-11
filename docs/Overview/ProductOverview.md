@@ -6,7 +6,7 @@
 <img src="https://raw.githubusercontent.com/vendasta/api-gateway-docs/master/docs/Overview/logos/logoCalenderHero.png" alt="Calendar Scheduling" class="sl-image" style="width:75px"/>
 </td><td>
 
-## Calendar Hero
+## CalendarHero
 
 ### Meeting publishing
 

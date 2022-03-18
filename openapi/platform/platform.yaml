@@ -1123,7 +1123,7 @@ paths:
                         example: orderCustomFields
                       id:
                         type: string
-                        example: AG-1234123412:ORD-1234567
+                        example: 'AG-1234123412:ORD-1234567'
               examples:
                 Relationship Example:
                   value:
@@ -1132,7 +1132,7 @@ paths:
                       self: 'http://example.com/platform/orders/AG-1234123412:ORD-1234567/relationships/customFields'
                     data:
                       type: orderCustomFields
-                      id: AG-1234123412:ORD-123456
+                      id: 'AG-1234123412:ORD-123456'
       operationId: get-orderCustomFieldsID-by-order
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
@@ -1195,7 +1195,7 @@ paths:
                 Return Example:
                   value:
                     data:
-                      id: AG-1231231:ORD-1234567
+                      id: 'AG-1231231:ORD-1234567'
                       type: salesAccountCustomFields
                       attributes:
                         partnerFields:
@@ -1252,7 +1252,7 @@ paths:
         name: id
         in: path
         required: true
-        example: AG-1231231:ORD-1234567
+        example: 'AG-1231231:ORD-1234567'
         description: The ID of the Custom Fields - actually the same id of the Sales Order
     patch:
       summary: Update Custom Fields
@@ -1271,7 +1271,7 @@ paths:
               'Example with String, Date and Integer':
                 value:
                   data:
-                    id: AG-1231231:ORD-1234567
+                    id: 'AG-1231231:ORD-1234567'
                     type: orderCustomFields
                     attributes:
                       partnerFields:
@@ -1295,7 +1295,7 @@ paths:
                 Return Example:
                   value:
                     data:
-                      id: AG-1231231:ORD-1234567
+                      id: 'AG-1231231:ORD-1234567'
                       type: orderCustomFields
                       attributes:
                         partnerFields:
@@ -1373,7 +1373,7 @@ paths:
                 Return Example:
                   value:
                     data:
-                      id: AG-1231231:ORD-1234567
+                      id: 'AG-1231231:ORD-1234567'
                       type: orderCustomFields
                       attributes:
                         partnerFields:
@@ -1817,42 +1817,42 @@ paths:
             examples:
               Insert Sales Account Example:
                 value:
-                  type: salesAccounts
-                  attributes:
-                    tags:
-                      - tag1
-                      - tag2
-                    customerIdentifier: User-defined-id-123123
-                    name: Company Example
-                    address:
-                      line1: 109 8th Street E.
-                      line2: Suite 23
-                      city: Saskatoon
-                      stateCode: CA
-                      zip: S7M 1R3
-                      postalCode: S7M 1R3
-                      regionCode: CA-SK
-                      countryCode: CA
-                    phoneNumbers:
-                      - '+13068800001'
-                    serviceAreaBusiness: true
-                    geoCoordinate:
-                      latitude: -90
-                      longitude: -180
-                  relationships:
-                    salesPeople:
-                      data:
-                        - id: U-123123-123123
-                          type: users
-                    businessPartner:
-                      data:
-                        type: partners
-                        id: ABC
-                    businessCategories:
-                      data:
-                        - type: businessCategories
-                          id: 'active:diving:freediving'
+                  data:
                     type: salesAccounts
+                    attributes:
+                      tags:
+                        - tag1
+                        - tag2
+                      customerIdentifier: User-defined-id-123123
+                      name: Company Example
+                      address:
+                        line1: 109 8th Street E.
+                        line2: Suite 23
+                        city: Saskatoon
+                        stateCode: CA
+                        zip: S7M 1R3
+                        postalCode: S7M 1R3
+                        regionCode: CA-SK
+                        countryCode: CA
+                      phoneNumbers:
+                        - '+13068800001'
+                      serviceAreaBusiness: true
+                      geoCoordinate:
+                        latitude: -90
+                        longitude: -180
+                    relationships:
+                      salesPeople:
+                        data:
+                          - id: U-123123-123123
+                            type: users
+                      businessPartner:
+                        data:
+                          type: partners
+                          id: ABC
+                      businessCategories:
+                        data:
+                          - type: businessCategories
+                            id: 'active:diving:freediving'
       x-lifecycle:
         status: trustedTester
       description: |-
@@ -2874,7 +2874,7 @@ paths:
         in: path
         required: true
         example: ABC-MP-1234567890ABCDEFGHIJKLMNOPQRSTUV
-        description: The ID of the Custom Fields, which is a Product ID
+        description: 'The ID of the Custom Fields, which is a Product ID'
     patch:
       summary: Update Custom Fields for a product
       operationId: patch-productCustomFields-by-id
@@ -3751,13 +3751,13 @@ components:
                 List of custom fields specific to the partner with a direct relationship to the sales order.
                 To send a new value each field must have at least the fieldId and its correspondent value.
                 For example a field of type string must have the stringValue attribute filled.
-                
+
                 string -> stringValue
-                
+
                 integer -> integerValue
-                
+
                 date -> dateValue
-                
+
                 Only the fields that you wish to modify need to be sent.
               items:
                 type: object
@@ -3776,15 +3776,15 @@ components:
                       - currency
                     description: |-
                       Indicates which of the value fields to use to read or write the data. It can only be modified from within partner center. 
-                      
+
                       string -> stringValue
-                      
+
                       integer -> integerValue
-                      
+
                       date -> dateValue
-                      
+
                       dropdown -> dropdownValue
-                      
+
                       currency -> currencyValue
                     readOnly: true
                   stringValue:
@@ -3804,9 +3804,9 @@ components:
                     type: integer
                     description: |-
                       Required when the field type is `currency`.
-                      
+
                       This field represents the cents (or the smallest part of the currency).
-                      
+
                       Example:
                       USD 600.00 -> currencyValue=60000
                   currencyCode:
@@ -3815,7 +3815,7 @@ components:
                     maxLength: 3
                     description: |-
                       Represents the type of currency when the field is type `currency`. It will be the 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
-                      
+
                       Ex: USD, CAD, AUD
                     example: USD
                     readOnly: true
@@ -4215,7 +4215,6 @@ components:
                     id:
                       type: string
                       example: AG-1234567
-                      #pattern: ^AG- # Removed to support ID Translation for Telkom
             order:
               type: object
               description: 'Proposed: A link to the order that this automation is being run for. Either the businessLocation or order is required. (It depends on the automation type.)'

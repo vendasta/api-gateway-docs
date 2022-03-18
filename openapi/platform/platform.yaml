@@ -4326,6 +4326,13 @@ components:
               type: string
               description: The common name for this location
               example: CN Tower
+            commonNames:
+              type: array
+              description: A common name for a business (Something it is often referred to as)
+              maxItems: 3
+              minItems: 0
+              items:
+                type: string
             address:
               type: object
               properties:
@@ -4402,6 +4409,37 @@ components:
               required:
                 - latitude
                 - longitude
+            seoKeywords:
+              type: array
+              minItems: 0
+              maxItems: 3
+              description: SEO (Search Engine Optimization) Keywords are key words or phrases that help customers find your business via search engines. These keywords may be displayed on Listing Builder's My Listing page and similar products to enhance SEO.
+              items:
+                type: string
+            website:
+              type: string
+              format: uri
+              description: 'The primary website for this business location. http:// will be automatically added if no schema is provided.'
+              example: 'https://www.vendasta.com'
+            servicesOffered:
+              type: array
+              maxItems: 15
+              minItems: 0
+              description: |-
+                The primary services that the business offers. For example personal tax filing, business tax filing. 
+
+                Total length of services offered must be less than 256 characters, when joined with commas. Maximum instances: 15
+              items:
+                type: string
+                example: root canals
+            descriptionShort:
+              type: string
+              maxLength: 200
+              description: A public summary of the business. See also `descriptionLong`
+            descriptionLong:
+              type: string
+              maxLength: 750
+              description: A public summary of the business. See also `descriptionShort`
         relationships:
           type: object
           properties:

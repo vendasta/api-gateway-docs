@@ -18,4 +18,4 @@ Here are the following areas that we currently support SSO for:
 - Customer Voice
 - Website Pro
 - Advertising Intelligence
-
+- Most other marketplace apps

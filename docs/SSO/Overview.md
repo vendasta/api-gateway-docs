@@ -11,7 +11,8 @@ Let a user access the Vendasta platform and marketplace apps by entering their u
 
 ## Service Provider (SP) SSO
 Let users who are already logged into Vendasta access your site/app. If you are a vendor partner with a marketplace app this guide is for you.
-[Guide coming soon]
+
+[Find out more](https://developers.vendasta.com/vendor/ZG9jOjE2NTY5Mzky-requirement-2-sso-o-auth2-3-legged-flow)
 
 ## Build Navigation Links
 If you want to allow users to move from your app to another app follow this guide to build links that use the correct white-label domains for the user.

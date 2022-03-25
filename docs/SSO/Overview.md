@@ -6,7 +6,8 @@ There are several different ways to set up SSO depending on your needs. Please c
 
 ## Identity Provider (IDP) SSO
 Let a user access the Vendasta platform and marketplace apps by entering their username and password on your site. If you are a reseller partner this guide is for you.
-[Guide coming soon]
+
+[Find out more](docs/SSO/Identity-Provider-(IDP)-SSO.md)
 
 ## Service Provider (SP) SSO
 Let users who are already logged into Vendasta access your site/app. If you are a vendor partner with a marketplace app this guide is for you.

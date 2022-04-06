@@ -3254,6 +3254,11 @@ components:
               required:
                 - latitude
                 - longitude
+            hours:
+              type: array
+              items:
+                $ref: '#/components/schemas/hoursOfOperation'
+                
         relationships:
           type: object
           properties:
@@ -4496,6 +4501,10 @@ components:
               type: string
               maxLength: 750
               description: A public summary of the business. See also `descriptionShort`
+            hours:
+              type: array
+              items:
+                $ref: '#/components/schemas/hoursOfOperation'
         relationships:
           type: object
           properties:
@@ -5102,6 +5111,88 @@ components:
       required:
         - id
         - type
+    hoursOfOperation:
+      type: array
+      description: Each entry in the array is a set of hours for a particular department or customer of the business. It is recommended to provide a set of 'general' hours for all locations.
+      items:
+        type: object
+        properties:
+          hoursTypeId:
+            type: string
+            enum:
+              - general
+              - delivery
+              - kitchen
+              - driveThrough
+              - pickup
+              - takeout
+            description: The category of hours that may apply to a specific department or service. Not all types are valid for all business categories.
+          regularHours:
+            title: Hours on the days of the week
+            type: array
+            items:
+              type: object
+              properties:
+                openDay:
+                  $ref: '#/components/schemas/dayOfTheWeek'
+                closeDay:
+                  $ref: '#/components/schemas/dayOfTheWeek'
+                openTime:
+                  $ref: '#/components/schemas/timeOfDay'
+                closeTime:
+                  $ref: '#/components/schemas/timeOfDay'
+          specialHours:
+            title: Hours on specific days of the year
+            type: array
+            items:
+              type: object
+              properties:
+                startDate:
+                  $ref: '#/components/schemas/dayOfTheYear'
+                endDate:
+                  $ref: '#/components/schemas/dayOfTheYear'
+                openTime:
+                  $ref: '#/components/schemas/timeOfDay'
+                closeTime:
+                  $ref: '#/components/schemas/timeOfDay'
+    dayOfTheYear:
+      title: a day in the year
+      type: object
+      properties:
+        year:
+          type: integer
+        month:
+          type: integer
+          minimum: 1
+          maximum: 12
+        day:
+          type: integer
+          minimum: 1
+          maximum: 31
+    dayOfTheWeek:
+      title: a day of the week
+      type: string
+      enum:
+        - monday
+        - tuesday
+        - wednesday
+        - thursday
+        - friday
+        - saturday
+        - sunday
+    timeOfDay:
+      title: a time of day
+      type: object
+      properties:
+        hours:
+          type: integer
+          minimum: 0
+          maximum: 23
+          description: 'Hour of the day, 24-hour clock'
+        minutes:
+          type: integer
+          minimum: 0
+          maximum: 59
 tags:
   - name: Automation Runs
   - name: Business Categories

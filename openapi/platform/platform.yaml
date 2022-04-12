@@ -1752,6 +1752,59 @@ paths:
       tags:
         - Options
         - Automation Runs
+  /automations/{id}:
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Automation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/automation'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    data:
+                      id: Automation-abcd1234-12ab-12ab-12ab-12ab12ab12ab
+                      type: automation
+                      attributes:
+                        name: Example Automation
+      operationId: get-automation-by-id
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        
+        Returns basic data about the automation.
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+      security:
+        - OAuth2:
+            - automation:read
+      tags:
+        - Automations
   /salesAccounts:
     post:
       summary: Create Sales Account
@@ -4294,6 +4347,38 @@ components:
       required:
         - type
         - relationships
+    automation:
+      title: Automation
+      type: object
+      x-examples: { }
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        
+        An Automation is a trigger and set of actions performed when the trigger is activated.
+      x-tags:
+        - Automation
+      properties:
+        type:
+          type: string
+          default: automations
+          enum:
+            - automations
+          readOnly: true
+        id:
+          type: string
+          example: Automation-91cb048c-c498-43ba-ab99-2ca2d27d2c46
+          pattern: ^Automation-
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Example Automation
+              description: The name of the automation
+              readOnly: true
+      required:
+        - type
+        - id
     salesAccounts:
       title: Sales Account
       type: object

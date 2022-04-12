@@ -5,11 +5,44 @@ We currently only support creating orders for products that don't include order 
 The SKU is typically different between the demo and production environments so be sure to use the correct values.
 
 ## Your Private Products
-If your product has editions please contact support to get the SKUs for each editions. Otherwise you can get them by navigating to the product or addon in Vendor Center and looking at the URL.
 
 Product SKUs start with `MP-`. Example: `MP-c4974d390a044c28aec31e421aa662b2`
 
 Addon SKUs start with `A-`. Example: `A-GMXXNQ4ZGD`
+
+Edition SKUs match the format `^MP-.*:EDITION-.*$`. Example `MP-c4974d390a044c28aec31e421aa662b2:EDITION-1234`
+
+### Edition SKU (appId:editionId)
+Navigate to [https://vendors.vendasta.com/products](https://vendors.vendasta.com/products) and login to view the products table.
+
+Find the product you wish to build the purchase CTA for.
+
+![Product List Page](./images/product-list.png)
+
+Clicking on the product will bring you to the product details page.
+
+From there, the (appId) is located in the url. It starts with `MP-`:
+
+![Product SKU Url](./images/product-id-url.png)
+
+If your product does not support editions the entire editionSKU is the `MP-` prefixed id.
+
+If your app does use editions your editionSKU will have two parts joined by a colon:
+ - `MP-` prefixed appId.
+ - `EDITION-` prefixed editionId.
+ 
+The editionId is just below the name (prefixed with `EDITION-`).
+
+![Edition SKU](./images/edition-id.png)
+
+### Addon SKU (addonId)
+To obtain the addonId click the `Add-ons` tab and find the addon.
+![Addon List](./images/addon-list.png)
+
+Clicking on the addon will bring you to the addon details page.
+The url will contain the addon SKU (addonId) prefixed with `A-`.
+
+![Addon SKU](./images/addon-id-url.png)
 
 ## Vendasta Products
 

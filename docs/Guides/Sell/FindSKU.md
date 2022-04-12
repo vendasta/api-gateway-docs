@@ -12,7 +12,7 @@ Addon SKUs start with `A-`. Example: `A-GMXXNQ4ZGD`
 
 Edition SKUs start with `EDITION-`. Example `EDITION-1234`
 
-### Product SKU (appId)
+### Edition SKU (appId:editionId)
 Navigate to [https://vendors.vendasta.com/products](https://vendors.vendasta.com/products) and login to view the products table.
 
 Find the product you wish to build the purchase CTA for.
@@ -21,13 +21,17 @@ Find the product you wish to build the purchase CTA for.
 
 Clicking on the product will bring you to the product details page.
 
-From there, the product SKU (appId) is located in the url. The product SKU starts with `MP-`:
+From there, the (appId) is located in the url. It starts with `MP-`:
 
 ![Product SKU Url](./images/product-id-url.png)
 
-### Edition SKU (editionId)
-From the product details page scroll down to editions. 
-The identifier is just below the name (prefixed with `EDITION-`).
+If your product does not support editions the entire editionSKU is the `MP-` prefixed id.
+
+If your app does use editions your editionSKU will have two parts:
+ - `MP-` prefixed id.
+ - `EDITION-` prefixed id.
+ 
+The editionId is just below the name (prefixed with `EDITION-`).
 
 ![Edition SKU](./images/edition-id.png)
 

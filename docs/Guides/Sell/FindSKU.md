@@ -27,9 +27,9 @@ From there, the (appId) is located in the url. It starts with `MP-`:
 
 If your product does not support editions the entire editionSKU is the `MP-` prefixed id.
 
-If your app does use editions your editionSKU will have two parts:
- - `MP-` prefixed id.
- - `EDITION-` prefixed id.
+If your app does use editions your editionSKU will have two parts joined by a colon:
+ - `MP-` prefixed appId.
+ - `EDITION-` prefixed editionId.
  
 The editionId is just below the name (prefixed with `EDITION-`).
 

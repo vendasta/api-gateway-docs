@@ -2,6 +2,12 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2022-04-15
+
+### Standard hours of operation
+
+The [businessLocations](openapi/platform/platform.yaml/components/schemas/businessLocations) and [salesAccounts](openapi/platform/platform.yaml/components/schemas/salesAccounts) resources now support setting and retrieving the general weekly standard hours for your locations. A format for holiday and department specific hours has been proposed as something we would like to add in the future. 
+
 ## 2022-04-05
 
 ### Custom Fields now support external Ids

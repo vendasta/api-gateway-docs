@@ -10,7 +10,7 @@ Product SKUs start with `MP-`. Example: `MP-c4974d390a044c28aec31e421aa662b2`
 
 Addon SKUs start with `A-`. Example: `A-GMXXNQ4ZGD`
 
-Edition SKUs start with `EDITION-`. Example `EDITION-1234`
+Edition SKUs match the format `^MP-.*:EDITION-.*$`. Example `MP-c4974d390a044c28aec31e421aa662b2:EDITION-1234`
 
 ### Edition SKU (appId:editionId)
 Navigate to [https://vendors.vendasta.com/products](https://vendors.vendasta.com/products) and login to view the products table.

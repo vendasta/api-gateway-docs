@@ -2,7 +2,11 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
-## 2022-04-15
+## 2022-04-12
+
+### Automations name
+
+It is now possible to get the name of an automation if you already know it's name. More info can be found [here](/platform/d2d52201b76ca-get-automation).
 
 ### Standard hours of operation
 

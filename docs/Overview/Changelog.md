@@ -6,7 +6,7 @@ The platform is continuously evolving. This page lists the significant changes w
 
 ### Standard hours of operation
 
-The [businessLocations](openapi/platform/platform.yaml/components/schemas/businessLocations) and [salesAccounts](openapi/platform/platform.yaml/components/schemas/salesAccounts) resources now support setting and retrieving the general weekly standard hours for your locations. A format for holiday and department specific hours has been proposed as something we would like to add in the future. 
+The [businessLocations](https://developers.vendasta.com/platform/fc461812db5c6-business-location) and [salesAccounts](https://developers.vendasta.com/platform/af388f5a836f8-sales-account) resources now support setting and retrieving the general weekly standard hours for your locations. A format for holiday and department specific hours has been proposed as something we would like to add in the future. 
 
 ## 2022-04-05
 

@@ -1826,26 +1826,7 @@ paths:
                       attributes:
                         name: Example Automation
                 items:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                      minLength: 1
-                    id:
-                      type: string
-                      minLength: 1
-                    attributes:
-                      type: object
-                      required:
-                        - name
-                      properties:
-                        name:
-                          type: string
-                          minLength: 1
-                  required:
-                    - type
-                    - id
-                    - attributes
+                  $ref: '#/components/schemas/automations'
               examples:
                 example-1:
                   value:
@@ -1856,11 +1837,23 @@ paths:
                           name: Example Automation
         '':
           description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '':
+                    type: string
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+          headers: {}
       operationId: list-automations
       x-lifecycle:
         status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
         Returns a list of automations.
       parameters:
@@ -1872,6 +1865,35 @@ paths:
           name: Authorization
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[businessPartner.id]'
+          description: Returns automations for the provided business partner
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[name]'
+          description: 'Returns automations which name''s partially match the provided string, case insensitive'
+        - schema:
+            type: string
+            enum:
+              - 'on'
+              - 'off'
+              - draining
+              - any
+            default: any
+          in: query
+          name: 'filter[status]'
+          description: 'Returns automations matching the provided state, can be one of: on, off, draining, any'
+        - schema:
+            type: array
+          in: query
+          name: 'filter[tags]'
+          description: Returns automations which have all of the provided tags
+        - $ref: ../advertising/advertising.yaml#/components/parameters/pageCursor
+        - $ref: ../advertising/advertising.yaml#/components/parameters/pageLimit
       security:
         - OAuth2:
             - 'automation:read'
@@ -4446,6 +4468,27 @@ components:
               type: string
               example: Example Automation
               description: The name of the automation
+              readOnly: true
+            trigger:
+              type: string
+              description: 'The '
+              example: /app/account-group/account-group/created
+              readOnly: true
+            status:
+              type: string
+              description: 'The current status of the automation, one of: on, off, draining'
+              example: 'on'
+              enum:
+                - 'on'
+                - draining
+                - 'off'
+              readOnly: true
+            tags:
+              type: array
+              description: A list of user-defined tags on the automation
+              items:
+                type: string
+                example: '["example-tag"]'
               readOnly: true
       required:
         - type

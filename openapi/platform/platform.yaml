@@ -1800,8 +1800,7 @@ paths:
                           name: Example Automation
                           trigger: /app/account-group/account-group/created
                           status: 'on'
-                          tags:
-                            - '["example-tag"]'
+                          tags: '["example-tag"]'
                     links:
                       self: 'http://example.com'
                       first: 'http://example.com'
@@ -1880,14 +1879,7 @@ paths:
                     properties:
                       self:
                         type: string
-              examples:
-                example-1:
-                  value:
-                    data:
-                      id: Automation-abcd1234-12ab-12ab-12ab-12ab12ab12ab
-                      type: automations
-                      attributes:
-                        name: Example Automation
+              examples: {}
       operationId: get-automation-by-id
       x-lifecycle:
         status: trustedTester
@@ -4460,22 +4452,14 @@ components:
         An Automation is a trigger and set of actions performed when the trigger is activated.
       x-tags:
         - Automations
-      x-examples:
-        example-1:
-          type: automations
-          id: Automation-91cb048c-c498-43ba-ab99-2ca2d27d2c46
-          attributes:
-            name: Example Automation
-            trigger: /app/account-group/account-group/created
-            status: 'on'
-            tags:
-              - '["example-tag"]'
+      x-examples: {}
       properties:
         type:
           type: string
           default: automations
           enum:
             - automations
+          example: automations
           readOnly: true
         id:
           type: string
@@ -4495,6 +4479,7 @@ components:
               enum:
                 - TaskDefinition-manual-api-order-trigger
                 - TaskDefinition-manual-api-account-trigger
+              example: TaskDefinition-manual-account-trigger
             status:
               type: string
               description: 'The current status of the automation, one of: on, off, draining'
@@ -4509,7 +4494,7 @@ components:
               description: A list of user-defined tags on the automation
               items:
                 type: string
-                example: '["example-tag"]'
+                example: example-tag
               readOnly: true
       required:
         - type

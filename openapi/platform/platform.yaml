@@ -1827,8 +1827,8 @@ paths:
           in: query
           name: 'filter[tags]'
           description: Only return automations with all of the specified tags. You may either provide a comma-separated list of tags or specify the parameter multiple times.
-        - $ref: ../advertising/advertising.yaml#/components/parameters/pageCursor
-        - $ref: ../advertising/advertising.yaml#/components/parameters/pageLimit
+        - $ref: '#/components/parameters/pageCursor'
+        - $ref: '#/components/parameters/pageLimit'
         - schema:
             type: string
             enum:
@@ -3235,6 +3235,24 @@ paths:
         - Options
         - Product Custom Fields
 components:
+  parameters:
+    pageLimit:
+      name: 'page[limit]'
+      in: query
+      required: false
+      schema:
+        type: number
+        maximum: 100
+        minimum: 1
+        default: 25
+      description: The maximum number of items you would like returned in a single batch. Use the links.next member in the response to get the next batch.
+    pageCursor:
+      name: 'page[cursor]'
+      in: query
+      required: false
+      schema:
+        type: string
+      description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
   securitySchemes:
     JWT:
       type: http

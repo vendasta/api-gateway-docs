@@ -884,6 +884,7 @@ paths:
                         type: string
                         description: The URI at which the next batch of purchases can be gotten from
                         format: uri
+              examples: {}
     options:
       operationId: options-businessCategories
       summary: List valid HTTP verbs for /businessCategories
@@ -1752,7 +1753,97 @@ paths:
       tags:
         - Options
         - Automation Runs
-  /automations/{id}:
+  /automations:
+    parameters: []
+    get:
+      summary: List Automations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                description: A list of automations
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/automations'
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                        example: 'https://prod.apigateway.co/platform/automations?filter[businessPartner.id]=ABC&page[cursor]=&page[limit]=1'
+                      next:
+                        type: string
+                        description: The URI at which the next batch of purchases can be gotten from
+                        format: uri
+                        example: 'https://prod.apigateway.co/platform/automations?filter[businessPartner.id]=ABC&page[cursor]=Cg8aDUFHLTIyV1YyODVKSjY=&page[limit]=1'
+              examples: {}
+      operationId: list-automations
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Returns a list of automations.
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[businessPartner.id]'
+          description: Returns automations for the provided business partner
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[name]'
+          description: 'Returns automations which name''s partially match the provided string, case insensitive'
+        - schema:
+            type: string
+            enum:
+              - 'on'
+              - 'off'
+              - draining
+              - any
+            default: any
+          in: query
+          name: 'filter[status]'
+          description: 'Returns automations matching the provided state, can be one of: on, off, draining, any'
+        - schema:
+            type: array
+          in: query
+          name: 'filter[tags]'
+          description: Only return automations with all of the specified tags. You may either provide a comma-separated list of tags or specify the parameter multiple times.
+        - $ref: ../advertising/advertising.yaml#/components/parameters/pageCursor
+        - $ref: ../advertising/advertising.yaml#/components/parameters/pageLimit
+        - schema:
+            type: string
+            enum:
+              - TaskDefinition-manual-api-order-trigger
+              - TaskDefinition-manual-api-account-trigger
+            example: TaskDefinition-manual-api-order-trigger
+          in: query
+          name: 'filter[trigger]'
+          description: Returns automations which have a trigger matching the provided value.
+      security:
+        - OAuth2:
+            - 'automation:read'
+      tags:
+        - Automations
+  '/automations/{id}':
     parameters:
       - schema:
           type: string
@@ -1776,20 +1867,13 @@ paths:
                     properties:
                       self:
                         type: string
-              examples:
-                example-1:
-                  value:
-                    data:
-                      id: Automation-abcd1234-12ab-12ab-12ab-12ab12ab12ab
-                      type: automations
-                      attributes:
-                        name: Example Automation
+              examples: {}
       operationId: get-automation-by-id
       x-lifecycle:
         status: trustedTester
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
-        
+
         Returns basic data about the automation.
       parameters:
         - schema:
@@ -1802,7 +1886,7 @@ paths:
           required: true
       security:
         - OAuth2:
-            - automation:read
+            - 'automation:read'
       tags:
         - Automations
   /salesAccounts:
@@ -4352,16 +4436,18 @@ components:
       type: object
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
-        
+
         An Automation is a trigger and set of actions performed when the trigger is activated.
       x-tags:
         - Automations
+      x-examples: {}
       properties:
         type:
           type: string
           default: automations
           enum:
             - automations
+          example: automations
           readOnly: true
         id:
           type: string
@@ -4374,6 +4460,29 @@ components:
               type: string
               example: Example Automation
               description: The name of the automation
+              readOnly: true
+            trigger:
+              type: string
+              description: The triggering action for the automation
+              enum:
+                - TaskDefinition-manual-api-order-trigger
+                - TaskDefinition-manual-api-account-trigger
+              example: TaskDefinition-manual-account-trigger
+            status:
+              type: string
+              description: 'The current status of the automation, one of: on, off, draining'
+              example: 'on'
+              enum:
+                - 'on'
+                - draining
+                - 'off'
+              readOnly: true
+            tags:
+              type: array
+              description: A list of user-defined tags on the automation
+              items:
+                type: string
+                example: example-tag
               readOnly: true
       required:
         - type

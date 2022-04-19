@@ -33,7 +33,7 @@ Most of the parameters that you need to pass into the library can be found in th
 }
 ```
 
-The exact format for providing the parameters will change for each library. Generally, they are broken into `assertion header` and `assertion payload` categories. 
+The exact format for providing the parameters will change for each library. Generally, they are broken into `assertion header` and `assertion payload` categories.
 
 #### Assertion Headers Parameters
 - **alg** (AKA Algorithm): Use the value found at the `alg` key in your downloaded JSON file's `assertionHeaderData`.
@@ -43,10 +43,10 @@ The exact format for providing the parameters will change for each library. Gene
 #### Assertion Payload Parameters
 
 - **aud** (AKA audience): Use the value found at the `aud` key in your downloaded JSON file's `assertionPayloadData`.
-- **iat** (AKA issued at): The current time as the number of **seconds** 
+- **iat** (AKA issued at): The current time as the number of **seconds**
   since the [Unix Epoch](https://en.wikipedia.org/wiki/Unix_time). Most languages include helpers for calculating this.
-- **exp** (AKA expiry): We recommend a value of 10 minutes (or less) from the current time. The **exp** parameter defines the point at which the request to create an access token is no longer valid. This protects against replay attacks. If your library does not have a helper it should be specified as the number of **seconds** 
-  since the [Unix Epoch](https://en.wikipedia.org/wiki/Unix_time). 
+- **exp** (AKA expiry): We recommend a value of 10 minutes (or less) from the current time. The **exp** parameter defines the point at which the request to create an access token is no longer valid. This protects against replay attacks. If your library does not have a helper it should be specified as the number of **seconds**
+  since the [Unix Epoch](https://en.wikipedia.org/wiki/Unix_time).
 
 - **iss** (AKA issuer): Use the value found at the `iss` key in your downloaded JSON file's `assertionPayloadData`.
 - **sub** (AKA subject): Use the value found at the `sub` key in your downloaded JSON file's `assertionPayloadData`.
@@ -272,7 +272,7 @@ namespace csharp
                 {"kid", credentials.assertionHeaderData.kid},
                 {"alg", credentials.assertionHeaderData.alg},
             };
-            
+
             // Build the payload for our assertion jwt
             var payload = new Dictionary<string, object>
             {
@@ -292,7 +292,7 @@ namespace csharp
             var assertions = Jose.JWT.Encode(payload, csp, JwsAlgorithm.RS256, headers);
             return assertions;
         }
-            
+
         static async Task<string> ExchangeAssertionsForToken(HttpClient client, string tokenUri, string assertions){
             // Build our form body
             var formData = HttpUtility.ParseQueryString(string.Empty);
@@ -300,7 +300,7 @@ namespace csharp
             formData.Add("assertion", assertions);
             var postContent = new StringContent(formData.ToString());
             postContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
-            
+
             // Exchange assertion for access token via tokenUri
             var response = await client.PostAsync(tokenUri, postContent);
             var responseString = await response.Content.ReadAsStringAsync();
@@ -390,16 +390,18 @@ public class ServiceAccountSample {
 
             // Form and sign the JWT
             Map<String, Object> headerClaims = new HashMap<String, Object>();
-            headerClaims.put("kid", credentials.get("assertionHeaderData").get("kid"));
-            headerClaims.put("alg", credentials.get("assertionHeaderData").get("alg"));
+            JSONObject jsonObject = (JSONObject)credentials.get("assertionHeaderData");
+            headerClaims.put("kid", jsonObject.get("kid"));
+            headerClaims.put("alg", jsonObject.get("alg"));
 
             // jti claim is not yet used by Vendasta, and it will be ignored in the backend; regardless, here is an example of how to make and use the claim
             String jti = UUID.randomUUID().toString();
+            jsonObject = (JSONObject)credentials.get("assertionPayloadData");
 
             String token = JWT.create()
-                    .withAudience((String) credentials.get("assertionPayloadData").get("aud"))
-                    .withIssuer((String) credentials.get("assertionPayloadData").get("iss"))
-                    .withSubject((String) credentials.get("assertionPayloadData").get("sub"))
+                    .withAudience((String) jsonObject.get("aud"))
+                    .withIssuer((String) jsonObject.get("iss"))
+                    .withSubject((String) jsonObject.get("sub"))
                     .withHeader(headerClaims)
                     .withIssuedAt(Date.from(Instant.now()))
                     .withExpiresAt(Date.from(Instant.now().plusSeconds(10 * 60))) // 10 minutes in the future
@@ -411,7 +413,7 @@ public class ServiceAccountSample {
             // The request scope for the token
             Scope scope = new Scope("profile", "email");
             // The token endpoint
-            URI tokenEndpoint = new URI((string)credentials.get("token_uri");
+            URI tokenEndpoint = new URI((String)credentials.get("token_uri"));
             // Make the token request
             TokenRequest request = new TokenRequest(tokenEndpoint, bearerGrant, scope);
             TokenResponse response = TokenResponse.parse(request.toHTTPRequest().send());
@@ -516,7 +518,7 @@ public class ServiceAccountSample {
 
 
 ## Manually
-If you like working in obscure languages or doing things the hard way here is a quick overview of the process. For full details you will need to read the [OAuth2 specs](https://oauth.net/specs/) yourself. 
+If you like working in obscure languages or doing things the hard way here is a quick overview of the process. For full details you will need to read the [OAuth2 specs](https://oauth.net/specs/) yourself.
 
 ### Building a client assertion
 
@@ -561,10 +563,10 @@ Now we must build the assertion's payload. Here's an example payload prior to en
 Here's where to find each piece:
 
 - **aud** (AKA audience): Use the value found at the `aud` key in your downloaded JSON file's `assertionPayloadData`.
- - **iat** (AKA issued at): The time the jwt was issued as the number of **seconds** 
+ - **iat** (AKA issued at): The time the jwt was issued as the number of **seconds**
   since the [Unix Epoch](https://en.wikipedia.org/wiki/Unix_time). Most languages include helpers for calculating this.</dd>
-- **exp** (AKA expiry): The time when the token should expire as the number of **seconds** 
-  since the [Unix Epoch](https://en.wikipedia.org/wiki/Unix_time). 
+- **exp** (AKA expiry): The time when the token should expire as the number of **seconds**
+  since the [Unix Epoch](https://en.wikipedia.org/wiki/Unix_time).
   We recommend a value of 10 minutes (or less) from when the token was issued.</dd>
 - **iss** (AKA issuer): Use the value found at the `iss` key in your downloaded JSON file's `assertionPayloadData`.
 - **sub** (AKA subject): Use the value found at the `sub` key in your downloaded JSON file's `assertionPayloadData`.
@@ -576,10 +578,10 @@ After constructing a JSON object representing your claims, you'll need to sign i
 
 #### Signing the client assertion
 
-The steps required to sign your JWT will vary substantially depending on which 
+The steps required to sign your JWT will vary substantially depending on which
 language you are working with. Please consult a trusted JWT library in the language of your choice.
 
-Ensure you provide the appropriate headers, use the correct signing algorithm (as specified in your downloaded JSON file) and provide your payload as the JWT's claims. 
+Ensure you provide the appropriate headers, use the correct signing algorithm (as specified in your downloaded JSON file) and provide your payload as the JWT's claims.
 
 The encoded and signed JWT you receive as a result of this process will then be used as your client **assertion** in the next step.
 

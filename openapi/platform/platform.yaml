@@ -1812,16 +1812,17 @@ paths:
           name: 'filter[name]'
           description: 'Returns automations which name''s partially match the provided string, case insensitive'
         - schema:
-            type: string
+            type: array
+            items:
+              type: string
             enum:
               - 'on'
               - 'off'
               - draining
-              - any
-            default: any
+            example: 'on'
           in: query
-          name: 'filter[status]'
-          description: 'Returns automations matching the provided state, can be one of: on, off, draining, any'
+          name: 'filter[statuses]'
+          description: 'Returns automations matching the provided state, can be: on, off, draining'
         - schema:
             type: array
             items:
@@ -1842,8 +1843,6 @@ paths:
           description: Returns automations which have a trigger matching the provided value.
         - schema:
             type: array
-            items:
-              type: string
             example: default
           in: query
           name: 'filter[marketIds]'

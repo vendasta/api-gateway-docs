@@ -117,7 +117,7 @@ paths:
                     messageText: string
                     mediaUrls:
                       - string
-                    sendAt: 0
+                    sendAt: '2022-02-04T16:52:34.000Z'
                     GMBPostCustomization:
                       title: string
                       eventStartAt: string
@@ -130,16 +130,18 @@ paths:
                         - type: socialProfiles
                           id: string
               properties:
-                dryRun:
-                  type: boolean
-                  default: false
-                  description: 'If `true`, will simply return any errors this Message will get from posting. Will return an empty 200 if there are none.'
                 data:
                   $ref: '#/components/schemas/messages'
       tags:
         - Messages
       x-lifecycle:
         status: proposed
+      parameters:
+        - schema:
+            type: boolean
+          in: query
+          name: dryRun
+          description: 'If `true`, will simply return any errors this Message will get from posting. Will return an empty 200 if there are none.'
     options:
       summary: List valid HTTP verbs for /messages
       operationId: options-messages
@@ -270,11 +272,15 @@ components:
               items:
                 type: string
             sendAt:
-              type: number
+              type: string
+              format: date-time
               description: |-
                 The time you wish your message to be sent out.
 
                 Defaults to 5 minutes after the Message is made, and must be at least 5 minutes after the Message is created.
+
+                Times used must be in ISO 8601 format, UTC time.
+              example: '2022-02-04T16:52:34.000Z'
             GMBPostCustomization:
               type: object
               description: |-

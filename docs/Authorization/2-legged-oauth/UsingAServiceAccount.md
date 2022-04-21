@@ -401,7 +401,7 @@ public class ServiceAccountSample {
             String token = JWT.create()
                     .withAudience((String) jsonObject.get("aud"))
                     .withIssuer((String) jsonObject.get("iss"))
-                    .withSubject((String) jsonObject.get("sub"))
+                    .withSubject((String) (JSONObject)credentials.get("assertionPayloadData").get("sub"))
                     .withHeader(headerClaims)
                     .withIssuedAt(Date.from(Instant.now()))
                     .withExpiresAt(Date.from(Instant.now().plusSeconds(10 * 60))) // 10 minutes in the future

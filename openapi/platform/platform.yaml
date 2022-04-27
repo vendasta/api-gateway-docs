@@ -5338,6 +5338,8 @@ components:
         Each entry in the array is a set of hours for a particular department or customer of the business. It is recommended to provide the `general` hours for all locations. Some locations may have additional definitions for other departments.
       items:
         type: object
+        required:
+          - hoursTypeId
         properties:
           hoursTypeId:
             type: string
@@ -5364,6 +5366,11 @@ components:
             nullable: true
             items:
               type: object
+              required:
+                - openDay
+                - closeDay
+                - openTime
+                - closeTime
               properties:
                 openDay:
                   allOf:
@@ -5393,6 +5400,11 @@ components:
             nullable: true
             items:
               type: object
+              required:
+                - startDate
+                - endDate
+                - openTime
+                - closeTime
               properties:
                 startDate:
                   description: The calendar date this special hour period starts on.

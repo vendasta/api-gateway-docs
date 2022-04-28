@@ -158,7 +158,7 @@ The [get sales account operation](../../../openapi/platform/platform.yaml/paths/
   "method": "get",
   "url": "https://prod.apigateway.co/platform/salesAccounts/{accountId}",
   "headers": {
-    "Authorization": "Bearer <Token with `order` scope>"
+    "Authorization": "Bearer <Token with `sales.account` scope>"
   }
 }
 ```

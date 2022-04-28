@@ -151,7 +151,7 @@ title: Response
 
 ### Sales Account
 
-The [get sales account operation](../../../openapi/platform/platform.yaml/paths/~1orders~1{id}/get) can be used with the value from the `orderId` field.
+The [get sales account operation](../../../openapi/platform/platform.yaml/paths/~1salesAccounts~1{id}/get) can be used with the value from the `accountId` field.
 
 ```json http
 {

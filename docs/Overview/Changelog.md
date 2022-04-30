@@ -2,11 +2,21 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2022-04-20
+
+### Automations List
+
+A new operation has been added allowing you to list the automations that can be manually triggered by API. More info can be found [here](/platform/b3A6NTM3MDkxOTY-list-automations)
+
+### Automation Details
+
+More fields have been added to the [get automation operation](/platform/d2d52201b76ca-get-automation) allowing you to view the status, trigger type and tags.
+
 ## 2022-04-12
 
 ### Automations name
 
-It is now possible to get the name of an automation if you already know it's name. More info can be found [here](/platform/d2d52201b76ca-get-automation).
+It is now possible to get the name of an automation if you already know it's id. More info can be found [here](/platform/d2d52201b76ca-get-automation).
 
 ### Standard hours of operation
 

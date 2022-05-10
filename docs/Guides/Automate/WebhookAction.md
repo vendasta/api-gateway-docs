@@ -6,7 +6,7 @@ You can take action in your systems based on events in the Vendasta platform by 
 
 In this guide we will create an automation, listen for the event and retrieve details of the affected records.
 
-## Pre requsits
+## Prerequisites
 
 This guide assumes you are familiar with creating automations within the platform. If you are not familiar you should [learn more about automations](https://support.vendasta.com/hc/en-us/sections/4406950706583-Automations) first.
 

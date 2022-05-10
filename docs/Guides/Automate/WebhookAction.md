@@ -25,7 +25,9 @@ For testing purposes [webhook.site](https://webhook.site/) is a great tool for v
 
 The **Verifier Token** is something that you can makeup. We will send it along with the webhook to help you verify that the request actually came from us.
 
-> Coming soon is the ability to add additional fields to the request body. Be careful when including sensitive data. The requests are sent using https however we do not have a way to confirm the destination is under your team's control. Instead it is recommended to only send ids and then fetch up to date info using an API request. 
+Custom **Additional Fields** may be added to the request body. Be careful when including sensitive data. The requests are sent using https however we do not have a way to confirm the destination is under your team's control. Instead it is recommended to only send ids and then fetch up to date info using an API request. 
+
+Additional fields that share the same **field** or **key** with the original body will take precedence over the provided body. In the example below, `automationId` will have a value of `some-id`
 
 ![](webhookAddPart2.png)
 

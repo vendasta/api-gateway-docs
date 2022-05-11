@@ -13,17 +13,17 @@ This guide assumes you are familiar with creating automations within the platfor
 
 ## Step 1: Automation setup
 
-In Partner Center go to the automations screen and create an automation based on the trigger and criteria that you are interested in.
+Navigate to Partner Center &rarr; Automations &rarr; Chose existing or Create new automation.
 
 Add the `Trigger a webhook` step.
 
 ![](webhookAddPart1.png)
 
-The **webhook URL** will be an endpoint that you have built in step 2. It will likely be one of your web servers but could also be a 3rd party system like Zapier. 
+The **webhook URL** will be an endpoint that you have built in [step 2](#step-2-setup-your-handler). It will likely be one of your web servers but could also be a 3rd party system like Zapier. 
 
 For testing purposes [webhook.site](https://webhook.site/) is a great tool for viewing what is sent. You may also use a tool like [ngrok](https://ngrok.com/) to route requests to your local development computer.
 
-The **Verifier Token** is something that you can makeup. We will send it along with the webhook to help you verify that the request actually came from us.
+The **Verifier Token** is designated by you and is sent along with the webhook to help you verify that the request originated from this automation.
 
 Custom **Additional Fields** may be added to the request body. Be careful when including sensitive data. The requests are sent using https however we do not have a way to confirm the destination is under your team's control. Instead it is recommended to only send ids and then fetch up to date info using an API request. 
 
@@ -33,7 +33,7 @@ Additional fields that share the same **field** or **key** with the original bod
 
 ## Step 2: Setup your handler
 
-On a webserver that you control you will want to setup an HTTP request handler that accepts POST requests.
+On a webserver that you control you will want to set up an HTTP request handler that accepts POST requests.
 
 ### Step 2.1: Verify the request
 

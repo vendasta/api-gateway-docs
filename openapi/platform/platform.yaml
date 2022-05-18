@@ -2437,12 +2437,11 @@ paths:
                           - type: businessCategories
                             id: 'active:diving:freediving'
                       type: salesAccounts
-
-  '/subscriptionAssignments':
+  /subscriptionAssignments:
     parameters:
       - schema:
           type: string
-        name: filter[businessLocationId]
+        name: 'filter[businessLocationId]'
         in: query
         required: true
     get:
@@ -2477,8 +2476,6 @@ paths:
             - sales.account
       x-lifecycle:
         status: trustedTester
-      tags:
-        - Sales Accounts
       parameters:
         - schema:
             type: string
@@ -2488,6 +2485,20 @@ paths:
           name: Authorization
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[businessLocationId]'
+          description: The id of the business location you want to get a the assignments for
+          required: true
+      tags:
+        - Subscription Assignments
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Returns a list of subscription assignments based on the provided filters. 
+
+        Currently you must filter the list to a single business location at a time using `filter[businessLocationId]`
     options:
       summary: ''
       operationId: options-subscriptionAssignments
@@ -2497,6 +2508,7 @@ paths:
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
         - Options
+        - Subscription Assignments
   '/subscriptionAssignments/{id}':
     parameters:
       - schema:
@@ -2515,14 +2527,20 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref:
-                      '#/components/schemas/subscriptionAssignment'
+                    $ref: '#/components/schemas/subscriptionAssignment'
+      operationId: get-subscriptionAssignments-by-id
+      description: 'Fetch the details of a specific subscription assignment by id. '
+      tags:
+        - Subscription Assignments
     delete:
       summary: Cancel a particular subscriptionAssignment
       responses:
         '204':
           description: No Content
-      description: 'Used for cancelling subscription assignments'
+      description: Used for cancelling subscription assignments
+      tags:
+        - Subscription Assignments
+      operationId: delete-subscriptionAssignments-by-id
     options:
       summary: ''
       operationId: options-subscriptionAssignment
@@ -2532,8 +2550,7 @@ paths:
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
         - Options
-
-
+        - Subscription Assignments
   '/salesAccounts/{id}/relationships/customFields':
     parameters:
       - schema:
@@ -2609,7 +2626,6 @@ paths:
       tags:
         - Options
         - Sales Accounts
-
   '/salesAccounts/{id}/customFields':
     parameters:
       - schema:
@@ -4928,6 +4944,7 @@ components:
           readOnly: true
     subscriptionAssignment:
       type: object
+      description: 'A SubscriptionAssignment is an allocation of a single Subscription unit. The way a subscription unit is allocated depends on the Product or Service represented by the Subscription. A common case is that Subscription Units are assigned to Locations. In that case, the SubscriptionAssignment stores the link between a purchased Subscription and the Location it was allocated to.'
       properties:
         id:
           type: string
@@ -4940,10 +4957,10 @@ components:
         attributes:
           type: object
           properties:
-            productID:
+            productId:
               type: string
               description: The Application ID associated with this subscription
-            editionID:
+            editionId:
               type: string
               description: The Application Edition ID associated with this subscription (if applicable)
             status:
@@ -4953,7 +4970,9 @@ components:
                 - assigned
                 - pendingUnassignment
                 - pendingAssignment
-
+      x-tags:
+        - Subscription Assignments
+      title: Subscription Assignments
     salesAccountCustomFields:
       title: Sales Accounts Custom Fields
       type: object
@@ -5572,6 +5591,7 @@ tags:
   - name: Sales Contacts
   - name: Sales Accounts
   - name: Sales Account Custom Fields
+  - name: Subscription Assignments
   - name: Orders
   - name: Order Custom Fields
   - name: Partners

@@ -2,6 +2,10 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2022-05-18
+
+Proposed new resources for managing subscription assignments.
+
 ## 2022-04-12
 
 ### Automations name

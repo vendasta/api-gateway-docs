@@ -2437,25 +2437,28 @@ paths:
                           - type: businessCategories
                             id: 'active:diving:freediving'
                       type: salesAccounts
-  '/salesAccounts/{id}/subscriptionAssignments':
+
+  '/subscriptionAssignments':
     parameters:
       - schema:
           type: string
-        name: id
-        in: path
+        name: filter[businessLocationId]
+        in: query
         required: true
     get:
       summary: Get Assigned Subscriptions
       responses:
         '200':
-          description: OK
+          description: A list of Assignments
           content:
             application/vnd.api+json:
               schema:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/salesAccountSubscriptionAssignments'
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/subscriptionAssignment'
                   links:
                     type: object
                     properties:
@@ -2468,33 +2471,69 @@ paths:
                       next:
                         type: string
                         format: uri
-      operationId: get-salesAccountSubscriptionAssignments-by-salesAccount
+      operationId: get-subscriptionAssignments
       security:
         - OAuth2:
             - sales.account
       x-lifecycle:
         status: trustedTester
       tags:
-        -Sales Accounts
+        - Sales Accounts
       parameters:
-        schema:
-          type: string
-          example: Bearer <Access Token>
-          pattern: ^Bearer\s\S+
-        in: header
-        name: Authorization
-        description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
-        required: true
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
     options:
       summary: ''
-      operationId: options-salesAccountSubscriptionAssignments-by-salesAccount
+      operationId: options-subscriptionAssignments
       responses:
         '204':
           description: No Content
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
         - Options
-        - Sales Accounts
+  '/subscriptionAssignments/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get a particular subscriptionAssignment
+      responses:
+        '200':
+          description: A particular Assignment
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref:
+                      '#/components/schemas/subscriptionAssignment'
+    delete:
+      summary: Cancel a particular subscriptionAssignment
+      responses:
+        '204':
+          description: No Content
+      description: 'Used for cancelling subscription assignments'
+    options:
+      summary: ''
+      operationId: options-subscriptionAssignment
+      responses:
+        '204':
+          description: No Content
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+
+
   '/salesAccounts/{id}/relationships/customFields':
     parameters:
       - schema:
@@ -4887,43 +4926,33 @@ components:
               - $ref: '#/components/schemas/users'
               - $ref: '#/components/schemas/businessCategories'
           readOnly: true
-    salesAccountSubscriptionAssignments:
-      title: Sales Accounts Subscription Assignments
+    subscriptionAssignment:
       type: object
-      x-lifecycle:
-        status- trustedTester
-      x-tags:
-        - Sales Account Subscription Assignments
       properties:
         id:
           type: string
-          example: AG-1231232
-          description: 'An identifier for the parent entity'
-          readOnly: true
         type:
           type: string
-          default: salesAccountSubscriptionAssignments
+          default: subscriptionAssignment
           enum:
-            - salesAccountAssignments
-          description: Should always be salesAccountAssignments
-        assignments:
-          type: array
-          items:
-            type: object
-            properties:
-              productID:
-                type: string
-                description: The Application ID associated with this subscription
-              editionID:
-                type: string
-                description: The Application Edition ID associated with this subscription (if applicable)
-              status:
-                type: string
-                description: The status of the Assignment. Both `Assigned` and `PendignUnassignment` mean it is currently assigned.
-                enum:
-                  - assigned
-                  - pendingUnassignment
-                  - pendingAssignment
+            - subscriptionAssignment
+          description: Should always be subscriptionAssignment
+        attributes:
+          type: object
+          properties:
+            productID:
+              type: string
+              description: The Application ID associated with this subscription
+            editionID:
+              type: string
+              description: The Application Edition ID associated with this subscription (if applicable)
+            status:
+              type: string
+              description: The status of the Assignment. Both `Assigned` and `PendignUnassignment` mean it is currently assigned.
+              enum:
+                - assigned
+                - pendingUnassignment
+                - pendingAssignment
 
     salesAccountCustomFields:
       title: Sales Accounts Custom Fields

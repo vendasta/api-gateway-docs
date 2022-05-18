@@ -4945,6 +4945,9 @@ components:
     subscriptionAssignment:
       type: object
       description: 'A SubscriptionAssignment is an allocation of a single Subscription unit. The way a subscription unit is allocated depends on the Product or Service represented by the Subscription. A common case is that Subscription Units are assigned to Locations. In that case, the SubscriptionAssignment stores the link between a purchased Subscription and the Location it was allocated to.'
+      x-tags:
+        - Subscription Assignments
+      title: Subscription Assignments
       properties:
         id:
           type: string
@@ -4957,6 +4960,9 @@ components:
         attributes:
           type: object
           properties:
+            sku:
+              type: string
+              description: 'The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md). This value is used when placing an order.'
             productId:
               type: string
               description: The Application ID associated with this subscription
@@ -4970,9 +4976,6 @@ components:
                 - assigned
                 - pendingUnassignment
                 - pendingAssignment
-      x-tags:
-        - Subscription Assignments
-      title: Subscription Assignments
     salesAccountCustomFields:
       title: Sales Accounts Custom Fields
       type: object

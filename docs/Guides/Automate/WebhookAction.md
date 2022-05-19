@@ -165,3 +165,42 @@ The [get sales account operation](../../../openapi/platform/platform.yaml/paths/
 }
 ```
 
+### User
+
+For automations that are trigged for a specific user you may use the [get user operation](../../../openapi/platform/platform.yaml/paths/~1users~1{id}/get) with the value from the `userId` field.
+
+<!--
+type: tab
+title: Example Request
+-->
+
+```json http
+{
+  "method": "get",
+  "url": "https://prod.apigateway.co/platform/users/{userId}",
+  "query": {
+    "fields[users]":"email,displayName"
+  },
+  "headers": {
+    "Authorization": "Bearer <Token with `user.admin` scope>"
+  }
+}
+```
+
+<!--
+type: tab
+title: Response
+-->
+```json
+{
+    "data": {
+        "type": "users",
+        "id": "U-a6d23f70-fd09-43d2-91d2-a12c032caaa1",
+        "attributes": {
+            "displayName": "William Smith",
+            "email": "bill@example.com"
+        }
+    }
+}
+```
+<!-- type: tab-end -->

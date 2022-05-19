@@ -884,6 +884,7 @@ paths:
                         type: string
                         description: The URI at which the next batch of purchases can be gotten from
                         format: uri
+              examples: {}
     options:
       operationId: options-businessCategories
       summary: List valid HTTP verbs for /businessCategories
@@ -1752,7 +1753,109 @@ paths:
       tags:
         - Options
         - Automation Runs
-  /automations/{id}:
+  /automations:
+    parameters: []
+    get:
+      summary: List Automations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                description: A list of automations
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/automations'
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                        example: 'https://prod.apigateway.co/platform/automations?filter[businessPartner.id]=ABC&page[cursor]=&page[limit]=1'
+                      next:
+                        type: string
+                        description: The URI at which the next batch of purchases can be gotten from
+                        format: uri
+                        example: 'https://prod.apigateway.co/platform/automations?filter[businessPartner.id]=ABC&page[cursor]=Cg8aDUFHLTIyV1YyODVKSjY=&page[limit]=1'
+              examples: {}
+      operationId: list-automations
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Returns a list of automations.
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[businessPartner.id]'
+          description: Returns automations for the provided business partner
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[name]'
+          description: 'Returns automations which name''s partially match the provided string, case insensitive'
+        - schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - 'on'
+                - 'off'
+                - draining
+            example: 'on'
+          in: query
+          name: 'filter[statuses]'
+          description: 'Returns automations matching the provided state, can be: on, off, draining'
+        - schema:
+            type: array
+            items:
+              type: string
+          in: query
+          name: 'filter[tags]'
+          description: Only return automations with all of the specified tags. You may either provide a comma-separated list of tags or specify the parameter multiple times.
+        - $ref: '#/components/parameters/pageCursor'
+        - $ref: '#/components/parameters/pageLimit'
+        - schema:
+            type: string
+            enum:
+              - TaskDefinition-manual-api-order-trigger
+              - TaskDefinition-manual-api-account-trigger
+            example: TaskDefinition-manual-api-order-trigger
+          in: query
+          name: 'filter[trigger]'
+          description: Returns automations which have a trigger matching the provided value.
+        - schema:
+            type: array
+            items:
+              type: string
+            example: default
+          in: query
+          name: 'filter[marketIds]'
+          description: Returns automations matching the provided market IDs.
+          required: true
+      security:
+        - OAuth2:
+            - 'automation:read'
+      tags:
+        - Automations
+  '/automations/{id}':
     parameters:
       - schema:
           type: string
@@ -1776,20 +1879,13 @@ paths:
                     properties:
                       self:
                         type: string
-              examples:
-                example-1:
-                  value:
-                    data:
-                      id: Automation-abcd1234-12ab-12ab-12ab-12ab12ab12ab
-                      type: automations
-                      attributes:
-                        name: Example Automation
+              examples: {}
       operationId: get-automation-by-id
       x-lifecycle:
         status: trustedTester
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
-        
+
         Returns basic data about the automation.
       parameters:
         - schema:
@@ -1802,7 +1898,7 @@ paths:
           required: true
       security:
         - OAuth2:
-            - automation:read
+            - 'automation:read'
       tags:
         - Automations
   /salesAccounts:
@@ -2341,6 +2437,130 @@ paths:
                           - type: businessCategories
                             id: 'active:diving:freediving'
                       type: salesAccounts
+  /subscriptionAssignments:
+    parameters:
+      - schema:
+          type: string
+        name: 'filter[businessLocationId]'
+        in: query
+        required: true
+    get:
+      summary: List Subscription Assignments
+      responses:
+        '200':
+          description: A list of Assignments
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/subscriptionAssignment'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        format: uri
+                      next:
+                        type: string
+                        format: uri
+      operationId: get-subscriptionAssignments
+      security:
+        - OAuth2:
+            - sales.account
+      x-lifecycle:
+        status: proposed
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[businessLocationId]'
+          description: The id of the business location you want to get a the assignments for
+          required: true
+      tags:
+        - Subscription Assignments
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Returns a list of subscription assignments based on the provided filters. 
+
+        Currently you must filter the list to a single business location at a time using `filter[businessLocationId]`
+    options:
+      summary: ''
+      operationId: options-subscriptionAssignments
+      responses:
+        '204':
+          description: No Content
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+        - Subscription Assignments
+  '/subscriptionAssignments/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get a particular Subscription Assignment
+      responses:
+        '200':
+          description: A particular Assignment
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/subscriptionAssignment'
+      operationId: get-subscriptionAssignments-by-id
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Fetch the details of a specific subscription assignment by id. 
+      tags:
+        - Subscription Assignments
+      x-lifecycle:
+        status: proposed
+    delete:
+      summary: Cancel a particular Subscription Assignment
+      responses:
+        '204':
+          description: No Content
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Used for cancelling subscription assignments
+      tags:
+        - Subscription Assignments
+      x-lifecycle:
+        status: proposed
+      operationId: delete-subscriptionAssignments-by-id
+    options:
+      summary: ''
+      operationId: options-subscriptionAssignment
+      responses:
+        '204':
+          description: No Content
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+        - Subscription Assignments
   '/salesAccounts/{id}/relationships/customFields':
     parameters:
       - schema:
@@ -3151,6 +3371,24 @@ paths:
         - Options
         - Product Custom Fields
 components:
+  parameters:
+    pageLimit:
+      name: 'page[limit]'
+      in: query
+      required: false
+      schema:
+        type: number
+        maximum: 100
+        minimum: 1
+        default: 25
+      description: The maximum number of items you would like returned in a single batch. Use the links.next member in the response to get the next batch.
+    pageCursor:
+      name: 'page[cursor]'
+      in: query
+      required: false
+      schema:
+        type: string
+      description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
   securitySchemes:
     JWT:
       type: http
@@ -4352,16 +4590,18 @@ components:
       type: object
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
-        
+
         An Automation is a trigger and set of actions performed when the trigger is activated.
       x-tags:
         - Automations
+      x-examples: {}
       properties:
         type:
           type: string
           default: automations
           enum:
             - automations
+          example: automations
           readOnly: true
         id:
           type: string
@@ -4374,6 +4614,29 @@ components:
               type: string
               example: Example Automation
               description: The name of the automation
+              readOnly: true
+            trigger:
+              type: string
+              description: The triggering action for the automation
+              enum:
+                - TaskDefinition-manual-api-order-trigger
+                - TaskDefinition-manual-api-account-trigger
+              example: TaskDefinition-manual-account-trigger
+            status:
+              type: string
+              description: 'The current status of the automation, one of: on, off, draining'
+              example: 'on'
+              enum:
+                - 'on'
+                - draining
+                - 'off'
+              readOnly: true
+            tags:
+              type: array
+              description: A list of user-defined tags on the automation
+              items:
+                type: string
+                example: example-tag
               readOnly: true
       required:
         - type
@@ -4689,6 +4952,40 @@ components:
               - $ref: '#/components/schemas/users'
               - $ref: '#/components/schemas/businessCategories'
           readOnly: true
+    subscriptionAssignment:
+      type: object
+      description: 'A SubscriptionAssignment is an allocation of a single Subscription unit. The way a subscription unit is allocated depends on the Product or Service represented by the Subscription. A common case is that Subscription Units are assigned to Locations. In that case, the SubscriptionAssignment stores the link between a purchased Subscription and the Location it was allocated to.'
+      x-tags:
+        - Subscription Assignments
+      title: Subscription Assignments
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          default: subscriptionAssignment
+          enum:
+            - subscriptionAssignment
+          description: Should always be subscriptionAssignment
+        attributes:
+          type: object
+          properties:
+            sku:
+              type: string
+              description: 'The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md). This value is used when placing an order.'
+            productId:
+              type: string
+              description: The Application ID associated with this subscription
+            editionId:
+              type: string
+              description: The Application Edition ID associated with this subscription (if applicable)
+            status:
+              type: string
+              description: The status of the Assignment. Both `Assigned` and `PendignUnassignment` mean it is currently assigned.
+              enum:
+                - assigned
+                - pendingUnassignment
+                - pendingAssignment
     salesAccountCustomFields:
       title: Sales Accounts Custom Fields
       type: object
@@ -4828,7 +5125,7 @@ components:
                 example: string
                 enum:
                   - string
-                  - interger
+                  - integer
                   - date
                   - dropdown
                   - currency
@@ -5199,6 +5496,8 @@ components:
         Each entry in the array is a set of hours for a particular department or customer of the business. It is recommended to provide the `general` hours for all locations. Some locations may have additional definitions for other departments.
       items:
         type: object
+        required:
+          - hoursTypeId
         properties:
           hoursTypeId:
             type: string
@@ -5225,6 +5524,11 @@ components:
             nullable: true
             items:
               type: object
+              required:
+                - openDay
+                - closeDay
+                - openTime
+                - closeTime
               properties:
                 openDay:
                   allOf:
@@ -5254,6 +5558,11 @@ components:
             nullable: true
             items:
               type: object
+              required:
+                - startDate
+                - endDate
+                - openTime
+                - closeTime
               properties:
                 startDate:
                   description: The calendar date this special hour period starts on.
@@ -5295,6 +5604,7 @@ tags:
   - name: Sales Contacts
   - name: Sales Accounts
   - name: Sales Account Custom Fields
+  - name: Subscription Assignments
   - name: Orders
   - name: Order Custom Fields
   - name: Partners

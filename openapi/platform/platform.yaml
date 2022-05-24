@@ -2532,13 +2532,30 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
-        Fetch the details of a specific subscription assignment by id. 
+        Fetch the details of a specific subscription assignment by id.
       tags:
         - Subscription Assignments
       x-lifecycle:
         status: proposed
-    delete:
-      summary: Cancel a particular Subscription Assignment
+    options:
+      summary: ''
+      operationId: options-subscriptionAssignment-id
+      responses:
+        '204':
+          description: No Content
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+        - Subscription Assignments
+  '/subscriptionAssignments/{id}/actions/requestCancellation':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    post:
+      summary: Cancel Subscription Assignment
       responses:
         '204':
           description: No Content
@@ -2550,10 +2567,57 @@ paths:
         - Subscription Assignments
       x-lifecycle:
         status: proposed
-      operationId: delete-subscriptionAssignments-by-id
+      operationId: cancel-subscriptionAssignments-by-id
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      default: requestCancellationAction
+                      example: requestCancellationAction
+                      enum:
+                        - requestCancellationAction
+                    attributes:
+                      type: object
+                      properties:
+                        reasonCategory:
+                          type: string
+                          enum:
+                            - shiftInPriorities
+                            - unsatisfied
+                            - endOfContract
+                            - movingToCompetitor
+                            - tooExpensive
+                            - accidentallyActivated
+                            - other
+                          description: |-
+                            An optional indicator of why the cancelation is being requested. Used by partners and vendors for analytics.
+
+                              `shiftInPriorities` - Crisis/Shift in priorities
+
+                              `unsatisfied` - Customer wasn't satisfied
+
+                              `endOfContract` - Customer reached end of contract
+
+                              `movingToCompetitor` - Moving to a competitor
+
+                              `tooExpensive` - Product is too expensive
+
+                              `accidentallyActivated` - Product was accidentally activated
+
+                              `other` - Other
+                        reason:
+                          type: string
+                          description: 'Feedback for vendors as to why the subscription is being cancelled. '
     options:
       summary: ''
-      operationId: options-subscriptionAssignment
+      operationId: options-subscriptionAssignment-requestCancellationAction
       responses:
         '204':
           description: No Content

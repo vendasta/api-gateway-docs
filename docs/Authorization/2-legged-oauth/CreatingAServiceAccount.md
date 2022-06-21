@@ -86,3 +86,5 @@ Service accounts support multiple public/private key pairs for this purpose, fol
 1. Delete the old key pair from the "Manage Keys" screen.
 
 You may perform these steps at any time, as often as you like. Note that once deleted from the service account a key pair cannot be recovered.
+
+Next Step: [Using a service account](UsingAServiceAccount.md)

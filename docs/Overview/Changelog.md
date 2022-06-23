@@ -2,6 +2,20 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2022-06-23
+
+### Create Sales Orders with Status
+
+It is now possible to [create sales orders](../../openapi/platform/platform.yaml/paths/~1orders/post) that are not immediately sent for activation. You may set the `statusCode` to `submitted` to send the order to your partner admins for manual approval. Setting the `statusCode` to `draft` will create the order without sending it to anyone. 
+
+### List Subscription Assignments
+
+Using the new [list subscription assignments operation](../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments/get) you can now determine what products have been activated for a business location. 
+
+This allows you to check to see if a product is already active before submitting an order. 
+
+"Why is it called a subscription assignment?" you might ask. Well, we are working on the ability for businesses to purchase multiple product subscriptions and then assign them to one or more locations. For seat-based products the subscriptions will be assignable to users. We still have a large amount of work to do to support this but we didn't want to make you switch APIs.
+
 ## 2022-05-18
 
 Proposed new resources for managing subscription assignments.

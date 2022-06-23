@@ -938,7 +938,8 @@ paths:
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Use this operation to create a new order for a business.
-        All orders created by API start out in the `processing` status and do not require approval by either the partner admin or SMB admin.
+
+        By default all orders created by API start out in the `processing` status and do not require approval by either the partner admin or SMB admin. You may create orders with a statusCode of `draft` to simply pre populate the order and then finish processing within the platform. To create an order and send it to admins for approval use the statusCode of `submitted`. 
 
         Note: For newly created Business Locations/Sales Account it does take a few seconds for the newly created account to be replicated to the billing system and for the billing system to setup some additional records for it. It is usually under 5 seconds  but may take a little longer on high traffic days.
         We recommend checking for the `NotReady` status code in the error response and retrying on that with an exponential backoff.
@@ -2475,7 +2476,7 @@ paths:
         - OAuth2:
             - sales.account
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       parameters:
         - schema:
             type: string
@@ -2494,7 +2495,7 @@ paths:
       tags:
         - Subscription Assignments
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Returns a list of subscription assignments based on the provided filters. 
 

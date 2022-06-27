@@ -96,6 +96,8 @@ You may use the `ID` that was returned when creating an order to check the statu
 ### Change editions of a simple product
 Simply create a new order with the SKU for the desired product edition. The prior activation, if any, will automatically be cancelled when the new edition activates. 
 
+Note: When an account changes editions of a product multiple times within a month it may appear to get stuck. This is because it is waiting for the end of the payment period before downgrading the edition.
+
 ### Sell multiple products at once
 You may include multiple products in a single order by adding additional line items. The order status will not switch to `fulfilled` until all products have been activated.
 

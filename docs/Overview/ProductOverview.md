@@ -1,4 +1,6 @@
-# Foundational Product Overview
+# Product Overview
+
+Some of the products sold in the Vendasta marketplace have APIs that you can use to interact with features that are unique to them. They generally require the purchase of the product for each account you wish to use it with. Vendasta's core products use the same API authorization tokens as the platform. 
 
 <table>
 <tr>
@@ -11,6 +13,8 @@
 ### Meeting publishing
 
 Create meetings, add contacts, message, and search
+
+[API Docs](../Guides/CalendarHero.md)
 
 </td>
 </tr>
@@ -25,6 +29,8 @@ Managing online reputation
 ### Reviews
 
 See what your clients' customers are saying across 50+ review sources
+
+[API Docs](../../openapi/reputation/reputation.yaml)
 
 </td>
 </tr>
@@ -43,6 +49,8 @@ See your clients' connected social accounts
 
 Contact sales to learn more
 
+[API Docs](../../openapi/social/social.yaml)
+
 </td>
 </tr>
 <tr>
@@ -60,6 +68,8 @@ Send an SMS or email review request to your clients' customers
 
 Create and add customers so your clients can send review requests
 
+[API Docs](../../openapi/customervoice/customervoice.yaml)
+
 </td>
 </tr>
 <tr>
@@ -76,6 +86,8 @@ Connect your clients' ad accounts and see campaign reporting across Google, Face
 
 Get a detailed view of your clients' ad performance across Google, Facebook, and more
 
+[API Docs](../../openapi/advertising/advertising.yaml)
+
 </td>
 </tr>
 <tr>
@@ -89,6 +101,11 @@ Get a detailed view of your clients' ad performance across Google, Facebook, and
 
 See where your clients' business information is synced across 100+ listing sources
 
+[API Docs](../../openapi/listings/listings.yaml)
+
 </td>
 </tr>
 </table>
+
+## Vendors
+Want your product's APIs listed here? Talk to our team today.

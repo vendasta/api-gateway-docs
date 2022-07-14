@@ -109,14 +109,8 @@ paths:
         in: path
         required: true
         description: Partner ID providing identity namespacing
-  '/{partnerID}/oauth2/token':
-    parameters:
-      - schema:
-          type: string
-        name: partnerID
-        in: path
-        required: true
-        description: Partner ID providing identity namespacing
+  /oauth2/token:
+    parameters: []
     post:
       summary: OAuth2 Token
       operationId: openid-token
@@ -185,46 +179,7 @@ paths:
 
         This operation does not require a token to call, as it is the end of the flow for obtaining tokens for securely calling the Gateway's APIs.
       parameters:
-        - schema:
-            type: string
-            enum:
-              - authorization_code
-              - refresh_token
-              - 'urn:ietf:params:oauth:grant-type:jwt-bearer'
-          in: query
-          name: grant_type
-          description: 'Grant Type being used, see description for common use cases.'
-          required: true
-        - schema:
-            type: string
-          in: query
-          name: code
-          description: 'When using `authorization_code` grant: the code obtain from a successful completion of authorization endpoint'
-        - schema:
-            type: string
-          in: query
-          name: redirect_uri
-          description: 'When using `authorization_code` grant: the exact `redirect_uri` that was used at the authorization endpoint'
-        - schema:
-            type: string
-          in: query
-          name: client_id
-          description: 'When using `authorization_code` or `refresh_token` grant: The client ID for the authorization flow.'
-        - schema:
-            type: string
-          in: query
-          name: client_secret
-          description: 'When using `authorization_code` or `refresh_token` grant: The client secret for the authorization flow. Required when obtaining refresh tokens or using them as grants.'
-        - schema:
-            type: string
-          in: query
-          name: scope
-          description: 'When using `...jwt-bearer` (assertion) or `refresh_token` grant:  The scopes to be used rather than scope from assertion or from previous refresh token. `offline_access` scope may not be used by assertion grants, and scopes can only be permanently narrowed [check?] for refresh token grants.'
-        - schema:
-            type: string
-          in: query
-          name: code_verifier
-          description: 'When using `authorization_code`: The PKCE code verifier for the `code_challenge` presented to the authorization endpoint starting this flow. This is used to protect against security attacks and should be used by all, but [is required for public clients].'
+        
       tags:
         - Single-Sign-On
       security: []
@@ -233,7 +188,33 @@ paths:
           application/json:
             schema:
               type: object
-              properties: {}
+              properties:
+                grant_type:
+                  type: string
+                  enum:
+                    - authorization_code
+                    - refresh_token
+                    - 'urn:ietf:params:oauth:grant-type:jwt-bearer'
+                  description: 'Grant Type being used, see description for common use cases.'
+                  required: true
+                code:
+                  type: string
+                  description: 'When using `authorization_code` grant: the code obtain from a successful completion of authorization endpoint'
+                redirect_uri:
+                  type: string
+                  description: 'When using `authorization_code` grant: the exact `redirect_uri` that was used at the authorization endpoint'
+                client_id:
+                  type: string
+                  description: 'When using `authorization_code` or `refresh_token` grant: The client ID for the authorization flow.'
+                client_secret:
+                  type: string
+                  description: 'When using `authorization_code` or `refresh_token` grant: The client secret for the authorization flow. Required when obtaining refresh tokens or using them as grants.'
+                scope:
+                  type: string
+                  description: 'When using `...jwt-bearer` (assertion) or `refresh_token` grant:  The scopes to be used rather than scope from assertion or from previous refresh token. `offline_access` scope may not be used by assertion grants, and scopes can only be permanently narrowed [check?] for refresh token grants.'
+                code_verifier:
+                  type: string
+                  description: 'When using `authorization_code`: The PKCE code verifier for the `code_challenge` presented to the authorization endpoint starting this flow. This is used to protect against security attacks and should be used by all, but [is required for public clients].'                
   '/{partnerID}/oauth2/logout':
     get:
       summary: OpenID Logout
@@ -254,7 +235,7 @@ paths:
             type: string
           in: query
           name: post_logout_redirect_uri
-          description: 'URI to redirect to after logout.'
+          description: URI to redirect to after logout.
         - schema:
             type: string
           in: query
@@ -266,14 +247,9 @@ paths:
           name: vig-namespaced-session
           description: 'Cookie for a Vendasta Identity Gateway session, stored at namespaced paths.'
           required: true
-      #        - schema:
-      #            type: string
-      #          in: query
-      #          name: id_token_hint
-      #          description: 'Not yet implemented. The identity token of user requesting logout, required when `post_logout_redirect_uri`.'
       tags:
         - Single-Sign-On
-      security: [ ]
+      security: []
     parameters:
       - schema:
           type: string

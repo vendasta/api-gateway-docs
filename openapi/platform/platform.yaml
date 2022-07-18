@@ -3435,6 +3435,346 @@ paths:
       tags:
         - Options
         - Product Custom Fields
+  /countries:
+    get:
+      summary: List Countries
+      operationId: get-countries
+      tags:
+        - Countries
+      security:
+        - OAuth2:
+            - sales.contact
+            - business
+            - 'user.profile:read'
+            - 'user.contact:read'
+            - 'user.permission:read'
+            - user.admin
+            - self.user.admin
+            - 'self.user.contact:read'
+            - openid
+            - profile
+            - sales.account
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Produces a list of countries
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: integer
+            minimum: 0
+            maximum: 1000
+            default: 10
+          in: query
+          name: 'page[limit]'
+          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+        - schema:
+            type: string
+          in: query
+          name: 'page[cursor]'
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+        - schema:
+            type: string
+          in: header
+          name: Accept-Language
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/countries'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                      next:
+                        type: string
+                        description: The URI at which the next batch of countries can be gotten from
+                        format: uri
+              examples: {}
+    options:
+      operationId: options-countries
+      summary: List valid HTTP verbs for /countries
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - Options
+        - Countries
+  '/countries/{id}':
+    get:
+      summary: Get Country
+      operationId: get-countries-id
+      tags:
+        - Countries
+      security:
+        - OAuth2:
+            - sales.contact
+            - business
+            - 'user.profile:read'
+            - 'user.contact:read'
+            - 'user.permission:read'
+            - user.admin
+            - self.user.admin
+            - 'self.user.contact:read'
+            - openid
+            - profile
+            - sales.account
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Get a specific country by id
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: Accept-Language
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/countries'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                      next:
+                        type: string
+                        description: The URI at which the next batch of countries can be gotten from
+                        format: uri
+              examples: {}
+    options:
+      operationId: options-countries-id
+      summary: 'List valid HTTP verbs for /countries/{id}'
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - Options
+        - Countries
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ISO Alpha2 code for the country
+  /countryRegions:
+    get:
+      summary: List Country Regions
+      operationId: get-country-regions
+      tags:
+        - Countries
+      security:
+        - OAuth2:
+            - sales.contact
+            - business
+            - 'user.profile:read'
+            - 'user.contact:read'
+            - 'user.permission:read'
+            - user.admin
+            - self.user.admin
+            - 'self.user.contact:read'
+            - openid
+            - profile
+            - sales.account
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Produces a list of regions within a country
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: integer
+            minimum: 0
+            maximum: 1000
+            default: 10
+          in: query
+          name: 'page[limit]'
+          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+        - schema:
+            type: string
+          in: query
+          name: 'page[cursor]'
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+        - schema:
+            type: string
+          in: header
+          name: Accept-Language
+        - schema:
+            type: string
+            pattern: '^[A-Z]{2}$'
+            minLength: 2
+            maxLength: 2
+          in: query
+          name: 'filter[countryCode]'
+          required: true
+          description: 'The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)''  Examples: CA, US, AU'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/countryRegions'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                      next:
+                        type: string
+                        description: The URI at which the next batch of countries can be gotten from
+                        format: uri
+              examples: {}
+    options:
+      operationId: options-countryRegions
+      summary: List valid HTTP verbs for /countryRegions
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - Options
+        - Countries
+  '/countryRegions/{id}':
+    get:
+      summary: Get Country Region
+      operationId: get-country-regions-id
+      tags:
+        - Countries
+      security:
+        - OAuth2:
+            - sales.contact
+            - business
+            - 'user.profile:read'
+            - 'user.contact:read'
+            - 'user.permission:read'
+            - user.admin
+            - self.user.admin
+            - 'self.user.contact:read'
+            - openid
+            - profile
+            - sales.account
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Get a specific country region's name by id
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: Accept-Language
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/countryRegions'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+              examples: {}
+    options:
+      operationId: options-countryRegions-id
+      summary: 'List valid HTTP verbs for /countryRegions/{id}'
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - Options
+        - Countries
+    parameters:
+      - schema:
+          type: string
+          pattern: '^[A-Z]{2}-[\w]{1,3}$'
+          minLength: 4
+          maxLength: 6
+        name: id
+        in: path
+        required: true
+        description: The ISO region code
 components:
   parameters:
     pageLimit:
@@ -4276,6 +4616,81 @@ components:
               type: string
               description: A user friendly description for the category. It will have been translated based on the Accept-Language header.
               readOnly: true
+    countries:
+      title: Country
+      type: object
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        A country that is valid for use with the API
+      x-tags:
+        - Countries
+      properties:
+        id:
+          type: string
+          example: CA
+          readOnly: true
+        type:
+          type: string
+          default: countries
+          enum:
+            - countries
+          readOnly: true
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: A user friendly description for the Country.
+              readOnly: true
+    countryRegions:
+      title: Country Region
+      type: object
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        A country region that is valid for use with the API
+      x-tags:
+        - Countries
+      properties:
+        id:
+          type: string
+          example: CA-SK
+          readOnly: true
+        type:
+          type: string
+          default: countries
+          enum:
+            - countryRegions
+          example: countryRegions
+          readOnly: true
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: A user friendly description for the Country region.
+              readOnly: true
+        relationships:
+          type: object
+          properties:
+            country:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      example: countries
+                      enum:
+                        - countries
     users:
       title: Users
       type: object
@@ -5677,4 +6092,5 @@ tags:
   - name: Products
   - name: Product Custom Fields
   - name: Purchases
+  - name: Countries
   - name: Options

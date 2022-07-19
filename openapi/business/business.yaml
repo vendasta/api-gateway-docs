@@ -14,16 +14,6 @@ servers:
     description: Localhost
 paths:
   /customers:
-    options:
-      summary: 'List valid HTTP verbs for /customers'
-      operationId: options-customers
-      responses:
-        '204':
-          description: No Content
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
-      tags:
-        - Options
-        - Customers
     post:
       summary: Create Customer
       operationId: post-customers
@@ -292,6 +282,16 @@ paths:
         - Customers
       x-lifecycle:
         status: trustedTester
+    options:
+      summary: 'List valid HTTP verbs for /customers'
+      operationId: options-customers
+      responses:
+        '204':
+          description: No Content
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+        - Customers
   '/customers/{id}':
     parameters:
       - schema:
@@ -397,15 +397,15 @@ paths:
                 data:
                   $ref: '#/components/schemas/customers'
     options:
-      operationId: options-customers-id
       summary: 'List valid HTTP verbs for /customers/{id}'
+      operationId: options-customers-id
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       responses:
         '204':
           description: No Content
       tags:
-        - Customers
         - Options
+        - Customers
 components:
   securitySchemes:
     JWT:

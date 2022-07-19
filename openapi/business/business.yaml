@@ -264,6 +264,27 @@ paths:
           in: query
           description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
           name: 'page[limit]'
+        - schema:
+            type: string
+            enum:
+              - createdAt
+              - '-createdAt'
+              - givenName
+              - '-givenName'
+              - familyName
+              - '-familyName'
+            default: '-createdAt'
+            example: 'familyName'
+          in: query
+          name: sort
+          description: |-
+            The order to sort the results in. Only one sort parameter may be provided:
+              - `createdAt`: Created at ascending
+              - `-createdAt`: Created at descending
+              - `givenName`: Given name ascending
+              - `-givenName`: Given name descending
+              - `familyName`: Family name ascending
+              - `-familyName`: Family name descending
       security:
         - OAuth2:
             - customers

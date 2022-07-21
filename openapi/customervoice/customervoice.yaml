@@ -128,10 +128,17 @@ paths:
         - <a href="{{.shareUrl2}}" style="text-decoration: none; color: #999999;">{{.sourceName2}}</a>
         - <a href="{{.shareUrl3}}" style="text-decoration: none; color: #999999;">{{.sourceName3}}</a>'
         
-        Metadata are key value pairs that can be used to create the template when a template is processed. Email templates can be created with the following metadata:
+        Metadata are key value pairs that can be used to create the template when a template is processed. 
+        
+        Email templates can be created with the following metadata:
         
         - 'subject': Thanks for choosing us!
         - 'replyEmail': yourbusiness@mail.com
+
+        SMS templates can be created within the following metadata:
+        
+        - 'customUrl': https://www.yourcustomerexperience.com/reviews/
+        - 'greeting': Hi {first_name}
 
         The following members must be populated during creation:
         - `relationships.businessLocation.data.id`
@@ -165,7 +172,7 @@ paths:
                 data:
                   $ref: '#/components/schemas/reviewRequestTemplates'
             examples:
-              Example Request:
+              Example Email Request:
                 value:
                   data:
                     type: reviewRequestTemplates
@@ -189,6 +196,22 @@ paths:
                         replyEmail: jondoe@mail.com
                       locale: en-US
                       type: email
+                    relationships:
+                      businessLocation:
+                        data:
+                          id: AG-12345
+              Example SMS Request:
+                value:
+                  data:
+                    type: reviewRequestTemplates
+                    attributes:
+                      name: My Preferred Sites Review Request
+                      content: |-
+                        We'd love to hear about your recent experience with us. Leave us a review here.
+                      metadata:
+                        customUrl: https://www.yourcustomerexperience.com/reviews/
+                        greeting: Hi {first_name}
+                      type: sms
                     relationships:
                       businessLocation:
                         data:
@@ -302,6 +325,32 @@ paths:
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Fetch the current values for the specified template.
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+      security:
+        - OAuth2:
+            - reviews
+    delete:
+      summary: Delete Template
+      tags:
+        - Templates
+      responses:
+        '204':
+          description: No Content
+      operationId: delete-templates-id
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Delete the specified template.
       parameters:
         - schema:
             type: string

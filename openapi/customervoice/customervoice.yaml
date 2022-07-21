@@ -127,7 +127,7 @@ paths:
         - `<a href="{{.shareUrl1}}" style="text-decoration: none; color: #999999;">{{.sourceName1}}</a>`
         - `<a href="{{.shareUrl2}}" style="text-decoration: none; color: #999999;">{{.sourceName2}}</a>`
         - `<a href="{{.shareUrl3}}" style="text-decoration: none; color: #999999;">{{.sourceName3}}</a>`
-              
+        
         The following members must be populated during creation:
         - `relationships.businessLocation.data.id`
       x-lifecycle:
@@ -163,7 +163,7 @@ paths:
               Example Email Request:
                 value:
                   data:
-                    type: reviewRequestEmailTemplates
+                    type: reviewRequestTemplates
                     attributes:
                       name: My Preferred Sites Review Request
                       content: |-
@@ -179,28 +179,10 @@ paths:
                         Thank you,
                         <br>
                         John Doe
-                      metadata:
-                        subject: Thank you for choosing us!
-                        replyEmail: jondoe@mail.com
+                      subject: Thank you for choosing us!
+                      replyEmail: jondoe@mail.com
                       locale: en-US
                       type: email
-                    relationships:
-                      businessLocation:
-                        data:
-                          id: AG-12345
-              Example SMS Request:
-                value:
-                  data:
-                    type: reviewRequestEmailTemplates
-                    attributes:
-                      name: My Preferred Sites Review Request
-                      content: |-
-                        We'd love to hear about your recent experience with us. Leave us a review here.
-                      metadata:
-                        customUrl: https://www.yourcustomerexperience.com/reviews/
-                        greeting: Hi {first_name}
-                        reviewType: custom
-                      type: sms
                     relationships:
                       businessLocation:
                         data:
@@ -578,7 +560,7 @@ components:
       type: object
       x-examples:
         Example Template:
-          type: reviewRequestEmailTemplates
+          type: reviewRequestTemplates
           id: AG-12345/type/email/template-id/TEM-12345
           attributes:
             name: My Preferred Sites Review Request
@@ -595,9 +577,8 @@ components:
               Thank you,
               <br>
               John Doe
-            metadata:
-              subject: Thank you for choosing us!
-              replyEmail: jondoe@mail.com
+            subject: Thank you for choosing us!
+            replyEmail: jondoe@mail.com
             locale: en-US
             type: email
           relationships:
@@ -615,9 +596,9 @@ components:
           readOnly: true
         type:
           type: string
-          default: reviewRequestEmailTemplates
+          default: reviewRequestTemplates
           enum:
-            - reviewRequestEmailTemplates
+            - reviewRequestTemplates
           readOnly: true
         attributes:
           type: object

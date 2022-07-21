@@ -84,7 +84,7 @@ paths:
       tags:
         - Options
         - Review Requests
-  /reviewRequestEmailTemplates:
+  /reviewRequestTemplates:
     post:
       summary: Create Template
       operationId: post-templates
@@ -128,6 +128,19 @@ paths:
         - `<a href="{{.shareUrl2}}" style="text-decoration: none; color: #999999;">{{.sourceName2}}</a>`
         - `<a href="{{.shareUrl3}}" style="text-decoration: none; color: #999999;">{{.sourceName3}}</a>`
         
+        Metadata are key value pairs that are used when a template is processed.
+        
+        Email templates require the following metadata to be set:
+        
+        - `subject`: Thanks for choosing us!
+        - `replyEmail`: yourbusiness@mail.com
+
+        SMS templates require the following metadata to be set:
+        
+        - `customUrl` https://www.yourcustomerexperience.com/reviews/
+        - `greeting`: Hi {first_name}
+        - `reviewType`: `internal | external | custom`
+
         The following members must be populated during creation:
         - `relationships.businessLocation.data.id`
       x-lifecycle:
@@ -179,10 +192,28 @@ paths:
                         Thank you,
                         <br>
                         John Doe
-                      subject: Thank you for choosing us!
-                      replyEmail: jondoe@mail.com
+                      metadata:
+                        subject: Thank you for choosing us!
+                        replyEmail: jondoe@mail.com
                       locale: en-US
                       type: email
+                    relationships:
+                      businessLocation:
+                        data:
+                          id: AG-12345
+              Example SMS Request:
+                value:
+                  data:
+                    type: reviewRequestTemplates
+                    attributes:
+                      name: My Preferred Sites Review Request
+                      content: |-
+                        We'd love to hear about your recent experience with us. Leave us a review here.
+                      metadata:
+                        customUrl: https://www.yourcustomerexperience.com/reviews/
+                        greeting: Hi {first_name}
+                        reviewType: custom
+                      type: sms
                     relationships:
                       businessLocation:
                         data:
@@ -254,7 +285,7 @@ paths:
         status: trustedTester
       x-internal: false
     options:
-      summary: List valid HTTP verbs for /reviewRequestEmailTemplates
+      summary: List valid HTTP verbs for /reviewRequestTemplates
       operationId: options-templates
       responses:
         '204':
@@ -263,7 +294,7 @@ paths:
       tags:
         - Options
         - Templates
-  '/reviewRequestEmailTemplates/{id}':
+  '/reviewRequestTemplates/{id}':
     parameters:
       - schema:
           type: string
@@ -394,7 +425,7 @@ paths:
                 data:
                   $ref: '#/components/schemas/reviewRequestTemplates'
     options:
-      summary: 'List valid HTTP verbs for /reviewRequestEmailTemplates/{id}'
+      summary: 'List valid HTTP verbs for /reviewRequestTemplates/{id}'
       operationId: options-templates-id
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       responses:
@@ -577,8 +608,9 @@ components:
               Thank you,
               <br>
               John Doe
-            subject: Thank you for choosing us!
-            replyEmail: jondoe@mail.com
+            metadata:
+              subject: Thank you for choosing us!
+              replyEmail: jondoe@mail.com
             locale: en-US
             type: email
           relationships:
@@ -607,6 +639,12 @@ components:
               type: string
               description: A user friendly description for the template.
               example: My Preferred Sites Review Request
+            metadata:
+              type: object
+              description: A JSON object containing key-value pairs that can be used to store additional information about the template.
+              example:
+                subject: Thank you for choosing us!
+                replyEmail: jondoe@mail.com
             content:
               type: string
               description: The content of the template.
@@ -623,13 +661,6 @@ components:
                 Thank you,
                 <br>
                 John Doe
-            subject:
-              type: string
-              description: The subject line of the email.
-              example: Thank you for choosing us!
-            replyEmail:
-              type: string
-              description: The email address to which the customer should reply.
             locale:
               type: string
               description: The locale of the template.

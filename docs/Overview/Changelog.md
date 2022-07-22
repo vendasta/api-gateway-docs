@@ -4,7 +4,7 @@ The platform is continuously evolving. This page lists the significant changes w
 
 ## 2022-07-22
 
-### Customer Voice Template Managment
+### Customer Voice Template Management
 
 Create, update, get, list and delete operations are now available for the [templates](../../openapi/customervoice/customervoice.yaml/components/schemas/reviewRequestTemplates) used in Customer Voice. This will allow you to customize the content of email and SMB messages used when sending requests for reviews using the Customer Voice product. 
 

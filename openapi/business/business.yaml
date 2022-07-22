@@ -337,6 +337,32 @@ paths:
       security:
         - OAuth2:
             - customers
+    delete:
+      summary: Delete Customer
+      tags:
+        - Templates
+      responses:
+        '204':
+          description: No Content
+      operationId: delete-customers-id
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Delete the specified customer.
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+      security:
+        - OAuth2:
+            - customers
     patch:
       summary: Update Customer
       operationId: patch-customers-id

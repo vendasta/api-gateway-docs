@@ -12,7 +12,7 @@ You may now get a list of the [country](../../openapi/platform/platform.yaml/pat
 
 ### Customer List Management
 
-List, update and delete operations are now available for the [business customers resourse](../../openapi/business/business.yaml/components/schemas/customers). This allows for full management of the contacts added in Business App's customer list.
+List, update and get operations are now available for the [business customers resourse](../../openapi/business/business.yaml/components/schemas/customers). This allows for full management of the contacts added in Business App's customer list.
 
 
 ## 2022-06-23

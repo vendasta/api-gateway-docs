@@ -2,6 +2,16 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2022-07-22
+
+### Customer Voice Template Managment
+
+Create, update, get, list and delete operations are now available for the [templates](../../openapi/customervoice/customervoice.yaml/components/schemas/reviewRequestTemplates) used in Customer Voice. This will allow you to customize the content of email and SMB messages used when sending requests for reviews using the Customer Voice product. 
+
+### Delete from Customer List
+
+The ability to [delete a contact](../../openapi/business/business.yaml/paths/~1customers~1{id}/delete) from Customer List has been added. 
+
 ## 2022-07-21
 
 ### Country and region lists

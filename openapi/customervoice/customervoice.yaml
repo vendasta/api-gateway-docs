@@ -102,28 +102,28 @@ paths:
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Used to create a new template within Customer Voice. Dynamic content can be inserted via substitution variables. 
-        
+
         The follow variables are supported within an email template:
-        
+
         - `{{.customerName}}`: The first and last name of the customer.
         - `{{.customerFirstName}}`: The first name of the customer.
         - `{{.businessName}}`: The business location name.
         - `{{.buttonUrl}}`: The review request button URL.
-        
+
         Can be used for dynamic content visibility within an email template:
-        
+
         - `{{.displaySource1}}`: Whether or not to display source 1.
         - `{{.displaySource2}}`: Whether or not to display source 2.
         - `{{.displaySource3}}`: Whether or not to display source 3.
-        
+
         Used to render images within an email template:
-        
+
         - `<img style="border-radius: 50%;" src="https://www.cdnstyles.com/static/images/icon50/sourceId-{{.sourceId1}}.png">`
         - `<img style="border-radius: 50%;" src="https://www.cdnstyles.com/static/images/icon50/sourceId-{{.sourceId2}}.png">`
         - `<img style="border-radius: 50%;" src="https://www.cdnstyles.com/static/images/icon50/sourceId-{{.sourceId3}}.png">`
-        
+
         Used to render links within an email template:    
-        
+
         - `<a href="{{.shareUrl1}}" style="text-decoration: none; color: #999999;">{{.sourceName1}}</a>`
         - `<a href="{{.shareUrl2}}" style="text-decoration: none; color: #999999;">{{.sourceName2}}</a>`
         - `<a href="{{.shareUrl3}}" style="text-decoration: none; color: #999999;">{{.sourceName3}}</a>`
@@ -194,11 +194,10 @@ paths:
                     type: reviewRequestTemplates
                     attributes:
                       name: My Preferred Sites Review Request
-                      content: |-
-                        We'd love to hear about your recent experience with us. Leave us a review here.
+                      content: We'd love to hear about your recent experience with us. Leave us a review here.
                       metadata:
-                        customUrl: https://www.yourcustomerexperience.com/reviews/
-                        greeting: Hi {first_name}
+                        customUrl: 'https://www.yourcustomerexperience.com/reviews/'
+                        greeting: 'Hi {first_name}'
                         reviewType: custom
                       type: sms
                     relationships:
@@ -639,6 +638,7 @@ components:
                   type: string
                   description: The email address to which the customer should reply.
                   example: jondoe@mail.com
+                  format: email
             smsMetadata:
               type: object
               description: Additional information about the template.
@@ -646,11 +646,12 @@ components:
                 url:
                   type: string
                   description: The url that will customer will be sent to.
-                  example: https://www.yoursite.com/reviews/customer-123
+                  example: 'https://www.yoursite.com/reviews/customer-123'
+                  format: uri
                 greeting:
                   type: string
-                  description: The sms message prefix. `{first_name}` is an optional template variable that can be used within the greeting.
-                  example: Hi {first_name}
+                  description: 'The sms message prefix. `{first_name}` is an optional template variable that can be used within the greeting.'
+                  example: 'Hi {first_name}'
                 prefix:
                   type: string
                   description: Generally a shortened version of the company name.

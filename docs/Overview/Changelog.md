@@ -2,6 +2,19 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2022-07-21
+
+### Country and region lists
+
+You may now get a list of the [country](../../openapi/platform/platform.yaml/paths/~1countries/get) and [region](../../openapi/platform/platform.yaml/paths/~1countryRegions/get) codes that are permitted when we validate addresses. The lists include their names allowing you to provide your users with dropdown lists. 
+
+## 2022-07-18
+
+### Customer List Management
+
+List, update and get operations are now available for the [business customers resourse](../../openapi/business/business.yaml/components/schemas/customers). This allows for full management of the contacts added in Business App's customer list.
+
+
 ## 2022-06-23
 
 ### Create Sales Orders with Status

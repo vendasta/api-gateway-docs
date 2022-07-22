@@ -182,7 +182,7 @@ paths:
                       metadata:
                         subject: Thank you for choosing us!
                         replyEmail: jondoe@mail.com
-                      locale: en-US
+                      languageLocaleCode: en-US
                       type: email
                     relationships:
                       businessLocation:
@@ -599,7 +599,7 @@ components:
               attributes:
                 subject: Thank you for choosing us!
                 replyEmail: jondoe@mail.com
-            locale: en-US
+            languageLocaleCode: en-US
             type: email
           relationships:
             businessLocation:
@@ -680,10 +680,20 @@ components:
                 Thank you,
                 <br>
                 John Doe
-            locale:
+            languageLocaleCode:
               type: string
-              description: The locale of the template.
+              pattern: '^[a-z]{2}-[A-Z]{2}$'
               example: en-US
+              description: |-
+                The local language that the template was written in.
+
+                Note: We currently have a limited set of allowed languages but expect to support many more in the future. When the requested language is not supported US English will be used.
+
+                It should be a single BCP47/RFC5646 language tag. This is an [ISO 639-1 Alpha-2](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) language code in lowercase and an [ISO 3166-1 Alpha-2](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) country code in uppercase, separated by a dash.
+
+                Examples:
+                - `en-US` English (US)
+                - `fr-FR` French (France)
             type:
               type: string
               enum:

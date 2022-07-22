@@ -127,19 +127,6 @@ paths:
         - `<a href="{{.shareUrl1}}" style="text-decoration: none; color: #999999;">{{.sourceName1}}</a>`
         - `<a href="{{.shareUrl2}}" style="text-decoration: none; color: #999999;">{{.sourceName2}}</a>`
         - `<a href="{{.shareUrl3}}" style="text-decoration: none; color: #999999;">{{.sourceName3}}</a>`
-        
-        Metadata are key value pairs that are used when a template is processed.
-        
-        Email templates require the following metadata to be set:
-        
-        - `subject`: Thanks for choosing us!
-        - `replyEmail`: yourbusiness@mail.com
-
-        SMS templates require the following metadata to be set:
-        
-        - `customUrl` https://www.yourcustomerexperience.com/reviews/
-        - `greeting`: Hi {first_name}
-        - `reviewType`: `internal | external | custom`
 
         The following members must be populated during creation:
         - `relationships.businessLocation.data.id`
@@ -608,9 +595,10 @@ components:
               Thank you,
               <br>
               John Doe
-            metadata:
-              subject: Thank you for choosing us!
-              replyEmail: jondoe@mail.com
+            emailMetadata:
+              attributes:
+                subject: Thank you for choosing us!
+                replyEmail: jondoe@mail.com
             locale: en-US
             type: email
           relationships:
@@ -639,12 +627,43 @@ components:
               type: string
               description: A user friendly description for the template.
               example: My Preferred Sites Review Request
-            metadata:
+            emailMetadata:
               type: object
-              description: A JSON object containing key-value pairs that can be used to store additional information about the template.
-              example:
-                subject: Thank you for choosing us!
-                replyEmail: jondoe@mail.com
+              description: Additional information about the template.
+              properties:
+                subject:
+                  type: string
+                  description: The subject line of the email.
+                  example: Thank you for choosing us!
+                replyTo:
+                  type: string
+                  description: The email address to which the customer should reply.
+                  example: jondoe@mail.com
+            smsMetadata:
+              type: object
+              description: Additional information about the template.
+              properties:
+                url:
+                  type: string
+                  description: The url that will customer will be sent to.
+                  example: https://www.yoursite.com/reviews/customer-123
+                greeting:
+                  type: string
+                  description: The sms message prefix. `{first_name}` is an optional template variable that can be used within the greeting.
+                  example: Hi {first_name}
+                prefix:
+                  type: string
+                  description: Generally a shortened version of the company name.
+                templateType:
+                  type: string
+                  enum:
+                    - myListing
+                    - preferredReviewSites
+                    - custom
+                  description: |-
+                    - `myListing`: The link within the sms message will direct the customer to the my listing page.
+                    - `preferredReviewSites`: The link within the sms message will direct the customer to the preferred review sites.
+                    - `custom`: The link within the sms message will direct the customer to the custom url configured within the metadata.
             content:
               type: string
               description: The content of the template.

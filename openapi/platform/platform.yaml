@@ -6101,6 +6101,114 @@ components:
       description: 'Valid values are 00:00-24:00, where 24:00 represents midnight at the end of the specified day field.'
       pattern: '^\d{2}:\d{2}$'
       example: '09:45'
+    proposals:
+      title: Proposals
+      type: object
+      x-examples: {}
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        An Automation run is the instance of an automation executing its steps for a business location.
+        You may configure the automation definition and obtain its ID within Partner Center.
+      x-tags:
+        - Automation Runs
+      properties:
+        type:
+          type: string
+          default: automationRuns
+          example: automationRuns
+          enum:
+            - automationRuns
+        relationships:
+          type: object
+          required:
+            - automation
+          properties:
+            automation:
+              type: object
+              description: 'A link to the automation definition that is being run. '
+              required:
+                - data
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                      default: automations
+                      example: automations
+                    id:
+                      type: string
+                      example: Automation-91cb048c-c498-43ba-ab99-2ca2d27d2c46
+                      pattern: ^Automation-
+            businessLocation:
+              type: object
+              description: A link to the business location that this automation is being run for. Either the businessLocation or order is required. (It depends on the automation type.)
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      default: businessLocations
+                      example: businessLocations
+                    id:
+                      type: string
+                      example: AG-1234567
+                  required:
+                    - type
+                    - id
+            order:
+              type: object
+              description: 'Proposed: A link to the order that this automation is being run for. Either the businessLocation or order is required. (It depends on the automation type.)'
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - orders
+                      default: orders
+                    id:
+                      type: string
+                      example: 'AG-1234:ORD-1234567'
+                  required:
+                    - type
+                    - id
+        attributes:
+          type: object
+          properties:
+            content:
+              type: array
+              description: A list of the pages
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  id:
+                    type: string
+                  pageMargin:
+                    type: string
+                  backgroundImageURL:
+                    type: string
+                  backgroundImageSize:
+                    type: string
+                  backgroundImageOpacity:
+                    type: string
+                  backgroundImagePosition:
+                    type: string
+                  backgroundColor:
+                    type: string
+                  backgroundColorOpacity:
+                    type: string
+      required:
+        - type
+        - relationships
 tags:
   - name: Automations
   - name: Automation Runs

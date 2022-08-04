@@ -6186,29 +6186,75 @@ components:
               type: array
               description: A list of the pages
               items:
-                type: object
-                properties:
-                  type:
-                    type: string
-                  id:
-                    type: string
-                  pageMargin:
-                    type: string
-                  backgroundImageURL:
-                    type: string
-                  backgroundImageSize:
-                    type: string
-                  backgroundImageOpacity:
-                    type: string
-                  backgroundImagePosition:
-                    type: string
-                  backgroundColor:
-                    type: string
-                  backgroundColorOpacity:
-                    type: string
+                $ref: '#/components/schemas/documentPage'
       required:
         - type
         - relationships
+    documentImage:
+      title: documentImage
+      x-stoplight:
+        id: axvnprgxtgg1z
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        url:
+          type: string
+    documentPricingTable:
+      title: documentPricingTable
+      x-stoplight:
+        id: 07h4nzq9tgwsq
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        price:
+          type: string
+    documentPage:
+      title: documentPage
+      x-stoplight:
+        id: y1t51aze0lwbl
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - page
+          default: page
+          example: page
+          description: The root content must always be a "page"
+        id:
+          type: string
+          description: 'Optional: A reference to the element. It will be automatically generated'
+        pageMargin:
+          type: string
+          description: 'The amount of whitespace around the edge of the page. '
+        backgroundImageUrl:
+          type: string
+        backgroundImageSize:
+          type: string
+        backgroundImageOpacity:
+          type: string
+        backgroundImagePosition:
+          type: string
+        backgroundColor:
+          type: string
+        backgroundColorOpacity:
+          type: string
+        children:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/documentImage'
+              - $ref: '#/components/schemas/documentPricingTable'
+              - type: string
+              - type: object
+      required:
+        - type
 tags:
   - name: Automations
   - name: Automation Runs

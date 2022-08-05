@@ -3801,6 +3801,69 @@ paths:
         in: path
         required: true
         description: The ISO region code
+  /proposals:
+    post:
+      security:
+        - OAuth2:
+            - sales.proposals
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Create a document that can be used by Proposal Builder.
+      summary: Create Proposal Builder Document
+      operationId: post-proposals
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: Accept-Language
+      responses:
+        '201':
+          description: Created
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/proposals'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                        description: The address of the newly created business location
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The address of the newly created proposal
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/proposals'
+    options:
+      summary: ''
+      operationId: options-proposals
+      responses:
+        '200':
+          description: OK
 components:
   parameters:
     pageLimit:
@@ -3851,6 +3914,7 @@ components:
             phone: Allows readonly access to the phone numbers of the current user.
             address: Allows readonly access to the address of the current user.
             sales.account: Allows read-write access to account records
+            sales.proposals: Allows read-write access to proposals
   schemas:
     businessLocations:
       title: Business Location
@@ -4338,36 +4402,7 @@ components:
             lineItems:
               type: array
               items:
-                type: object
-                properties:
-                  sku:
-                    type: string
-                    description: 'The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md).'
-                  quantity:
-                    type: integer
-                    description: The number of units to ordered
-                    default: 1
-                  amount:
-                    type: integer
-                    description: The unit price in cents
-                    default: 0
-                  intervalCode:
-                    type: string
-                    enum:
-                      - onetime
-                      - monthly
-                      - yearly
-                    description: The billing frequency
-                  isPackage:
-                    type: boolean
-                    description: Indicates if this lineitem is a package instead of a product or an addon.
-                    readOnly: true
-                  containedInPackage:
-                    type: string
-                    description: Holds the SKU of the package that this lineitem is part of. Products inside of a package do not have pricing so refer to the lineitem of the package SKU to find the price.
-                    readOnly: true
-                required:
-                  - sku
+                $ref: '#/components/schemas/lineItem'
             statusCode:
               type: string
               default: processing
@@ -6114,52 +6149,13 @@ components:
       properties:
         type:
           type: string
-          default: automationRuns
-          example: automationRuns
-          enum:
-            - automationRuns
+          default: proposalBuilderDocuments
+          example: proposalBuilderDocuments
+        id:
+          type: string
         relationships:
           type: object
-          required:
-            - automation
           properties:
-            automation:
-              type: object
-              description: 'A link to the automation definition that is being run. '
-              required:
-                - data
-              properties:
-                data:
-                  type: object
-                  required:
-                    - type
-                    - id
-                  properties:
-                    type:
-                      type: string
-                      default: automations
-                      example: automations
-                    id:
-                      type: string
-                      example: Automation-91cb048c-c498-43ba-ab99-2ca2d27d2c46
-                      pattern: ^Automation-
-            businessLocation:
-              type: object
-              description: A link to the business location that this automation is being run for. Either the businessLocation or order is required. (It depends on the automation type.)
-              properties:
-                data:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                      default: businessLocations
-                      example: businessLocations
-                    id:
-                      type: string
-                      example: AG-1234567
-                  required:
-                    - type
-                    - id
             order:
               type: object
               description: 'Proposed: A link to the order that this automation is being run for. Either the businessLocation or order is required. (It depends on the automation type.)'
@@ -6172,12 +6168,86 @@ components:
                       enum:
                         - orders
                       default: orders
+                      example: orders
                     id:
                       type: string
                       example: 'AG-1234:ORD-1234567'
                   required:
                     - type
                     - id
+                  readOnly: true
+              readOnly: true
+            recipientOrganization:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - organizations
+                      example: organizations
+                      default: organizations
+                    id:
+                      type: string
+            senderOrganization:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: organizations
+                      default: organizations
+                    id:
+                      type: string
+            recipientContact:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - salesContacts
+                      default: salesContacts
+                      example: salesContacts
+                    id:
+                      type: string
+            creatorUser:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: users
+                      default: users
+                      enum:
+                        - users
+                      readOnly: true
+                    id:
+                      type: string
+                  readOnly: true
+              readOnly: true
+            snapshot:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - snapshots
+                      example: snapshots
+                      default: snapshots
+                    id:
+                      type: string
         attributes:
           type: object
           properties:
@@ -6186,6 +6256,49 @@ components:
               description: A list of the pages
               items:
                 $ref: '#/components/schemas/documentPage'
+            lineItems:
+              type: array
+              items:
+                $ref: '#/components/schemas/lineItem'
+            currencyCode:
+              type: string
+              minLength: 3
+              maxLength: 3
+              example: CAD
+              description: 'The 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)'
+            createdAt:
+              type: string
+              format: date-time
+              readOnly: true
+            updatedAt:
+              type: string
+              format: date-time
+              readOnly: true
+            archivedAt:
+              type: string
+              format: date-time
+              readOnly: true
+            status:
+              type: string
+              readOnly: true
+            viewCount:
+              type: integer
+              minimum: 0
+              readOnly: true
+            shareType:
+              type: string
+              enum:
+                - Organization
+                - Global
+              default: Organization
+              readOnly: true
+            pdfUrl:
+              type: string
+              readOnly: true
+            previewImageUrl:
+              type: string
+            title:
+              type: string
       required:
         - type
         - relationships
@@ -6243,6 +6356,7 @@ components:
       x-stoplight:
         id: 07h4nzq9tgwsq
       type: object
+      description: The element that causes a pricing table to be rendered in the Proposal Builder editor and viewer.
       properties:
         id:
           type: string
@@ -6271,10 +6385,21 @@ components:
               type:
                 - string
                 - number
-        showDescriptions:
-          type: boolean
         showPrices:
           type: boolean
+        showDescriptions:
+          type: boolean
+        lineItemDisplayStrategy:
+          type: integer
+          enum:
+            - 0
+            - 1
+          example: 0
+          minimum: 0
+          maximum: 1
+          description: |-
+            0 - Do not show package contents in pricing table
+            1- Show package contents in pricing table
         align:
           type: string
           enum:
@@ -6283,20 +6408,14 @@ components:
             - right
             - justify
           example: left
-        lineItemDisplayStrategy:
-          type: number
-          enum:
-            - 0
-            - 1
-          example: 0
       required:
         - type
-      description: The element that causes a pricing table to be rendered in the Proposal Builder editor and viewer.
     documentPage:
       title: documentPage
       x-stoplight:
         id: y1t51aze0lwbl
       type: object
+      description: An element that wraps all other elements in a single page in Proposal Builder.
       properties:
         type:
           type: string
@@ -6349,9 +6468,54 @@ components:
             oneOf:
               - $ref: '#/components/schemas/documentImage'
               - $ref: '#/components/schemas/documentPricingTable'
+              - $ref: '#/components/schemas/documentElement'
       required:
         - type
-      description: An element that wraps all other elements in a single page in Proposal Builder.
+    documentElement:
+      title: documentElement
+      x-stoplight:
+        id: g5ql4e1f6qn3p
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+    lineItem:
+      title: lineItem
+      x-stoplight:
+        id: 19w8f2ir7f1s9
+      type: object
+      description: ''
+      properties:
+        sku:
+          type: string
+          description: 'The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md).'
+        quantity:
+          type: integer
+          description: The number of units to ordered
+          default: 1
+        amount:
+          type: integer
+          description: The unit price in cents. If not provided the default price for this sku in the marketplace will be used.
+          default: 0
+        intervalCode:
+          type: string
+          enum:
+            - onetime
+            - monthly
+            - yearly
+          description: The billing frequency
+        isPackage:
+          type: boolean
+          description: Indicates if this lineitem is a package instead of a product or an addon.
+          readOnly: true
+        containedInPackage:
+          type: string
+          description: Holds the SKU of the package that this lineitem is part of. Products inside of a package do not have pricing so refer to the lineitem of the package SKU to find the price.
+          readOnly: true
+      required:
+        - sku
 tags:
   - name: Automations
   - name: Automation Runs

@@ -6208,8 +6208,35 @@ components:
           type: string
         alt:
           type: string
-        align;:
+        align:
           type: string
+          enum:
+            - center
+            - left
+            - right
+            - justify
+        coordinate:
+          type: object
+          properties:
+            top:
+              type:
+                - string
+                - number
+            left:
+              type:
+                - string
+                - number
+            width:
+              type:
+                - string
+                - number
+            height:
+              type:
+                - string
+                - number
+      required:
+        - type
+        - url
     documentPricingTable:
       title: documentPricingTable
       x-stoplight:
@@ -6224,6 +6251,8 @@ components:
           enum:
             - pricing-table
           readOnly: true
+      required:
+        - type
     documentPage:
       title: documentPage
       x-stoplight:
@@ -6249,6 +6278,8 @@ components:
             - number
           description: 'The amount of whitespace around the edge of the page. '
           minimum: 0
+          default: 72
+          example: '"0.75in", 72, "72px"'
         backgroundImageUrl:
           type: string
         backgroundImageSize:
@@ -6259,6 +6290,8 @@ components:
             - cover
         backgroundImageOpacity:
           type: number
+          minimum: 0
+          maximum: 100
         backgroundImagePosition:
           type: string
           enum:
@@ -6269,6 +6302,8 @@ components:
           type: string
         backgroundColorOpacity:
           type: number
+          minimum: 0
+          maximum: 100
         children:
           type: array
           items:

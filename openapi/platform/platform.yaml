@@ -6108,8 +6108,7 @@ components:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        An Automation run is the instance of an automation executing its steps for a business location.
-        You may configure the automation definition and obtain its ID within Partner Center.
+        A proposal is a type of document used with Proposal Builder.
       x-tags:
         - Automation Runs
       properties:
@@ -6237,6 +6236,8 @@ components:
       required:
         - type
         - url
+      x-internal: false
+      description: The element that causes an image to be rendered in the Proposal Builder editor and viewer.
     documentPricingTable:
       title: documentPricingTable
       x-stoplight:
@@ -6251,8 +6252,46 @@ components:
           enum:
             - pricing-table
           readOnly: true
+        coordinate:
+          type: object
+          properties:
+            top:
+              type:
+                - string
+                - number
+            left:
+              type:
+                - string
+                - number
+            width:
+              type:
+                - string
+                - number
+            height:
+              type:
+                - string
+                - number
+        showDescriptions:
+          type: boolean
+        showPrices:
+          type: boolean
+        align:
+          type: string
+          enum:
+            - left
+            - center
+            - right
+            - justify
+          example: left
+        lineItemDisplayStrategy:
+          type: number
+          enum:
+            - 0
+            - 1
+          example: 0
       required:
         - type
+      description: The element that causes a pricing table to be rendered in the Proposal Builder editor and viewer.
     documentPage:
       title: documentPage
       x-stoplight:
@@ -6312,6 +6351,7 @@ components:
               - $ref: '#/components/schemas/documentPricingTable'
       required:
         - type
+      description: An element that wraps all other elements in a single page in Proposal Builder.
 tags:
   - name: Automations
   - name: Automation Runs

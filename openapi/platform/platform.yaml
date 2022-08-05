@@ -6200,7 +6200,15 @@ components:
           type: string
         type:
           type: string
+          default: image
+          enum:
+            - image
+          readOnly: true
         url:
+          type: string
+        alt:
+          type: string
+        align;:
           type: string
     documentPricingTable:
       title: documentPricingTable
@@ -6212,8 +6220,10 @@ components:
           type: string
         type:
           type: string
-        price:
-          type: string
+          default: pricing-table
+          enum:
+            - pricing-table
+          readOnly: true
     documentPage:
       title: documentPage
       x-stoplight:
@@ -6222,37 +6232,49 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - page
           default: page
           example: page
           description: The root content must always be a "page"
+          enum:
+            - page
+          readOnly: true
         id:
           type: string
           description: 'Optional: A reference to the element. It will be automatically generated'
-        pageMargin:
+        title:
           type: string
+        pageMargin:
+          type:
+            - string
+            - number
           description: 'The amount of whitespace around the edge of the page. '
+          minimum: 0
         backgroundImageUrl:
           type: string
         backgroundImageSize:
           type: string
+          enum:
+            - contain
+            - auto
+            - cover
         backgroundImageOpacity:
-          type: string
+          type: number
         backgroundImagePosition:
           type: string
+          enum:
+            - top
+            - center
+            - bottom
         backgroundColor:
           type: string
         backgroundColorOpacity:
-          type: string
+          type: number
         children:
           type: array
           items:
             oneOf:
               - $ref: '#/components/schemas/documentImage'
               - $ref: '#/components/schemas/documentPricingTable'
-              - type: string
-              - type: object
       required:
         - type
 tags:

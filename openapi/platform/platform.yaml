@@ -3886,7 +3886,11 @@ paths:
             type: boolean
           in: query
           name: 'filter[includeContent]'
+<<<<<<< Updated upstream
           description: 'Include the content of each proposal within the response (Warning: this may affect performance. It is recommended to explicitly GET a proposal and its content)'
+=======
+          description: Whether or not to include the JSON content. The default is false for performance reasons as the content could be large.
+>>>>>>> Stashed changes
       security:
         - OAuth2:
             - sales.proposals
@@ -3894,6 +3898,12 @@ paths:
         - Proposals
       x-lifecycle:
         status: trustedTester
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
     post:
       security:
         - OAuth2:
@@ -6518,13 +6528,6 @@ components:
             viewCount:
               type: integer
               minimum: 0
-              readOnly: true
-            shareType:
-              type: string
-              enum:
-                - Organization
-                - Global
-              default: Organization
               readOnly: true
             pdfUrl:
               type: string

@@ -2,6 +2,11 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2022-08-08
+
+### Proposal Builder
+Create, update, get, and list operations added to Platform APIs along with description of [Proposal](../../openapi/platform/platform.yaml)
+
 ## 2022-07-22
 
 ### Customer Voice Template Management

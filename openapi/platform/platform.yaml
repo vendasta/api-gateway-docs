@@ -3845,7 +3845,7 @@ paths:
         - schema:
             type: string
           in: query
-          name: 'filter[senderOrganizationId]'
+          name: 'filter[creatorOrganizationId]'
           description: Return Proposals for the specified organization
           required: true
         - schema:
@@ -4070,6 +4070,273 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/proposals'
+  /proposalTemplates:
+    get:
+      summary: List Proposal Templates
+      operationId: get-proposals
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/proposalTemplates'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                      next:
+                        type: string
+                        description: The URI at which the next batch of Proposals can be gotten from
+                        format: uri
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Produces a list of proposal templates
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[creatorOrganizationId]'
+          description: filters based on the specified organization that created the proposal template
+          required: true
+        - schema:
+            type: string
+          in: query
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links
+          name: 'page[cursor]'
+        - schema:
+            type: string
+          in: query
+          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder
+          name: 'page[limit]'
+        - schema:
+            type: array
+          in: query
+          name: 'filter[creatorUserIds]'
+          description: The id of the user that created the proposal. This supports a comma separated list of ids
+        - schema:
+            type: boolean
+          in: query
+          name: 'filter[includeContent]'
+          description: 'Include the content of each proposal within the response (Warning: this may affect performance. It is recommended to explicitly GET a proposal and its content)'
+        - schema:
+            type: array
+            enum:
+              - widgetTemplate
+              - pageTemplate
+              - proposalTemplate
+            example: '[''widgetTemplate'', ''pageTemplate'']'
+          in: query
+          name: 'filter[types]'
+          description: The types of proposal templates to include. This supports a comma separated list of proposal template types
+      security:
+        - OAuth2:
+            - sales.proposals
+      tags:
+        - Proposals
+      x-lifecycle:
+        status: trustedTester
+    post:
+      security:
+        - OAuth2:
+            - sales.proposals
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Create a proposal template that can be used by Proposal Builder.
+      summary: Create Proposal Template
+      operationId: post-proposals
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: Accept-Language
+      responses:
+        '201':
+          description: Created
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/proposalTemplates'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                        description: The address of the newly created proposal
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The address of the newly created proposal
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/proposalTemplates'
+      tags:
+        - Proposals
+    options:
+      operationId: options-proposals
+      summary: List valid HTTP verbs for /proposals
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - Options
+        - Proposals
+    parameters: []
+  '/proposalsTemplates/{id}':
+    get:
+      summary: Get Proposal Template
+      tags:
+        - Proposals
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/proposalTemplates'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      operationId: get-proposals-id
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Returns a proposal template
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+      security:
+        - OAuth2:
+            - sales.proposals
+    options:
+      operationId: options-proposals-id
+      summary: 'List valid HTTP verbs for /proposals/{id}'
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - Options
+        - Proposals
+    patch:
+      summary: Update Proposal Template
+      operationId: patch-proposals-id
+      tags:
+        - Proposals
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Update the existing proposal template.
+        Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
+      x-lifecycle:
+        status: trustedTester
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      security:
+        - OAuth2:
+            - sales.proposals
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/proposalTemplates'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                        description: The address of the updated Proposal
+          headers: {}
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/proposalTemplates'
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
 components:
   parameters:
     pageLimit:
@@ -6398,7 +6665,7 @@ components:
                       default: organizations
                     id:
                       type: string
-            senderOrganization:
+            creatorOrganization:
               type: object
               properties:
                 data:
@@ -6558,7 +6825,7 @@ components:
         relationships:
           type: object
           properties:
-            senderOrganization:
+            creatorOrganization:
               type: object
               properties:
                 data:

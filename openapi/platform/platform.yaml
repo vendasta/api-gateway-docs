@@ -3886,11 +3886,7 @@ paths:
             type: boolean
           in: query
           name: 'filter[includeContent]'
-<<<<<<< Updated upstream
           description: 'Include the content of each proposal within the response (Warning: this may affect performance. It is recommended to explicitly GET a proposal and its content)'
-=======
-          description: Whether or not to include the JSON content. The default is false for performance reasons as the content could be large.
->>>>>>> Stashed changes
       security:
         - OAuth2:
             - sales.proposals
@@ -3898,12 +3894,6 @@ paths:
         - Proposals
       x-lifecycle:
         status: trustedTester
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: {}
     post:
       security:
         - OAuth2:
@@ -6529,6 +6519,13 @@ components:
               type: integer
               minimum: 0
               readOnly: true
+            shareType:
+              type: string
+              enum:
+                - Organization
+                - Global
+              default: Organization
+              readOnly: true
             pdfUrl:
               type: string
               readOnly: true
@@ -6726,9 +6723,13 @@ components:
       type: object
       description: ''
       properties:
-        sku:
+        id:
           type: string
           description: 'The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md).'
+        type:
+          type: string
+          default: lineItem
+          example: lineItem
         quantity:
           type: integer
           description: The number of units to ordered
@@ -6753,7 +6754,7 @@ components:
           description: Holds the SKU of the package that this lineitem is part of. Products inside of a package do not have pricing so refer to the lineitem of the package SKU to find the price.
           readOnly: true
       required:
-        - sku
+        - id
 tags:
   - name: Automations
   - name: Automation Runs

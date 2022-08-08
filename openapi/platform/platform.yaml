@@ -6537,6 +6537,130 @@ components:
         - type
         - id
         - relationships
+    proposalTemplates:
+      title: Proposals
+      type: object
+      x-examples: {}
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        A proposal is a type of document used with Proposal Builder.
+      x-tags:
+        - Automation Runs
+      properties:
+        type:
+          type: string
+          default: proposalTemplates
+          example: proposalTemplates
+        id:
+          type: string
+          description: ignored when creating a proposal
+        relationships:
+          type: object
+          properties:
+            senderOrganization:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: organizations
+                      default: organizations
+                      enum:
+                        - organizations
+                    id:
+                      type: string
+            creatorUser:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: users
+                      default: users
+                      enum:
+                        - users
+                      readOnly: true
+                    id:
+                      type: string
+                  readOnly: true
+              readOnly: true
+        attributes:
+          type: object
+          properties:
+            type:
+              type: string
+              example: widgetTemplate
+              default: proposalTemplate
+              enum:
+                - widgetTemplate
+                - pageTemplate
+                - proposalTemplate
+              description: |-
+                widgetTemplate - a block of content that is typically inserted into a page
+
+                pageTemplate - an individual page in a proposal
+
+                proposalTemplate - a template representing an entire proposal without certain relationships linked to it
+            content:
+              oneOf:
+                - $ref: '#/components/schemas/documentElement'
+                - $ref: '#/components/schemas/documentPage'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/documentPage'
+              description: |-
+                widgetTemplate - a single document element
+
+                pageTemplate - a single document page
+
+                proposalTemplate - a list of document pages
+            lineItems:
+              type: array
+              items:
+                $ref: '#/components/schemas/lineItem'
+            currencyCode:
+              type: string
+              minLength: 3
+              maxLength: 3
+              example: CAD
+              description: 'The 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)'
+            createdAt:
+              type: string
+              format: date-time
+              readOnly: true
+            updatedAt:
+              type: string
+              format: date-time
+              readOnly: true
+            archivedAt:
+              type: string
+              format: date-time
+              readOnly: true
+            shareType:
+              type: string
+              enum:
+                - Organization
+                - Global
+              default: Organization
+              readOnly: true
+            pdfUrl:
+              type: string
+              readOnly: true
+            previewImageUrl:
+              type: string
+            title:
+              type: string
+          required:
+            - type
+      required:
+        - type
+        - id
+        - relationships
     documentImage:
       title: documentImage
       x-stoplight:

@@ -2863,7 +2863,7 @@ paths:
         '200':
           description: OK
           content:
-            application/json:
+            application/vnd.api+json:
               schema:
                 type: object
                 properties:
@@ -3885,10 +3885,25 @@ paths:
           name: 'filter[recipientOrganizationId]'
           description: The id of the recipient organization
         - schema:
-            type: boolean
+            type: array
+            enum:
+              - content
+              - lineItems
+              - currencyCode
+              - createdAt
+              - updatedAt
+              - archivedAt
+              - status
+              - viewCount
+              - shareType
+              - pdfUrl
+              - previewImageUrl
+              - title
+            example: 'title,content,status'
+            default: 'title,status,updatedAt'
           in: query
-          name: 'filter[includeContent]'
-          description: 'Include the content of each proposal within the response (Warning: this may affect performance. It is recommended to explicitly GET a proposal and its content)'
+          name: 'fields[proposals]'
+          description: 'A comma separated list of the attributes that you want included in the response. By default the `content` is not included as it could be very large. '
       security:
         - OAuth2:
             - sales.proposals
@@ -3921,6 +3936,15 @@ paths:
             type: string
           in: header
           name: Accept-Language
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       responses:
         '201':
           description: Created
@@ -4184,6 +4208,15 @@ paths:
             type: string
           in: header
           name: Accept-Language
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       responses:
         '201':
           description: Created
@@ -4218,8 +4251,8 @@ paths:
       tags:
         - Proposals
     options:
-      operationId: options-proposals
-      summary: List valid HTTP verbs for /proposals
+      operationId: options-proposalTemplates
+      summary: List valid HTTP verbs for /proposalTemplates
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       responses:
         '204':
@@ -4228,7 +4261,7 @@ paths:
         - Options
         - Proposals
     parameters: []
-  '/proposalsTemplates/{id}':
+  '/proposalTemplates/{id}':
     get:
       summary: Get Proposal Template
       tags:
@@ -4248,7 +4281,7 @@ paths:
                     properties:
                       self:
                         type: string
-      operationId: get-proposals-id
+      operationId: get-proposalTemplates-id
       x-lifecycle:
         status: trustedTester
       description: |-
@@ -4268,8 +4301,8 @@ paths:
         - OAuth2:
             - sales.proposals
     options:
-      operationId: options-proposals-id
-      summary: 'List valid HTTP verbs for /proposals/{id}'
+      operationId: options-proposalTemplates-id
+      summary: 'List valid HTTP verbs for /proposalTemplates/{id}'
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       responses:
         '204':
@@ -4279,7 +4312,7 @@ paths:
         - Proposals
     patch:
       summary: Update Proposal Template
-      operationId: patch-proposals-id
+      operationId: patch-proposalTemplates-id
       tags:
         - Proposals
       description: |-
@@ -6624,12 +6657,14 @@ components:
 
         A proposal is a type of document used with Proposal Builder.
       x-tags:
-        - Automation Runs
+        - Proposals
       properties:
         type:
           type: string
-          default: proposalBuilderDocuments
-          example: proposalBuilderDocuments
+          default: proposals
+          example: proposals
+          enum:
+            - proposals
         id:
           type: string
           description: ignored when creating a proposal
@@ -6638,7 +6673,7 @@ components:
           properties:
             order:
               type: object
-              description: A link to the order associated with this Proposal.
+              description: A link to the order associated with this Proposal. It will be assigned by the server when the proposal is converted to a sales order.
               properties:
                 data:
                   type: object
@@ -6652,13 +6687,11 @@ components:
                     id:
                       type: string
                       example: 'AG-1234:ORD-1234567'
-                  required:
-                    - type
-                    - id
                   readOnly: true
               readOnly: true
             recipientOrganization:
               type: object
+              description: The organization that this proposal is being created for. Currently only sales account type organizations are supported.
               properties:
                 data:
                   type: object
@@ -6673,6 +6706,7 @@ components:
                       type: string
             creatorOrganization:
               type: object
+              description: The ID of the organization that created the proposal. Currently this can only be set to your own partner id.
               properties:
                 data:
                   type: object
@@ -6792,26 +6826,21 @@ components:
               type: integer
               minimum: 0
               readOnly: true
-            shareType:
-              type: string
-              enum:
-                - Organization
-                - Global
-              default: Organization
-              readOnly: true
             pdfUrl:
               type: string
+              format: uri
               readOnly: true
             previewImageUrl:
               type: string
+              format: uri
             title:
               type: string
+              description: The display name for referencing this proposal
       required:
         - type
-        - id
         - relationships
     proposalTemplates:
-      title: Proposals
+      title: Proposal Templates
       type: object
       x-examples: {}
       description: |-
@@ -6819,7 +6848,7 @@ components:
 
         A proposal is a type of document used with Proposal Builder.
       x-tags:
-        - Automation Runs
+        - Proposals
       properties:
         type:
           type: string
@@ -6865,7 +6894,7 @@ components:
         attributes:
           type: object
           properties:
-            type:
+            templateType:
               type: string
               example: widgetTemplate
               default: proposalTemplate
@@ -6917,19 +6946,22 @@ components:
             shareType:
               type: string
               enum:
-                - Organization
-                - Global
-              default: Organization
+                - organization
+                - global
+              default: organization
               readOnly: true
             pdfUrl:
               type: string
+              format: uri
               readOnly: true
             previewImageUrl:
               type: string
+              format: uri
             title:
               type: string
+              description: The display name for this template
           required:
-            - type
+            - templateType
       required:
         - type
         - id
@@ -6984,6 +7016,8 @@ components:
       required:
         - type
         - url
+      x-tags:
+        - Proposals
     documentPricingTable:
       title: documentPricingTable
       x-stoplight:
@@ -7042,6 +7076,8 @@ components:
           example: left
       required:
         - type
+      x-tags:
+        - Proposals
     documentPage:
       title: documentPage
       x-stoplight:
@@ -7103,6 +7139,8 @@ components:
               - $ref: '#/components/schemas/documentElement'
       required:
         - type
+      x-tags:
+        - Proposals
     documentElement:
       title: documentElement
       x-stoplight:
@@ -7114,6 +7152,8 @@ components:
         type:
           type: string
           default: documentElement
+      x-tags:
+        - Proposals
     lineItem:
       title: lineItem
       x-stoplight:
@@ -7153,6 +7193,9 @@ components:
           readOnly: true
       required:
         - id
+      x-tags:
+        - Orders
+        - Proposals
 tags:
   - name: Automations
   - name: Automation Runs

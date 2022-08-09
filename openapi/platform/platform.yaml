@@ -3801,6 +3801,130 @@ paths:
         in: path
         required: true
         description: The ISO region code
+  /listPartnerEnabledApps:
+    post:
+      summary: ''
+      operationId: post-listPartnerEnabledApps
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  example-1:
+                    data:
+                      id: string
+                      type: products
+                      apps:
+                        - key:
+                            sku: string
+                          sharedMarketingInformation:
+                            name: string
+                            iconUrl: 'http://example.com'
+                            tagline: string
+                            bannerImageUrl: string
+                          parentRequirements:
+                            enabled: true
+                            parentDetails:
+                              key:
+                                appId: string
+                          activationInformation:
+                            requiredBusinessData: {}
+                            countryRestrictions:
+                              whitelist:
+                                - string
+                            appRestrictions:
+                              requiredAppIds:
+                                - string
+                          price: {}
+                          appType: APP_TYPE_ADDON
+                    links:
+                      self: string
+                      first: string
+                      next: string
+                properties:
+                  data:
+                    $ref: '#/components/schemas/products'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                      first:
+                        type: string
+                      next:
+                        type: string
+      description: List of distributable active apps for a Partner PID.
+      security:
+        - OAuth2:
+            - partner
+      parameters:
+        - in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+          schema:
+            example: Bearer <Access Token>
+            type: string
+            pattern: ^Bearer\s\S+
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          description: Indicates the format of the request body being sent. In most cases you will want application/vnd.api+json
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                example-1:
+                  partnerId: TRUD
+                  cursor: ''
+                  pageSize: 0
+                  filter:
+                    appType: APP_TYPE_ALL
+                    filterTerm: ''
+              properties:
+                partnerId:
+                  type: string
+                cursor:
+                  type: string
+                pageSize:
+                  type: integer
+                filter:
+                  type: object
+                  properties:
+                    appType:
+                      type: string
+                      enum:
+                        - APP_TYPE_ALL
+                        - APP_TYPE_APP
+                        - APP_TYPE_ADDON
+                      default: APP_TYPE_ALL
+                    filterTerm:
+                      type: string
+            examples:
+              example-1:
+                value:
+                  partnerId: TRUD
+                  cursor: ''
+                  pageSize: 0
+                  filter:
+                    appType: APP_TYPE_ALL
+                    filterTerm: ''
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+      x-lifecycle:
+        Status: Trusted Tester
 components:
   parameters:
     pageLimit:
@@ -5991,9 +6115,6 @@ components:
                 type: string
                 description: 'A longer text explanation of the field, it optionally appears in the UI. This field is not read when setting a value.'
                 readOnly: true
-      required:
-        - id
-        - type
     hoursOfOperation:
       type: array
       nullable: true
@@ -6101,6 +6222,121 @@ components:
       description: 'Valid values are 00:00-24:00, where 24:00 represents midnight at the end of the specified day field.'
       pattern: '^\d{2}:\d{2}$'
       example: '09:45'
+    products:
+      type: object
+      x-examples:
+        example-1:
+          id: AG-1234
+          type: products
+          apps:
+            - key:
+                appId: A-1234
+              sharedMarketingInformation:
+                name: 'A-1234 '
+                iconUrl: ''
+                tagline: Add more keywords to the campaign
+                bannerImageUrl: ''
+              parentRequirements:
+                enabled: true
+                parentDetails:
+                  key:
+                    appId: MP-1234
+              activationInformation:
+                requiredBusinessData: {}
+                countryRestrictions:
+                  whitelist:
+                    - ZA
+                appRestrictions:
+                  requiredAppIds:
+                    - MP-XH2C5JVKTBGVQJ43CQVRMZ6PD4563QFC
+              price: {}
+              appType: APP_TYPE_ADDON
+      description: List of products with the parent requirements and the pricing information.
+      properties:
+        id:
+          type: string
+          description: Partner ID from the request.
+        type:
+          type: string
+          description: Should always be products.
+          default: products
+          enum:
+            - products
+        apps:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: object
+                properties:
+                  sku:
+                    type: string
+                    description: The unique identifier of a product.
+              sharedMarketingInformation:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Name of the product.
+                  iconUrl:
+                    type: string
+                    description: Url to access the Product Icon.
+                    format: uri
+                  tagline:
+                    type: string
+                    description: Product tag line.
+                  bannerImageUrl:
+                    type: string
+                    description: Product Banner
+              parentRequirements:
+                type: object
+                description: Provides the pre-requisites if any for this product.
+                properties:
+                  enabled:
+                    type: boolean
+                  parentDetails:
+                    type: object
+                    properties:
+                      key:
+                        type: object
+                        description: SKU of the parent product.
+                        properties:
+                          appId:
+                            type: string
+              activationInformation:
+                type: object
+                properties:
+                  requiredBusinessData:
+                    type: object
+                  countryRestrictions:
+                    type: object
+                    description: Countries applicable for this Product to be sold.
+                    properties:
+                      whitelist:
+                        type: array
+                        description: White listed countries list.
+                        items:
+                          type: string
+                  appRestrictions:
+                    type: object
+                    properties:
+                      requiredAppIds:
+                        type: array
+                        description: Parent requirements.
+                        items:
+                          type: string
+              price:
+                type: object
+                description: TBD
+              appType:
+                type: string
+                enum:
+                  - APP_TYPE_ADDON
+                  - APP_TYPE_APP
+      required:
+        - id
+        - type
 tags:
   - name: Automations
   - name: Automation Runs

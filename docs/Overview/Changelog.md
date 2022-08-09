@@ -1,6 +1,10 @@
 # Changelog
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
+## 2022-09-08
+
+### List Partner Enabled Products
+List of enabled products under a partner is now available. By sending the PID in the request JSON the product listing along with Parent requirements and pricing data will be added.
 
 ## 2022-07-22
 

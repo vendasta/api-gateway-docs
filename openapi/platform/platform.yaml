@@ -3801,9 +3801,9 @@ paths:
         in: path
         required: true
         description: The ISO region code
-  /listPartnerEnabledApps:
-    post:
-      summary: List Partner Enabled Apps
+  '/partnerEnabledProducts/{id}':
+    get:
+      summary: List Partner Enabled Products
       operationId: post-listPartnerEnabledApps
       responses:
         '200':
@@ -3862,7 +3862,7 @@ paths:
         List of distributable active apps for a Partner PID.
       security:
         - OAuth2:
-            - partner
+            - product
       parameters:
         - in: header
           name: Authorization
@@ -3881,56 +3881,59 @@ paths:
           name: Content-Type
           description: Indicates the format of the request body being sent. In most cases you will want application/vnd.api+json
           required: true
+        - schema:
+            type: string
+          in: header
+          name: Accept-Language
+        - schema:
+            type: integer
+            default: 10
+            minimum: 0
+            maximum: 1000
+          in: query
+          name: 'page[limit]'
+          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+        - schema:
+            type: string
+          in: query
+          name: 'page[cursor]'
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+        - schema:
+            type: string
+            default: APP_TYPE_ALL
+            enum:
+              - APP_TYPE_ALL
+              - APP_TYPE_APP
+              - APP_TYPE_ADDON
+          in: query
+          name: type
+          description: 'Type of listing, product or addon.'
       requestBody:
         content:
-          application/json:
-            schema:
-              type: object
-              x-examples:
-                example-1:
-                  partnerId: TRUD
-                  cursor: ''
-                  pageSize: 0
-                  filter:
-                    appType: APP_TYPE_ALL
-                    filterTerm: ''
-              properties:
-                partnerId:
-                  type: string
-                cursor:
-                  type: string
-                pageSize:
-                  type: integer
-                filter:
-                  type: object
-                  properties:
-                    appType:
-                      type: string
-                      enum:
-                        - APP_TYPE_ALL
-                        - APP_TYPE_APP
-                        - APP_TYPE_ADDON
-                      default: APP_TYPE_ALL
-                    filterTerm:
-                      type: string
-            examples:
-              example-1:
-                value:
-                  partnerId: TRUD
-                  cursor: ''
-                  pageSize: 0
-                  filter:
-                    appType: APP_TYPE_ALL
-                    filterTerm: ''
           application/xml:
             schema:
               type: object
               properties: {}
+          multipart/form-data:
+            schema:
+              type: object
+              properties: {}
+          text/html:
+            schema:
+              type: object
+              properties: {}
+        description: ''
       x-lifecycle:
-        Status: Trusted Tester
+        Status: Proposed
       tags:
         - Enabled Products
-    parameters: []
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: PID - the Partner ID.
     options:
       summary: ''
       operationId: options-listPartnerEnabledApps
@@ -3974,6 +3977,7 @@ components:
             partner: Read-write access to details about your partner
             financial: Read-write access to financial details
             order: Read-write access to order details
+            product: Read access to the product details
             'user.profile:read': Read access to the profile fields of all categories of users
             'user.contact:read': 'Read access to the contact info (email, phone, address) of all categories of users'
             'user.permission:read': 'Read access to the permission info (accessible locations, features and roles) of all categories of users'
@@ -6275,17 +6279,14 @@ components:
           default: products
           enum:
             - products
-        apps:
+        attributes:
           type: array
           items:
             type: object
             properties:
-              key:
-                type: object
-                properties:
-                  sku:
-                    type: string
-                    description: The unique identifier of a product.
+              sku:
+                type: string
+                description: The unique identifier of a product.
               sharedMarketingInformation:
                 type: object
                 properties:
@@ -6302,21 +6303,9 @@ components:
                   bannerImageUrl:
                     type: string
                     description: Product Banner
-              parentRequirements:
-                type: object
-                description: Provides the pre-requisites if any for this product.
-                properties:
-                  enabled:
-                    type: boolean
-                  parentDetails:
-                    type: object
-                    properties:
-                      key:
-                        type: object
-                        description: SKU of the parent product.
-                        properties:
-                          appId:
-                            type: string
+              parentId:
+                type: string
+                description: 'Provides the pre-requisites if any, for this product.'
               activationInformation:
                 type: object
                 properties:
@@ -6347,6 +6336,8 @@ components:
                 enum:
                   - APP_TYPE_ADDON
                   - APP_TYPE_APP
+        '':
+          type: string
       required:
         - id
         - type

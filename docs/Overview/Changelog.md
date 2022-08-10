@@ -5,7 +5,7 @@ The platform is continuously evolving. This page lists the significant changes w
 ## 2022-08-08
 
 ### Proposal Builder
-Create, update, get, and list operations added to Platform APIs along with description of [Proposal](../../openapi/platform/platform.yaml)
+Create, update, get, and list operations added to Platform APIs along with description of [Proposal](../../openapi/platform/platform.yaml/components/schemas/proposals)
 
 ## 2022-07-22
 

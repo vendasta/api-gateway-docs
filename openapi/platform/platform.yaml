@@ -3801,9 +3801,9 @@ paths:
         in: path
         required: true
         description: The ISO region code
-  '/partnerEnabledProducts/{id}':
+  '/partnerActivatableProducts/{id}':
     get:
-      summary: List Partner Enabled Products
+      summary: List Partner Activatable Products
       operationId: post-listPartnerEnabledApps
       responses:
         '200':
@@ -3858,7 +3858,6 @@ paths:
                         type: string
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
-
         List of distributable active apps for a Partner PID.
       security:
         - OAuth2:
@@ -3908,6 +3907,30 @@ paths:
           in: query
           name: type
           description: 'Type of listing, product or addon.'
+        - schema:
+            type: string
+          in: query
+          name: 'filter[sku]'
+          description: Filter by SKU.
+        - schema:
+            type: string
+          in: query
+          name: 'filter[name]'
+          description: Filter by Vendor provided product name.
+        - schema:
+            type: string
+          in: query
+          name: 'filter[whiteLabelName]'
+          description: Filter by Partner given white label name
+        - schema:
+            type: string
+          in: query
+          name: 'filter[requiredAppIds]'
+          description: Filter by required AppIds
+        - schema:
+            type: string
+          in: query
+          name: sort
       requestBody:
         content:
           application/xml:
@@ -3926,7 +3949,7 @@ paths:
       x-lifecycle:
         Status: Proposed
       tags:
-        - Enabled Products
+        - Activatable Products
     parameters:
       - schema:
           type: string
@@ -3937,6 +3960,69 @@ paths:
     options:
       summary: ''
       operationId: options-listPartnerEnabledApps
+      responses:
+        '200':
+          description: OK
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+  '/products/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: SKU id
+    get:
+      summary: Get Product
+      tags:
+        - Activatable Products
+      operationId: get-products-id
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        Get product details by SKU id
+      security:
+        - OAuth2:
+            - product
+      parameters:
+        - in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+          schema:
+            example: Bearer <Access Token>
+            type: string
+            pattern: ^Bearer\s\S+
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          description: Indicates the format of the request body being sent. In most cases you will want application/vnd.api+json
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: Accept-Language
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/products'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+    options:
+      summary: ''
+      operationId: options-products-id
       responses:
         '200':
           description: OK
@@ -6287,26 +6373,29 @@ components:
               sku:
                 type: string
                 description: The unique identifier of a product.
-              sharedMarketingInformation:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    description: Name of the product.
-                  iconUrl:
-                    type: string
-                    description: Url to access the Product Icon.
-                    format: uri
-                  tagline:
-                    type: string
-                    description: Product tag line.
-                  bannerImageUrl:
-                    type: string
-                    description: Product Banner
-                    format: uri
-              parentId:
+              appType:
                 type: string
-                description: 'Provides the pre-requisites if any, for this product.'
+                enum:
+                  - APP_TYPE_ADDON
+                  - APP_TYPE_APP
+                description: Product or Addon
+              name:
+                type: string
+                description: Vendor Name of the product.
+              whiteLabelName:
+                type: string
+                description: Partner White label Name.
+              iconUrl:
+                type: string
+                description: Url to access the Product Icon.
+                format: uri
+              tagline:
+                type: string
+                description: Product tag line.
+              bannerImageUrl:
+                type: string
+                description: Product Banner.
+                format: uri
               activationInformation:
                 type: object
                 properties:
@@ -6332,24 +6421,21 @@ components:
               price:
                 type: object
                 description: TBD
-              appType:
-                type: string
-                enum:
-                  - APP_TYPE_ADDON
-                  - APP_TYPE_APP
-                description: Product or Addon
         '':
           type: string
       required:
         - id
         - type
+      title: Products
+      x-tags:
+        - Activatable Products
 tags:
+  - name: Activatable Products
   - name: Automation Runs
   - name: Automations
   - name: Business Categories
   - name: Business Locations
   - name: Countries
-  - name: Enabled Products
   - name: Options
   - name: Order Custom Fields
   - name: Orders

@@ -3846,7 +3846,9 @@ paths:
                       next: string
                 properties:
                   data:
-                    $ref: '#/components/schemas/partnerActivatableProducts'
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/partnerActivatableProducts'
                   links:
                     type: object
                     properties:
@@ -3861,6 +3863,7 @@ paths:
         List of distributable active apps for a Partner PID.
       security:
         - OAuth2:
+            - partner
             - product
       parameters:
         - in: header
@@ -3899,16 +3902,6 @@ paths:
           description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
         - schema:
             type: string
-            default: APP_TYPE_ALL
-            enum:
-              - APP_TYPE_ALL
-              - APP_TYPE_APP
-              - APP_TYPE_ADDON
-          in: query
-          name: type
-          description: 'Type of listing, product or addon.'
-        - schema:
-            type: string
           in: query
           name: 'filter[sku]'
           description: Filter by SKU.
@@ -3926,7 +3919,7 @@ paths:
             type: string
           in: query
           name: 'filter[requiredAppIds]'
-          description: Filter by required AppIds
+          description: 'Filter by required AppIds. If multiple app Ids to be used, needs to be separated by comma.'
         - schema:
             type: string
           in: query
@@ -3981,6 +3974,7 @@ paths:
       security:
         - OAuth2:
             - product
+            - partner
       parameters:
         - in: header
           name: Authorization
@@ -4063,7 +4057,6 @@ components:
             partner: Read-write access to details about your partner
             financial: Read-write access to financial details
             order: Read-write access to order details
-            product: Read access to the product details
             'user.profile:read': Read access to the profile fields of all categories of users
             'user.contact:read': 'Read access to the contact info (email, phone, address) of all categories of users'
             'user.permission:read': 'Read access to the permission info (accessible locations, features and roles) of all categories of users'
@@ -4078,6 +4071,7 @@ components:
             phone: Allows readonly access to the phone numbers of the current user.
             address: Allows readonly access to the address of the current user.
             sales.account: Allows read-write access to account records
+            product: Read access to the product details
   schemas:
     businessLocations:
       title: Business Location
@@ -6327,108 +6321,88 @@ components:
       example: '09:45'
     partnerActivatableProducts:
       type: object
-      x-examples:
-        example-1:
-          id: AG-1234
-          type: products
-          apps:
-            - key:
-                appId: A-1234
-              sharedMarketingInformation:
-                name: 'A-1234 '
-                iconUrl: ''
-                tagline: Add more keywords to the campaign
-                bannerImageUrl: ''
-              parentRequirements:
-                enabled: true
-                parentDetails:
-                  key:
-                    appId: MP-1234
-              activationInformation:
-                requiredBusinessData: {}
-                countryRestrictions:
-                  whitelist:
-                    - ZA
-                appRestrictions:
-                  requiredAppIds:
-                    - MP-XH2C5JVKTBGVQJ43CQVRMZ6PD4563QFC
-              price: {}
-              appType: APP_TYPE_ADDON
+      x-examples: {}
       description: List of products with the parent requirements and the pricing information.
-      properties:
-        id:
-          type: string
-          description: Partner ID from the request.
-        type:
-          type: string
-          description: Should always be products.
-          default: products
-          enum:
-            - products
-        attributes:
-          type: array
-          items:
-            type: object
-            properties:
-              sku:
-                type: string
-                description: The unique identifier of a product.
-              appType:
-                type: string
-                enum:
-                  - APP_TYPE_ADDON
-                  - APP_TYPE_APP
-                description: Product or Addon
-              name:
-                type: string
-                description: Vendor Name of the product.
-              whiteLabelName:
-                type: string
-                description: Partner White label Name.
-              iconUrl:
-                type: string
-                description: Url to access the Product Icon.
-                format: uri
-              tagline:
-                type: string
-                description: Product tag line.
-              bannerImageUrl:
-                type: string
-                description: Product Banner.
-                format: uri
-              activationInformation:
-                type: object
-                properties:
-                  requiredBusinessData:
-                    type: object
-                  countryRestrictions:
-                    type: object
-                    description: Countries applicable for this Product to be sold.
-                    properties:
-                      whitelist:
-                        type: array
-                        description: White listed countries list.
-                        items:
-                          type: string
-                  appRestrictions:
-                    type: object
-                    properties:
-                      requiredAppIds:
-                        type: array
-                        description: Parent requirements.
-                        items:
-                          type: string
-              price:
-                type: object
-                description: TBD
-        '':
-          type: string
-      required:
-        - id
-        - type
       title: Partner Activatable Products
       x-tags:
         - Partner Activatable Products
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the record.
+          example: 'ABC:MP-1234:EDITION-123'
+        type:
+          type: string
+          description: Should always be partnerActivatableProducts.
+          default: partnerActivatableProducts
+          enum:
+            - partnerActivatableProducts
+        attributes:
+          type: object
+          properties:
+            sku:
+              type: string
+              description: 'The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md).'
+              example: 'MP-1234:EDITION-123'
+            name:
+              type: string
+              description: Vendor provided name for the product.
+              example: Product Name
+            whiteLabelName:
+              type: string
+              description: Custom name for the product set by the Partner.
+              example: Custom Product Name
+            iconUrl:
+              type: string
+              description: 'Product logo url. Url to the jpg or png image with 1:1 aspect ratio. (Recommended: 240px x 240px).'
+              format: uri
+            tagline:
+              type: string
+              description: Briefly describes what the product does.
+              example: Short Description
+            bannerImageUrl:
+              type: string
+              description: Url to access the large rectagular image at the top of the marketing page.
+              format: uri
+        relationships:
+          type: object
+          properties:
+            allowedCountries:
+              type: object
+              description: 'Allowed list of countries as 2-letter codes where the product can be sold. If empty, its allowed for any country. Country name from the code can be obtained with [Countries API](platform.yaml/paths/~1countries/get)'
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: US
+                      type:
+                        type: string
+                        enum:
+                          - countries
+                        default: countries
+            requiredProductIds:
+              type: object
+              description: List of IDs of the products to be activated before activating this product.
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                          - partnerActivatableProducts
+                        default: partnerActivatableProducts
+      required:
+        - id
+        - type
 tags:
   - name: Automation Runs
   - name: Automations

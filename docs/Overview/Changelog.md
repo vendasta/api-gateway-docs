@@ -8,6 +8,12 @@ The platform is continuously evolving. This page lists the significant changes w
 
 Listing the products a partner has enabled to be activated in their marketplace has been propsed. [View the details here.](../../openapi/platform/platform.yaml/paths/~1partnerActivatableProducts/get)
 
+## 2022-08-08
+
+### Proposal Builder
+Create, update, get, and list operations added to Platform APIs along with description of [Proposal](../../openapi/platform/platform.yaml/components/schemas/proposals)
+
+
 ## 2022-07-22
 
 ### Customer Voice Template Management

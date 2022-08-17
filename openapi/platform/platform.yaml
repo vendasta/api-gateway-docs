@@ -5079,4 +5079,1373 @@ components:
                   example: 109 8th Street E.
                   deprecated: true
                   description: Deprecated - This field has been renamed line1
-               
+                  x-lifecycle:
+                    status: deprecated
+                    deprecated: '2021-10-04'
+                    proposedRemoval: '2021-11-04'
+                    description: This field was renamed to line1 while at the trusted tester phase. It will be removed shortly.
+                additionalAddress:
+                  type: string
+                  example: Suite 23
+                  deprecated: true
+                  description: Deprecated - This field has been renamed line2. An additional line of information to add after the stree address.
+                  x-lifecycle:
+                    status: deprecated
+                    deprecated: '2021-10-04'
+                    proposedRemoval: '2021-11-04'
+                    description: This field was renamed to line2 while at the trusted tester phase. It will be removed shortly.
+                city:
+                  type: string
+                  description: 'The city, town or locality component of an address.'
+                  example: Saskatoon
+                postalCode:
+                  type: string
+                  description: The zip code or postal code component of an address.
+                  example: S7M 1R3
+                regionCode:
+                  type: string
+                  description: |-
+                    The code for the top level subdivision within the country (state/province) as defined by [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) format.
+
+                    Examples: CA-SK, US-FL, AG-08, AU-NSW
+                  example: CA-SK
+                  maxLength: 6
+                  minLength: 4
+                  pattern: '^[A-Z]{2}-[\w]{1,3}$'
+                countryCode:
+                  type: string
+                  maxLength: 2
+                  minLength: 2
+                  example: CA
+                  description: |-
+                    The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
+
+                    Examples: CA, US, AU
+                  pattern: '^[A-Z]{2}$'
+            profileImage:
+              type: string
+              format: uri
+              description: A photo that can be used to represent this user. If the user does not have a custom image set a default image will be returned.
+              example: 'https://storage.googleapis.com/wordpress-www-vendasta/vw-wordpress/Brendan-King-1.jpg'
+              readOnly: true
+            timeZone:
+              type: string
+              description: |-
+                The User's time zone in the IANA [time zone database format](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+
+                Example: `America/Los_Angeles`
+              example: America/Regina
+            createdAt:
+              type: string
+              format: date-time
+              description: The time at which the user was initially created in the platform.
+              readOnly: true
+            updatedAt:
+              type: string
+              format: date-time
+              description: 'The time at which the user’s profile was last updated. Note: Changes to permissions will not affect this field.'
+              readOnly: true
+        relationships:
+          type: object
+          properties:
+            partner:
+              type: object
+              description: A link to the organization that provides the platform to this user.
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                      default: partners
+                      enum:
+                        - partners
+                    id:
+                      type: string
+                      example: ABC
+              required:
+                - data
+            businessLocations:
+              type: object
+              description: |-
+                The business locations that this user is a member of.
+
+                When a new location is added to a user they will be granted the default business user permissions.
+
+                Fine grained permissions currently must be managed in Partner Center's UI. We are gathering interest to determine how it should work by API so please send us your use cases.
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      type:
+                        type: string
+                        default: businessLocations
+                        example: businessLocations
+                        enum:
+                          - businessLocations
+                      id:
+                        type: string
+                        example: AG-1234567
+                        description: The ID of a previously created business location record.
+                    required:
+                      - type
+                      - id
+            platformAccess:
+              type: object
+              description: |-
+                `Proposed` The platform access functionality is still at a `proposed` status. Not all options are currently available.
+
+                Use this field to grant access to platform level features to your employees and contractors.
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        default: appFeatures
+                        example: appFeatures
+                      id:
+                        type: string
+                        enum:
+                          - 'pc:access'
+                          - 'pc:canCustomizeWhitelabel'
+                          - 'pc:canAccessBilling'
+                          - 'pc:canManageSales'
+                          - 'pc:canManageAccounts'
+                          - 'pc:canManageTasks'
+                          - 'pc:canAccessBrands'
+                          - 'pc:canAccessMarketing'
+                          - 'pc:canAccessDashboard'
+                          - 'pc:canAccessOrders'
+                          - 'pc:canManageAdmins'
+                          - 'pc:canAccessMarketplace'
+                          - 'pc:canEnableApps'
+                          - 'pc:canAccessCompanyProfile'
+                          - 'pc:canAccessAutomations'
+                          - 'ssc:access'
+                          - 'ssc:manage'
+                          - 'tm:access'
+                          - 'tm:manage'
+                        description: 'The platform access functionality is still at a `proposed` status. Not all options are currently available. '
+                    required:
+                      - type
+                      - id
+    automationRuns:
+      title: Automation Run
+      type: object
+      x-examples: {}
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        An Automation run is the instance of an automation executing its steps for a business location.
+        You may configure the automation definition and obtain its ID within Partner Center.
+      x-tags:
+        - Automation Runs
+      properties:
+        type:
+          type: string
+          default: automationRuns
+          example: automationRuns
+          enum:
+            - automationRuns
+        relationships:
+          type: object
+          required:
+            - automation
+          properties:
+            automation:
+              type: object
+              description: 'A link to the automation definition that is being run. '
+              required:
+                - data
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                      default: automations
+                      example: automations
+                    id:
+                      type: string
+                      example: Automation-91cb048c-c498-43ba-ab99-2ca2d27d2c46
+                      pattern: ^Automation-
+            businessLocation:
+              type: object
+              description: A link to the business location that this automation is being run for. Either the businessLocation or order is required. (It depends on the automation type.)
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                      default: businessLocations
+                      example: businessLocations
+                    id:
+                      type: string
+                      example: AG-1234567
+            order:
+              type: object
+              description: 'Proposed: A link to the order that this automation is being run for. Either the businessLocation or order is required. (It depends on the automation type.)'
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - orders
+                      default: orders
+                    id:
+                      type: string
+                      example: 'AG-1234:ORD-1234567'
+                  required:
+                    - type
+                    - id
+      required:
+        - type
+        - relationships
+    automations:
+      title: Automation
+      type: object
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        An Automation is a trigger and set of actions performed when the trigger is activated.
+      x-tags:
+        - Automations
+      x-examples: {}
+      properties:
+        type:
+          type: string
+          default: automations
+          enum:
+            - automations
+          example: automations
+          readOnly: true
+        id:
+          type: string
+          example: Automation-91cb048c-c498-43ba-ab99-2ca2d27d2c46
+          pattern: ^Automation-
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Example Automation
+              description: The name of the automation
+              readOnly: true
+            trigger:
+              type: string
+              description: The triggering action for the automation
+              enum:
+                - TaskDefinition-manual-api-order-trigger
+                - TaskDefinition-manual-api-account-trigger
+              example: TaskDefinition-manual-account-trigger
+            status:
+              type: string
+              description: 'The current status of the automation, one of: on, off, draining'
+              example: 'on'
+              enum:
+                - 'on'
+                - draining
+                - 'off'
+              readOnly: true
+            tags:
+              type: array
+              description: A list of user-defined tags on the automation
+              items:
+                type: string
+                example: example-tag
+              readOnly: true
+      required:
+        - type
+        - id
+    salesAccounts:
+      title: Sales Account
+      type: object
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        A Sales Account is used by partners to track their interactions with a Business Location. It contains the public data of a business location plus additional data which is private to the partner.
+      x-tags:
+        - Sales Accounts
+      x-examples:
+        Sales Account Example:
+          data:
+            id: AG-1234567
+            type: salesAccounts
+            attributes:
+              tags:
+                - tag1
+                - tag2
+              customerIdentifier: User-defined-id-123123
+              name: Company Example
+              address:
+                line1: 109 8th Street E.
+                line2: Suite 23
+                city: Saskatoon
+                postalCode: S7M 1R3
+                regionCode: CA-SK
+                countryCode: CA
+              phoneNumbers:
+                - '+13068800001'
+              serviceAreaBusiness: true
+              geoCoordinate:
+                latitude: -90
+                longitude: -180
+            relationships:
+              salesPeople:
+                data:
+                  - id: U-123123-123123
+                    type: users
+              customFields:
+                data:
+                  - id: AG-1234567
+                    type: customFields
+              businessPartner:
+                data:
+                  type: partners
+                  id: ABC
+              businessCategories:
+                data:
+                  - type: businessCategories
+                    id: 'active:diving:freediving'
+              type: salesAccounts
+            included:
+              - id: AG-1231231
+                type: salesAccountCustomFields
+                partnerFields:
+                  - fieldId: FieldID-1231231-12312312
+                    stringValue: Text value
+                    title: Title of field FieldID-1231231
+                    description: Description of field FieldID-1231231
+                    fieldType: string
+      properties:
+        id:
+          type: string
+          example: AG-1234567
+        type:
+          type: string
+          default: salesAccounts
+          enum:
+            - salesAccounts
+          readOnly: true
+        attributes:
+          type: object
+          properties:
+            tags:
+              type: array
+              maxItems: 30
+              description: A tag is a label that can be used for grouping and filtering your list of accounts. They may be any string upto 30 characters in length.
+              items:
+                type: string
+                maxLength: 30
+                minLength: 1
+            customerIdentifier:
+              type: string
+              description: 'A value assigned by the business partner to reference this business location. Customer ID is currently NOT enforced to be unique, and there may be negative side effects to having a duplicate and/or changing a customer ID, specifically around legacy SSO. Use caution when editing a customer ID.'
+            name:
+              type: string
+              description: The common name for this location
+              example: CN Tower
+            commonNames:
+              type: array
+              description: A common name for a business (Something it is often referred to as)
+              maxItems: 3
+              minItems: 0
+              items:
+                type: string
+            address:
+              type: object
+              properties:
+                line1:
+                  type: string
+                  example: 290 Bremner Blvd
+                  description: The primary information. Typically a street address.
+                line2:
+                  type: string
+                  description: An additional line of information to add after the street address.
+                city:
+                  type: string
+                  example: Toronto
+                postalCode:
+                  type: string
+                  description: The zip code or postal code component of an address.
+                  example: M5V 3L9
+                regionCode:
+                  type: string
+                  description: |-
+                    The code for the top level subdivision within the country (state/province) as defined by [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) format.
+
+                    Examples: CA-SK, US-FL, AG-08, AU-NSW
+                  example: CA-ON
+                  maxLength: 6
+                  minLength: 4
+                  pattern: '^[A-Z]{2}-[\w]{1,3}$'
+                countryCode:
+                  type: string
+                  maxLength: 2
+                  minLength: 2
+                  example: CA
+                  description: |-
+                    The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
+
+                    Examples: CA, US, AU
+                  pattern: '^[A-Z]{2}$'
+            phoneNumbers:
+              type: array
+              description: |-
+                The standard phone numbers for the location.
+                Formating characters may be included.
+
+                **Extentions**
+
+                It is recommended that extentions are included at the end of the number after an appropriate seperator: Pause: `,` Wait: `;` Default: `ext.`
+
+                You may test the parsibility of a number using https://phonenumbers.temba.io/ All phone numbers are assumed to be in the same country as this business location.
+              items:
+                type: string
+                example: '+14168686937'
+            serviceAreaBusiness:
+              type: boolean
+              description: When true the address will be used as the center of the area that this location services instead of being displayed.
+            geoCoordinate:
+              type: object
+              description: |-
+                The point where the map pin for the location should be displayed.
+
+                The values will **not** be automatically updated when the address is updated. If not provided when creating the location they will be initilized based on the address.
+
+                It is expressed as a pair of numbers to represent degrees latitude and degrees longitude in accordance with the [WGS84](https://en.wikipedia.org/wiki/World_Geodetic_System) standard (the one used by your GPS).
+              properties:
+                latitude:
+                  type: number
+                  minimum: -90
+                  maximum: 90
+                  example: 43.6425662
+                longitude:
+                  type: number
+                  minimum: -180
+                  maximum: 180
+                  example: -79.3870568
+              required:
+                - latitude
+                - longitude
+            seoKeywords:
+              type: array
+              minItems: 0
+              maxItems: 3
+              description: SEO (Search Engine Optimization) Keywords are key words or phrases that help customers find your business via search engines. These keywords may be displayed on Listing Builder's My Listing page and similar products to enhance SEO.
+              items:
+                type: string
+            website:
+              type: string
+              format: uri
+              description: 'The primary website for this business location. http:// will be automatically added if no schema is provided.'
+              example: 'https://www.vendasta.com'
+            servicesOffered:
+              type: array
+              maxItems: 15
+              minItems: 0
+              description: |-
+                The primary services that the business offers. For example personal tax filing, business tax filing. 
+
+                Total length of services offered must be less than 256 characters, when joined with commas. Maximum instances: 15
+              items:
+                type: string
+                example: root canals
+            descriptionShort:
+              type: string
+              maxLength: 200
+              description: A public summary of the business. See also `descriptionLong`
+            descriptionLong:
+              type: string
+              maxLength: 750
+              description: A public summary of the business. See also `descriptionShort`
+            hours:
+              $ref: '#/components/schemas/hoursOfOperation'
+        relationships:
+          type: object
+          properties:
+            salesPeople:
+              type: object
+              description: A list of the sales people assigned to this account. The first sales person in the list will be treated as the primary sales person and given special treatment.
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        pattern: ^U-
+                        description: |-
+                          The user id of a salesperson. 
+
+                          TestSalesAccountCustomFields_update/platform/users?filter[partner.id]=TEST&filter[email]=user@example.com`.
+
+                          For more information access [GET /platform/users](b3A6MTMxNTA2NDE-get-user)
+                      type:
+                        type: string
+                        example: users
+                        default: users
+                    required:
+                      - id
+                      - type
+              required:
+                - data
+            customFields:
+              type: object
+              description: Custom Fields relative to a sales account
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: 'ID of custom fields, can be retrieved using custom fields endpoint'
+                      type:
+                        type: string
+                        example: customFields
+                        default: customFields
+                    required:
+                      - id
+                      - type
+              required:
+                - data
+            businessPartner:
+              type: object
+              description: A link to the organization that provides the platform to this business location.
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                      default: partners
+                      enum:
+                        - partners
+                    id:
+                      type: string
+                      example: ABC
+              required:
+                - data
+            businessCategories:
+              type: object
+              description: A list of the types of business this location should be compared against. If not set during creation it will default "other".
+              properties:
+                data:
+                  type: array
+                  maxItems: 3
+                  minItems: 1
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        default: businessCategories
+                        enum:
+                          - businessCategories
+                        example: businessCategories
+                      id:
+                        type: string
+                        example: 'active:diving:freediving'
+                    required:
+                      - type
+                      - id
+        included:
+          type: array
+          description: During Get and List operations you may request the related resources be included by using the `include` query parameter. This can save you making an additional network request.
+          items:
+            discriminator:
+              propertyName: type
+            oneOf:
+              - $ref: '#/components/schemas/salesAccountCustomFields'
+              - $ref: '#/components/schemas/users'
+              - $ref: '#/components/schemas/businessCategories'
+          readOnly: true
+    subscriptionAssignment:
+      type: object
+      description: 'A SubscriptionAssignment is an allocation of a single Subscription unit. The way a subscription unit is allocated depends on the Product or Service represented by the Subscription. A common case is that Subscription Units are assigned to Locations. In that case, the SubscriptionAssignment stores the link between a purchased Subscription and the Location it was allocated to.'
+      x-tags:
+        - Subscription Assignments
+      title: Subscription Assignments
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          default: subscriptionAssignment
+          enum:
+            - subscriptionAssignment
+          description: Should always be subscriptionAssignment
+        attributes:
+          type: object
+          properties:
+            sku:
+              type: string
+              description: 'The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md). This value is used when placing an order.'
+            productId:
+              type: string
+              description: The Application ID associated with this subscription
+            editionId:
+              type: string
+              description: The Application Edition ID associated with this subscription (if applicable)
+            status:
+              type: string
+              description: The status of the Assignment. Both `Assigned` and `PendignUnassignment` mean it is currently assigned.
+              enum:
+                - assigned
+                - pendingUnassignment
+                - pendingAssignment
+    salesAccountCustomFields:
+      title: Sales Accounts Custom Fields
+      type: object
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Custom fields associated with a sales account. The field definitions can be managed at Partner Center -> Administration -> Custom Fields.
+
+        One form of identifier should be chosen, either `fieldId` or `externalId`.
+        `fieldId` is the computer generated ID (like `FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99`) and `externalId` is a optional human-readable ID that can be set in the administration panel.
+
+        Dropdown possible value and the currency code are also configured in the Administration panel.
+      x-examples:
+        Custom Fields with string value Example:
+          data:
+            id: AG-1231231
+            type: salesAccountCustomFields
+            partnerFields:
+              - fieldId: FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99
+                stringValue: A good string value
+                title: Title of abc448ca field
+                description: Description for abc448ca field
+                fieldType: string
+        Custom Fields with integer value Example:
+          data:
+            id: AG-1231232
+            type: salesAccountCustomFields
+            partnerFields:
+              - fieldId: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
+                integerValue: 1000
+                title: Title of 123448ca field
+                description: Description for 123448ca field
+                fieldType: integer
+        Custom Fields with Date value Example:
+          data:
+            id: AG-1231233
+            type: salesAccountCustomFields
+            partnerFields:
+              - fieldId: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
+                dateValue: '2016-01-02T15:04:05Z'
+                title: Title of 987448ca field
+                description: Description for 987448ca field
+                fieldType: date
+        Custom Fields Full:
+          data:
+            id: AG-1231235
+            type: salesAccountCustomFields
+            partnerFields:
+              - fieldId: FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99
+                stringValue: A good string value
+                title: Title of abc448ca field
+                description: Description for abc448ca field
+                fieldType: string
+              - fieldId: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
+                integerValue: 1000
+                title: Title of 123448ca field
+                description: Description for 123448ca field
+                fieldType: integer
+              - fieldId: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
+                dateValue: '2022-01-02T15:04:05Z'
+                title: Title of 987448ca field
+                description: Description for 987448ca field
+                fieldType: date
+              - fieldId: FieldID-987448f2-abc0-abc5-abc2-abc640bf4b00
+                dropdownValue: red
+                title: Title of 987448f2 field
+                description: Description for 987448f2 field
+                fieldType: dropdown
+              - fieldId: FieldID-98744854-abc0-abc5-abc2-abc640bf4b01
+                currencyValue: 10000
+                title: Title of 98744854 field
+                description: Description for 98744854 field
+                fieldType: currency
+                currencyCode: CAD
+        Custom Fields with Dropdown Example:
+          data:
+            id: AG-1231233
+            type: salesAccountCustomFields
+            partnerFields:
+              - fieldId: FieldID-987448f2-abc0-abc5-abc2-abc640bf4b00
+                dropdownValue: red
+                title: Title of 987448f2 field
+                description: Description for 987448f2 field
+                fieldType: dropdown
+        Custom Fields with Currency Example:
+          data:
+            id: AG-1231233
+            type: salesAccountCustomFields
+            partnerFields:
+              - fieldId: FieldID-98744854-abc0-abc5-abc2-abc640bf4b01
+                currencyValue: 10000
+                title: Title of 98744854 field
+                description: Description for 98744854 field
+                fieldType: currency
+                currencyCode: CAD
+      x-tags:
+        - Sales Account Custom Fields
+      properties:
+        id:
+          type: string
+          example: AG-1231232
+          description: 'An identifier for the parent entity, for example salesAccount (AG-1231231)'
+          readOnly: true
+        type:
+          type: string
+          default: salesAccountCustomFields
+          enum:
+            - salesAccountCustomFields
+          description: Should always be salesAccountCustomFields
+        partnerFields:
+          type: array
+          description: |-
+            List of custom fields specific to the partner with a direct relationship to the sales account.
+            To send a new value each field must have at least the fieldId and its correspondent value.
+            For example a field of type string must have the stringValue attribute filled.
+
+            string -> stringValue
+
+            integer -> integerValue
+
+            date -> dateValue
+
+            Only the fields that you wish to modify need to be sent.
+          items:
+            type: object
+            properties:
+              fieldId:
+                type: string
+                description: 'Field identifier, can be retrieved by listing the attributes'
+              externalId:
+                type: string
+                description: 'Alternative field identifier, can be set on admin panel and can be retrieved by listing the attributes'
+              fieldType:
+                type: string
+                example: string
+                enum:
+                  - string
+                  - integer
+                  - date
+                  - dropdown
+                  - currency
+                description: |-
+                  Indicates which of the value fields to use to read or write the data. It can only be modified from within partner center.
+
+                  string -> stringValue
+                  integer -> integerValue
+                  date -> dateValue
+                  dropdown -> dropdownValue
+                  currency -> currencyValue
+                readOnly: true
+              stringValue:
+                type: string
+                description: Required when the field type is `string`
+              integerValue:
+                type: integer
+                description: Required when the field type is `integer`
+              dateValue:
+                type: string
+                description: Required when the field type is `date`
+                format: date
+              dropdownValue:
+                type: string
+                description: Required when type is `dropdown`. The possible values can be discovered using the administration panel.
+              currencyValue:
+                type: integer
+                description: |-
+                  Required when the field type is `currency`.
+
+                  This field represents the cents (or the smallest part of the currency).
+
+                  Example:
+                  USD 600.00 -> currencyValue=60000
+              currencyCode:
+                type: string
+                minLength: 3
+                maxLength: 3
+                description: |-
+                  Represents the type of currency when the field is type `currency`. It will be the 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
+
+                  Ex: USD, CAD, AUD
+                example: USD
+                readOnly: true
+              title:
+                type: string
+                description: 'The main label for the field, appearing in most user interfaces that show the value. This field is not read when setting a value.'
+                readOnly: true
+              description:
+                type: string
+                description: 'A longer text explanation of the field, it optionally appears in the UI. This field is not read when setting a value.'
+                readOnly: true
+      required:
+        - id
+        - type
+    userCustomFields:
+      title: User Custom Fields
+      type: object
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Custom fields associated with a user. The field definitions can be managed at Partner Center -> Administration -> Custom Fields.
+
+        One form of identifier should be chosen, either `fieldId` or `externalId`.
+        `fieldId` is the computer generated ID (like `FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99`) and `externalId` is a optional human-readable ID that can be set in the administration panel.
+
+        Dropdown possible value and the currency code are also configured in the Administration panel.
+      x-examples:
+        Custom Fields with string value Example:
+          data:
+            id: U-12345678-abcd-1234-abcd-123456789abc
+            type: userCustomFields
+            partnerFields:
+              - fieldId: FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99
+                stringValue: A good string value
+                title: Title of abc448ca field
+                description: Description for abc448ca field
+                fieldType: string
+        Custom Fields with integer value Example:
+          data:
+            id: U-12345678-abcd-1234-abcd-123456789abd
+            type: userCustomFields
+            partnerFields:
+              - fieldId: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
+                integerValue: 1000
+                title: Title of 123448ca field
+                description: Description for 123448ca field
+                fieldType: integer
+        Custom Fields with Date value Example:
+          data:
+            id: U-12345678-abcd-1234-abcd-123456789abe
+            type: userCustomFields
+            partnerFields:
+              - fieldId: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
+                dateValue: '2016-01-02T15:04:05Z'
+                title: Title of 987448ca field
+                description: Description for 987448ca field
+                fieldType: date
+        Custom Fields Full:
+          data:
+            id: U-12345678-abcd-1234-abcd-123456789abf
+            type: userCustomFields
+            partnerFields:
+              - fieldId: FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99
+                stringValue: A good string value
+                title: Title of abc448ca field
+                description: Description for abc448ca field
+                fieldType: string
+              - fieldId: FieldID-123448ca-abc0-abc5-abc2-abc640bf4b99
+                integerValue: 1000
+                title: Title of 123448ca field
+                description: Description for 123448ca field
+                fieldType: integer
+              - fieldId: FieldID-987448ca-abc0-abc5-abc2-abc640bf4b99
+                dateValue: '2022-01-02T15:04:05Z'
+                title: Title of 987448ca field
+                description: Description for 987448ca field
+                fieldType: date
+              - fieldId: FieldID-987448f2-abc0-abc5-abc2-abc640bf4b00
+                dropdownValue: red
+                title: Title of 987448f2 field
+                description: Description for 987448f2 field
+                fieldType: dropdown
+              - fieldId: FieldID-98744854-abc0-abc5-abc2-abc640bf4b01
+                currencyValue: 10000
+                title: Title of 98744854 field
+                description: Description for 98744854 field
+                fieldType: currency
+                currencyCode: CAD
+        Custom Fields with Dropdown Example:
+          data:
+            id: U-12345678-abcd-1234-abcd-123456789abc
+            type: userCustomFields
+            partnerFields:
+              - fieldId: FieldID-987448f2-abc0-abc5-abc2-abc640bf4b00
+                dropdownValue: red
+                title: Title of 987448f2 field
+                description: Description for 987448f2 field
+                fieldType: dropdown
+        Custom Fields with Currency Example:
+          data:
+            id: U-12345678-abcd-1234-abcd-123456789abc
+            type: userCustomFields
+            partnerFields:
+              - fieldId: FieldID-98744854-abc0-abc5-abc2-abc640bf4b01
+                currencyValue: 10000
+                title: Title of 98744854 field
+                description: Description for 98744854 field
+                fieldType: currency
+                currencyCode: CAD
+      x-tags:
+        - User Custom Fields
+      properties:
+        id:
+          type: string
+          example: U-12345678-abcd-1234-abcd-123456789abc
+          description: 'An identifier for the parent entity, in this case user'
+          readOnly: true
+        type:
+          type: string
+          default: userCustomFields
+          enum:
+            - userCustomFields
+          description: Should always be userCustomFields
+        partnerFields:
+          type: array
+          description: |-
+            List of custom fields specific to the partner with a direct relationship to the user/contact.
+            To send a new value each field must have at least the fieldId and its correspondent value.
+            For example a field of type string must have the stringValue attribute filled.
+
+            string -> stringValue
+
+            integer -> integerValue
+
+            date -> dateValue
+
+            Only the fields that you wish to modify need to be sent.
+          items:
+            type: object
+            properties:
+              fieldId:
+                type: string
+                description: 'Field identifier, can be retrieved by listing the attributes'
+              externalId:
+                type: string
+                description: 'Alternative field identifier, can be set on admin panel and can be retrieved by listing the attributes'
+              fieldType:
+                type: string
+                example: string
+                enum:
+                  - string
+                  - integer
+                  - date
+                  - dropdown
+                  - currency
+                description: |-
+                  Indicates which of the value fields to use to read or write the data. It can only be modified from within partner center.
+
+                  string -> stringValue
+                  integer -> integerValue
+                  date -> dateValue
+                  dropdown -> dropdownValue
+                  currency -> currencyValue
+                readOnly: true
+              stringValue:
+                type: string
+                description: Required when the field type is `string`
+              integerValue:
+                type: integer
+                description: Required when the field type is `integer`
+              dateValue:
+                type: string
+                description: Required when the field type is `date`
+                format: date
+              dropdownValue:
+                type: string
+                description: Required when type is `dropdown`. The possible values can be discovered using the administration panel.
+              currencyValue:
+                type: integer
+                description: |-
+                  Required when the field type is `currency`.
+
+                  This field represents the cents (or the smallest part of the currency).
+
+                  Example:
+                  USD 600.00 -> currencyValue=60000
+              currencyCode:
+                type: string
+                minLength: 3
+                maxLength: 3
+                description: |-
+                  Represents the type of currency when the field is type `currency`. It will be the 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
+
+                  Ex: USD, CAD, AUD
+                example: USD
+                readOnly: true
+              title:
+                type: string
+                description: 'The main label for the field, appearing in most user interfaces that show the value. This field is not read when setting a value.'
+                readOnly: true
+              description:
+                type: string
+                description: 'A longer text explanation of the field, it optionally appears in the UI. This field is not read when setting a value.'
+                readOnly: true
+      required:
+        - id
+        - type
+    productCustomFields:
+      title: Product Custom Fields
+      type: object
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Custom fields associated with a product. These attributes can be managed at Partner Center -> Administration -> Data attributes.
+
+        One form of identifier should be chosen, either `fieldId` or `externalId`.
+        `fieldId` is the computer generated ID (like `FieldID-abc448ca-abc0-abc5-abc2-abc640bf4b99`) and `externalId` is a optional human-readable ID that can be set in the administration panel.
+
+        Dropdown possible values and the currency code are also configured in the Administration panel.
+      x-tags:
+        - Product Custom Fields
+      properties:
+        id:
+          type: string
+          description: 'An identifier for the parent entity, for example product (ABC-MP-1234567890ABCDEFGHIJKLMNOPQRSTUV)'
+          readOnly: true
+        type:
+          type: string
+          default: productCustomFields
+          enum:
+            - productCustomFields
+          description: Should always be productCustomFields
+        partnerFields:
+          type: array
+          description: |-
+            List of custom fields specific to the partner with a direct relationship to the product.
+            To send a new value each field must have at least the fieldId and its correspondent value.
+            For example a field of type string must have the stringValue attribute filled.
+
+            string -> stringValue
+
+            integer -> integerValue
+
+            date -> dateValue
+
+            Only the fields that you wish to modify need to be sent.
+          items:
+            type: object
+            properties:
+              fieldId:
+                type: string
+                description: 'Field identifier, can be retrieved by listing the attributes'
+              externalId:
+                type: string
+                description: 'Alternative field identifier, can be set on admin panel and can be retrieved by listing the attributes'
+              fieldType:
+                type: string
+                example: string
+                enum:
+                  - string
+                  - integer
+                  - date
+                  - dropdown
+                  - currency
+                description: |-
+                  Indicates which of the value fields to use to read or write the data. It can only be modified from within partner center.
+
+                  string -> stringValue
+                  integer -> integerValue
+                  date -> dateValue
+                  dropdown -> dropdownValue
+                  currency -> currencyValue
+                readOnly: true
+              stringValue:
+                type: string
+                description: Required when the field type is `string`
+              integerValue:
+                type: integer
+                description: Required when the field type is `integer`
+              dateValue:
+                type: string
+                description: Required when the field type is `date`
+                format: date
+              dropdownValue:
+                type: string
+                description: Required when type is `dropdown`. The possible values can be discovered using the administration panel.
+              currencyValue:
+                type: integer
+                description: |-
+                  Required when the field type is `currency`.
+
+                  This field represents the cents (or the smallest part of the currency).
+
+                  Example:
+                  USD 600.00 -> currencyValue=60000
+              currencyCode:
+                type: string
+                minLength: 3
+                maxLength: 3
+                description: |-
+                  Represents the type of currency when the field is type `currency`. It will be the 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
+
+                  Ex: USD, CAD, AUD
+                example: USD
+                readOnly: true
+              title:
+                type: string
+                description: 'The main label for the field, appearing in most user interfaces that show the value. This field is not read when setting a value.'
+                readOnly: true
+              description:
+                type: string
+                description: 'A longer text explanation of the field, it optionally appears in the UI. This field is not read when setting a value.'
+                readOnly: true
+    hoursOfOperation:
+      type: array
+      nullable: true
+      description: |-
+        The operating hours for the business location. 
+
+        Each entry in the array is a set of hours for a particular department or customer of the business. It is recommended to provide the `general` hours for all locations. Some locations may have additional definitions for other departments.
+      items:
+        type: object
+        required:
+          - hoursTypeId
+        properties:
+          hoursTypeId:
+            type: string
+            enum:
+              - general
+              - delivery
+              - kitchen
+              - driveThrough
+              - pickup
+              - takeout
+            description: |-
+              The category of hours that may apply to a specific department or service. Not all types are valid for all business categories.
+
+              The general hours for a location must be set before defining hours for other departments. 
+
+              Currently only `general` is supported in the Vendasta platform. We intend to add others in the future.
+          regularHours:
+            title: Hours on the days of the week
+            type: array
+            description: |-
+              A collection of times that this location is open for business. Each period represents a range of hours when the location is open during the week.
+
+              You may specify multiple entries for the same date if you are open for multiple periods (Example lunch and supper).
+            nullable: true
+            items:
+              type: object
+              required:
+                - openDay
+                - closeDay
+                - openTime
+                - closeTime
+              properties:
+                openDay:
+                  allOf:
+                    - description: Indicates the day of the week that this period starts on.
+                    - $ref: '#/components/schemas/dayOfTheWeek'
+                closeDay:
+                  allOf:
+                    - description: Indicates the day of the week that this period ends on. It should be the same as `openDay` except when the period goes over midnight. The total period may not be more than 24 hours.
+                    - $ref: '#/components/schemas/dayOfTheWeek'
+                openTime:
+                  $ref: '#/components/schemas/timeOfDay'
+                closeTime:
+                  $ref: '#/components/schemas/timeOfDay'
+          specialHours:
+            type: array
+            x-lifecycle:
+              status: proposed
+            description: |-
+              [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+              Represents a set of time periods when a location's operational hours differ from its regular business hours. This may be a holiday or special event. These hours replace the regular hours for the day.
+
+              A special hour period must represent a range of less than 24 hours. The `openTime` and `startDate` must predate the `closeTime` and `endDate`. 
+              The `closeTime` and `endDate` can extend to 11:59 a.m. on the day after the specified `startDate`.
+
+              Note: Most listing sites only support special hours for the general type.
+            nullable: true
+            items:
+              type: object
+              required:
+                - startDate
+                - endDate
+                - openTime
+                - closeTime
+              properties:
+                startDate:
+                  description: The calendar date this special hour period starts on.
+                  type: string
+                  format: date
+                endDate:
+                  description: 'The calendar date this special hour period ends on. If `endDate` field is not set, default to the date specified in `startDate`. If set, this field must be equal to or at most 1 day after `startDate`.'
+                  type: string
+                  format: date
+                openTime:
+                  $ref: '#/components/schemas/timeOfDay'
+                closeTime:
+                  $ref: '#/components/schemas/timeOfDay'
+    dayOfTheWeek:
+      type: string
+      title: a day of the week
+      enum:
+        - monday
+        - tuesday
+        - wednesday
+        - thursday
+        - friday
+        - saturday
+        - sunday
+      example: wednesday
+    timeOfDay:
+      type: string
+      title: a time of day
+      description: 'Valid values are 00:00-24:00, where 24:00 represents midnight at the end of the specified day field.'
+      pattern: '^\d{2}:\d{2}$'
+      example: '09:45'
+    partnerActivatableProducts:
+      type: object
+      x-examples:
+        example-1:
+          id: AG-1234
+          type: products
+          apps:
+            - key:
+                appId: A-1234
+              sharedMarketingInformation:
+                name: 'A-1234 '
+                iconUrl: ''
+                tagline: Add more keywords to the campaign
+                bannerImageUrl: ''
+              parentRequirements:
+                enabled: true
+                parentDetails:
+                  key:
+                    appId: MP-1234
+              activationInformation:
+                requiredBusinessData: {}
+                countryRestrictions:
+                  whitelist:
+                    - ZA
+                appRestrictions:
+                  requiredAppIds:
+                    - MP-XH2C5JVKTBGVQJ43CQVRMZ6PD4563QFC
+              price: {}
+              appType: APP_TYPE_ADDON
+      description: List of products with the parent requirements and the pricing information.
+      properties:
+        id:
+          type: string
+          description: Partner ID from the request.
+        type:
+          type: string
+          description: Should always be products.
+          default: products
+          enum:
+            - products
+        attributes:
+          type: array
+          items:
+            type: object
+            properties:
+              sku:
+                type: string
+                description: The unique identifier of a product.
+              appType:
+                type: string
+                enum:
+                  - APP_TYPE_ADDON
+                  - APP_TYPE_APP
+                description: Product or Addon
+              name:
+                type: string
+                description: Vendor Name of the product.
+              whiteLabelName:
+                type: string
+                description: Partner White label Name.
+              iconUrl:
+                type: string
+                description: Url to access the Product Icon.
+                format: uri
+              tagline:
+                type: string
+                description: Product tag line.
+              bannerImageUrl:
+                type: string
+                description: Product Banner.
+                format: uri
+              activationInformation:
+                type: object
+                properties:
+                  requiredBusinessData:
+                    type: object
+                  countryRestrictions:
+                    type: object
+                    description: Countries applicable for this Product to be sold.
+                    properties:
+                      whitelist:
+                        type: array
+                        description: White listed countries list.
+                        items:
+                          type: string
+                  appRestrictions:
+                    type: object
+                    properties:
+                      requiredAppIds:
+                        type: array
+                        description: Parent requirements.
+                        items:
+                          type: string
+              price:
+                type: object
+                description: TBD
+        '':
+          type: string
+      required:
+        - id
+        - type
+      title: Partner Activatable Products
+      x-tags:
+        - Partner Activatable Products
+tags:
+  - name: Automation Runs
+  - name: Automations
+  - name: Business Categories
+  - name: Business Locations
+  - name: Countries
+  - name: Options
+  - name: Order Custom Fields
+  - name: Orders
+  - name: Partner Activatable Products
+  - name: Partners
+  - name: Product Custom Fields
+  - name: Products
+  - name: Purchases
+  - name: Sales Account Custom Fields
+  - name: Sales Accounts
+  - name: Sales Contacts
+  - name: Subscription Assignments
+  - name: User Custom Fields
+  - name: Users

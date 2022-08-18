@@ -7392,10 +7392,14 @@ components:
         id: 19w8f2ir7f1s9
       type: object
       description: Represents an item that is being bought/sold
+      x-tags:
+        - Orders
+        - Proposals
       properties:
-        id:
+        sku:
           type: string
           description: 'The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md).'
+          example: 'A-123, MP-123, MP-123:EDITION-123'
         type:
           type: string
           default: lineItem
@@ -7424,10 +7428,7 @@ components:
           description: Holds the SKU of the package that this lineitem is part of. Products inside of a package do not have pricing so refer to the lineitem of the package SKU to find the price.
           readOnly: true
       required:
-        - id
-      x-tags:
-        - Orders
-        - Proposals
+        - sku
     partnerActivatableProducts:
       type: object
       x-examples: {}

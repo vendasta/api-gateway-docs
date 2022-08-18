@@ -4044,7 +4044,7 @@ paths:
         - Proposals
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
-        
+
         Update the existing Proposal.
         Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
       x-lifecycle:
@@ -4128,9 +4128,9 @@ paths:
                         format: uri
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
-        
+
         Produces a list of proposal templates.
-        
+
 
         Sorted by the most recently updated proposal templates.
       parameters:
@@ -4191,7 +4191,7 @@ paths:
         status: proposed
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
-        
+
         Create a proposal template that can be used by Proposal Builder.
       summary: Create Proposal Template
       operationId: post-proposals
@@ -4286,7 +4286,7 @@ paths:
         status: proposed
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
-        
+
         Returns a proposal template.
       parameters:
         - schema:
@@ -4317,7 +4317,7 @@ paths:
         - Proposals
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
-        
+
         Update the existing proposal template.
         Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
       x-lifecycle:
@@ -4654,6 +4654,7 @@ components:
             phone: Allows readonly access to the phone numbers of the current user.
             address: Allows readonly access to the address of the current user.
             sales.account: Allows read-write access to account records
+            sales.proposals: Allows read-write access to proposals
             product: Read access to the product details
   schemas:
     businessLocations:
@@ -5142,36 +5143,7 @@ components:
             lineItems:
               type: array
               items:
-                type: object
-                properties:
-                  sku:
-                    type: string
-                    description: 'The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md).'
-                  quantity:
-                    type: integer
-                    description: The number of units to ordered
-                    default: 1
-                  amount:
-                    type: integer
-                    description: The unit price in cents
-                    default: 0
-                  intervalCode:
-                    type: string
-                    enum:
-                      - onetime
-                      - monthly
-                      - yearly
-                    description: The billing frequency
-                  isPackage:
-                    type: boolean
-                    description: Indicates if this lineitem is a package instead of a product or an addon.
-                    readOnly: true
-                  containedInPackage:
-                    type: string
-                    description: Holds the SKU of the package that this lineitem is part of. Products inside of a package do not have pricing so refer to the lineitem of the package SKU to find the price.
-                    readOnly: true
-                required:
-                  - sku
+                $ref: '#/components/schemas/lineItem'
             statusCode:
               type: string
               default: processing
@@ -6795,6 +6767,9 @@ components:
                 type: string
                 description: 'A longer text explanation of the field, it optionally appears in the UI. This field is not read when setting a value.'
                 readOnly: true
+      required:
+        - id
+        - type
     hoursOfOperation:
       type: array
       nullable: true
@@ -6908,7 +6883,7 @@ components:
       x-examples: {}
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
-        
+
         A proposal is a type of document used with Proposal Builder.
       x-tags:
         - Proposals
@@ -7061,19 +7036,19 @@ components:
                 - sentToPeer
               description: |-
                 draft - newly created proposal that hasn't been sent to anyone
-                
+
                 sentToPeer - sent for internal review
-                
+
                 approvedByPeer - internal review approved
-                
+
                 sentToRecipient - proposal sent via email to contact of the account
-                
+
                 viewedByRecipient - the contact of the account viewed the proposal
-                
+
                 feedbackFromRecipient - the contact of the account left a comment on the proposal
-                
+
                 approvedByRecipient - the contact of the account approved the proposal
-                
+
                 archived
               readOnly: true
             viewCount:
@@ -7099,7 +7074,7 @@ components:
       x-examples: {}
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
-        
+
         A proposal is a type of document used with Proposal Builder.
       x-tags:
         - Proposals
@@ -7158,7 +7133,9 @@ components:
                 - proposalTemplate
               description: |-
                 widgetTemplate - a block of content that is typically inserted into a page
+
                 pageTemplate - an individual page in a proposal
+
                 proposalTemplate - a template representing an entire proposal without certain relationships linked to it
             content:
               oneOf:
@@ -7169,7 +7146,9 @@ components:
                     $ref: '#/components/schemas/documentPage'
               description: |-
                 widgetTemplate - a single document element
+
                 pageTemplate - a single document page
+
                 proposalTemplate - a list of document pages
             lineItems:
               type: array

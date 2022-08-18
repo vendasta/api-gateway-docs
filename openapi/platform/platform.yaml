@@ -4376,6 +4376,234 @@ paths:
         name: id
         in: path
         required: true
+  /partnerActivatableProducts:
+    get:
+      summary: List Partner Activatable Products
+      operationId: get-partnerActivatableProducts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                x-examples:
+                  example-1:
+                    data:
+                      id: string
+                      type: products
+                      apps:
+                        - key:
+                            sku: string
+                          sharedMarketingInformation:
+                            name: string
+                            iconUrl: 'http://example.com'
+                            tagline: string
+                            bannerImageUrl: string
+                          parentRequirements:
+                            enabled: true
+                            parentDetails:
+                              key:
+                                appId: string
+                          activationInformation:
+                            requiredBusinessData: {}
+                            countryRestrictions:
+                              whitelist:
+                                - string
+                            appRestrictions:
+                              requiredAppIds:
+                                - string
+                          price: {}
+                          appType: APP_TYPE_ADDON
+                    links:
+                      self: string
+                      first: string
+                      next: string
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/partnerActivatableProducts'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                      first:
+                        type: string
+                      next:
+                        type: string
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Provides a list of products that can be activated by a partner for their customers. You must filter the list to a single partner using the `filter[partner.id]=PID` query param.
+      security:
+        - OAuth2:
+            - partner
+            - product
+      parameters:
+        - in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+          schema:
+            example: Bearer <Access Token>
+            type: string
+            pattern: ^Bearer\s\S+
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          description: Indicates the format of the request body being sent. In most cases you will want application/vnd.api+json
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: Accept-Language
+        - schema:
+            type: integer
+            default: 10
+            minimum: 0
+            maximum: 1000
+          in: query
+          name: 'page[limit]'
+          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+        - schema:
+            type: string
+          in: query
+          name: 'page[cursor]'
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+        - schema:
+            type: string
+          in: query
+          name: 'filter[sku]'
+          description: Filter by SKU.
+        - schema:
+            type: string
+          in: query
+          name: 'filter[name]'
+          description: Filter by Vendor provided product name.
+        - schema:
+            type: string
+          in: query
+          name: 'filter[whiteLabelName]'
+          description: Filter by Partner given white label name
+        - schema:
+            type: string
+          in: query
+          name: 'filter[requiredAppIds]'
+          description: 'Filter by required AppIds. If multiple app Ids to be used, needs to be separated by comma.'
+        - schema:
+            type: string
+            enum:
+              - name
+              - '-name'
+              - sku
+              - '-sku'
+              - name
+              - '-name'
+              - whiteLabelName
+              - '-whiteLabelName'
+              - tagline
+            default: sku
+            example: sku
+          in: query
+          name: sort
+          description: 'The order to sort the results in. Only one sort parameter may be provided:  - `sku`: SKU ascending  - `-sku`: SKU descending  - `name`: Vendor name ascending  - `-name`: Vendor name descending  - `whiteLabelName`: Custom name ascending  - `-whiteLabelName`: Custom name descending  - `tagline`: Tagline ascending  - `-tagline`: Tagline descending'
+        - schema:
+            type: string
+          in: query
+          name: 'filter[partner.id]'
+          description: Return orders for the specified partner
+          required: true
+      x-lifecycle:
+        status: proposed
+      tags:
+        - Partner Activatable Products
+    parameters: []
+    options:
+      summary: List valid HTTP verbs for /partnerActivatableProducts
+      operationId: options-partnerActivatableProducts
+      responses:
+        '200':
+          description: OK
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+        - Partner Activatable Products
+  '/partnerActivatableProducts/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: SKU id
+    get:
+      summary: Get Partner Activatable Product
+      operationId: get-partnerActivatableProducts-id
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Returns the details of a product listed in a reseller's store for a known id.
+      security:
+        - OAuth2:
+            - product
+            - partner
+      parameters:
+        - in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+          schema:
+            example: Bearer <Access Token>
+            type: string
+            pattern: ^Bearer\s\S+
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          description: Indicates the format of the request body being sent. In most cases you will want application/vnd.api+json
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: Accept-Language
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/partnerActivatableProducts'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      tags:
+        - Partner Activatable Products
+      x-lifecycle:
+        status: proposed
+    options:
+      summary: List valid HTTP verbs for
+      operationId: options-partnerActivatableProducts-id
+      responses:
+        '200':
+          description: OK
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+        - Partner Activatable Products
 components:
   parameters:
     pageLimit:
@@ -4427,6 +4655,7 @@ components:
             address: Allows readonly access to the address of the current user.
             sales.account: Allows read-write access to account records
             sales.proposals: Allows read-write access to proposals
+            product: Read access to the product details
   schemas:
     businessLocations:
       title: Business Location
@@ -7196,6 +7425,91 @@ components:
       x-tags:
         - Orders
         - Proposals
+    partnerActivatableProducts:
+      type: object
+      x-examples: {}
+      description: Details on the products you are currently selling in your store.
+      title: Partner Activatable Products
+      x-tags:
+        - Partner Activatable Products
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the record.
+          example: 'ABC:default:MP-1234:EDITION-123'
+        type:
+          type: string
+          description: Should always be partnerActivatableProducts.
+          default: partnerActivatableProducts
+          enum:
+            - partnerActivatableProducts
+        attributes:
+          type: object
+          properties:
+            sku:
+              type: string
+              description: 'The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md).'
+              example: 'MP-1234:EDITION-123'
+            name:
+              type: string
+              description: Vendor provided name for the product.
+              example: Product Name
+            whiteLabelName:
+              type: string
+              description: Custom name for the product set by the Partner.
+              example: Custom Product Name
+            iconUrl:
+              type: string
+              description: 'Product logo url. Url to the jpg or png image with 1:1 aspect ratio. (Recommended: 240px x 240px).'
+              format: uri
+            tagline:
+              type: string
+              description: Briefly describes what the product does.
+              example: Short Description
+            bannerImageUrl:
+              type: string
+              description: Url to access the large rectagular image at the top of the marketing page.
+              format: uri
+        relationships:
+          type: object
+          properties:
+            allowedCountries:
+              type: object
+              description: 'Allowed list of countries as 2-letter codes where the product can be sold. If empty, its allowed for any country. Country name from the code can be obtained with [Countries API](platform.yaml/paths/~1countries/get)'
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: US
+                      type:
+                        type: string
+                        enum:
+                          - countries
+                        default: countries
+            requiredProductIds:
+              type: object
+              description: List of IDs of the products to be activated before activating this product.
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'ABC:default:MP-456:EDITION-456'
+                      type:
+                        type: string
+                        enum:
+                          - partnerActivatableProducts
+                        default: partnerActivatableProducts
+      required:
+        - id
+        - type
 tags:
   - name: Automations
   - name: Automation Runs
@@ -7204,6 +7518,7 @@ tags:
   - name: Countries
   - name: Orders
   - name: Order Custom Fields
+  - name: Partner Activatable Products
   - name: Partners
   - name: Products
   - name: Product Custom Fields

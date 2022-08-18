@@ -7059,14 +7059,17 @@ components:
             viewCount:
               type: integer
               minimum: 0
+              description: Indicates the number of times a proposal has been viewed by a recipient.
               readOnly: true
             pdfUrl:
               type: string
               format: uri
+              description: Storage location for the PDF generated version of the proposal.
               readOnly: true
             previewImageUrl:
               type: string
               format: uri
+              description: Storage location for the preview image of the proposal.
               readOnly: true
             title:
               type: string
@@ -7189,13 +7192,17 @@ components:
             pdfUrl:
               type: string
               format: uri
+              description: Storage location for the PDF generated version of the proposal template.
               readOnly: true
             previewImageUrl:
               type: string
               format: uri
+              description: Storage location for the preview image of the proposal template.
+              readOnly: true
             title:
               type: string
               description: The display name for this template
+              example: Example Template
           required:
             - templateType
       required:
@@ -7209,6 +7216,8 @@ components:
       type: object
       x-internal: false
       description: An element that renders an image in the Proposal Builder editor and viewer.
+      x-tags:
+        - Proposals
       properties:
         id:
           type: string
@@ -7221,8 +7230,11 @@ components:
           readOnly: true
         url:
           type: string
+          description: The location of the image.
+          example: 'https://example-storage-bucket.com/image-123'
         alt:
           type: string
+          description: Describes the image in the case it fails to load or for screen-readers.
         align:
           type: string
           enum:
@@ -7230,6 +7242,7 @@ components:
             - left
             - right
             - justify
+          description: Controls the image's positioning relative to its parent container.
         coordinate:
           type: object
           properties:
@@ -7252,14 +7265,14 @@ components:
       required:
         - type
         - url
-      x-tags:
-        - Proposals
     documentPricingTable:
       title: documentPricingTable
       x-stoplight:
         id: 07h4nzq9tgwsq
       type: object
       description: An element that renders a pricing table in the Proposal Builder editor and viewer.
+      x-tags:
+        - Proposals
       properties:
         id:
           type: string
@@ -7310,16 +7323,17 @@ components:
             - right
             - justify
           example: left
+          description: Controls the pricing table's positioning relative to its parent container.
       required:
         - type
-      x-tags:
-        - Proposals
     documentPage:
       title: documentPage
       x-stoplight:
         id: y1t51aze0lwbl
       type: object
-      description: An element that wraps all other elements in a single page in Proposal Builder.
+      description: Renders a page that wraps all other content in a Proposal.
+      x-tags:
+        - Proposals
       properties:
         type:
           type: string
@@ -7334,12 +7348,13 @@ components:
           description: 'Optional: A reference to the element. It will be automatically generated'
         title:
           type: string
+          description: The displayed name of the page.
+          example: 'Overview, Cover Page, Meet the Team'
         pageMargin:
           type:
             - string
             - number
           description: 'The amount of whitespace around the edge of the page. '
-          minimum: 0
           default: 72
           example: '"0.75in", 72, "72px"'
         backgroundImageUrl:
@@ -7362,6 +7377,7 @@ components:
             - bottom
         backgroundColor:
           type: string
+          example: '#FFF, #000, transparent'
         backgroundColorOpacity:
           type: number
           minimum: 0
@@ -7375,8 +7391,6 @@ components:
               - $ref: '#/components/schemas/documentElement'
       required:
         - type
-      x-tags:
-        - Proposals
     documentElement:
       title: documentElement
       x-stoplight:

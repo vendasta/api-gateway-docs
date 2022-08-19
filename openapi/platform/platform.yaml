@@ -3846,6 +3846,7 @@ paths:
           required: true
         - schema:
             type: string
+            example: ABC
           in: query
           name: 'filter[creatorOrganizationId]'
           description: Return Proposals for the specified organization
@@ -3856,9 +3857,9 @@ paths:
           description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links
           name: 'page[cursor]'
         - schema:
-            type: string
+            type: integer
           in: query
-          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder
+          description: The maximum number of proposals you would like returned in a single batch. Use the links.next member in the response to get the remainder
           name: 'page[limit]'
         - schema:
             type: string
@@ -3876,11 +3877,13 @@ paths:
           description: The status of the proposal. By default all are returned except archived
         - schema:
             type: array
+            example: U-123
           in: query
           name: 'filter[creatorUserIds]'
           description: The id of the user that created the proposal. This supports a comma separated list of ids
         - schema:
             type: string
+            example: AG-123
           in: query
           name: 'filter[recipientOrganizationId]'
           description: The id of the recipient organization
@@ -3921,7 +3924,7 @@ paths:
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
         Create a document that can be used by Proposal Builder.
-      summary: Create Proposal Builder Document
+      summary: Create Proposal
       operationId: post-proposals
       parameters:
         - schema:
@@ -4045,8 +4048,9 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
-        Update the existing Proposal.
-        Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
+        Update an existing Proposal.
+
+        Only the root ID and type fields are required. All other fields are optional and will keep their original value if omitted.
       x-lifecycle:
         status: proposed
       parameters:
@@ -4319,7 +4323,8 @@ paths:
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
         Update the existing proposal template.
-        Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
+
+        Only the root ID and type fields are required. All other fields are optional and will keep their original value if omitted.
       x-lifecycle:
         status: proposed
       parameters:
@@ -6882,7 +6887,7 @@ components:
       type: object
       x-examples: {}
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
         A proposal is a type of document used with Proposal Builder.
       x-tags:
@@ -7054,17 +7059,22 @@ components:
             viewCount:
               type: integer
               minimum: 0
+              description: Indicates the number of times a proposal has been viewed by a recipient.
               readOnly: true
             pdfUrl:
               type: string
               format: uri
+              description: Storage location for the PDF generated version of the proposal.
               readOnly: true
             previewImageUrl:
               type: string
               format: uri
+              description: Storage location for the preview image of the proposal.
+              readOnly: true
             title:
               type: string
               description: The display name for referencing this proposal
+              example: Example Proposal
       required:
         - type
         - relationships
@@ -7075,7 +7085,7 @@ components:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        A proposal is a type of document used with Proposal Builder.
+        A proposal template is a type of document used with Proposal Builder.
       x-tags:
         - Proposals
       properties:
@@ -7182,13 +7192,17 @@ components:
             pdfUrl:
               type: string
               format: uri
+              description: Storage location for the PDF generated version of the proposal template.
               readOnly: true
             previewImageUrl:
               type: string
               format: uri
+              description: Storage location for the preview image of the proposal template.
+              readOnly: true
             title:
               type: string
               description: The display name for this template
+              example: Example Template
           required:
             - templateType
       required:
@@ -7201,7 +7215,9 @@ components:
         id: axvnprgxtgg1z
       type: object
       x-internal: false
-      description: The element that causes an image to be rendered in the Proposal Builder editor and viewer.
+      description: An element that renders an image in the Proposal Builder editor and viewer.
+      x-tags:
+        - Proposals
       properties:
         id:
           type: string
@@ -7214,8 +7230,11 @@ components:
           readOnly: true
         url:
           type: string
+          description: The location of the image.
+          example: 'https://example-storage-bucket.com/image-123'
         alt:
           type: string
+          description: Describes the image in the case it fails to load or for screen-readers.
         align:
           type: string
           enum:
@@ -7223,6 +7242,7 @@ components:
             - left
             - right
             - justify
+          description: Controls the image's positioning relative to its parent container.
         coordinate:
           type: object
           properties:
@@ -7245,14 +7265,14 @@ components:
       required:
         - type
         - url
-      x-tags:
-        - Proposals
     documentPricingTable:
       title: documentPricingTable
       x-stoplight:
         id: 07h4nzq9tgwsq
       type: object
-      description: The element that causes a pricing table to be rendered in the Proposal Builder editor and viewer.
+      description: An element that renders a pricing table in the Proposal Builder editor and viewer.
+      x-tags:
+        - Proposals
       properties:
         id:
           type: string
@@ -7303,16 +7323,17 @@ components:
             - right
             - justify
           example: left
+          description: Controls the pricing table's positioning relative to its parent container.
       required:
         - type
-      x-tags:
-        - Proposals
     documentPage:
       title: documentPage
       x-stoplight:
         id: y1t51aze0lwbl
       type: object
-      description: An element that wraps all other elements in a single page in Proposal Builder.
+      description: Renders a page that wraps all other content in a Proposal.
+      x-tags:
+        - Proposals
       properties:
         type:
           type: string
@@ -7327,12 +7348,13 @@ components:
           description: 'Optional: A reference to the element. It will be automatically generated'
         title:
           type: string
+          description: The displayed name of the page.
+          example: 'Overview, Cover Page, Meet the Team'
         pageMargin:
           type:
             - string
             - number
           description: 'The amount of whitespace around the edge of the page. '
-          minimum: 0
           default: 72
           example: '"0.75in", 72, "72px"'
         backgroundImageUrl:
@@ -7355,6 +7377,7 @@ components:
             - bottom
         backgroundColor:
           type: string
+          example: '#FFF, #000, transparent'
         backgroundColorOpacity:
           type: number
           minimum: 0
@@ -7368,8 +7391,6 @@ components:
               - $ref: '#/components/schemas/documentElement'
       required:
         - type
-      x-tags:
-        - Proposals
     documentElement:
       title: documentElement
       x-stoplight:
@@ -7383,16 +7404,21 @@ components:
           default: documentElement
       x-tags:
         - Proposals
+      description: A placeholder element for Proposal Builder.
     lineItem:
       title: lineItem
       x-stoplight:
         id: 19w8f2ir7f1s9
       type: object
-      description: ''
+      description: Represents an item that is being bought/sold
+      x-tags:
+        - Orders
+        - Proposals
       properties:
-        id:
+        sku:
           type: string
           description: 'The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md).'
+          example: 'A-123, MP-123, MP-123:EDITION-123'
         type:
           type: string
           default: lineItem
@@ -7421,10 +7447,7 @@ components:
           description: Holds the SKU of the package that this lineitem is part of. Products inside of a package do not have pricing so refer to the lineitem of the package SKU to find the price.
           readOnly: true
       required:
-        - id
-      x-tags:
-        - Orders
-        - Proposals
+        - sku
     partnerActivatableProducts:
       type: object
       x-examples: {}

@@ -4452,15 +4452,6 @@ paths:
             pattern: ^Bearer\s\S+
         - schema:
             type: string
-            default: application/vnd.api+json
-            enum:
-              - application/vnd.api+json
-          in: header
-          name: Content-Type
-          description: Indicates the format of the request body being sent. In most cases you will want application/vnd.api+json
-          required: true
-        - schema:
-            type: string
           in: header
           name: Accept-Language
         - schema:
@@ -4517,7 +4508,7 @@ paths:
             type: string
           in: query
           name: 'filter[partner.id]'
-          description: Return orders for the specified partner
+          description: Return products for the specified partner
           required: true
       x-lifecycle:
         status: proposed
@@ -4564,17 +4555,13 @@ paths:
             pattern: ^Bearer\s\S+
         - schema:
             type: string
-            default: application/vnd.api+json
-            enum:
-              - application/vnd.api+json
-          in: header
-          name: Content-Type
-          description: Indicates the format of the request body being sent. In most cases you will want application/vnd.api+json
-          required: true
-        - schema:
-            type: string
           in: header
           name: Accept-Language
+        - schema:
+            type: string
+          in: query
+          name: 'filter[partner.id]'
+          description: Return products for the specified partner
       responses:
         '200':
           description: OK
@@ -7470,6 +7457,14 @@ components:
               type: string
               description: Url to access the large rectagular image at the top of the marketing page.
               format: uri
+            editionId:
+              type: string
+              description: Edition ID
+              default: EDITION-12345
+            editionName:
+              type: string
+              description: Name of the Product Edition
+              example: Express
         relationships:
           type: object
           properties:

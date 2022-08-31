@@ -6879,11 +6879,16 @@ components:
           example: proposals
           enum:
             - proposals
+          readOnly: true
         id:
           type: string
           description: ignored when creating a proposal
+          readOnly: true
         relationships:
           type: object
+          required:
+            - creatorOrganization
+            - creatorUser
           properties:
             order:
               type: object
@@ -6920,7 +6925,10 @@ components:
                       type: string
             creatorOrganization:
               type: object
-              description: The ID of the organization that created the proposal. Currently this can only be set to your own partner id.
+              description: |-
+                The ID of the organization that created the proposal. Currently this can only be set to your own partner id.
+
+                Ignored when updating Proposal Templates
               properties:
                 data:
                   type: object
@@ -6949,6 +6957,7 @@ components:
                       type: string
             creatorUser:
               type: object
+              description: Ignored when updating Proposal Templates
               properties:
                 data:
                   type: object
@@ -7063,14 +7072,19 @@ components:
           type: string
           default: proposalTemplates
           example: proposalTemplates
+          description: Ignored when updating Proposal Templates
         id:
           type: string
           description: ignored when creating a proposal
         relationships:
           type: object
+          required:
+            - creatorOrganization
+            - creatorUser
           properties:
             creatorOrganization:
               type: object
+              description: Ignored when updating Proposal Templates
               properties:
                 data:
                   type: object
@@ -7085,6 +7099,7 @@ components:
                       type: string
             creatorUser:
               type: object
+              description: Ignored when updating Proposal Templates
               properties:
                 data:
                   type: object

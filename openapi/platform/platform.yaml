@@ -3834,9 +3834,12 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
-        Produces a list of Proposals.
+        Produces a list of Proposals, sorted by the most recently updated proposals.
 
-        Sorted by the most recently updated proposals
+        **Note**: The following attributes attributes are unavailable in this `LIST` request:
+        - `lineItems`
+        - `content` 
+        *Please perform a `GET` request to receive the above attributes for a specific proposal.*
       parameters:
         - schema:
             type: string
@@ -3887,26 +3890,6 @@ paths:
           in: query
           name: 'filter[recipientOrganizationId]'
           description: The id of the recipient organization
-        - schema:
-            type: array
-            enum:
-              - content
-              - lineItems
-              - currencyCode
-              - createdAt
-              - updatedAt
-              - archivedAt
-              - status
-              - viewCount
-              - shareType
-              - pdfUrl
-              - previewImageUrl
-              - title
-            example: 'title,content,status'
-            default: 'title,status,updatedAt'
-          in: query
-          name: 'fields[proposals]'
-          description: 'A comma separated list of the attributes that you want included in the response. By default the `content` is not included as it could be very large. '
       security:
         - OAuth2:
             - sales.proposals
@@ -4133,10 +4116,12 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
-        Produces a list of proposal templates.
+        Produces a list of proposal templates, sorted by the most recently updated proposal templates.
 
-
-        Sorted by the most recently updated proposal templates.
+        **Note**: The following attributes attributes are unavailable in this `LIST` request:
+        - `lineItems`
+        - `content` 
+        *Please perform a `GET` request to receive the above attributes for a specific proposal template.*
       parameters:
         - schema:
             type: string
@@ -4165,11 +4150,6 @@ paths:
           in: query
           name: 'filter[creatorUserIds]'
           description: The id of the user that created the proposal. This supports a comma separated list of ids
-        - schema:
-            type: boolean
-          in: query
-          name: 'filter[includeContent]'
-          description: 'Include the content of each proposal within the response (Warning: this may affect performance. It is recommended to explicitly GET a proposal and its content)'
         - schema:
             type: array
             enum:
@@ -6989,11 +6969,15 @@ components:
           properties:
             content:
               type: array
-              description: A list of the pages
+              description: |-
+                **Note**: This is unavailable in `LIST` requests. To get the `content` of a proposal, please perform a `GET` request on that proposal.
+
+                A list of the pages
               items:
                 $ref: '#/components/schemas/documentPage'
             lineItems:
               type: array
+              description: '**Note**: This is unavailable in `LIST` requests. To get the `lineItems` for a proposal, please perform a `GET` request on the proposal.'
               items:
                 $ref: '#/components/schemas/lineItem'
             currencyCode:
@@ -7138,16 +7122,15 @@ components:
                 - $ref: '#/components/schemas/documentElement'
                 - $ref: '#/components/schemas/documentPage'
                 - type: array
+                  description: |-
+                    Renders a list of pages.
+
+                    **Note**: This is unavailable in `LIST` requests. To get the `content` for a proposal, please perform a `GET` request on that proposal.
                   items:
                     $ref: '#/components/schemas/documentPage'
-              description: |-
-                widgetTemplate - a single document element
-
-                pageTemplate - a single document page
-
-                proposalTemplate - a list of document pages
             lineItems:
               type: array
+              description: '**Note**: This is unavailable in `LIST` requests. To get the `lineItems` for a proposal, please perform a `GET` request on that proposal.'
               items:
                 $ref: '#/components/schemas/lineItem'
             currencyCode:
@@ -7317,7 +7300,10 @@ components:
       x-stoplight:
         id: y1t51aze0lwbl
       type: object
-      description: Renders a page that wraps all other content in a Proposal.
+      description: |-
+        Renders a page that wraps all other content in a Proposal.
+
+         **Note**: This is unavailable in `LIST` requests. To get the `content` for a proposal, please perform a `GET` request on that proposal.
       x-tags:
         - Proposals
       properties:
@@ -7390,7 +7376,10 @@ components:
           default: documentElement
       x-tags:
         - Proposals
-      description: A placeholder element for Proposal Builder.
+      description: |-
+        A placeholder element for Proposal Builder.
+
+         **Note**: This is unavailable in `LIST` requests. To get the `content` for a proposal, please perform a `GET` request on that proposal.
     lineItem:
       title: lineItem
       x-stoplight:

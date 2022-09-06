@@ -6979,6 +6979,7 @@ components:
         id:
           type: string
           description: ignored when creating a proposal
+          default: ''
         relationships:
           type: object
           properties:
@@ -7088,8 +7089,9 @@ components:
               type: string
               minLength: 3
               maxLength: 3
-              example: CAD
+              example: 'CAD, USD'
               description: 'The 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)'
+              default: CAD
             createdAt:
               type: string
               format: date-time
@@ -7129,26 +7131,31 @@ components:
                 approvedByRecipient - the contact of the account approved the proposal
 
                 archived
+              default: draft
+              example: draft
               readOnly: true
             viewCount:
               type: integer
               minimum: 0
               description: Indicates the number of times a proposal has been viewed by a recipient.
+              default: 0
               readOnly: true
             pdfUrl:
               type: string
               format: uri
               description: Storage location for the PDF generated version of the proposal.
+              default: ''
               readOnly: true
             previewImageUrl:
               type: string
               format: uri
               description: Storage location for the preview image of the proposal.
+              default: ''
               readOnly: true
             title:
               type: string
               description: The display name for referencing this proposal
-              example: Example Proposal
+              default: New Proposal
       required:
         - type
     proposalTemplates:
@@ -7170,6 +7177,7 @@ components:
         id:
           type: string
           description: ignored when creating a proposal template
+          default: ''
         relationships:
           type: object
           properties:
@@ -7245,8 +7253,9 @@ components:
               type: string
               minLength: 3
               maxLength: 3
-              example: CAD
+              example: 'CAD, USD'
               description: 'The 3 letter currency code as defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)'
+              default: CAD
             createdAt:
               type: string
               format: date-time
@@ -7270,11 +7279,13 @@ components:
               type: string
               format: uri
               description: Storage location for the PDF generated version of the proposal template.
+              default: ''
               readOnly: true
             previewImageUrl:
               type: string
               format: uri
               description: Storage location for the preview image of the proposal template.
+              default: ''
               readOnly: true
             title:
               type: string
@@ -7296,20 +7307,23 @@ components:
       properties:
         id:
           type: string
+          default: ''
         type:
           type: string
           default: image
           enum:
             - image
           example: image
-          readOnly: true
         url:
           type: string
           description: The location of the image.
           example: 'https://example-storage-bucket.com/image-123'
+          default: ''
         alt:
           type: string
           description: Describes the image in the case it fails to load or for screen-readers.
+          default: ''
+          example: Describes an imaage
         align:
           type: string
           enum:
@@ -7323,12 +7337,20 @@ components:
           properties:
             top:
               type: string
+              default: ''
+              example: '"10px"'
             left:
               type: string
+              default: ''
+              example: '"10px"'
             width:
               type: string
+              default: ''
+              example: '"10px"'
             height:
               type: string
+              default: ''
+              example: '"10px"'
       required:
         - url
     documentPricingTable:
@@ -7342,24 +7364,32 @@ components:
       properties:
         id:
           type: string
+          default: ''
         type:
           type: string
           default: pricingTable
           example: pricingTable
           enum:
             - pricingTable
-          readOnly: true
         coordinate:
           type: object
           properties:
             top:
               type: string
+              default: ''
+              example: '"10px"'
             left:
               type: string
+              default: ''
+              example: '"10px"'
             width:
               type: string
+              default: ''
+              example: '"500px"'
             height:
               type: string
+              default: ''
+              example: '"200px"'
         showPrices:
           type: boolean
         showDescriptions:
@@ -7384,6 +7414,7 @@ components:
             - justify
           example: left
           description: Controls the pricing table's positioning relative to its parent container.
+          default: left
     documentPage:
       title: documentPage
       x-stoplight:
@@ -7403,10 +7434,10 @@ components:
           description: The root content must always be a "page"
           enum:
             - page
-          readOnly: true
         id:
           type: string
           description: 'Optional: A reference to the element. It will be automatically generated'
+          default: ''
         title:
           type: string
           description: The displayed name of the page.
@@ -7454,18 +7485,19 @@ components:
       x-stoplight:
         id: g5ql4e1f6qn3p
       type: object
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          default: documentElement
       x-tags:
         - Proposals
       description: |-
         A placeholder element for Proposal Builder.
 
          **Note**: This is unavailable in `LIST` requests. To get the `content` for a proposal, please perform a `GET` request on that proposal.
+      properties:
+        id:
+          type: string
+          default: ''
+        type:
+          type: string
+          default: documentElement
     lineItem:
       title: lineItem
       x-stoplight:

@@ -7237,15 +7237,15 @@ components:
                 **NOTE**: this field is ignored when updating a proposal template
             content:
               oneOf:
-                - $ref: '#/components/schemas/documentElement'
-                - $ref: '#/components/schemas/documentPage'
-                - type: array
-                  description: |-
+                - items:
+                    $ref: '#/components/schemas/documentElement'
+                - description: |-
                     Renders a list of pages.
 
                     **Note**: This is unavailable in `LIST` requests. To get the `content` for a proposal, please perform a `GET` request on that proposal.
                   items:
                     $ref: '#/components/schemas/documentPage'
+              type: array
             lineItems:
               type: array
               description: '**Note**: This is unavailable in `LIST` requests. To get the `lineItems` for a proposal, please perform a `GET` request on that proposal.'
@@ -7484,9 +7484,9 @@ components:
           type: array
           items:
             oneOf:
+              - $ref: '#/components/schemas/documentElement'
               - $ref: '#/components/schemas/documentImage'
               - $ref: '#/components/schemas/documentPricingTable'
-              - $ref: '#/components/schemas/documentElement'
     documentElement:
       title: documentElement
       x-stoplight:

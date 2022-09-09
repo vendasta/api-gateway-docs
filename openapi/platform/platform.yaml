@@ -7238,7 +7238,7 @@ components:
             content:
               type: array
               items:
-                anyOf:
+                oneOf:
                   - $ref: '#/components/schemas/documentPage'
                   - $ref: '#/components/schemas/documentElement'
             lineItems:
@@ -7500,9 +7500,12 @@ components:
         type:
           type: string
           default: documentElement
+          pattern: ^(?!(page|img|pricing-table)$).*$
+          description: 'Matches any string except for defined document elements (ex: `page`, `img`, `pricing-table`)'
         children:
           type: array
-          items: {}
+          items:
+            type: object
     lineItem:
       title: lineItem
       x-stoplight:

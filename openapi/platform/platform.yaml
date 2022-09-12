@@ -3865,23 +3865,23 @@ paths:
           description: The maximum number of proposals you would like returned in a single batch. Use the links.next member in the response to get the remainder
           name: 'page[limit]'
         - schema:
-            type: array
+            type: string
             items:
               type: string
           in: query
           name: 'filter[status]'
           description: |-
-            The status of the proposal. By default all are returned except `archived`
+            A comma separated list of the statuses of a proposal. By default all are returned except `archived`
 
             Possible values: `viewedByRecipient,feedbackFromRecipient,approvedByRecipient,draft,sentToRecipient,approvedByPeer,sentToPeer,archived`
         - schema:
-            type: array
+            type: string
             items:
               type: string
             example: U-123
           in: query
           name: 'filter[creatorUserIds]'
-          description: The id of the user that created the proposal. This supports a comma separated list of ids
+          description: A comma separated list of userIDs that created a proposal.
         - schema:
             type: string
             example: AG-123
@@ -3889,10 +3889,8 @@ paths:
           name: 'filter[recipientOrganizationId]'
           description: The id of the recipient organization
         - schema:
-            type: array
+            type: string
             example: 'title,status'
-            items:
-              type: string
           in: query
           name: 'fields[proposals]'
           description: |-
@@ -4173,34 +4171,29 @@ paths:
           description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder
           name: 'page[limit]'
         - schema:
-            type: array
-            items:
-              type: string
+            type: string
             example: U-123
           in: query
           name: 'filter[creatorUserIds]'
           description: The id of the user that created the proposal. This supports a comma separated list of ids
         - schema:
-            type: array
-            items:
-              type: string
-              enum:
-                - widgetTemplate
-                - pageTemplate
-                - proposalTemplate
+            type: string
             example: widgetTemplate
           in: query
           name: 'filter[types]'
-          description: The types of proposal templates to include. This supports a comma separated list of proposal template types
+          description: |-
+            The types of proposal templates to include. This supports a comma separated list of proposal template types
+
+            Possible values may inclue: `widgetTemplate, pageTemplate, proposalTemplate`
         - schema:
             type: string
             example: title
           in: query
           name: 'fields[proposalTemplates]'
           description: |-
-            A comma separated list of the attributes that you want included in the response. Possible values include:
-
-            `currencyCode`, `createdAt`, `updatedAt`, `archivedAt`, `shareType`, `pdfUrl`, `previewImageUrl`, `title`
+            A comma separated list of the attributes that you want included in the response. 
+            
+            Possible values include: `currencyCode`, `createdAt`, `updatedAt`, `archivedAt`, `shareType`, `pdfUrl`, `previewImageUrl`, `title`
       security:
         - OAuth2:
             - sales.proposals
@@ -4330,9 +4323,9 @@ paths:
           in: query
           name: 'fields[proposalTemplates]'
           description: |-
-            A comma separated list of the attributes that you want included in the response. Possible values include:
-
-            `currencyCode`, `createdAt`, `updatedAt`, `archivedAt`, `shareType`, `pdfUrl`, `previewImageUrl`, `title`, `content`, `lineItems`
+            A comma separated list of the attributes that you want included in the response. 
+            
+            Possible values include: `currencyCode`, `createdAt`, `updatedAt`, `archivedAt`, `shareType`, `pdfUrl`, `previewImageUrl`, `title`, `content`, `lineItems`
       security:
         - OAuth2:
             - sales.proposals

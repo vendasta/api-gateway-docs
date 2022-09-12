@@ -3865,20 +3865,15 @@ paths:
           description: The maximum number of proposals you would like returned in a single batch. Use the links.next member in the response to get the remainder
           name: 'page[limit]'
         - schema:
-            type: string
-            enum:
-              - viewedByRecipient
-              - feedbackFromRecipient
-              - approvedByRecipient
-              - archived
-              - draft
-              - sentToRecipient
-              - approvedByPeer
-              - sentToPeer
-            default: draft
+            type: array
+            items:
+              type: string
           in: query
           name: 'filter[status]'
-          description: The status of the proposal. By default all are returned except archived
+          description: |-
+            The status of the proposal. By default all are returned except `archived`
+
+            Possible values: `viewedByRecipient,feedbackFromRecipient,approvedByRecipient,draft,sentToRecipient,approvedByPeer,sentToPeer,archived`
         - schema:
             type: array
             items:
@@ -3894,25 +3889,14 @@ paths:
           name: 'filter[recipientOrganizationId]'
           description: The id of the recipient organization
         - schema:
-            type: array
-            items:
-              type: string
-              enum:
-                - currencyCode
-                - createdAt
-                - updatedAt
-                - archivedAt
-                - status
-                - viewCount
-                - shareType
-                - pdfUrl
-                - previewImageUrl
-                - title
-            example: 'title, status'
-            default: 'title, status, updatedAt, archivedAt, status, viewCount, shareType, pdfUrl, previewImageUrl'
+            type: string
+            example: 'title,status'
           in: query
           name: 'fields[proposals]'
-          description: A comma separated list of the attributes that you want included in the response. `Content` and `LineItems` cannot be returned in bulk requests.
+          description: |-
+            A comma separated list of the attributes that you want included in the response. Possible values include:
+
+            `currencyCode`, `createdAt`, `updatedAt`, `archivedAt`, `viewCount`, `shareType`, `pdfUrl`, `previewImageUrl`, `title`
       security:
         - OAuth2:
             - sales.proposals
@@ -4036,27 +4020,14 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
         - schema:
-            type: array
-            items:
-              type: string
-              enum:
-                - currencyCode
-                - createdAt
-                - updatedAt
-                - archivedAt
-                - status
-                - viewCount
-                - shareType
-                - pdfUrl
-                - previewImageUrl
-                - title
-                - content
-                - lineItems
+            type: string
             example: 'title,status'
-            default: 'title, status, updatedAt, archivedAt, status, viewCount, shareType, pdfUrl, previewImageUrl, content, lineItems'
           in: query
           name: 'fields[proposals]'
-          description: A comma separated list of the attributes that you want included in the response.
+          description: |-
+            A comma separated list of the attributes that you want included in the response. Possible values include:
+
+            `currencyCode`, `createdAt`, `updatedAt`, `archivedAt`, `viewCount`, `shareType`, `pdfUrl`, `previewImageUrl`, `title`, `content`, `lineItems`
       security:
         - OAuth2:
             - sales.proposals
@@ -4216,30 +4187,18 @@ paths:
                 - pageTemplate
                 - proposalTemplate
             example: widgetTemplate
-            default: 'widgetTemplate, pageTemplate, proposalTemplate'
           in: query
           name: 'filter[types]'
           description: The types of proposal templates to include. This supports a comma separated list of proposal template types
         - schema:
-            type: array
-            items:
-              type: string
-              enum:
-                - currencyCode
-                - createdAt
-                - updatedAt
-                - archivedAt
-                - status
-                - viewCount
-                - shareType
-                - pdfUrl
-                - previewImageUrl
-                - title
-            example: 'title, status'
-            default: 'title, status, updatedAt, archivedAt, status, viewCount, shareType, pdfUrl, previewImageUrl'
+            type: string
+            example: title
           in: query
           name: 'fields[proposalTemplates]'
-          description: A comma separated list of the attributes that you want included in the response. `Content` and `LineItems` cannot be returned in bulk requests.
+          description: |-
+            A comma separated list of the attributes that you want included in the response. Possible values include:
+
+            `currencyCode`, `createdAt`, `updatedAt`, `archivedAt`, `shareType`, `pdfUrl`, `previewImageUrl`, `title`
       security:
         - OAuth2:
             - sales.proposals
@@ -4365,14 +4324,13 @@ paths:
           required: true
         - schema:
             type: string
-            example: 'title,status'
-            default: 'title,status,updatedAt,archivedAt,status,viewCount,shareType,pdfUrl,previewImageUrl,content,lineItems'
+            example: title
           in: query
           name: 'fields[proposalTemplates]'
           description: |-
             A comma separated list of the attributes that you want included in the response. Possible values include:
 
-            `currencyCode`, `createdAt`, `updatedAt`, `archivedAt`, `status`, `viewCount`, `shareType`, `pdfUrl`, `previewImageUrl`, `title`, `content`, `lineItems`
+            `currencyCode`, `createdAt`, `updatedAt`, `archivedAt`, `shareType`, `pdfUrl`, `previewImageUrl`, `title`, `content`, `lineItems`
       security:
         - OAuth2:
             - sales.proposals

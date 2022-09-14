@@ -4441,7 +4441,9 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
-        Provides a list of products that can be activated by a partner for their customers. You must filter the list to a single partner using the `filter[partner.id]=PID` query param.
+        Provides a list of products that can be activated by a partner for their customers. 
+        You must filter the list to a single partner using the `filter[partner.id]=PID` query param. 
+        Sorted by the whiteLabelName field in ascending order.
       security:
         - OAuth2:
             - partner
@@ -4455,15 +4457,6 @@ paths:
             example: Bearer <Access Token>
             type: string
             pattern: ^Bearer\s\S+
-        - schema:
-            type: string
-            default: application/vnd.api+json
-            enum:
-              - application/vnd.api+json
-          in: header
-          name: Content-Type
-          description: Indicates the format of the request body being sent. In most cases you will want application/vnd.api+json
-          required: true
         - schema:
             type: string
           in: header
@@ -4484,45 +4477,13 @@ paths:
         - schema:
             type: string
           in: query
-          name: 'filter[sku]'
-          description: Filter by SKU.
-        - schema:
-            type: string
-          in: query
-          name: 'filter[name]'
-          description: Filter by Vendor provided product name.
-        - schema:
-            type: string
-          in: query
-          name: 'filter[whiteLabelName]'
-          description: Filter by Partner given white label name
-        - schema:
-            type: string
-          in: query
-          name: 'filter[requiredAppIds]'
-          description: 'Filter by required AppIds. If multiple app Ids to be used, needs to be separated by comma.'
-        - schema:
-            type: string
-            enum:
-              - name
-              - '-name'
-              - sku
-              - '-sku'
-              - name
-              - '-name'
-              - whiteLabelName
-              - '-whiteLabelName'
-              - tagline
-            default: sku
-            example: sku
-          in: query
-          name: sort
-          description: 'The order to sort the results in. Only one sort parameter may be provided:  - `sku`: SKU ascending  - `-sku`: SKU descending  - `name`: Vendor name ascending  - `-name`: Vendor name descending  - `whiteLabelName`: Custom name ascending  - `-whiteLabelName`: Custom name descending  - `tagline`: Tagline ascending  - `-tagline`: Tagline descending'
+          name: 'filter[searchText]'
+          description: A string containing a partial id or name field.
         - schema:
             type: string
           in: query
           name: 'filter[partner.id]'
-          description: Return orders for the specified partner
+          description: Return products for the specified partner
           required: true
       x-lifecycle:
         status: proposed
@@ -4569,17 +4530,14 @@ paths:
             pattern: ^Bearer\s\S+
         - schema:
             type: string
-            default: application/vnd.api+json
-            enum:
-              - application/vnd.api+json
-          in: header
-          name: Content-Type
-          description: Indicates the format of the request body being sent. In most cases you will want application/vnd.api+json
-          required: true
-        - schema:
-            type: string
           in: header
           name: Accept-Language
+        - schema:
+            type: string
+          in: query
+          name: 'filter[partner.id]'
+          description: Return products for the specified partner
+          required: true
       responses:
         '200':
           description: OK
@@ -7436,7 +7394,26 @@ components:
         - sku
     partnerActivatableProducts:
       type: object
-      x-examples: {}
+      x-examples:
+        Partner Activatable Product Example:
+          id: 'MP-1234:EDITION-123'
+          type: partnerActivatableProducts
+          attributes:
+            sku: 'MP-1234:EDITION-123'
+            name: Product Name
+            whiteLabelName: Custom Product Name
+            iconUrl: 'http://example.com'
+            tagline: Short Description
+            bannerImageUrl: 'http://example.com'
+          relationships:
+            allowedCountries:
+              data:
+                - id: US
+                  type: countries
+            requiredProductIds:
+              data:
+                - id: 'MP-456:EDITION-456'
+                  type: partnerActivatableProducts
       description: Details on the products you are currently selling in your store.
       title: Partner Activatable Products
       x-tags:
@@ -7445,7 +7422,7 @@ components:
         id:
           type: string
           description: Unique identifier of the record.
-          example: 'ABC:default:MP-1234:EDITION-123'
+          example: 'MP-1234:EDITION-123'
         type:
           type: string
           description: Should always be partnerActivatableProducts.
@@ -7499,7 +7476,7 @@ components:
                         enum:
                           - countries
                         default: countries
-            requiredProductIds:
+            requiredProducts:
               type: object
               description: List of IDs of the products to be activated before activating this product.
               properties:

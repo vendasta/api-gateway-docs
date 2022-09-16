@@ -3834,9 +3834,12 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
-        Produces a list of Proposals.
+        Produces a list of Proposals, sorted by the most recently updated proposals.
 
-        Sorted by the most recently updated proposals
+        **Note**: The following attributes attributes are unavailable in this `LIST` request:
+        - `lineItems`
+        - `content` 
+        *Please perform a `GET` request to receive the above attributes for a specific proposal.*
       parameters:
         - schema:
             type: string
@@ -3863,24 +3866,22 @@ paths:
           name: 'page[limit]'
         - schema:
             type: string
-            enum:
-              - viewedByRecipient
-              - feedbackFromRecipient
-              - approvedByRecipient
-              - archived
-              - draft
-              - sentToRecipient
-              - approvedByPeer
-              - sentToPeer
+            items:
+              type: string
           in: query
           name: 'filter[status]'
-          description: The status of the proposal. By default all are returned except archived
+          description: |-
+            A comma separated list of the statuses of a proposal. By default all are returned except `archived`
+
+            Possible values: `viewedByRecipient,feedbackFromRecipient,approvedByRecipient,draft,sentToRecipient,approvedByPeer,sentToPeer,archived`
         - schema:
-            type: array
+            type: string
+            items:
+              type: string
             example: U-123
           in: query
           name: 'filter[creatorUserIds]'
-          description: The id of the user that created the proposal. This supports a comma separated list of ids
+          description: A comma separated list of userIDs that created a proposal.
         - schema:
             type: string
             example: AG-123
@@ -3888,25 +3889,14 @@ paths:
           name: 'filter[recipientOrganizationId]'
           description: The id of the recipient organization
         - schema:
-            type: array
-            enum:
-              - content
-              - lineItems
-              - currencyCode
-              - createdAt
-              - updatedAt
-              - archivedAt
-              - status
-              - viewCount
-              - shareType
-              - pdfUrl
-              - previewImageUrl
-              - title
-            example: 'title,content,status'
-            default: 'title,status,updatedAt'
+            type: string
+            example: 'title,status'
           in: query
           name: 'fields[proposals]'
-          description: 'A comma separated list of the attributes that you want included in the response. By default the `content` is not included as it could be very large. '
+          description: |-
+            A comma separated list of the attributes that you want included in the response. Possible values include:
+
+            `currencyCode`, `createdAt`, `updatedAt`, `archivedAt`, `viewCount`, `shareType`, `pdfUrl`, `previewImageUrl`, `title`
       security:
         - OAuth2:
             - sales.proposals
@@ -3924,6 +3914,8 @@ paths:
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
         Create a document that can be used by Proposal Builder.
+
+        *CreatorOrganization is required*
       summary: Create Proposal
       operationId: post-proposals
       parameters:
@@ -4027,6 +4019,15 @@ paths:
           name: Authorization
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
+        - schema:
+            type: string
+            example: 'title,status'
+          in: query
+          name: 'fields[proposals]'
+          description: |-
+            A comma separated list of the attributes that you want included in the response. Possible values include:
+
+            `currencyCode`, `createdAt`, `updatedAt`, `archivedAt`, `viewCount`, `shareType`, `pdfUrl`, `previewImageUrl`, `title`, `content`, `lineItems`
       security:
         - OAuth2:
             - sales.proposals
@@ -4100,6 +4101,13 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/proposals'
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The id of the proposal
   /proposalTemplates:
     get:
       summary: List Proposal Templates
@@ -4133,10 +4141,12 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
-        Produces a list of proposal templates.
+        Produces a list of proposal templates, sorted by the most recently updated proposal templates.
 
-
-        Sorted by the most recently updated proposal templates.
+        **Note**: The following attributes attributes are unavailable in this `LIST` request:
+        - `lineItems`
+        - `content` 
+        *Please perform a `GET` request to receive the above attributes for a specific proposal template.*
       parameters:
         - schema:
             type: string
@@ -4161,25 +4171,29 @@ paths:
           description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder
           name: 'page[limit]'
         - schema:
-            type: array
+            type: string
+            example: U-123
           in: query
           name: 'filter[creatorUserIds]'
           description: The id of the user that created the proposal. This supports a comma separated list of ids
         - schema:
-            type: boolean
-          in: query
-          name: 'filter[includeContent]'
-          description: 'Include the content of each proposal within the response (Warning: this may affect performance. It is recommended to explicitly GET a proposal and its content)'
-        - schema:
-            type: array
-            enum:
-              - widgetTemplate
-              - pageTemplate
-              - proposalTemplate
-            example: '[''widgetTemplate'', ''pageTemplate'']'
+            type: string
+            example: widgetTemplate
           in: query
           name: 'filter[types]'
-          description: The types of proposal templates to include. This supports a comma separated list of proposal template types
+          description: |-
+            The types of proposal templates to include. This supports a comma separated list of proposal template types
+
+            Possible values may inclue: `widgetTemplate, pageTemplate, proposalTemplate`
+        - schema:
+            type: string
+            example: title
+          in: query
+          name: 'fields[proposalTemplates]'
+          description: |-
+            A comma separated list of the attributes that you want included in the response. 
+            
+            Possible values include: `currencyCode`, `createdAt`, `updatedAt`, `archivedAt`, `shareType`, `pdfUrl`, `previewImageUrl`, `title`
       security:
         - OAuth2:
             - sales.proposals
@@ -4197,6 +4211,8 @@ paths:
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
         Create a proposal template that can be used by Proposal Builder.
+
+        *CreatorOrganization is required*
       summary: Create Proposal Template
       operationId: post-proposals
       parameters:
@@ -4301,6 +4317,15 @@ paths:
           name: Authorization
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
+        - schema:
+            type: string
+            example: title
+          in: query
+          name: 'fields[proposalTemplates]'
+          description: |-
+            A comma separated list of the attributes that you want included in the response. 
+            
+            Possible values include: `currencyCode`, `createdAt`, `updatedAt`, `archivedAt`, `shareType`, `pdfUrl`, `previewImageUrl`, `title`, `content`, `lineItems`
       security:
         - OAuth2:
             - sales.proposals
@@ -4381,6 +4406,7 @@ paths:
         name: id
         in: path
         required: true
+        description: The id of the proposal template
   /partnerActivatableProducts:
     get:
       summary: List Partner Activatable Products
@@ -6860,6 +6886,7 @@ components:
         id:
           type: string
           description: ignored when creating a proposal
+          default: ''
         relationships:
           type: object
           properties:
@@ -6896,9 +6923,13 @@ components:
                       default: organizations
                     id:
                       type: string
+                      example: AG-1234567
             creatorOrganization:
               type: object
-              description: The ID of the organization that created the proposal. Currently this can only be set to your own partner id.
+              description: |-
+                The ID of the organization that created the proposal. Currently this can only be set to your own partner id.
+
+                Ignored when updating Proposal Templates
               properties:
                 data:
                   type: object
@@ -6911,6 +6942,7 @@ components:
                         - organizations
                     id:
                       type: string
+                      example: ABC
             recipientContact:
               type: object
               properties:
@@ -6925,8 +6957,10 @@ components:
                       example: salesContacts
                     id:
                       type: string
+                      example: C-123
             creatorUser:
               type: object
+              description: Ignored when updating Proposal Templates
               properties:
                 data:
                   type: object
@@ -6940,6 +6974,7 @@ components:
                       readOnly: true
                     id:
                       type: string
+                      example: U-123
                   readOnly: true
               readOnly: true
         attributes:
@@ -6947,11 +6982,15 @@ components:
           properties:
             content:
               type: array
-              description: A list of the pages
+              description: |-
+                **Note**: This is unavailable in `LIST` requests. To get the `content` of a proposal, please perform a `GET` request on that proposal.
+
+                A list of the pages
               items:
                 $ref: '#/components/schemas/documentPage'
             lineItems:
               type: array
+              description: '**Note**: This is unavailable in `LIST` requests. To get the `lineItems` for a proposal, please perform a `GET` request on the proposal.'
               items:
                 $ref: '#/components/schemas/lineItem'
             currencyCode:
@@ -6999,29 +7038,33 @@ components:
                 approvedByRecipient - the contact of the account approved the proposal
 
                 archived
+              default: draft
+              example: draft
               readOnly: true
             viewCount:
               type: integer
               minimum: 0
               description: Indicates the number of times a proposal has been viewed by a recipient.
+              default: 0
               readOnly: true
             pdfUrl:
               type: string
               format: uri
               description: Storage location for the PDF generated version of the proposal.
+              default: ''
               readOnly: true
             previewImageUrl:
               type: string
               format: uri
               description: Storage location for the preview image of the proposal.
+              default: ''
               readOnly: true
             title:
               type: string
               description: The display name for referencing this proposal
-              example: Example Proposal
+              default: New Proposal
       required:
         - type
-        - relationships
     proposalTemplates:
       title: Proposal Templates
       type: object
@@ -7037,14 +7080,17 @@ components:
           type: string
           default: proposalTemplates
           example: proposalTemplates
+          description: Ignored when updating Proposal Templates
         id:
           type: string
-          description: ignored when creating a proposal
+          description: ignored when creating a proposal template
+          default: ''
         relationships:
           type: object
           properties:
             creatorOrganization:
               type: object
+              description: Ignored when updating Proposal Templates
               properties:
                 data:
                   type: object
@@ -7057,8 +7103,10 @@ components:
                         - organizations
                     id:
                       type: string
+                      example: ABC
             creatorUser:
               type: object
+              description: Ignored when updating Proposal Templates
               properties:
                 data:
                   type: object
@@ -7072,6 +7120,7 @@ components:
                       readOnly: true
                     id:
                       type: string
+                      example: U-123
                   readOnly: true
               readOnly: true
         attributes:
@@ -7091,21 +7140,19 @@ components:
                 pageTemplate - an individual page in a proposal
 
                 proposalTemplate - a template representing an entire proposal without certain relationships linked to it
+
+                **NOTE**: this field is ignored when updating a proposal template
             content:
-              oneOf:
-                - $ref: '#/components/schemas/documentElement'
-                - $ref: '#/components/schemas/documentPage'
-                - type: array
-                  items:
-                    $ref: '#/components/schemas/documentPage'
-              description: |-
-                widgetTemplate - a single document element
-
-                pageTemplate - a single document page
-
-                proposalTemplate - a list of document pages
+              type: array
+              items:
+                oneOf:
+                  - $ref: '#/components/schemas/documentPage'
+                  - $ref: '#/components/schemas/documentImage'
+                  - $ref: '#/components/schemas/documentPricingTable'
+                  - $ref: '#/components/schemas/documentElement'
             lineItems:
               type: array
+              description: '**Note**: This is unavailable in `LIST` requests. To get the `lineItems` for a proposal, please perform a `GET` request on that proposal.'
               items:
                 $ref: '#/components/schemas/lineItem'
             currencyCode:
@@ -7137,22 +7184,22 @@ components:
               type: string
               format: uri
               description: Storage location for the PDF generated version of the proposal template.
+              default: ''
               readOnly: true
             previewImageUrl:
               type: string
               format: uri
               description: Storage location for the preview image of the proposal template.
+              default: ''
               readOnly: true
             title:
               type: string
               description: The display name for this template
-              example: Example Template
+              default: New Proposal Template
           required:
             - templateType
       required:
         - type
-        - id
-        - relationships
     documentImage:
       title: documentImage
       x-stoplight:
@@ -7165,20 +7212,23 @@ components:
       properties:
         id:
           type: string
+          default: ''
         type:
           type: string
-          default: image
+          default: img
+          example: img
           enum:
-            - image
-          example: image
-          readOnly: true
+            - img
         url:
           type: string
           description: The location of the image.
           example: 'https://example-storage-bucket.com/image-123'
+          default: ''
         alt:
           type: string
           description: Describes the image in the case it fails to load or for screen-readers.
+          default: ''
+          example: Describes an image
         align:
           type: string
           enum:
@@ -7191,23 +7241,22 @@ components:
           type: object
           properties:
             top:
-              type:
-                - string
-                - number
+              type: string
+              default: ''
+              example: 10px
             left:
-              type:
-                - string
-                - number
+              type: string
+              default: ''
+              example: 10px
             width:
-              type:
-                - string
-                - number
+              type: string
+              default: ''
+              example: 10px
             height:
-              type:
-                - string
-                - number
+              type: string
+              default: ''
+              example: 10px
       required:
-        - type
         - url
     documentPricingTable:
       title: documentPricingTable
@@ -7220,30 +7269,32 @@ components:
       properties:
         id:
           type: string
+          default: ''
         type:
           type: string
-          default: pricingTable
-          example: pricingTable
-          readOnly: true
+          default: pricing-table
+          example: pricing-table
+          enum:
+            - pricing-table
         coordinate:
           type: object
           properties:
             top:
-              type:
-                - string
-                - number
+              type: string
+              default: ''
+              example: 10px
             left:
-              type:
-                - string
-                - number
+              type: string
+              default: ''
+              example: 10px
             width:
-              type:
-                - string
-                - number
+              type: string
+              default: ''
+              example: '"500px"'
             height:
-              type:
-                - string
-                - number
+              type: string
+              default: ''
+              example: 10px
         showPrices:
           type: boolean
         showDescriptions:
@@ -7268,14 +7319,16 @@ components:
             - justify
           example: left
           description: Controls the pricing table's positioning relative to its parent container.
-      required:
-        - type
+          default: left
     documentPage:
       title: documentPage
       x-stoplight:
         id: y1t51aze0lwbl
       type: object
-      description: Renders a page that wraps all other content in a Proposal.
+      description: |-
+        Renders a page that wraps all other content in a Proposal.
+
+         **Note**: This is unavailable in `LIST` requests. To get the `content` for a proposal, please perform a `GET` request on that proposal.
       x-tags:
         - Proposals
       properties:
@@ -7286,33 +7339,36 @@ components:
           description: The root content must always be a "page"
           enum:
             - page
-          readOnly: true
         id:
           type: string
           description: 'Optional: A reference to the element. It will be automatically generated'
+          default: ''
         title:
           type: string
           description: The displayed name of the page.
-          example: 'Overview, Cover Page, Meet the Team'
+          example: New Page
+          default: New Page
         pageMargin:
-          type:
-            - string
-            - number
+          type: string
           description: 'The amount of whitespace around the edge of the page. '
-          default: 72
-          example: '"0.75in", 72, "72px"'
+          example: 72px
+          default: 72px
         backgroundImageUrl:
           type: string
+          default: ''
+          format: uri
         backgroundImageSize:
           type: string
           enum:
             - contain
             - auto
             - cover
+          example: contain
         backgroundImageOpacity:
           type: number
           minimum: 0
           maximum: 100
+          example: 100
         backgroundImagePosition:
           type: string
           enum:
@@ -7321,34 +7377,44 @@ components:
             - bottom
         backgroundColor:
           type: string
-          example: '#FFF, #000, transparent'
+          example: transparent
+          default: ''
         backgroundColorOpacity:
           type: number
           minimum: 0
           maximum: 100
+          example: 100
         children:
           type: array
           items:
-            oneOf:
+            anyOf:
               - $ref: '#/components/schemas/documentImage'
               - $ref: '#/components/schemas/documentPricingTable'
               - $ref: '#/components/schemas/documentElement'
-      required:
-        - type
     documentElement:
       title: documentElement
       x-stoplight:
         id: g5ql4e1f6qn3p
       type: object
+      x-tags:
+        - Proposals
+      description: |-
+        A placeholder element for Proposal Builder.
+
+         **Note**: This is unavailable in `LIST` requests. To get the `content` for a proposal, please perform a `GET` request on that proposal.
       properties:
         id:
           type: string
+          default: ''
         type:
           type: string
           default: documentElement
-      x-tags:
-        - Proposals
-      description: A placeholder element for Proposal Builder.
+          pattern: ^(?!(page|img|pricing-table)$).*$
+          description: 'Matches any string except for defined document elements (ex: `page`, `img`, `pricing-table`)'
+        children:
+          type: array
+          items:
+            type: object
     lineItem:
       title: lineItem
       x-stoplight:
@@ -7362,7 +7428,8 @@ components:
         sku:
           type: string
           description: 'The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md).'
-          example: 'A-123, MP-123, MP-123:EDITION-123'
+          example: A-123
+          default: ''
         type:
           type: string
           default: lineItem
@@ -7389,6 +7456,8 @@ components:
         containedInPackage:
           type: string
           description: Holds the SKU of the package that this lineitem is part of. Products inside of a package do not have pricing so refer to the lineitem of the package SKU to find the price.
+          default: ''
+          example: 'MP-123:EDITION-123'
           readOnly: true
       required:
         - sku

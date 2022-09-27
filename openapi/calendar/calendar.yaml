@@ -1,804 +1,837 @@
-swagger: '2.0'
-x-stoplight:
-  id: v8llgafeahnth
-host: api.calendarhero.com
-basePath: /
-schemes:
-  - https
-securityDefinitions:
-  token:
-    type: apiKey
-    in: header
-    name: Authorization
-    description: 'API Token (found at https://app.calendarhero.com/settings/user#API)'
+openapi: 3.0.1
 info:
   title: CalendarHero API
-  version: '1.0'
+  termsOfService: 'https://calendarhero.com/terms-of-use'
   contact:
     name: CalendarHero
-    email: hello@calendarhero.com
     url: 'https://faq.calendarhero.com'
-  termsOfService: 'https://calendarhero.com/terms-of-use'
-consumes:
-  - application/json
-produces:
-  - application/json
-tags: []
+    email: hello@calendarhero.com
+  version: '1.0'
+servers:
+  - url: 'https://prod.apigateway.co/products/calendar'
+    description: Production
+  - url: 'https://demo.apigateway.co/products/calendar'
+    description: Demo
+  - url: '{local}/products/calendar'
+    description: Local
+  - url: 'http://localhost:11001/products/calendar'
+    description: Localhost
+tags: [ ]
 paths:
   /contact:
     get:
+      tags:
+        - contact
       summary: searches for contacts that match search/filter criteria
       operationId: getContact
       parameters:
-        - type: string
+        - name: search
+          in: query
           description: 'searches for contacts with a specific email (name@domain.com), domain (@domain.com) or name (first last)'
-          name: search
-          in: query
-        - type: string
-          description: searches for a specific set of contacts. can not be used with search
-          enum:
-            - popular
-            - recent
-            - a
-            - b
-            - c
-            - d
-            - e
-            - f
-            - g
-            - h
-            - i
-            - j
-            - k
-            - l
-            - m
-            - 'n'
-            - o
-            - p
-            - q
-            - r
-            - s
-            - t
-            - u
-            - v
-            - w
-            - x
-            - 'y'
-            - z
-          name: filter
-          in: query
-        - type: boolean
-          description: do not remove duplicate contacts
-          enum:
-            - '1'
-            - '0'
-          name: all
-          in: query
-          required: false
-        - type: boolean
-          description: include results for teams that match search parameter
-          enum:
-            - '1'
-            - '0'
-          name: includeTeams
-          in: query
-          required: false
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - contact
-      security:
-        - token: []
-      responses:
-        default:
           schema:
             type: string
+        - name: filter
+          in: query
+          description: searches for a specific set of contacts. can not be used with search
+          schema:
+            type: string
+            enum:
+              - popular
+              - recent
+              - a
+              - b
+              - c
+              - d
+              - e
+              - f
+              - g
+              - h
+              - i
+              - j
+              - k
+              - l
+              - m
+              - 'n'
+              - o
+              - p
+              - q
+              - r
+              - s
+              - t
+              - u
+              - v
+              - w
+              - x
+              - 'y'
+              - z
+        - name: all
+          in: query
+          description: do not remove duplicate contacts
+          schema:
+            type: boolean
+            enum:
+              - false
+              - false
+        - name: includeTeams
+          in: query
+          description: include results for teams that match search parameter
+          schema:
+            type: boolean
+            enum:
+              - false
+              - false
+      responses:
+        default:
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
     post:
+      tags:
+        - contact
       summary: creates a new contact
       operationId: postContact
-      parameters:
-        - in: body
-          name: body
-          schema:
-            $ref: '#/definitions/Model11'
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - contact
-      security:
-        - token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model11'
+        required: false
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  example-1:
+                    email:
+                      - fred@example.com
+                      - fredrick@example.com
+                    domains:
+                      - example.com
+                    telephone: [ ]
+                    gtalk: [ ]
+                    providerId: [ ]
+                    _id: 63332b59bed29d0013e836ab
+                    defaultEmail: fred@example.com
+                    name: Test 5611777c-2be8-48f4-851f-07e1907275f7
+                    userId: 63332470c4f7e6ffae21ff4e
+                    dateData: '2022-09-27T16:56:57.738Z'
+                    manuallyCreated: true
+                    lname: test 5611777c-2be8-48f4-851f-07e1907275f7
+                    firstName: test
+                    lastName: ''
+                    dateUpdated: '2022-09-27T16:56:57.781Z'
+                    dateAdded: '2022-09-27T16:56:57.781Z'
+                    organization: Fred's Fish
+                    title: Director
+                    id: 63332b59bed29d0013e836ab
+                properties:
+                  email:
+                    type: array
+                    items:
+                      type: string
+                  domains:
+                    type: array
+                    items:
+                      type: string
+                  telephone:
+                    type: array
+                    items:
+                      type: object
+                  gtalk:
+                    type: array
+                    items:
+                      type: object
+                  providerId:
+                    type: array
+                    items:
+                      type: object
+                  _id:
+                    type: string
+                  defaultEmail:
+                    type: string
+                  name:
+                    type: string
+                    description: |
+                      Full name
+                  userId:
+                    type: string
+                  dateData:
+                    type: string
+                  manuallyCreated:
+                    type: boolean
+                  lname:
+                    type: string
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  dateUpdated:
+                    type: string
+                  dateAdded:
+                    type: string
+                  organization:
+                    type: string
+                  title:
+                    type: string
+                  id:
+                    type: string
+      security:
+        - OAuth2:
+            - calendar
+      x-codegen-request-body-name: body
   /meeting:
     get:
+      tags:
+        - meeting
       summary: return the user's meetings within a timeframe
       operationId: getMeeting
       parameters:
-        - type: string
+        - name: start
+          in: query
           description: start date/time
-          name: start
-          in: query
           required: true
-        - type: string
-          description: end date/time
-          name: end
-          in: query
-          required: true
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - meeting
-      security:
-        - token: []
-      responses:
-        default:
           schema:
             type: string
+        - name: end
+          in: query
+          description: end date/time
+          required: true
+          schema:
+            type: string
+      responses:
+        default:
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
   /provider:
     get:
-      operationId: getProvider
-      parameters:
-        - type: string
-          enum:
-            - calendar
-            - contacts
-            - messaging
-            - social
-            - email
-            - search
-            - files
-            - groups
-            - faq
-            - crm
-            - ticket
-            - rooms
-            - video
-            - ats
-            - payment
-          name: type
-          in: query
-          required: false
-        - type: boolean
-          name: org
-          in: query
-          required: false
-      consumes:
-        - application/json
-      produces:
-        - application/json
       tags:
         - provider
-      security:
-        - token: []
+      operationId: getProvider
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum:
+              - calendar
+              - contacts
+              - messaging
+              - social
+              - email
+              - search
+              - files
+              - groups
+              - faq
+              - crm
+              - ticket
+              - rooms
+              - video
+              - ats
+              - payment
+        - name: org
+          in: query
+          schema:
+            type: boolean
       responses:
         '200':
-          schema:
-            $ref: '#/definitions/Model2'
           description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model2'
+      security:
+        - OAuth2:
+            - calendar
   /search:
     get:
+      tags:
+        - search
       summary: searches all of the user's integrations for a query term
       operationId: getSearch
       parameters:
-        - type: string
+        - name: dateStart
+          in: query
           description: 'The requested timeframe''s start date/time (YYYY-MM-DDTHH:mm:ssZ)'
-          name: dateStart
-          in: query
-          required: false
-        - type: string
-          description: 'The requested timeframe''s ending date/time (YYYY-MM-DDTHH:mm:ssZ)'
-          name: dateEnd
-          in: query
-          required: false
-        - type: string
-          description: The query term to search for
-          name: query
-          in: query
-          required: true
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - search
-      security:
-        - token: []
-      responses:
-        default:
           schema:
             type: string
+        - name: dateEnd
+          in: query
+          description: 'The requested timeframe''s ending date/time (YYYY-MM-DDTHH:mm:ssZ)'
+          schema:
+            type: string
+        - name: query
+          in: query
+          description: The query term to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        default:
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
   /user:
     get:
+      tags:
+        - user
       summary: returns the user object
       operationId: getUser
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - user
-      security:
-        - token: []
       responses:
         '200':
-          schema:
-            $ref: '#/definitions/Model3'
           description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model3'
+      security:
+        - OAuth2:
+            - calendar
     put:
+      tags:
+        - user
       summary: updates the user's object
       operationId: putUser
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - user
-      security:
-        - token: []
       responses:
         '200':
-          schema:
-            $ref: '#/definitions/Model3'
           description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model3'
+      security:
+        - OAuth2:
+            - calendar
   /contact/count:
     get:
-      summary: returns the number of contacts
-      operationId: getContactCount
-      consumes:
-        - application/json
-      produces:
-        - application/json
       tags:
         - contact
-      security:
-        - token: []
+      summary: returns the number of contacts
+      operationId: getContactCount
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
   '/contact/{id}':
+    parameters:
+      - name: id
+        in: path
+        description: contact's ID
+        required: true
+        schema:
+          pattern: '^[0-9a-fA-F]{24}$'
+          type: string
     get:
+      tags:
+        - contact
       summary: returns a contact
       operationId: getContactId
       parameters:
-        - type: string
-          description: contact's ID
-          pattern: '^[0-9a-fA-F]{24}$'
-          name: id
-          in: path
-          required: true
-        - type: boolean
-          description: 'just return the contact''s information stored in CalendarHero.  when false, contact insights will also be returned.'
-          name: basic
+        - name: basic
           in: query
-          required: false
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - contact
-      security:
-        - token: []
+          description: 'just return the contact''s information stored in CalendarHero.  when false, contact insights will also be returned.'
+          schema:
+            type: boolean
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
     put:
+      tags:
+        - contact
       summary: updates a contact
       operationId: putContactId
-      parameters:
-        - type: string
-          description: The contact's ID as returned from GET /contact
-          pattern: '^[0-9a-fA-F]{24}$'
-          name: id
-          in: query
-        - in: body
-          name: body
-          schema:
-            $ref: '#/definitions/Model4'
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - contact
-      security:
-        - token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model4'
+        required: false
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
+      x-codegen-request-body-name: body
     delete:
+      tags:
+        - contact
       summary: deletes a contact
       operationId: deleteContactId
-      parameters:
-        - type: string
-          description: contact's ID
-          pattern: '^[0-9a-fA-F]{24}$'
-          name: id
-          in: path
-          required: true
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - contact
-      security:
-        - token: []
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
   /meeting/categories:
     get:
+      tags:
+        - meeting
       summary: retrieves the user's meeting categories' stats
       operationId: getMeetingCategories
       parameters:
-        - type: string
-          description: YYYY-MM
-          name: month
+        - name: month
           in: query
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - meeting
-      security:
-        - token: []
-      responses:
-        default:
+          description: YYYY-MM
           schema:
             type: string
+      responses:
+        default:
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
   /meeting/tasks:
     get:
+      tags:
+        - meeting
       summary: returns the user's requests/tasks
       operationId: getMeetingTasks
       parameters:
-        - type: string
-          enum:
-            - active
-            - upcoming
-            - closed
-          name: state
+        - name: state
           in: query
-        - type: boolean
-          name: tally
-          in: query
-          required: false
-        - type: number
-          name: skip
-          in: query
-          required: false
-        - type: number
-          name: take
-          in: query
-          required: false
-        - type: string
-          name: type
-          in: query
-          required: false
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - meeting
-      security:
-        - token: []
-      responses:
-        default:
           schema:
             type: string
+            enum:
+              - active
+              - upcoming
+              - closed
+        - name: tally
+          in: query
+          schema:
+            type: boolean
+        - name: skip
+          in: query
+          schema:
+            type: number
+        - name: take
+          in: query
+          schema:
+            type: number
+        - name: type
+          in: query
+          schema:
+            type: string
+      responses:
+        default:
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
     post:
+      tags:
+        - meeting
       summary: create a meeting request
       operationId: postMeetingTasks
-      parameters:
-        - in: body
-          name: body
-          schema:
-            $ref: '#/definitions/Model14'
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - meeting
-      security:
-        - token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model14'
+        required: false
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
+      x-codegen-request-body-name: body
   /msg/web:
     get:
+      tags:
+        - msg
       summary: returns a reply message for the user
       operationId: getMsgWeb
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - msg
-      security:
-        - token: []
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
     post:
+      tags:
+        - msg
       summary: send a user's message into the assistant
       operationId: postMsgWeb
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - msg
-      security:
-        - token: []
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
   '/search/{id}':
+    parameters:
+      - name: id
+        in: path
+        description: the ID the of the search result returned from /search
+        required: true
+        schema:
+          type: string
     get:
-      summary: Gets the search result
-      operationId: getSearchId
-      parameters:
-        - type: string
-          description: the ID the of the search result returned from /search
-          name: id
-          in: path
-          required: true
-      consumes:
-        - application/json
-      produces:
-        - application/json
       tags:
         - search
-      security:
-        - token: []
+      summary: Gets the search result
+      operationId: getSearchId
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
   /user/calendly:
     get:
+      tags:
+        - user
       summary: imports user's Calendly event types
       operationId: getUserCalendly
       parameters:
-        - type: string
-          description: Calendly's API token
-          name: token
+        - name: token
           in: query
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - user
-      security:
-        - token: []
-      responses:
-        default:
+          description: Calendly's API token
           schema:
             type: string
+      responses:
+        default:
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
   /user/directories:
     get:
+      tags:
+        - user
       summary: get user's directories
       operationId: getUserDirectories
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - user
-      security:
-        - token: []
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
     post:
+      tags:
+        - user
       summary: add a new directory
       operationId: postUserDirectories
-      parameters:
-        - in: body
-          name: body
-          schema:
-            $ref: '#/definitions/Model18'
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - user
-      security:
-        - token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model18'
+        required: false
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
+      x-codegen-request-body-name: body
   /user/meeting:
     get:
+      tags:
+        - user
       summary: get user's meeting types
       operationId: getUserMeeting
       parameters:
-        - type: boolean
-          name: onlyTypes
+        - name: onlyTypes
           in: query
-          required: false
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - user
-      security:
-        - token: []
+          schema:
+            type: boolean
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
     put:
+      tags:
+        - user
       summary: updates the user's meeting type
       operationId: putUserMeeting
-      parameters:
-        - in: body
-          name: body
-          schema:
-            $ref: '#/definitions/Model6'
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - user
-      security:
-        - token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model6'
+        required: false
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
+      x-codegen-request-body-name: body
   /user/org:
     get:
+      tags:
+        - user
       summary: returns the user's organization
       operationId: getUserOrg
       parameters:
-        - type: boolean
-          default: false
-          name: returnBillingUserInfo
+        - name: returnBillingUserInfo
           in: query
-          required: false
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - user
-      security:
-        - token: []
+          schema:
+            type: boolean
+            default: false
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
   /user/savings:
     get:
+      tags:
+        - user
       summary: returns the user's savings information
       operationId: getUserSavings
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - user
-      security:
-        - token: []
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
   '/webhook/{event}':
+    parameters:
+      - name: event
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+            - meeting_request_success
+            - new_meeting_request
+            - meeting_request_expired
+            - meeting_request_cancelled
+            - meeting_rescheduled
+            - new_contact_added
+            - meeting_completed
+            - meeting_started
     get:
+      tags:
+        - webhook
       operationId: getWebhookEvent
-      parameters:
-        - type: string
-          enum:
-            - meeting_request_success
-            - new_meeting_request
-            - meeting_request_expired
-            - meeting_request_cancelled
-            - meeting_rescheduled
-            - new_contact_added
-            - meeting_completed
-            - meeting_started
-          name: event
-          in: path
-          required: true
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - webhook
-      security:
-        - token: []
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
     post:
+      tags:
+        - webhook
       operationId: postWebhookEvent
-      parameters:
-        - type: string
-          enum:
-            - meeting_request_success
-            - new_meeting_request
-            - meeting_request_expired
-            - meeting_request_cancelled
-            - meeting_rescheduled
-            - new_contact_added
-            - meeting_completed
-            - meeting_started
-          name: event
-          in: path
-          required: true
-        - in: body
-          name: body
-          schema:
-            $ref: '#/definitions/Model19'
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - webhook
-      security:
-        - token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model19'
+        required: false
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
+      x-codegen-request-body-name: body
     delete:
-      operationId: deleteWebhookEvent
-      parameters:
-        - type: string
-          enum:
-            - meeting_request_success
-            - new_meeting_request
-            - meeting_request_expired
-            - meeting_request_cancelled
-            - meeting_rescheduled
-            - new_contact_added
-            - meeting_completed
-            - meeting_started
-          name: event
-          in: path
-          required: true
-        - in: body
-          name: body
-          schema:
-            $ref: '#/definitions/Model19'
-      consumes:
-        - application/json
-      produces:
-        - application/json
       tags:
         - webhook
-      security:
-        - token: []
+      operationId: deleteWebhookEvent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model19'
+        required: false
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
+      x-codegen-request-body-name: body
   '/user/directories/{uuid}':
     get:
+      tags:
+        - user
       summary: get user's directory by directory id
       operationId: getUserDirectoriesUuid
-      parameters:
-        - type: string
-          name: uuid
-          in: path
-          required: true
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - user
-      security:
-        - token: []
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
     put:
+      tags:
+        - user
       summary: update the user's directory
       operationId: putUserDirectoriesUuid
-      parameters:
-        - type: string
-          name: uuid
-          in: path
-          required: true
-        - in: body
-          name: body
-          schema:
-            $ref: '#/definitions/Model10'
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - user
-      security:
-        - token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model10'
+        required: false
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
+      x-codegen-request-body-name: body
     delete:
+      tags:
+        - user
       summary: delete a directory
       operationId: deleteUserDirectoriesUuid
-      parameters:
-        - type: string
-          name: uuid
-          in: path
-          required: true
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - user
-      security:
-        - token: []
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
+    parameters:
+      - schema:
+          type: string
+        name: uuid
+        in: path
+        required: true
   '/webhook/{event}/sample':
     get:
+      tags:
+        - webhook
       operationId: getWebhookEventSample
-      parameters:
-        - type: string
+      responses:
+        default:
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
+    parameters:
+      - schema:
+          type: string
           enum:
             - meeting_request_success
             - new_meeting_request
@@ -808,681 +841,672 @@ paths:
             - new_contact_added
             - meeting_completed
             - meeting_started
-          name: event
-          in: path
-          required: true
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - webhook
-      security:
-        - token: []
-      responses:
-        default:
-          schema:
-            type: string
-          description: Successful
+        name: event
+        in: path
+        required: true
   '/meeting/tasks/{id}/remind':
     put:
+      tags:
+        - meeting
       summary: remind the contact(s) about the meeting
       operationId: putMeetingTasksIdRemind
-      parameters:
-        - type: string
-          description: task's ID
-          name: id
-          in: path
-          required: true
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - meeting
-      security:
-        - token: []
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
+    parameters:
+      - name: id
+        in: path
+        description: task's ID
+        required: true
+        schema:
+          type: string
   '/user/meeting/{name}':
     post:
+      tags:
+        - user
       summary: add a new meeting type
       operationId: postUserMeetingName
-      parameters:
-        - type: string
-          name: name
-          in: path
-          required: true
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - user
-      security:
-        - token: []
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2: [ ]
     delete:
+      tags:
+        - user
       summary: delete a meeting type
       operationId: deleteUserMeetingName
-      parameters:
-        - type: string
-          name: name
-          in: path
-          required: true
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags:
-        - user
-      security:
-        - token: []
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
+    parameters:
+      - schema:
+          type: string
+        name: name
+        in: path
+        required: true
   '/user/meeting/{name}/share':
     post:
-      summary: share a meeting type
-      operationId: postUserMeetingNameShare
-      parameters:
-        - type: string
-          name: name
-          in: path
-          required: true
-        - x-alternatives:
-            - $ref: '#/x-alt-definitions/Model1'
-            - $ref: '#/x-alt-definitions/Model2'
-          in: body
-          name: body
-          schema:
-            $ref: '#/definitions/Model20'
-      consumes:
-        - application/json
-      produces:
-        - application/json
       tags:
         - user
-      security:
-        - token: []
+      summary: share a meeting type
+      operationId: postUserMeetingNameShare
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Model20'
+        required: false
       responses:
         default:
-          schema:
-            type: string
           description: Successful
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
+      x-codegen-request-body-name: body
+    parameters:
+      - schema:
+          type: string
+        name: name
+        in: path
+        required: true
   '/meeting/tasks/{id}':
     delete:
-      summary: deletes a task/request
-      operationId: deleteMeetingTasksId
-      parameters:
-        - type: string
-          description: task's ID
-          pattern: '^[0-9a-fA-F]{24}$'
-          name: id
-          in: path
-          required: true
-      consumes:
-        - application/json
-      produces:
-        - application/json
       tags:
         - meeting
-      security:
-        - token: []
+      summary: deletes a task/request
+      operationId: deleteMeetingTasksId
       responses:
         default:
-          schema:
-            type: string
           description: Successful
-definitions:
-  categoryType:
-    type: array
-    items:
-      type: string
-  auth:
-    type: object
-  Model1:
-    type: object
-    properties:
-      userId:
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - OAuth2:
+            - calendar
+    parameters:
+      - name: id
+        in: path
+        description: task's ID
+        required: true
+        schema:
+          pattern: '^[0-9a-fA-F]{24}$'
+          type: string
+components:
+  schemas:
+    categoryType:
+      type: array
+      items:
         type: string
+    auth:
+      type: object
+    Model1:
+      required:
+        - categoryType
+        - name
+        - providerType
+      type: object
+      properties:
+        userId:
+          pattern: '^[0-9a-fA-F]{24}$'
+          type: string
+        orgId:
+          pattern: '^[0-9a-fA-F]{24}$'
+          type: string
+        categoryType:
+          $ref: '#/components/schemas/categoryType'
+        providerType:
+          type: string
+        name:
+          type: string
+        dateLastImport:
+          type: string
+          format: date
+        auth:
+          $ref: '#/components/schemas/auth'
+        calendar:
+          $ref: '#/components/schemas/auth'
+        contacts:
+          $ref: '#/components/schemas/auth'
+        faq:
+          $ref: '#/components/schemas/auth'
+        group:
+          $ref: '#/components/schemas/auth'
+        mail:
+          $ref: '#/components/schemas/auth'
+        rooms:
+          $ref: '#/components/schemas/auth'
+        xref:
+          type: string
+        dateUpdated:
+          type: string
+          format: date
+        dateAdded:
+          type: string
+          format: date
+        e_auth:
+          type: string
+    Model2:
+      type: array
+      items:
+        $ref: '#/components/schemas/Model1'
+    location:
+      type: object
+      properties:
+        work:
+          $ref: '#/components/schemas/auth'
+    stats:
+      type: object
+      properties:
+        current:
+          $ref: '#/components/schemas/auth'
+        historical:
+          $ref: '#/components/schemas/categoryType'
+    named:
+      type: object
+      properties:
+        lunch:
+          type: boolean
+        coffee:
+          type: boolean
+        breakfast:
+          type: boolean
+        dinner:
+          type: boolean
+        drinks:
+          type: boolean
+        call:
+          type: boolean
+    managed:
+      type: object
+      properties:
+        named:
+          $ref: '#/components/schemas/named'
+        timezone:
+          type: boolean
+        meeting_length:
+          type: boolean
+        days:
+          type: boolean
+        workday:
+          type: boolean
+        hourly_offsets:
+          type: boolean
+        cc_meeting:
+          type: boolean
+    meeting:
+      type: object
+      properties:
+        emailHour:
+          type: number
+        defaultMeetingMinutes:
+          type: number
+        startOffsets:
+          $ref: '#/components/schemas/auth'
+        days:
+          $ref: '#/components/schemas/auth'
+        defaultTimes:
+          $ref: '#/components/schemas/auth'
+        workDay:
+          $ref: '#/components/schemas/auth'
+        dailyFreeRatio:
+          type: number
+        notifyForOverlap:
+          type: boolean
+        disableTravelTime:
+          type: boolean
+        ondemand:
+          $ref: '#/components/schemas/auth'
+        noticePeriod:
+          $ref: '#/components/schemas/auth'
+        meetingCalendarDisplay:
+          $ref: '#/components/schemas/auth'
+    showcontact:
+      type: object
+      properties:
+        twitter_posts:
+          type: number
+        photos:
+          type: boolean
+        websites:
+          type: boolean
+        organizations:
+          type: boolean
+        socialProfiles:
+          type: boolean
+        location:
+          type: boolean
+        email:
+          type: boolean
+        crunchbase:
+          type: boolean
+    weather:
+      type: object
+      properties:
+        unit:
+          type: string
+    Model3:
+      required:
+        - name
+      type: object
+      properties:
+        vendastaLegacyUserId:
+          type: string
+        vendastaUserId:
+          type: string
+        vendastaTopNavUrl:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          x-format:
+            email: true
+        dateLastLogin:
+          type: string
+          format: date
+        timezone:
+          type: string
+        country:
+          type: string
+        currency:
+          type: string
+        language:
+          type: string
+        hideAutomatedAssistant:
+          type: boolean
+        email_footer:
+          type: string
+        location:
+          $ref: '#/components/schemas/location'
+        avatar:
+          type: string
+        telephones:
+          $ref: '#/components/schemas/categoryType'
+        preferredNotificationType:
+          type: string
+        preferredNotificationIndex:
+          type: number
+        logoUrl:
+          type: string
+        branding:
+          $ref: '#/components/schemas/auth'
+        templates:
+          $ref: '#/components/schemas/auth'
+        plan:
+          type: string
+        datePlanChanged:
+          type: string
+          format: date
+        tags:
+          $ref: '#/components/schemas/categoryType'
+        stats:
+          $ref: '#/components/schemas/stats'
+        restrictedApps:
+          $ref: '#/components/schemas/categoryType'
+        managed:
+          $ref: '#/components/schemas/managed'
+        messaging:
+          $ref: '#/components/schemas/categoryType'
+        directories:
+          $ref: '#/components/schemas/auth'
+        meeting:
+          $ref: '#/components/schemas/meeting'
+        showcontact:
+          $ref: '#/components/schemas/showcontact'
+        weather:
+          $ref: '#/components/schemas/weather'
+        inactiveUntilDate:
+          type: string
+          format: date
+        orgId:
+          pattern: '^[0-9a-fA-F]{24}$'
+          type: string
+        associatedOrgId:
+          pattern: '^[0-9a-fA-F]{24}$'
+          type: string
+        extraEmails:
+          $ref: '#/components/schemas/categoryType'
+        inCodeTrial:
+          type: boolean
+        versions.nlp:
+          type: string
+        versions.beta:
+          type: boolean
+        versions.trial.expiry:
+          type: string
+          format: date
+        versions.trial.trialPeriodDuration:
+          type: number
+        versions.plan.isDowngrading:
+          type: boolean
+        versions.plan.billingCycleDate:
+          type: string
+          format: date
+        versions.appSumo:
+          type: string
+        crm.logActivityAfterMeeting:
+          type: string
+        crm.defaultProviderId:
+          pattern: '^[0-9a-fA-F]{24}$'
+          type: string
+        rooms.favourite:
+          $ref: '#/components/schemas/categoryType'
+        rooms.buildings:
+          $ref: '#/components/schemas/categoryType'
+        ticket.defaultProviderId:
+          pattern: '^[0-9a-fA-F]{24}$'
+          type: string
+        hideNegativeWhoIs:
+          type: boolean
+        collaborators:
+          $ref: '#/components/schemas/categoryType'
+        dateUpdated:
+          type: string
+          format: date
+        dateAdded:
+          type: string
+          format: date
+        password:
+          type: string
+        address:
+          type: string
+    email:
+      minItems: 1
+      type: array
+      description: Contact Emails
+      items:
+        type: string
+    telephone:
+      type: array
+      description: Contact Phone Numbers
+      items:
+        type: string
+    providerId:
+      type: array
+      items:
         pattern: '^[0-9a-fA-F]{24}$'
-      orgId:
         type: string
-        pattern: '^[0-9a-fA-F]{24}$'
-      categoryType:
-        $ref: '#/definitions/categoryType'
-      providerType:
-        type: string
-      name:
-        type: string
-      dateLastImport:
-        type: string
-        format: date
-      auth:
-        $ref: '#/definitions/auth'
-      calendar:
-        $ref: '#/definitions/auth'
-      contacts:
-        $ref: '#/definitions/auth'
-      faq:
-        $ref: '#/definitions/auth'
-      group:
-        $ref: '#/definitions/auth'
-      mail:
-        $ref: '#/definitions/auth'
-      rooms:
-        $ref: '#/definitions/auth'
-      xref:
-        type: string
-      dateUpdated:
-        type: string
-        format: date
-      dateAdded:
-        type: string
-        format: date
-      e_auth:
-        type: string
-    required:
-      - categoryType
-      - providerType
-      - name
-  Model2:
-    type: array
-    items:
-      $ref: '#/definitions/Model1'
-  location:
-    type: object
-    properties:
-      work:
-        $ref: '#/definitions/auth'
-  stats:
-    type: object
-    properties:
-      current:
-        $ref: '#/definitions/auth'
-      historical:
-        $ref: '#/definitions/categoryType'
-  named:
-    type: object
-    properties:
-      lunch:
-        type: boolean
-      coffee:
-        type: boolean
-      breakfast:
-        type: boolean
-      dinner:
-        type: boolean
-      drinks:
-        type: boolean
-      call:
-        type: boolean
-  managed:
-    type: object
-    properties:
-      named:
-        $ref: '#/definitions/named'
-      timezone:
-        type: boolean
-      meeting_length:
-        type: boolean
-      days:
-        type: boolean
-      workday:
-        type: boolean
-      hourly_offsets:
-        type: boolean
-      cc_meeting:
-        type: boolean
-  meeting:
-    type: object
-    properties:
-      emailHour:
-        type: number
-      defaultMeetingMinutes:
-        type: number
-      startOffsets:
-        $ref: '#/definitions/auth'
-      days:
-        $ref: '#/definitions/auth'
-      defaultTimes:
-        $ref: '#/definitions/auth'
-      workDay:
-        $ref: '#/definitions/auth'
-      dailyFreeRatio:
-        type: number
-      notifyForOverlap:
-        type: boolean
-      disableTravelTime:
-        type: boolean
-      ondemand:
-        $ref: '#/definitions/auth'
-      noticePeriod:
-        $ref: '#/definitions/auth'
-      meetingCalendarDisplay:
-        $ref: '#/definitions/auth'
-  showcontact:
-    type: object
-    properties:
-      twitter_posts:
-        type: number
-      photos:
-        type: boolean
-      websites:
-        type: boolean
-      organizations:
-        type: boolean
-      socialProfiles:
-        type: boolean
-      location:
-        type: boolean
-      email:
-        type: boolean
-      crunchbase:
-        type: boolean
-  weather:
-    type: object
-    properties:
-      unit:
-        type: string
-  Model3:
-    type: object
-    properties:
-      vendastaLegacyUserId:
-        type: string
-      vendastaUserId:
-        type: string
-      vendastaTopNavUrl:
-        type: string
-      name:
-        type: string
-      email:
-        type: string
-        x-format:
-          email: true
-      dateLastLogin:
-        type: string
-        format: date
-      timezone:
-        type: string
-      country:
-        type: string
-      currency:
-        type: string
-      language:
-        type: string
-      hideAutomatedAssistant:
-        type: boolean
-      email_footer:
-        type: string
-      location:
-        $ref: '#/definitions/location'
-      avatar:
-        type: string
-      telephones:
-        $ref: '#/definitions/categoryType'
-      preferredNotificationType:
-        type: string
-      preferredNotificationIndex:
-        type: number
-      logoUrl:
-        type: string
-      branding:
-        $ref: '#/definitions/auth'
-      templates:
-        $ref: '#/definitions/auth'
-      plan:
-        type: string
-      datePlanChanged:
-        type: string
-        format: date
-      tags:
-        $ref: '#/definitions/categoryType'
-      stats:
-        $ref: '#/definitions/stats'
-      restrictedApps:
-        $ref: '#/definitions/categoryType'
-      managed:
-        $ref: '#/definitions/managed'
-      messaging:
-        $ref: '#/definitions/categoryType'
-      directories:
-        $ref: '#/definitions/auth'
-      meeting:
-        $ref: '#/definitions/meeting'
-      showcontact:
-        $ref: '#/definitions/showcontact'
-      weather:
-        $ref: '#/definitions/weather'
-      inactiveUntilDate:
-        type: string
-        format: date
-      orgId:
-        type: string
-        pattern: '^[0-9a-fA-F]{24}$'
-      associatedOrgId:
-        type: string
-        pattern: '^[0-9a-fA-F]{24}$'
-      extraEmails:
-        $ref: '#/definitions/categoryType'
-      inCodeTrial:
-        type: boolean
-      versions.nlp:
-        type: string
-      versions.beta:
-        type: boolean
-      versions.trial.expiry:
-        type: string
-        format: date
-      versions.trial.trialPeriodDuration:
-        type: number
-      versions.plan.isDowngrading:
-        type: boolean
-      versions.plan.billingCycleDate:
-        type: string
-        format: date
-      versions.appSumo:
-        type: string
-      crm.logActivityAfterMeeting:
-        type: string
-      crm.defaultProviderId:
-        type: string
-        pattern: '^[0-9a-fA-F]{24}$'
-      rooms.favourite:
-        $ref: '#/definitions/categoryType'
-      rooms.buildings:
-        $ref: '#/definitions/categoryType'
-      ticket.defaultProviderId:
-        type: string
-        pattern: '^[0-9a-fA-F]{24}$'
-      hideNegativeWhoIs:
-        type: boolean
-      collaborators:
-        $ref: '#/definitions/categoryType'
-      dateUpdated:
-        type: string
-        format: date
-      dateAdded:
-        type: string
-        format: date
-      password:
-        type: string
-      address:
-        type: string
-    required:
-      - name
-  email:
-    type: array
-    description: Contact Emails
-    minItems: 1
-    items:
-      type: string
-  telephone:
-    type: array
-    description: Contact Phone Numbers
-    items:
-      type: string
-  providerId:
-    type: array
-    items:
-      type: string
-      pattern: '^[0-9a-fA-F]{24}$'
-  Model4:
-    type: object
-    properties:
-      name:
-        type: string
-        description: 'Contact Name: "First Last"'
-      title:
-        type: string
-        description: Contact Title
-      organization:
-        type: string
-        description: Contact Company/Organization
-      email:
-        $ref: '#/definitions/email'
-      defaultEmail:
-        type: string
-        description: Contact Default Email
-      telephone:
-        $ref: '#/definitions/telephone'
-      userId:
-        type: string
-        pattern: '^[0-9a-fA-F]{24}$'
-      providerId:
-        $ref: '#/definitions/providerId'
-    required:
-      - email
-  Model5:
-    type: object
-    properties:
-      name:
-        type: string
-      meetingType:
-        $ref: '#/definitions/auth'
-  meetingTypes:
-    type: array
-    items:
-      $ref: '#/definitions/Model5'
-  Model6:
-    type: object
-    properties:
-      meetingTypes:
-        $ref: '#/definitions/meetingTypes'
-    required:
-      - meetingTypes
-  Model7:
-    type: object
-    properties:
-      name:
-        type: string
-      userId:
-        type: string
-  Model8:
-    type: array
-    items:
-      $ref: '#/definitions/Model7'
-  Model9:
-    type: object
-    properties:
-      type:
-        type: string
-      id:
-        type: string
-  googleTrackingIds:
-    type: array
-    items:
-      $ref: '#/definitions/Model9'
-  directory:
-    type: object
-    properties:
-      directoryId:
-        type: string
-      directoryName:
-        type: string
-      title:
-        type: string
-      code:
-        type: string
-      meetingTypes:
-        $ref: '#/definitions/Model8'
-      isDefault:
-        type: boolean
-      instructions:
-        type: string
-      locked:
-        type: boolean
-      googleTrackingIds:
-        $ref: '#/definitions/googleTrackingIds'
-    required:
-      - directoryId
-      - directoryName
-      - meetingTypes
-  Model10:
-    type: object
-    properties:
-      directory:
-        $ref: '#/definitions/directory'
-    required:
-      - directory
-  Model11:
-    type: object
-    properties:
-      name:
-        type: string
-        description: 'Contact Name: "First Last"'
-      title:
-        type: string
-        description: Contact Title
-      organization:
-        type: string
-        description: Contact Company/Organization
-      email:
-        $ref: '#/definitions/email'
-      defaultEmail:
-        type: string
-        description: Contact Default Email
-      telephone:
-        $ref: '#/definitions/telephone'
-    required:
-      - email
-  Model12:
-    type: object
-    properties:
-      name:
-        type: string
-  locations:
-    type: array
-    items:
-      $ref: '#/definitions/Model12'
-  Model13:
-    type: object
-    properties:
-      id:
-        type: string
-        description: The contact's ID as returned from GET /contact
-        pattern: '^[0-9a-fA-F]{24}$'
-    required:
-      - id
-  contacts:
-    type: array
-    items:
-      $ref: '#/definitions/Model13'
-  room:
-    type: object
-    properties:
-      capacity:
-        type: number
-        description: 'The number of seats required for a meeting room.  If zero, then no meeting room will be booked.'
-  Model14:
-    type: object
-    properties:
-      locations:
-        $ref: '#/definitions/locations'
-      capacity:
-        type: number
-        description: 'The number of seats required for a meeting room.  If zero, then no meeting room will be booked.'
-      contacts:
-        $ref: '#/definitions/contacts'
-      contactEmails:
-        $ref: '#/definitions/categoryType'
-      subject:
-        type: string
-        description: The meeting topic/subject
-      type:
-        type: string
-        description: The meeting type.  Must be one of the user's defined meeting types returned from GET /user/meeting
-      dateStart:
-        type: string
-        format: date
-        description: 'The requested timeframe''s start date/time (YYYY-MM-DDTHH:mm:ssZ). The date component (YYYY-MM-DD) represents the start of the availability range while the time component (HH:mm:ssZ) represents the start time for each day of the availability range.'
-        example: '2022-02-22T04:00:00Z'
-      dateEnd:
-        type: string
-        format: date
-        description: 'The requested timeframe''s ending date/time (YYYY-MM-DDTHH:mm:ssZ). The date component (YYYY-MM-DD) represents the end of the availability range while the time component (HH:mm:ssZ) represents the end time for each day of the availability range.'
-        example: '2022-04-22T12:00:00Z'
-      meetingLength:
-        type: number
-        description: 'The number of minutes of the requested meeting.  If omited, the meeting type''s meeting duration will be used.'
-        default: 60
-      location:
-        type: string
-      room:
-        $ref: '#/definitions/room'
-      roomCapacity:
-        type: number
-      description:
-        type: string
-        description: The agenda/description of the meeting
-    required:
-      - subject
-      - dateStart
-      - dateEnd
-  Model15:
-    type: object
-    properties:
-      name:
-        type: string
-      userId:
-        type: string
-        pattern: '^[0-9a-fA-F]{24}$'
-  Model16:
-    type: array
-    items:
-      $ref: '#/definitions/Model15'
-  Model17:
-    type: object
-    properties:
-      directoryName:
-        type: string
-      title:
-        type: string
-      code:
-        type: string
-      meetingTypes:
-        $ref: '#/definitions/Model16'
-      isDefault:
-        type: boolean
-      instructions:
-        type: string
-      locked:
-        type: boolean
-      googleTrackingIds:
-        $ref: '#/definitions/googleTrackingIds'
-    required:
-      - directoryName
-      - meetingTypes
-  Model18:
-    type: object
-    properties:
-      directory:
-        $ref: '#/definitions/Model17'
-    required:
-      - directory
-  Model19:
-    type: object
-    properties:
-      hookUrl:
-        type: string
-  Model20:
-    type: object
-    properties:
-      type:
-        type: string
-        enum:
-          - with-all-users
-          - with-all-and-new-users
+    Model4:
+      required:
+        - email
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'Contact Name: "First Last"'
+        title:
+          type: string
+          description: Contact Title
+        organization:
+          type: string
+          description: Contact Company/Organization
+        email:
+          $ref: '#/components/schemas/email'
+        defaultEmail:
+          type: string
+          description: Contact Default Email
+        telephone:
+          $ref: '#/components/schemas/telephone'
+        userId:
+          pattern: '^[0-9a-fA-F]{24}$'
+          type: string
+        providerId:
+          $ref: '#/components/schemas/providerId'
+    Model5:
+      type: object
+      properties:
+        name:
+          type: string
+        meetingType:
+          $ref: '#/components/schemas/auth'
+    meetingTypes:
+      type: array
+      items:
+        $ref: '#/components/schemas/Model5'
+    Model6:
+      required:
+        - meetingTypes
+      type: object
+      properties:
+        meetingTypes:
+          $ref: '#/components/schemas/meetingTypes'
+    Model7:
+      type: object
+      properties:
+        name:
+          type: string
+        userId:
+          type: string
+    Model8:
+      type: array
+      items:
+        $ref: '#/components/schemas/Model7'
+    Model9:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+    googleTrackingIds:
+      type: array
+      items:
+        $ref: '#/components/schemas/Model9'
+    directory:
+      required:
+        - directoryId
+        - directoryName
+        - meetingTypes
+      type: object
+      properties:
+        directoryId:
+          type: string
+        directoryName:
+          type: string
+        title:
+          type: string
+        code:
+          type: string
+        meetingTypes:
+          $ref: '#/components/schemas/Model8'
+        isDefault:
+          type: boolean
+        instructions:
+          type: string
+        locked:
+          type: boolean
+        googleTrackingIds:
+          $ref: '#/components/schemas/googleTrackingIds'
+    Model10:
+      required:
+        - directory
+      type: object
+      properties:
+        directory:
+          $ref: '#/components/schemas/directory'
+    Model11:
+      required:
+        - email
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'Contact Name: "First Last"'
+        title:
+          type: string
+          description: Contact Title
+        organization:
+          type: string
+          description: Contact Company/Organization
+        email:
+          $ref: '#/components/schemas/email'
+        defaultEmail:
+          type: string
+          description: Contact Default Email
+        telephone:
+          $ref: '#/components/schemas/telephone'
+    Model12:
+      type: object
+      properties:
+        name:
+          type: string
+    locations:
+      type: array
+      items:
+        $ref: '#/components/schemas/Model12'
+    Model13:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          pattern: '^[0-9a-fA-F]{24}$'
+          type: string
+          description: The contact's ID as returned from GET /contact
+    contacts:
+      type: array
+      items:
+        $ref: '#/components/schemas/Model13'
+    room:
+      type: object
+      properties:
+        capacity:
+          type: number
+          description: 'The number of seats required for a meeting room.  If zero, then no meeting room will be booked.'
+    Model14:
+      required:
+        - dateEnd
+        - dateStart
+        - subject
+      type: object
+      properties:
+        locations:
+          $ref: '#/components/schemas/locations'
+        capacity:
+          type: number
+          description: 'The number of seats required for a meeting room.  If zero, then no meeting room will be booked.'
+        contacts:
+          $ref: '#/components/schemas/contacts'
+        contactEmails:
+          $ref: '#/components/schemas/categoryType'
+        subject:
+          type: string
+          description: The meeting topic/subject
+        type:
+          type: string
+          description: The meeting type.  Must be one of the user's defined meeting types returned from GET /user/meeting
+        dateStart:
+          type: string
+          description: 'The requested timeframe''s start date/time (YYYY-MM-DDTHH:mm:ssZ). The date component (YYYY-MM-DD) represents the start of the availability range while the time component (HH:mm:ssZ) represents the start time for each day of the availability range.'
+          format: date
+        dateEnd:
+          type: string
+          description: 'The requested timeframe''s ending date/time (YYYY-MM-DDTHH:mm:ssZ). The date component (YYYY-MM-DD) represents the end of the availability range while the time component (HH:mm:ssZ) represents the end time for each day of the availability range.'
+          format: date
+        meetingLength:
+          type: number
+          description: 'The number of minutes of the requested meeting.  If omited, the meeting type''s meeting duration will be used.'
+        location:
+          type: string
+        room:
+          $ref: '#/components/schemas/room'
+        roomCapacity:
+          type: number
+        description:
+          type: string
+          description: The agenda/description of the meeting
+    Model15:
+      type: object
+      properties:
+        name:
+          type: string
+        userId:
+          pattern: '^[0-9a-fA-F]{24}$'
+          type: string
+    Model16:
+      type: array
+      items:
+        $ref: '#/components/schemas/Model15'
+    Model17:
+      required:
+        - directoryName
+        - meetingTypes
+      type: object
+      properties:
+        directoryName:
+          type: string
+        title:
+          type: string
+        code:
+          type: string
+        meetingTypes:
+          $ref: '#/components/schemas/Model16'
+        isDefault:
+          type: boolean
+        instructions:
+          type: string
+        locked:
+          type: boolean
+        googleTrackingIds:
+          $ref: '#/components/schemas/googleTrackingIds'
+    Model18:
+      required:
+        - directory
+      type: object
+      properties:
+        directory:
+          $ref: '#/components/schemas/Model17'
+    Model19:
+      type: object
+      properties:
+        hookUrl:
+          type: string
+    Model20:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - with-all-users
+            - with-all-and-new-users
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          refreshUrl: ''
+          scopes:
+            calendar: Access to the Calendar REST API
 x-alt-definitions:
   Model1:
     type: object

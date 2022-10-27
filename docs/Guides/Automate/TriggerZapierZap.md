@@ -53,3 +53,4 @@ Don't forget to turn on processing in Zapier by "publishing zap" and in Vendasta
 ## Celebrate your success
 
 Go get yourself a cookie to celebrate and tell us about your integration in the [Conquer Local Community](https://academy.conquerlocal.com/community/). 
+

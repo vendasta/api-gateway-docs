@@ -5186,6 +5186,32 @@ components:
                         - businessLocations
               required:
                 - data
+            salesPerson:
+              type: object
+              description: |-
+                [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+                The user who will be credited with the sale. Used to associate orders with salespersons in reports.
+
+                No value can be provided on create/update. Only orders generated in platform will have a value.
+              properties:
+                data:
+                  type: object
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                      example: U-1234567
+                    type:
+                      type: string
+                      enum:
+                        - users
+                      default: users
+              required:
+                - data
+              readOnly: true
     orderCustomFields:
       title: Order Custom Fields
       type: object

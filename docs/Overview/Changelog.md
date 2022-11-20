@@ -2,6 +2,17 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2022-11-19
+
+### Business Categories optional
+It is now optional to include business categories when creating a business location or sales account. They will be assigned a default category of "other".
+
+### Automatic Price Lookup
+When creating an order or proposal you may send just the SKU for the line items. The amount and intervalCode will be automatically set based on the retail prices that were configured for the account's market. Any amounts that you send (including 0) will be retained.
+
+### Salesperson on orders
+A new field has been added to the orders model allowing you to track the salesperson responsible for the order.
+
 
 ## 2022-08-17
 

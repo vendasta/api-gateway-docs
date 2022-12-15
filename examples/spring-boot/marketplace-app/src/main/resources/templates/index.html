@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/styles/index.css}" />
+</head>
+<body>
+    <div class="fullPageLoader"></div>
+    <section id="mainSection">
+        <article class="content">
+            <h1 class="title">HELLO THERE!</h1>
+            <p>
+                Sample code for building marketplace-app. <br> It will help partners to kickstart their own app using Vendasta platform.
+            </p>
+            <br>
+            <a class="heroBtn" th:href="@{'/business/list/' + ${session.accountId}}">API Demo Page</a>
+        </article>
+    </section>
+    <section id="animatedBackground" >
+        <ul class="circles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </section >
+
+    <footer class="footer">
+        <div class="footerTitle">Reference Links:</div>
+        <div>
+            <a class="footerLinks" target="_blank" href="https://github.com/vendasta/api-gateway-docs">Source Code</a>
+            <a class="footerLinks" target="_blank" href="https://developers.vendasta.com/vendor/d191b96068b71-sso-o-auth2-3-legged-flow">SSO OAuth2</a>
+            <a class="footerLinks" target="_blank" href="https://developers.vendasta.com/">Developer Docs</a>
+            <a class="footerLinks" target="_blank" href="https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg4-overview">2-Legged OAuth2</a>
+        </div>
+    </footer>
+    <!-- Navbar script -->
+    <div th:insert="layouts :: navbar-script">  </div>
+
+    <script>
+        // Removes loader element
+        window.onload = () => {
+            setTimeout(() => {
+                document.querySelector('.fullPageLoader')?.remove();
+            },2000);
+        }
+    </script>
+</body>
+</html>

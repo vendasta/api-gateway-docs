@@ -1,0 +1,22 @@
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          vendasta:
+            token-uri: 'https://sso-api-prod.apigateway.co/oauth2/token'
+            issuer-uri: 'https://iam-prod.apigateway.co'
+            authorization-uri: 'https://sso-api-prod.apigateway.co/oauth2/auth'
+            jwk-set-uri: 'https://iam-prod.apigateway.co/oauth2/v1/certs'
+            user-info-uri: 'https://sso-api-prod.apigateway.co/oauth2/user-info'
+        registration:
+          vendasta:
+          # To generate client-id and client-secret, follow these steps. https://developers.vendasta.com/vendor/d191b96068b71-sso-o-auth2-3-legged-flow#step-2-initial-configuration
+            client-id: < Your Client Id >
+            client-secret: < Your Client Secret >
+            scope: profile
+            redirect-uri: '< Domain Name >/callback'
+            client-name : Vendasta
+
+# For a demo environment, change this to 'demo'.
+environment: prod

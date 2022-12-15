@@ -4682,7 +4682,12 @@ components:
               description: 'A value assigned by the business partner to reference this business location. Customer ID is currently NOT enforced to be unique, and there may be negative side effects to having a duplicate and/or changing a customer ID, specifically around legacy SSO. Use caution when editing a customer ID.'
             name:
               type: string
-              description: The common name for this location
+              description: |-
+                The common name for this location.
+
+                Note: The pipe character (`|`) is not allowed. 
+              pattern: '^[^|]+$'
+              minLength: 1
             address:
               type: object
               properties:
@@ -4752,6 +4757,7 @@ components:
                 It is recommended that extentions are included at the end of the number after an appropriate seperator: Pause: `,` Wait: `;` Default: `ext.`
 
                 You may test the parsibility of a number using https://phonenumbers.temba.io/ All phone numbers are assumed to be in the same country as this business location.
+              maxItems: 6
               items:
                 type: string
             serviceAreaBusiness:
@@ -6018,8 +6024,8 @@ components:
           properties:
             tags:
               type: array
-              maxItems: 30
-              description: A tag is a label that can be used for grouping and filtering your list of accounts. They may be any string upto 30 characters in length.
+              maxItems: 15
+              description: A tag is a label that can be used for grouping and filtering your list of accounts. They may be any string upto 30 characters in length. There is a limit of 15 tags.
               items:
                 type: string
                 maxLength: 30
@@ -6029,8 +6035,13 @@ components:
               description: 'A value assigned by the business partner to reference this business location. Customer ID is currently NOT enforced to be unique, and there may be negative side effects to having a duplicate and/or changing a customer ID, specifically around legacy SSO. Use caution when editing a customer ID.'
             name:
               type: string
-              description: The common name for this location
+              description: |-
+                The common name for this location.
+
+                Note: The pipe character (`|`) is not allowed. 
               example: CN Tower
+              pattern: '^[^|]+$'
+              minLength: 1
             commonNames:
               type: array
               description: A common name for a business (Something it is often referred to as)
@@ -6086,6 +6097,7 @@ components:
                 It is recommended that extentions are included at the end of the number after an appropriate seperator: Pause: `,` Wait: `;` Default: `ext.`
 
                 You may test the parsibility of a number using https://phonenumbers.temba.io/ All phone numbers are assumed to be in the same country as this business location.
+              maxItems: 6
               items:
                 type: string
                 example: '+14168686937'
@@ -6156,6 +6168,7 @@ components:
               properties:
                 data:
                   type: array
+                  uniqueItems: true
                   items:
                     type: object
                     properties:
@@ -6245,8 +6258,6 @@ components:
           type: array
           description: During Get and List operations you may request the related resources be included by using the `include` query parameter. This can save you making an additional network request.
           items:
-            discriminator:
-              propertyName: type
             anyOf:
               - $ref: '#/components/schemas/salesAccountCustomFields'
               - $ref: '#/components/schemas/users'

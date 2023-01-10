@@ -1,13 +1,11 @@
 package com.example.vendasta.ShoeStore.utils;
 
-import java.time.Instant;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class CommonUtils {
-
+public class ParserUtils {
 
     public static String getAccountIdFromRequest(HttpServletRequest request) {
         String[] parts = request.getServletPath().split("/");
@@ -21,26 +19,12 @@ public class CommonUtils {
         return "";
     }
   
-    public static boolean isAccountIdFromRequest(String[] parts) {
-
-        for (String part : parts) {
-            Pattern pattern = Pattern.compile("AG-[a-zA-Z\\d]{10}");
-            Matcher matcher = pattern.matcher(part.trim());
-            if(matcher.find()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
     public static boolean isValidAccount(String part) {
-
-            Pattern pattern = Pattern.compile("AG-[a-zA-Z\\d]{10}");
-            Matcher matcher = pattern.matcher(part.trim());
-            if(matcher.find()) {
-                return true;
-            }
+        Pattern pattern = Pattern.compile("AG-[a-zA-Z\\d]{10}");
+        Matcher matcher = pattern.matcher(part.trim());
+        if(matcher.find()) {
+            return true;
+        }
         return false;
     }
 

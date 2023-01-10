@@ -27,6 +27,10 @@ public class CustomErrorController implements ErrorController  {
                     errorMessage = "⛔ \n401\nAuthorization Required";
                     break;
                 }
+                case 403: {
+                    errorMessage = "⛔ \n403\n User does not have permission to the account.";
+                    break;
+                }
                 case 404: {
                     errorMessage = " ⚠ \n404\n Look like you're lost.";
                     break;
@@ -48,7 +52,11 @@ public class CustomErrorController implements ErrorController  {
         if(httpRequest.getSession() != null && httpRequest.getSession().getAttribute("error_description") != null) {
             return 401;
         } else {
-            return (Integer) httpRequest.getAttribute("javax.servlet.error.status_code");
+            if(httpRequest.getAttribute("javax.servlet.error.status_code") != null) {
+                return (Integer) httpRequest.getAttribute("javax.servlet.error.status_code");
+            } else {
+                return 403;
+            }
         }
     }
 }

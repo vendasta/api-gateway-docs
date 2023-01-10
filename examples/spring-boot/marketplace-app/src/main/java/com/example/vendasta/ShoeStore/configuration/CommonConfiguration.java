@@ -10,6 +10,7 @@ import org.bouncycastle.openssl.PEMKeyPair;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +23,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.vendasta.ShoeStore.entity.AccessTokenWrapper;
 import com.example.vendasta.ShoeStore.entity.service.ServiceAccountJson;
-import com.example.vendasta.ShoeStore.utils.Constants;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,6 +55,9 @@ public class CommonConfiguration {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Value("${apigateway.service-account-json-path}")
+    protected String serviceAccountJsonPath;
+
 	@Bean
     RestTemplate restTemplate() {
 		RestTemplate restTemplate = new RestTemplateBuilder(rt-> rt.getInterceptors().add((request, body, execution) -> {
@@ -80,7 +83,7 @@ public class CommonConfiguration {
 	  }
 
 	ServiceAccountJson serviceAccountReader() throws StreamReadException, DatabindException, IOException{
-		Path pathToFile = Paths.get(Constants.SERVICE_ACCOUNT_JSON_PATH);
+		Path pathToFile = Paths.get(serviceAccountJsonPath);
 		BufferedReader inputStream = new BufferedReader(new FileReader(pathToFile.toAbsolutePath().toString()));
 		ServiceAccountJson data = objectMapper.readValue(inputStream,ServiceAccountJson.class);
 		return data;

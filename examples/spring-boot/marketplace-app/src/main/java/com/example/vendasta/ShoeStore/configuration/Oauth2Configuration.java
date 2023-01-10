@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.example.vendasta.ShoeStore.utils.CommonUtils;
+import com.example.vendasta.ShoeStore.utils.ParserUtils;
 import com.example.vendasta.ShoeStore.utils.Constants;
 
 import javax.servlet.ServletException;
@@ -102,14 +102,14 @@ class CustomRequestResolver implements OAuth2AuthorizationRequestResolver {
 
     private OAuth2AuthorizationRequest createCustomEntry(HttpServletRequest request){
         OAuth2AuthorizationRequest authorizationRequest = this.defaultRequestResolver.resolve(request,Constants.CLIENT_REGISTRATION_ID);
-        var accountId = CommonUtils.getAccountIdFromRequest(request);
+        var accountId = ParserUtils.getAccountIdFromRequest(request);
         if(!accountId.equals("") && request.getSession().getAttribute("baseUrl") == null) {
             authorizationRequest = OAuth2AuthorizationRequest.from(authorizationRequest).state(accountId).build();
             request.getSession().setAttribute("baseUrl", request.getRequestURI());
         } else {
             authorizationRequest = this.defaultRequestResolver.resolve(request);
         }
-        if(!Objects.isNull(authorizationRequest)){
+        if(!Objects.isNull(authorizationRequest) && accountId != ""){
             String customAuthUrl = UriComponentsBuilder
                     .fromUriString(authorizationRequest.getAuthorizationRequestUri())
                     .queryParam("account_id",accountId)

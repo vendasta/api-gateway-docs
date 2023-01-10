@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -21,7 +22,6 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.vendasta.ShoeStore.utils.Constants.PARTNERID;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 //@RunWith(SpringRunner.class)
@@ -36,6 +36,9 @@ public class ServiceAccountClassTest {
 
     @Autowired
     ServiceAccount serviceAccount;
+
+    @Value("${apigateway.partner-id}")
+    protected String partnerId;
 
     @BeforeEach
     public void setUp() {
@@ -64,7 +67,7 @@ public class ServiceAccountClassTest {
 
         businessLocations.setData(new ArrayList<>(List.of(businessLocationsData)));
 
-        final String uri = String.format("https://test.com", "1234", PARTNERID);
+        final String uri = String.format("https://test.com", "1234", partnerId);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity request = new HttpEntity(headers);
         ResponseEntity<BusinessLocations> myEntity = new ResponseEntity<BusinessLocations>(businessLocations, HttpStatus.OK);
@@ -74,7 +77,7 @@ public class ServiceAccountClassTest {
 
     @Test
     public void testExecuteGet() {
-        final String uri = String.format("https://test.com", "1234", PARTNERID);
+        final String uri = String.format("https://test.com", "1234", partnerId);
         BusinessLocations businessLocations = serviceAccount.fetchBusinessLocations(uri);
         assert(businessLocations.getData().get(0).getId().equals("123"));
     }

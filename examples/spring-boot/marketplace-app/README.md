@@ -43,7 +43,7 @@ Open your product page in the [vendor center](https://vendors.vendasta.com). If 
 
 ![](https://user-images.githubusercontent.com/109953973/207820555-d7d69699-7d5a-4aad-8796-60e96c96be48.png)
 
-* Update [constant variables](#constant-variables) in `utils/Constants.java` file with your own app ID.
+* Update [env variables](#environment-variables) in `utils/Constants.java` file with your own app ID.
 
 * And finally, you need a service account credentials to perform 2-legged OAuth api calls. You can get that file by following this [document](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg4-overview).
 
@@ -53,15 +53,17 @@ Open your product page in the [vendor center](https://vendors.vendasta.com). If 
   mvn spring-boot:run
 ```
 
-### Constant Variables
+### Environment Variables
 
-To run this project, you will need to change the following constant variable in your `utils/Constants.java` file.
+To run this project, you will need to change the following environment variables in your `src/main/resources/application.yml` file.
 
-`APPID (String)` - The App Id can be found on the product page of the Vendor Center.
+`environment` - Default is 'prod'. Change this to 'demo' for a demo environment, 
 
-`PARTNERID (String)` - Partner ID can be found in Partner Center.
+`app-id` - The App Id can be found on the product page of the Vendor Center.
 
-`SERVICE_ACCOUNT_JSON_PATH (String)` - The location of the JSON file.
+`partner-id` - Partner ID can be found in Partner Center.
+
+`service-account-json-path` - The location of the service-account-json file.
 
 
 
@@ -69,12 +71,11 @@ To run this project, you will need to change the following constant variable in 
 
 | Endpoint  | Includes  |
 | --------- | ---------- | 
-| `/entry/<accountId>` | Entry URL for the SSO. Used to identify and store accountId of the logged in user. |
-| `/<accountId>` | URL redirected automatically from entry URL after logged in. |
+| `/<accountId>` | Entry URL for the SSO. Used to identify and store accountId of the logged in user. |
 | `/business/list/<accountId>` | List of business details retrieved from vendasta via Platform API.On the app's home page, there is an **API Demo Page** button that can be used to activate this API.|
  
  > **Warning**
- > Don't change the logics in `/entry/<accountId>` and `/<accountId>` endpoints until you want to change the default redirection path.
+ > Don't change the logics in `/<accountId>` endpoint until you want to change the default redirection path.
 
   To add new endpoints, create dedicated methods to map the urls in `controller/WebController.java`.
 > [Vendasta NavBar](https://developers.vendasta.com/vendor/8c35dfd4efc89-session-transfer-introduction#navigation-bar) is added in every pages.

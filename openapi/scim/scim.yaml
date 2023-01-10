@@ -1,0 +1,532 @@
+openapi: 3.0.3
+info:
+  title: API Definition- SCIM 2.0
+  description: |-
+    Api definition for SCIM 2.0 standasrds using OpenAPI 3.0 specification.
+  version: 1.0.0
+servers:
+  - url: https://demo.apigateway.com/scim/v1
+tags:
+  - name: User
+    description: User resources
+
+  - name: Group
+    description: Group resource
+paths:
+  /{partnerid}/Users:
+    get:
+      tags:
+        - User
+      summary: Get User by criteria
+      parameters:
+        - name: filter
+          in: query
+          description: Get user based on the filter
+          example: userName Eq "john"
+          required: true
+          schema:
+            type: string
+        - name: partnerid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ListResponse'          
+        '404':
+          description: User not found
+    post:
+      tags:
+        - User
+      summary: Create User
+      requestBody:
+        description: Create a new user
+        content:
+          application/scim+json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/User'          
+        '405':
+          description: Invalid input
+  /Users/{id}:
+    get:
+      tags:
+        - User
+      summary: Get User by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/User'          
+        '404':
+          description: User not found
+    put:
+      tags:
+        - User
+      summary: Replace User
+      parameters:
+        - name: id
+          in: path
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Create a new user
+        content:
+          application/scim+json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/User'          
+        '405':
+          description: Invalid input
+
+    patch:
+        tags:
+          - User
+        summary: Update User
+        parameters:
+          - name: id
+            in: path
+            description: ID of the user
+            required: true
+            schema:
+              type: string
+        requestBody:
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/PatchOp'
+          required: true
+        responses:
+          '200':
+            description: OK
+            content:
+              application/scim+json:
+                schema:
+                  $ref: '#/components/schemas/User'          
+          '405':
+            description: Invalid input
+
+    delete:
+      tags:
+        - User
+      summary: Delete User
+      parameters:
+        - name: id
+          in: path
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content        
+        '405':
+          description: Invalid input
+  
+  /Groups:
+    post:
+      tags:
+          - Group
+      summary: Create a group
+      requestBody:
+        description: Create a new group
+        content:
+          application/scim+json:
+            schema:
+              $ref: '#/components/schemas/Group'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/Group'          
+        '405':
+          description: Invalid input
+  /Groups/{id}:
+    get:
+      tags:
+        - Group
+      summary: Get a group
+      parameters:
+        - name: id
+          in: path
+          description: ID of the group
+          required: true
+          schema:
+            type: string
+        - name: excludedAttributes
+          in: query
+          description: Exclude members using `excludedAttributes=members`
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/Group'          
+        '404':
+          description: User not found
+
+    patch:
+        tags:
+          - Group
+        summary: Update a group
+        parameters:
+          - name: id
+            in: path
+            description: ID of the group
+            required: true
+            schema:
+              type: string
+        requestBody:
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/PatchOp'
+          required: true
+        responses:
+          '200':
+            description: OK
+            content:
+              application/scim+json:
+                schema:
+                  $ref: '#/components/schemas/Group'          
+          '405':
+            description: Invalid input
+
+    delete:
+      tags:
+        - Group
+      summary: Delete Group
+      parameters:
+        - name: id
+          in: path
+          description: ID of the group
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content        
+        '405':
+          description: Invalid input
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          example: ["urn:ietf:params:scim:schemas:core:2.0:User"]
+        id:
+          type: string
+        externalId:
+          type: string
+        userName:
+          type: string
+          description: |-
+            A service provider's unique identifier for the user, typically
+            used by the user to directly authenticate to the service provider.
+            Often displayed to the user as their unique identifier within the
+            system (as opposed to "id" or "externalId", which are generally
+            opaque and not user-friendly identifiers).  Each User MUST include
+            a non-empty userName value.  This identifier MUST be unique across
+            the service provider's entire set of Users.  This attribute is
+            REQUIRED and is case insensitive.
+        name: 
+         $ref: "#/components/schemas/Name"
+        displayName: 
+          type: string
+          example: "Babs Jensen"
+        nickName: 
+          type: string
+          example: "Babs"
+        profileUrl:
+          type: string
+          format: uri
+        title:
+          type: string
+          description: The user's title, such as "Vice President".
+        userType:
+          type: string
+          description: |-
+            Used to identify the relationship between the organization and the
+            user.  Typical values used might be "Contractor", "Employee",
+            "Intern", "Temp", "External", and "Unknown", but any value may be
+            used.
+        preferredLanguage:
+          type: string
+        locale:
+          type: string
+        timezone:
+          type: string
+        emails:
+          type: array
+          items:
+            $ref: "#/components/schemas/Email"
+        active:
+          type: boolean
+        password:
+          type: boolean
+        addresses:
+          type: array
+          items: 
+            $ref: "#/components/schemas/Address"
+        phoneNumbers:
+          type: array
+          items: 
+            $ref: "#/components/schemas/PhoneNumber"
+        groups:
+          type: array
+          items: 
+            $ref: "#/components/schemas/Member"
+        meta:
+          $ref: "#/components/schemas/Meta"
+
+    PhoneNumber:
+      type: object
+      properties:
+        value:
+          type: string
+          example: 555-555-5555
+        type: 
+          type: string
+          example: work
+
+    Address:
+      type: object
+      properties:
+        type:
+          type: string
+          example: work
+        streetAddress: 
+          type: string
+          example: 100 Universal City Plaza
+        locality": 
+          type: string
+          example: Hollywood
+        region: 
+          type: string
+          example: CA
+        postalCode: 
+          type: string
+          example: 91608
+        country: 
+          type: string
+          example: USA
+        formatted: 
+          type: string
+          example: 100 Universal City Plaza\nHollywood, CA 91608 USA
+        primary:
+          type: boolean
+
+    Name:
+      type: object
+      properties:
+        formatted: 
+         type: string
+         example: "Ms. Barbara J Jensen, III"
+        familyName:
+          type: string
+          example: "Jensen"
+        givenName: 
+          type: string
+          example: "Barbara"
+        middleName: 
+          type: string
+          example: "Jane"
+        honorificPrefix:
+          type: string
+          example: "Ms."
+        honorificSuffix:
+          type: string
+          example: "III"
+
+
+    Email:
+      type: object
+      properties:
+        value:
+          type: string
+          format: email
+          example: "bjensen@example.com"
+        type:
+          type: string
+          example: "work"
+        primary:
+          type: boolean
+
+    Group:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          example: ["urn:ietf:params:scim:schemas:core:2.0:Group"]
+        id: 
+          type: string
+          example: "e9e30dba-f08f-4109-8486-d5c6a331660a"
+        displayName:
+          type: string
+          example: "Tour Guides"
+        members:
+          type: array
+          items:
+            $ref: "#/components/schemas/Member"
+        meta:
+          $ref: "#/components/schemas/Meta"
+
+    Member:
+      type: object
+      properties:
+        value:
+          type: string
+          example: "2819c223-7f76-453a-919d-413861904646"
+        $ref:
+          type: string
+          format: uri
+          example: "https://example.com/v2/Users/2819c223-7f76-453a-919d-413861904646"
+        display:
+          type: string
+          example: "Babs Jensen"
+
+    ServiceProviderConfig: # TODO: update
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          example: ["urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig"]
+        meta:
+          $ref: "#/components/schemas/Meta"
+
+    ListResponse:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          example: ["urn:ietf:params:scim:api:messages:2.0:ListResponse"]
+        totalResults:
+          type: number
+        Resources:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        startIndex:
+          type: number
+        itemsPerPage:
+          type: number
+
+    PatchOp:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          example: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"]
+        Operations:
+          type: array
+          items:
+            $ref: "#/components/schemas/Operation"
+
+    Operation:
+      type: object
+      properties:
+        op:
+          type: string
+          example: Replace
+        path: 
+          type: string
+          example: emails[type eq "work"].value
+        value:
+          type: string
+          example: updatedEmail@mail.com
+
+    ResourceType: # TODO: update
+      type: object
+        
+
+
+    Meta:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          example: "User"
+        created:
+          type: string
+          format: date-time
+          example: "2010-01-23T04:56:22Z"
+        lastModified:
+          type: string
+          format: date-time
+          example: "2011-05-13T04:42:34Z"
+        version: 
+          type: string
+          description: |-
+            The version of the resource being returned.  This value
+            must be the same as the entity-tag (ETag) HTTP response header.
+            This attribute has "caseExact" as "true".  Service provider support for this
+            attribute is optional and subject to the service provider's
+            support for versioning.  If a
+            service provider provides "version" (entity-tag) for a
+            representation and the generation of that entity-tag does not
+            satisfy all of the characteristics of a strong validator, then the origin server MUST mark the
+            "version" (entity-tag) as weak by prefixing its opaque value
+            with "W/" (case sensitive).
+          example: "W\/\"3694e05e9dff591\""
+        location:
+          type: string
+          example: "https://example.com/v2/Users/2819c223-7f76-453a-919d-413861904646"
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []

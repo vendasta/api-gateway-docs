@@ -47,11 +47,24 @@ Open your product page in the [vendor center](https://vendors.vendasta.com). If 
 
 * And finally, you need a service account credentials to perform 2-legged OAuth api calls. You can get that file by following this [document](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg4-overview).
 
-* To start spring-boot application,
+* To start spring-boot application pick one of the following:
 
-```bash
-  mvn spring-boot:run
-```
+1. Local/Default
+   ```bash
+     ./mvnw spring-boot:run
+   ```
+   then open a web browser to http://localhost:8080/ or your configured ngrok domain.
+
+
+2. Demo
+   ```bash
+     SPRING_PROFILES_ACTIVE=demo ./mvnw spring-boot:run
+   ```
+
+3. Production
+   ```bash
+     SPRING_PROFILES_ACTIVE=prod ./mvnw spring-boot:run
+   ```
 
 ### Environment Variables
 

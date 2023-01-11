@@ -11,6 +11,8 @@ spring:
             user-info-uri: 'https://sso-api-${apigateway.environment}.apigateway.co/oauth2/user-info'
         registration:
           apigateway:
+            # Client name is displayed on sprint boot's default login screen after the user logs out
+            client-name: 'My business app name ${apigateway.environment}'
             client-id: '${apigateway.client-id}'
             client-secret: '${apigateway.client-secret}'
             client-authentication-method: none
@@ -21,7 +23,7 @@ spring:
 
 apigateway:
   environment: 'demo'
-  # You may also use an ngrok forwarder
+  # You may also use a ngrok forwarder
   base-url: 'http://localhost:8080'
   # Your partner id can be found in the top left corner of partner center next to your company name
   partner-id: < Your Partner ID > #Example '9YW9'
@@ -39,6 +41,18 @@ apigateway:
 # It is common to create multiple versions of your app to allow for testing
 # You may store version specific values in a "profile" to override the above values
 # To select which version gets used set the SPRING_PROFILES_ACTIVE environment variable before starting the app
+---
+spring:
+  config:
+    activate:
+      on-profile: example
+apigateway:
+  environment: demo
+  partner-id: '9YW9'
+  app-id: 'MP-PC8QFF45MSF8QKTZK2RD8ZDBHZJ72GXM'
+  client-id: '17593218-17e2-4735-8e58-7ce865f7c84d'
+  client-secret: '7zIptruUKMCAQxNqwX7mUjl3N6gZdDDUsuRONcdNBZ'
+  service-account-json-path: '/Users/rrance/.config/api-gateway/demo-9YW9.json'
 ---
 spring:
   config:

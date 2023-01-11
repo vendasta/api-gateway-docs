@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @Controller
 public class WebController {
@@ -39,7 +40,7 @@ public class WebController {
 
     @GetMapping("/{accountId}")
     public String home(Model model,HttpServletRequest request, HttpServletResponse response,@AuthenticationPrincipal OAuth2User principal,@PathVariable("accountId") String accountId, HttpSession session) throws IOException{
-        if(!ParserUtils.isValidAccount(accountId)) {
+        if(!canAccessAccount(principal, accountId)) {
             response.sendRedirect("/error");
             return null;
         }
@@ -49,10 +50,12 @@ public class WebController {
         model.addAttribute("app_id", appId);
         return "index";
     }
-    
+
+    //TODO Listing all the account groups (business locations) is probably an example of an admin page.
+    // Having the accountId in the path is strange. It could probably just be "/businesses" with links on the page to "/businesses/{accountId}"
     @GetMapping("/business/list/{accountId}")
     public String businessList(Model model,HttpServletResponse response,@AuthenticationPrincipal OAuth2User principal,HttpSession session,HttpServletRequest request, @PathVariable("accountId") String accountId) throws IOException{
-        if(principal.getAttributes().get("namespace") != partnerId) {
+        if(!canAccessAccount(principal, accountId)) {
             response.sendRedirect("/error");
             return null;
         }
@@ -63,5 +66,32 @@ public class WebController {
         model.addAttribute("account_id",  accountId.toString());
         model.addAttribute("app_id", appId);
         return "business/list";
+    }
+
+    private boolean canAccessAccount(OAuth2User principal, String accountId){
+        if (canAccessAdminPage(principal)){
+            return true;
+        }
+
+        //TODO Decide what we want to do for an access check. The current method is to
+        // call https://developers.vendasta.com/api/v1/user/{user_id}/permissions/{account_id}
+        // using an app access token
+        // https://developers.vendasta.com/vendor/df4894447fee6-check-user-access-to-an-account
+
+        return false;
+    }
+
+    private boolean canAccessAdminPage(OAuth2User principal){
+        String namespace = principal.getAttributes().get("namespace").toString();
+        if(!namespace.equals(partnerId)) {
+            return false;
+        }
+
+        ArrayList<String> roles = (ArrayList<String>) principal.getAttributes().get("roles");
+        if (roles.contains("partner") || roles.contains("sales_person")|| roles.contains("digital_agent")){
+            return true;
+        }
+
+        return false;
     }
 }

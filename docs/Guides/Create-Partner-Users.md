@@ -98,3 +98,6 @@ If another user already exists within your platform with the same email address 
   }
 }
 ```
+
+# Comming Soon
+Soon you will be able to manage your users via SCIM. Check out the [proposed APIs](../../openapi/scim/scim.yaml).

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BusinessLocationsData {
+public class BusinessLocation {
     private String type;
     private String id;
     private Attributes attributes;

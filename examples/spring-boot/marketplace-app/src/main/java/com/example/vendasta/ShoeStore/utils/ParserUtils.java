@@ -1,5 +1,6 @@
 package com.example.vendasta.ShoeStore.utils;
 
+import java.time.Instant;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +27,10 @@ public class ParserUtils {
             return true;
         }
         return false;
+    }
+
+    public static boolean isTokenExpired(Instant tokenExpires) {
+        return ! Instant.now().isBefore(tokenExpires);
     }
 
 }

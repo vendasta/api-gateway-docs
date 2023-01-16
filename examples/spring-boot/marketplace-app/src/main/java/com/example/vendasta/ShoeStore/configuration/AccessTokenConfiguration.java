@@ -15,6 +15,12 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -43,14 +49,17 @@ import java.security.Security;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 
 @Configuration
-public class CommonConfiguration {
+public class AccessTokenConfiguration {
 
     @Autowired
     ObjectMapper objectMapper;
@@ -58,17 +67,36 @@ public class CommonConfiguration {
     @Value("${apigateway.service-account-json-path}")
     protected String serviceAccountJsonPath;
 
+    @Value("${apigateway.service-account-scope}")
+    protected String serviceAccountScope;
+
 	@Bean
     RestTemplate restTemplate() {
 		RestTemplate restTemplate = new RestTemplateBuilder(rt-> rt.getInterceptors().add((request, body, execution) -> {
-			String accessToken = checkTokenValidity(accessTokenWrapper().getToken());
-			if(accessToken != null) {
-				accessTokenWrapper().setToken(accessToken);
-				request.getHeaders().setBearerAuth(accessTokenWrapper().getToken());
-			} 
-			return execution.execute(request, body);
+            if(!request.getURI().getHost().equals("developers.vendasta.com")) {
+                String accessToken = checkTokenValidity(accessTokenWrapper().getToken());
+                System.out.println(accessToken);
+                if(accessToken != null) {
+                    accessTokenWrapper().setToken(accessToken);
+                    request.getHeaders().setBearerAuth(accessTokenWrapper().getToken());
+                } 
+            }
+            return execution.execute(request, body);
 		})).build();
+        restTemplate.setMessageConverters(getMessageConverters());
         return restTemplate;
+    }
+
+    private List<HttpMessageConverter<?>> getMessageConverters() {
+        ByteArrayHttpMessageConverter byteArrayHttpMessageConverter = new ByteArrayHttpMessageConverter();
+        List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setSupportedMediaTypes(Collections.singletonList(MediaType.ALL));
+        messageConverters.add(byteArrayHttpMessageConverter);
+        messageConverters.add(converter);
+        messageConverters.add(new FormHttpMessageConverter());
+        messageConverters.add(new OAuth2AccessTokenResponseHttpMessageConverter());
+        return messageConverters;
     }
 
 	String checkTokenValidity(String aToken) {
@@ -139,8 +167,8 @@ public class CommonConfiguration {
 
             JWTBearerGrant bearerGrant = new JWTBearerGrant(SignedJWT.parse(token));
 
-            // The request scope for the token
-            Scope scope = new Scope("business");
+            // The request scope for the token. Modify apigateway.service-account-scope in application.yml file to change default scope
+            Scope scope = new Scope(serviceAccountScope);
             // The token endpoint
             // URI tokenEndpoint = (URI) credentials.get("token_uri");
             URI tokenEndpoint = new URI(serviceAccountJson.getTokenUri());

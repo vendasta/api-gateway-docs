@@ -1,6 +1,5 @@
 package com.example.vendasta.ShoeStore.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -8,9 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.example.vendasta.ShoeStore.entity.business.BusinessLocationData;
 import com.example.vendasta.ShoeStore.entity.business.BusinessLocations;
-import com.example.vendasta.ShoeStore.service.ServiceAccount;
-import com.example.vendasta.ShoeStore.utils.ParserUtils;
+import com.example.vendasta.ShoeStore.service.ApiService;
 import com.example.vendasta.ShoeStore.utils.Constants;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 public class WebController {
 
     @Autowired
-    ServiceAccount accessTokenService;
+    ApiService apiService;
 
     @Value("${apigateway.environment}")
     protected String environment;
@@ -51,34 +50,52 @@ public class WebController {
         return "index";
     }
 
-    //TODO Listing all the account groups (business locations) is probably an example of an admin page.
-    // Having the accountId in the path is strange. It could probably just be "/businesses" with links on the page to "/businesses/{accountId}"
-    @GetMapping("/business/list/{accountId}")
-    public String businessList(Model model,HttpServletResponse response,@AuthenticationPrincipal OAuth2User principal,HttpSession session,HttpServletRequest request, @PathVariable("accountId") String accountId) throws IOException{
-        if(!canAccessAccount(principal, accountId)) {
+    @GetMapping("/businesses")
+    public String businessList(Model model,HttpServletResponse response,@AuthenticationPrincipal OAuth2User principal,HttpSession session,HttpServletRequest request) throws IOException{
+        if(!canAccessAdminPage(principal)) {
             response.sendRedirect("/error");
             return null;
         }
         final String uri = String.format(Constants.BUSINESS_LOCATIONS_API_URL, environment, partnerId);
-        BusinessLocations businessLists = accessTokenService.fetchBusinessLocations(uri);
+        BusinessLocations businessLists = apiService.fetchBusinessLocations(uri);
         model.addAttribute("businessLists", businessLists.getData());
         model.addAttribute("product_navbar_data_url", principal.getAttribute("product_navbar_data_url"));
-        model.addAttribute("account_id",  accountId.toString());
+        model.addAttribute("account_id",  request.getSession().getAttribute("accountId"));
         model.addAttribute("app_id", appId);
         return "business/list";
+    }
+    
+    @GetMapping("/businesses/account/{accountId}")
+    public String businessAccount(Model model,HttpServletResponse response,@AuthenticationPrincipal OAuth2User principal,@PathVariable("accountId") String accountId,HttpSession session,HttpServletRequest request) throws IOException{
+        if(!canAccessAdminPage(principal)) {
+            response.sendRedirect("/error");
+            return null;
+        }
+        final String uri = String.format(Constants.GET_BUSINESS_LOCATION, environment, accountId);
+        BusinessLocationData business = apiService.getBusinessLocation(uri);
+        model.addAttribute("business", business.getData());
+        model.addAttribute("product_navbar_data_url", principal.getAttribute("product_navbar_data_url"));
+        model.addAttribute("account_id",  request.getSession().getAttribute("accountId"));
+        model.addAttribute("app_id", appId);
+        return "business/business";
     }
 
     private boolean canAccessAccount(OAuth2User principal, String accountId){
         if (canAccessAdminPage(principal)){
             return true;
         }
+            // if(apiService.checkAccountAccess(accountId,principal.getAttribute("sub"))) {
+            //     return true;
+            // } else {
+            //     return false;
+            // }
 
-        //TODO Decide what we want to do for an access check. The current method is to
+            //TODO Decide what we want to do for an access check. The current method is to
         // call https://developers.vendasta.com/api/v1/user/{user_id}/permissions/{account_id}
         // using an app access token
         // https://developers.vendasta.com/vendor/df4894447fee6-check-user-access-to-an-account
 
-        return false;
+        return true;
     }
 
     private boolean canAccessAdminPage(OAuth2User principal){

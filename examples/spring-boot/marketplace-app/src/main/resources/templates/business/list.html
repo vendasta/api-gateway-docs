@@ -7,9 +7,9 @@
     <style>
         body {
             margin: 0px;
-            background: linear-gradient(to top, #16222a, #3a6073);
+            background: #dcdcdc;
             height: 100vh;
-            color: white;
+            color: darkslategrey;
         }
 
         table {
@@ -36,6 +36,10 @@
         tr:hover {
             background: #d9d9d9d6;
         }
+
+        a {
+            color: darkslategrey;
+        }
     </style>
 </head>
 <body>
@@ -50,7 +54,7 @@
                 <th>Country Code</th>
             </thead>
             <tr th:each="businessList: ${businessLists}">
-                <td th:text="${businessList.id}"></td>
+                <td> <a th:href="@{'/businesses/account/' + ${businessList.id}}" th:text="${businessList.id}"></a></td>
                 <td th:text="${businessList.attributes.name}"></td>
                 <td th:text="${businessList.attributes.address.line1}"></td>
                 <td th:text="${businessList.attributes.address.city}"></td>

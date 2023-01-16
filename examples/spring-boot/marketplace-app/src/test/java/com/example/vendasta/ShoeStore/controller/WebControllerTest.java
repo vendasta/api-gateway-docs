@@ -2,7 +2,7 @@ package com.example.vendasta.ShoeStore.controller;
 
 import com.example.vendasta.ShoeStore.ShoeStoreApplication;
 import com.example.vendasta.ShoeStore.entity.business.*;
-import com.example.vendasta.ShoeStore.service.ServiceAccount;
+import com.example.vendasta.ShoeStore.service.ApiService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
@@ -34,7 +34,7 @@ public class WebControllerTest {
     private WebApplicationContext webApplicationContext;
 
     @MockBean
-    private ServiceAccount serviceAccount;
+    private ApiService serviceAccount;
 
     @BeforeEach
     public void setup() {
@@ -46,9 +46,9 @@ public class WebControllerTest {
         Links links = new Links();
         links.setFirst("first");
 
-        BusinessLocationsData businessLocationsData = new BusinessLocationsData();
-        businessLocationsData.setId("123");
-        businessLocationsData.setType("type");
+        BusinessLocation businessLocation = new BusinessLocation();
+        businessLocation.setId("123");
+        businessLocation.setType("type");
         BusinessLocations businessLocations = new BusinessLocations();
         businessLocations.setLinks(links);
 
@@ -63,9 +63,9 @@ public class WebControllerTest {
         address.setRegionCode("AB");
         address.setStateCode("AB");
         attributes.setAddress(address);
-        businessLocationsData.setAttributes(attributes);
+        businessLocation.setAttributes(attributes);
 
-        businessLocations.setData(new ArrayList<>(List.of(businessLocationsData)));
+        businessLocations.setData(new ArrayList<>(List.of(businessLocation)));
 
 
         Mockito.when(serviceAccount.fetchBusinessLocations(Mockito.anyString())).thenReturn(businessLocations);

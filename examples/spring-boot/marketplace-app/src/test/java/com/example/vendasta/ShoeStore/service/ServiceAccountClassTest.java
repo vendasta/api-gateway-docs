@@ -25,7 +25,7 @@ import java.util.List;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 //@RunWith(SpringRunner.class)
-@WebMvcTest(controllers = ServiceAccount.class)
+@WebMvcTest(controllers = ApiService.class)
 public class ServiceAccountClassTest {
 
     @MockBean
@@ -35,7 +35,7 @@ public class ServiceAccountClassTest {
     AccessTokenWrapper accessTokenWrapper;
 
     @Autowired
-    ServiceAccount serviceAccount;
+    ApiService serviceAccount;
 
     @Value("${apigateway.partner-id}")
     protected String partnerId;
@@ -46,9 +46,9 @@ public class ServiceAccountClassTest {
         Links links = new Links();
         links.setFirst("first");
 
-        BusinessLocationsData businessLocationsData = new BusinessLocationsData();
-        businessLocationsData.setId("123");
-        businessLocationsData.setType("type");
+        BusinessLocation businessLocation = new BusinessLocation();
+        businessLocation.setId("123");
+        businessLocation.setType("type");
         BusinessLocations businessLocations = new BusinessLocations();
         businessLocations.setLinks(links);
 
@@ -63,9 +63,9 @@ public class ServiceAccountClassTest {
         address.setRegionCode("AB");
         address.setStateCode("AB");
         attributes.setAddress(address);
-        businessLocationsData.setAttributes(attributes);
+        businessLocation.setAttributes(attributes);
 
-        businessLocations.setData(new ArrayList<>(List.of(businessLocationsData)));
+        businessLocations.setData(new ArrayList<>(List.of(businessLocation)));
 
         final String uri = String.format("https://test.com", "1234", partnerId);
         HttpHeaders headers = new HttpHeaders();

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BusinessLocations {
-    private Links links;
-    private List<BusinessLocation> data = new ArrayList<BusinessLocation>();
+public class BusinessLocationData {
+    private BusinessLocation data;
 }

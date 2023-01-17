@@ -2,6 +2,11 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2022-12-23
+
+### Tags on sales orders
+Sales orders can now be grouped in the user interface using tags. Tags can also be used as filters in automation triggers.
+
 ## 2022-11-19
 
 ### Business Categories optional
@@ -18,7 +23,7 @@ A new field has been added to the orders model allowing you to track the salespe
 
 ### List Partner Activatable Products
 
-Listing the products a partner has enabled to be activated in their marketplace has been propsed. [View the details here.](../../openapi/platform/platform.yaml/paths/~1partnerActivatableProducts/get)
+Listing the products a partner has enabled to be activated in their marketplace has been proposed. [View the details here.](../../openapi/platform/platform.yaml/paths/~1partnerActivatableProducts/get)
 
 
 ## 2022-08-08

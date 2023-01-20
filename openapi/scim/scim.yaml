@@ -45,13 +45,13 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
-        This endpoint acts like a alias to [Get User Custom Fields by ID endpoint](b3A6MzczMDUyMjU-get-custom-fields-by-id). It returns custom fields for a user.
+        This endpoint can be used to search users based on filter or list all user if filter criteria is ignored  
       security:
         - OAuth2:
             - user.admin
       x-lifecycle:
         status: proposed
-      operationId: scim-get-users
+      operationId: scim-search-users
     post:
       tags:
         - User
@@ -72,6 +72,11 @@ paths:
                 $ref: '#/components/schemas/User'
         '405':
           description: Invalid input
+      operationId: scim-create-user
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        This endpoint can be used to search users based on filter or list all user if filter criteria is ignored
   '/scim/v1/{partnerid}/Users/{id}':
     get:
       tags:
@@ -287,8 +292,11 @@ components:
           type: array
           example:
             - 'urn:ietf:params:scim:schemas:core:2.0:User'
+          minItems: 1
+          uniqueItems: true
           items:
             type: string
+            example: '["urn:ietf:params:scim:schemas:core:2.0:User"]'
         id:
           type: string
         externalId:
@@ -354,6 +362,11 @@ components:
             $ref: '#/components/schemas/Member'
         meta:
           $ref: '#/components/schemas/Meta'
+      required:
+        - schemas
+        - externalId
+        - userName
+        - name
     PhoneNumber:
       type: object
       properties:
@@ -395,6 +408,7 @@ components:
         formatted:
           type: string
           example: 'Ms. Barbara J Jensen, III'
+          readOnly: true
         familyName:
           type: string
           example: Jensen
@@ -407,9 +421,13 @@ components:
         honorificPrefix:
           type: string
           example: Ms.
+          description: This field currently not supported
         honorificSuffix:
           type: string
           example: III
+          description: This field currently not supported
+      required:
+        - givenName
     Email:
       type: object
       properties:

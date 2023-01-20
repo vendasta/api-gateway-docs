@@ -42,6 +42,16 @@ paths:
                 $ref: '#/components/schemas/ListResponse'
         '404':
           description: User not found
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        This endpoint acts like a alias to [Get User Custom Fields by ID endpoint](b3A6MzczMDUyMjU-get-custom-fields-by-id). It returns custom fields for a user.
+      security:
+        - OAuth2:
+            - user.admin
+      x-lifecycle:
+        status: proposed
+      operationId: scim-get-users
     post:
       tags:
         - User
@@ -275,10 +285,10 @@ components:
       properties:
         schemas:
           type: array
-          items:
-            type: string
           example:
             - 'urn:ietf:params:scim:schemas:core:2.0:User'
+          items:
+            type: string
         id:
           type: string
         externalId:
@@ -299,6 +309,7 @@ components:
         displayName:
           type: string
           example: Babs Jensen
+          readOnly: true
         nickName:
           type: string
           example: Babs

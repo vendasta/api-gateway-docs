@@ -25,14 +25,22 @@ paths:
         - name: filter
           in: query
           description: |-
-            Search users using supported based on the filter criteria.
-            Supported filters are:
+            Filtering is an OPTIONAL parameter.
+            List users using described filters.
+            <br> Supported filters are:
             <br> `externalId eq "user_external_id"`
             <br> `userName eq "user@mail.com"`
-          example: /scim/v1/123456/Users?filter=userName eq "user@mail.com"
-          required: true
+            <br>`/scim/v1/{partnerid}/Users?filter=userName eq "user@mail.com"`
           schema:
             type: string
+        - schema:
+            type: string
+          in: query
+          name: attributes
+          description: |-
+            Resource attributes can be restriceted by using attributes parameter.
+            <br>`/scim/v1/{partnerid}/Users?filter=userName eq "user@mail.com"&attributes=userName`
+            <br>`/scim/v1/{partnerid}/Users?attributes=id,externalId,userName`
       responses:
         '200':
           description: OK
@@ -490,20 +498,28 @@ components:
       properties:
         schemas:
           type: array
-          items:
-            type: string
           example:
             - 'urn:ietf:params:scim:api:messages:2.0:ListResponse'
+          items:
+            type: string
         totalResults:
           type: number
+          description: |-
+            The total number of results returned by the list or query operation
         Resources:
           type: array
           items:
             $ref: '#/components/schemas/User'
         startIndex:
           type: number
+          description: |-
+            The 1-based index of the first result in the current set of list results.
+            REQUIRED when partial results are returned due to pagination.
         itemsPerPage:
           type: number
+          description: |-
+            The number of resources returned in a list response page.
+            REQUIRED when partial results are returned due to pagination.
     ListResponseGroup:
       type: object
       properties:

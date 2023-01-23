@@ -11,6 +11,7 @@ import com.example.vendasta.ShoeStore.entity.business.BusinessLocationData;
 import com.example.vendasta.ShoeStore.entity.business.BusinessLocations;
 import com.example.vendasta.ShoeStore.service.ApiService;
 import com.example.vendasta.ShoeStore.utils.Constants;
+import com.example.vendasta.ShoeStore.utils.ParserUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,7 +40,7 @@ public class WebController {
 
     @GetMapping("/{accountId}")
     public String home(Model model,HttpServletRequest request, HttpServletResponse response,@AuthenticationPrincipal OAuth2User principal,@PathVariable("accountId") String accountId, HttpSession session) throws IOException{
-        if(!canAccessAccount(principal, accountId)) {
+        if(!ParserUtils.isValidAccount(accountId) || (ParserUtils.isValidAccount(accountId) && !canAccessAccount(principal, accountId))) {
             response.sendRedirect("/error");
             return null;
         }
@@ -67,7 +68,7 @@ public class WebController {
     
     @GetMapping("/businesses/account/{accountId}")
     public String businessAccount(Model model,HttpServletResponse response,@AuthenticationPrincipal OAuth2User principal,@PathVariable("accountId") String accountId,HttpSession session,HttpServletRequest request) throws IOException{
-        if(!canAccessAdminPage(principal)) {
+        if(!canAccessAccount(principal,accountId)) {
             response.sendRedirect("/error");
             return null;
         }
@@ -81,21 +82,13 @@ public class WebController {
     }
 
     private boolean canAccessAccount(OAuth2User principal, String accountId){
-        if (canAccessAdminPage(principal)){
+        if(canAccessAdminPage(principal)){
             return true;
+        } else if(apiService.checkAccountAccess(accountId,principal.getAttribute("legacy_user_id"))) {
+            return true;
+        } else {
+            return false;
         }
-            // if(apiService.checkAccountAccess(accountId,principal.getAttribute("sub"))) {
-            //     return true;
-            // } else {
-            //     return false;
-            // }
-
-            //TODO Decide what we want to do for an access check. The current method is to
-        // call https://developers.vendasta.com/api/v1/user/{user_id}/permissions/{account_id}
-        // using an app access token
-        // https://developers.vendasta.com/vendor/df4894447fee6-check-user-access-to-an-account
-
-        return true;
     }
 
     private boolean canAccessAdminPage(OAuth2User principal){
@@ -105,7 +98,7 @@ public class WebController {
         }
 
         ArrayList<String> roles = (ArrayList<String>) principal.getAttributes().get("roles");
-        if (roles.contains("partner") || roles.contains("sales_person")|| roles.contains("digital_agent")){
+        if(roles.contains("partner") || roles.contains("sales_person")|| roles.contains("digital_agent")){
             return true;
         }
 

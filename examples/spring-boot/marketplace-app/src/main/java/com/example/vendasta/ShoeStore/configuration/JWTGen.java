@@ -4,8 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.vendasta.ShoeStore.entity.marketplace.MarketPlaceOathTokenRequest;
 import com.example.vendasta.ShoeStore.entity.marketplace.OathTokenResponse;
-import com.example.vendasta.ShoeStore.utils.AESUtils;
-import com.example.vendasta.ShoeStore.utils.ParserUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.slf4j.Logger;
@@ -48,6 +46,9 @@ public class JWTGen {
     @Value("${apigateway.aesSalt}")
     protected String salt;
 
+    @Value("${apigateway.marketplace-api-server-url}")
+    protected String marketplaceAPIServer;
+
     @Autowired
     RestTemplate restTemplate;
 
@@ -85,7 +86,7 @@ public class JWTGen {
         headers.setAccept(messageConverters);
         MarketPlaceOathTokenRequest body = new MarketPlaceOathTokenRequest("urn:ietf:params:oauth:grant-type:jwt-bearer", token);
         HttpEntity httpEntity = new HttpEntity<>(body, headers);
-        ResponseEntity<OathTokenResponse> response = restTemplate.exchange("https://developers.vendasta.com/api/v1/oauth/token", HttpMethod.POST, httpEntity, OathTokenResponse.class);
+        ResponseEntity<OathTokenResponse> response = restTemplate.exchange( marketplaceAPIServer + "oauth/token", HttpMethod.POST, httpEntity, OathTokenResponse.class);
 
         if (response.hasBody() && response.getStatusCode().equals(HttpStatus.OK) && !Objects.isNull(response.getBody())) {
             accessToken = response.getBody().data.access_token;

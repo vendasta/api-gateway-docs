@@ -37,7 +37,7 @@ apigateway:
   service-account-json-path: < your partner service account file> #Example '/Users/rrance/.config/api-gateway/demo-9YW9.json'
   # This scope variable indicates which categories of APIs your app will call as the admin bot user
   service-account-scope: 'business'
-  aesPassword: 'marketplace'
+  aesPassword: 'marketplace' #aesPassword and aesSalt will be used for JWT token decryption 
   aesSalt: 12345678
   marketplace-private-key: < RSA PRIVATE KEY > #Example '/Users/rrance/.config/api-gateway/privkey.pem'
 
@@ -56,6 +56,7 @@ apigateway:
   client-id: '17593218-17e2-4735-8e58-7ce865f7c84d'
   client-secret: '7zIptruUKMCAQxNqwX7mUjl3N6gZdDDUsuRONcdNBZ'
   service-account-json-path: '/Users/rrance/.config/api-gateway/demo-9YW9.json'
+  marketplace-api-server-url: 'https://marketplace-proxy-demo.vendasta-internal.com/api/v1/'
 ---
 spring:
   config:
@@ -64,6 +65,7 @@ spring:
 apigateway:
   environment: demo
   base-url: https://your-demo-site.com
+  marketplace-api-server-url: 'https://marketplace-proxy-demo.vendasta-internal.com/api/v1/'
 ---
 spring:
   config:
@@ -72,3 +74,4 @@ spring:
 apigateway:
   environment: prod
   base-url: https://your-site.com
+  marketplace-api-server-url: 'https://developers.vendasta.com/api/v1/'

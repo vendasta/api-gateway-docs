@@ -16,6 +16,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -35,6 +36,9 @@ public class ApiService {
 
     @Autowired
     JWTGen jwtGen;
+
+    @Value("${apigateway.marketplace-api-server-url}")
+    protected String marketplaceAPIServer;
 
     public BusinessLocations fetchBusinessLocations(String uri) {
         BusinessLocations businessLocations = new BusinessLocations();
@@ -64,16 +68,14 @@ public class ApiService {
         return businessLocation;
 	}
 
+    // Based on MarketplaceAPI to Check User Access to an Account https://developers.vendasta.com/vendor/df4894447fee6-check-user-access-to-an-account
     public Boolean checkAccountAccess(String accountId,String userId) {
-
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.add("Authorization", "Bearer " + jwtGen.marketPlaceJwtToken());
             headers.add(HttpHeaders.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
-            headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
             HttpEntity httpEntity = new HttpEntity<>(headers);
-            ResponseEntity<String> response = restTemplate.exchange("https://developers.vendasta.com/api/v1/user/" + userId + "/permissions/" + accountId , HttpMethod.HEAD, httpEntity, String.class);
-    
+            ResponseEntity<String> response = restTemplate.exchange(marketplaceAPIServer + "user/" + userId + "/permissions/" + accountId , HttpMethod.HEAD, httpEntity, String.class);
             if (response.getStatusCode().equals(HttpStatus.OK)) {
                 return true;
             } else {
@@ -85,7 +87,7 @@ public class ApiService {
             if(e.getMessage().startsWith("403")) {
                 return false;
             } else {
-                e.printStackTrace();
+                // e.printStackTrace();
             }
         }
         return false;

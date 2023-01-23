@@ -73,9 +73,8 @@ public class AccessTokenConfiguration {
 	@Bean
     RestTemplate restTemplate() {
 		RestTemplate restTemplate = new RestTemplateBuilder(rt-> rt.getInterceptors().add((request, body, execution) -> {
-            if(!request.getURI().getHost().equals("developers.vendasta.com")) {
+            if(request.getURI().getHost().contains(".apigateway.co")) {
                 String accessToken = checkTokenValidity(accessTokenWrapper().getToken());
-                System.out.println(accessToken);
                 if(accessToken != null) {
                     accessTokenWrapper().setToken(accessToken);
                     request.getHeaders().setBearerAuth(accessTokenWrapper().getToken());

@@ -1,6 +1,7 @@
 package com.example.vendasta.ShoeStore.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,6 +31,9 @@ import java.util.Objects;
 @EnableWebSecurity
 public class Oauth2Configuration {
 
+    @Value("${apigateway.app-id}")
+    protected String appId;
+
     @Autowired
     ClientRegistrationRepository clientRegistrationRepository;
 
@@ -38,7 +42,7 @@ public class Oauth2Configuration {
         security.authorizeRequests() .antMatchers("/error").permitAll()
         .anyRequest().authenticated().and().oauth2Login()
         .authorizationEndpoint()
-        .authorizationRequestResolver(new CustomRequestResolver(clientRegistrationRepository,"/oauth2/authorization"))
+        .authorizationRequestResolver(new CustomRequestResolver(clientRegistrationRepository,"/oauth2/authorization",appId))
         .and().redirectionEndpoint().baseUri(Constants.AUTH_CALLBACK_URL)
         .and().successHandler(successHandler()).failureHandler(failureHandler());
         return security.build();
@@ -62,7 +66,7 @@ class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         String baseUrl = "/";
         if(request.getRequestURI().toString().equals(Constants.AUTH_CALLBACK_URL)) {
             baseUrl = request.getSession().getAttribute("baseUrl").toString();
-            request.getSession().setAttribute("accountId", request.getParameter("state"));
+            request.getSession().setAttribute("accountId", request.getParameter("state").split("_")[0]);
         }
         this.setDefaultTargetUrl(baseUrl);
         super.onAuthenticationSuccess(request, response, authentication);
@@ -83,9 +87,11 @@ class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureH
 
 class CustomRequestResolver implements OAuth2AuthorizationRequestResolver {
     private final OAuth2AuthorizationRequestResolver defaultRequestResolver;
+    private String appId;
 
-    public CustomRequestResolver(ClientRegistrationRepository clientRepo, String authorizationUrl){
+    public CustomRequestResolver(ClientRegistrationRepository clientRepo, String authorizationUrl, String appId){
         this.defaultRequestResolver = new DefaultOAuth2AuthorizationRequestResolver(clientRepo,authorizationUrl);
+        this.appId = appId;
     }
 
 
@@ -104,7 +110,7 @@ class CustomRequestResolver implements OAuth2AuthorizationRequestResolver {
         OAuth2AuthorizationRequest authorizationRequest = this.defaultRequestResolver.resolve(request,Constants.CLIENT_REGISTRATION_ID);
         var accountId = ParserUtils.getAccountIdFromRequest(request);
         if(!accountId.equals("") && request.getSession().getAttribute("baseUrl") == null) {
-            authorizationRequest = OAuth2AuthorizationRequest.from(authorizationRequest).state(accountId).build();
+            authorizationRequest = OAuth2AuthorizationRequest.from(authorizationRequest).state(accountId + "_" + appId).build();
             request.getSession().setAttribute("baseUrl", request.getRequestURI());
         } else {
             authorizationRequest = this.defaultRequestResolver.resolve(request);

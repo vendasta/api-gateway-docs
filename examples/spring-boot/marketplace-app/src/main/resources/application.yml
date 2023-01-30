@@ -1,0 +1,77 @@
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          apigateway:
+            token-uri: 'https://sso-api-${apigateway.environment}.apigateway.co/oauth2/token'
+            issuer-uri: 'https://iam-${apigateway.environment}.apigateway.co'
+            authorization-uri: 'https://sso-api-${apigateway.environment}.apigateway.co/oauth2/auth'
+            jwk-set-uri: 'https://iam-${apigateway.environment}.apigateway.co/oauth2/v1/certs'
+            user-info-uri: 'https://sso-api-${apigateway.environment}.apigateway.co/oauth2/user-info'
+        registration:
+          apigateway:
+            # Client name is displayed on sprint boot's default login screen after the user logs out
+            client-name: 'My business app name ${apigateway.environment}'
+            client-id: '${apigateway.client-id}'
+            client-secret: '${apigateway.client-secret}'
+            client-authentication-method: none
+            authorization-grant-type: authorization_code
+            redirect-uri: '${apigateway.base-url}/login/oauth2/code/apigateway/'
+            # This scope variable indicates which categories of APIs your app will call as the user who is currently logged in
+            scope: 'profile'
+
+apigateway:
+  environment: 'demo'
+  # You may also use a ngrok forwarder
+  base-url: 'http://localhost:8080'
+  # Your partner id can be found in the top left corner of partner center next to your company name
+  partner-id: < Your Partner ID > #Example '9YW9'
+
+  # To generate app-id, client-id and client-secret, follow these steps. https://developers.vendasta.com/vendor/d191b96068b71-sso-o-auth2-3-legged-flow#step-2-initial-configuration
+  app-id: <your app id> #Example 'MP-PC8QFF45MSF8QKTZK2RD8ZDBHZJ72GXM'
+  client-id: <your app's client id> #Example '17593218-17e2-4735-8e58-7ce865f7c84d'
+  client-secret: <your app's client secret> #Example '7zIptruUKMCAQxNqwX7mUjl3N6gZdDDUsuRONcdNBZ'
+
+  # You can generate this file by following https://developers.vendasta.com/platform/fbf315c867e10-creating-a-service-account
+  service-account-json-path: < your partner service account file> #Example '/Users/rrance/.config/api-gateway/demo-9YW9.json'
+  # This scope variable indicates which categories of APIs your app will call as the admin bot user
+  service-account-scope: 'business'
+  aesPassword: 'marketplace' #aesPassword and aesSalt will be used for JWT token decryption 
+  aesSalt: 12345678
+  marketplace-private-key: < RSA PRIVATE KEY > #Example '/Users/rrance/.config/api-gateway/privkey.pem'
+
+# It is common to create multiple versions of your app to allow for testing
+# You may store version specific values in a "profile" to override the above values
+# To select which version gets used set the SPRING_PROFILES_ACTIVE environment variable before starting the app
+---
+spring:
+  config:
+    activate:
+      on-profile: example
+apigateway:
+  environment: demo
+  partner-id: '9YW9'
+  app-id: 'MP-PC8QFF45MSF8QKTZK2RD8ZDBHZJ72GXM'
+  client-id: '17593218-17e2-4735-8e58-7ce865f7c84d'
+  client-secret: '7zIptruUKMCAQxNqwX7mUjl3N6gZdDDUsuRONcdNBZ'
+  service-account-json-path: '/Users/rrance/.config/api-gateway/demo-9YW9.json'
+  marketplace-api-server-url: 'https://marketplace-proxy-demo.vendasta-internal.com/api/v1/'
+---
+spring:
+  config:
+    activate:
+      on-profile: demo
+apigateway:
+  environment: demo
+  base-url: https://your-demo-site.com
+  marketplace-api-server-url: 'https://marketplace-proxy-demo.vendasta-internal.com/api/v1/'
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+apigateway:
+  environment: prod
+  base-url: https://your-site.com
+  marketplace-api-server-url: 'https://developers.vendasta.com/api/v1/'

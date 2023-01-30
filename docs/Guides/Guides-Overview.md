@@ -10,7 +10,7 @@ Authenticate your users in your platform and let them access Vendasta's white-la
 Please contact support@vendasta.com for more information.
 
 ## Build an integration to sell
-Do you have an app which manages data for other businesses that you want to sell in our marketplace? Then you will want to check out our [Marketplace APIs](https://developers.vendasta.com/vendors/getting-started).
+Do you have an app which manages data for other businesses that you want to sell in our marketplace? Then you will want to check out our [Marketplace APIs](https://developers.vendasta.com/vendors/getting-started). Or do you want to create a new app to integrate with Vendasta for your business? Visit [Integration Guide](https://developers.vendasta.com/vendor/463ea876a888b-creating-new-vendor-application#creating-new-vendor-application).
 
 ## See the other cool tools we have for developers
 

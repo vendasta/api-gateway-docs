@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Account View Page</title>
+
+    <link rel="stylesheet" th:href="@{/styles/business.css}" />
+</head>
+<body>
+    <center><h1>Business Details</h1></center> 
+    <section id="mainSection">
+        <article class="content">
+            <h6 class="title" th:text="${business.attributes.name}"></h6>
+            <div class="d-flex">
+                <div class="w-100">
+                    <div class="detailBlock">
+                        <b>Account Id</b>
+                        <div th:text="${business.id}"></div>
+                    </div>
+                    <div class="detailBlock">
+                        <b>Address</b>
+                        <div th:text="@{${business.attributes.address.line1} + ', ' + ${business.attributes.address.city} + ', ' + ${business.attributes.address.regionCode} + ' - ' + ${business.attributes.address.zip}}"></div>
+                    </div>
+                    <div class="w-100">
+                        <b>Postal Code</b>
+                        <div th:text="@{${business.attributes.address.city} + ' - ' + ${business.attributes.address.postalCode}}"></div>
+                    </div>
+                </div>
+                <div class="w-100">
+                    <div class="detailBlock">
+                        <b>Partner</b>
+                        <div th:text="${business.relationships.businessPartner.data.id}"></div>
+                    </div>
+                    <div class="detailBlock">
+                        <b>State Code</b>
+                        <div th:text="${business.attributes.address.stateCode}"></div>
+                    </div>
+                    <div class="detailBlock">
+                        <b>Country Code</b>
+                        <div th:text="${business.attributes.address.countryCode}"></div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </article>
+    </section>
+    <!-- Navbar script -->
+    <div th:insert="layouts :: navbar-script">  </div>
+    
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Business List</title>
+
+    <link rel="stylesheet" th:href="@{/styles/list.css}" />
+
+</head>
+<body>
+    <center><h2 class="title">Business Locations</h2></center> 
+    <section>
+        <table>
+            <thead>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Street</th>
+                <th>City</th>
+                <th>Country Code</th>
+            </thead>
+            <tr th:each="businessList: ${businessLists}">
+                <td> <a th:href="@{'/businesses/account/' + ${businessList.id}}" th:text="${businessList.id}"></a></td>
+                <td th:text="${businessList.attributes.name}"></td>
+                <td th:text="${businessList.attributes.address.line1}"></td>
+                <td th:text="${businessList.attributes.address.city}"></td>
+                <td th:text="${businessList.attributes.address.countryCode}"></td>
+            </tr>
+        </table>
+    </section>
+    <!-- Navbar script -->
+    <div th:insert="layouts :: navbar-script">  </div>
+    
+</body>
+</html>

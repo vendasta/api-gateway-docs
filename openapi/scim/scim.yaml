@@ -20,6 +20,8 @@ tags:
     description: User resources
   - name: Group
     description: Group resource
+  - name: System Operations
+    description: System Operations
 paths:
   '/{namespace}/Users':
     parameters:
@@ -29,7 +31,6 @@ paths:
         - User
       summary: Search Users
       parameters:
-        - $ref: '#/components/parameters/content-type-scim'
         - $ref: '#/components/parameters/accept-scim'
         - $ref: '#/components/parameters/accept-charset-scim'
         - name: filter
@@ -52,7 +53,14 @@ paths:
             <br>`/scim/v1/{partnerid}/Users?filter=userName eq "user@mail.com"&attributes=userName`
             <br>`/scim/v1/{partnerid}/Users?attributes=id,externalId,userName`
         - schema:
+            type: string
+          in: query
+          name: excludedAttributes
+          description: 'A list of the attributes not to return in the response body. It '
+        - schema:
             type: integer
+            minimum: 1
+            default: 1
           in: query
           name: startIndex
           description: The 1-based index of the first query result
@@ -61,6 +69,25 @@ paths:
           in: query
           name: count
           description: Specifies the desired maximum number of query results per page
+        - schema:
+            type: string
+            enum:
+              - userName
+              - meta.created
+              - name. givenName
+              - name.familyName
+          in: query
+          name: sortBy
+          description: The attribute to order the results based on
+        - schema:
+            type: string
+            enum:
+              - ascending
+              - descending
+            default: ascending
+          in: query
+          name: sortOrder
+          description: Specifies if the results should be sorted A-Z (ascending) or Z-A (descending) based on the attribute in the sortBy parameter
       responses:
         '200':
           description: OK
@@ -70,12 +97,12 @@ paths:
                 $ref: '#/components/schemas/ListResponseUsers'
         '404':
           description: User not found
+      x-lifecycle:
+        status: proposed
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
         This endpoint can be used to search users based on filter or list all user if filter criteria is ignored
-      x-lifecycle:
-        status: proposed
       operationId: scim-search-users
     post:
       tags:
@@ -98,6 +125,8 @@ paths:
         '405':
           description: Invalid input
       operationId: scim-create-user
+      x-lifecycle:
+        status: proposed
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
@@ -105,7 +134,6 @@ paths:
       security:
         - OAuth2:
             - user.admin
-      x-lifecycle: proposed
   '/{namespace}/Users/{id}':
     parameters:
       - schema:
@@ -129,6 +157,8 @@ paths:
         '404':
           description: User not found
       x-internal: false
+      x-lifecycle:
+        status: proposed
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
@@ -137,7 +167,6 @@ paths:
       security:
         - OAuth2:
             - user.list
-      x-lifecycle: proposed
     put:
       tags:
         - User
@@ -159,6 +188,8 @@ paths:
         '405':
           description: Invalid input
       operationId: scim-replace-user
+      x-lifecycle:
+        status: proposed
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
@@ -166,7 +197,6 @@ paths:
       security:
         - OAuth2:
             - user.admin
-      x-lifecycle: proposed
     patch:
       tags:
         - User
@@ -186,12 +216,13 @@ paths:
                 $ref: '#/components/schemas/User'
         '405':
           description: Invalid input
+      x-lifecycle:
+        status: proposed
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
         Update an user's one or multiple attributes by roviding operation path and value. Post update all other attributes will be unchanged apart from provided attributes.
       operationId: scim-update-user
-      x-lifecycle: proposed
       security:
         - OAuth2:
             - user.admin
@@ -205,6 +236,8 @@ paths:
         '405':
           description: Invalid input
       operationId: scim-delete-user
+      x-lifecycle:
+        status: proposed
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
@@ -212,7 +245,6 @@ paths:
       security:
         - OAuth2:
             - user.admin
-      x-lifecycle: proposed
   '/{namespace}/Groups':
     parameters:
       - $ref: '#/components/parameters/namespace'
@@ -243,6 +275,8 @@ paths:
         '404':
           description: User not found
       operationId: ''
+      x-lifecycle:
+        status: proposed
       description: |
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Draft`
   '/{namespace}/Groups/{id}':
@@ -274,6 +308,8 @@ paths:
                 $ref: '#/components/schemas/Group'
         '404':
           description: User not found
+      x-lifecycle:
+        status: proposed
       description: |
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Draft`
     patch:
@@ -295,6 +331,8 @@ paths:
                 $ref: '#/components/schemas/Group'
         '405':
           description: Invalid input
+      x-lifecycle:
+        status: proposed
       description: |
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Draft`
   '/{namespace}/ResourceTypes':
@@ -302,7 +340,8 @@ paths:
       - $ref: '#/components/parameters/namespace'
     get:
       summary: List Resource Types
-      tags: []
+      tags:
+        - System Operations
       responses:
         '200':
           description: Ok
@@ -324,7 +363,12 @@ paths:
         - $ref: '#/components/parameters/attributes'
         - $ref: '#/components/parameters/excludedAttributes'
       operationId: get-namespace-ResourceTypes
-      description: 'Returns a list of the resource types that the server suppports. Example "Groups", "Users", "Contacts"'
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Returns a list of the resource types that the server suppports. Example "Groups", "Users", "Contacts"
   '/{namespace}/ResourceTypes/{id}':
     parameters:
       - name: namespace
@@ -341,7 +385,8 @@ paths:
         required: true
     get:
       summary: Get Resource Type
-      tags: []
+      tags:
+        - System Operations
       responses:
         '200':
           description: OK
@@ -359,13 +404,19 @@ paths:
       operationId: get-ResourceTypes-id
       parameters:
         - $ref: '#/components/parameters/Accept'
-      description: 'Returns a list of the resource types that the server suppports. Example "Groups", "Users", "Contacts"'
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Returns a list of the resource types that the server suppports. Example "Groups", "Users", "Contacts"
   '/{namespace}/Schemas':
     parameters:
       - $ref: '#/components/parameters/namespace'
     get:
       summary: List Schemas
-      tags: []
+      tags:
+        - System Operations
       responses:
         '200':
           description: Ok
@@ -387,7 +438,12 @@ paths:
         - $ref: '#/components/parameters/attributes'
         - $ref: '#/components/parameters/excludedAttributes'
       operationId: get-namespace-Schemas
-      description: Lists the data schemas that may be used by the resource types
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Lists the data schemas that may be used by the resource types
   '/{namespace}/Schemas/{id}':
     parameters:
       - name: namespace
@@ -404,7 +460,8 @@ paths:
         required: true
     get:
       summary: Get Schema
-      tags: []
+      tags:
+        - System Operations
       responses:
         '200':
           description: OK
@@ -420,13 +477,19 @@ paths:
         default:
           $ref: '#/components/responses/error'
       operationId: get-Schemas-id
-      description: Lists the data schemas that may be used by the resource types
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Lists the data schemas that may be used by the resource types
   '/{namespace}/Me':
     parameters:
       - $ref: '#/components/parameters/namespace'
     get:
       summary: Me redirect
-      tags: []
+      tags:
+        - User
       responses:
         '308':
           description: Permanent Redirect (experiemental)
@@ -437,7 +500,12 @@ paths:
                 example: 'https://prod.apigateway.co/scim/VUNI/Users/U-123456'
               description: The correct URI to make a request to
       operationId: get-namespace-Me
+      x-lifecycle:
+        status: proposed
       description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+
         The SCIM standard defines a special resource called "Me" that represents the user making the API request as identified by the access token. This is similar to the "/userinfo" endpoint defined in the OAuth2 spec. 
 
         The Vendasta platform will respond to all requests with a redirect to the coorisponding '/Users' endpoint. This may result in a different namespace.
@@ -446,7 +514,8 @@ paths:
       - $ref: '#/components/parameters/namespace'
     get:
       summary: Get Service Provider Config
-      tags: []
+      tags:
+        - System Operations
       responses:
         '200':
           description: OK
@@ -459,18 +528,30 @@ paths:
         - $ref: '#/components/parameters/Accept'
         - $ref: '#/components/parameters/attributes'
         - $ref: '#/components/parameters/excludedAttributes'
-      description: Provides details on the SCIM features supported by the Vendasta platform
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Provides details on the SCIM features supported by the Vendasta platform
   '/{namespace}/Bulk':
     parameters:
       - $ref: '#/components/parameters/namespace'
     get:
       summary: Bulk Actions
-      tags: []
+      tags:
+        - System Operations
       responses:
         '501':
           $ref: '#/components/responses/error'
       operationId: get-namespace-Bulk
-      description: The SCIM standard defines an optional `/Bulk` endpoint for performing multiple operations at the same time. The Vendasta platform does not currently support it.
+      x-lifecycle:
+        status: removed
+      description: |-
+        Status: `Not planned`
+
+
+        The SCIM standard defines an optional `/Bulk` endpoint for performing multiple operations at the same time. The Vendasta platform does not currently support it.
 components:
   schemas:
     User:
@@ -677,11 +758,11 @@ components:
         value:
           type: string
           example: 2819c223-7f76-453a-919d-413861904646
-        '$ref':
+        $ref:
           type: string
           format: uri
           example: 'https://example.com/v2/Users/2819c223-7f76-453a-919d-413861904646'
-        'display':
+        display:
           type: string
           example: Babs Jensen
     ServiceProviderConfig:

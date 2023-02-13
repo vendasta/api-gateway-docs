@@ -166,7 +166,7 @@ paths:
       operationId: scim-get-user
       security:
         - OAuth2:
-            - user.list
+            - user.profile:read
     put:
       tags:
         - User
@@ -698,7 +698,7 @@ components:
       properties:
         formatted:
           type: string
-          description: givenName + " " + middleName + " " + familyName
+          description: givenName + " " + familyName
           readOnly: true
         familyName:
           type: string
@@ -709,6 +709,7 @@ components:
         middleName:
           type: string
           example: Jane
+          description: <b>This field currently NOT SUPPORTED</b>
         honorificPrefix:
           type: string
           example: Ms.
@@ -1618,6 +1619,7 @@ components:
           tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
           scopes:
             user.admin: Read-write access to manage all users
+            user.profile:read: Read access to the profile fields of all categories of users
   parameters:
     content-type-scim:
       name: Content-Type

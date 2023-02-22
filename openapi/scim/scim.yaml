@@ -621,6 +621,7 @@ components:
           description: <b>This field currently NOT SUPPORTED</b>
         timezone:
           type: string
+          example: America/Regina
         emails:
           type: array
           minItems: 1
@@ -660,7 +661,8 @@ components:
       properties:
         value:
           type: string
-          example: 555-555-5555
+          example: +1-306-555-1234
+          description: phone no format should match the region / country given in address against the type
         type:
           type: string
           example: work
@@ -678,16 +680,18 @@ components:
           example: Hollywood
         region:
           type: string
-          example: CA
+          format: countrycode-statecode
+          example: CA-SK
         postalCode:
           type: string
           example: '91608'
         country:
           type: string
-          example: USA
+          format : ISO 3166-1 alpha-2 {two letters}
+          example: CA
         formatted:
           type: string
-          example: '100 Universal City Plaza\nHollywood, CA 91608 USA'
+          example: '100 Universal City Plaza\nHollywood, CA-SK 91608 CA'
         primary:
           type: boolean
     Name:
@@ -1079,7 +1083,7 @@ components:
                       the original attribute value (e.g., a hashed value) is not
                       retained by the service provider.  A service provider MAY
                       allow attributes to be used in a search filter.
-                    
+                  
                   `default` - The attribute is returned by default in all SCIM
                       operation responses where attribute values are returned.  If
                       the GET request "attributes" parameter is specified,

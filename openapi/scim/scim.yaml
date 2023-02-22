@@ -166,7 +166,7 @@ paths:
       operationId: scim-get-user
       security:
         - OAuth2:
-            - user.profile:read
+            - user.admin
     put:
       tags:
         - User
@@ -575,7 +575,6 @@ components:
           type: string
           description: |-
             External unique identifier of the user.
-            This is a mandatory attribute and client should specify during each operation.
         userName:
           type: string
           description: |-
@@ -653,11 +652,9 @@ components:
           $ref: '#/components/schemas/Meta'
       required:
         - schemas
-        - externalId
         - userName
         - name
         - emails
-        - active
     PhoneNumber:
       type: object
       properties:

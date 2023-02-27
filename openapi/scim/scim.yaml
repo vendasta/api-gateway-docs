@@ -96,10 +96,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/ListResponseUsers'
         '400':
-          description: |-
-            Invalid input
-            <br>Invalid Filter
-            <br>Invalid Expression
+          description: |
+            Below are the error messages for bad request:
+            <br>Only eq filter operator supported.
+            <br>Only "userName" or "externalId" filter attribute supported.
+            <br>There is some issue with provided attribute value.
       x-lifecycle:
         status: proposed
       description: |-
@@ -129,11 +130,6 @@ paths:
           description: Failed to create user.
         '409':
           description: One or more of the attribute values are already in use or are reserved.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: {}
       operationId: scim-create-user
       x-lifecycle:
         status: proposed

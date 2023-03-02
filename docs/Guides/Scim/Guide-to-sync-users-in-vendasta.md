@@ -16,6 +16,12 @@ This guide provides the information of
 
 This must be the id of the partner that wish to manage users in sync with Vendasta. It should be unique for a partner.
 
+The users access Partner Center is that when a new Channel Partner signs up a new Partner is created and this generates a PID. The PID is then set as the [namespace](https://vendasta.jira.com/wiki/spaces/RD/pages/1841005358/Business+App+Needs+a+Namespace) of all the SCIM Users. 
+
+
+![image.png](../../../assets/images/image-2.png)
+
+
 ### 2. Authorization token
 - For a partner with Vendasta, in order to access APIs of Vendasta they must need a authorisation token which is generated against the namespace of the partner. This should be refreshed over a particular time.
 

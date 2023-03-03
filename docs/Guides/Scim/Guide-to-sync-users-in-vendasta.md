@@ -2,7 +2,7 @@
 
 
 ## Overview
-System for Cross-domain Identity Management ([SCIM](https://en.wikipedia.org/wiki/System_for_Cross-domain_Identity_Management)) focuses on syncing user accounts and permissions between systems but has an extension system that allows syncing any type of record. There are several well known endpoint paths for discovering what the server supports and resource schema definitions.ff
+System for Cross-domain Identity Management ([SCIM](https://en.wikipedia.org/wiki/System_for_Cross-domain_Identity_Management)) focuses on syncing user accounts and permissions between systems but has an extension system that allows syncing any type of record. There are several well known endpoint paths for discovering what the server supports and resource schema definitions.
 
 This guide provides the information of
 
@@ -16,7 +16,7 @@ This guide provides the information of
 
 This must be the id of the partner that wish to manage users in sync with Vendasta. It should be unique for a partner.
 
-The users access Partner Center is that when a new Channel Partner signs up a new Partner is created and this generates a PID. The PID is then set as the [namespace](https://vendasta.jira.com/wiki/spaces/RD/pages/1841005358/Business+App+Needs+a+Namespace) of all the SCIM Users. 
+The users access Partner Center is that when a new Channel Partner signs up a new Partner is created and this generates a PID. The PID is then set as the namespace of all the SCIM Users. 
 
 
 ![image.png](../../../assets/images/image-2.png)
@@ -35,7 +35,9 @@ The users access Partner Center is that when a new Channel Partner signs up a ne
 ## Step 2 : Vendasta SCIM Endpoints to sync users
 
 A [schema](https://www.ibm.com/docs/en/odi?topic=apis-schema-api) is metadata that tells us how our data is structured. Most databases implement some form of schema which enables us to reason about our data in a more structured manner. 
+
 We support a [User schema](../../../openapi/scim/scim.yaml/paths/~1{namespace}~1Schemas) which is used in our SCIM APIs.
+Also the [System Operation](../../../openapi/scim/scim.yaml/paths/~1{namespace}~1ResourceTypes) section which will expose all of our supported configurations
 
 Endpoint Name | Method | URL | &nbsp;&nbsp;&nbsp; Description 
 ---------|----------|---------|---------------
@@ -49,4 +51,4 @@ Endpoint Name | Method | URL | &nbsp;&nbsp;&nbsp; Description
 
 
 ## External ID 
-It is an external unique identifier of the user. It is an optional field it can be generated if a partner wish to have an external unique identifier.
+It is an external unique identifier of the user in partner side. It is an optional field it will be stored if a partner wish to have an external unique identifier (should be sent by partner).

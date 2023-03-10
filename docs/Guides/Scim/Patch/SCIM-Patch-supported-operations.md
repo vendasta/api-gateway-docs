@@ -47,7 +47,7 @@ For remove
 
 ```json
 {
-    "op": "replace",
+    "op": "remove",
     "path": attribute  
 }
 ```

@@ -2,7 +2,7 @@
 
 
 ## Overview
-System for Cross-domain Identity Management ([SCIM](https://en.wikipedia.org/wiki/System_for_Cross-domain_Identity_Management)) focuses on syncing user accounts and permissions between systems but has an extension system that allows syncing any type of record. There are several well known endpoint paths for discovering what the server supports and resource schema definitions.
+System for Cross-domain Identity Management ([SCIM](https://en.wikipedia.org/wiki/System_for_Cross-domain_Identity_Management)) focuses on syncing user accounts and permissions between systems but has an extension system that allows syncing any type of record.
 
 This guide provides the information of
 
@@ -14,33 +14,63 @@ This guide provides the information of
 
 ### 1. Namespace
 
-This must be the id of the partner that wish to manage users in sync with Vendasta. It should be unique for a partner.
-
-The users access Partner Center is that when a new Channel Partner signs up a new Partner is created and this generates a PID. The PID is then set as the namespace of all the SCIM Users. 
+You need a namespace which is your Vendasta partner id and it is unique for each partner, this partner id is generated when a new channel partner signs up to vendasta.
 
 
-![image.png](../../../assets/images/image-2.png)
+
+![namespace.png](../../../assets/images/namespace.png)
 
 
 ### 2. Authorization token
-- For a partner with Vendasta, in order to access APIs of Vendasta you must need a authorisation token which is generated against the namespace of the partner. This should be refreshed over a particular time.
 
-- The authorization token must be generated with required scopes in order to access a particular platform. Here "user.admin" is the required scope which is mandatory for each token. 
-
+You need a authozization token to access vendasta APIs which should be generated against your namespace with required scope "user.admin"
 
 > To create a service account and create a token , see [here](../../Authorization/2-legged-oauth/Overview.md).
 
 
-
 ## Step 2 : Vendasta SCIM Endpoints to sync users
 
-A [schema](https://www.ibm.com/docs/en/odi?topic=apis-schema-api) is a metadata that tells us how our data is structured. Most databases implement some form of schema which enables us to reason about our data in a more structured manner. 
-
-We support a [User schema](../../../openapi/scim/scim.yaml/paths/~1{namespace}~1Schemas) which is used in our SCIM APIs.
+We support set of [fields](../../../openapi/scim/scim.yaml/paths/~1{namespace}~1Schemas) which is used in our SCIM APIs.
 Also the [System Operation](../../../openapi/scim/scim.yaml/paths/~1{namespace}~1ResourceTypes) section which will expose all of our supported configurations.
 
 
+### Check for an existing user 
 
+#### 1. By vendasta ID
+You can search for an existing user by vendasta id by making a GET request.
+
+If there is no user with the given ID then it would throw an error with “Resource not found” message.
+
+```json http
+{
+  "method": "get",
+  "url": "https://prod.apigateway.co/scim/{namespace}/Users/{id}",
+  "headers": {
+    "Authorization": "Bearer <Access Token with 'user.admin' scope>",
+    "Content-Type": "application/scim+json"
+  }
+}
+```
+
+#### 2. By Email id
+
+You can search for an existing user by email id by making a GET request.
+
+You use a query named "filter" to filter out using the user Email id
+
+```json http
+{
+  "method": "get",
+  "url": "https://prod.apigateway.co/scim/{namespace}/Users",
+  "headers": {
+    "Authorization": "Bearer <Access Token with 'user.admin' scope>",
+    "Content-Type": "application/scim+json"
+  },
+  "query": {
+    "filter": "userName eq \"user@mail.com\"",
+  },
+}
+```
 ### Create User
 
 When you want to add a new user, then you can use this API to make a POST request to create a new user by providing the required field.
@@ -51,17 +81,17 @@ If the user already exists then it will throw an error.
 ```json http
 {
   "method": "POST",
-  "url": "/scim/{namespace}/Users",
+  "url": "https://prod.apigateway.co/scim/{namespace}/Users",
   "headers": {
     "Authorization": "Bearer <Access Token with 'user.admin' scope>",
-    "Content-Type": "application/json"
+    "Content-Type": "application/scim+json"
   },
   "body": {
     "schemas": [
     "urn:ietf:params:scim:schemas:core:2.0:User"
     ],
-    "id": "string",
-    "externalId": "string",
+    "id": "2819c223-7f76-453a-919d-413861904646",
+    "externalId": "test-scim-external-id",
     "userName": "barbara@mail.com",
     "name": {
       "familyName": "Jensen",
@@ -72,10 +102,10 @@ If the user already exists then it will throw an error.
     },
     "nickName": "Babs",
     "profileUrl": "http://example.com",
-    "title": "string",
-    "userType": "string",
-    "preferredLanguage": "string",
-    "locale": "string",
+    "title": "Vice President",
+    "userType": "Employee",
+    "preferredLanguage": "english",
+    "locale": "en-US",
     "timezone": "America/Regina",
     "emails": [
       {
@@ -85,7 +115,7 @@ If the user already exists then it will throw an error.
       }
     ],
     "active": true,
-    "password": "string",
+    "password": "1234567A",
     "addresses": [
       {
         "type": "work",
@@ -104,13 +134,6 @@ If the user already exists then it will throw an error.
         "type": "work"
       }
     ],
-    "groups": [
-      {
-        "value": "2819c223-7f76-453a-919d-413861904646",
-        "$ref": "https://example.com/v2/Users/2819c223-7f76-453a-919d-413861904646",
-        "display": "Babs Jensen"
-      }
-    ],
     "meta": {
       "resourceType": "User",
       "created": "2010-01-23T04:56:22Z",
@@ -123,23 +146,9 @@ If the user already exists then it will throw an error.
 ```
 For full details on the available fields see [here](../../../openapi/scim/scim.yaml/paths/~1{namespace}~1Users)
 
-### Check for an existing user
-If another user already exists within your platform with the same email address you will get an error when trying to create a new user. 
 
-You can search for an existing user by vendasta id by making a GET request.
+> If another user already exists within your platform with the same email address you will get an error when trying to create a new user. 
 
-If there is no user with the given ID then it would throw an error with “Resource not found” message.
-
-```json http
-{
-  "method": "get",
-  "url": "/scim/{namespace}/Users/{id}",
-  "headers": {
-    "Authorization": "Bearer <Access Token with 'user.admin' scope>",
-    "Content-Type": "application/json"
-  }
-}
-```
 
 For full details on the available fields see [here](../../../openapi/scim/scim.yaml/paths/~1{namespace}~1Users~1{id})
 
@@ -155,10 +164,10 @@ The Endpoint will return all the available Users if we does not provide any filt
 ```json http
 {
   "method": "get",
-  "url": "/scim/{namespace}/Users",
+  "url": "https://prod.apigateway.co/scim/{namespace}/Users",
   "headers": {
     "Authorization": "Bearer <Access Token with 'user.admin' scope>",
-    "Content-Type": "application/json"
+    "Content-Type": "application/scim+json"
   }
 }
 ```
@@ -170,10 +179,10 @@ You use a query named "filter" to filter out using external ID or the user Email
 ```json http
 {
   "method": "get",
-  "url": "/scim/{namespace}/Users",
+  "url": "https://prod.apigateway.co/scim/{namespace}/Users",
   "headers": {
     "Authorization": "Bearer <Access Token with 'user.admin' scope>",
-    "Content-Type": "application/json"
+    "Content-Type": "application/scim+json"
   },
   "query": {
     "filter": "externalId eq \"user_external_id\" or userName eq \"user@mail.com\"",
@@ -186,10 +195,10 @@ You can even add the count per page, starting index, and sort options
 ```json http
 {
   "method": "get",
-  "url": "/scim/{namespace}/Users",
+  "url": "https://prod.apigateway.co/scim/{namespace}/Users",
   "headers": {
     "Authorization": "Bearer <Access Token with 'user.admin' scope>",
-    "Content-Type": "application/json"
+    "Content-Type": "application/scim+json"
   },
   "query": {
     "count": "10",
@@ -206,10 +215,10 @@ You can Customize the attributes in the search Response by providing these query
 ```json http
 {
   "method": "get",
-  "url": "/scim/{namespace}/Users",
+  "url": "https://prod.apigateway.co/scim/{namespace}/Users",
   "headers": {
     "Authorization": "Bearer <Access Token with 'user.admin' scope>",
-    "Content-Type": "application/json"
+    "Content-Type": "application/scim+json"
   },
   "query": {
     "attributes": "id,externalId,familyName,givenName",
@@ -234,10 +243,10 @@ If there is no user with the given ID then it would throw an error.
 ```json http
 {
   "method": "PATCH",
-  "url": "/scim/{namespace}/Users/{id}",
+  "url": "https://prod.apigateway.co/scim/{namespace}/Users/{id}",
   "headers": {
     "Authorization": "Bearer <Access Token with 'user.admin' scope>",
-    "Content-Type": "application/json"
+    "Content-Type": "application/scim+json"
   },
   "body": {
     "schemas": [
@@ -267,17 +276,17 @@ If there is no user with the given ID then it would throw an error.
 ```json http
 {
   "method": "PUT",
-  "url": "/scim/{namespace}/Users/{id}",
+  "url": "https://prod.apigateway.co/scim/{namespace}/Users/{id}",
   "headers": {
     "Authorization": "Bearer <Access Token with 'user.admin' scope>",
-    "Content-Type": "application/json"
+    "Content-Type": "application/scim+json"
   },
   "body":{
     "schemas": [
       "urn:ietf:params:scim:schemas:core:2.0:User"
     ],
-    "id": "string",
-    "externalId": "string",
+    "id": "2819c223-7f76-453a-919d-413861904646",
+    "externalId": "test-scim-external-id",
     "userName": "barbara@mail.com",
     "name": {
       "familyName": "Jensen",
@@ -288,10 +297,10 @@ If there is no user with the given ID then it would throw an error.
     },
     "nickName": "Babs",
     "profileUrl": "http://example.com",
-    "title": "string",
-    "userType": "string",
-    "preferredLanguage": "string",
-    "locale": "string",
+    "title": "Vice President",
+    "userType": "Contractor",
+    "preferredLanguage": "english",
+    "locale": "en-US",
     "timezone": "America/Regina",
     "emails": [
       {
@@ -301,7 +310,7 @@ If there is no user with the given ID then it would throw an error.
       }
     ],
     "active": true,
-    "password": "string",
+    "password": "12Av5678",
     "addresses": [
       {
         "type": "work",
@@ -318,13 +327,6 @@ If there is no user with the given ID then it would throw an error.
       {
         "value": "+1-306-555-1234",
         "type": "work"
-      }
-    ],
-    "groups": [
-      {
-        "value": "2819c223-7f76-453a-919d-413861904646",
-        "$ref": "https://example.com/v2/Users/2819c223-7f76-453a-919d-413861904646",
-        "display": "Babs Jensen"
       }
     ],
     "meta": {
@@ -349,10 +351,10 @@ If there is no user with the given ID in that case it would throw an error stati
 ```json http
 {
   "method": "delete",
-  "url": "	/scim/{namespace}/Users/{id}",
+  "url": "	https://prod.apigateway.co/scim/{namespace}/Users/{id}",
   "headers": {
     "Authorization": "Bearer <Access Token with 'user.admin' scope>",
-    "Content-Type": "application/json"
+    "Content-Type": "application/scim+json"
   }
 }
 ```

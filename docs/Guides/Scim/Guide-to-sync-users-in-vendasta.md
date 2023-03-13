@@ -6,7 +6,7 @@ System for Cross-domain Identity Management ([SCIM](https://en.wikipedia.org/wik
 
 This guide provides the information of
 
-- To create a service account in vendasta and authorization token to access vendasta APIs
+- To create a service account in Vendasta and authorization token to access Vendasta APIs
 - List of Vendasta SCIM APIs and the way to use it.
 
 
@@ -14,7 +14,7 @@ This guide provides the information of
 
 ### 1. Namespace
 
-You need a namespace which is your Vendasta partner id and it is unique for each partner, this partner id is generated when a new channel partner signs up to vendasta.
+You need a namespace which is your Vendasta partner id and it is unique for each partner, this partner id is generated when a new channel partner signs up to Vendasta.
 
 
 
@@ -23,7 +23,7 @@ You need a namespace which is your Vendasta partner id and it is unique for each
 
 ### 2. Authorization token
 
-You need a authozization token to access vendasta APIs which should be generated against your namespace with required scope "user.admin"
+You need a authorization token to access Vendasta APIs which should be generated against your namespace with required scope "user.admin"
 
 > To create a service account and create a token , see [here](../../Authorization/2-legged-oauth/Overview.md).
 
@@ -36,8 +36,8 @@ Also the [System Operation](../../../openapi/scim/scim.yaml/paths/~1{namespace}~
 
 ### Check for an existing user 
 
-#### 1. By vendasta ID
-You can search for an existing user by vendasta id by making a GET request.
+#### 1. By Vendasta ID
+You can search for an existing user by Vendasta id by making a GET request.
 
 If there is no user with the given ID then it would throw an error with “Resource not found” message.
 

@@ -5,7 +5,7 @@ stoplight-id: fdxg63veh82v5
 # SCIM Patch User supported operations 
 SCIM Patch is very versatile and supports a higly flexible request syntax. Below guide provides list of attributes, operation and request format for SCIM Patch user operations supported by this endpoint.
 
-**Attribute : name.familyName, name.givenName**: 
+**Attribute: name.familyName, name.givenName**: 
 
 Operation: replace/add
 
@@ -25,7 +25,7 @@ Operation: remove
   "path": "name.familyName"   
 }
 ```
-**Attribute - "nickName", "locale", "userType", "preferredLanguage", "timezone"**
+**Attribute: "nickName", "locale", "userType", "preferredLanguage", "timezone"**
 
 Operation: replace/add
 ```json
@@ -46,7 +46,7 @@ Operation: remove
 ```
 
 
-**Attribute - Address**
+**Attribute: "Addresses"**
 
 Operation: replace/add
 ```json
@@ -77,7 +77,7 @@ Operation: remove
 ```json
 {
   "op": "remove",
-  "path": "addresses[type eq \"mobile\"]"
+  "path": "addresses[type eq \"work\"]"
 }
 
 {
@@ -87,7 +87,7 @@ Operation: remove
 ```
 
 
-**Phone Numbers :**
+**Attribute: "phoneNumbers"**
 
 For Replace or Add
 ```json

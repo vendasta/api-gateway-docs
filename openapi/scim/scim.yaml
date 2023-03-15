@@ -138,7 +138,9 @@ paths:
 
         Create User based on SCIM schema
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
   '/{namespace}/Users/{id}':
     parameters:
@@ -171,7 +173,9 @@ paths:
         Get an user when the user id is known
       operationId: scim-get-user
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
     put:
       tags:
@@ -201,7 +205,9 @@ paths:
 
         API to replace an user. All of the attributes will be replaced with provided value and attributes will be kept blank for which no value is specified
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
     patch:
       tags:
@@ -230,7 +236,9 @@ paths:
         Update an user's one or multiple attributes by providing operation path and value. Post update all other attributes will be unchanged apart from provided attributes.
       operationId: scim-update-user
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
     delete:
       tags:
@@ -249,7 +257,9 @@ paths:
 
         API to delete an user
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
   '/{namespace}/Groups':
     parameters:
@@ -1619,7 +1629,7 @@ components:
       scheme: bearer
       bearerFormat: JWT
       description: ''
-    OAuth2:
+    OAuth2Demo:
       type: oauth2
       flows:
         authorizationCode:
@@ -1627,7 +1637,16 @@ components:
           tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
           scopes:
             user.admin: Read-write access to manage all users
-            'user.profile:read': Read access to the profile fields of all categories of users
+            user.profile:read: Read access to the profile fields of all categories of users
+    OAuth2Prod:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-prod.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-prod.apigateway.co/oauth2/token'
+          scopes:
+            user.admin: Read-write access to manage all users
+            user.profile:read: Read access to the profile fields of all categories of users
   parameters:
     content-type-scim:
       name: Content-Type
@@ -1936,5 +1955,7 @@ components:
               - status
   examples: {}
 security:
-  - OAuth2:
+  - OAuth2Demo:
+      - user.admin
+  - OAuth2Prod:
       - user.admin

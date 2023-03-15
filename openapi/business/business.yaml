@@ -144,7 +144,9 @@ paths:
       x-lifecycle:
         status: trustedTester
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - customers
+        - OAuth2Prod:
             - customers
       parameters:
         - schema:
@@ -276,7 +278,9 @@ paths:
               - `familyName`: Family name ascending
               - `-familyName`: Family name descending
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - customers
+        - OAuth2Prod:
             - customers
       tags:
         - Customers
@@ -335,7 +339,9 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - customers
+        - OAuth2Prod:
             - customers
     delete:
       summary: Delete Customer
@@ -361,7 +367,9 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - customers
+        - OAuth2Prod:
             - customers
     patch:
       summary: Update Customer
@@ -394,7 +402,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - customers
+        - OAuth2Prod:
             - customers
       responses:
         '200':
@@ -438,12 +448,20 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    OAuth2:
+    OAuth2Demo:
       type: oauth2
       flows:
         authorizationCode:
           authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
           tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          scopes:
+            customers: Allows read-write access to customer details
+    OAuth2Prod:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-prod.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-prod.apigateway.co/oauth2/token'
           scopes:
             customers: Allows read-write access to customer details
   schemas:

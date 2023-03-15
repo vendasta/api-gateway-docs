@@ -24,7 +24,9 @@ paths:
       summary: List Listing Sync Listings
       operationId: list-listingSyncListings
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - listing
+        - OAuth2Prod:
             - listing
       x-lifecycle:
         status: proposed
@@ -121,7 +123,9 @@ paths:
       x-lifecycle:
         status: proposed
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - listing
+        - OAuth2Prod:
             - listing
       parameters:
         - schema:
@@ -150,12 +154,21 @@ components:
     JWT:
       type: http
       scheme: bearer
-    OAuth2:
+    OAuth2Demo:
       type: oauth2
       flows:
         authorizationCode:
           authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
           tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          refreshUrl: ''
+          scopes:
+            listing: Access to the Listing Builder REST API
+    OAuth2Prod:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-prod.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-prod.apigateway.co/oauth2/token'
           refreshUrl: ''
           scopes:
             listing: Access to the Listing Builder REST API

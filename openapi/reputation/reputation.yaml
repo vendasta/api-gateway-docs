@@ -20,7 +20,9 @@ paths:
       tags:
         - Business Location Reviews
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - business
+        - OAuth2Prod:
             - business
       x-lifecycle:
         status: trustedTester
@@ -193,12 +195,21 @@ components:
     JWT:
       type: http
       scheme: bearer
-    OAuth2:
+    OAuth2Demo:
       type: oauth2
       flows:
         authorizationCode:
           authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
           tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          refreshUrl: ''
+          scopes:
+            reputation: Access to the Reputation REST API
+    OAuth2Prod:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-prod.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-prod.apigateway.co/oauth2/token'
           refreshUrl: ''
           scopes:
             reputation: Access to the Reputation REST API

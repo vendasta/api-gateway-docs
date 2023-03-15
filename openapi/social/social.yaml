@@ -111,12 +111,21 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    OAuth2:
+    OAuth2Demo:
       type: oauth2
       flows:
         authorizationCode:
           authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
           tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          scopes:
+            business: Read-write access to business details
+            social: Read-write access to Social Marketing APIs
+    OAuth2Prod:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-prod.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-prod.apigateway.co/oauth2/token'
           scopes:
             business: Read-write access to business details
             social: Read-write access to Social Marketing APIs
@@ -199,6 +208,9 @@ tags:
   - name: Messages
   - name: Options
 security:
-  - OAuth2:
+  - OAuth2Demo:
+      - business
+      - social
+  - OAuth2Prod:
       - business
       - social

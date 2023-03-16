@@ -50,7 +50,9 @@ paths:
 
         Note: Currently when creating a contact you must specify exactly 1 Business Location id for it to be linked to. We intend to expand this limit.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.contact
+        - OAuth2Prod:
             - sales.contact
       requestBody:
         content:
@@ -119,7 +121,9 @@ paths:
                         type: string
       operationId: get-salesContacts-id
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.contact
+        - OAuth2Prod:
             - sales.contact
       x-lifecycle:
         status: trustedTester
@@ -211,7 +215,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - business
+        - OAuth2Prod:
             - business
       tags:
         - Business Locations
@@ -285,7 +291,9 @@ paths:
           description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
           name: 'page[limit]'
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - business
+        - OAuth2Prod:
             - business
       tags:
         - Business Locations
@@ -334,7 +342,9 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - business
+        - OAuth2Prod:
             - business
     options:
       operationId: options-businessLocations-id
@@ -377,7 +387,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - business
+        - OAuth2Prod:
             - business
       responses:
         '200':
@@ -469,7 +481,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       tags:
         - Users
@@ -572,7 +586,10 @@ paths:
           name: 'filter[category]'
           description: 'Filter the users based on the broad category that they fall into. In some rare cases users may be part of multiple categories. '
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+            - user.list
+        - OAuth2Prod:
             - user.admin
             - user.list
       tags:
@@ -622,7 +639,20 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+            - 'user.profile:read'
+            - 'user.contact:read'
+            - 'user.permission:read'
+            - user.permission
+            - self.user.admin
+            - 'self.user.contact:read'
+            - openid
+            - profile
+            - email
+            - phone
+            - address
+        - OAuth2Prod:
             - user.admin
             - 'user.profile:read'
             - 'user.contact:read'
@@ -676,7 +706,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       responses:
         '200':
@@ -715,7 +747,9 @@ paths:
 
         Deleting a user will remove personal data from it and prevent the ID from being used again in the future.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       tags:
         - Users
@@ -735,7 +769,9 @@ paths:
         - Purchases
       operationId: get-purchases
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - financial
+        - OAuth2Prod:
             - financial
       x-lifecycle:
         status: trustedTester
@@ -826,7 +862,9 @@ paths:
       tags:
         - Business Categories
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - business
+        - OAuth2Prod:
             - business
       x-lifecycle:
         status: trustedTester
@@ -964,7 +1002,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - order
+        - OAuth2Prod:
             - order
     options:
       operationId: options-orders
@@ -1010,7 +1050,9 @@ paths:
 
         Produces a list of orders.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - order
+        - OAuth2Prod:
             - order
       parameters:
         - schema:
@@ -1068,7 +1110,9 @@ paths:
                         type: string
       operationId: get-orders-id
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - order
+        - OAuth2Prod:
             - order
       x-lifecycle:
         status: trustedTester
@@ -1145,7 +1189,9 @@ paths:
 
         Attributes can be set up at the partner administration page in Partner Center.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - order
+        - OAuth2Prod:
             - order
       x-lifecycle:
         status: trustedTester
@@ -1224,7 +1270,9 @@ paths:
 
         This endpoint acts like a alias to [Get Order Custom Fields by ID endpoint](b3A6MzYxMTM5MTY-get-order-custom-data-by-id). It returns custom fields about a sales order.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - order
+        - OAuth2Prod:
             - order
       x-lifecycle:
         status: trustedTester
@@ -1356,7 +1404,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - order
+        - OAuth2Prod:
             - order
       tags:
         - Order Custom Fields
@@ -1417,7 +1467,9 @@ paths:
 
         Attributes can be set up at the partner administration page in Partner Center.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - order
+        - OAuth2Prod:
             - order
       x-lifecycle:
         status: trustedTester
@@ -1527,7 +1579,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       tags:
         - Users
@@ -1565,7 +1619,9 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       tags:
         - Users
@@ -1638,7 +1694,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       tags:
         - Users
@@ -1699,7 +1757,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       tags:
         - Users
@@ -1714,7 +1774,9 @@ paths:
           description: Accepted
       operationId: post-autoamtionruns
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - business
+        - OAuth2Prod:
             - business
       x-lifecycle:
         status: trustedTester
@@ -1864,7 +1926,9 @@ paths:
           description: Returns automations matching the provided market IDs.
           required: true
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - 'automation:read'
+        - OAuth2Prod:
             - 'automation:read'
       tags:
         - Automations
@@ -1920,7 +1984,9 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - 'automation:read'
+        - OAuth2Prod:
             - 'automation:read'
       tags:
         - Automations
@@ -2068,7 +2134,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       tags:
         - Sales Accounts
@@ -2205,7 +2273,9 @@ paths:
           name: include
           description: A list of relationships where you would like the related records embedded in the response. This can be used to save a network request.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       tags:
         - Sales Accounts
@@ -2307,7 +2377,9 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       tags:
         - Sales Accounts
@@ -2352,7 +2424,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       responses:
         '200':
@@ -2497,7 +2571,9 @@ paths:
                         format: uri
       operationId: get-subscriptionAssignments
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       x-lifecycle:
         status: trustedTester
@@ -2702,7 +2778,9 @@ paths:
 
         Attributes can be set up at the partner administration page in Partner Center.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       x-lifecycle:
         status: trustedTester
@@ -2789,7 +2867,9 @@ paths:
 
         This endpoint acts like a alias to [Get Sales Account Custom Fields by ID endpoint](b3A6MzYxMTM5MTY-get-sales-account-custom-data-by-id). It returns custom fields about a sales account.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       x-lifecycle:
         status: trustedTester
@@ -2921,7 +3001,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       tags:
         - Sales Account Custom Fields
@@ -2982,7 +3064,9 @@ paths:
 
         Attributes can be set up at the partner administration page in Partner Center.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       x-lifecycle:
         status: trustedTester
@@ -3060,7 +3144,9 @@ paths:
 
         This endpoint acts like a alias to [Get User Custom Fields by ID endpoint](b3A6MzczMDUyMjU-get-custom-fields-by-id). It returns custom fields for a user.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       x-lifecycle:
         status: trustedTester
@@ -3192,7 +3278,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       tags:
         - User Custom Fields
@@ -3245,7 +3333,9 @@ paths:
 
         Attributes can be set up at the partner administration page in Partner Center.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       x-lifecycle:
         status: trustedTester
@@ -3376,7 +3466,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - product
+        - OAuth2Prod:
             - product
       tags:
         - Product Custom Fields
@@ -3437,7 +3529,9 @@ paths:
 
         Attributes can be set up at the partner administration page in Partner Center.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - product
+        - OAuth2Prod:
             - product
       x-lifecycle:
         status: trustedTester
@@ -3468,7 +3562,19 @@ paths:
       tags:
         - Countries
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.contact
+            - business
+            - 'user.profile:read'
+            - 'user.contact:read'
+            - 'user.permission:read'
+            - user.admin
+            - self.user.admin
+            - 'self.user.contact:read'
+            - openid
+            - profile
+            - sales.account
+        - OAuth2Prod:
             - sales.contact
             - business
             - 'user.profile:read'
@@ -3558,7 +3664,19 @@ paths:
       tags:
         - Countries
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.contact
+            - business
+            - 'user.profile:read'
+            - 'user.contact:read'
+            - 'user.permission:read'
+            - user.admin
+            - self.user.admin
+            - 'self.user.contact:read'
+            - openid
+            - profile
+            - sales.account
+        - OAuth2Prod:
             - sales.contact
             - business
             - 'user.profile:read'
@@ -3638,7 +3756,19 @@ paths:
       tags:
         - Countries
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.contact
+            - business
+            - 'user.profile:read'
+            - 'user.contact:read'
+            - 'user.permission:read'
+            - user.admin
+            - self.user.admin
+            - 'self.user.contact:read'
+            - openid
+            - profile
+            - sales.account
+        - OAuth2Prod:
             - sales.contact
             - business
             - 'user.profile:read'
@@ -3737,7 +3867,19 @@ paths:
       tags:
         - Countries
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.contact
+            - business
+            - 'user.profile:read'
+            - 'user.contact:read'
+            - 'user.permission:read'
+            - user.admin
+            - self.user.admin
+            - 'self.user.contact:read'
+            - openid
+            - profile
+            - sales.account
+        - OAuth2Prod:
             - sales.contact
             - business
             - 'user.profile:read'
@@ -3907,7 +4049,9 @@ paths:
           name: 'filter[searchTerm]'
           description: A string containing a partial title.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.proposals
+        - OAuth2Prod:
             - sales.proposals
       tags:
         - Proposals
@@ -3915,7 +4059,9 @@ paths:
         status: trustedTester
     post:
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.proposals
+        - OAuth2Prod:
             - sales.proposals
       x-lifecycle:
         status: trustedTester
@@ -4038,7 +4184,9 @@ paths:
 
             `currencyCode`, `createdAt`, `updatedAt`, `archivedAt`, `viewCount`, `shareType`, `pdfUrl`, `previewImageUrl`, `title`, `content`, `lineItems`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.proposals
+        - OAuth2Prod:
             - sales.proposals
     options:
       operationId: options-proposals-id
@@ -4082,7 +4230,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.proposals
+        - OAuth2Prod:
             - sales.proposals
       responses:
         '200':
@@ -4209,7 +4359,9 @@ paths:
           name: 'filter[searchTerm]'
           description: A string containing a partial title.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.proposals
+        - OAuth2Prod:
             - sales.proposals
       tags:
         - Proposals
@@ -4217,7 +4369,9 @@ paths:
         status: trustedTester
     post:
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.proposals
+        - OAuth2Prod:
             - sales.proposals
       x-lifecycle:
         status: trustedTester
@@ -4341,7 +4495,9 @@ paths:
 
             Possible values include: `currencyCode`, `createdAt`, `updatedAt`, `archivedAt`, `shareType`, `pdfUrl`, `previewImageUrl`, `title`, `content`, `lineItems`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.proposals
+        - OAuth2Prod:
             - sales.proposals
     options:
       operationId: options-proposalTemplates-id
@@ -4385,7 +4541,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.proposals
+        - OAuth2Prod:
             - sales.proposals
       responses:
         '200':
@@ -4485,7 +4643,10 @@ paths:
         You must filter the list to a single partner using the `filter[partner.id]=PID` query param. 
         Sorted by the whiteLabelName field in ascending order.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - partner
+            - product
+        - OAuth2Prod:
             - partner
             - product
       parameters:
@@ -4556,7 +4717,10 @@ paths:
 
         Returns the details of a product listed in a reseller's store for a known id.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - product
+            - partner
+        - OAuth2Prod:
             - product
             - partner
       parameters:
@@ -4625,12 +4789,40 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    OAuth2:
+    OAuth2Demo:
       type: oauth2
       flows:
         authorizationCode:
           authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
           tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          scopes:
+            sales.contact: Read-write access to sales contact details
+            business: Read-write access to business details
+            partner: Read-write access to details about your partner
+            financial: Read-write access to financial details
+            order: Read-write access to order details
+            'user.profile:read': Read access to the profile fields of all categories of users
+            'user.contact:read': 'Read access to the contact info (email, phone, address) of all categories of users'
+            'user.permission:read': 'Read access to the permission info (accessible locations, features and roles) of all categories of users'
+            user.permission: 'Read-write access to the permission info (accessible locations, features and roles) of all categories of users'
+            user.admin: Read-write access to manage all users
+            user.list: '''Allows searching for users based on a set of filters. (ex: email, name, category, organization). Without this scope an exact user id is required.'
+            self.user.admin: 'Allows editing the profile, contact info and profile image for the current user.'
+            'self.user.contact:read': 'Read access to the contact info (email, phone, address) of the current user.'
+            openid: Allows getting the user id of the current user
+            profile: 'Readonly access to the user profile, including name, locale, and language preferences.'
+            email: Allows readonly access to the email of the current user.
+            phone: Allows readonly access to the phone numbers of the current user.
+            address: Allows readonly access to the address of the current user.
+            sales.account: Allows read-write access to account records
+            sales.proposals: Allows read-write access to proposals
+            product: Read access to the product details
+    OAuth2Prod:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-prod.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-prod.apigateway.co/oauth2/token'
           scopes:
             sales.contact: Read-write access to sales contact details
             business: Read-write access to business details

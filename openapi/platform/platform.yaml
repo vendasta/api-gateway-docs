@@ -290,6 +290,19 @@ paths:
           in: query
           description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
           name: 'page[limit]'
+        - schema:
+            type: string
+            enum:
+              - createdAt
+              - '-createdAt'
+              - name
+              - '-name'
+              - updatedAt
+              - '-updatedAt'
+            default: '-updatedAt'
+          in: query
+          name: sort
+          description: Sort busines location based on selected option. Defaulted to -updatedAt (Desc updatedAt)
       security:
         - OAuth2Demo:
             - business
@@ -2272,6 +2285,19 @@ paths:
           in: query
           name: include
           description: A list of relationships where you would like the related records embedded in the response. This can be used to save a network request.
+        - schema:
+            type: string
+            enum:
+              - createdAt
+              - '-createdAt'
+              - name
+              - '-name'
+              - updatedAt
+              - '-updatedAt'
+            default: '-updatedAt'
+          in: query
+          name: sort
+          description: Sort sales accounts based on selected option. Defaulted to -updatedAt (Desc updatedAt)
       security:
         - OAuth2Demo:
             - sales.account
@@ -4977,6 +5003,9 @@ components:
                 - longitude
             hours:
               $ref: '#/components/schemas/hoursOfOperation'
+            updatedAt:
+              type: string
+              description: The time at which the business locations was last updated
         relationships:
           type: object
           properties:
@@ -6365,6 +6394,9 @@ components:
               description: A public summary of the business. See also `descriptionShort`
             hours:
               $ref: '#/components/schemas/hoursOfOperation'
+            updatedAt:
+              type: string
+              description: The time at which the sales accounts was last updated
         relationships:
           type: object
           properties:

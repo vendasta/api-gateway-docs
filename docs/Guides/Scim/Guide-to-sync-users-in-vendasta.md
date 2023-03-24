@@ -39,6 +39,7 @@ Also the [System Operation](../../../openapi/scim/scim.yaml/paths/~1{namespace}~
 #### 1. By Vendasta ID
 You can search for an existing user by Vendasta id by making a GET request.
 
+
 If there is no user with the given ID then it would throw an error with “Resource not found” message.
 
 ```json http

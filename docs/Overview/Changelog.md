@@ -2,6 +2,9 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2023-03-28
+Read scopes have been added to businessLocations/get and orders/get
+
 ## 2022-12-23
 
 ### Tags on sales orders

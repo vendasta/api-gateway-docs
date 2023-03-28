@@ -465,6 +465,50 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/users'
+            examples:
+              Example 1:
+                value:
+                  data:
+                    type: users
+                    attributes:
+                      displayName: Bill Smith
+                      givenName: William
+                      familyName: Smith
+                      greetingName: Billy
+                      email: bill@example.com
+                      emailVerified: false
+                      emailSet: true
+                      languageLocaleCode: en-US
+                      phoneNumbersSet: true
+                      phoneNumbers:
+                        - number: +1-306-555-1234 ext. 56
+                          typeCode: mobile
+                      address:
+                        line1: 109 8th Street E.
+                        line2: Suite 23
+                        streetAddress: 109 8th Street E.
+                        additionalAddress: Suite 23
+                        city: Saskatoon
+                        postalCode: S7M 1R3
+                        regionCode: CA-SK
+                        countryCode: CA
+                      profileImage: 'https://storage.googleapis.com/wordpress-www-vendasta/vw-wordpress/Brendan-King-1.jpg'
+                      timeZone: America/Regina
+                      createdAt: '2019-08-24T14:15:22Z'
+                      updatedAt: '2019-08-24T14:15:22Z'
+                    relationships:
+                      partner:
+                        data:
+                          type: partners
+                          id: ABC
+                      businessLocations:
+                        data:
+                          - type: businessLocations
+                            id: AG-1234567
+                      platformAccess:
+                        data:
+                          - type: appFeatures
+                            id: 'pc:access'
       x-lifecycle:
         status: trustedTester
       description: |-
@@ -749,6 +793,51 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/users'
+            examples:
+              Example 1:
+                value:
+                  data:
+                    type: users
+                    id: U-3ca38c57-7677-45d4-81e8-cd29eab91d63
+                    attributes:
+                      displayName: Bill Smith
+                      givenName: William
+                      familyName: Smith
+                      greetingName: Billy
+                      email: bill@example.com
+                      emailVerified: false
+                      emailSet: true
+                      languageLocaleCode: en-US
+                      phoneNumbersSet: true
+                      phoneNumbers:
+                        - number: +1-306-555-1234 ext. 56
+                          typeCode: mobile
+                      address:
+                        line1: 109 8th Street E.
+                        line2: Suite 23
+                        streetAddress: 109 8th Street E.
+                        additionalAddress: Suite 23
+                        city: Saskatoon
+                        postalCode: S7M 1R3
+                        regionCode: CA-SK
+                        countryCode: CA
+                      profileImage: 'https://storage.googleapis.com/wordpress-www-vendasta/vw-wordpress/Brendan-King-1.jpg'
+                      timeZone: America/Regina
+                      createdAt: '2019-08-24T14:15:22Z'
+                      updatedAt: '2019-08-24T14:15:22Z'
+                    relationships:
+                      partner:
+                        data:
+                          type: partners
+                          id: ABC
+                      businessLocations:
+                        data:
+                          - type: businessLocations
+                            id: AG-1234567
+                      platformAccess:
+                        data:
+                          - type: appFeatures
+                            id: 'pc:access'
     delete:
       summary: Delete User
       operationId: delete-users-id
@@ -5760,13 +5849,14 @@ components:
           default: users
           enum:
             - users
-          readOnly: true
+
         id:
           type: string
           description: |-
             The id will be assigned by the server and must be included on all update requests. Values sent during creation will be ignored. It is globally unique across all platform instances and will not change.
 
             You may use the special id `me` to operate on the current user if you have the scope `openid`.
+          example: U-3ca38c57-7677-45d4-81e8-cd29eab91d63
         attributes:
           type: object
           nullable: true

@@ -79,6 +79,15 @@ The webhook may be resent automatically for a few reasons:
 
 If you require more than 60 seconds to process the webhook you should start a background workflow to do the processing. (We are fans of the [Temporal](https://www.temporal.io/) workflow engine.)
 
+If your webhook returns an error status code and you would like to display information about this error to the end user in the Vendasta platform you can include a JSON encoded response body that includes the key `human_readable` with a message to be shown to the user
+**Example Error Body**
+```json
+{
+  "human_readable": "AG-1234567",
+}
+```
+How the error appears in the Activity Table
+![](WebhookError.png)
 
 ## Optional: Fetch up to date info
 

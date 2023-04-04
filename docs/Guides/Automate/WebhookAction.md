@@ -83,7 +83,7 @@ If your webhook returns an error status code and you would like to display infor
 **Example Error Body**
 ```json
 {
-  "human_readable": "The account did not have the expeted tags."
+  "human_readable": "The account did not have the expected tags."
 }
 ```
 How the error appears in the Activity Table

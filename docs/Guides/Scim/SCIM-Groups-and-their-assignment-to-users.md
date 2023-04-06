@@ -41,6 +41,8 @@ For example if `{AG-ID}` is `AG-MXX5P286VP` then the table will look similar to 
 
 The same groups are shown in below image on how it reflects in Vendasta
 
+To see this permission in partner centre go to **[partners.vendasta.com](https://partners.vendasta.com)** > **Businesses** > **Users** > Click **Kebab Menu**(3 vertical dot) on an user > **Edit Permissions**
+
 ![Groups for business users](../../../assets/images/business-groups.png)
 
 ### List of Platform Groups
@@ -70,6 +72,8 @@ Here is the list of available groups you can assign to a partner user.
 | tm:manage                  | Can manage Task Manager           | platformFeature |
 
 The same groups are shown in below image on how it reflects in Vendasta
+
+To see this permission in partner centre go to **[partners.vendasta.com](https://partners.vendasta.com)** > **Administration** > **My Team** > Click **Kebab Menu**(3 vertical dot) on an user > **Edit Member**
 
 ![Groups for platform users](../../../assets/images/platform-groups-1.png)
 ![Groups for platform users](../../../assets/images/platform-groups-2.png)

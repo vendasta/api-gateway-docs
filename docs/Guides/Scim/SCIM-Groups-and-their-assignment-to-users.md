@@ -7,7 +7,7 @@ Below guide provides list of attributes, operation and request format for Update
 
 ## Groups in Vendasta
 Vendasta Groups are broadly classified into two categories, the first one is related to business users and the second one is related to platform users.
-> Groups in Vendasta are predefined and it can't be created,renamed or deleled through SCIM. In terms of group updated, only an user can be added to or removed from a group.
+> Groups in Vendasta are predefined and it can't be created, renamed or deleled through SCIM. In terms of group updated, only an user can be added to or removed from a group.
 ### List of Business Groups
 Here is the list of available groups you can assign to a business user.
 

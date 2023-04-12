@@ -7,7 +7,7 @@ stoplight-id: 1vx6kpuftqy26
 The SCIM implementation in Vendasta has few limitations which align with our business needs. In this article we will discuss these limitations in more detail.
 
 ## Users resources
-Email address is used as an `userName`. Anything other that email, system will reject as a valid `userName`.
+Email address is used as an `userName`. Anything other that email, system will reject as a invalid `userName`.
 
 We do not support multiple `emails`. An user can have only one email associated. If multiple `emails` are provided on request we will only pick up for which `type eq work`.
 

@@ -12,7 +12,7 @@ The client id is stored in Vendasta's Database, which will be used for doing aut
 
 When a user tries to access one of Vendasta's centers or a marketplace app in a web browser Vendasta’s SSO system will check to see if the user is already logged into Vendasta. 
 
-If the user is not logged in we will redirect the user’s web browser to the OAuth2 Authorization Endpoint.
+If the user is not logged in we will redirect the user’s web browser to the OAuth2 Authorization Endpoint. 
 
 Authorization, token, and user info are three endpoints, you can see the details below 
 

@@ -14,7 +14,11 @@ When a user tries to access one of vendasta's centers or a marketplace app in a 
 
 If the user is not logged in we will redirect the user’s web browser to the OAuth2 Authorization Endpoint.
 
-Authorization, token and user info these are three endpoints, Lets see in detail.
+Authorization, token and user info these are three endpoints, you can see the details below 
+
+You can see the flow diagram where you get to know end to end flow. 
+
+![Oauth2_flow_diagram.png](../../assets/images/flow_diagram.png)
 
 
 

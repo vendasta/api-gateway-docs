@@ -373,7 +373,7 @@ type: tab
 title: Sales Manager
 -->
 
-To turn a salesperson into a manager simply add `ssc:manager` to the list of platform access.
+To turn a salesperson into a manager simply add `ssc:manage` to the list of platform access.
 
 ``` json http
 {
@@ -421,7 +421,7 @@ To turn a salesperson into a manager simply add `ssc:manager` to the list of pla
           },
           {
             "type": "appFeatures",
-            "id": "ssc:manager"
+            "id": "ssc:manage"
           }
         ]
       }
@@ -685,8 +685,12 @@ title: Remove all permissions
     "type": "users",
     "id": "U-a1654fed-78d3-4bd4-bf39-80203ca5273a",
     "relationships": {
-      "businessLocations": {},
-      "platformAccess": {}
+      "businessLocations": {
+        "data": []
+      },
+      "platformAccess": {
+        "data": []
+      }
     }
   }
 },

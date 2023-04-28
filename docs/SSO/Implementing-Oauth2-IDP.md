@@ -107,7 +107,7 @@ You will use the access token to call the User Info endpoint.
 
 Once you have configured the above endpoints on your server, you need to connect them to Vendasta.
 
-[click here](https://partners.vendasta.com/integrations/sso![partners_sso.png](../../assets/images/partners_sso.png)
+[click here](https://partners.vendasta.com/integrations/sso
 ) to go **Partner SSO Integration**, and add your client_id, client_secret, and info about
  these three endpoints.
 

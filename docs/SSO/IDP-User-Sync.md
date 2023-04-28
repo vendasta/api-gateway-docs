@@ -172,7 +172,7 @@ There are two categories of users that you may want to keep in sync between your
 
 ## Create new user
 
-Here are common requests that you may make. For full details see the [API operation docs](../openapi/platform/platform.yaml/paths/~1users/post).
+Here are common requests that you may make. For full details see the [API operation docs](../../openapi/platform/platform.yaml/paths/~1users/post).
 
 For each of the examples you will need to replace the partner id with your own.
 

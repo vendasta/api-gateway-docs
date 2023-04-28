@@ -19,5 +19,5 @@ You may be able to make use of one of [these open source libraries](https://oaut
 > SSO only identifies who is sitting at the computer. 
 > Creating their user record and setting permissions should be done as a separate step.
 >
-> You can [manage users by API](../Guides/Users.md) to keep them in sync with your system.
+> You can [manage users by API](IDP-User-Sync.md) to keep them in sync with your system.
 

@@ -3289,6 +3289,51 @@ paths:
       tags:
         - Options
         - User Custom Fields
+  '/users/{id}/actions/sendWelcomeEmail':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Send Welcome Email
+      operationId: get-userCustomFields-by-userid
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        This endpoint works similar to the resend welcome email option available in the UI of the partner center. An email will be send to the user whose user id is passed in the request. 
+      security:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
+            - user.admin
+      x-lifecycle:
+        status: trustedTester
+      tags:
+        - Users
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+      responses:
+        '202':
+          description: Accepted
+    options:
+      summary: 'List valid HTTP verbs for /users/{id}/customFields'
+      operationId: options-userCustomFields-by-userid
+      responses:
+        '204':
+          description: No Content
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+        - User Custom Fields
   '/userCustomFields/{id}':
     parameters:
       - schema:

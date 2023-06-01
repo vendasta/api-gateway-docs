@@ -12,6 +12,86 @@ servers:
   - url: 'http://localhost:11001/platform'
     description: Localhost
 paths:
+  /salesContacts:
+    post:
+      summary: Create Sales Contact
+      operationId: post-salesContacts
+      responses:
+        '201':
+          description: Created
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/salesContacts'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                        description: The address of the newly created contact
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The address of the newly created contact
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Use this operation to create a new Sales Contact for a business.
+
+        An email and business location must be provided when creating a contact.
+
+        Note: Currently when creating a contact you must specify exactly 1 Business Location id for it to be linked to. We intend to expand this limit.
+      security:
+        - OAuth2Demo:
+            - sales.contact
+        - OAuth2Prod:
+            - sales.contact
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/salesContacts'
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      tags:
+        - Sales Contacts
+    options:
+      operationId: options-salesContacts
+      tags:
+        - Options
+        - Sales Contacts
+      summary: List valid HTTP verbs for /salesContacts
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
   '/salesContacts/{id}':
     parameters:
       - schema:
@@ -234,86 +314,6 @@ paths:
         - Business Locations
       x-lifecycle:
         status: trustedTester
-  /salesContacts:
-    post:
-      summary: Create Sales Contact
-      operationId: post-salesContacts
-      responses:
-        '201':
-          description: Created
-          content:
-            application/vnd.api+json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/salesContacts'
-                  links:
-                    type: object
-                    properties:
-                      self:
-                        type: string
-                        format: uri
-                        description: The address of the newly created contact
-          headers:
-            Location:
-              schema:
-                type: string
-                format: uri
-              description: The address of the newly created contact
-      x-lifecycle:
-        status: trustedTester
-      description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
-
-        Use this operation to create a new Sales Contact for a business.
-
-        An email and business location must be provided when creating a contact.
-
-        Note: Currently when creating a contact you must specify exactly 1 Business Location id for it to be linked to. We intend to expand this limit.
-      security:
-        - OAuth2Demo:
-            - sales.contact
-        - OAuth2Prod:
-            - sales.contact
-      requestBody:
-        content:
-          application/vnd.api+json:
-            schema:
-              type: object
-              properties:
-                data:
-                  $ref: '#/components/schemas/salesContacts'
-      parameters:
-        - schema:
-            type: string
-            example: Bearer <Access Token>
-            pattern: ^Bearer\s\S+
-          in: header
-          name: Authorization
-          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
-          required: true
-        - schema:
-            type: string
-            default: application/vnd.api+json
-            enum:
-              - application/vnd.api+json
-          in: header
-          name: Content-Type
-          required: true
-          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
-      tags:
-        - Sales Contacts
-    options:
-      operationId: options-salesContacts
-      tags:
-        - Options
-        - Sales Contacts
-      summary: List valid HTTP verbs for /salesContacts
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
-      responses:
-        '204':
-          description: No Content
   '/businessLocations/{id}':
     parameters:
       - schema:
@@ -3302,7 +3302,7 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        An email will be sent to the already created user whose user id is passed in the request. 
+        An email will be sent to the already created user whose user id is passed in the request.
       security:
         - OAuth2Demo:
             - user.admin
@@ -5047,7 +5047,7 @@ components:
               description: |-
                 The common name for this location.
 
-                Note: The pipe character (`|`) is not allowed. 
+                Note: The pipe character (`|`) is not allowed.
               pattern: '^[^|]+$'
               minLength: 1
             address:
@@ -5196,7 +5196,6 @@ components:
                     required:
                       - type
                       - id
-      x-examples: {}
     salesContacts:
       title: Sales Contact
       type: object
@@ -6420,7 +6419,7 @@ components:
               description: |-
                 The common name for this location.
 
-                Note: The pipe character (`|`) is not allowed. 
+                Note: The pipe character (`|`) is not allowed.
               example: CN Tower
               pattern: '^[^|]+$'
               minLength: 1
@@ -6657,10 +6656,6 @@ components:
       properties:
         id:
           type: string
-          description: |-
-            The id is a string which is in the form - 
-            BusinessID : ProductID : ActivationID
-          example: 'AG-1234:MP-12345:vb99d662-e12f-4r1c-g275-449aa19td438'
         type:
           type: string
           default: subscriptionAssignment
@@ -7276,19 +7271,6 @@ components:
                   $ref: '#/components/schemas/timeOfDay'
                 closeTime:
                   $ref: '#/components/schemas/timeOfDay'
-      x-examples:
-        Example 1:
-          - hoursTypeId: general
-            regularHours:
-              - openDay: wednesday
-                closeDay: wednesday
-                openTime: '09:45'
-                closeTime: '09:45'
-            specialHours:
-              - startDate: '2019-08-24'
-                endDate: '2019-08-24'
-                openTime: '09:45'
-                closeTime: '09:45'
     dayOfTheWeek:
       type: string
       title: a day of the week
@@ -7301,7 +7283,6 @@ components:
         - saturday
         - sunday
       example: wednesday
-      x-examples: {}
     timeOfDay:
       type: string
       title: a time of day
@@ -7915,11 +7896,6 @@ components:
             iconUrl: 'https://example.com'
             tagline: Short Description
             bannerImageUrl: 'https://example.com'
-            prices:
-              - amount: 0
-                currencyCode: CAD
-                frequency: UNIT_BILLING_FREQUENCY_MONTHLY
-                type: retail
           relationships:
             allowedCountries:
               data:
@@ -8010,25 +7986,17 @@ components:
               format: uri
             prices:
               type: array
-              description: Describes the price of the product.
               items:
                 type: object
                 properties:
+                  Type:
+                    type: string
                   frequency:
                     type: string
-                    description: Billing frequency of the product.
-                  type:
-                    type: string
-                    description: Denotes the type of price.
-                    example: retail
                   currencyCode:
                     type: string
-                    description: Type of currency (code) of the price.
-                    example: CAD
                   amount:
                     type: number
-                    description: The cost of the product.
-                    example: 42
       required:
         - id
         - type

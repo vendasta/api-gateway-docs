@@ -6700,6 +6700,10 @@ components:
       properties:
         id:
           type: string
+          description: |-
+            The id is a string which is in the form - 
+            BusinessID : ProductID : ActivationID
+          example: 'AG-1234:MP-12345:vb99d662-e12f-4r1c-g275-449aa19td438'
         type:
           type: string
           default: subscriptionAssignment
@@ -7955,6 +7959,11 @@ components:
             iconUrl: 'https://example.com'
             tagline: Short Description
             bannerImageUrl: 'https://example.com'
+            prices:
+              - amount: 0
+                currencyCode: CAD
+                frequency: UNIT_BILLING_FREQUENCY_MONTHLY
+                type: retail
           relationships:
             allowedCountries:
               data:
@@ -8045,17 +8054,25 @@ components:
               format: uri
             prices:
               type: array
+              description: Describes the price of the product.
               items:
                 type: object
                 properties:
-                  Type:
-                    type: string
                   frequency:
                     type: string
+                    description: Billing frequency of the product.
+                  type:
+                    type: string
+                    description: Denotes the type of price.
+                    example: retail
                   currencyCode:
                     type: string
+                    description: Type of currency (code) of the price.
+                    example: CAD
                   amount:
                     type: number
+                    description: The cost of the product.
+                    example: 42
       required:
         - id
         - type

@@ -14,7 +14,7 @@ servers:
     description: Localhost
 tags:
   - name: Listing Sync Listings
-  - name: Listing Scores
+  - name: Listing Profiles
   - name: Options
 paths:
   /listingSyncListings:
@@ -52,12 +52,12 @@ paths:
             type: string
           in: query
           name: 'page[cursor]'
-          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).
+          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
         - schema:
             type: string
           in: query
           name: 'page[limit]'
-          description: For now we only support a value of 200. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).
+          description: 'For now we only support a value of 200. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
       responses:
         '200':
           description: OK
@@ -447,3 +447,297 @@ components:
         The listing score information for a business location
       x-tags:
         - Listing Scores
+    listingProfiles:
+      type: object
+      x-examples:
+        Example 1:
+          id: AG-1234567
+          type: businessLocations
+          attributes:
+            customerIdentifier: string
+            name: string
+            address:
+              line1: 109 8th Street E.
+              line2: Suite 23
+              city: string
+              stateCode: CA
+              zip: string
+              postalCode: S7M 1R3
+              regionCode: CA-SK
+              countryCode: CA
+            phoneNumbers:
+              - string
+            serviceAreaBusiness: true
+            geoCoordinate:
+              latitude: -90
+              longitude: -180
+            hours:
+              - hoursTypeId: general
+                regularHours:
+                  - openDay: wednesday
+                    closeDay: wednesday
+                    openTime: '09:45'
+                    closeTime: '09:45'
+                specialHours:
+                  - status: SPECIAL_HOURS_STATUS_CLOSED
+                    startDate: '2019-08-24'
+                    endDate: '2019-08-24'
+                    openTime: '09:45'
+                    closeTime: '09:45'
+            updatedAt: string
+          relationships:
+            businessPartner:
+              data:
+                type: partners
+                id: ABC
+            businessCategories:
+              data:
+                - type: businessCategories
+                  id: 'active:diving:freediving'
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Any entity that works with a provider company (two-way communication). These generally have a sustained relationship with the provider company. This may include a potential buyer, an existing client, or a past client that has churned. This entity should have Listing builder active in our platform
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        attributes:
+          type: object
+          properties:
+            customerIdentifier:
+              type: string
+              description: 'A value assigned by the business partner to reference this business location. Customer ID is currently NOT enforced to be unique, and there may be negative side effects to having a duplicate and/or changing a customer ID, specifically around legacy SSO. Use caution when editing a customer ID.'
+            name:
+              type: string
+              description: |-
+                The common name for this location.
+
+                Note: The pipe character (`|`) is not allowed. 
+            address:
+              type: object
+              properties:
+                line1:
+                  type: string
+                  description: The primary information. Typically a street address
+                line2:
+                  type: string
+                  description: An additional line of information to add after the street address.
+                city:
+                  type: string
+                stateCode:
+                  type: string
+                  description: Deprecated - This field has been replaced by regionCode. The two letter state code within the country
+                zip:
+                  type: string
+                  description: Deprecated - This field has been renamed postal Code
+                postalCode:
+                  type: string
+                  description: The zip code or postal code component of an address.
+                regionCode:
+                  type: string
+                  example: CA-SK
+                  pattern: '^[A-Z]{2}-[\w]{1,3}$'
+                  minLength: 4
+                  maxLength: 6
+                countryCode:
+                  type: string
+            phoneNumbers:
+              type: array
+              description: |-
+                The standard phone numbers for the location.
+                Formatting characters may be included.
+
+                **Extensions**
+
+                It is recommended that extensions are included at the end of the number after an appropriate separator: Pause: `,` Wait: `;` Default: `ext.`
+
+                You may test the parsibility of a number using https://phonenumbers.temba.io/ All phone numbers are assumed to be in the same country as this listing profile
+              items:
+                type: string
+            serviceAreaBusiness:
+              type: boolean
+              description: When true the address will be used as the center of the area that this location services instead of being displayed
+            geoCoordinate:
+              type: object
+              description: |-
+                The point where the map pin for the location should be displayed.
+
+                The values will **not** be automatically updated when the address is updated. If not provided when creating the location they will be initialized based on the address.
+
+                It is expressed as a pair of numbers to represent degrees latitude and degrees longitude in accordance with the [WGS84](https://en.wikipedia.org/wiki/World_Geodetic_System) standard (the one used by your GPS).
+              properties:
+                latitude:
+                  type: number
+                longitude:
+                  type: number
+              required:
+                - latitude
+                - longitude
+            hours:
+              $ref: '#/components/schemas/hoursOfOperation'
+            updatedAt:
+              type: string
+        relationships:
+          type: object
+          description: |
+            The time at which the business locations was last updated at
+          properties:
+            businessPartner:
+              type: object
+              description: A link to the organization that provides the platform to this listing profile
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                    id:
+                      type: string
+              required:
+                - data
+            businessCategories:
+              type: object
+              description: A list of the types of business this location should be compared against. If not set during creation it will default "other".
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      id:
+                        type: string
+                    required:
+                      - type
+                      - id
+    hoursOfOperation:
+      type: array
+      x-examples:
+        Example 1:
+          - hoursTypeId: general
+            regularHours:
+              - openDay: wednesday
+                closeDay: wednesday
+                openTime: '09:45'
+                closeTime: '09:45'
+            specialHours:
+              - status: SPECIAL_HOURS_STATUS_CLOSED
+                startDate: '2019-08-24'
+                endDate: '2019-08-24'
+                openTime: '09:45'
+                closeTime: '09:45'
+      description: |-
+        The operating hours for the business location. 
+
+        Each entry in the array is a set of hours for a particular department or customer of the business. It is recommended to provide the `general` hours for all locations. Some locations may have additional definitions for 
+      items:
+        type: object
+        properties:
+          hoursTypeId:
+            type: string
+            description: |-
+              The category of hours that may apply to a specific department or service. Not all types are valid for all business categories.
+
+              The general hours for a location must be set before defining hours for other departments. 
+
+              Currently only `general` is supported in the Vendasta platform. We intend to add others in the future.
+            enum:
+              - general
+              - delivery
+              - kitchen
+              - pickup
+              - driveThrough
+              - takeout
+          regularHours:
+            type: array
+            description: |-
+              A collection of times that this location is open for business. Each period represents a range of hours when the location is open during the week.
+
+              You may specify multiple entries for the same date if you are open for multiple periods (Example lunch and supper).
+            items:
+              type: object
+              properties:
+                openDay:
+                  allOf:
+                    - type: string
+                      x-stoplight:
+                        id: 3u07tkjf0bxdg
+                      description: Indicates the day of the week that this period starts on.
+                    - $ref: '#/components/schemas/dayOfTheWeek'
+                closeDay:
+                  allOf:
+                    - type: string
+                      x-stoplight:
+                        id: svnvxunjr767f
+                      description: Indicates the day of the week that this period ends on. It should be the same as `openDay` except when the period goes over midnight. The total period may not be more than 24 hours
+                    - $ref: '#/components/schemas/dayOfTheWeek'
+                openTime:
+                  $ref: '#/components/schemas/timeOfDay'
+                closeTime:
+                  $ref: '#/components/schemas/timeOfDay'
+              required:
+                - openDay
+                - openTime
+                - closeTime
+          specialHours:
+            type: array
+            items:
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: |
+                    Describes the different modes that apply to special hour periods.
+
+                    Currently only `open` and `closed` are supported in the Vendasta platform. We intend to add others in the future.
+                  enum:
+                    - open
+                    - closed
+                startDate:
+                  type: string
+                  format: date
+                  description: The calendar date this special hour period starts on.
+                endDate:
+                  type: string
+                  format: date
+                  description: 'The calendar date this special hour period ends on. If `endDate` field is not set, default to the date specified in `startDate`. If set, this field must be equal to or at most 1 day after `startDate`.'
+                openTime:
+                  $ref: '#/components/schemas/timeOfDay'
+                closeTime:
+                  $ref: '#/components/schemas/timeOfDay'
+              required:
+                - status
+                - startDate
+                - endDate
+                - openTime
+                - closeTime
+        required:
+          - hoursTypeId
+    dayOfTheWeek:
+      title: a day of the week
+      x-stoplight:
+        id: g2z8832hnj8hr
+      type: string
+      enum:
+        - monday
+        - tuesday
+        - wednesday
+        - thursday
+        - friday
+        - saturday
+        - sunday
+      example: wednesday
+    timeOfDay:
+      title: a time of Day
+      x-stoplight:
+        id: lji3j2ahr2aiu
+      type: string
+      description: 'Valid values are 00:00-24:00, where 24:00 represents midnight at the end of the specified day field.'
+      example: '09:45'
+      pattern: '^\d{2}:\d{2}$'

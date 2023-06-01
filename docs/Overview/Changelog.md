@@ -2,6 +2,10 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2023-06-01
+### Listing profile
+Update and get operations added to Listing APIs along with description of [Listingprofile](../../openapi/platform/listing.yaml/components/schemas/listingProfiles)
+
 ## 2023-03-28
 Read scopes have been added to businessLocations/get and orders/get
 
@@ -23,6 +27,8 @@ A new field has been added to the orders model allowing you to track the salespe
 
 
 ## 2022-08-17
+### Proposal Builder
+Update and get operations added to K APIs along with description of [Listingprofile](../../openapi/platform/listing.yaml/components/schemas/listingProfiles)
 
 ### List Partner Activatable Products
 

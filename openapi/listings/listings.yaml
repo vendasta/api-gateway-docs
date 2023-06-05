@@ -171,21 +171,6 @@ paths:
           application/json:
             schema:
               type: object
-              properties:
-                businessIds:
-                  type: array
-                  items:
-                    type: string
-                projectionFilter:
-                  type: object
-                  properties:
-                    businessHours:
-                      type: boolean
-                readFilter:
-                  type: object
-                  properties:
-                    includeDeleted:
-                      type: boolean
               x-examples:
                 Example 1:
                   businessIds:
@@ -194,6 +179,27 @@ paths:
                     businessHours: true
                   readFilter:
                     includeDeleted: false
+              properties:
+                businessIds:
+                  type: array
+                  items:
+                    type: string
+                projectionFilter:
+                  type: object
+                  required:
+                    - businessHours
+                  properties:
+                    businessHours:
+                      type: boolean
+                readFilter:
+                  type: object
+                  properties:
+                    includeDeleted:
+                      type: boolean
+                  required:
+                    - includeDeleted
+              required:
+                - businessIds
       parameters:
         - schema:
             type: string

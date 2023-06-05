@@ -167,7 +167,33 @@ paths:
 
         Returns basic data about the listing profile.
       requestBody:
-        content: {}
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                businessIds:
+                  type: array
+                  items:
+                    type: string
+                projectionFilter:
+                  type: object
+                  properties:
+                    businessHours:
+                      type: boolean
+                readFilter:
+                  type: object
+                  properties:
+                    includeDeleted:
+                      type: boolean
+              x-examples:
+                Example 1:
+                  businessIds:
+                    - AG-123
+                  projectionFilter:
+                    businessHours: true
+                  readFilter:
+                    includeDeleted: false
       parameters:
         - schema:
             type: string

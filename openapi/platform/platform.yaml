@@ -2786,6 +2786,19 @@ paths:
           name: 'filter[partner.id]'
           description: The partner ID.
           required: true
+        - schema:
+            type: string
+          in: query
+          name: 'page[cursor]'
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. Pagination Docs.
+        - schema:
+            type: string
+            default: '25'
+            minLength: 1
+            maxLength: 25
+          in: query
+          name: 'page[limit]'
+          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. Pagination Docs.
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
@@ -2805,7 +2818,7 @@ paths:
       description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
       tags:
         - Options
-        - Subscription Assignments
+        - Subscriptions
   '/subscriptionAssignments/{id}':
     parameters:
       - schema:

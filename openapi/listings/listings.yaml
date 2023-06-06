@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Listing REST APIs
   version: '1.0'
-  description: Using this api requires active Listing Builder
+  description: Using this api requires active Liting Builder
 servers:
   - url: 'https://prod.apigateway.co/products/listings'
     description: Production
@@ -150,148 +150,804 @@ paths:
       tags:
         - Options
         - Listing Scores
-  /listingprofiles:
+  '/listingProfiles/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
     get:
-      summary: List Listing Profiles
-      operationId: get-listingprofiles
+      summary: ''
+      operationId: get-listingProfiles-id
       responses:
         '200':
           description: OK
-          content:
-            application/vnd.api+json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/listingprofiles'
-                  links:
-                    type: object
-                    properties:
-                      self:
-                        type: string
-                        format: uri
-                      first:
-                        type: string
-                        description: Provides a link back to the first page of results
-                        format: uri
-                      next:
-                        type: string
-                        description: The URI at which the next batch of listing profiles can be gotten from
-                        format: uri
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Produces a list of listing profiles
+        Returns basic data about the listing profile.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                Example 1:
+                  businessIds:
+                    - AG-123
+                  projectionFilter:
+                    businessHours: true
+                  readFilter:
+                    includeDeleted: false
+              properties:
+                businessIds:
+                  type: array
+                  description: The business Ids for which listing profiles are to be fetched
+                  items:
+                    type: string
+                projectionFilter:
+                  type: object
+                  required:
+                    - businessHours
+                  properties:
+                    businessHours:
+                      type: boolean
+                      description: 'The boolean value indicating whether business hours is to be fetched, for special hours the value should be `true`'
+                readFilter:
+                  type: object
+                  properties:
+                    includeDeleted:
+                      type: boolean
+                      description: Boolean value indicating if we need to get deleted profiles too
+                  required:
+                    - includeDeleted
+              required:
+                - businessIds
+        description: ''
       parameters:
         - schema:
             type: string
           in: header
           name: Authorization
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
-          required: true
-        - schema:
-            type: string
-          in: query
-          name: 'filter[businessPartner.id]'
-          description: Return listing profiles for the specified partner
-          required: true
-        - schema:
-            type: string
-          in: query
-          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
-          name: 'page[cursor]'
-        - schema:
-            type: string
-            maxLength: 25
-            default: '25'
-            minLength: 1
-          in: query
-          description: 'The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
-          name: 'page[limit]'
-        - schema:
-            type: string
-            enum:
-              - createdAt
-              - '-createdAt'
-              - name
-              - '-name'
-              - updatedAt
-              - '-updatedAt'
-            default: '-updatedAt'
-          in: query
-          name: sort
-          description: Sort busines location based on selected option. Defaulted to -updatedAt (Desc updatedAt)
       security:
         - OAuth2Demo:
             - listing
-            - 'listing:read'
         - OAuth2Prod:
             - listing
-            - 'listing:read'
-      tags:
-        - Listing Profiles
+    patch:
+      summary: ''
+      operationId: patch-listingProfiles-id
+      responses:
+        '200':
+          description: OK
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Update the existing listing profile.
+        Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
+      security:
+        - OAuth2Demo:
+            - listing
+        - OAuth2Prod:
+            - listing
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+        - schema:
+            type: string
+          in: header
+          name: Content-Type
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                Example 1:
+                  data:
+                    id: AG-1234567
+                    type: businessLocations
+                    attributes:
+                      customerIdentifier: string
+                      name: string
+                      address:
+                        line1: 109 8th Street E.
+                        line2: Suite 23
+                        city: string
+                        stateCode: CA
+                        zip: string
+                        postalCode: S7M 1R3
+                        regionCode: CA-SK
+                        countryCode: CA
+                      phoneNumbers:
+                        - string
+                      serviceAreaBusiness: true
+                      geoCoordinate:
+                        latitude: -90
+                        longitude: -180
+                      hours:
+                        - hoursTypeId: general
+                          regularHours:
+                            - openDay: wednesday
+                              closeDay: wednesday
+                              openTime: '09:45'
+                              closeTime: '09:45'
+                          specialHours:
+                            - status: closed
+                              startDate: '2019-08-24'
+                              endDate: '2019-08-24'
+                              openTime: '09:45'
+                              closeTime: '09:45'
+                      updatedAt: string
+                    relationships:
+                      businessPartner:
+                        data:
+                          type: partners
+                          id: ABC
+                      businessCategories:
+                        data:
+                          - type: businessCategories
+                            id: 'active:diving:freediving'
+              properties:
+                data:
+                  $ref: '#/components/schemas/listingProfiles'
+            examples:
+              Example 1:
+                value:
+                  data:
+                    id: AG-1234567
+                    type: businessLocations
+                    attributes:
+                      customerIdentifier: string
+                      name: string
+                      address:
+                        line1: 109 8th Street E.
+                        line2: Suite 23
+                        city: string
+                        stateCode: CA
+                        zip: string
+                        postalCode: S7M 1R3
+                        regionCode: CA-SK
+                        countryCode: CA
+                      phoneNumbers:
+                        - string
+                      serviceAreaBusiness: true
+                      geoCoordinate:
+                        latitude: -90
+                        longitude: -180
+                      hours:
+                        - hoursTypeId: general
+                          regularHours:
+                            - openDay: wednesday
+                              closeDay: wednesday
+                              openTime: '09:45'
+                              closeTime: '09:45'
+                          specialHours:
+                            - status: closed
+                              startDate: '2019-08-24'
+                              endDate: '2019-08-24'
+                              openTime: '09:45'
+                              closeTime: '09:45'
+                      updatedAt: string
+                    relationships:
+                      businessPartner:
+                        data:
+                          type: partners
+                          id: ABC
+                      businessCategories:
+                        data:
+                          - type: businessCategories
+                            id: 'active:diving:freediving'
       x-lifecycle:
         status: trustedTester
-    patch:
-        summary: Update Listing Profile
-        operationId: patch-listingprofiles-id
-        tags:
-          - Listing Profiles
-        description: |-
-          [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+    options:
+      summary: ''
+      operationId: options-listingProfiles-id
+      responses:
+        '204':
+          description: No Content
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+  /listingProfiles:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-listingProfiles
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+    OAuth2Demo:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          refreshUrl: ''
+          scopes:
+            listing: Access to the Listing Builder REST API
+    OAuth2Prod:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-prod.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-prod.apigateway.co/oauth2/token'
+          refreshUrl: ''
+          scopes:
+            listing: Access to the Listing Builder REST API
+  schemas:
+    listingSyncListings:
+      title: Listing Sync Listings
+      type: object
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        A list of listings for a business location
+      x-internal: false
+      properties:
+        id:
+          description: Public facing name of the source
+          type: string
+        type:
+          type: string
+          default: listingSyncListings
+          enum:
+            - listingSyncListings
+        attributes:
+          type: object
+          properties:
+            icon:
+              description: Link to icon provided by Vendasta’s media service
+              type: string
+              format: uri
+              example: 'https://www.cdnstyles.com/static/images/icon32/sourceId-10090.png'
+            popularity:
+              description: Popularity of the source relative to other sources
+              type: number
+            sourceTypeCode:
+              description: |-
+                The type of listing source.
 
-          Update the existing listing profile.
-          Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
-        x-lifecycle:
-          status: trustedTester
-        parameters:
-          - schema:
+                unspecified - The listing source type is unknown
+
+                directory - An online listing directory
+
+                map - Sites that have an online map like MapQuest or Google Maps
+
+                social - Social networks like Facebook
+
+                aggregator - Publishers that push their listing information to other listing sources
+
+                app - Stand alone applications like Snapchat that are not GPS services
+
+                gps - These sources power GPS applications
               type: string
-              example: Bearer <Access Token>
-              pattern: ^Bearer\s\S+
-            in: header
-            name: Authorization
-            description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
-            required: true
-          - schema:
+            syncStatusCode:
+              description: |-
+                The listing status provided by the listing sources.
+
+                unknown - Default error value, should never be used intentionally
+
+                synced - Listing data was submitted to the listing source, and the source responded that the data is good and in use
+
+                inProgress - Information has been sent to the listing source who is in the process of syncing the information to the listing.
+
+                syncingWithWarnings - The data has been updated by the listing but there are some warnings that many affect the values updated.
+
+                hasErrors - There was an error with the data we sent to the listing source causing updating all the information to fail.
+
+                syncDisabled - Updating information for this source has been disabled.
+
+                claimedByOthers - The listing source is rejecting our data because this listing has been claimed by another user/service.
+
+                doesNotSupportServiceAreaBusiness - This listing source does not support service area businesses.
+
+                submitted - The business profile information was successfully sent to the listing source. The listing source does not verify when the information was published.
+
+                manualUpdateOnly - This listing cannot be updated by Vendasta's platform with the current set of apps actived for this business. The listing must be updated with the listing source directly by the business.
+
+                notFound - The listing source does not have a listing for this business.
               type: string
-              default: application/vnd.api+json
-              enum:
-                - application/vnd.api+json
-            in: header
-            name: Content-Type
-            required: true
-            description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
-        security:
-          - OAuth2Demo:
-              - listing
-          - OAuth2Prod:
-              - listing
-        responses:
-          '200':
-            description: Ok
-            content:
-              application/vnd.api+json:
-                schema:
-                  type: object
-                  properties:
-                    data:
-                      $ref: '#/components/schemas/listingprofiles'
-                    links:
-                      type: object
-                      properties:
-                        self:
-                          type: string
-                          format: uri
-                          description: The address of the updated listing profile
-            headers: { }
-        requestBody:
-          content:
-            application/vnd.api+json:
-              schema:
+            listingScore:
+              description: A score based on the status of your online source
+              type: number
+            maximumlistingScore:
+              description: The maximum score this source can attain
+              type: number
+            url:
+              description: The online listing
+              format: uri
+              type: string
+            syncingError:
+              type: array
+              description: Any errors stopping the business information from being updated by the listing source.
+              items:
                 type: object
                 properties:
-                  data:
-                    $ref: '#/components/schemas/listingprofiles'
+                  errorCode:
+                    description: |-
+                      businessName
+                      streetAddress
+                      postalCode
+                      city
+                      wholeAddress - Error is not isolated to street address, city, etc.
+                      phoneNumber
+                      hoursOfOperation
+                      categories
+                      descriptionLong
+                      descriptionShort
+                      email
+                      paymentOptions
+                      photos
+                      website
+                      existingRelationship
+                      chainLocation
+                      unavailableReason - Superpages is unable to update this listing due to an issue with their database.
+                    type: string
+                  errorDetails:
+                    description: Human readable details about the error
+                    type: string
+            syncingWarning:
+              description: Any warnings reported while updating your information on the listing source.
+              type: array
+              items:
+                type: object
+                properties:
+                  warningCode:
+                    description: |-
+                      businessName
+                      streetAddress
+                      postalCode
+                      phoneNumber
+                      wholeAddress - Error is not isolated to street address, city, etc.
+                      hoursOfOperation
+                      categories
+                      descriptionLong
+                      descriptionShort
+                      email
+                      photos
+                      website
+                      services
+                    type: string
+                  warningDetails:
+                    description: Human readable details about the warning
+                    type: string
+            updatedAt:
+              format: date
+              type: string
+              description: 'The last time this source’s listing was checked by Vendasta’s independent listing verification system. This will be `1970-01-01T00:00:00Z` if we have never verified the listing.'
+            streetAddress:
+              description: |-
+                Service area businesses will not have this field.
+
+                For a physical location this physical address of the business. Vendasta’s platform supports multiple address lines but currently those are combined into a single street address in our listing verification system.
+              type: object
+              properties:
+                Value:
+                  description: The street address on the listing
+                  type: string
+                Match:
+                  description: Does the street address match the business’s street address in their Vendasta Business Profile
+                  type: boolean
+            city:
+              description: |-
+                For a service area business this will be the city the business services.
+
+                For a physical location this will be the city that the business physically exists in.
+              type: object
+              properties:
+                value:
+                  description: The city as it appears on the source listing
+                  type: string
+                match:
+                  description: Does the city match the business’s street address in their Vendasta Business Profile
+                  type: boolean
+            region:
+              description: |-
+                For a service area business this will be the region that contains the city the business services.
+
+                For a physical location this will be the region that the business physically exists in. 
+
+                Examples of regions are states, provinces, etc.
+              type: object
+              properties:
+                value:
+                  description: The region as it appears on the source listing
+                  type: string
+                match:
+                  description: Does the region match the business’s street address in their Vendasta Business Profile
+                  type: boolean
+            country:
+              description: |-
+                For a service area business this will be the country that contains the city the business services.
+
+                For a physical location this will be the country that the business physically exists in. 
+              type: object
+              properties:
+                value:
+                  description: The country as it appears on the source listing
+                  type: string
+                match:
+                  description: Does the country match the business’s street address in their Vendasta Business Profile
+                  type: boolean
+            postalCode:
+              description: For a physical location this will be the postal code of the physical location of the business. In the USA this is the zip code
+              type: object
+              properties:
+                value:
+                  description: The postal code as it appears on the source listing
+                  type: string
+                match:
+                  description: Does the postal code match the business’s street address in their Vendasta Business Profile
+                  type: boolean
+            phoneNumber:
+              description: |-
+                The contact phone number for the business. This corresponds to the first phone number in the Vendasta business profile.
+
+                This will not be the toll free, cell or fax number.
+              type: object
+              properties:
+                value:
+                  description: The phone number as it appears on the listing.
+                  type: string
+                match:
+                  description: 'Does the phone number match the business’s first phone number in their Vendasta Business Profile. Toll free, cell and fax numbers are not considered even if they are the only number on the business profile.'
+                  type: boolean
+            website:
+              description: The website of the business location.
+              type: object
+              properties:
+                value:
+                  description: The website as it appears on the online listing.
+                  type: string
+                match:
+                  description: Does the website match the business’s website in their Vendasta Business Profile
+                  type: boolean
+            accuracyStatusCode:
+              description: |-
+                Indicates if Vendasta's independent accuracy reporting is available, found and whether or not it is active.
+
+                unknown - Default error value, should never be used intentionally
+
+                accurate - Listing was independently verified by Vendasta to be accurate
+
+                inaccurate - Vendasta found at least one inaccuracy with the listing
+
+                notAvailable - No Vendasta reporting is available for this source
+
+                notFound - No listing was found for this source by Vendasta.
+              type: string
+      x-tags:
+        - Listing Sync Listings
+    listingScores:
+      title: Listing Scores
+      type: object
+      properties:
+        id:
+          type: string
+          description: Vendasta's unique ID for the business
+        type:
+          type: string
+          default: listingScores
+          enum:
+            - listingScores
+        attributes:
+          type: object
+          properties:
+            totalScore:
+              type: integer
+              description: The business's current listing score including the score based on online citations
+            industryAverageNinetyFifth:
+              type: integer
+              description: The ninety fifth percentile listing score for businesses in the same industry
+            initialListingScore:
+              type: integer
+              description: The listing score of the business when Listing Builder was first activated
+      x-lifecycle: proposed
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        The listing score information for a business location
+      x-tags:
+        - Listing Scores
+    listingProfiles:
+      type: object
+      x-examples:
+        Example 1:
+          id: AG-1234567
+          type: businessLocations
+          attributes:
+            customerIdentifier: string
+            name: string
+            address:
+              line1: 109 8th Street E.
+              line2: Suite 23
+              city: string
+              stateCode: CA
+              zip: string
+              postalCode: S7M 1R3
+              regionCode: CA-SK
+              countryCode: CA
+            phoneNumbers:
+              - string
+            serviceAreaBusiness: true
+            geoCoordinate:
+              latitude: -90
+              longitude: -180
+            hours:
+              - hoursTypeId: general
+                regularHours:
+                  - openDay: wednesday
+                    closeDay: wednesday
+                    openTime: '09:45'
+                    closeTime: '09:45'
+                specialHours:
+                  - status: SPECIAL_HOURS_STATUS_CLOSED
+                    startDate: '2019-08-24'
+                    endDate: '2019-08-24'
+                    openTime: '09:45'
+                    closeTime: '09:45'
+            updatedAt: string
+          relationships:
+            businessPartner:
+              data:
+                type: partners
+                id: ABC
+            businessCategories:
+              data:
+                - type: businessCategories
+                  id: 'active:diving:freediving'
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Any entity that works with a provider company (two-way communication). These generally have a sustained relationship with the provider company. This may include a potential buyer, an existing client, or a past client that has churned. This entity should have Listing builder active in our platform
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        attributes:
+          type: object
+          properties:
+            customerIdentifier:
+              type: string
+              description: 'A value assigned by the business partner to reference this business location. Customer ID is currently NOT enforced to be unique, and there may be negative side effects to having a duplicate and/or changing a customer ID, specifically around legacy SSO. Use caution when editing a customer ID.'
+            name:
+              type: string
+              description: |-
+                The common name for this location.
+
+                Note: The pipe character (`|`) is not allowed. 
+            address:
+              type: object
+              properties:
+                line1:
+                  type: string
+                  description: The primary information. Typically a street address
+                line2:
+                  type: string
+                  description: An additional line of information to add after the street address.
+                city:
+                  type: string
+                postalCode:
+                  type: string
+                  description: The zip code or postal code component of an address.
+                regionCode:
+                  type: string
+                  example: 'CA-SK, US-FL, AG-08, AU-NSW'
+                  pattern: '^[A-Z]{2}-[\w]{1,3}$'
+                  minLength: 4
+                  maxLength: 6
+                  description: The code for the top level subdivision within the country (state/province) as defined by ISO 3166-2 format.
+                countryCode:
+                  type: string
+                  description: The two letter country code defined by ISO 3166-1'
+                  example: 'CA, US, AU'
+                  minLength: 2
+                  maxLength: 2
+                  pattern: '^[A-Z]{2}$'
+            phoneNumbers:
+              type: array
+              description: |-
+                The standard phone numbers for the location.
+                Formatting characters may be included.
+
+                **Extensions**
+
+                It is recommended that extensions are included at the end of the number after an appropriate separator: Pause: `,` Wait: `;` Default: `ext.`
+
+                You may test the parsibility of a number using https://phonenumbers.temba.io/ All phone numbers are assumed to be in the same country as this listing profile
+              items:
+                type: string
+            serviceAreaBusiness:
+              type: boolean
+              description: When true the address will be used as the center of the area that this location services instead of being displayed
+            geoCoordinate:
+              type: object
+              description: |-
+                The point where the map pin for the location should be displayed.
+
+                The values will **not** be automatically updated when the address is updated. If not provided when creating the location they will be initialized based on the address.
+
+                It is expressed as a pair of numbers to represent degrees latitude and degrees longitude in accordance with the [WGS84](https://en.wikipedia.org/wiki/World_Geodetic_System) standard (the one used by your GPS).
+              properties:
+                latitude:
+                  type: number
+                longitude:
+                  type: number
+              required:
+                - latitude
+                - longitude
+            hours:
+              $ref: '#/components/schemas/hoursOfOperation'
+            updatedAt:
+              type: string
+        relationships:
+          type: object
+          description: |
+            The time at which the business locations was last updated at
+          properties:
+            businessPartner:
+              type: object
+              description: A link to the organization that provides the platform to this listing profile
+              properties:
+                data:
+                  type: object
+                  required:
+                    - type
+                    - id
+                  properties:
+                    type:
+                      type: string
+                    id:
+                      type: string
+              required:
+                - data
+            businessCategories:
+              type: object
+              description: A list of the types of business this location should be compared against. If not set during creation it will default "other".
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      id:
+                        type: string
+                    required:
+                      - type
+                      - id
+    hoursOfOperation:
+      type: array
+      x-examples:
+        Example 1:
+          - hoursTypeId: general
+            regularHours:
+              - openDay: wednesday
+                closeDay: wednesday
+                openTime: '09:45'
+                closeTime: '09:45'
+            specialHours:
+              - status: SPECIAL_HOURS_STATUS_CLOSED
+                startDate: '2019-08-24'
+                endDate: '2019-08-24'
+                openTime: '09:45'
+                closeTime: '09:45'
+      description: |-
+        The operating hours for the business location. 
+
+        Each entry in the array is a set of hours for a particular department or customer of the business. It is recommended to provide the `general` hours for all locations. Some locations may have additional definitions for 
+      items:
+        type: object
+        properties:
+          hoursTypeId:
+            type: string
+            description: |-
+              The category of hours that may apply to a specific department or service. Not all types are valid for all business categories.
+
+              The general hours for a location must be set before defining hours for other departments. 
+
+              Currently only `general` is supported in the Vendasta platform. We intend to add others in the future.
+            enum:
+              - general
+              - delivery
+              - kitchen
+              - pickup
+              - driveThrough
+              - takeout
+          regularHours:
+            type: array
+            description: |-
+              A collection of times that this location is open for business. Each period represents a range of hours when the location is open during the week.
+
+              You may specify multiple entries for the same date if you are open for multiple periods (Example lunch and supper).
+            items:
+              type: object
+              properties:
+                openDay:
+                  allOf:
+                    - type: string
+                      x-stoplight:
+                        id: 3u07tkjf0bxdg
+                      description: Indicates the day of the week that this period starts on.
+                    - $ref: '#/components/schemas/dayOfTheWeek'
+                closeDay:
+                  allOf:
+                    - type: string
+                      x-stoplight:
+                        id: svnvxunjr767f
+                      description: Indicates the day of the week that this period ends on. It should be the same as `openDay` except when the period goes over midnight. The total period may not be more than 24 hours
+                    - $ref: '#/components/schemas/dayOfTheWeek'
+                openTime:
+                  $ref: '#/components/schemas/timeOfDay'
+                closeTime:
+                  $ref: '#/components/schemas/timeOfDay'
+              required:
+                - openDay
+                - openTime
+                - closeTime
+          specialHours:
+            type: array
+            items:
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: |
+                    Describes the different modes that apply to special hour periods.
+
+                    Currently only `open` and `closed` are supported in the Vendasta platform. We intend to add others in the future.
+                  enum:
+                    - open
+                    - closed
+                startDate:
+                  type: string
+                  format: date
+                  description: The calendar date this special hour period starts on.
+                endDate:
+                  type: string
+                  format: date
+                  description: 'The calendar date this special hour period ends on. If `endDate` field is not set, default to the date specified in `startDate`. If set, this field must be equal to or at most 1 day after `startDate`.'
+                openTime:
+                  $ref: '#/components/schemas/timeOfDay'
+                closeTime:
+                  $ref: '#/components/schemas/timeOfDay'
+              required:
+                - status
+                - startDate
+                - endDate
+                - openTime
+                - closeTime
+        required:
+          - hoursTypeId
+    dayOfTheWeek:
+      title: a day of the week
+      x-stoplight:
+        id: g2z8832hnj8hr
+      type: string
+      enum:
+        - monday
+        - tuesday
+        - wednesday
+        - thursday
+        - friday
+        - saturday
+        - sunday
+      example: wednesday
+    timeOfDay:
+      title: a time of Day
+      x-stoplight:
+        id: lji3j2ahr2aiu
+      type: string
+      description: 'Valid values are 00:00-24:00, where 24:00 represents midnight at the end of the specified day field.'
+      example: '09:45'
+      pattern: '^\d{2}:\d{2}$'

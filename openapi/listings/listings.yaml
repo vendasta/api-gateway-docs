@@ -140,6 +140,82 @@ paths:
         name: id
         in: path
         required: true
+    options:
+      summary: List valid HTTP verbs for /listingScores
+      operationId: options-listingScores-id
+      responses:
+        '200':
+          description: OK
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly.'
+      tags:
+        - Options
+        - Listing Scores
+  '/listingProfiles/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: ''
+      operationId: get-listingProfiles-id
+      responses:
+        '200':
+          description: OK
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Returns basic data about the listing profile.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                Example 1:
+                  businessIds:
+                    - AG-123
+                  projectionFilter:
+                    businessHours: true
+                  readFilter:
+                    includeDeleted: false
+              properties:
+                businessIds:
+                  type: array
+                  description: The business Ids for which listing profiles are to be fetched
+                  items:
+                    type: string
+                projectionFilter:
+                  type: object
+                  required:
+                    - businessHours
+                  properties:
+                    businessHours:
+                      type: boolean
+                      description: 'The boolean value indicating whether business hours is to be fetched, for special hours the value should be `true`'
+                readFilter:
+                  type: object
+                  properties:
+                    includeDeleted:
+                      type: boolean
+                      description: Boolean value indicating if we need to get deleted profiles too
+                  required:
+                    - includeDeleted
+              required:
+                - businessIds
+        description: ''
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+      security:
+        - OAuth2Demo:
+            - listing
+        - OAuth2Prod:
+            - listing
     patch:
       summary: ''
       operationId: patch-listingProfiles-id

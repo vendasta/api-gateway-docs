@@ -150,7 +150,91 @@ paths:
       tags:
         - Options
         - Listing Scores
-  '/listingProfiles':
+  /listingprofiles:
+    get:
+      summary: List Listing Profiles
+      operationId: get-listingProfiles
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/listingProfiles'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                      next:
+                        type: string
+                        description: The URI at which the next batch of listing profiles can be gotten from
+                        format: uri
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Produces a list of listing profiles
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[businessPartner.id]'
+          description: Return listing profiles for the specified partner
+          required: true
+        - schema:
+            type: string
+          in: query
+          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
+          name: 'page[cursor]'
+        - schema:
+            type: string
+            maxLength: 25
+            default: '25'
+            minLength: 1
+          in: query
+          description: 'The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
+          name: 'page[limit]'
+        - schema:
+            type: string
+            enum:
+              - createdAt
+              - '-createdAt'
+              - name
+              - '-name'
+              - updatedAt
+              - '-updatedAt'
+            default: '-updatedAt'
+          in: query
+          name: sort
+          description: Sort listing profile based on selected option. Defaulted to -updatedAt (Desc updatedAt)
+      security:
+        - OAuth2Demo:
+            - business
+            - 'listings:read'
+        - OAuth2Prod:
+            - business
+            - 'listings:read'
+      tags:
+        - Listing Profiles
+      x-lifecycle:
+        status: trustedTester
+  '/listingProfiles/{id}':
     parameters:
       - schema:
           type: string
@@ -158,147 +242,66 @@ paths:
         in: path
         required: true
     patch:
-      summary: ''
+      summary: Update Listing Profile
       operationId: patch-listingProfiles-id
-      responses:
-        '200':
-          description: OK
+      tags:
+        - Business Locations
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Update the existing listing profile.
+        Update the existing business location.
         Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
-      security:
-        - OAuth2Demo:
-            - listing
-        - OAuth2Prod:
-            - listing
+      x-lifecycle:
+        status: trustedTester
       parameters:
         - schema:
             type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
           in: header
           name: Authorization
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
         - schema:
             type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
           in: header
           name: Content-Type
+          required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+      security:
+        - OAuth2Demo:
+            - business
+        - OAuth2Prod:
+            - business
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/listingProfiles'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                        description: The address of the updated listing profile
+          headers: { }
       requestBody:
         content:
-          application/json:
+          application/vnd.api+json:
             schema:
               type: object
-              x-examples:
-                Example 1:
-                  data:
-                    id: AG-1234567
-                    type: businessLocations
-                    attributes:
-                      customerIdentifier: string
-                      name: string
-                      address:
-                        line1: 109 8th Street E.
-                        line2: Suite 23
-                        city: string
-                        stateCode: CA
-                        zip: string
-                        postalCode: S7M 1R3
-                        regionCode: CA-SK
-                        countryCode: CA
-                      phoneNumbers:
-                        - string
-                      serviceAreaBusiness: true
-                      geoCoordinate:
-                        latitude: -90
-                        longitude: -180
-                      hours:
-                        - hoursTypeId: general
-                          regularHours:
-                            - openDay: wednesday
-                              closeDay: wednesday
-                              openTime: '09:45'
-                              closeTime: '09:45'
-                          specialHours:
-                            - status: closed
-                              startDate: '2019-08-24'
-                              endDate: '2019-08-24'
-                              openTime: '09:45'
-                              closeTime: '09:45'
-                      updatedAt: string
-                    relationships:
-                      businessPartner:
-                        data:
-                          type: partners
-                          id: ABC
-                      businessCategories:
-                        data:
-                          - type: businessCategories
-                            id: 'active:diving:freediving'
               properties:
                 data:
                   $ref: '#/components/schemas/listingProfiles'
-            examples:
-              Example 1:
-                value:
-                  data:
-                    id: AG-1234567
-                    type: businessLocations
-                    attributes:
-                      customerIdentifier: string
-                      name: string
-                      address:
-                        line1: 109 8th Street E.
-                        line2: Suite 23
-                        city: string
-                        stateCode: CA
-                        zip: string
-                        postalCode: S7M 1R3
-                        regionCode: CA-SK
-                        countryCode: CA
-                      phoneNumbers:
-                        - string
-                      serviceAreaBusiness: true
-                      geoCoordinate:
-                        latitude: -90
-                        longitude: -180
-                      hours:
-                        - hoursTypeId: general
-                          regularHours:
-                            - openDay: wednesday
-                              closeDay: wednesday
-                              openTime: '09:45'
-                              closeTime: '09:45'
-                          specialHours:
-                            - status: closed
-                              startDate: '2019-08-24'
-                              endDate: '2019-08-24'
-                              openTime: '09:45'
-                              closeTime: '09:45'
-                      updatedAt: string
-                    relationships:
-                      businessPartner:
-                        data:
-                          type: partners
-                          id: ABC
-                      businessCategories:
-                        data:
-                          - type: businessCategories
-                            id: 'active:diving:freediving'
-      x-lifecycle:
-        status: trustedTester
-    options:
-      summary: ''
-      operationId: options-listingProfiles-id
-      responses:
-        '204':
-          description: No Content
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses: {}
-      operationId: get-listingProfiles
 components:
   securitySchemes:
     JWT:
@@ -322,6 +325,7 @@ components:
           refreshUrl: ''
           scopes:
             listing: Access to the Listing Builder REST API
+
   schemas:
     listingSyncListings:
       title: Listing Sync Listings

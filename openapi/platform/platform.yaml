@@ -2658,7 +2658,7 @@ paths:
     parameters:
       - schema:
           type: string
-        name: 'filter[businessLocationId]'
+        name: 'filter[partner.id]'
         in: query
         required: true
     get:
@@ -2734,7 +2734,7 @@ paths:
     parameters:
       - schema:
           type: string
-        name: 'filter[businessLocationId]'
+        name: 'filter[partner.id]'
         in: query
         required: true
     get:
@@ -2784,7 +2784,7 @@ paths:
             type: string
           in: query
           name: 'filter[partner.id]'
-          description: The partner ID
+          description: The partner ID.
           required: true
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
@@ -6725,7 +6725,7 @@ components:
           readOnly: true
     subscriptions:
       type: object
-      description: 'A Subscription is an allocation of a single Subscription unit. The way a subscription unit is allocated depends on the Product or Service represented by the Subscription. '
+      description: 'Subscriptions represent a product, product edition or service that will be billed for on the defined recurrence period.'
       title: Subscriptions
       x-stoplight:
         id: 04c49c2676b04
@@ -6735,38 +6735,37 @@ components:
         id:
           type: string
           description: The order id which is unique to a specific product subscription.
-          example: 'AG-1234:MP-12345:vb99d662-e12f-4r1c-g275-449aa19td438'
+          example: Of-60341002-c558-484c-a7fe-e1vr97eadbg3
         type:
           type: string
-          default: subscriptionAssignment
-          enum:
-            - subscriptionAssignment
-          description: Type of the data that is returned (Subscriptions)
+          description: Type of the data that is returned.
+          default: subscriptions
         attributes:
           type: object
           properties:
             customerId:
               type: string
               description: The id of the business location.
+              example: AG-1234567
             productName:
               type: string
               description: The name of the product that the subscription is assigned for.
+              example: Website Pro
             sku:
               type: string
               description: 'The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md). This value is used when placing an order.'
+              example: A-H73ELH2OP6
             customerName:
               type: string
               description: The name of the customer (Business).
-              enum:
-                - assigned
-                - pendingUnassignment
-                - pendingAssignment
+              example: Kurry Cart
             billingStart:
               type: string
               description: The date/time when the item starts billing.
             frequency:
               type: string
               description: The frequency for which the product is billed.
+              example: '"MONTHLY"'
             nextRenewal:
               type: string
               description: The calculated next renewal date of the item.

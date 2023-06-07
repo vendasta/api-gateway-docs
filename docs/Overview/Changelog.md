@@ -27,8 +27,6 @@ A new field has been added to the orders model allowing you to track the salespe
 
 
 ## 2022-08-17
-### Proposal Builder
-Update and get operations added to K APIs along with description of [Listingprofile](../../openapi/platform/listing.yaml/components/schemas/listingProfiles)
 
 ### List Partner Activatable Products
 

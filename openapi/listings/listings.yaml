@@ -162,90 +162,6 @@ paths:
       tags:
         - Options
         - Listing Scores
-  /listingprofiles:
-    get:
-      summary: List Listing Profiles
-      operationId: get-listingProfiles
-      responses:
-        '200':
-          description: OK
-          content:
-            application/vnd.api+json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/listingProfiles'
-                  links:
-                    type: object
-                    properties:
-                      self:
-                        type: string
-                        format: uri
-                      first:
-                        type: string
-                        description: Provides a link back to the first page of results
-                        format: uri
-                      next:
-                        type: string
-                        description: The URI at which the next batch of listing profiles can be gotten from
-                        format: uri
-      description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
-
-        Produces a list of listing profiles
-      parameters:
-        - schema:
-            type: string
-          in: header
-          name: Authorization
-          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
-          required: true
-        - schema:
-            type: string
-          in: query
-          name: 'filter[businessPartner.id]'
-          description: Return listing profiles for the specified partner
-          required: true
-        - schema:
-            type: string
-          in: query
-          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
-          name: 'page[cursor]'
-        - schema:
-            type: string
-            maxLength: 25
-            default: '25'
-            minLength: 1
-          in: query
-          description: 'The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
-          name: 'page[limit]'
-        - schema:
-            type: string
-            enum:
-              - createdAt
-              - '-createdAt'
-              - name
-              - '-name'
-              - updatedAt
-              - '-updatedAt'
-            default: '-updatedAt'
-          in: query
-          name: sort
-          description: Sort listing profile based on selected option. Defaulted to -updatedAt (Desc updatedAt)
-      security:
-        - OAuth2Demo:
-            - business
-            - 'listings:read'
-        - OAuth2Prod:
-            - business
-            - 'listings:read'
-      tags:
-        - Listing Profiles
-      x-lifecycle:
-        status: proposed
   '/listingProfiles/{id}':
     parameters:
       - schema:
@@ -314,6 +230,48 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/listingProfiles'
+    get:
+      summary: Get Listing Profile
+      tags:
+        - Listing Profiles
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/listingProfiles'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      operationId: get-businessLocations-id
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Returns basic data about the listing profile.
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+      security:
+        - OAuth2Demo:
+            - listings
+            - 'listings:read'
+        - OAuth2Prod:
+            - business
+            - 'listings:read'
 components:
   securitySchemes:
     JWT:

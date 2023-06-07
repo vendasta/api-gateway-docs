@@ -812,6 +812,9 @@ components:
                 - closeDay
           specialHours:
             type: array
+            description: `specialHours` represents a set of time periods when a location's operational hours differ from its regular business hours. This may be a holiday or special event.
+              These hours replace all regular hours for the day. The `openTime` and `startDate` must predate the `closeTime` and `endDate` respectively.
+              Currently only `open` and `closed` are supported in the Vendasta platform. We intend to add others in the future.
             items:
               type: object
               properties:
@@ -819,9 +822,6 @@ components:
                   type: string
                   description: |
                     Describes the different modes that apply to special hour periods.
-                    `specialHours` represents a set of time periods when a location's operational hours differ from its regular business hours. This may be a holiday or special event. 
-                    These hours replace all regular hours for the day. The `openTime` and `startDate` must predate the `closeTime` and `endDate` respectively.
-                    Currently only `open` and `closed` are supported in the Vendasta platform. We intend to add others in the future.
                   enum:
                     - open
                     - closed

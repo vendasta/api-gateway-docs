@@ -221,7 +221,7 @@ paths:
                         type: string
                         format: uri
                         description: The address of the updated listing profile
-          headers: { }
+          headers: {}
       requestBody:
         content:
           application/vnd.api+json:
@@ -295,7 +295,6 @@ components:
           refreshUrl: ''
           scopes:
             listing: Access to the Listing Builder REST API
-
   schemas:
     listingSyncListings:
       title: Listing Sync Listings
@@ -626,7 +625,7 @@ components:
         id:
           type: string
           example: AG-1231232
-          description: 'An identifier for the record. Currently these will be the same as a platform/salesAccounts or platform/businessLocations id.'
+          description: An identifier for the record. Currently these will be the same as a platform/salesAccounts or platform/businessLocations id.
         type:
           type: string
           enum:
@@ -813,22 +812,29 @@ components:
                   $ref: '#/components/schemas/timeOfDay'
               required:
                 - openDay
+                - closeDay
                 - openTime
                 - closeTime
-                - closeDay
           specialHours:
             description:
               `specialHours` represents a set of time periods when a location's operational hours differ from its regular business hours. This may be a holiday or special event.
               These hours replace the sets of hours that begin on the dates specified by the special hours entry. The `openTime` and `startDate` must predate the `closeTime` and `endDate` respectively.
               Currently only `open` and `closed` are supported in the Vendasta platform. We intend to add others in the future.
             type: array
+            description: |-
+              `specialHours` represents a set of time periods when a location's operational hours differ from its regular business hours. This may be a holiday or special event.
+              These hours replace all regular hours for the day. The `openTime` and `startDate` must predate the `closeTime` and `endDate` respectively.
             items:
               type: object
               properties:
                 status:
                   type: string
-                  description:
+                  description: |-
                     Describes the different modes that apply to special hour periods.
+                    Currently only `open` and `closed` are supported in the Vendasta platform. We intend to add others in the future.
+                    Overlapping `open` and `closed` periods are not allowed.
+                    When status is `open`, for the given business it will be open for the mentioned time period for the selected date. 
+                    When status is `closed`, for the given business it will be closed for the selected date.
                   enum:
                     - open
                     - closed
@@ -848,8 +854,6 @@ components:
                 - status
                 - startDate
                 - startTime
-                - EndTime
-
         required:
           - hoursTypeId
     dayOfTheWeek:

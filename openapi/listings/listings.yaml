@@ -179,6 +179,7 @@ paths:
 
         Update the existing listing profile.
         Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
+        Currently, we are supporting the update only to `BusinessHours`. We are planning to support other attributes in future.
       x-lifecycle:
         status: proposed
       parameters:
@@ -833,23 +834,13 @@ components:
                 - closeTime
           specialHours:
             type: array
-            description:
-              SpecialHours represents a set of time periods when a location's operational hours differ from its regular business hours. 
-              This may be a holiday or special event.
-              These hours replace the sets of hours that begin on the dates specified by the special hours entry. 
-              The `openTime` and `startDate` must predate the `closeTime` and `endDate` respectively.
-              Currently only `open` and `closed` are supported in the Vendasta platform. We intend to add others in the future.
+            description: SpecialHours represents a set of time periods when a location's operational hours differ from its regular business hours. This may be a holiday or special event. These hours replace the sets of hours that begin on the dates specified by the special hours entry. The `openTime` and `startDate` must predate the `closeTime` and `endDate` respectively. Currently only `open` and `closed` are supported in the Vendasta platform. We intend to add others in the future.
             items:
               type: object
               properties:
                 status:
                   type: string
-                  description:
-                    Describes the different modes that apply to special hour periods.
-                    Currently only `open` and `closed` are supported in the Vendasta platform. We intend to add others in the future.
-                    Overlapping `open` and `closed` periods are not allowed.
-                    When status is `open`, for the given business it will be open for the mentioned time period for the selected date. 
-                    When status is `closed`, for the given business it will be closed for the selected date.
+                  description: 'Describes the different modes that apply to special hour periods. Currently only `open` and `closed` are supported in the Vendasta platform. We intend to add others in the future. Overlapping `open` and `closed` periods are not allowed. When status is `open`, for the given business it will be open for the mentioned time period for the selected date. When status is `closed`, for the given business it will be closed for the selected date.'
                   enum:
                     - open
                     - closed
@@ -870,7 +861,6 @@ components:
                 - startDate
                 - startTime
                 - EndTime
-
         required:
           - hoursTypeId
     dayOfTheWeek:

@@ -634,32 +634,40 @@ components:
           description: The data type of this record
         attributes:
           type: object
+          readOnly: true
           properties:
             customerIdentifier:
               type: string
+              readOnly: true
               description: 'A value assigned by the business partner to reference this business location. Customer ID is currently NOT enforced to be unique, and there may be negative side effects to having a duplicate and/or changing a customer ID, specifically around legacy SSO. Use caution when editing a customer ID.'
             name:
               type: string
+              readOnly: true
               description: |-
                 The common name for this location.
 
                 Note: The pipe character (`|`) is not allowed. 
             address:
               type: object
+              readOnly: true
               properties:
                 line1:
                   type: string
+                  readOnly: true
                   description: The primary information. Typically a street address
                 line2:
                   type: string
                   description: An additional line of information to add after the street address.
                 city:
                   type: string
+                  readOnly: true
                 postalCode:
                   type: string
+                  readOnly: true
                   description: The zip code or postal code component of an address.
                 regionCode:
                   type: string
+                  readOnly: true
                   example: 'CA-SK, US-FL, AG-08, AU-NSW'
                   pattern: '^[A-Z]{2}-[\w]{1,3}$'
                   minLength: 4
@@ -667,6 +675,7 @@ components:
                   description: The code for the top level subdivision within the country (state/province) as defined by ISO 3166-2 format.
                 countryCode:
                   type: string
+                  readOnly: true
                   description: The two letter country code defined by ISO 3166-1'
                   example: 'CA, US, AU'
                   minLength: 2
@@ -674,6 +683,7 @@ components:
                   pattern: '^[A-Z]{2}$'
             phoneNumbers:
               type: array
+              readOnly: true
               description: |-
                 The standard phone numbers for the location.
                 Formatting characters may be included.
@@ -687,9 +697,11 @@ components:
                 type: string
             serviceAreaBusiness:
               type: boolean
+              readOnly: true
               description: When true the address will be used as the center of the area that this location services instead of being displayed
             geoCoordinate:
               type: object
+              readOnly: true
               description: |-
                 The point where the map pin for the location should be displayed.
 
@@ -699,8 +711,10 @@ components:
               properties:
                 latitude:
                   type: number
+                  readOnly: true
                 longitude:
                   type: number
+                  readOnly: true
               required:
                 - latitude
                 - longitude
@@ -710,11 +724,13 @@ components:
               type: string
         relationships:
           type: object
+          readOnly: true
           description: |
             The time at which the listing profiles was last updated at
           properties:
             businessPartner:
               type: object
+              readOnly: true
               description: A link to the organization that provides the platform to this listing profile
               properties:
                 data:
@@ -731,6 +747,7 @@ components:
                 - data
             businessCategories:
               type: object
+              readOnly: true
               description: A list of the types of business this location should be compared against. If not set during creation it will default "other".
               properties:
                 data:
@@ -763,7 +780,6 @@ components:
                 closeTime: '09:45'
       description: |-
         The operating hours for the listing profile. 
-
         Each entry in the array is a set of hours for a particular department or customer of the business. It is recommended to provide the `general` hours for all locations. Some locations may have additional definitions for 
       items:
         type: object

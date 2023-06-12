@@ -2,6 +2,10 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2023-06-01
+### Listing profile
+Update and get operations added to Listing APIs along with description of [Listingprofile](../../openapi/platform/listing.yaml/components/schemas/listingProfiles)
+
 ## 2023-03-28
 Read scopes have been added to businessLocations/get and orders/get
 

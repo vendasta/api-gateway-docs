@@ -84,12 +84,12 @@ paths:
             default: 10
           in: query
           name: 'page[limit]'
-          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).
+          description: 'The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
         - schema:
             type: string
           in: query
           name: 'page[cursor]'
-          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).
+          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
         - schema:
             type: string
           in: header
@@ -131,6 +131,51 @@ paths:
         - Options
         - Business Location Reviews
     parameters: []
+  '/businessLocationReviews/{id}/actions/suggestResponse':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of a business location review
+    get:
+      summary: Suggest Review Response
+      operationId: get-businessLocationReviews-id-actions-suggestResponse
+      tags:
+        - Business Location Reviews
+      security:
+        - OAuth2Demo:
+            - business
+        - OAuth2Prod:
+            - business
+      x-lifecycle:
+        status: proposed
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        Asks AI for a suggested response to the review
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/businessLocationReviewResponseSuggestion'
 components:
   schemas:
     businessLocationReviews:
@@ -191,6 +236,33 @@ components:
                     type: string
       x-tags:
         - Business Location Reviews
+    businessLocationReviewResponseSuggestion:
+      x-stoplight:
+        id: kyuk59cfolgz8
+      type: object
+      title: Suggested review response
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+        A suggested response to a business location review
+      properties:
+        type:
+          type: string
+          default: businessLocationReviewResponseSuggestion
+          enum:
+            - businessLocationReviewResponseSuggestion
+        attributes:
+          type: object
+          properties:
+            suggestion:
+              type: string
+              x-stoplight:
+                id: 1jtit00f5byan
+              description: The suggested response to the review
+          required:
+            - suggestion
   securitySchemes:
     JWT:
       type: http

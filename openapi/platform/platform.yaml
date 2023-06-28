@@ -2863,70 +2863,41 @@ paths:
     parameters:
       - schema:
           type: string
+          example: 'AG-CQD6ZR6:MP-R7G3NP55T725DM5VGD:beff34a4-cccc-4be8-bd9'
         name: id
         in: path
         required: true
+        description: 'The id should be a string which is in the form - businessLocationId : productId : activationId'
     post:
       summary: Cancel Subscription Assignment
       responses:
         '204':
           description: No Content
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Used for cancelling subscription assignments
+        Used for cancelling subscription assignments.
+
+        By default all cancel request uses DeactivationType as a DeactivationTypeCancel which indicate we should turn the item off at the items anniversary date, or commitment date, whichever is later. So product is still active till the anniversary date.
       tags:
         - Subscription Assignments
       x-lifecycle:
         status: proposed
       operationId: cancel-subscriptionAssignments-by-id
-      requestBody:
-        content:
-          application/vnd.api+json:
-            schema:
-              type: object
-              properties:
-                data:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                      default: requestCancellationAction
-                      example: requestCancellationAction
-                      enum:
-                        - requestCancellationAction
-                    attributes:
-                      type: object
-                      properties:
-                        reasonCategory:
-                          type: string
-                          enum:
-                            - shiftInPriorities
-                            - unsatisfied
-                            - endOfContract
-                            - movingToCompetitor
-                            - tooExpensive
-                            - accidentallyActivated
-                            - other
-                          description: |-
-                            An optional indicator of why the cancellation is being requested. Used by partners and vendors for analytics.
-
-                              `shiftInPriorities` - Crisis/Shift in priorities
-
-                              `unsatisfied` - Customer wasn't satisfied
-
-                              `endOfContract` - Customer reached end of contract
-
-                              `movingToCompetitor` - Moving to a competitor
-
-                              `tooExpensive` - Product is too expensive
-
-                              `accidentallyActivated` - Product was accidentally activated
-
-                              `other` - Other
-                        reason:
-                          type: string
-                          description: 'Feedback for vendors as to why the subscription is being cancelled. '
+      security:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
+            - sales.account
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          name: Authorization
+          required: true
     options:
       summary: 'List valid HTTP verbs for /subscriptionAssignments/{id}/actions/requestCancellation'
       operationId: options-subscriptionAssignment-requestCancellationAction

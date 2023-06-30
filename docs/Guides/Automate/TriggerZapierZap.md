@@ -10,6 +10,8 @@ This guide will show you how to set up a Vendasta Automation that causes Zapier 
 1. You will need a paid Zapier account to follow this guide.
 2. This guide assumes you are familiar with creating automations within the platform. If you are not familiar you should [learn more about automations](https://support.vendasta.com/hc/en-us/sections/4406950706583-Automations) first.
 
+> Need ideas? Check out [this video](https://www.youtube.com/watch?v=8ejJ-52Lows)
+
 ## Step 1: Create a Zap
 
 Zapier calls their workflows "zaps". You will start by logging into your Zapier account and creating a new zap. You will want the "Webhooks by Zapier" app with the "Catch Hook" event.

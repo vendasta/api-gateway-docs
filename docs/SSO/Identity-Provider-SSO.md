@@ -20,4 +20,5 @@ You may be able to make use of one of [these open source libraries](https://oaut
 > Creating their user record and setting permissions should be done as a separate step.
 >
 > You can [manage users by API](IDP-User-Sync.md) to keep them in sync with your system.
-
+>
+> Once you have completed setting up Single Sign On from your system, you may want to implement [Single Logout](Single-Logout.md).

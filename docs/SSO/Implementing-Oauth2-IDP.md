@@ -111,5 +111,6 @@ Once you have configured the above endpoints on your server, you need to connect
 ) to go **Partner SSO Integration**, and add your client_id, client_secret, and info about
  these three endpoints.
 
+## Next Steps
 
-
+> Once you have completed setting up Single Sign On from your system, you may want to implement [Single Logout](Single-Logout.md).

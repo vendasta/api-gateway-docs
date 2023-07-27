@@ -107,7 +107,7 @@ paths:
           description: OK
   /socialPosts:
     get:
-      summary: An endpoint dedicated to listing all the posts made by the business filtered by the selected parameters
+      summary: List Social Posts
       operationId: get-posts
       responses:
         '200':
@@ -138,7 +138,7 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
-        An endpoint listing the posts made by the business.
+         An endpoint dedicated to listing all the posts made by the business filtered by the selected parameters.
 
       parameters:
         - schema:
@@ -162,14 +162,12 @@ paths:
         - schema:
             type: string
             example: '2022-02-04T16:52:34.000Z'
-            default: ''
           in: query
           name: 'filter[start]'
           description: The starting time of the posts to be listed. Times used must be in ISO 8601 format, UTC time.
         - schema:
             type: string
             example: '2022-02-04T16:52:34.000Z'
-            default: ''
           in: query
           name: 'filter[end]'
           description: The ending time of the posts to be listed. Times used must be in ISO 8601 format, UTC time.
@@ -179,6 +177,17 @@ paths:
           name: 'filter[socialProfileIds]'
           in: query
           description: Comma seperated string representing all the social profile ids from which the posts are to be listed. The list of profile ids can be obtained from /socialProfiles endpoint.
+        - schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - SCHEDULED
+                - POSTED
+            example: [ 'SCHEDULED' ]
+          in: query
+          name: 'filter[statuses]'
+          description: The status associated with the posts allowing the retrieval of scheduled or posted posts.
       tags:
         - Social Posts
       x-lifecycle:
@@ -319,6 +328,10 @@ components:
               type: string
               description: 'The text body of the post.'
             status:
+              type: string
+              enum:
+                - SCHEDULED
+                - POSTED
               description: 'A string representing the tag assigned to a post.'
               example: 'SCHEDULED'
             postedDateTime:
@@ -347,6 +360,10 @@ components:
               properties:
                 type:
                   type: string
+                  enum:
+                    - IMAGE
+                    - VIDEO
+                    - GIF
                   description: 'A string representing the type of media attached to the post.'
                   example: 'IMAGE'
                 url:

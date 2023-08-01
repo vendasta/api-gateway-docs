@@ -142,6 +142,92 @@ paths:
           in: query
           name: dryRun
           description: 'If `true`, will simply return any errors this Message will get from posting. Will return an empty 200 if there are none.'
+    get:
+      summary: List Social Posts
+      operationId: get-posts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/messages'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        format: uri
+                        description: Provides a link back to the first page of results.
+                      next:
+                        type: string
+                        format: uri
+                        description: The URI at which the next page of results can be gotten from.
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+
+         An endpoint dedicated to listing all the posts made by the business filtered by the selected parameters.
+
+      parameters:
+        - schema:
+            type: string
+            example: AG-12345
+          in: query
+          name: 'filter[businessId]'
+          description: Returns all the posts for a business.
+        - schema:
+            type: string
+          in: query
+          name: 'page[cursor]'
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+        - schema:
+            type: integer
+            example: 20
+            default: 25
+          in: query
+          name: 'page[limit]'
+          description: The maximum number of Social Posts you would like to return.
+        - schema:
+            type: string
+            example: '2022-02-04T16:52:34.000Z'
+          in: query
+          name: 'filter[start]'
+          description: The starting time of the posts to be listed. Times used must be in ISO 8601 format, UTC time.
+        - schema:
+            type: string
+            example: '2022-02-04T16:52:34.000Z'
+          in: query
+          name: 'filter[end]'
+          description: The ending time of the posts to be listed. Times used must be in ISO 8601 format, UTC time.
+        - schema:
+            type: string
+            example: 'FBU-839,IGU-762348'
+          name: 'filter[socialProfileIds]'
+          in: query
+          description: Comma seperated string representing all the social profile ids from which the posts are to be listed. The list of profile ids can be obtained from /socialProfiles endpoint.
+        - schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - SCHEDULED
+                - POSTED
+            example: [ 'SCHEDULED' ]
+          in: query
+          name: 'filter[statuses]'
+          description: The status associated with the posts allowing the retrieval of scheduled or posted posts.
+      tags:
+        - Messages
+      x-lifecycle:
+        status: proposed
     options:
       summary: List valid HTTP verbs for /messages
       operationId: options-messages
@@ -275,19 +361,50 @@ components:
             messageText:
               type: string
               description: 'The text of the message you’re making. This text is subject to limitations depending on what service you are posting to, such as Tweet length for Twitter. '
-            mediaUrls:
-              description: 'Links to pieces of media you want on the message you’re sending. These can be images, videos, and gifs. Media are subject to limitations depending on the social network you are posting to.'
+            status:
+              type: string
+              enum:
+                - SCHEDULED
+                - POSTED
+              description: 'A string representing the tag assigned to a post.'
+              example: 'SCHEDULED'
+            media:
               type: array
+              description: 'An array containing the media attached to the post.'
               items:
-                type: string
-            sendAt:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - IMAGE
+                      - VIDEO
+                      - GIF
+                    description: 'A string representing the type of media attached to the post.'
+                    example: 'IMAGE'
+                  url:
+                    type: string
+                    description: 'A string representing the URL of media attached to the post.'
+                    example: 'https://www.example.com/image.jpg'
+
+            postedAt:
               type: string
               format: date-time
               description: |-
-                The time you wish your message to be sent out.
-
-                Defaults to 5 minutes after the Message is made, and must be at least 5 minutes after the Message is created.
-
+                A string representing the timestamp at which the post was posted.
+                
+                Null in case of posts that have not been posted but just scheduled yet.
+                
+                Times used must be in ISO 8601 format, UTC time.
+              example: '2022-02-04T16:52:34.000Z'
+            scheduledAt:
+              type: string
+              format: date-time
+              description: |-
+                A string representing the timestamp at which the post is scheduled.
+                
+                Null in case of posts was posted directly without scheduling.
+                
                 Times used must be in ISO 8601 format, UTC time.
               example: '2022-02-04T16:52:34.000Z'
             GMBPostCustomization:
@@ -319,6 +436,14 @@ components:
                 linkURL:
                   type: string
                   description: A Url for a link you want to associate with your Call to Action.
+            errorOccurred:
+              type: boolean
+              description: 'Boolean indicating if any error occurred while making the post.'
+              example: false
+            error:
+              type: string
+              description: 'The description of error occurred while posting the post.'
+              example: 'The post is not valid.'
           required:
             - messageText
         relationships:

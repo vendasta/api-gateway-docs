@@ -214,16 +214,10 @@ paths:
           in: query
           description: Comma seperated string representing all the social profile ids from which the posts are to be listed. The list of profile ids can be obtained from /socialProfiles endpoint.
         - schema:
-            type: array
-            items:
-              type: string
-              enum:
-                - scheduled
-                - posted
-            example: [ 'scheduled' ]
+            type: string
           in: query
           name: 'filter[statuses]'
-          description: The status associated with the posts allowing the retrieval of scheduled or posted posts.
+          description: Comma seperated string containing the statuses of the messages to be listed. The statuses can be scheduled, posted or failed.
       tags:
         - Messages
       x-lifecycle:
@@ -408,10 +402,17 @@ components:
               type: boolean
               description: 'Indicates an error occurred while posting.'
               example: false
-            error:
-              type: string
-              description: 'The description of the error.'
-              example: 'The post is not valid.'
+            errors:
+              type: array
+              description: 'An array of error objects.'
+              items:
+                type: object
+                properties:
+                  details:
+                    type: string
+                    description: 'The description of the error.'
+                    example: 'The post is not valid.'
+
             GMBPostCustomization:
               type: object
               description: |-

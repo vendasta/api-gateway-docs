@@ -143,13 +143,13 @@ paths:
           name: dryRun
           description: 'If `true`, will simply return any errors this Message will get from posting. Will return an empty 200 if there are none.'
     get:
-      summary: List Social Posts
-      operationId: get-posts
+      summary: List Social Messages
+      operationId: get-messages
       responses:
         '200':
           description: OK
           content:
-            application/json:
+            application/vnd.api+json:
               schema:
                 type: object
                 properties:
@@ -218,9 +218,9 @@ paths:
             items:
               type: string
               enum:
-                - SCHEDULED
-                - POSTED
-            example: [ 'SCHEDULED' ]
+                - scheduled
+                - posted
+            example: [ 'scheduled' ]
           in: query
           name: 'filter[statuses]'
           description: The status associated with the posts allowing the retrieval of scheduled or posted posts.
@@ -366,8 +366,8 @@ components:
               enum:
                 - scheduled
                 - posted
-              description: 'A string representing the tag assigned to a post.'
-              example: 'SCHEDULED'
+              description: 'A string representing if the message is posted or scheduled'
+              example: 'scheduled'
             media:
               type: array
               description: 'An array containing the media attached to the post.'
@@ -389,8 +389,8 @@ components:
               format: date-time
               description: |-
                 A string representing the timestamp at which the post was posted.
-                
-                Null in case of posts that have not been posted but just scheduled yet.
+                Defaults to 5 minutes after the Message is made, and must be at least 5 minutes after the Message is created.
+                Null if the post hasn't been posted yet.
                 
                 Times used must be in ISO 8601 format, UTC time.
               example: '2022-02-04T16:52:34.000Z'
@@ -400,17 +400,17 @@ components:
               description: |-
                 A string representing the timestamp at which the post is scheduled.
                 
-                Null in case of posts was posted directly without scheduling.
+                Null if the post was not scheduled to be posted.
                 
                 Times used must be in ISO 8601 format, UTC time.
               example: '2022-02-04T16:52:34.000Z'
             errorOccurred:
               type: boolean
-              description: 'Boolean indicating if any error occurred while making the post.'
+              description: 'Indicates an error occurred while posting.'
               example: false
             error:
               type: string
-              description: 'The description of error occurred while posting the post.'
+              description: 'The description of the error.'
               example: 'The post is not valid.'
             GMBPostCustomization:
               type: object

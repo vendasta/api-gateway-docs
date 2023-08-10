@@ -2898,6 +2898,32 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           name: Authorization
           required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - Crisis/Shift in priorities string
+                      - Customer wasn't satisfied
+                      - Customer reached end of contract
+                      - Moving to a computer
+                      - Product is too expensive
+                      - Product was accidentally activated
+                      - Other
+                comments:
+                  type: string
+            examples:
+              Example 1:
+                value:
+                  reason:
+                    - Crisis/Shift in priorities string
+                  comments: Due to crisis
     options:
       summary: 'List valid HTTP verbs for /subscriptionAssignments/{id}/actions/requestCancellation'
       operationId: options-subscriptionAssignment-requestCancellationAction

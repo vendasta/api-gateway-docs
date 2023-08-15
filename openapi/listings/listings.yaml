@@ -633,22 +633,21 @@ components:
           properties:
             customerIdentifier:
               type: string
-              readOnly: true
               description: 'A value assigned by the business partner to reference this business location. Customer ID is currently NOT enforced to be unique, and there may be negative side effects to having a duplicate and/or changing a customer ID, specifically around legacy SSO. Use caution when editing a customer ID.'
+              readOnly: true
             name:
               type: string
-              readOnly: true
               description: |-
                 The common name for this location.
                 Note: The pipe character (`|`) is not allowed.
+              readOnly: true
             address:
               type: object
-              readOnly: true
               properties:
                 line1:
                   type: string
-                  readOnly: true
                   description: The primary information. Typically a street address
+                  readOnly: true
                 line2:
                   type: string
                   description: An additional line of information to add after the street address.
@@ -657,27 +656,33 @@ components:
                   readOnly: true
                 postalCode:
                   type: string
-                  readOnly: true
                   description: The zip code or postal code component of an address.
+                  readOnly: true
                 regionCode:
                   type: string
-                  readOnly: true
                   example: 'CA-SK, US-FL, AG-08, AU-NSW'
                   pattern: '^[A-Z]{2}-[\w]{1,3}$'
                   minLength: 4
                   maxLength: 6
-                  description: The code for the top level subdivision within the country (state/province) as defined by ISO 3166-2 format.
+                  description: |-
+                    The code for the top level subdivision within the country (state/province). For more info see the [Addresses guide](../../docs/Guides/Addresses.md)
+
+                    Examples: CA-SK, US-FL, AG-08, AU-NSW
+                  readOnly: true
                 countryCode:
                   type: string
-                  readOnly: true
-                  description: The two letter country code defined by ISO 3166-1'
                   example: 'CA, US, AU'
                   minLength: 2
                   maxLength: 2
                   pattern: '^[A-Z]{2}$'
+                  description: |-
+                    The two letter country code. For more info see the [Addresses guide](../../docs/Guides/Addresses.md)
+
+                    Examples: CA, US, AU
+                  readOnly: true
+              readOnly: true
             phoneNumbers:
               type: array
-              readOnly: true
               description: |-
                 The standard phone numbers for the location.
                 Formatting characters may be included.
@@ -689,13 +694,13 @@ components:
                 You may test the parsibility of a number using https://phonenumbers.temba.io/ All phone numbers are assumed to be in the same country as this listing profile
               items:
                 type: string
+              readOnly: true
             serviceAreaBusiness:
               type: boolean
-              readOnly: true
               description: When true the address will be used as the center of the area that this location services instead of being displayed
+              readOnly: true
             geoCoordinate:
               type: object
-              readOnly: true
               description: |-
                 The point where the map pin for the location should be displayed.
 
@@ -712,17 +717,16 @@ components:
               required:
                 - latitude
                 - longitude
+              readOnly: true
             hours:
               $ref: '#/components/schemas/hoursOfOperation'
         relationships:
           type: object
-          readOnly: true
           description: |
             The time at which the listing profiles was last updated at
           properties:
             businessPartner:
               type: object
-              readOnly: true
               description: A link to the organization that provides the platform to this listing profile
               properties:
                 data:
@@ -737,9 +741,9 @@ components:
                       type: string
               required:
                 - data
+              readOnly: true
             businessCategories:
               type: object
-              readOnly: true
               description: A list of the types of business this location should be compared against. If not set during creation it will default "other".
               properties:
                 data:
@@ -754,6 +758,8 @@ components:
                     required:
                       - type
                       - id
+              readOnly: true
+          readOnly: true
     hoursOfOperation:
       type: array
       x-examples:

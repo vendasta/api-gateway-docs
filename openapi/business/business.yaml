@@ -249,12 +249,12 @@ paths:
         - schema:
             type: string
           in: query
-          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).
+          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
           name: 'page[cursor]'
         - schema:
             type: string
           in: query
-          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).
+          description: 'The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
           name: 'page[limit]'
         - schema:
             type: string
@@ -266,7 +266,7 @@ paths:
               - familyName
               - '-familyName'
             default: '-createdAt'
-            example: 'familyName'
+            example: familyName
           in: query
           name: sort
           description: |-
@@ -287,7 +287,7 @@ paths:
       x-lifecycle:
         status: trustedTester
     options:
-      summary: 'List valid HTTP verbs for /customers'
+      summary: List valid HTTP verbs for /customers
       operationId: options-customers
       responses:
         '204':
@@ -544,14 +544,20 @@ components:
                 regionCode:
                   type: string
                   minLength: 1
-                  description: 'The code for the top level subdivision within the country (state/province) as defined by ISO 3166-2 format (CA-SK, US-FL, AG-08, AU-NSW)'
                   example: US-MI
+                  description: |-
+                    The code for the top level subdivision within the country (state/province). For more info see the [Addresses guide](../../docs/Guides/Addresses.md)
+
+                    Examples: CA-SK, US-FL, AG-08, AU-NSW
                 countryCode:
                   type: string
                   minLength: 2
-                  description: 'The two letter country code defined by ISO 3166-1 (CA, US).'
                   example: US
                   maxLength: 2
+                  description: |-
+                    The two letter country code. For more info see the [Addresses guide](../../docs/Guides/Addresses.md)
+
+                    Examples: CA, US, AU
             phoneNumbers:
               type: array
               description: A comma-separated list of phone numbers for a customer in E.164 format ex. +13065551234. At least one unique phone number or email is required.

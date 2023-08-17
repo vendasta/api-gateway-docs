@@ -2898,6 +2898,56 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           name: Authorization
           required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          description: you need to pass vnd.json format
+          required: false
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: array
+                  description: |-
+                    `crisisShiftInPriorities`due to crisis shift in priorities
+
+                    `customerWasNotSatisfied`due to customer not satisfied with product
+
+                    `customerReachedEndOfContract`due to customer reached end of contract
+
+                    `movingToAComputer`due to moving to a computer
+
+                    `productIsTooExpensive`due to product is too expensive
+
+                    `productWasAccidentallyActivated`due to product was accidentally activated
+
+                    `other` any other reason for cancellation
+                  items:
+                    type: string
+                    enum:
+                      - crisisShiftInPriorities
+                      - customerWasNotSatisfied
+                      - customerReachedEndOfContract
+                      - movingToAComputer
+                      - productIsTooExpensive
+                      - productWasAccidentallyActivated
+                      - other
+                comments:
+                  type: string
+                  description: more description for cancellation of products
+            examples:
+              Example 1:
+                value:
+                  reason:
+                    - crisisShiftInPriorities
+                  comments: Due to crisis
     options:
       summary: 'List valid HTTP verbs for /subscriptionAssignments/{id}/actions/requestCancellation'
       operationId: options-subscriptionAssignment-requestCancellationAction
@@ -5153,7 +5203,7 @@ components:
                 regionCode:
                   type: string
                   description: |-
-                    The code for the top level subdivision within the country (state/province). For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
+                    The code for the top level subdivision within the country (state/province) as defined by [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) format.
 
                     Examples: CA-SK, US-FL, AG-08, AU-NSW
                   example: CA-SK
@@ -5166,7 +5216,7 @@ components:
                   minLength: 2
                   example: CA
                   description: |-
-                    The two letter country code. For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
+                    The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
 
                     Examples: CA, US, AU
                   pattern: '^[A-Z]{2}$'
@@ -6121,7 +6171,7 @@ components:
                 regionCode:
                   type: string
                   description: |-
-                    The code for the top level subdivision within the country (state/province). For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
+                    The code for the top level subdivision within the country (state/province) as defined by [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) format.
 
                     Examples: CA-SK, US-FL, AG-08, AU-NSW
                   example: CA-SK
@@ -6134,7 +6184,7 @@ components:
                   minLength: 2
                   example: CA
                   description: |-
-                    The two letter country code. For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
+                    The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
 
                     Examples: CA, US, AU
                   pattern: '^[A-Z]{2}$'
@@ -6512,7 +6562,7 @@ components:
                 regionCode:
                   type: string
                   description: |-
-                    The code for the top level subdivision within the country (state/province). For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
+                    The code for the top level subdivision within the country (state/province) as defined by [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) format.
 
                     Examples: CA-SK, US-FL, AG-08, AU-NSW
                   example: CA-ON
@@ -6525,7 +6575,7 @@ components:
                   minLength: 2
                   example: CA
                   description: |-
-                    The two letter country code. For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
+                    The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
 
                     Examples: CA, US, AU
                   pattern: '^[A-Z]{2}$'

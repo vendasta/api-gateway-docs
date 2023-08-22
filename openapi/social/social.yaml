@@ -96,31 +96,21 @@ paths:
         - Messages
       x-lifecycle:
         status: trustedTester
-    post:
-      summary: Schedule Message
-      operationId: post-messages
-      description: Please contact Sales to learn more about the scheduling message API
-      tags:
-        - Messages
-      responses:
-        '200':
-          description: OK
-  /socialPosts:
     get:
-      summary: List Social Posts
-      operationId: get-posts
+      summary: List Social Messages
+      operationId: get-messages
       responses:
         '200':
           description: OK
           content:
-            application/json:
+            application/vnd.api+json:
               schema:
                 type: object
                 properties:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/SocialPostsResponse'
+                      $ref: '#/components/schemas/messages'
                   links:
                     type: object
                     properties:
@@ -137,15 +127,14 @@ paths:
                         description: The URI at which the next page of results can be gotten from.
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
-
+        
          An endpoint dedicated to listing all the posts made by the business filtered by the selected parameters.
-
       parameters:
         - schema:
             type: string
             example: AG-12345
           in: query
-          name: 'filter[businessId]'
+          name: 'filter[businessLocation.id]'
           description: Returns all the posts for a business.
         - schema:
             type: string
@@ -161,16 +150,22 @@ paths:
           description: The maximum number of Social Posts you would like to return.
         - schema:
             type: string
-            example: '2022-02-04T16:52:34.000Z'
+            example: 'Jd6889Js3'
           in: query
-          name: 'filter[start]'
-          description: The starting time of the posts to be listed. Times used must be in ISO 8601 format, UTC time.
+          name: 'filter[socialProfileExternalIds]'
+          description: 'A comma-seperated list filtering messages to profiles with these external identifiers.'
         - schema:
             type: string
             example: '2022-02-04T16:52:34.000Z'
           in: query
-          name: 'filter[end]'
-          description: The ending time of the posts to be listed. Times used must be in ISO 8601 format, UTC time.
+          name: 'filter[startAt]'
+          description: 'All the messages scheduled to be posted from the timestamp. Times used must be in ISO 8601 format, UTC time.'
+        - schema:
+            type: string
+            example: '2022-02-04T16:52:34.000Z'
+          in: query
+          name: 'filter[endAt]'
+          description: 'All the messaged scheduled to posted at the end of timestamp. Times used must be in ISO 8601 format, UTC time.'
         - schema:
             type: string
             example: 'FBU-839,IGU-762348'
@@ -178,33 +173,24 @@ paths:
           in: query
           description: Comma seperated string representing all the social profile ids from which the posts are to be listed. The list of profile ids can be obtained from /socialProfiles endpoint.
         - schema:
-            type: array
-            items:
-              type: string
-              enum:
-                - SCHEDULED
-                - POSTED
-            example: [ 'SCHEDULED' ]
+            type: string
           in: query
           name: 'filter[statuses]'
-          description: The status associated with the posts allowing the retrieval of scheduled or posted posts.
+          description: 'Comma seperated string containing the statuses of the messages to be listed. The statuses can be scheduled, posted or failed.'
       tags:
-        - Social Posts
+        - Messages
       x-lifecycle:
         status: proposed
-    options:
-      summary: List valid HTTP verbs for /socialPosts
-      operationId: options-socialPosts
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
-      responses:
-        '204':
-          description: No Content
+    post:
+      summary: Schedule Message
+      operationId: post-messages
+      description: Please contact Sales to learn more about the scheduling message API
       tags:
-        - Options
         - Messages
-        - Social Posts
-      x-lifecycle:
-        status: trustedTester
+      responses:
+        '200':
+          description: OK
+
 components:
   securitySchemes:
     JWT:
@@ -303,81 +289,120 @@ components:
             - businessLocation
       required:
         - type
-    SocialPostsResponse:
-      title: Social Posts Response
+    messages:
+      title: Messages
       type: object
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
-
-        A response containing retrieved filtered list of posts made within a specified time range by the particular user.
+        
+        A data structure that describes a message you wish to schedule to be posted on a social network.
       examples: [ ]
       x-tags:
-        - Social Posts Response
+        - Messages
       properties:
         id:
           type: string
-          example: CuratedPost-12a45b72s-CCA-1572
-          description: A unique identifier assigned to this post.
+          description: A unique identifier assigned to this message. We will automatically assign the Message one on creation.
         type:
           type: string
-          default: socialPostResponse
+          default: messages
         attributes:
           type: object
           properties:
-            postText:
+            messageText:
               type: string
-              description: 'The text body of the post.'
+              description: 'The text of the message you’re making. This text is subject to limitations depending on what service you are posting to, such as Tweet length for Twitter. '
             status:
               type: string
               enum:
-                - SCHEDULED
-                - POSTED
-              description: 'A string representing the tag assigned to a post.'
-              example: 'SCHEDULED'
-            postedDateTime:
+                - scheduled
+                - posted
+                - failed
+              description: |-
+                The status of the message will be automatically set to one of the following by the system:
+                
+                scheduled: The message has been approved and is scheduled to be sent at the time indicated in `scheduledAt`
+                
+                posted: The message was successfully sent to the social profile
+                
+                failed: An error occurred when sending the message. You can view the details in the `error` attribute.
+              example: scheduled
+              readOnly: true
+            media:
+              type: array
+              description: An array containing the media attached to the post.
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - image
+                      - video
+                      - gif
+                    example: image
+                    readOnly: true
+                  url:
+                    type: string
+                    example: 'https://www.example.com/image.jpg'
+            postedAt:
               type: string
               format: date-time
               description: |-
                 A string representing the timestamp at which the post was posted.
-
-                Null in case of posts that have not been posted but just scheduled yet.
-
+                
                 Times used must be in ISO 8601 format, UTC time.
               example: '2022-02-04T16:52:34.000Z'
-            scheduledDateTime:
+            scheduledAt:
               type: string
               format: date-time
               description: |-
                 A string representing the timestamp at which the post is scheduled.
-
-                Null in case of posts was posted directly without scheduling.
-
+                
+                Defaults to 5 minutes after the Message is made, and must be at least 5 minutes after the Message is created.
+                
                 Times used must be in ISO 8601 format, UTC time.
               example: '2022-02-04T16:52:34.000Z'
-            media:
+            errors:
+              type: array
+              description: An array of error objects.
+              readOnly: true
+              items:
+                type: object
+                properties:
+                  details:
+                    type: string
+                    description: The description of the error.
+                    example: The post is not valid.
+            GMBPostCustomization:
               type: object
-              description: 'An object containing the media attached to the post.'
+              description: |-
+                A special data structure that can be passed in to allow for special attached events for messages posted on Google My Business. 
+                
+                You can add an Event, a Call to Action, or both. If you want an Event, the `title`, `eventStartAt`, and `eventEndAt` fields must all be filled out. If you want a Call To Action, the `CTAType` and `linkUrl` fields must be filled out. `linkUrl` is optional if the CTAType is `callNow`.
               properties:
-                type:
+                title:
+                  type: string
+                  description: A title for the attached event.
+                eventStartAt:
+                  type: string
+                  description: The time at which the attached event will start.
+                eventEndAt:
+                  type: string
+                  description: The time at which the attached event will end.
+                CTAType:
                   type: string
                   enum:
-                    - IMAGE
-                    - VIDEO
-                    - GIF
-                  description: 'A string representing the type of media attached to the post.'
-                  example: 'IMAGE'
-                url:
+                    - book
+                    - order
+                    - learnMore
+                    - signup
+                    - shop
+                    - callNow
+                  description: An enum for which Call to Action you wish to use.
+                linkURL:
                   type: string
-                  description: 'A string representing the url of media attached to the post.'
-                  example: 'https://www.example.com/image.jpg'
-            errorOccurred:
-              type: boolean
-              description: 'Boolean indicating if any error occurred while making the post.'
-              example: false
-            error:
-              type: string
-              description: 'The description of error occurred while posting the post.'
-              example: 'The post is not valid.'
+                  description: A Url for a link you want to associate with your Call to Action.
           required:
             - messageText
         relationships:
@@ -385,7 +410,7 @@ components:
           properties:
             socialProfiles:
               type: object
-              description: An array of Social Profiles from where the posts are being retrieved.
+              description: The Social Profiles we’re posting this message under.
               properties:
                 data:
                   type: array
@@ -403,9 +428,9 @@ components:
                       - id
             businessLocation:
               type: object
+              description: The location that owns the social profiles that posts will be sent from.
               required:
                 - data
-              description: The location that owns the social profiles that posts will be sent from.
               properties:
                 data:
                   type: object
@@ -427,7 +452,6 @@ tags:
   - name: Social Profiles
   - name: Messages
   - name: Options
-  - name: Social Posts
 security:
   - OAuth2Demo:
       - business

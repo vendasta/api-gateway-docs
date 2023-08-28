@@ -101,7 +101,7 @@ Note: When an account changes editions of a product multiple times within a mont
 ### Sell multiple products at once
 You may include multiple products in a single order by adding additional line items. The order status will not switch to `fulfilled` until all products have been activated.
 
-This example will activate Customer Voice at a monthly cost of $16.50 AUD, Listing Builder at a montly cost of $27.97 AUD, and Listing Distribution at a yearly cost of $350.97
+This example will activate Customer Voice at a monthly cost of $16.50 AUD, Local SEO at a montly cost of $27.97 AUD, and Listing Distribution at a yearly cost of $350.97
 ```json http
 {
   "method": "post",

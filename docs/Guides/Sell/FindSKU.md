@@ -68,16 +68,18 @@ Product | Production SKU | Demo SKU
  Express |SM:EDITION-FVGBNLVZ | SM:EDITION-SWVF3WH8
  Pro | SM | SM
 
-### Listing Builder
+### Local SEO
 
 Product | Production SKU | Demo SKU
 --------|----------------|---------
- Listing Builder | MS | MS
+ Local SEO Standard | MS | MS
+ Local SEO Pro | MS:EDITION-EDITION-CFH5CKHC | MS:EDITION-MXWLTQPN
 
-The base Listing Builder product must be already active or included in the same order as any of the addons.
+The base Local SEO product must be already active or included in the same order as any of the addons.
 
 Addon | Production SKU | Demo SKU
 --------|----------------|---------
+Additional Keywords | A-K7DDJR48BQ | A-V5BVRPHMVM
 Listing Distribution | A-GMXXNQ4ZGD | N/A
 Listing Distribution \| Monthly | A-SX5MP2FB2L | N/A
 Listing Sync Pro \| Australia Yearly | A-XQL2HMD6VV | N/A

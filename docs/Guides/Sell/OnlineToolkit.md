@@ -149,7 +149,7 @@ type: tab
 title: Request
 -->
 
-Using the ID of the business location we can now create an order to activate the express editions of products that are part of the Local Business Online Toolkit. This request will create an order for Website Express, Customer Voice Express, Reputation Management Express, Listing Builder, Social Marketing Express.
+Using the ID of the business location we can now create an order to activate the express editions of products that are part of the Local Business Online Toolkit. This request will create an order for Website Express, Customer Voice Express, Reputation Management Express, Local SEO, Social Marketing Express.
 
 ```json http
 {

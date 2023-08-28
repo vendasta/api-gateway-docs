@@ -95,7 +95,7 @@ Get a detailed view of your clients' ad performance across Google, Facebook, and
 <img src="https://raw.githubusercontent.com/vendasta/api-gateway-docs/master/docs/Overview/logos/logoLB.png" alt="Listing accuracy" class="sl-image" style="width:75px"/>
 </td><td>
 
-## Listing Builder
+## Local SEO
 
 ### Listing Data
 

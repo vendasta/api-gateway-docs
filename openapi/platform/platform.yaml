@@ -2933,12 +2933,24 @@ paths:
                 comments:
                   type: string
                   description: more description for cancellation of products
+                deactivationType:
+                  type: string
+                  description: |-
+                    `deactivationTypeCancel` Cancel indicates we should turn the item off at the items anniversary date, or commitment date, whichever is later
+
+                    `deactivationTypeImmediate` Immediate indicates we should turn the item off immediately
+                  enum:
+                    - deactivationTypeCancel
+                    - deactivationTypeImmediate
+                  default: deactivationTypeCancel
             examples:
               Example 1:
                 value:
                   reason:
                     - crisisShiftInPriorities
                   comments: Due to crisis
+                  deactivationType: deactivationTypeCancel
+        description: ''
     options:
       summary: 'List valid HTTP verbs for /subscriptionAssignments/{id}/actions/requestCancellation'
       operationId: options-subscriptionAssignment-requestCancellationAction

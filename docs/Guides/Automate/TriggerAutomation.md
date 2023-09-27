@@ -12,7 +12,7 @@ Create an access token with at least `business` scopes following the [Authorizat
 
 Create an automation in the Vendasta platform with the "It's triggered via API" [trigger](https://support.vendasta.com/hc/en-us/articles/4406952880919-Automation-triggers).
 
-If you would like to pass custom data to this automation, you will also need to configure the return values to be the keys of the data payload that you are passing. By selecting the correct data types when configuring these return values, the automation will be able to automatically use this data for requirements of subsequent steps.
+If you would like to pass custom data to this automation, you will also need to configure the return values to be the keys of the data payload that you are passing. This can be done by adding they keys of your data dictionary to the return values in the sidepanel of the trigger. By selecting the correct data types when configuring these return values, the automation will be able to automatically use this data for requirements of subsequent steps.
 
 ## Step 1: Trigger the automation
 

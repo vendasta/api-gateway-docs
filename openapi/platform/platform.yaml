@@ -6397,9 +6397,6 @@ components:
               properties:
                 data:
                   type: object
-                  required:
-                    - type
-                    - id
                   properties:
                     type:
                       type: string
@@ -6408,6 +6405,9 @@ components:
                     id:
                       type: string
                       example: AG-1234567
+                  required:
+                    - type
+                    - id
             order:
               type: object
               description: 'Proposed: A link to the order that this automation is being run for. Either the businessLocation or order is required. (It depends on the automation type.)'
@@ -6426,6 +6426,15 @@ components:
                   required:
                     - type
                     - id
+        attributes:
+          type: object
+          properties:
+            entityId:
+              type: string
+              description: 'A generic way of specifying the entity to pass to the automation. This is similar to the businessLocation or order but in a generic, combined field.'
+            data:
+              type: object
+              description: 'Extra data that you would like to send to the automation. The automation trigger must also be configured correctly to be able to read these values.'
       required:
         - type
         - relationships

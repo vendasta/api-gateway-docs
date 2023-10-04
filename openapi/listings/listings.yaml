@@ -272,7 +272,7 @@ paths:
             - listing
         - OAuth2Prod:
             - listing
-  '/citations/{id}':
+  '/citations':
     get:
       summary: Get Citation Data
       tags:
@@ -286,12 +286,22 @@ paths:
                 type: object
                 properties:
                   data:
+                    type: array
                     $ref: '#/components/schemas/citations'
                   links:
                     type: object
                     properties:
                       self:
                         type: string
+                        format: uri
+                      first:
+                        type: string
+                        description: Provides a link back to the first page of results
+                        format: uri
+                      next:
+                        type: string
+                        description: The URI at which the next batch of reviews can be gotten from
+                        format: uri
       operationId: get-citationData
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
@@ -309,12 +319,10 @@ paths:
           in: header
           name: Authorization
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
+        - schema:
+            type: string
+          name: 'filter[businessLocation.id]'
+          description: Return listings for the specified listing profile for the Vendasta's unique ID for the business
 components:
   securitySchemes:
     JWT:
@@ -807,36 +815,50 @@ components:
     citations:
       title: Citations
       type: object
+      x-examples:
+        Example 1:
+          - id: "c01"
+            type: "citations"
+            breadcrumb: "Home > Page Title"
+            found_at: "2021-09-20T12:46:46Z"
+            description: "page description"
+            domain: "vendasta.com"
+            title: "Page Title Example"
+            url: "https://vendasta.com/page-title-example.com"
       properties:
         id:
+          description: Public facing name of the source
           type: string
-          description: Vendasta's unique ID for the business
         type:
           type: string
           default: citations
           enum:
             - citations
-        attributes:
-          type: object
-          properties:
-            citationCount:
-              type: integer
-              description: The business's current number of citations
-            initialCitationCount:
-              type: integer
-              description: The initial count of citations
-            historicalCitationsSeries:
-              $ref: '#/components/schemas/historicalCitationsSeries'
-            citationsByDomain:
-              type: array
-              $ref: '#/components/schemas/citationsByDomain'
-            startDate:
-              type: string
-              format: date-time
-              description: The date when the business got the first citation
-            citationPercentGrowth:
-              type: integer
-              description: The amount of citation growth by percent
+        breadcrumb:
+          type: string
+          description: |-
+            The breadcrumb from which the citation was found
+        found_at:
+          type: string
+          format: date-time
+          description: |-
+            The date the citation was found
+        description:
+          type: string
+          description: |-
+            The description of the citation
+        domain:
+          type: string
+          description: |-
+            The domain from which the citation was found
+        title:
+          type: string
+          description: |-
+            The title of the citation
+        url:
+          type: string
+          description: |-
+            The url of the citation
       x-lifecycle: proposed
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
@@ -967,101 +989,3 @@ components:
         If `specialHours` is set with status `closed`, the corresponding `startTime` and `endTime` value for the hours should be set to `00:00`
       example: '09:45'
       pattern: '^\d{2}:\d{2}$'
-    historicalCitationsSeries:
-      title: Historical Citations Series
-      type: array
-      description: |-
-       Contains the series data set for the historical citations that can be used for data graphs
-      x-examples:
-        Example 1:
-          - date: '2023-06-05T00:00:00Z'
-            value: 2
-          - date: '2023-09-29T00:00:00Z'
-            value: 2
-      items:
-        type: object
-        properties:
-          date:
-            type: string
-            format: date-time
-            description: The date of the historical citation
-          value:
-            type: number
-            description: The value of the historical citation
-    citationsByDomain:
-      title: Citations By Domain
-      type: array
-      description: |-
-        Contains the citation data for the the business by Domain
-      x-examples:
-        Example 1:
-          - domain: "vendasta.com"
-            citations: 
-              breadcrumb: "Home > Page Title"
-              created: "2021-09-20T12:46:46Z"
-              description: "page description"
-              domain: "vendasta.com"
-              searchTerm: "search keyword"
-              title: "Page Title Example"
-              url: "https://vendasta.com/page-title-example.com"
-              matchedFields:
-                - "CompanyName"
-                - "WorkNumber"
-      items:
-        type: object
-        properties:
-          domain:
-            type: string
-            description: |-
-              The domain from which the citation was found
-          citations: 
-            type: object
-            $ref: '#/components/schemas/timeOfDay'
-    citationsData:
-      title: Citations Data
-      type: object
-      x-examples:
-        Example 1:
-          - breadcrumb: "Home > Page Title"
-            created: "2021-09-20T12:46:46Z"
-            description: "page description"
-            domain: "vendasta.com"
-            searchTerm: "search keyword"
-            title: "Page Title Example"
-            url: "https://vendasta.com/page-title-example.com"
-      properties:
-        breadcrumb:
-          type: string
-          description: |-
-            The breadcrumb from which the citation was found
-        created:
-          type: string
-          format: date-time
-          description: |-
-            The date the citation was created
-        description:
-          type: string
-          description: |-
-            The description of the citation
-        domain:
-          type: string
-          description: |-
-            The domain from which the citation was found
-        searchTerm:
-          type: string
-          description: |-
-            The search term used to find the citation
-        title:
-          type: string
-          description: |-
-            The title of the citation
-        url:
-          type: string
-          description: |-
-            The url of the citation
-        matchedFields:
-          type: array
-          description: |-
-            The listing profile fields that matched in the citation page
-          items:
-            type: string

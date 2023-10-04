@@ -323,6 +323,19 @@ paths:
             type: string
           name: 'filter[businessLocation.id]'
           description: Return listings for the specified listing profile for the Vendasta's unique ID for the business
+    options:
+      operationId: options-citationData
+      summary: List valid HTTP verbs for /citations
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: User Cannot Access Citations
+        '404':
+          description: Business Not Found
+        '406':
+          description: No Listing Product Active
 components:
   securitySchemes:
     JWT:
@@ -854,11 +867,11 @@ components:
         title:
           type: string
           description: |-
-            The title of the citation
+            The title of the website page where the citation was found
         url:
           type: string
           description: |-
-            The url of the citation
+            The url of the website where the citation was found
       x-lifecycle: proposed
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`

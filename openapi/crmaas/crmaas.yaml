@@ -10,186 +10,63 @@ servers:
   - url: 'https://demo.apigateway.co/org'
     description: Demo
 paths:
-  '/users/{userId}':
+  '/{namespace}/{resourceTypeCode}/meta/fields':
     parameters:
       - schema:
-          type: integer
-        name: userId
+          type: string
+        name: resourceTypeCode
         in: path
         required: true
-        description: Id of an existing user.
+        description: 'The resourceTypeCode, here Contact'
+      - $ref: '#/components/parameters/namespace'
     get:
-      summary: Get User Info by User ID
+      summary: Schema of the contact for given PID or AGID
       tags: []
       responses:
         '200':
-          description: User Found
+          description: Schema found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Contact'
               examples:
-                Get User Alice Smith:
+                Get Contact schema for VUNI:
                   value:
-                    id: 142
-                    firstName: Alice
-                    lastName: Smith
-                    email: alice.smith@gmail.com
-                    dateOfBirth: '1997-10-31'
-                    emailVerified: true
-                    signUpDate: '2019-08-24'
+                    fieldId: "system__contact_last_activity_date"
+                    fieldType: FIELD_TYPE_DATETIME
+                    fieldDescription: Date and time of last activity
+                    fieldTitle: Last activity date
         '404':
-          description: User Not Found
-      operationId: get-users-userId
-      description: Retrieve the information of the user with the matching user ID.
-    patch:
-      summary: Update User Information
-      operationId: patch-users-userId
-      responses:
-        '200':
-          description: User Updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-              examples:
-                Updated User Rebecca Baker:
-                  value:
-                    id: 13
-                    firstName: Rebecca
-                    lastName: Baker
-                    email: rebecca@gmail.com
-                    dateOfBirth: '1985-10-02'
-                    emailVerified: false
-                    createDate: '2019-08-24'
-        '404':
-          description: User Not Found
-        '409':
-          description: Email Already Taken
-      description: Update the information of an existing user.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                firstName:
-                  type: string
-                lastName:
-                  type: string
-                email:
-                  type: string
-                  description: 'If a new email is given, the user''s email verified property will be set to false.'
-                dateOfBirth:
-                  type: string
-            examples:
-              Update First Name:
-                value:
-                  firstName: Rebecca
-              Update Email:
-                value:
-                  email: rebecca@gmail.com
-              Update Last Name & Date of Birth:
-                value:
-                  lastName: Baker
-                  dateOfBirth: '1985-10-02'
-        description: Patch user properties to update.
-  /user:
-    post:
-      summary: Create New User
-      operationId: post-user
-      responses:
-        '200':
-          description: User Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-              examples:
-                New User Bob Fellow:
-                  value:
-                    id: 12
-                    firstName: Bob
-                    lastName: Fellow
-                    email: bob.fellow@gmail.com
-                    dateOfBirth: '1996-08-24'
-                    emailVerified: false
-                    createDate: '2020-11-18'
-        '400':
-          description: Missing Required Information
-        '409':
-          description: Email Already Taken
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                firstName:
-                  type: string
-                lastName:
-                  type: string
-                email:
-                  type: string
-                dateOfBirth:
-                  type: string
-                  format: date
-              required:
-                - firstName
-                - lastName
-                - email
-                - dateOfBirth
-            examples:
-              Create User Bob Fellow:
-                value:
-                  firstName: Bob
-                  lastName: Fellow
-                  email: bob.fellow@gmail.com
-                  dateOfBirth: '1996-08-24'
-        description: Post the necessary fields for the API to create a new user.
-      description: Create a new user.
+          description: Schema not found
+      operationId: get-contact-schema
+      description: Retrieve the schema for the Contact with the matching PID/AGID.
 components:
   schemas:
-    User:
-      title: User
+    Contact:
+      title: Contact
       type: object
-      description: ''
+      description: Schema for the Contact entity for the given PID or AGID
       examples:
-        - id: 142
-          firstName: Alice
-          lastName: Smith
-          email: alice.smith@gmail.com
-          dateOfBirth: '1997-10-31'
-          emailVerified: true
-          signUpDate: '2019-08-24'
+        - fieldId: "system__contact_last_activity_date"
+          fieldType: FIELD_TYPE_DATETIME
+          fieldDescription: Date and time of last activity
+          fieldTitle: Last activity date
       properties:
-        id:
-          type: integer
+        fieldId:
+          type: string
           description: Unique identifier for the given user.
-        firstName:
+        fieldType:
           type: string
-        lastName:
+        fieldDescription:
           type: string
-        email:
+        fieldTitle:
           type: string
-          format: email
-        dateOfBirth:
-          type: string
-          format: date
-          example: '1997-10-31'
-        emailVerified:
-          type: boolean
-          description: Set to true if the user's email has been verified.
-        createDate:
-          type: string
-          format: date
-          description: The date that the user was created.
+          description: email
       required:
-        - id
-        - firstName
-        - lastName
-        - email
-        - emailVerified
+        - fieldId
+        - fieldType
+        - fieldDescription
+        - fieldTitle
   securitySchemes:
     JWT:
       type: http
@@ -203,3 +80,12 @@ components:
           refreshUrl: ''
           scopes:
             user.admin: 'Testing scope '
+  parameters:
+    namespace:
+      name: namespace
+      in: path
+      required: true
+      schema:
+        type: string
+        example: VUNI
+      description: AGID or PID

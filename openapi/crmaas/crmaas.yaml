@@ -1,0 +1,91 @@
+openapi: 3.1.0
+info:
+  title: crmaas
+  version: '1.0'
+servers:
+  - url: 'https://prod.apigateway.co/org'
+    description: Production
+  - url: 'https://demo.apigateway.co/org'
+    description: Demo
+  - url: 'http://localhost:11001/org'
+    description: Local
+  - url: '{local}/org'
+    description: Localhost
+paths:
+  '/{namespace}/{resourceTypeCode}/meta/fields':
+    parameters:
+      - schema:
+          type: string
+        name: resourceTypeCode
+        in: path
+        required: true
+        description: 'The resourceTypeCode, here Contact'
+      - $ref: '#/components/parameters/namespace'
+    get:
+      summary: Schema of the contact for given PID or AGID
+      tags: []
+      responses:
+        '200':
+          description: Schema found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Contact'
+        '302':
+          description: Schema not found
+      operationId: get-contact-schema
+      description: Retrieve the schema for the Contact with the matching PID/AGID.
+components:
+  schemas:
+    Contact:
+      title: Contact
+      type: object
+      description: Schema for the Contact entity for the given PID or AGID
+      examples:
+        - fieldId: "system__contact_last_activity_date"
+          fieldType: FIELD_TYPE_DATETIME
+          fieldDescription: Date and time of last activity
+          fieldTitle: Last activity date
+      properties:
+        fieldId:
+          type: string
+          description: Unique identifier for the given user.
+        fieldType:
+          type: string
+        fieldDescription:
+          type: string
+        fieldTitle:
+          type: string
+          description: email
+      required:
+        - fieldId
+        - fieldType
+        - fieldDescription
+        - fieldTitle
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          refreshUrl: ''
+          scopes:
+            user.admin: 'Testing scope'
+  parameters:
+    namespace:
+      name: namespace
+      in: path
+      required: true
+      schema:
+        type: string
+        example: VUNI
+      description: AGID or PID

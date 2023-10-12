@@ -1,0 +1,243 @@
+{
+  "openapi": "3.1.0",
+  "x-stoplight": {
+    "id": "iyzxipdhj3szx"
+  },
+  "info": {
+    "title": "crmaas",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://prod.apigateway.co/crm",
+      "description": "Production"
+    },
+    {
+      "url": "https://demo.apigateway.co/crm",
+      "description": "Demo"
+    },
+    {
+      "url": "http://localhost:11001/crm",
+      "description": "Local"
+    },
+    {
+      "url": "{local}/crm",
+      "description": "Local"
+    }
+  ],
+  "paths": {
+    "/{namespace}/{resourceTypeCode}/meta/fields": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "namespace",
+          "in": "path",
+          "required": true,
+          "description": "The namespace, PID/AGID"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "resourceTypeCode",
+          "in": "path",
+          "required": true,
+          "description": "The resourceTypeCode, here Contact"
+        }
+      ],
+      "get": {
+        "summary": "Get field schema",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "Schema found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "externalId": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "id": "system__company_last_activity_date",
+                      "externalId": "system__company_last_activity_date",
+                      "type": "FIELD_TYPE_DATETIME",
+                      "title": "Last activity date",
+                      "description": "Date and time of last activity"
+                    }
+                  }
+                },
+                "examples": {
+                  "Get User Alice Smith": {
+                    "value": {
+                      "id": "FieldID-xxxx-xxxx",
+                      "externalId": "externalId",
+                      "type": "FIELD_TYPE_xxxx",
+                      "title": "Last activity date",
+                      "description": "Date and time of last activity"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User Not Found"
+          }
+        },
+        "operationId": "get-field-schema",
+        "description": "Retrieve field schema based on namespace."
+      }
+    },
+    "/{namespace}/{resourceTypeCode}/meta/fields/{fieldId}/options": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "namespace",
+          "in": "path",
+          "required": true,
+          "description": "The namespace, PID/AGID"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "resourceTypeCode",
+          "in": "path",
+          "required": true,
+          "description": "The resourceTypeCode, here Contact"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "fieldId",
+          "in": "path",
+          "required": true,
+          "description": "Unique identifier for field"
+        }
+      ],
+      "post": {
+        "summary": "Get field options",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "Schema found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "x-examples": {
+                    "Example 1": {
+                      "options": [
+                        "CRM"
+                      ]
+                    }
+                  },
+                  "properties": {
+                    "options": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Get field options": {
+                    "value": {
+                      "options": [
+                        "option1",
+                        "option2"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "operationId": "post-field-options",
+        "description": "Retrieve the options based on the given fieldId.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "filter",
+            "description": "filter based on fieldId"
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "OAuth2Demo": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
+            "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token",
+            "scopes": {
+              "user.admin": "Read-write access to manage all users"
+            }
+          }
+        }
+      },
+      "OAuth2Prod": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token",
+            "refreshUrl": "",
+            "scopes": {
+              "user.admin": "Read-write access to manage all users"
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "OAuth2Demo": [
+        "user.admin"
+      ]
+    },
+    {
+      "OAuth2Prod": [
+        "user.admin"
+      ]
+    }
+  ]
+}

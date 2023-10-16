@@ -73,7 +73,7 @@ Product | Production SKU | Demo SKU
 Product | Production SKU | Demo SKU
 --------|----------------|---------
  Local SEO Standard | MS | MS
- Local SEO Pro | MS:EDITION-EDITION-CFH5CKHC | MS:EDITION-MXWLTQPN
+ Local SEO Pro | MS:EDITION-CFH5CKHC | MS:EDITION-MXWLTQPN
 
 The base Local SEO product must be already active or included in the same order as any of the addons.
 

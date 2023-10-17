@@ -52,19 +52,26 @@
         "tags": [],
         "responses": {
           "200": {
-            "description": "Schema found",
+            "description": "This API follows [Open API schema](https://spec.openapis.org/oas/v3.1.0#schema-object) of structure for response.",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/fields"
-                },
                 "examples": {
                   "Get crm field": {
                     "value": {
-                      "externalId": "externalId",
-                      "type": "FIELD_TYPE_xxxx",
-                      "title": "Last activity date",
-                      "description": "Date and time of last activity"
+                      "fields": [
+                        {
+                          "externalId": "externalId_xxxx",
+                          "type": "FIELD_TYPE_xxxx",
+                          "title": "Last activity date",
+                          "description": "Date and time of last activity"
+                        },
+                        {
+                          "externalId": "externalId_xxxx_xxxx",
+                          "type": "FIELD_TYPE_xxxxx",
+                          "title": "Mobile phone number",
+                          "description": "Mobile phone number of the contact."
+                        }
+                      ]
                     }
                   }
                 }
@@ -114,12 +121,9 @@
         "tags": [],
         "responses": {
           "200": {
-            "description": "Schema found",
+            "description": "This API follows [Open API schema](https://spec.openapis.org/oas/v3.1.0#schema-object) of structure for response.",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/options"
-                },
                 "examples": {
                   "Get field options": {
                     "value": {
@@ -171,92 +175,7 @@
     }
   },
   "components": {
-    "schemas": {
-      "fields": {
-        "type": "object",
-        "properties": {
-          "fieldSchemas": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "externalId": {
-                  "type": "string"
-                },
-                "type": {
-                  "type": "string"
-                },
-                "title": {
-                  "type": "string"
-                },
-                "description": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        },
-        "x-examples": {
-          "Example 1": {
-            "fieldSchemas": [
-              {
-                "externalId": "externalId_xxxx",
-                "type": "FIELD_TYPE_xxxx",
-                "title": "Last activity date",
-                "description": "Date and time of last activity"
-              },
-              {
-                "externalId": "externalId_xxxx_xxxx",
-                "type": "FIELD_TYPE_xxxxx",
-                "title": "Mobile phone number",
-                "description": "Mobile phone number of the contact."
-              }
-            ]
-          }
-        },
-        "description": "Schemas of field based on namespace."
-      },
-      "options": {
-        "type": "object",
-        "x-examples": {
-          "Example 1": {
-            "options": [
-              {
-                "value": "Option 1",
-                "name": "Option 1"
-              },
-              {
-                "value": "Option 2",
-                "name": "Option 2"
-              },
-              {
-                "value": "Option 3",
-                "name": "Option 3"
-              }
-            ]
-          }
-        },
-        "properties": {
-          "options": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "value": {
-                  "type": "string",
-                  "description": "The value to be saved in the database."
-                },
-                "name": {
-                  "type": "string",
-                  "description": "The text to be displayed to users. \\nNote this may be translated based on the [Accept-Language](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language) request header."
-                }
-              }
-            }
-          }
-        },
-        "description": "List of field options based on fieldId"
-      }
-    },
+    "schemas": {},
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",

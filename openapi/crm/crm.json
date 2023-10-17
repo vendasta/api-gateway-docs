@@ -57,37 +57,13 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "externalId": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "title": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
+                  "items": {
+                    "$ref": "#/components/schemas/fields"
                     }
-                  },
-                  "x-examples": {
-                    "Example 1": {
-                      "id": "system__company_last_activity_date",
-                      "externalId": "system__company_last_activity_date",
-                      "type": "FIELD_TYPE_DATETIME",
-                      "title": "Last activity date",
-                      "description": "Date and time of last activity"
-                    }
-                  }
                 },
                 "examples": {
-                  "Get User Alice Smith": {
+                  "Get crm field": {
                     "value": {
-                      "id": "FieldID-xxxx-xxxx",
                       "externalId": "externalId",
                       "type": "FIELD_TYPE_xxxx",
                       "title": "Last activity date",
@@ -146,28 +122,26 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "x-examples": {
-                    "Example 1": {
-                      "options": [
-                        "CRM"
-                      ]
+                  "items": {
+                    "$ref": "#/components/schemas/options"
                     }
-                  },
-                  "properties": {
-                    "options": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  }
                 },
                 "examples": {
                   "Get field options": {
                     "value": {
                       "options": [
-                        "option1",
-                        "option2"
+                        {
+                          "value": "Option 1",
+                          "name": "Option 1"
+                        },
+                        {
+                          "value": "Option 2",
+                          "name": "Option 2"
+                        },
+                        {
+                          "value": "Option 3",
+                          "name": "Option 3"
+                        }
                       ]
                     }
                   }
@@ -189,13 +163,84 @@
             "in": "query",
             "name": "filter",
             "description": "filter based on fieldId"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "paging",
+            "description": "pagination to retrieve a specific page of results"
           }
         ]
       }
     }
   },
   "components": {
-    "schemas": {},
+    "schemas": {
+      "fields": {
+        "type": "object",
+        "properties": {
+          "externalId": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "x-examples": {
+          "Example 1": {
+            "externalId": "externalId",
+            "type": "FIELD_TYPE_xxxx",
+            "title": "Last activity date",
+            "description": "Date and time of last activity"
+          }
+        }
+      },
+      "options": {
+        "type": "object",
+        "properties": {
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-examples": {
+          "Example 1": {
+            "options": [
+              {
+                "value": "Option 1",
+                "name": "Option 1"
+              },
+              {
+                "value": "Option 2",
+                "name": "Option 2"
+              },
+              {
+                "value": "Option 3",
+                "name": "Option 3"
+              }
+            ]
+          }
+        }
+      }
+    },
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",
@@ -208,7 +253,7 @@
             "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
             "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token",
             "scopes": {
-              "user.admin": "Read-write access to manage all users"
+              "customers": "Allows the application to manage the customers for the business location(s) that you manage"
             }
           }
         }
@@ -221,7 +266,7 @@
             "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token",
             "refreshUrl": "",
             "scopes": {
-              "user.admin": "Read-write access to manage all users"
+              "customers": "Allows the application to manage the customers for the business location(s) that you manage"
             }
           }
         }
@@ -231,12 +276,12 @@
   "security": [
     {
       "OAuth2Demo": [
-        "user.admin"
+        "customers"
       ]
     },
     {
       "OAuth2Prod": [
-        "user.admin"
+        "customers"
       ]
     }
   ]

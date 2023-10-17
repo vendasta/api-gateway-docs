@@ -147,8 +147,8 @@
             "description": "Bad Request"
           }
         },
-        "operationId": "post-field-options",
-        "description": "Retrieve the options based on the given fieldId.",
+        "operationId": "get-field-options",
+        "description": "Retrieve the field options based on the given fieldId.",
         "parameters": [
           {
             "schema": {
@@ -156,7 +156,7 @@
             },
             "in": "query",
             "name": "filter",
-            "description": "filter based on fieldId"
+            "description": "Filtering is an OPTIONAL parameter. It filters field option based on given filter value."
           },
           {
             "schema": {
@@ -164,7 +164,7 @@
             },
             "in": "query",
             "name": "paging",
-            "description": "pagination to retrieve a specific page of results"
+            "description": "Pagination to retrieve a specific page of results"
           }
         ]
       }
@@ -175,46 +175,49 @@
       "fields": {
         "type": "object",
         "properties": {
-          "externalId": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          }
-        },
-        "x-examples": {
-          "Example 1": {
-            "externalId": "externalId",
-            "type": "FIELD_TYPE_xxxx",
-            "title": "Last activity date",
-            "description": "Date and time of last activity"
-          }
-        }
-      },
-      "options": {
-        "type": "object",
-        "properties": {
-          "options": {
+          "fieldSchemas": {
             "type": "array",
             "items": {
               "type": "object",
               "properties": {
-                "value": {
+                "externalId": {
                   "type": "string"
                 },
-                "name": {
+                "type": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "description": {
                   "type": "string"
                 }
               }
             }
           }
         },
+        "x-examples": {
+          "Example 1": {
+            "fieldSchemas": [
+              {
+                "externalId": "externalId_xxxx",
+                "type": "FIELD_TYPE_xxxx",
+                "title": "Last activity date",
+                "description": "Date and time of last activity"
+              },
+              {
+                "externalId": "externalId_xxxx_xxxx",
+                "type": "FIELD_TYPE_xxxxx",
+                "title": "Mobile phone number",
+                "description": "Mobile phone number of the contact."
+              }
+            ]
+          }
+        },
+        "description": "Schemas of field based on namespace."
+      },
+      "options": {
+        "type": "object",
         "x-examples": {
           "Example 1": {
             "options": [
@@ -232,7 +235,26 @@
               }
             ]
           }
-        }
+        },
+        "properties": {
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "description": "The value to be saved in the database."
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The text to be displayed to users. \\nNote this may be translated based on the [Accept-Language](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language) request header."
+                }
+              }
+            }
+          }
+        },
+        "description": "List of field options based on fieldId"
       }
     },
     "securitySchemes": {

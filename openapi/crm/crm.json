@@ -4,24 +4,25 @@
     "id": "iyzxipdhj3szx"
   },
   "info": {
-    "title": "crmaas",
-    "version": "1.0"
+    "title": "CRM",
+    "version": "1.0",
+    "description": ""
   },
   "servers": [
     {
-      "url": "https://prod.apigateway.co/crm",
+      "url": "https://prod.apigateway.co/org",
       "description": "Production"
     },
     {
-      "url": "https://demo.apigateway.co/crm",
+      "url": "https://demo.apigateway.co/org",
       "description": "Demo"
     },
     {
-      "url": "http://localhost:11001/crm",
+      "url": "http://localhost:11001/org",
       "description": "Local"
     },
     {
-      "url": "{local}/crm",
+      "url": "{local}/org",
       "description": "Local"
     }
   ],
@@ -82,7 +83,7 @@
             "description": "User Not Found"
           }
         },
-        "operationId": "get-field-schema",
+        "operationId": "ListFieldSchema",
         "description": "Retrieve field schema based on namespace."
       }
     },
@@ -151,7 +152,7 @@
             "description": "Bad Request"
           }
         },
-        "operationId": "get-field-options",
+        "operationId": "GetFieldOptions",
         "description": "Retrieve the field options based on the given fieldId.",
         "parameters": [
           {
@@ -171,6 +172,41 @@
             "description": "Pagination to retrieve a specific page of results"
           }
         ]
+      }
+    },
+    "/{namespace}/{resourceTypeCode}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "namespace",
+          "in": "path",
+          "required": true,
+          "description": "The namespace, PID/AGID"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "resourceTypeCode",
+          "in": "path",
+          "required": true,
+          "description": "The resourceTypeCode, here Contact/Company/Activity"
+        }
+      ],
+      "post": {
+        "summary": "Upsert CRM Record",
+        "operationId": "UpsertCrmRecord",
+        "responses": {
+          "200": {
+            "description": "This API follows [Open API schema](https://spec.openapis.org/oas/v3.1.0#schema-object) of structure for response."
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "description": "Create/update CRM contact/company/activity record."
       }
     }
   },

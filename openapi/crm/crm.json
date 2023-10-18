@@ -56,27 +56,42 @@
             "content": {
               "application/json": {
                 "examples": {
-                  "Get crm field": {
+                  "contacts Resource": {
                     "value": {
-                      "fields": [
-                        {
-                          "externalId": "externalId_xxxx",
-                          "type": "FIELD_TYPE_xxxx",
-                          "title": "Last activity date",
-                          "description": "Date and time of last activity"
-                        },
-                        {
-                          "externalId": "externalId_xxxx_xxxx",
-                          "type": "FIELD_TYPE_xxxxx",
-                          "title": "Mobile phone number",
-                          "description": "Mobile phone number of the contact."
+                      "CRMContact": {
+                        "title": "CRMContact",
+                        "type": "object",
+                        "properties": {
+                          "system__id": {
+                            "type": "string",
+                            "description": "The globaly unique id for this contact record"
+                          },
+                          "standard__first_name": {
+                            "type": "string",
+                            "title": "First Name",
+                            "description": "The given name of the contact"
+                          },
+                          "standard__last_name": {
+                            "type": "string",
+                            "maxLength": 50
+                          },
+                          "system__created_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "readOnly": true
+                          },
+                          "standard__email": {
+                            "type": "string",
+                            "format": "email"
+                          }
                         }
-                      ]
+                      }
                     }
                   }
                 }
               }
-            }
+            },
+            "headers": {}
           },
           "404": {
             "description": "User Not Found"
@@ -121,7 +136,7 @@
         "tags": [],
         "responses": {
           "200": {
-            "description": "This API follows [Open API schema](https://spec.openapis.org/oas/v3.1.0#schema-object) of structure for response.",
+            "description": "The list of valid options for the field. This can be used to create a dropdown list for your users. ",
             "content": {
               "application/json": {
                 "examples": {
@@ -141,6 +156,39 @@
                           "name": "Option 3"
                         }
                       ]
+                    }
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "options": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "jwikc0afwakmo"
+                      },
+                      "items": {
+                        "x-stoplight": {
+                          "id": "1jmcjoeuy5wm9"
+                        },
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "x-stoplight": {
+                              "id": "6hk1kskoxz8sj"
+                            },
+                            "description": "The text to be displayed to users. Note this might be translated."
+                          },
+                          "value": {
+                            "type": "string",
+                            "x-stoplight": {
+                              "id": "qdy9hr51rggn0"
+                            },
+                            "description": "The value to be saved in the database"
+                          }
+                        }
+                      }
                     }
                   }
                 }
@@ -175,7 +223,55 @@
     }
   },
   "components": {
-    "schemas": {},
+    "schemas": {
+      "CRMContact": {
+        "title": "CRMContact",
+        "x-stoplight": {
+          "id": "6h9e46rigjers"
+        },
+        "type": "object",
+        "properties": {
+          "system__id": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "mnhwsgr2bicnj"
+            },
+            "description": "The globaly unique id for this contact record"
+          },
+          "standard__first_name": {
+            "type": "string",
+            "title": "First Name",
+            "x-apigateway_something": "sdf",
+            "x-stoplight": {
+              "id": "9lmoctp3t0tpg"
+            },
+            "description": "The given name of the contact"
+          },
+          "standard__last_name": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "x5o6daj9xjsst"
+            },
+            "maxLength": 50
+          },
+          "system__created_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "0vn36nqhrfsq6"
+            },
+            "format": "date-time",
+            "readOnly": true
+          },
+          "email": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "jd6i5a2zkq40s"
+            },
+            "format": "email"
+          }
+        }
+      }
+    },
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",

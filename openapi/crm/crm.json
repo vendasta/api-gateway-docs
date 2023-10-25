@@ -192,7 +192,7 @@
           "name": "resourceTypeCode",
           "in": "path",
           "required": true,
-          "description": "The resourceTypeCode, here Contact/Company/Activity"
+          "description": "The resourceTypeCode, here contacts, companies or activities."
         }
       ],
       "post": {
@@ -206,12 +206,134 @@
             "description": "Bad Request"
           }
         },
-        "description": "Create/update CRM contact/company/activity record."
+        "description": "Create/update CRM contacts, companies or activities record.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "subtype": {
+                    "type": "string"
+                  },
+                  "fields": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "Id": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        },
+                        "Operation": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "search_existing": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "return_fields": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "Example": {
+                  "value": {
+                    "subtype": "email",
+                    "fields": [
+                      {
+                        "Id": "externalId",
+                        "value": "example-first-name",
+                        "Operation": "always_overwrite"
+                      },
+                      {
+                        "Id": "externalId",
+                        "value": "example-last-name",
+                        "Operation": "always_overwrite"
+                      },
+                      {
+                        "Id": "externalId",
+                        "value": "crm@example.com",
+                        "Operation": "always_overwrite"
+                      }
+                    ],
+                    "search_existing": [
+                      "standard__email"
+                    ],
+                    "return_fields": [
+                      "standard__email",
+                      "standard__first_name"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
   "components": {
-    "schemas": {},
+    "schemas": {
+      "CRMContact": {
+        "title": "CRMContact",
+        "x-stoplight": {
+          "id": "6h9e46rigjers"
+        },
+        "type": "object",
+        "properties": {
+          "system__id": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "mnhwsgr2bicnj"
+            },
+            "description": "The globaly unique id for this contact record"
+          },
+          "standard__first_name": {
+            "type": "string",
+            "title": "First Name",
+            "x-apigateway_something": "sdf",
+            "x-stoplight": {
+              "id": "9lmoctp3t0tpg"
+            },
+            "description": "The given name of the contact"
+          },
+          "standard__last_name": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "x5o6daj9xjsst"
+            },
+            "maxLength": 50
+          },
+          "system__created_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "0vn36nqhrfsq6"
+            },
+            "format": "date-time",
+            "readOnly": true
+          },
+          "email": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "jd6i5a2zkq40s"
+            },
+            "format": "email"
+          }
+        }
+      }
+    },
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",

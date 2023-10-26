@@ -1,0 +1,331 @@
+{
+  "openapi": "3.1.0",
+  "x-stoplight": {
+    "id": "iyzxipdhj3szx"
+  },
+  "info": {
+    "title": "CRM Rest APIs",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://prod.apigateway.co/org",
+      "description": "Production"
+    },
+    {
+      "url": "https://demo.apigateway.co/org",
+      "description": "Demo"
+    },
+    {
+      "url": "http://localhost:11001/org",
+      "description": "Local"
+    },
+    {
+      "url": "{local}/org",
+      "description": "Local"
+    }
+  ],
+  "paths": {
+    "/{namespace}/{resourceTypeCode}/meta/fields": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "namespace",
+          "in": "path",
+          "required": true,
+          "description": "The namespace, PID/AGID"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "resourceTypeCode",
+          "in": "path",
+          "required": true,
+          "description": "The resourceTypeCode, here contacts, companies or activities"
+        }
+      ],
+      "get": {
+        "summary": "Get field schema",
+        "tags": ["Resource Operations"],
+        "responses": {
+          "200": {
+            "description": "This API follows [Open API schema](https://spec.openapis.org/oas/v3.1.0#schema-object) of structure for response.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "contacts Resource": {
+                    "value": {
+                      "CRMContact": {
+                        "title": "CRMContact",
+                        "type": "object",
+                        "properties": {
+                          "system__id": {
+                            "type": "string",
+                            "description": "The globaly unique id for this contact record"
+                          },
+                          "standard__first_name": {
+                            "type": "string",
+                            "title": "First Name",
+                            "description": "The given name of the contact"
+                          },
+                          "standard__last_name": {
+                            "type": "string",
+                            "maxLength": 50
+                          },
+                          "system__created_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "readOnly": true
+                          },
+                          "standard__email": {
+                            "type": "string",
+                            "format": "email"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "User Not Found"
+          }
+        },
+        "operationId": "ListFieldSchema",
+        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`\n\nRetrieve field schema based on namespace.",
+        "x-lifecycle": {
+          "status": "proposed"
+        }
+      }
+    },
+    "/{namespace}/{resourceTypeCode}/meta/fields/{fieldId}/options": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "namespace",
+          "in": "path",
+          "required": true,
+          "description": "The namespace, PID/AGID"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "resourceTypeCode",
+          "in": "path",
+          "required": true,
+          "description": "The resourceTypeCode, here contacts, companies or activities"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "fieldId",
+          "in": "path",
+          "required": true,
+          "description": "Unique identifier for field"
+        }
+      ],
+      "get": {
+        "summary": "Get field options",
+        "tags": ["Resource Operations"],
+        "responses": {
+          "200": {
+            "description": "The list of valid options for the field. This can be used to create a dropdown list for your users. ",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Get field options": {
+                    "value": {
+                      "options": [
+                        {
+                          "value": "Option 1",
+                          "name": "Option 1"
+                        },
+                        {
+                          "value": "Option 2",
+                          "name": "Option 2"
+                        },
+                        {
+                          "value": "Option 3",
+                          "name": "Option 3"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "options": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "jwikc0afwakmo"
+                      },
+                      "items": {
+                        "x-stoplight": {
+                          "id": "1jmcjoeuy5wm9"
+                        },
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "x-stoplight": {
+                              "id": "6hk1kskoxz8sj"
+                            },
+                            "description": "The text to be displayed to users. Note this might be translated."
+                          },
+                          "value": {
+                            "type": "string",
+                            "x-stoplight": {
+                              "id": "qdy9hr51rggn0"
+                            },
+                            "description": "The value to be saved in the database"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "operationId": "GetFieldOptions",
+        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`\n\nRetrieve the field options based on the given fieldId.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "filter",
+            "description": "Filtering is an OPTIONAL parameter. It filters field option based on given filter value."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "paging",
+            "description": "Pagination to retrieve a specific page of results"
+          }
+        ],
+        "x-lifecycle": {
+          "status": "proposed"
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CRMContact": {
+        "title": "CRMContact",
+        "x-stoplight": {
+          "id": "6h9e46rigjers"
+        },
+        "type": "object",
+        "properties": {
+          "system__id": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "mnhwsgr2bicnj"
+            },
+            "description": "The globaly unique id for this contact record"
+          },
+          "standard__first_name": {
+            "type": "string",
+            "title": "First Name",
+            "x-apigateway_something": "sdf",
+            "x-stoplight": {
+              "id": "9lmoctp3t0tpg"
+            },
+            "description": "The given name of the contact"
+          },
+          "standard__last_name": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "x5o6daj9xjsst"
+            },
+            "maxLength": 50
+          },
+          "system__created_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "0vn36nqhrfsq6"
+            },
+            "format": "date-time",
+            "readOnly": true
+          },
+          "email": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "jd6i5a2zkq40s"
+            },
+            "format": "email"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "OAuth2Demo": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
+            "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token",
+            "scopes": {
+              "customers": "Allows the application to manage the customers for the business location(s) that you manage"
+            }
+          }
+        }
+      },
+      "OAuth2Prod": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token",
+            "refreshUrl": "",
+            "scopes": {
+              "customers": "Allows the application to manage the customers for the business location(s) that you manage"
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "OAuth2Demo": [
+        "customers"
+      ]
+    },
+    {
+      "OAuth2Prod": [
+        "customers"
+      ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Resource Operations",
+      "description": "Endpoints related to Resource Operations"
+    }
+  ]
+}

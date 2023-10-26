@@ -260,7 +260,30 @@
         "operationId": "UpsertCrmRecord",
         "responses": {
           "200": {
-            "description": "This API follows [Open API schema](https://spec.openapis.org/oas/v3.1.0#schema-object) of structure for response."
+            "description": "This API follows [Open API schema](https://spec.openapis.org/oas/v3.1.0#schema-object) of structure for response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "Response Body": {
+                    "value": {
+                      "fields": [
+                        {
+                          "id": "standard__first_name",
+                          "value": "Bob"
+                        },
+                        {
+                          "id": "standard__email",
+                          "value": "crm@example.com"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request"
@@ -331,6 +354,7 @@
                   },
                   "returnFields": {
                     "type": "array",
+                    "description": "A list of fields that should have their merged values returned in the response. If empty no fields will be returned.",
                     "items": {
                       "type": "string"
                     }
@@ -338,22 +362,22 @@
                 }
               },
               "examples": {
-                "request body": {
+                "Request body": {
                   "value": {
                     "subtype": "",
                     "fields": [
                       {
-                        "id": "externalId",
+                        "id": "standard__first_name",
                         "value": "example-first-name",
                         "operation": "always_overwrite"
                       },
                       {
-                        "id": "externalId",
+                        "id": "standard__last_name",
                         "value": "example-last-name",
                         "operation": "always_overwrite"
                       },
                       {
-                        "id": "externalId",
+                        "id": "standard__email",
                         "value": "crm@example.com",
                         "operation": "always_overwrite"
                       }

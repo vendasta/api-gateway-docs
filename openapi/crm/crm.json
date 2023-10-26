@@ -44,7 +44,7 @@
           "name": "resourceTypeCode",
           "in": "path",
           "required": true,
-          "description": "The resourceTypeCode, here contacts, companies or activities"
+          "description": "The resourceTypeCode, here contacts, companies or activities."
         }
       ],
       "get": {
@@ -124,7 +124,7 @@
           "name": "resourceTypeCode",
           "in": "path",
           "required": true,
-          "description": "The resourceTypeCode, here contacts, companies or activities"
+          "description": "The resourceTypeCode, here contacts, companies or activities."
         },
         {
           "schema": {
@@ -226,6 +226,196 @@
             "description": "Pagination to retrieve a specific page of results"
           }
         ],
+        "x-lifecycle": {
+          "status": "proposed"
+        }
+      }
+    },
+    "/{namespace}/{resourceTypeCode}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "namespace",
+          "in": "path",
+          "required": true,
+          "description": "The namespace, PID/AGID"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "resourceTypeCode",
+          "in": "path",
+          "required": true,
+          "description": "The resourceTypeCode, here contacts, companies or activities."
+        }
+      ],
+      "post": {
+        "summary": "Upsert CRM Record",
+        "tags": [
+          "Resource Operations"
+        ],
+        "operationId": "UpsertCrmRecord",
+        "responses": {
+          "200": {
+            "description": "This API follows [Open API schema](https://spec.openapis.org/oas/v3.1.0#schema-object) of structure for response."
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`\n\nCreate/update CRM contacts, companies or activities records.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "x-examples": {
+                  "Example 1": {
+                    "subtype": "",
+                    "fields": [
+                      {
+                        "id": "externalId",
+                        "value": "example-first-name",
+                        "operation": "always_overwrite"
+                      },
+                      {
+                        "id": "externalId",
+                        "value": "example-last-name",
+                        "operation": "always_overwrite"
+                      },
+                      {
+                        "id": "externalId",
+                        "value": "crm@example.com",
+                        "operation": "always_overwrite"
+                      }
+                    ],
+                    "searchExisting": [
+                      "standard__email"
+                    ],
+                    "returnFields": [
+                      "standard__email",
+                      "standard__first_name"
+                    ]
+                  }
+                },
+                "properties": {
+                  "subtype": {
+                    "type": "string"
+                  },
+                  "fields": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        },
+                        "operation": {
+                          "type": "string",
+                          "description": "The supported operation types are `always_overwrite`, `overwrite_if_empty`, `overwrite_if_newer` & `combine`."
+                        }
+                      }
+                    }
+                  },
+                  "searchExisting": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "returnFields": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "request body": {
+                  "value": {
+                    "subtype": "",
+                    "fields": [
+                      {
+                        "id": "externalId",
+                        "value": "example-first-name",
+                        "operation": "always_overwrite"
+                      },
+                      {
+                        "id": "externalId",
+                        "value": "example-last-name",
+                        "operation": "always_overwrite"
+                      },
+                      {
+                        "id": "externalId",
+                        "value": "crm@example.com",
+                        "operation": "always_overwrite"
+                      }
+                    ],
+                    "searchExisting": [
+                      "standard__email"
+                    ],
+                    "returnFields": [
+                      "standard__email",
+                      "standard__first_name"
+                    ]
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "subtype": {
+                    "type": "string"
+                  },
+                  "fields": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        },
+                        "operation": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "search_existing": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "return_fields": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "Example": {
+                  "value": "{\"subtype\": \"\",\n\"fields\": [\n{\n\"Id\": \"externalId\",\n\"value\": \"example-first-name\",\n\"Operation\": \"always_overwrite\"\n},\n{\n\"Id\": \"externalId\",\n\"value\": \"example-last-name\",\n\"Operation\": \"always_overwrite\"\n},\n{\n\"Id\": \"externalId\",\n\"value\": \"crm@example.com\",\n\"Operation\": \"always_overwrite\"\n}\n],\n\"search_existing\": [\n\"standard__email\"\n],\n\"return_fields\": [\n\"standard__email\",\n\"standard__first_name\"\n]\n}"
+                }
+              }
+            }
+          },
+          "description": ""
+        },
         "x-lifecycle": {
           "status": "proposed"
         }

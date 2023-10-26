@@ -308,6 +308,12 @@ paths:
           in: query
           name: useNewCategory
           description: 'useNewCategory is of type boolean which returns new/old business categories.If value of useNewCategory is true then it will return new business categories , if false then it will return old business categories.In case of not set, it will return categories as per feature flag.'
+        - schema:
+            type: string
+            example: 'name,phoneNumbers,hours'
+          in: query
+          name: 'fields[businessLocations]'
+          description: 'Filter businessLocations by the following fields: name, phoneNumbers, customerIdentifier, geoCoordinate, serviceAreaBusiness, hours, and updatedAt. These fields will be included in the response.'
       security:
         - OAuth2Demo:
             - business
@@ -366,6 +372,12 @@ paths:
           in: query
           description: 'useNewCategory is of type boolean which returns new/old business categories.If value of useNewCategory is true then it will return new business categories , if false then it will return old business categories.In case of not set, it will return categories as per feature flag.'
           name: useNewCategory
+        - schema:
+            type: string
+            example: 'name,phoneNumbers,hours'
+          in: query
+          name: 'fields[businessLocations]'
+          description: 'Filter businessLocations by the following fields: name, phoneNumbers, customerIdentifier, geoCoordinate, serviceAreaBusiness, hours, and updatedAt. These fields will be included in the response.'
       security:
         - OAuth2Demo:
             - business
@@ -2426,6 +2438,12 @@ paths:
           in: query
           description: 'useNewCategory is of type boolean which returns new/old business categories.If value of useNewCategory is true then it will return new business categories , if false then it will return old business categories.In case of not set, it will return categories as per feature flag.'
           name: useNewCategory
+        - schema:
+            type: string
+            example: 'name,phoneNumbers,hours'
+          in: query
+          name: 'fields[salesAccounts]'
+          description: 'Filter salesAccounts by the following fields: name, phoneNumbers, customerIdentifier, geoCoordinate, serviceAreaBusiness, hours, and updatedAt. These fields will be included in the response.'
       security:
         - OAuth2Demo:
             - sales.account
@@ -2535,6 +2553,12 @@ paths:
           in: query
           description: 'useNewCategory is of type boolean which returns new/old business categories.If value of useNewCategory is true then it will return new business categories , if false then it will return old business categories.In case of not set, it will return categories as per feature flag.'
           name: useNewCategory
+        - schema:
+            type: string
+            example: 'name,phoneNumbers,hours'
+          in: query
+          name: 'fields[salesAccounts]'
+          description: 'Filter salesAccounts by the following fields: name, phoneNumbers, customerIdentifier, geoCoordinate, serviceAreaBusiness, hours, and updatedAt. These fields will be included in the response.'
       security:
         - OAuth2Demo:
             - sales.account
@@ -6082,19 +6106,19 @@ components:
               type: string
               description: 'Given name(s) or first name(s) of the End-User. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters.'
               minLength: 0
-              maxLength: 20
+              maxLength: 50
               example: William
             familyName:
               type: string
               description: 'Surname(s) or last name(s) of the End-User. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters.'
               minLength: 0
-              maxLength: 25
+              maxLength: 50
               example: Smith
             greetingName:
               type: string
               description: The name to use at the opening of messages addressed to the user. Note that in some cultures this is an alternate spelling or shortened form of the first name. Defaults to givenName.
               minLength: 0
-              maxLength: 20
+              maxLength: 50
               example: Billy
             email:
               type: string

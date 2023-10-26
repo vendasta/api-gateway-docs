@@ -2,6 +2,9 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2023-10-24
+Add Reputation Management Premium edition ID under `Find SKU`
+
 ## 2023-08-28
 Update the product name for Listing Builder to Local SEO, added the new editions, and added Additional Keyword addon SKUs.
 

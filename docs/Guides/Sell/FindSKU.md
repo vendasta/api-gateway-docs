@@ -52,6 +52,7 @@ Product | Production SKU | Demo SKU
 --------|----------------|---------
  Express |RM:EDITION-F7JZ5TV8 | RM:EDITION-38SMW45H
  Pro | RM | RM
+ Premium | RM:EDITION-JFRPLQPN | RM:EDITION-BFXF8W8Q
 
 The base Reputation Management product must be already active or included in the same order as any of the addons.
 
@@ -73,7 +74,7 @@ Product | Production SKU | Demo SKU
 Product | Production SKU | Demo SKU
 --------|----------------|---------
  Local SEO Standard | MS | MS
- Local SEO Pro | MS:EDITION-EDITION-CFH5CKHC | MS:EDITION-MXWLTQPN
+ Local SEO Pro | MS:EDITION-CFH5CKHC | MS:EDITION-MXWLTQPN
 
 The base Local SEO product must be already active or included in the same order as any of the addons.
 

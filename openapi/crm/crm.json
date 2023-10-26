@@ -4,9 +4,8 @@
     "id": "iyzxipdhj3szx"
   },
   "info": {
-    "title": "CRM",
-    "version": "1.0",
-    "description": ""
+    "title": "CRM Rest APIs",
+    "version": "1.0"
   },
   "servers": [
     {
@@ -45,46 +44,66 @@
           "name": "resourceTypeCode",
           "in": "path",
           "required": true,
-          "description": "The resourceTypeCode, here Contact"
+          "description": "The resourceTypeCode, here contacts, companies or activities"
         }
       ],
       "get": {
         "summary": "Get field schema",
-        "tags": [],
+        "tags": [
+          "Resource Operations"
+        ],
         "responses": {
           "200": {
             "description": "This API follows [Open API schema](https://spec.openapis.org/oas/v3.1.0#schema-object) of structure for response.",
             "content": {
               "application/json": {
                 "examples": {
-                  "Get crm field": {
+                  "contacts Resource": {
                     "value": {
-                      "fields": [
-                        {
-                          "externalId": "externalId_xxxx",
-                          "type": "FIELD_TYPE_xxxx",
-                          "title": "Last activity date",
-                          "description": "Date and time of last activity"
-                        },
-                        {
-                          "externalId": "externalId_xxxx_xxxx",
-                          "type": "FIELD_TYPE_xxxxx",
-                          "title": "Mobile phone number",
-                          "description": "Mobile phone number of the contact."
+                      "CRMContact": {
+                        "title": "CRMContact",
+                        "type": "object",
+                        "properties": {
+                          "system__id": {
+                            "type": "string",
+                            "description": "The globaly unique id for this contact record"
+                          },
+                          "standard__first_name": {
+                            "type": "string",
+                            "title": "First Name",
+                            "description": "The given name of the contact"
+                          },
+                          "standard__last_name": {
+                            "type": "string",
+                            "maxLength": 50
+                          },
+                          "system__created_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "readOnly": true
+                          },
+                          "standard__email": {
+                            "type": "string",
+                            "format": "email"
+                          }
                         }
-                      ]
+                      }
                     }
                   }
                 }
               }
-            }
+            },
+            "headers": {}
           },
           "404": {
             "description": "User Not Found"
           }
         },
         "operationId": "ListFieldSchema",
-        "description": "Retrieve field schema based on namespace."
+        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`\n\nRetrieve field schema based on namespace.",
+        "x-lifecycle": {
+          "status": "proposed"
+        }
       }
     },
     "/{namespace}/{resourceTypeCode}/meta/fields/{fieldId}/options": {
@@ -105,7 +124,7 @@
           "name": "resourceTypeCode",
           "in": "path",
           "required": true,
-          "description": "The resourceTypeCode, here Contact"
+          "description": "The resourceTypeCode, here contacts, companies or activities"
         },
         {
           "schema": {
@@ -119,10 +138,12 @@
       ],
       "get": {
         "summary": "Get field options",
-        "tags": [],
+        "tags": [
+          "Resource Operations"
+        ],
         "responses": {
           "200": {
-            "description": "This API follows [Open API schema](https://spec.openapis.org/oas/v3.1.0#schema-object) of structure for response.",
+            "description": "The list of valid options for the field. This can be used to create a dropdown list for your users. ",
             "content": {
               "application/json": {
                 "examples": {
@@ -144,6 +165,39 @@
                       ]
                     }
                   }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "options": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "jwikc0afwakmo"
+                      },
+                      "items": {
+                        "x-stoplight": {
+                          "id": "1jmcjoeuy5wm9"
+                        },
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "x-stoplight": {
+                              "id": "6hk1kskoxz8sj"
+                            },
+                            "description": "The text to be displayed to users. Note this might be translated."
+                          },
+                          "value": {
+                            "type": "string",
+                            "x-stoplight": {
+                              "id": "qdy9hr51rggn0"
+                            },
+                            "description": "The value to be saved in the database"
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -153,7 +207,7 @@
           }
         },
         "operationId": "GetFieldOptions",
-        "description": "Retrieve the field options based on the given fieldId.",
+        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`\n\nRetrieve the field options based on the given fieldId.",
         "parameters": [
           {
             "schema": {
@@ -171,115 +225,9 @@
             "name": "paging",
             "description": "Pagination to retrieve a specific page of results"
           }
-        ]
-      }
-    },
-    "/{namespace}/{resourceTypeCode}": {
-      "parameters": [
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "namespace",
-          "in": "path",
-          "required": true,
-          "description": "The namespace, PID/AGID"
-        },
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "resourceTypeCode",
-          "in": "path",
-          "required": true,
-          "description": "The resourceTypeCode, here contacts, companies or activities."
-        }
-      ],
-      "post": {
-        "summary": "Upsert CRM Record",
-        "operationId": "UpsertCrmRecord",
-        "responses": {
-          "200": {
-            "description": "This API follows [Open API schema](https://spec.openapis.org/oas/v3.1.0#schema-object) of structure for response."
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        },
-        "description": "Create/update CRM contacts, companies or activities record.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "subtype": {
-                    "type": "string"
-                  },
-                  "fields": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "Id": {
-                          "type": "string"
-                        },
-                        "value": {
-                          "type": "string"
-                        },
-                        "Operation": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  },
-                  "search_existing": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "return_fields": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                }
-              },
-              "examples": {
-                "Example": {
-                  "value": {
-                    "subtype": "email",
-                    "fields": [
-                      {
-                        "Id": "externalId",
-                        "value": "example-first-name",
-                        "Operation": "always_overwrite"
-                      },
-                      {
-                        "Id": "externalId",
-                        "value": "example-last-name",
-                        "Operation": "always_overwrite"
-                      },
-                      {
-                        "Id": "externalId",
-                        "value": "crm@example.com",
-                        "Operation": "always_overwrite"
-                      }
-                    ],
-                    "search_existing": [
-                      "standard__email"
-                    ],
-                    "return_fields": [
-                      "standard__email",
-                      "standard__first_name"
-                    ]
-                  }
-                }
-              }
-            }
-          }
+        ],
+        "x-lifecycle": {
+          "status": "proposed"
         }
       }
     }
@@ -376,6 +324,12 @@
       "OAuth2Prod": [
         "customers"
       ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Resource Operations",
+      "description": "Endpoints related to Resource Operations"
     }
   ]
 }

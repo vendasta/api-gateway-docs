@@ -5268,6 +5268,10 @@ components:
                   type: string
                   description: The zip code or postal code component of an address.
                   example: S7M 1R3
+                postalCode - copy:
+                  type: string
+                  description: The zip code or postal code component of an address.
+                  example: S7M 1R3
                 regionCode:
                   type: string
                   description: |-
@@ -7466,12 +7470,16 @@ components:
         - id
         - type
     hoursOfOperation:
+      deprecated: true
       type: array
       nullable: true
+      x-lifecycle:
+        status: deprecated
+        deprecated: '2023-11-16'
+        proposedRemoval: '2023-11-30'
+        description: hours were moved to be handled exclusively by the Local SEO Listing Profile APIs in the trusted tester phase. This field will be removed shortly.
       description: |-
-        The operating hours for the business location. 
-
-        Each entry in the array is a set of hours for a particular department or customer of the business. It is recommended to provide the `general` hours for all locations. Some locations may have additional definitions for other departments.
+        Deprecated - hours must be set and fetched using the Local SEO Listing Profile APIs.
       items:
         type: object
         required:

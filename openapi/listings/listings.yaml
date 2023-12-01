@@ -180,7 +180,6 @@ paths:
 
         Update the existing listing profile.
         Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
-        Currently, we are supporting the update only to `BusinessHours`. We are planning to support other attributes in future.
       x-lifecycle:
         status: proposed
       parameters:
@@ -716,24 +715,20 @@ components:
               description: |-
                 The common name for this location.
                 Note: The pipe character (`|`) is not allowed.
-              readOnly: true
             address:
               type: object
               properties:
                 line1:
                   type: string
                   description: The primary information. Typically a street address
-                  readOnly: true
                 line2:
                   type: string
                   description: An additional line of information to add after the street address.
                 city:
                   type: string
-                  readOnly: true
                 postalCode:
                   type: string
                   description: The zip code or postal code component of an address.
-                  readOnly: true
                 regionCode:
                   type: string
                   example: 'CA-SK, US-FL, AG-08, AU-NSW'
@@ -744,7 +739,6 @@ components:
                     The code for the top level subdivision within the country (state/province). For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
 
                     Examples: CA-SK, US-FL, AG-08, AU-NSW
-                  readOnly: true
                 countryCode:
                   type: string
                   example: 'CA, US, AU'
@@ -755,8 +749,6 @@ components:
                     The two letter country code. For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
 
                     Examples: CA, US, AU
-                  readOnly: true
-              readOnly: true
             phoneNumbers:
               type: array
               description: |-
@@ -770,11 +762,9 @@ components:
                 You may test the parsibility of a number using https://phonenumbers.temba.io/ All phone numbers are assumed to be in the same country as this listing profile
               items:
                 type: string
-              readOnly: true
             serviceAreaBusiness:
               type: boolean
               description: When true the address will be used as the center of the area that this location services instead of being displayed
-              readOnly: true
             geoCoordinate:
               type: object
               description: |-
@@ -786,20 +776,15 @@ components:
               properties:
                 latitude:
                   type: number
-                  readOnly: true
                 longitude:
                   type: number
-                  readOnly: true
               required:
                 - latitude
                 - longitude
-              readOnly: true
             hours:
               $ref: '#/components/schemas/hoursOfOperation'
         relationships:
           type: object
-          description: |
-            The time at which the listing profiles was last updated at
           properties:
             businessPartner:
               type: object
@@ -817,7 +802,6 @@ components:
                       type: string
               required:
                 - data
-              readOnly: true
             businessCategories:
               type: object
               description: A list of the types of business this location should be compared against. If not set during creation it will default "other".
@@ -834,8 +818,6 @@ components:
                     required:
                       - type
                       - id
-              readOnly: true
-          readOnly: true
     citations:
       title: Citations
       type: object

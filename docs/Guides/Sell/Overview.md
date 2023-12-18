@@ -2,11 +2,11 @@
 
 Products that you have added to your store can be sold to a business location by creating an order.
 
-You simply need the product SKU ([found here](FindSKU.md)), ID of a previously created business location, and the price you will be charging to your customer. 
+You will need the product SKU ([found here](FindSKU.md)), ID of a previously created business location, and the price you will be charging to your customer. 
 
 ## Examples
 
-### Sell a simple product (without an order form)
+### Sell a  product
 The following request will activate the Express edition of Customer Voice (MP-c4974d390a044c28aec31e421aa662b2:EDITION-TC8HJZNS) for business location AG-1234567. If automatic invoicing is turned on an invoice in the amount of $18.00 AUD will be created.
 ```json http
 {

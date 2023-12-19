@@ -160,13 +160,6 @@ Mobile Marketing & Communications Platform \| PRO |  | MP-W74STW72G4WVKL52LT45NF
 |  | 5,000 Message Credits | A-CQFNHBHHL4
 |  | Digital Kiosk Stand (incl. shipping costs) | A-BGNMVFWGLH
 Metricool |  | MP-3QXRWPFX4BTVGZ3NBPSWPS8L3S7QS66W
-Pagevamp - Instant Website Builder |  | MP-16d5e227e7b647afaf233595b21bef7a
-|  | Pagevamp Website | A-CXZDQ5SQGB
-|  | Pagevamp Website Domain | A-5WVMNDWPLS
-|  | Unbranded Website | A-MHVQSWJHQ3
-Instant Website with Facebook Sync |  | MP-Q7RN4J6FDT2FNLPH6K52SRMCX5QMFS3R
-|  | Domain | A-3M3PT2HPB5
-|  | Website | A-GKVTPH8FZG
 POWr Website Plugins |  | MP-RC8VV8K5DV368F6WJ3ZCSKWG2Q62QSDC
 Social Status \| Starter |  | MP-NFWJLTZ2CN55VMRNMHQ46PNSG66M287J:EDITION-WHNMFHKG
 Social Status \| Pro |  | MP-NFWJLTZ2CN55VMRNMHQ46PNSG66M287J:EDITION-64QW5D6W

@@ -1120,8 +1120,10 @@ paths:
 
         By default all orders created by API start out in the `processing` status and do not require approval by either the partner admin or SMB admin. You may create orders with a statusCode of `draft` to simply pre populate the order and then finish processing within the platform. To create an order and send it to admins for approval use the statusCode of `submitted`. 
 
-        Note: For newly created Business Locations/Sales Account it does take a few seconds for the newly created account to be replicated to the billing system and for the billing system to setup some additional records for it. It is usually under 5 seconds  but may take a little longer on high traffic days.
-        We recommend checking for the `NotReady` status code in the error response and retrying on that with an exponential backoff.
+        <!-- theme: warning -->
+        >Note: For newly created Business Locations/Sales Account it does take a few seconds for the newly created account to be replicated to the billing system and for the billing system to setup some additional records for it. It is usually under 5 seconds  but may take a little longer on high traffic days.
+        >
+        >We recommend checking for the `NotReady` status code in the error response and retrying on that with an exponential backoff.
       parameters:
         - schema:
             type: string
@@ -5731,6 +5733,7 @@ components:
                 - fulfilled
                 - error
                 - archived
+                - NotReady
               description: |-
                 The status of the order will be automatically set to one of the following by the system:
                 - `draft`: The order has not yet been sent for approval
@@ -5740,6 +5743,7 @@ components:
                 - `fulfilled`: The order and its items have been successfully processed. This includes activating the products with the vendor(s).
                 - `error`: One or more of the orders items failed to be processed
                 - `archived`: The order has been marked as archived
+                - `NotReady`: The order could not be created as a dependent resource is not yet ready to be used
             tags:
               type: array
               maxItems: 30
@@ -7474,8 +7478,7 @@ components:
         deprecated: '2023-11-16'
         proposedRemoval: '2023-11-30'
         description: hours were moved to be handled exclusively by the Local SEO Listing Profile APIs in the trusted tester phase. This field will be removed shortly.
-      description: |-
-        Deprecated - hours must be set and fetched using the Local SEO Listing Profile APIs.
+      description: Deprecated - hours must be set and fetched using the Local SEO Listing Profile APIs.
       items:
         type: object
         required:

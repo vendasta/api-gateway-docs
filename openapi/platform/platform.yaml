@@ -5303,7 +5303,7 @@ components:
                 It is recommended that extensions are included at the end of the number after an appropriate separator: Pause: `,` Wait: `;` Default: `ext.`
 
                 You may test the parsibility of a number using https://phonenumbers.temba.io/ All phone numbers are assumed to be in the same country as this business location.
-              maxItems: 6
+              maxItems: 3
               items:
                 type: string
             serviceAreaBusiness:
@@ -5317,6 +5317,9 @@ components:
                 The values will **not** be automatically updated when the address is updated. If not provided when creating the location they will be initialized based on the address.
 
                 It is expressed as a pair of numbers to represent degrees latitude and degrees longitude in accordance with the [WGS84](https://en.wikipedia.org/wiki/World_Geodetic_System) standard (the one used by your GPS).
+              required:
+                - latitude
+                - longitude
               properties:
                 latitude:
                   type: number
@@ -5326,9 +5329,6 @@ components:
                   type: number
                   minimum: -180
                   maximum: 180
-              required:
-                - latitude
-                - longitude
             hours:
               $ref: '#/components/schemas/hoursOfOperation'
             updatedAt:
@@ -5367,6 +5367,8 @@ components:
             businessPartner:
               type: object
               description: A link to the organization that provides the platform to this business location.
+              required:
+                - data
               properties:
                 data:
                   type: object
@@ -5382,8 +5384,6 @@ components:
                     id:
                       type: string
                       example: ABC
-              required:
-                - data
             businessCategories:
               type: object
               description: A list of the types of business this location should be compared against. If not set during creation it will default "other".
@@ -5394,6 +5394,9 @@ components:
                   minItems: 0
                   items:
                     type: object
+                    required:
+                      - type
+                      - id
                     properties:
                       type:
                         type: string
@@ -5404,9 +5407,6 @@ components:
                       id:
                         type: string
                         example: 'active:diving:freediving'
-                    required:
-                      - type
-                      - id
     salesContacts:
       title: Sales Contact
       type: object
@@ -6564,9 +6564,9 @@ components:
                     x-stoplight:
                       id: 1w0n4zmhr05mg
                     enum:
-                      - 'string'
+                      - string
                       - boolean
-                    description: 'Data type of the parameter'
+                    description: Data type of the parameter
                   id:
                     type: string
                     readOnly: true
@@ -6729,7 +6729,7 @@ components:
                 It is recommended that extensions are included at the end of the number after an appropriate separator: Pause: `,` Wait: `;` Default: `ext.`
 
                 You may test the parsibility of a number using https://phonenumbers.temba.io/ All phone numbers are assumed to be in the same country as this business location.
-              maxItems: 6
+              maxItems: 3
               items:
                 type: string
                 example: '+14168686937'
@@ -6744,6 +6744,9 @@ components:
                 The values will **not** be automatically updated when the address is updated. If not provided when creating the location they will be initialized based on the address.
 
                 It is expressed as a pair of numbers to represent degrees latitude and degrees longitude in accordance with the [WGS84](https://en.wikipedia.org/wiki/World_Geodetic_System) standard (the one used by your GPS).
+              required:
+                - latitude
+                - longitude
               properties:
                 latitude:
                   type: number
@@ -6755,9 +6758,6 @@ components:
                   minimum: -180
                   maximum: 180
                   example: -79.3870568
-              required:
-                - latitude
-                - longitude
             seoKeywords:
               type: array
               minItems: 0
@@ -6875,12 +6875,17 @@ components:
             salesPeople:
               type: object
               description: A list of the sales people assigned to this account. The first sales person in the list will be treated as the primary sales person and given special treatment.
+              required:
+                - data
               properties:
                 data:
                   type: array
                   uniqueItems: true
                   items:
                     type: object
+                    required:
+                      - id
+                      - type
                     properties:
                       id:
                         type: string
@@ -6895,19 +6900,19 @@ components:
                         type: string
                         example: users
                         default: users
-                    required:
-                      - id
-                      - type
-              required:
-                - data
             customFields:
               type: object
               description: Custom Fields relative to a sales account
+              required:
+                - data
               properties:
                 data:
                   type: array
                   items:
                     type: object
+                    required:
+                      - id
+                      - type
                     properties:
                       id:
                         type: string
@@ -6916,14 +6921,11 @@ components:
                         type: string
                         example: customFields
                         default: customFields
-                    required:
-                      - id
-                      - type
-              required:
-                - data
             businessPartner:
               type: object
               description: A link to the organization that provides the platform to this business location.
+              required:
+                - data
               properties:
                 data:
                   type: object
@@ -6939,8 +6941,6 @@ components:
                     id:
                       type: string
                       example: ABC
-              required:
-                - data
             businessCategories:
               type: object
               description: A list of the types of business this location should be compared against. If not set during creation it will default "other".
@@ -6951,6 +6951,9 @@ components:
                   minItems: 0
                   items:
                     type: object
+                    required:
+                      - type
+                      - id
                     properties:
                       type:
                         type: string
@@ -6961,9 +6964,6 @@ components:
                       id:
                         type: string
                         example: 'active:diving:freediving'
-                    required:
-                      - type
-                      - id
             businessMarket:
               type: object
               x-stoplight:

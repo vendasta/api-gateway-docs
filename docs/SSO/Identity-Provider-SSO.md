@@ -13,7 +13,7 @@ If you built your own site you will need to implement the Authorization, Token a
 
 For a great into to OAuth2 see [Okta's illustrated guide](https://developer.okta.com/blog/2019/10/21/illustrated-guide-to-oauth-and-oidc).
 
-You may be able to make use of one of [these open source libraries](https://oauth.net/code/) to assist with your implementation. 
+You may be able to make use of one of [these open source libraries](https://oauth.net/code/) to assist with your implementation. If you need to build it yourself we have [a guide for that too](Implementing-Oauth2-IDP.md).
 
 
 > SSO only identifies who is sitting at the computer. 

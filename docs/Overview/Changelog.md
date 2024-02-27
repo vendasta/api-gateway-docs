@@ -2,6 +2,9 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2024-02-27
+Mark `seoKeywords` field as deprecated in `SalesAccount` resource.
+
 ## 2023-10-24
 Add Reputation Management Premium edition ID under `Find SKU`
 

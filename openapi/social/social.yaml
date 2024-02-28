@@ -59,14 +59,14 @@ paths:
             type: string
           in: query
           name: 'page[cursor]'
-          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).
+          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
         - schema:
             type: integer
             example: 20
             default: 25
           in: query
           name: 'page[limit]'
-          description: The maximum number of Social Profiles you would like to return. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).
+          description: 'The maximum number of Social Profiles you would like to return. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
       tags:
         - Social Profiles
       x-lifecycle:
@@ -127,7 +127,7 @@ paths:
                         description: The URI at which the next page of results can be gotten from.
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
-        
+
          An endpoint dedicated to listing all the posts made by the business filtered by the selected parameters.
       parameters:
         - schema:
@@ -153,7 +153,7 @@ paths:
             example: 'Jd6889Js3,PostGroup1'
           in: query
           name: 'filter[socialProfileExternalIds]'
-          description: 'A comma-seperated list filtering messages to profiles with these external identifiers.'
+          description: A comma-seperated list filtering messages to profiles with these external identifiers.
         - schema:
             type: string
             example: '2022-02-04T16:52:34.000Z'
@@ -184,13 +184,37 @@ paths:
     post:
       summary: Schedule Message
       operationId: post-messages
-      description: Please contact Sales to learn more about the scheduling message API
+      description: 'This endpoint enables users to create social media posts across various platforms. By sending a POST request to this endpoint with appropriate parameters, users can seamlessly publish content on the preferred social media platforms.'
       tags:
         - Messages
       responses:
         '200':
           description: OK
-
+          headers: {}
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: Content-Type
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/messages'
+                  x-stoplight:
+                    id: cmnu6eevzz8ri
+        description: ''
 components:
   securitySchemes:
     JWT:
@@ -294,9 +318,9 @@ components:
       type: object
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
-        
+
         A data structure that describes a message you wish to schedule to be posted on a social network.
-      examples: [ ]
+      examples: []
       x-tags:
         - Messages
       properties:
@@ -320,11 +344,11 @@ components:
                 - failed
               description: |-
                 The status of the message will be automatically set to one of the following by the system:
-                
+
                 scheduled: The message has been approved and is scheduled to be sent at the time indicated in `scheduledAt`
-                
+
                 posted: The message was successfully sent to the social profile
-                
+
                 failed: An error occurred when sending the message. You can view the details in the `error` attribute.
               example: scheduled
               readOnly: true
@@ -350,7 +374,7 @@ components:
               format: date-time
               description: |-
                 A string representing the timestamp at which the post was posted.
-                
+
                 Times used must be in ISO 8601 format, UTC time.
               example: '2022-02-04T16:52:34.000Z'
             scheduledAt:
@@ -358,15 +382,14 @@ components:
               format: date-time
               description: |-
                 A string representing the timestamp at which the post is scheduled.
-                
+
                 Defaults to 5 minutes after the Message is made, and must be at least 5 minutes after the Message is created.
-                
+
                 Times used must be in ISO 8601 format, UTC time.
               example: '2022-02-04T16:52:34.000Z'
             errors:
               type: array
               description: An array of error objects.
-              readOnly: true
               items:
                 type: object
                 properties:
@@ -374,11 +397,12 @@ components:
                     type: string
                     description: The description of the error.
                     example: The post is not valid.
+              readOnly: true
             GMBPostCustomization:
               type: object
               description: |-
                 A special data structure that can be passed in to allow for special attached events for messages posted on Google My Business. 
-                
+
                 You can add an Event, a Call to Action, or both. If you want an Event, the `title`, `eventStartAt`, and `eventEndAt` fields must all be filled out. If you want a Call To Action, the `CTAType` and `linkUrl` fields must be filled out. `linkUrl` is optional if the CTAType is `callNow`.
               properties:
                 title:
@@ -403,6 +427,10 @@ components:
                 linkURL:
                   type: string
                   description: A Url for a link you want to associate with your Call to Action.
+            postType:
+              type: string
+              x-stoplight:
+                id: qlz3a246xqma2
           required:
             - messageText
         relationships:

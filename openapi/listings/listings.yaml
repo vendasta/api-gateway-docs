@@ -773,22 +773,29 @@ components:
                 The values will **not** be automatically updated when the address is updated. If not provided when creating the location they will be initialized based on the address.
 
                 It is expressed as a pair of numbers to represent degrees latitude and degrees longitude in accordance with the [WGS84](https://en.wikipedia.org/wiki/World_Geodetic_System) standard (the one used by your GPS).
+              required:
+                - latitude
+                - longitude
               properties:
                 latitude:
                   type: number
                 longitude:
                   type: number
-              required:
-                - latitude
-                - longitude
             hours:
               $ref: '#/components/schemas/hoursOfOperation'
+            ico:
+              type: number
+              x-stoplight:
+                id: ccum95lf9wwqb
+              description: Identifier for a business in the Czech republic.  Can only be set for Czech businesses
         relationships:
           type: object
           properties:
             businessPartner:
               type: object
               description: A link to the organization that provides the platform to this listing profile
+              required:
+                - data
               properties:
                 data:
                   type: object
@@ -800,8 +807,6 @@ components:
                       type: string
                     id:
                       type: string
-              required:
-                - data
             businessCategories:
               type: object
               description: A list of the types of business this location should be compared against. If not set during creation it will default "other".
@@ -810,14 +815,14 @@ components:
                   type: array
                   items:
                     type: object
+                    required:
+                      - type
+                      - id
                     properties:
                       type:
                         type: string
                       id:
                         type: string
-                    required:
-                      - type
-                      - id
     citations:
       title: Citations
       type: object

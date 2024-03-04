@@ -7592,15 +7592,9 @@ components:
         - id
         - type
     hoursOfOperation:
-      deprecated: true
       type: array
+      description: The operating hours for the business location. Each entry in the array is a set of hours for a particular department or customer of the business. It is recommended to provide the `general` hours for all locations. Some locations may have additional definitions for other departments.
       nullable: true
-      x-lifecycle:
-        status: deprecated
-        deprecated: '2023-11-16'
-        proposedRemoval: '2023-11-30'
-        description: hours were moved to be handled exclusively by the Local SEO Listing Profile APIs in the trusted tester phase. This field will be removed shortly.
-      description: Deprecated - hours must be set and fetched using the Local SEO Listing Profile APIs.
       items:
         type: object
         required:
@@ -7651,11 +7645,7 @@ components:
                   $ref: '#/components/schemas/timeOfDay'
           specialHours:
             type: array
-            x-lifecycle:
-              status: proposed
             description: |-
-              [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
-
               Represents a set of time periods when a location's operational hours differ from its regular business hours. This may be a holiday or special event. These hours replace the regular hours for the day.
 
               A special hour period must represent a range of less than 24 hours. The `openTime` and `startDate` must predate the `closeTime` and `endDate`. 
@@ -7668,9 +7658,16 @@ components:
               required:
                 - startDate
                 - endDate
-                - openTime
-                - closeTime
+                - startTime
+                - endTime
               properties:
+                status:
+                  x-stoplight:
+                    id: nav2z12fnl9fr
+                  enum:
+                    - open
+                    - closed
+                  description: 'Describes the different modes that apply to special hour periods. Currently only `open` and `closed` are supported in the Vendasta platform. Overlapping `open` and `closed` periods are not allowed. When status is `open`, for the given business it will be open for the mentioned time period for the selected date. When status is `closed`, for the given business it will be closed for the selected date.'
                 startDate:
                   description: The calendar date this special hour period starts on.
                   type: string
@@ -7679,9 +7676,9 @@ components:
                   description: 'The calendar date this special hour period ends on. If `endDate` field is not set, default to the date specified in `startDate`. If set, this field must be equal to or at most 1 day after `startDate`.'
                   type: string
                   format: date
-                openTime:
+                startTime:
                   $ref: '#/components/schemas/timeOfDay'
-                closeTime:
+                endTime:
                   $ref: '#/components/schemas/timeOfDay'
     dayOfTheWeek:
       type: string

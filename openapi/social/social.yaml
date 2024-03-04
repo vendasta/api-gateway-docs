@@ -100,7 +100,7 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
-        This operation will schedule a new message to be posted at the time defined in `sendAt` (this defaults to posting in 5 minutes if no `sendAt` is given)
+        This operation will schedule a new message to be posted at the time defined in `scheduledAt` (this defaults to posting in 5 minutes if no `scheduledAt` is given)
 
         If scheduling was successful, it will return the Message with an id. If there are validation errors on scheduling for any of the services listed, it will instead give a list of errors.
       requestBody:
@@ -196,10 +196,10 @@ paths:
           description: The maximum number of Social Posts you would like to return.
         - schema:
             type: string
-            example: 'Jd6889Js3'
+            example: Jd6889Js3
           in: query
           name: 'filter[socialProfileExternalIds]'
-          description: 'A comma-seperated list filtering messages to profiles with these external identifiers.'
+          description: A comma-seperated list filtering messages to profiles with these external identifiers.
         - schema:
             type: string
             example: '2022-02-04T16:52:34.000Z'
@@ -351,6 +351,7 @@ components:
         id:
           type: string
           description: A unique identifier assigned to this message. We will automatically assign the Message one on creation.
+          readOnly: true
         type:
           type: string
           default: messages
@@ -401,6 +402,7 @@ components:
 
                 Times used must be in ISO 8601 format, UTC time.
               example: '2022-02-04T16:52:34.000Z'
+              readOnly: true
             scheduledAt:
               type: string
               format: date-time
@@ -489,6 +491,7 @@ components:
                     type:
                       type: string
                       default: businessLocations
+                      readOnly: true
                     id:
                       type: string
           required:

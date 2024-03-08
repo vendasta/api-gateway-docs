@@ -260,6 +260,34 @@ paths:
                         type: string
                         description: The URI at which the next batch of business locations can be gotten from
                         format: uri
+                  meta:
+                    type: object
+                    x-stoplight:
+                      id: 9c9hcw9pdy3iy
+                    properties:
+                      error:
+                        type: array
+                        x-stoplight:
+                          id: qg547xfmaujg5
+                        items:
+                          x-stoplight:
+                            id: ykm7pgshfp82r
+                          type: object
+                          properties:
+                            ID:
+                              type: string
+                              x-stoplight:
+                                id: 3s1xmzarzaaf6
+                              example: AG-XXXXXXXX
+                            Message:
+                              type: string
+                              x-stoplight:
+                                id: m3i058fvfdhvq
+                              example: Account not found
+        '500':
+          description: |-
+            Internal Server Error
+            * duplicate filter ids, and other unkown errors
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
@@ -321,7 +349,7 @@ paths:
             example: '["AG-123","AG-456"]'
           in: query
           name: 'filter[id]'
-          description: Return accounts for given ids. For this filter ,We are not supporting pagination.
+          description: 'Return accounts for given ids. For this filter ,We are not supporting pagination.'
       security:
         - OAuth2Demo:
             - business
@@ -2323,6 +2351,31 @@ paths:
                         type: string
                         description: The URI at which the next batch of accounts can be gotten from
                         format: uri
+                  meta:
+                    type: object
+                    x-stoplight:
+                      id: hbu5nqur0qnmk
+                    properties:
+                      error:
+                        type: array
+                        x-stoplight:
+                          id: s8dssb6fgtlig
+                        items:
+                          x-stoplight:
+                            id: lxynuyj0i8hm6
+                          type: object
+                          properties:
+                            ID:
+                              type: string
+                              x-stoplight:
+                                id: g0v15e1y213zp
+                              example: AG-XXXXXXXX
+                              readOnly: true
+                            Message:
+                              type: string
+                              x-stoplight:
+                                id: pfb4q0j426bd5
+                              example: Account not found
               examples:
                 Return Example:
                   value:
@@ -2452,7 +2505,7 @@ paths:
             example: '["AG-123","AG-456"]'
           in: query
           name: 'filter[id]'
-          description: Return accounts for given ids. For this filter ,We are not supporting pagination.
+          description: 'Return accounts for given ids. For this filter ,We are not supporting pagination.'
       security:
         - OAuth2Demo:
             - sales.account
@@ -6770,14 +6823,14 @@ components:
               minItems: 0
               maxItems: 3
               description: Deprecated - SEO keywords must be set in the Local SEO product
-              items:
-                type: string
               deprecated: true
               x-lifecycle:
                 status: deprecated
                 deprecated: '2024-02-26'
                 proposedRemoval: '2024-03-11'
                 description: These SEO keywords were migrated and removed from the account group in favor of the Local SEO product's keywords. This field will be removed shortly.
+              items:
+                type: string
             website:
               type: string
               format: uri

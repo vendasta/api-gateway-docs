@@ -21,6 +21,8 @@ To implement the parts of OAuth2 used by Vendasta, you need to create and config
 
 You can reuse these endpoints to replace the login screen of other websites that follow the OAuth2 standard. To tell the websites apart you will need to assign them each a client_id and client_secret. The values can be anything you choose.
 
+> If you are not familiar with OAuth2 we recommend reading [Okta's illustrated guide to OAuth2 and OpenID Connect](https://developer.okta.com/blog/2019/10/21/illustrated-guide-to-oauth-and-oidc) for an more detailed introduction to the concepts.
+
 
 ## Authorization Endpoint
 

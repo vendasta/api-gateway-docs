@@ -118,9 +118,13 @@ The endpoint should:
 1. Verify that the access_token sent in the authorization header is not expired
 2. Look up the user profile associated with the access token and return the details as a JSON object
 
-Vendasta currently only requires the email field to be populated in the response. The full set of standard fields can be found [here](https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims).
+Vendasta currently only requires the Subject ID (`sub`) or `email` fields to be populated in the response. The full set of standard fields can be found [here](https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims).
 
-Vendasta will use the email address in the response to look up the user.
+Vendasta will match the user info to a user in our platform based on the following checks
+1. Sub matches a Vendasta user id
+2. Sub matches the external id sent for a user sent when syncing them using SCIM
+3. Email matches a user in your partner instance
+
 
 <!-- theme: danger -->
 > You will need to create the user and set their permissions in Vendasta ahead of time. See [IDP User Synchronization](IDP-User-Sync.md) for directions on automating it.
@@ -130,7 +134,14 @@ Example response
 HTTP/1.1 200 OK
 Content-Type: application/json
 {
-  "email":"bob@example.com"
+  "sub": "U-b10e6de6-ee43-429c-ac26-b3cb81ef6f5f",
+  "email": "bob@example.com",
+  "email_verified": true,
+  "given_name": "Mary",
+  "family_name": "Smith",
+  "locale": "en",
+  "created_at": 1566245652,
+  "updated_at": 1611083679
 }
 ```
 

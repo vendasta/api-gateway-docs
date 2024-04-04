@@ -514,6 +514,50 @@ public class ServiceAccountSample {
 }
 
 ```
+<!--
+type: tab
+title: Python
+-->
+```python
+import jwt
+import json
+import time
+import requests
+
+# Generate an assertion from a credential file.
+with open("client-credentials.json") as f:
+    creds = json.load(f)
+    assertion = jwt.encode(
+        {
+            "iat": int(time.time()),
+            "exp": int(time.time() + 10 * 60),
+            "iss": creds["assertionPayloadData"]["iss"],
+            "sub": creds["assertionPayloadData"]["sub"],
+            "scope": "profile email",
+        },
+        creds["private_key"],
+        algorithm=creds["assertionHeaderData"]["alg"],
+        headers={
+            "kid": creds["assertionHeaderData"]["kid"],
+            "aud": creds["assertionPayloadData"]["aud"],
+        },
+    )
+
+# Get an access token from the assertion.
+response = requests.post(
+    creds["token_uri"],
+    data={
+        "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
+        "assertion": assertion,
+    },
+    headers={"Content-Type": "application/x-www-form-urlencoded"},
+)
+response.raise_for_status()
+
+# Your access token is returned in a successful request:
+access_token = json.loads(response.content)["access_token"]
+
+```
 <!-- type: tab-end -->
 
 

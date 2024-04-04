@@ -512,8 +512,8 @@ public class ServiceAccountSample {
         System.out.println(response);
     }
 }
-
 ```
+
 <!--
 type: tab
 title: Python
@@ -556,7 +556,6 @@ response.raise_for_status()
 
 # Your access token is returned in a successful request:
 access_token = json.loads(response.content)["access_token"]
-
 ```
 <!-- type: tab-end -->
 

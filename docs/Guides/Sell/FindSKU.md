@@ -4,20 +4,24 @@ We currently only support creating orders for products that don't include order 
 
 Variably priced products are also not currently able to be activated over API.
 
-The SKU is typically different between the demo and production environments so be sure to use the correct values.
+>Not all skus will map to elgible service provider ids for SSO. Please coordinate with your vendasta integration representative for service provider ids. 
 
+**The SKU is typically different between the demo and production environments so be sure to use the correct values.**
 
 
 ## Vendasta Products
 
 ### Business App Pro
-Reccomended to be activated together:
+Reccomended to be activated together.
+
+You may also copy the recommended package in Partner Center, and then provide the package id of your newly created package as a line item for the [Create Order](https://developers.vendasta.com/platform/7c53df73cfa65-create-order) API.
+
 Product | Production SKU | Demo SKU
 --------|----------------|---------
 Inbox Pro — AI-assisted web chat lead capture | MP-DKT6XHPM6NCCDNK2TPDPVD3PG3V7ZHWP| N/A
 Campaigns Pro | MP-ZGJ6V4QRP77WPMDKXS6VDRNX58Q42P7P | MP-WF5KS7FHTGV4LR5DBQ4D6XKCCDB5B6G7
 Local SEO Pro | MS:EDITION-CFH5CKHC | MS:EDITION-MXWLTQPN
-Reputation Management Pro | RM | RM
+Reputation Management Premium | RM:EDITION-JFRPLQPN | RM:EDITION-BFXF8W8Q
 Social Marketing Pro | SM | SM
 
 

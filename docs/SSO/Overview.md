@@ -16,7 +16,8 @@ Let users who are already logged into Vendasta access your site/app. If you are 
 
 ## Build Navigation Links
 If you want to allow users to move from your app to another app follow this guide to build links that use the correct white-label domains for the user.
-[Guide coming soon]
+
+[Find out more](Navigation-Links.md)
 
 ## User Lifecycle Management for Partners
 Create, update and remove user profiles and permissions in the Vendasta platform based on events in your system.

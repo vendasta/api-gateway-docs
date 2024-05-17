@@ -1,7 +1,7 @@
 # Navigation Links
 
 This guide covers building links that you can embed in your website or emails
-that will send users to locations in the Vendasta platform and marketplace products. 
+that will send users to pages in the Vendasta platform and marketplace products. 
 
 <!-- theme: info -->
 > ### Common Links
@@ -9,18 +9,20 @@ that will send users to locations in the Vendasta platform and marketplace produ
 > 
 > Business App -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=VBC&path=/account/location/{{accountId}}/dashboard&account_id=AG-1234567`
 >
-> Reputation Managment -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=RM&account_id=AG-1234567`
+> Reputation Management -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=RM&path=/account/{{accountId}}/app/overview&account_id=AG-1234567`
 >
-> Customer Voice ->
+> Local SEO -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=MS&path=/edit/account/{{accountId}}/app/overview&account_id=AG-1234567`
 >
-> Listing Builder ->
+> Advertising Intelligence  -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=MP-94072e44d5364872b672d7ab4fc7a7e8&path=/business/{{accountId}}/overview&account_id=AG-1234567`
 >
-> Advertising Intelligence  ->
+> Social Marketing -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=SM&path=/account/{{accountId}}/overview&account_id=AG-1234567`
 >
-> Social Marketing ->
+> Customer Voice Prod-> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=MP-c4974d390a044c28aec31e421aa662b2&path=/cv/account/{{accountId}}/overview&account_id=AG-1234567`
+>
+> Customer Voice Demo -> `https://sso-api-demo.apigateway.co/service-gateway?serviceProviderId=MP-fba21121b71148c9bb33e11fcd92d520&path=/cv/account/{{accountId}}/overview&account_id=AG-1234567`
 
 Many sites allow you to simply copy the URL from your web brower when you want to add a link 
-to your website. That works for basic usecases with the Vendasta platform however does not work
+to your website. That works for basic usecases within the Vendasta platform however does not work
 for apps that support whitelable domains, which can change between partner markets, or some forms of SSO. 
 
 You should let the Vendasta platform handel these complexities by linking to the SSO service-gateway instead.

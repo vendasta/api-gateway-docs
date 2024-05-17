@@ -138,7 +138,9 @@ paths:
 
         Create User based on SCIM schema
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
   '/{namespace}/Users/{id}':
     parameters:
@@ -171,7 +173,9 @@ paths:
         Get an user when the user id is known
       operationId: scim-get-user
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
     put:
       tags:
@@ -199,9 +203,11 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
-        API to replace an user. All of the attributes will be replaced with provided value and attributes will be kept black for which no value is specified
+        API to replace an user. All of the attributes will be replaced with provided value and attributes will be kept blank for which no value is specified
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
     patch:
       tags:
@@ -227,10 +233,12 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
 
-        Update an user's one or multiple attributes by roviding operation path and value. Post update all other attributes will be unchanged apart from provided attributes.
+        Update an user's one or multiple attributes by providing operation path and value. Post update all other attributes will be unchanged apart from provided attributes.
       operationId: scim-update-user
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
     delete:
       tags:
@@ -249,7 +257,9 @@ paths:
 
         API to delete an user
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
   '/{namespace}/Groups':
     parameters:
@@ -267,7 +277,7 @@ paths:
             type: string
         - name: filter
           in: query
-          description: Search group using `displayName eq "displayName"`
+          description: Search group using `displayName eq "Platform Admin"`
           required: false
           schema:
             type: string
@@ -329,12 +339,8 @@ paths:
               $ref: '#/components/schemas/PatchOp'
         required: true
       responses:
-        '200':
-          description: OK
-          content:
-            application/scim+json:
-              schema:
-                $ref: '#/components/schemas/Group'
+        '204':
+          description: No Content
         '405':
           description: Invalid input
       x-lifecycle:
@@ -680,21 +686,29 @@ components:
         streetAddress:
           type: string
           example: 100 Universal City Plaza
-        locality":
+        locality:
           type: string
           example: Hollywood
+          x-stoplight:
+            id: ho5pd2iv86rrw
         region:
           type: string
-          pattern: ^[A-Z]{2}-[\w]{1,3}$
-          description: The region comprises of ISO 3166-1 alpha-2 {two letters} of both country code and state code
+          pattern: '^[A-Z]{2}-[\w]{1,3}$'
+          description: |-
+            The code for the top level subdivision within the country (state/province). For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
+
+            Examples: CA-SK, US-FL, AG-08, AU-NSW
           example: CA-SK
         postalCode:
           type: string
           example: '91608'
         country:
           type: string
-          pattern: ^[A-Z]{2}$
-          description:  The country code should be in the ISO 3166-1 alpha-2 {two letters} standard
+          pattern: '^[A-Z]{2}$'
+          description: |-
+            The two letter country code. For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
+
+            Examples: CA, US, AU
           example: CA
         formatted:
           type: string
@@ -761,6 +775,17 @@ components:
             $ref: '#/components/schemas/Member'
         meta:
           $ref: '#/components/schemas/Meta'
+      x-examples:
+        Example 1:
+          schemas:
+            - 'urn:ietf:params:scim:schemas:core:2.0:Group'
+          id: 'ba:getStarted:AG-1234567890'
+          displayName: Get Started for AG-1234567890
+          members:
+            - value: 2819c223-7f76-453a-919d-413861904646
+              display: Babs Jensen
+          meta:
+            resourceType: Group
     Member:
       type: object
       properties:
@@ -1090,7 +1115,7 @@ components:
                       the original attribute value (e.g., a hashed value) is not
                       retained by the service provider.  A service provider MAY
                       allow attributes to be used in a search filter.
-                  
+
                   `default` - The attribute is returned by default in all SCIM
                       operation responses where attribute values are returned.  If
                       the GET request "attributes" parameter is specified,
@@ -1619,12 +1644,21 @@ components:
       scheme: bearer
       bearerFormat: JWT
       description: ''
-    OAuth2:
+    OAuth2Demo:
       type: oauth2
       flows:
         authorizationCode:
           authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
           tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          scopes:
+            user.admin: Read-write access to manage all users
+            'user.profile:read': Read access to the profile fields of all categories of users
+    OAuth2Prod:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-prod.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-prod.apigateway.co/oauth2/token'
           scopes:
             user.admin: Read-write access to manage all users
             'user.profile:read': Read access to the profile fields of all categories of users
@@ -1936,5 +1970,7 @@ components:
               - status
   examples: {}
 security:
-  - OAuth2:
+  - OAuth2Demo:
+      - user.admin
+  - OAuth2Prod:
       - user.admin

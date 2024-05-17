@@ -124,7 +124,9 @@ func main() {
 		Scopes: []string{"profile", "email"},
 		// The provided token URL
 		TokenURL: creds.TokenURI,
-		// Expire the Access Token in 10 minutes
+		// Expire the Assertion Token in 10 minutes
+    // This defines how long your request to create an access token is valid for. 
+    // It is not possible to specify how long the returned access token is valid for.
 		Expires: 10 * time.Minute,
 		// The audience of the JWT
 		Audience: creds.AssertionPayloadData.Aud,
@@ -510,7 +512,50 @@ public class ServiceAccountSample {
         System.out.println(response);
     }
 }
+```
 
+<!--
+type: tab
+title: Python
+-->
+```python
+import jwt
+import json
+import time
+import requests
+
+# Generate an assertion from a credential file.
+with open("client-credentials.json") as f:
+    creds = json.load(f)
+    assertion = jwt.encode(
+        {
+            "iat": int(time.time()),
+            "exp": int(time.time() + 10 * 60),
+            "iss": creds["assertionPayloadData"]["iss"],
+            "sub": creds["assertionPayloadData"]["sub"],
+            "scope": "profile email",
+        },
+        creds["private_key"],
+        algorithm=creds["assertionHeaderData"]["alg"],
+        headers={
+            "kid": creds["assertionHeaderData"]["kid"],
+            "aud": creds["assertionPayloadData"]["aud"],
+        },
+    )
+
+# Get an access token from the assertion.
+response = requests.post(
+    creds["token_uri"],
+    data={
+        "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
+        "assertion": assertion,
+    },
+    headers={"Content-Type": "application/x-www-form-urlencoded"},
+)
+response.raise_for_status()
+
+# Your access token is returned in a successful request:
+access_token = json.loads(response.content)["access_token"]
 ```
 <!-- type: tab-end -->
 
@@ -562,10 +607,14 @@ Here's where to find each piece:
 
 - **aud** (AKA audience): Use the value found at the `aud` key in your downloaded JSON file's `assertionPayloadData`.
  - **iat** (AKA issued at): The time the jwt was issued as the number of **seconds** 
-  since the [Unix Epoch](https://en.wikipedia.org/wiki/Unix_time). Most languages include helpers for calculating this.</dd>
-- **exp** (AKA expiry): The time when the token should expire as the number of **seconds** 
+   since the [Unix Epoch](https://en.wikipedia.org/wiki/Unix_time). Most languages include helpers for calculating this.</dd>
+- **exp** (AKA expiry): The time when the assertion token should expire as the number of **seconds** 
   since the [Unix Epoch](https://en.wikipedia.org/wiki/Unix_time). 
-  We recommend a value of 10 minutes (or less) from when the token was issued.</dd>
+  We recommend a value of 10 minutes (or less) from when the token was issued.
+  
+  This defines how long your request to create an access token is valid for. 
+  (It is not possible to specify how long the returned access token is valid for.)
+
 - **iss** (AKA issuer): Use the value found at the `iss` key in your downloaded JSON file's `assertionPayloadData`.
 - **sub** (AKA subject): Use the value found at the `sub` key in your downloaded JSON file's `assertionPayloadData`.
 - **scope**: Space-separated [scopes](https://tools.ietf.org/html/rfc6749#section-3.3) which should be included on the access token which will be issued. Each of the endpoints will provide a list of scopes. At least one of them must be included here in order to call that endpoint.

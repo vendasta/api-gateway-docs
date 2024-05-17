@@ -1,13 +1,204 @@
-# Sell your products
+# Sell products
 
-Products that you have added to your store can be sold to a business location by creating an order.
+## Setup:
 
-You simply need the product SKU ([found here](FindSKU.md)), ID of a previously created business location, and the price you will be charging to your customer. 
+**API Authorization**
 
-## Examples
+Create an access token with at least the `order` and `business` scopes following the [Authorization guide](../../Authorization/Authorization.md).
 
-### Sell a simple product (without an order form)
-The following request will activate the Express edition of Customer Voice (MP-c4974d390a044c28aec31e421aa662b2:EDITION-TC8HJZNS) for business location AG-1234567. If automatic invoicing is turned on an invoice in the amount of $18.00 AUD will be created.
+**Start selling skus that you want to order**
+
+Products that you are [selling](https://support.vendasta.com/hc/en-us/articles/4406952901015-Start-selling-Marketplace-products) can be sold to a Sales Account by creating an order. If a product is marked as selling, all of its Editions and Add-ons will automatically also be marked as selling. Note that you may be selling items that aren't in your public store, but anything selling may be activated over API whether it is in your public store or not.
+
+You will need the product SKU ([found here](FindSKU.md)), the ID of a previously created Sales Account, and the price you will be charging to your customer. 
+
+<!-- theme: warning -->
+> SKUs with order forms are unable to be activated via API, or Bulk Action at this time.
+
+## Step 1: Add a Sales Account
+
+<!--
+type: tab
+title: Request
+-->
+
+If a Sales Account doesn't exist for the business you are wanting to submit an order for - you can add the Account via the API prior to submitting your order. Fill in as much info as you have for your new Account in the body section. Add the access token to the headers and send it off. 
+
+In the response, you will find the ID of your newly created Sales Account of format `AG-XXXXXXXX`. You will need that for step 2.
+
+```json
+{
+  "data": {
+    "type": "salesAccounts",
+    "attributes": {
+      "tags": [
+        "tag1",
+        "tag2"
+      ],
+      "customerIdentifier": "User-defined-id-123123",
+      "name": "Company Example",
+      "address": {
+        "line1": "109 8th Street E.",
+        "line2": "Suite 23",
+        "city": "Saskatoon",
+        "stateCode": "CA",
+        "zip": "S7M 1R3",
+        "postalCode": "S7M 1R3",
+        "regionCode": "CA-SK",
+        "countryCode": "CA"
+      },
+      "phoneNumbers": [
+        "+13068800001"
+      ],
+      "serviceAreaBusiness": true,
+      "geoCoordinate": {
+        "latitude": -90,
+        "longitude": -180
+      }
+    },
+    "relationships": {
+      "salesPeople": {
+        "data": [
+          {
+            "id": "U-123123-123123",
+            "type": "users"
+          }
+        ]
+      },
+      "businessPartner": {
+        "data": {
+          "type": "partners",
+          "id": "ABC"
+        }
+      },
+      "businessCategories": {
+        "data": [
+          {
+            "type": "businessCategories",
+            "id": "active:diving:freediving"
+          }
+        ]
+      }
+    }
+  }
+}
+
+```
+For more details on this endpoint see [Create Sales Account](../../../openapi/platform/platform.yaml/paths/~1salesAccounts/post)
+
+
+<!--
+type: tab
+title: Example Response
+-->
+
+
+
+```json
+{
+  "id": "AG-1234567",
+  "type": "salesAccounts",
+  "attributes": {
+    "tags": [
+      "tag1",
+      "tag2"
+    ],
+    "customerIdentifier": "User-defined-id-123123",
+    "name": "Company Example",
+    "address": {
+      "line1": "109 8th Street E.",
+      "line2": "Suite 23",
+      "city": "Saskatoon",
+      "stateCode": "CA",
+      "zip": "S7M 1R3",
+      "postalCode": "S7M 1R3",
+      "regionCode": "CA-SK",
+      "countryCode": "CA"
+    },
+    "phoneNumbers": [
+      "+13068800001"
+    ],
+    "serviceAreaBusiness": true,
+    "geoCoordinate": {
+      "latitude": -90,
+      "longitude": -180
+    }
+  },
+  "relationships": {
+    "salesPeople": {
+      "data": [
+        {
+          "id": "U-123123-123123",
+          "type": "users"
+        }
+      ]
+    },
+    "businessPartner": {
+      "data": {
+        "type": "partners",
+        "id": "ABC"
+      }
+    },
+    "businessCategories": {
+      "data": [
+        {
+          "type": "businessCategories",
+          "id": "active:diving:freediving"
+        }
+      ]
+    },
+    "type": "salesAccounts"
+  }
+}
+```
+<!--
+type: tab-end
+-->
+
+
+## Step 2: Generate an Order
+
+### Order Status
+
+By default all orders created by API start out in the `processing` status and do not require approval by either a partner admin or SMB admin. You may create orders with a statusCode of `draft` to pre-populate the order and then finish processing within the platform. To create an order and send it to admins for approval use the statusCode of `submitted`.
+
+<!-- theme: warning -->
+>**Note - When creating an order for an Account you just created**
+>
+>It is usually under 5 seconds for a newly created Sales Account/Business Location to be replicated to the billing system and all necessary records created. However, it may take a little longer on high traffic days. 
+>
+>We recommend checking for the `NotReady` status code in the error response and retrying on that with an exponential backoff.
+
+**Allowed Order Statuses:**
+* `draft`: The order has not yet been sent for approval
+* `submitted`: The order is ready for approval
+* `processing`: The order and its items are being processed
+* `declined`: The order has been declined by an admin or a customer
+* `fulfilled`: The order and its items have been successfully processed. This includes activating the products with the vendor(s).
+* `error`: One or more of the order's items failed to be processed
+* `archived`: The order has been marked as archived
+* `NotReady`: The order could not be created as a dependent resource is not yet ready to be used
+
+**Verify the order was processed**
+
+You may use the `ID` that was returned when creating an order to check the status periodically until it reaches a `fulfilled` or `error` status. 
+
+```json http
+{
+  "method": "get",
+  "url": "https://prod.apigateway.co/platform/orders/AG-1234567:ORD-SJFGNNP55T",
+  "headers": {
+    "Authorization": "Bearer <Token with 'order' scope>"
+  }
+}
+```
+
+### Sell a single product
+The following request will activate the Standard edition of Customer Voice (MP-c4974d390a044c28aec31e421aa662b2:EDITION-TC8HJZNS) for business location AG-1234567. 
+
+<!-- theme: info -->
+>If automatic invoicing is turned on an invoice in the amount of $18.00 AUD will be created.
+
 ```json http
 {
   "method": "post",
@@ -44,7 +235,7 @@ The following request will activate the Express edition of Customer Voice (MP-c4
 }
 ```
 
-In the response from creating the order you will notice the `statusCode` immediatly goes to `processing` while the products start to be activated. 
+In the response from creating the order you will notice the `statusCode` immediately goes to `processing` while the products start to be activated. 
 ```json
 {
   "data": {
@@ -78,30 +269,12 @@ In the response from creating the order you will notice the `statusCode` immedia
 }
 ```
 
-### Verify the order was processed
 
-You may use the `ID` that was returned when creating an order to check the status periodicly until it reaches a `fulfilled` or `error` status. 
-
-```json http
-{
-  "method": "get",
-  "url": "https://prod.apigateway.co/platform/orders/AG-1234567:ORD-SJFGNNP55T",
-  "headers": {
-    "Authorization": "Bearer <Token with 'order' scope>"
-  }
-}
-```
-
-
-### Change editions of a simple product
-Simply create a new order with the SKU for the desired product edition. The prior activation, if any, will automatically be cancelled when the new edition activates. 
-
-Note: When an account changes editions of a product multiple times within a month it may appear to get stuck. This is because it is waiting for the end of the payment period before downgrading the edition.
 
 ### Sell multiple products at once
 You may include multiple products in a single order by adding additional line items. The order status will not switch to `fulfilled` until all products have been activated.
 
-This example will activate Customer Voice at a monthly cost of $16.50 AUD, Listing Builder at a montly cost of $27.97 AUD, and Listing Distribution at a yearly cost of $350.97
+This example will activate Customer Voice at a monthly cost of $16.50 AUD, Local SEO at a monthly cost of $27.97 AUD, and Listing Distribution at a yearly cost of $350.97
 ```json http
 {
   "method": "post",
@@ -150,15 +323,24 @@ This example will activate Customer Voice at a monthly cost of $16.50 AUD, Listi
 }
 ```
 
+### Change the edition of a product
+Create a new order with the SKU for the desired product edition. The prior activation, if any, will automatically be cancelled when the new edition activates. 
+
+<!-- theme: info -->
+>**Upgrades**
+> 
+>When activating an edition that costs more, the cancellation of the prior activation, and activation of the new sku will occur immediately. The wholesale billing difference will be prorated.
+>
+>**Downgrades**
+>
+>When activating an edition that costs less, the change over will be held, and automatically occur at the end of the current billing period. **Don't worry if the activation appears 'stuck' in `processing` - this is expected for downgrades.**
+
 ### Sell multiple units of a product
 For products that can have multiple units purchased creating a new order
 will add the number of units specified by the `quantity` attribute to any existing subscriptions. The per unit `amount` will only apply to the new units. 
 
-
-### Apply default pricing to the order items
-**Coming soon**
-
-If product has been configured with a Retail Price at Partner Center -> Marketplace -> Manage Products -> Product Settings, you may leave off the `amount` and `intervalCode` to have the configured price be used.
-
-### Sell a product with an order form
+## Coming soon
+ Apply default pricing to the order items
 Coming soon
+
+If the product has been configured with a Retail Price at Partner Center -> Marketplace -> Manage Products -> Product Settings, you may leave off the `amount` and `intervalCode` to have the configured price be used.

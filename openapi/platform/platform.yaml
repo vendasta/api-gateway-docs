@@ -50,7 +50,9 @@ paths:
 
         Note: Currently when creating a contact you must specify exactly 1 Business Location id for it to be linked to. We intend to expand this limit.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.contact
+        - OAuth2Prod:
             - sales.contact
       requestBody:
         content:
@@ -119,7 +121,9 @@ paths:
                         type: string
       operationId: get-salesContacts-id
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.contact
+        - OAuth2Prod:
             - sales.contact
       x-lifecycle:
         status: trustedTester
@@ -211,7 +215,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - business
+        - OAuth2Prod:
             - business
       tags:
         - Business Locations
@@ -254,6 +260,34 @@ paths:
                         type: string
                         description: The URI at which the next batch of business locations can be gotten from
                         format: uri
+                  meta:
+                    type: object
+                    x-stoplight:
+                      id: 9c9hcw9pdy3iy
+                    properties:
+                      error:
+                        type: array
+                        x-stoplight:
+                          id: qg547xfmaujg5
+                        items:
+                          x-stoplight:
+                            id: ykm7pgshfp82r
+                          type: object
+                          properties:
+                            ID:
+                              type: string
+                              x-stoplight:
+                                id: 3s1xmzarzaaf6
+                              example: AG-XXXXXXXX
+                            Message:
+                              type: string
+                              x-stoplight:
+                                id: m3i058fvfdhvq
+                              example: Account not found
+        '500':
+          description: |-
+            Internal Server Error
+            * duplicate filter ids, and other unkown errors
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
@@ -274,7 +308,7 @@ paths:
         - schema:
             type: string
           in: query
-          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
           name: 'page[cursor]'
         - schema:
             type: string
@@ -282,11 +316,47 @@ paths:
             default: '25'
             minLength: 1
           in: query
-          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+          description: 'The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
           name: 'page[limit]'
+        - schema:
+            type: string
+            enum:
+              - createdAt
+              - '-createdAt'
+              - name
+              - '-name'
+              - updatedAt
+              - '-updatedAt'
+            default: '-updatedAt'
+          in: query
+          name: sort
+          description: Sort busines location based on selected option. Defaulted to -updatedAt (Desc updatedAt)
+        - schema:
+            type: boolean
+          in: query
+          name: useNewCategory
+          description: 'useNewCategory is of type boolean which returns new/old business categories.If value of useNewCategory is true then it will return new business categories , if false then it will return old business categories.In case of not set, it will return categories as per feature flag.'
+        - schema:
+            type: string
+            example: 'name,phoneNumbers,hours'
+          in: query
+          name: 'fields[businessLocations]'
+          description: 'Filter businessLocations by the following fields: name, phoneNumbers, customerIdentifier, geoCoordinate, serviceAreaBusiness, hours, and updatedAt. These fields will be included in the response.'
+        - schema:
+            type: array
+            items:
+              type: string
+            example: '["AG-123","AG-456"]'
+          in: query
+          name: 'filter[id]'
+          description: 'Return accounts for given ids. For this filter ,We are not supporting pagination.'
       security:
-        - OAuth2:
+        - OAuth2Demo:
             - business
+            - 'business:read'
+        - OAuth2Prod:
+            - business
+            - 'business:read'
       tags:
         - Business Locations
       x-lifecycle:
@@ -333,9 +403,24 @@ paths:
           name: Authorization
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
+        - schema:
+            type: boolean
+          in: query
+          description: 'useNewCategory is of type boolean which returns new/old business categories.If value of useNewCategory is true then it will return new business categories , if false then it will return old business categories.In case of not set, it will return categories as per feature flag.'
+          name: useNewCategory
+        - schema:
+            type: string
+            example: 'name,phoneNumbers,hours'
+          in: query
+          name: 'fields[businessLocations]'
+          description: 'Filter businessLocations by the following fields: name, phoneNumbers, customerIdentifier, geoCoordinate, serviceAreaBusiness, hours, and updatedAt. These fields will be included in the response.'
       security:
-        - OAuth2:
+        - OAuth2Demo:
             - business
+            - 'business:read'
+        - OAuth2Prod:
+            - business
+            - 'business:read'
     options:
       operationId: options-businessLocations-id
       summary: 'List valid HTTP verbs for /businessLocations/{id}'
@@ -377,7 +462,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - business
+        - OAuth2Prod:
             - business
       responses:
         '200':
@@ -440,6 +527,44 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/users'
+            examples:
+              Example 1:
+                value:
+                  data:
+                    type: users
+                    attributes:
+                      givenName: William
+                      familyName: Smith
+                      greetingName: Billy
+                      email: bill@example.com
+                      languageLocaleCode: en-US
+                      phoneNumbersSet: true
+                      phoneNumbers:
+                        - number: +1-306-555-1234 ext. 56
+                          typeCode: mobile
+                      address:
+                        line1: 109 8th Street E.
+                        line2: Suite 23
+                        streetAddress: 109 8th Street E.
+                        additionalAddress: Suite 23
+                        city: Saskatoon
+                        postalCode: S7M 1R3
+                        regionCode: CA-SK
+                        countryCode: CA
+                      timeZone: America/Regina
+                    relationships:
+                      partner:
+                        data:
+                          type: partners
+                          id: ABC
+                      businessLocations:
+                        data:
+                          - type: businessLocations
+                            id: AG-1234567
+                      platformAccess:
+                        data:
+                          - type: appFeatures
+                            id: 'pc:access'
       x-lifecycle:
         status: trustedTester
       description: |-
@@ -469,7 +594,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       tags:
         - Users
@@ -531,7 +658,7 @@ paths:
         - schema:
             type: string
           in: query
-          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
           name: 'page[cursor]'
         - schema:
             type: integer
@@ -539,7 +666,7 @@ paths:
             maximum: 100
             default: 10
           in: query
-          description: The maximum number of users you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+          description: 'The maximum number of users you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
           name: 'page[limit]'
         - schema:
             type: array
@@ -572,7 +699,10 @@ paths:
           name: 'filter[category]'
           description: 'Filter the users based on the broad category that they fall into. In some rare cases users may be part of multiple categories. '
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+            - user.list
+        - OAuth2Prod:
             - user.admin
             - user.list
       tags:
@@ -622,7 +752,7 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
       security:
-        - OAuth2:
+        - OAuth2Demo:
             - user.admin
             - 'user.profile:read'
             - 'user.contact:read'
@@ -630,6 +760,21 @@ paths:
             - user.permission
             - self.user.admin
             - 'self.user.contact:read'
+            - 'user:read'
+            - openid
+            - profile
+            - email
+            - phone
+            - address
+        - OAuth2Prod:
+            - user.admin
+            - 'user.profile:read'
+            - 'user.contact:read'
+            - 'user.permission:read'
+            - user.permission
+            - self.user.admin
+            - 'self.user.contact:read'
+            - 'user:read'
             - openid
             - profile
             - email
@@ -676,7 +821,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       responses:
         '200':
@@ -704,6 +851,45 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/users'
+            examples:
+              Example 1:
+                value:
+                  data:
+                    type: users
+                    id: U-3ca38c57-7677-45d4-81e8-cd29eab91d63
+                    attributes:
+                      givenName: William
+                      familyName: Smith
+                      greetingName: Billy
+                      email: bill@example.com
+                      languageLocaleCode: en-US
+                      phoneNumbersSet: true
+                      phoneNumbers:
+                        - number: +1-306-555-1234 ext. 56
+                          typeCode: mobile
+                      address:
+                        line1: 109 8th Street E.
+                        line2: Suite 23
+                        streetAddress: 109 8th Street E.
+                        additionalAddress: Suite 23
+                        city: Saskatoon
+                        postalCode: S7M 1R3
+                        regionCode: CA-SK
+                        countryCode: CA
+                      timeZone: America/Regina
+                    relationships:
+                      partner:
+                        data:
+                          type: partners
+                          id: ABC
+                      businessLocations:
+                        data:
+                          - type: businessLocations
+                            id: AG-1234567
+                      platformAccess:
+                        data:
+                          - type: appFeatures
+                            id: 'pc:access'
     delete:
       summary: Delete User
       operationId: delete-users-id
@@ -711,11 +897,13 @@ paths:
         '204':
           description: No Content
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Deleting a user will remove personal data from it and prevent the ID from being used again in the future.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       tags:
         - Users
@@ -727,7 +915,7 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
       x-lifecycle:
-        status: proposed
+        status: trustedTester
   /purchases:
     get:
       summary: List Purchases
@@ -735,7 +923,9 @@ paths:
         - Purchases
       operationId: get-purchases
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - financial
+        - OAuth2Prod:
             - financial
       x-lifecycle:
         status: trustedTester
@@ -777,12 +967,12 @@ paths:
             default: 10
           in: query
           name: 'page[limit]'
-          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+          description: 'The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
         - schema:
             type: string
           in: query
           name: 'page[cursor]'
-          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
       responses:
         '200':
           description: OK
@@ -826,7 +1016,9 @@ paths:
       tags:
         - Business Categories
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - business
+        - OAuth2Prod:
             - business
       x-lifecycle:
         status: trustedTester
@@ -850,16 +1042,37 @@ paths:
             default: 10
           in: query
           name: 'page[limit]'
-          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+          description: 'The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
         - schema:
             type: string
           in: query
           name: 'page[cursor]'
-          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
         - schema:
             type: string
           in: header
           name: Accept-Language
+        - schema:
+            type: array
+            items:
+              type: string
+            example: '["id1","id2"]'
+          in: query
+          name: 'filter[ids]'
+          description: Returns Business Categories that match the provided IDs.
+        - schema:
+            type: array
+            items:
+              type: string
+            example: '["yextId"]'
+          in: query
+          name: 'filter[yextIds]'
+          description: Returns Business Categories that match the provided yextIds.
+        - schema:
+            type: string
+          in: query
+          name: 'filter[searchTerm]'
+          description: Returns a list of Business Categories based on a given search term.
       responses:
         '200':
           description: OK
@@ -943,8 +1156,10 @@ paths:
 
         By default all orders created by API start out in the `processing` status and do not require approval by either the partner admin or SMB admin. You may create orders with a statusCode of `draft` to simply pre populate the order and then finish processing within the platform. To create an order and send it to admins for approval use the statusCode of `submitted`. 
 
-        Note: For newly created Business Locations/Sales Account it does take a few seconds for the newly created account to be replicated to the billing system and for the billing system to setup some additional records for it. It is usually under 5 seconds  but may take a little longer on high traffic days.
-        We recommend checking for the `NotReady` status code in the error response and retrying on that with an exponential backoff.
+        <!-- theme: warning -->
+        >Note: For newly created Business Locations/Sales Account it does take a few seconds for the newly created account to be replicated to the billing system and for the billing system to setup some additional records for it. It is usually under 5 seconds  but may take a little longer on high traffic days.
+        >
+        >We recommend checking for the `NotReady` status code in the error response and retrying on that with an exponential backoff.
       parameters:
         - schema:
             type: string
@@ -964,7 +1179,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - order
+        - OAuth2Prod:
             - order
     options:
       operationId: options-orders
@@ -1010,8 +1227,12 @@ paths:
 
         Produces a list of orders.
       security:
-        - OAuth2:
+        - OAuth2Demo:
             - order
+            - 'order:read'
+        - OAuth2Prod:
+            - order
+            - 'order:read'
       parameters:
         - schema:
             type: string
@@ -1023,12 +1244,12 @@ paths:
             type: string
           in: query
           name: 'page[cursor]'
-          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
         - schema:
             type: string
           in: query
           name: 'page[limit]'
-          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+          description: 'The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
         - schema:
             type: string
           in: header
@@ -1068,8 +1289,12 @@ paths:
                         type: string
       operationId: get-orders-id
       security:
-        - OAuth2:
+        - OAuth2Demo:
             - order
+            - 'order:read'
+        - OAuth2Prod:
+            - order
+            - 'order:read'
       x-lifecycle:
         status: trustedTester
       description: |-
@@ -1145,7 +1370,9 @@ paths:
 
         Attributes can be set up at the partner administration page in Partner Center.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - order
+        - OAuth2Prod:
             - order
       x-lifecycle:
         status: trustedTester
@@ -1224,7 +1451,9 @@ paths:
 
         This endpoint acts like a alias to [Get Order Custom Fields by ID endpoint](b3A6MzYxMTM5MTY-get-order-custom-data-by-id). It returns custom fields about a sales order.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - order
+        - OAuth2Prod:
             - order
       x-lifecycle:
         status: trustedTester
@@ -1356,7 +1585,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - order
+        - OAuth2Prod:
             - order
       tags:
         - Order Custom Fields
@@ -1417,7 +1648,9 @@ paths:
 
         Attributes can be set up at the partner administration page in Partner Center.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - order
+        - OAuth2Prod:
             - order
       x-lifecycle:
         status: trustedTester
@@ -1527,7 +1760,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       tags:
         - Users
@@ -1565,7 +1800,9 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       tags:
         - Users
@@ -1638,7 +1875,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       tags:
         - Users
@@ -1699,7 +1938,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       tags:
         - Users
@@ -1714,7 +1955,9 @@ paths:
           description: Accepted
       operationId: post-autoamtionruns
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - business
+        - OAuth2Prod:
             - business
       x-lifecycle:
         status: trustedTester
@@ -1816,12 +2059,6 @@ paths:
         - schema:
             type: string
           in: query
-          name: 'filter[businessPartner.id]'
-          description: Returns automations for the provided business partner
-          required: true
-        - schema:
-            type: string
-          in: query
           name: 'filter[name]'
           description: 'Returns automations which name''s partially match the provided string, case insensitive'
         - schema:
@@ -1855,16 +2092,15 @@ paths:
           name: 'filter[trigger]'
           description: Returns automations which have a trigger matching the provided value.
         - schema:
-            type: array
-            items:
-              type: string
-            example: default
+            type: string
           in: query
-          name: 'filter[marketIds]'
-          description: Returns automations matching the provided market IDs.
+          name: 'filter[namespace]'
+          description: Returns automations for the provided namespace. The namespace is a unique identifier for the automation which can be a partner ID or account ID.
           required: true
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - 'automation:read'
+        - OAuth2Prod:
             - 'automation:read'
       tags:
         - Automations
@@ -1920,7 +2156,9 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - 'automation:read'
+        - OAuth2Prod:
             - 'automation:read'
       tags:
         - Automations
@@ -2068,7 +2306,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       tags:
         - Sales Accounts
@@ -2111,6 +2351,31 @@ paths:
                         type: string
                         description: The URI at which the next batch of accounts can be gotten from
                         format: uri
+                  meta:
+                    type: object
+                    x-stoplight:
+                      id: hbu5nqur0qnmk
+                    properties:
+                      error:
+                        type: array
+                        x-stoplight:
+                          id: s8dssb6fgtlig
+                        items:
+                          x-stoplight:
+                            id: lxynuyj0i8hm6
+                          type: object
+                          properties:
+                            ID:
+                              type: string
+                              x-stoplight:
+                                id: g0v15e1y213zp
+                              example: AG-XXXXXXXX
+                              readOnly: true
+                            Message:
+                              type: string
+                              x-stoplight:
+                                id: pfb4q0j426bd5
+                              example: Account not found
               examples:
                 Return Example:
                   value:
@@ -2184,7 +2449,7 @@ paths:
         - schema:
             type: string
           in: query
-          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
           name: 'page[cursor]'
         - schema:
             type: string
@@ -2192,7 +2457,7 @@ paths:
             maxLength: 25
             default: '25'
           in: query
-          description: The maximum number of accounts you would like returned in a single batch. Use the links.next member in the response to get the remainder. Any number higher than 25 will be lowered to 25.
+          description: 'The maximum number of accounts you would like returned in a single batch. Use the links.next member in the response to get the remainder. Any number higher than 25 will be lowered to 25. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
           name: 'page[limit]'
         - schema:
             type: string
@@ -2204,8 +2469,47 @@ paths:
           in: query
           name: include
           description: A list of relationships where you would like the related records embedded in the response. This can be used to save a network request.
+        - schema:
+            type: string
+            enum:
+              - createdAt
+              - '-createdAt'
+              - name
+              - '-name'
+              - updatedAt
+              - '-updatedAt'
+            default: '-updatedAt'
+          in: query
+          name: sort
+          description: Sort sales accounts based on selected option. Defaulted to -updatedAt (Desc updatedAt)
+        - schema:
+            type: string
+          in: query
+          name: 'filter[customerIdentifier]'
+          description: Return the accounts within the partner that have given customer identifier.
+        - schema:
+            type: boolean
+          in: query
+          description: 'useNewCategory is of type boolean which returns new/old business categories.If value of useNewCategory is true then it will return new business categories , if false then it will return old business categories.In case of not set, it will return categories as per feature flag.'
+          name: useNewCategory
+        - schema:
+            type: string
+            example: 'name,phoneNumbers,hours'
+          in: query
+          name: 'fields[salesAccounts]'
+          description: 'Filter salesAccounts by the following fields: name, phoneNumbers, customerIdentifier, geoCoordinate, serviceAreaBusiness, hours, and updatedAt. These fields will be included in the response.'
+        - schema:
+            type: array
+            items:
+              type: string
+            example: '["AG-123","AG-456"]'
+          in: query
+          name: 'filter[id]'
+          description: 'Return accounts for given ids. For this filter ,We are not supporting pagination.'
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       tags:
         - Sales Accounts
@@ -2306,8 +2610,21 @@ paths:
           name: Authorization
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
+        - schema:
+            type: boolean
+          in: query
+          description: 'useNewCategory is of type boolean which returns new/old business categories.If value of useNewCategory is true then it will return new business categories , if false then it will return old business categories.In case of not set, it will return categories as per feature flag.'
+          name: useNewCategory
+        - schema:
+            type: string
+            example: 'name,phoneNumbers,hours'
+          in: query
+          name: 'fields[salesAccounts]'
+          description: 'Filter salesAccounts by the following fields: name, phoneNumbers, customerIdentifier, geoCoordinate, serviceAreaBusiness, hours, and updatedAt. These fields will be included in the response.'
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       tags:
         - Sales Accounts
@@ -2352,7 +2669,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       responses:
         '200':
@@ -2497,7 +2816,9 @@ paths:
                         format: uri
       operationId: get-subscriptionAssignments
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       x-lifecycle:
         status: trustedTester
@@ -2536,6 +2857,97 @@ paths:
       tags:
         - Options
         - Subscription Assignments
+  /subscriptions:
+    parameters:
+      - schema:
+          type: string
+        name: 'filter[partner.id]'
+        in: query
+        required: true
+    get:
+      summary: List Subscriptions
+      responses:
+        '200':
+          description: A list of Assignments
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/subscriptions'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: uri
+                      first:
+                        type: string
+                        format: uri
+                        description: Provides a link back to the first page of results
+                      next:
+                        type: string
+                        format: uri
+                        description: The URI at which the next batch of subscriptions can be gotten from
+      operationId: get-subscriptions
+      security:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
+            - sales.account
+      x-lifecycle:
+        status: trustedTester
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'filter[partner.id]'
+          description: The partner ID.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: 'page[cursor]'
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. Pagination Docs.
+        - schema:
+            type: string
+            default: '25'
+            minLength: 1
+            maxLength: 25
+          in: query
+          name: 'page[limit]'
+          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. Pagination Docs.
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Returns a list of subscriptions based on the provided filters. 
+
+        Currently you can filter the list baseed on your partnerID using `filter[partner.id]`
+
+        You will receive a different record for each subscription purchased for multi-activatable products.
+      tags:
+        - Subscriptions
+    options:
+      summary: List valid HTTP verbs for /subscriptions
+      operationId: options-subscriptions
+      responses:
+        '204':
+          description: No Content
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+        - Subscriptions
   '/subscriptionAssignments/{id}':
     parameters:
       - schema:
@@ -2578,70 +2990,94 @@ paths:
     parameters:
       - schema:
           type: string
+          example: 'AG-CQD6ZR6:MP-R7G3NP55T725DM5VGD:beff34a4-cccc-4be8-bd9'
         name: id
         in: path
         required: true
+        description: 'The id should be a string which is in the form - businessLocationId : productId : activationId'
     post:
       summary: Cancel Subscription Assignment
       responses:
         '204':
           description: No Content
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Used for cancelling subscription assignments
+        Used for cancelling subscription assignments.
+
+        By default all cancel request uses DeactivationType as a DeactivationTypeCancel which indicate we should turn the item off at the items anniversary date, or commitment date, whichever is later. So product is still active till the anniversary date.
       tags:
         - Subscription Assignments
       x-lifecycle:
         status: proposed
       operationId: cancel-subscriptionAssignments-by-id
+      security:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
+            - sales.account
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          name: Authorization
+          required: true
       requestBody:
         content:
           application/vnd.api+json:
             schema:
               type: object
               properties:
-                data:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                      default: requestCancellationAction
-                      example: requestCancellationAction
-                      enum:
-                        - requestCancellationAction
-                    attributes:
-                      type: object
-                      properties:
-                        reasonCategory:
-                          type: string
-                          enum:
-                            - shiftInPriorities
-                            - unsatisfied
-                            - endOfContract
-                            - movingToCompetitor
-                            - tooExpensive
-                            - accidentallyActivated
-                            - other
-                          description: |-
-                            An optional indicator of why the cancellation is being requested. Used by partners and vendors for analytics.
+                reason:
+                  type: array
+                  description: |-
+                    `crisisShiftInPriorities`due to crisis shift in priorities
 
-                              `shiftInPriorities` - Crisis/Shift in priorities
+                    `customerWasNotSatisfied`due to customer not satisfied with product
 
-                              `unsatisfied` - Customer wasn't satisfied
+                    `customerReachedEndOfContract`due to customer reached end of contract
 
-                              `endOfContract` - Customer reached end of contract
+                    `movingToAComputer`due to moving to a computer
 
-                              `movingToCompetitor` - Moving to a competitor
+                    `productIsTooExpensive`due to product is too expensive
 
-                              `tooExpensive` - Product is too expensive
+                    `productWasAccidentallyActivated`due to product was accidentally activated
 
-                              `accidentallyActivated` - Product was accidentally activated
+                    `other` any other reason for cancellation
+                  items:
+                    type: string
+                    enum:
+                      - crisisShiftInPriorities
+                      - customerWasNotSatisfied
+                      - customerReachedEndOfContract
+                      - movingToAComputer
+                      - productIsTooExpensive
+                      - productWasAccidentallyActivated
+                      - other
+                comments:
+                  type: string
+                  description: more description for cancellation of products
+                deactivationType:
+                  type: string
+                  description: |-
+                    `cancel` cancel indicates we should turn the product or service off at the anniversary date, or commitment date, whichever is later and till then it will be available for use.
 
-                              `other` - Other
-                        reason:
-                          type: string
-                          description: 'Feedback for vendors as to why the subscription is being cancelled. '
+                    `immediate` Immediate indicates we should turn the product or service off immediately and it will no longer be available to use.
+                  default: cancel
+                  enum:
+                    - cancel
+                    - immediate
+            examples:
+              Example 1:
+                value:
+                  reason:
+                    - crisisShiftInPriorities
+                  comments: Due to crisis
+                  deactivationType: cancel
+        description: ''
     options:
       summary: 'List valid HTTP verbs for /subscriptionAssignments/{id}/actions/requestCancellation'
       operationId: options-subscriptionAssignment-requestCancellationAction
@@ -2702,7 +3138,9 @@ paths:
 
         Attributes can be set up at the partner administration page in Partner Center.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       x-lifecycle:
         status: trustedTester
@@ -2789,7 +3227,9 @@ paths:
 
         This endpoint acts like a alias to [Get Sales Account Custom Fields by ID endpoint](b3A6MzYxMTM5MTY-get-sales-account-custom-data-by-id). It returns custom fields about a sales account.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       x-lifecycle:
         status: trustedTester
@@ -2921,7 +3361,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       tags:
         - Sales Account Custom Fields
@@ -2982,7 +3424,9 @@ paths:
 
         Attributes can be set up at the partner administration page in Partner Center.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
             - sales.account
       x-lifecycle:
         status: trustedTester
@@ -3060,7 +3504,9 @@ paths:
 
         This endpoint acts like a alias to [Get User Custom Fields by ID endpoint](b3A6MzczMDUyMjU-get-custom-fields-by-id). It returns custom fields for a user.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       x-lifecycle:
         status: trustedTester
@@ -3085,6 +3531,52 @@ paths:
       tags:
         - Options
         - User Custom Fields
+  '/users/{id}/actions/sendWelcomeEmail':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Send Welcome Email
+      operationId: get-sendWelcomeEmail-by-userid
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        An email will be sent to the already created user whose user id is passed in the request.
+      security:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
+            - user.admin
+      x-lifecycle:
+        status: trustedTester
+      tags:
+        - Users
+        - Send Welcome Email
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+      responses:
+        '202':
+          description: Accepted
+    options:
+      summary: 'List valid HTTP verbs for/users/{id}/actions/sendWelcomeEmail'
+      operationId: options-sendWelcomeEmail-by-userid
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+        - Send Welcome Email
+      responses:
+        '204':
+          description: No Content
   '/userCustomFields/{id}':
     parameters:
       - schema:
@@ -3192,7 +3684,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       tags:
         - User Custom Fields
@@ -3245,7 +3739,9 @@ paths:
 
         Attributes can be set up at the partner administration page in Partner Center.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - user.admin
+        - OAuth2Prod:
             - user.admin
       x-lifecycle:
         status: trustedTester
@@ -3376,7 +3872,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - product
+        - OAuth2Prod:
             - product
       tags:
         - Product Custom Fields
@@ -3437,7 +3935,9 @@ paths:
 
         Attributes can be set up at the partner administration page in Partner Center.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - product
+        - OAuth2Prod:
             - product
       x-lifecycle:
         status: trustedTester
@@ -3468,7 +3968,19 @@ paths:
       tags:
         - Countries
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.contact
+            - business
+            - 'user.profile:read'
+            - 'user.contact:read'
+            - 'user.permission:read'
+            - user.admin
+            - self.user.admin
+            - 'self.user.contact:read'
+            - openid
+            - profile
+            - sales.account
+        - OAuth2Prod:
             - sales.contact
             - business
             - 'user.profile:read'
@@ -3504,12 +4016,12 @@ paths:
             default: 10
           in: query
           name: 'page[limit]'
-          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+          description: 'The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
         - schema:
             type: string
           in: query
           name: 'page[cursor]'
-          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
         - schema:
             type: string
           in: header
@@ -3558,7 +4070,19 @@ paths:
       tags:
         - Countries
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.contact
+            - business
+            - 'user.profile:read'
+            - 'user.contact:read'
+            - 'user.permission:read'
+            - user.admin
+            - self.user.admin
+            - 'self.user.contact:read'
+            - openid
+            - profile
+            - sales.account
+        - OAuth2Prod:
             - sales.contact
             - business
             - 'user.profile:read'
@@ -3638,7 +4162,19 @@ paths:
       tags:
         - Countries
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.contact
+            - business
+            - 'user.profile:read'
+            - 'user.contact:read'
+            - 'user.permission:read'
+            - user.admin
+            - self.user.admin
+            - 'self.user.contact:read'
+            - openid
+            - profile
+            - sales.account
+        - OAuth2Prod:
             - sales.contact
             - business
             - 'user.profile:read'
@@ -3674,12 +4210,12 @@ paths:
             default: 10
           in: query
           name: 'page[limit]'
-          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+          description: 'The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
         - schema:
             type: string
           in: query
           name: 'page[cursor]'
-          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
         - schema:
             type: string
           in: header
@@ -3737,7 +4273,19 @@ paths:
       tags:
         - Countries
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.contact
+            - business
+            - 'user.profile:read'
+            - 'user.contact:read'
+            - 'user.permission:read'
+            - user.admin
+            - self.user.admin
+            - 'self.user.contact:read'
+            - openid
+            - profile
+            - sales.account
+        - OAuth2Prod:
             - sales.contact
             - business
             - 'user.profile:read'
@@ -3861,12 +4409,12 @@ paths:
         - schema:
             type: string
           in: query
-          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links
+          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
           name: 'page[cursor]'
         - schema:
             type: integer
           in: query
-          description: The maximum number of proposals you would like returned in a single batch. Use the links.next member in the response to get the remainder
+          description: 'The maximum number of proposals you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
           name: 'page[limit]'
         - schema:
             type: string
@@ -3907,7 +4455,9 @@ paths:
           name: 'filter[searchTerm]'
           description: A string containing a partial title.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.proposals
+        - OAuth2Prod:
             - sales.proposals
       tags:
         - Proposals
@@ -3915,7 +4465,9 @@ paths:
         status: trustedTester
     post:
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.proposals
+        - OAuth2Prod:
             - sales.proposals
       x-lifecycle:
         status: trustedTester
@@ -4038,7 +4590,9 @@ paths:
 
             `currencyCode`, `createdAt`, `updatedAt`, `archivedAt`, `viewCount`, `shareType`, `pdfUrl`, `previewImageUrl`, `title`, `content`, `lineItems`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.proposals
+        - OAuth2Prod:
             - sales.proposals
     options:
       operationId: options-proposals-id
@@ -4082,7 +4636,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.proposals
+        - OAuth2Prod:
             - sales.proposals
       responses:
         '200':
@@ -4172,12 +4728,12 @@ paths:
         - schema:
             type: string
           in: query
-          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links
+          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
           name: 'page[cursor]'
         - schema:
             type: string
           in: query
-          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder
+          description: 'The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
           name: 'page[limit]'
         - schema:
             type: string
@@ -4209,7 +4765,9 @@ paths:
           name: 'filter[searchTerm]'
           description: A string containing a partial title.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.proposals
+        - OAuth2Prod:
             - sales.proposals
       tags:
         - Proposals
@@ -4217,7 +4775,9 @@ paths:
         status: trustedTester
     post:
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.proposals
+        - OAuth2Prod:
             - sales.proposals
       x-lifecycle:
         status: trustedTester
@@ -4341,7 +4901,9 @@ paths:
 
             Possible values include: `currencyCode`, `createdAt`, `updatedAt`, `archivedAt`, `shareType`, `pdfUrl`, `previewImageUrl`, `title`, `content`, `lineItems`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.proposals
+        - OAuth2Prod:
             - sales.proposals
     options:
       operationId: options-proposalTemplates-id
@@ -4385,7 +4947,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - sales.proposals
+        - OAuth2Prod:
             - sales.proposals
       responses:
         '200':
@@ -4421,6 +4985,70 @@ paths:
         in: path
         required: true
         description: The id of the proposal template
+  '/partnerActivatableProducts/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: SKU id
+    get:
+      summary: Get Partner Activatable Product
+      operationId: get-partnerActivatableProducts-id
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Returns the details of a product listed in a reseller's store for a known id.
+      security:
+        - OAuth2Demo:
+            - product
+            - 'partner:read'
+        - OAuth2Prod:
+            - product
+            - 'partner:read'
+      parameters:
+        - in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+          schema:
+            example: Bearer <Access Token>
+            type: string
+            pattern: ^Bearer\s\S+
+        - schema:
+            type: string
+          in: header
+          name: Accept-Language
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/partnerActivatableProducts'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+      tags:
+        - Partner Activatable Products
+      x-lifecycle:
+        status: trustedTester
+    options:
+      summary: List valid HTTP verbs for
+      operationId: options-partnerActivatableProducts-id
+      responses:
+        '200':
+          description: OK
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+        - Partner Activatable Products
   /partnerActivatableProducts:
     get:
       summary: List Partner Activatable Products
@@ -4483,10 +5111,13 @@ paths:
 
         Provides a list of products that can be activated by a partner for their customers. 
         You must filter the list to a single partner using the `filter[partner.id]=PID` query param. 
-        Sorted by the whiteLabelName field in ascending order.
+        Sorted by the whiteLabelName field in ascending order. 
       security:
-        - OAuth2:
-            - partner
+        - OAuth2Demo:
+            - 'partner:read'
+            - product
+        - OAuth2Prod:
+            - 'partner:read'
             - product
       parameters:
         - in: header
@@ -4508,12 +5139,12 @@ paths:
             maximum: 100
           in: query
           name: 'page[limit]'
-          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+          description: 'The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
         - schema:
             type: string
           in: query
           name: 'page[cursor]'
-          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
         - schema:
             type: string
           in: query
@@ -4540,67 +5171,6 @@ paths:
       tags:
         - Options
         - Partner Activatable Products
-  '/partnerActivatableProducts/{id}':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: SKU id
-    get:
-      summary: Get Partner Activatable Product
-      operationId: get-partnerActivatableProducts-id
-      description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
-
-        Returns the details of a product listed in a reseller's store for a known id.
-      security:
-        - OAuth2:
-            - product
-            - partner
-      parameters:
-        - in: header
-          name: Authorization
-          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
-          required: true
-          schema:
-            example: Bearer <Access Token>
-            type: string
-            pattern: ^Bearer\s\S+
-        - schema:
-            type: string
-          in: header
-          name: Accept-Language
-      responses:
-        '200':
-          description: OK
-          content:
-            application/vnd.api+json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/partnerActivatableProducts'
-                  links:
-                    type: object
-                    properties:
-                      self:
-                        type: string
-      tags:
-        - Partner Activatable Products
-      x-lifecycle:
-        status: trustedTester
-    options:
-      summary: List valid HTTP verbs for
-      operationId: options-partnerActivatableProducts-id
-      responses:
-        '200':
-          description: OK
-      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
-      tags:
-        - Options
-        - Partner Activatable Products
 components:
   parameters:
     pageLimit:
@@ -4612,20 +5182,20 @@ components:
         maximum: 100
         minimum: 1
         default: 25
-      description: The maximum number of items you would like returned in a single batch. Use the links.next member in the response to get the next batch.
+      description: 'The maximum number of items you would like returned in a single batch. Use the links.next member in the response to get the next batch. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
     pageCursor:
       name: 'page[cursor]'
       in: query
       required: false
       schema:
         type: string
-      description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+      description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
   securitySchemes:
     JWT:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    OAuth2:
+    OAuth2Demo:
       type: oauth2
       flows:
         authorizationCode:
@@ -4633,15 +5203,18 @@ components:
           tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
           scopes:
             sales.contact: Read-write access to sales contact details
+            'business:read': Read only access to business details
             business: Read-write access to business details
             partner: Read-write access to details about your partner
             financial: Read-write access to financial details
             order: Read-write access to order details
+            'order:read': Read only access to order details
             'user.profile:read': Read access to the profile fields of all categories of users
             'user.contact:read': 'Read access to the contact info (email, phone, address) of all categories of users'
             'user.permission:read': 'Read access to the permission info (accessible locations, features and roles) of all categories of users'
             user.permission: 'Read-write access to the permission info (accessible locations, features and roles) of all categories of users'
             user.admin: Read-write access to manage all users
+            'user:read': Read only access to all users
             user.list: '''Allows searching for users based on a set of filters. (ex: email, name, category, organization). Without this scope an exact user id is required.'
             self.user.admin: 'Allows editing the profile, contact info and profile image for the current user.'
             'self.user.contact:read': 'Read access to the contact info (email, phone, address) of the current user.'
@@ -4653,6 +5226,39 @@ components:
             sales.account: Allows read-write access to account records
             sales.proposals: Allows read-write access to proposals
             product: Read access to the product details
+            'automation:read': Read only access to automations
+    OAuth2Prod:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-prod.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-prod.apigateway.co/oauth2/token'
+          scopes:
+            sales.contact: Read-write access to sales contact details
+            'business:read': Read only access to business details
+            business: Read-write access to business details
+            partner: Read-write access to details about your partner
+            financial: Read-write access to financial details
+            'order:read': Read only access to order details
+            order: Read-write access to order details
+            'user.profile:read': Read access to the profile fields of all categories of users
+            'user.contact:read': 'Read access to the contact info (email, phone, address) of all categories of users'
+            'user.permission:read': 'Read access to the permission info (accessible locations, features and roles) of all categories of users'
+            user.permission: 'Read-write access to the permission info (accessible locations, features and roles) of all categories of users'
+            user.admin: Read-write access to manage all users
+            'user:read': Read only access to all users
+            user.list: '''Allows searching for users based on a set of filters. (ex: email, name, category, organization). Without this scope an exact user id is required.'
+            self.user.admin: 'Allows editing the profile, contact info and profile image for the current user.'
+            'self.user.contact:read': 'Read access to the contact info (email, phone, address) of the current user.'
+            openid: Allows getting the user id of the current user
+            profile: 'Readonly access to the user profile, including name, locale, and language preferences.'
+            email: Allows readonly access to the email of the current user.
+            phone: Allows readonly access to the phone numbers of the current user.
+            address: Allows readonly access to the address of the current user.
+            sales.account: Allows read-write access to account records
+            sales.proposals: Allows read-write access to proposals
+            product: Read access to the product details
+            'automation:read': Read only access to automations
   schemas:
     businessLocations:
       title: Business Location
@@ -4685,7 +5291,7 @@ components:
               description: |-
                 The common name for this location.
 
-                Note: The pipe character (`|`) is not allowed. 
+                Note: The pipe character (`|`) is not allowed.
               pattern: '^[^|]+$'
               minLength: 1
             address:
@@ -4729,7 +5335,7 @@ components:
                 regionCode:
                   type: string
                   description: |-
-                    The code for the top level subdivision within the country (state/province) as defined by [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) format.
+                    The code for the top level subdivision within the country (state/province). For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
 
                     Examples: CA-SK, US-FL, AG-08, AU-NSW
                   example: CA-SK
@@ -4742,7 +5348,7 @@ components:
                   minLength: 2
                   example: CA
                   description: |-
-                    The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
+                    The two letter country code. For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
 
                     Examples: CA, US, AU
                   pattern: '^[A-Z]{2}$'
@@ -4757,7 +5363,7 @@ components:
                 It is recommended that extensions are included at the end of the number after an appropriate separator: Pause: `,` Wait: `;` Default: `ext.`
 
                 You may test the parsibility of a number using https://phonenumbers.temba.io/ All phone numbers are assumed to be in the same country as this business location.
-              maxItems: 6
+              maxItems: 3
               items:
                 type: string
             serviceAreaBusiness:
@@ -4771,6 +5377,9 @@ components:
                 The values will **not** be automatically updated when the address is updated. If not provided when creating the location they will be initialized based on the address.
 
                 It is expressed as a pair of numbers to represent degrees latitude and degrees longitude in accordance with the [WGS84](https://en.wikipedia.org/wiki/World_Geodetic_System) standard (the one used by your GPS).
+              required:
+                - latitude
+                - longitude
               properties:
                 latitude:
                   type: number
@@ -4780,17 +5389,46 @@ components:
                   type: number
                   minimum: -180
                   maximum: 180
-              required:
-                - latitude
-                - longitude
             hours:
               $ref: '#/components/schemas/hoursOfOperation'
+            updatedAt:
+              type: string
+              description: The time at which the business locations was last updated
+            tollFreeNumber:
+              type: string
+              x-stoplight:
+                id: osrb4z5e7kdm2
+              description: The toll free number for the business.
+            trackingNumbers:
+              type: array
+              x-stoplight:
+                id: 4a4pt5e0kkxan
+              description: A call tracking number is a phone number that gathers analytics for inbound calls. Call tracking is commonly used as a method of performance assessment for marketing campaigns.
+              minItems: 0
+              maxItems: 6
+              items:
+                x-stoplight:
+                  id: p7k0otyb8h17q
+                type: string
+            commonNames:
+              type: array
+              x-stoplight:
+                id: 4k2d33t7kl1hy
+              maxItems: 3
+              minItems: 0
+              description: Other names that your business is commonly called (Ex. Patty's Irish Pub referred to as Patty's or Patty's Pub).
+              items:
+                x-stoplight:
+                  id: t1gp8neeat4ym
+                type: string
         relationships:
           type: object
           properties:
             businessPartner:
               type: object
               description: A link to the organization that provides the platform to this business location.
+              required:
+                - data
               properties:
                 data:
                   type: object
@@ -4806,11 +5444,9 @@ components:
                     id:
                       type: string
                       example: ABC
-              required:
-                - data
             businessCategories:
               type: object
-              description: A list of the types of business this location should be compared against. If not set during creation it will default "other".
+              description: A list of the types of business this location should be compared against. The first item on the list will be considered as the primary category. If not set during creation it will default "other".
               properties:
                 data:
                   type: array
@@ -4818,6 +5454,9 @@ components:
                   minItems: 0
                   items:
                     type: object
+                    required:
+                      - type
+                      - id
                     properties:
                       type:
                         type: string
@@ -4828,9 +5467,6 @@ components:
                       id:
                         type: string
                         example: 'active:diving:freediving'
-                    required:
-                      - type
-                      - id
     salesContacts:
       title: Sales Contact
       type: object
@@ -5034,7 +5670,6 @@ components:
             statusCode:
               type: string
               default: draft
-              readOnly: true
               enum:
                 - draft
                 - due
@@ -5048,6 +5683,7 @@ components:
                 - `overdue`: The purchase is unpaid and has past the due date
                 - `paid`: The full amount has been paid.
                 - `uncollectible`: After multiple failed attempts to collect payment it's unlikely that this purchase will be paid
+              readOnly: true
             discountAmount:
               type: integer
               description: The sum of all price reductions applied to products
@@ -5089,9 +5725,11 @@ components:
         relationships:
           type: object
           properties:
-            recipient:
+            partner:
               type: object
-              description: The partner that the purchase is being sent to. They will be the one who purchased the product at a wholesale rate and activated it for one of their customers
+              description: The partner that the purchase receipt is being sent to. They will be the one who purchased the product at a wholesale rate and activated it for one of their customers
+              x-stoplight:
+                id: 2l7icoo6qmoaw
               properties:
                 data:
                   type: object
@@ -5156,6 +5794,7 @@ components:
                 - fulfilled
                 - error
                 - archived
+                - NotReady
               description: |-
                 The status of the order will be automatically set to one of the following by the system:
                 - `draft`: The order has not yet been sent for approval
@@ -5165,6 +5804,7 @@ components:
                 - `fulfilled`: The order and its items have been successfully processed. This includes activating the products with the vendor(s).
                 - `error`: One or more of the orders items failed to be processed
                 - `archived`: The order has been marked as archived
+                - `NotReady`: The order could not be created as a dependent resource is not yet ready to be used
             tags:
               type: array
               maxItems: 30
@@ -5539,13 +6179,13 @@ components:
           default: users
           enum:
             - users
-          readOnly: true
         id:
           type: string
           description: |-
             The id will be assigned by the server and must be included on all update requests. Values sent during creation will be ignored. It is globally unique across all platform instances and will not change.
 
             You may use the special id `me` to operate on the current user if you have the scope `openid`.
+          example: U-3ca38c57-7677-45d4-81e8-cd29eab91d63
         attributes:
           type: object
           nullable: true
@@ -5559,19 +6199,19 @@ components:
               type: string
               description: 'Given name(s) or first name(s) of the End-User. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters.'
               minLength: 0
-              maxLength: 20
+              maxLength: 50
               example: William
             familyName:
               type: string
               description: 'Surname(s) or last name(s) of the End-User. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters.'
               minLength: 0
-              maxLength: 25
+              maxLength: 50
               example: Smith
             greetingName:
               type: string
               description: The name to use at the opening of messages addressed to the user. Note that in some cultures this is an alternate spelling or shortened form of the first name. Defaults to givenName.
               minLength: 0
-              maxLength: 20
+              maxLength: 50
               example: Billy
             email:
               type: string
@@ -5692,7 +6332,7 @@ components:
                 regionCode:
                   type: string
                   description: |-
-                    The code for the top level subdivision within the country (state/province) as defined by [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) format.
+                    The code for the top level subdivision within the country (state/province). For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
 
                     Examples: CA-SK, US-FL, AG-08, AU-NSW
                   example: CA-SK
@@ -5705,7 +6345,7 @@ components:
                   minLength: 2
                   example: CA
                   description: |-
-                    The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
+                    The two letter country code. For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
 
                     Examples: CA, US, AU
                   pattern: '^[A-Z]{2}$'
@@ -5874,9 +6514,6 @@ components:
               properties:
                 data:
                   type: object
-                  required:
-                    - type
-                    - id
                   properties:
                     type:
                       type: string
@@ -5885,6 +6522,9 @@ components:
                     id:
                       type: string
                       example: AG-1234567
+                  required:
+                    - type
+                    - id
             order:
               type: object
               description: 'Proposed: A link to the order that this automation is being run for. Either the businessLocation or order is required. (It depends on the automation type.)'
@@ -5903,6 +6543,15 @@ components:
                   required:
                     - type
                     - id
+        attributes:
+          type: object
+          properties:
+            entityId:
+              type: string
+              description: 'A generic way of specifying the entity to pass to the automation. This is similar to the businessLocation or order but in a generic, combined field.'
+            data:
+              type: object
+              description: Extra data that you would like to send to the automation. The automation trigger must also be configured correctly to be able to read these values.
       required:
         - type
         - relationships
@@ -5959,6 +6608,35 @@ components:
                 type: string
                 example: example-tag
               readOnly: true
+            customParameters:
+              type: array
+              readOnly: true
+              x-stoplight:
+                id: 5t9ro1pimpdz3
+              items:
+                x-stoplight:
+                  id: t4wymxwy7lems
+                type: object
+                properties:
+                  type:
+                    type: string
+                    readOnly: true
+                    x-stoplight:
+                      id: 1w0n4zmhr05mg
+                    enum:
+                      - string
+                      - boolean
+                    description: Data type of the parameter
+                  id:
+                    type: string
+                    readOnly: true
+                    x-stoplight:
+                      id: uz2kmvow8sewq
+                  name:
+                    type: string
+                    readOnly: true
+                    x-stoplight:
+                      id: t4qas99egphxz
       required:
         - type
         - id
@@ -6052,7 +6730,7 @@ components:
               description: |-
                 The common name for this location.
 
-                Note: The pipe character (`|`) is not allowed. 
+                Note: The pipe character (`|`) is not allowed.
               example: CN Tower
               pattern: '^[^|]+$'
               minLength: 1
@@ -6083,7 +6761,7 @@ components:
                 regionCode:
                   type: string
                   description: |-
-                    The code for the top level subdivision within the country (state/province) as defined by [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) format.
+                    The code for the top level subdivision within the country (state/province). For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
 
                     Examples: CA-SK, US-FL, AG-08, AU-NSW
                   example: CA-ON
@@ -6096,7 +6774,7 @@ components:
                   minLength: 2
                   example: CA
                   description: |-
-                    The two letter country code defined by [ISO 3166-1](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)'
+                    The two letter country code. For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
 
                     Examples: CA, US, AU
                   pattern: '^[A-Z]{2}$'
@@ -6111,7 +6789,7 @@ components:
                 It is recommended that extensions are included at the end of the number after an appropriate separator: Pause: `,` Wait: `;` Default: `ext.`
 
                 You may test the parsibility of a number using https://phonenumbers.temba.io/ All phone numbers are assumed to be in the same country as this business location.
-              maxItems: 6
+              maxItems: 3
               items:
                 type: string
                 example: '+14168686937'
@@ -6126,6 +6804,9 @@ components:
                 The values will **not** be automatically updated when the address is updated. If not provided when creating the location they will be initialized based on the address.
 
                 It is expressed as a pair of numbers to represent degrees latitude and degrees longitude in accordance with the [WGS84](https://en.wikipedia.org/wiki/World_Geodetic_System) standard (the one used by your GPS).
+              required:
+                - latitude
+                - longitude
               properties:
                 latitude:
                   type: number
@@ -6137,14 +6818,17 @@ components:
                   minimum: -180
                   maximum: 180
                   example: -79.3870568
-              required:
-                - latitude
-                - longitude
             seoKeywords:
               type: array
               minItems: 0
               maxItems: 3
-              description: SEO (Search Engine Optimization) Keywords are key words or phrases that help customers find your business via search engines. These keywords may be displayed on Listing Builder's My Listing page and similar products to enhance SEO.
+              description: Deprecated - SEO keywords must be set in the Local SEO product
+              deprecated: true
+              x-lifecycle:
+                status: deprecated
+                deprecated: '2024-02-26'
+                proposedRemoval: '2024-03-11'
+                description: These SEO keywords were migrated and removed from the account group in favor of the Local SEO product's keywords. This field will be removed shortly.
               items:
                 type: string
             website:
@@ -6173,18 +6857,101 @@ components:
               description: A public summary of the business. See also `descriptionShort`
             hours:
               $ref: '#/components/schemas/hoursOfOperation'
+            updatedAt:
+              type: string
+              description: The time at which the sales accounts was last updated
+            tollFreeNumber:
+              type: string
+              x-stoplight:
+                id: eke0wqk8yvgmh
+              description: The toll free number for the business.
+            trackingNumbers:
+              type: array
+              x-stoplight:
+                id: eyhgi2yh7ukaf
+              minItems: 0
+              maxItems: 6
+              description: A call tracking number is a phone number that gathers analytics for inbound calls. Call tracking is commonly used as a method of performance assessment for marketing campaigns.
+              items:
+                x-stoplight:
+                  id: yflmky9gif6ro
+                type: string
+            adminNotes:
+              type: string
+              x-stoplight:
+                id: tnzahuoq5fsyi
+              description: Administration notes for the account.
+            socialUrls:
+              type: object
+              x-stoplight:
+                id: 8bta15bsc842h
+              description: The Social URLs for a Sales Account.
+              properties:
+                googleplusUrl:
+                  type: string
+                  x-stoplight:
+                    id: ojx06t4cb7thm
+                  format: uri
+                  description: The URL for a Sales Account's Google Plus page.
+                linkedinUrl:
+                  type: string
+                  x-stoplight:
+                    id: co78ugcn9hlc0
+                  format: uri
+                  description: The URL for a Sales Account's LinkedIn page.
+                foursquareUrl:
+                  type: string
+                  x-stoplight:
+                    id: tsw7lpw0p4neo
+                  format: uri
+                  description: The URL for a Sales Account's Foursquare page.
+                xUrl:
+                  type: string
+                  x-stoplight:
+                    id: gxqxvm2m72hqu
+                  format: uri
+                  description: The URL for a Sales Account's X page (formerly known as Twitter).
+                facebookUrl:
+                  type: string
+                  x-stoplight:
+                    id: ndrao4lgjf1na
+                  format: uri
+                  description: The URL for a Sales Account's Facebook page.
+                youtubeUrl:
+                  type: string
+                  x-stoplight:
+                    id: gyunfxlgc2hxe
+                  format: uri
+                  description: The URL for a Sales Account's Youtube page.
+                instagramUrl:
+                  type: string
+                  x-stoplight:
+                    id: oyxvkk0l76fg8
+                  format: uri
+                  description: The URL for a Sales Account's Instagram page.
+                pinterestUrl:
+                  type: string
+                  x-stoplight:
+                    id: 78zh69oa0k7s4
+                  format: uri
+                  description: The URL for a Sales Account's Pinterest page.
         relationships:
           type: object
           properties:
             salesPeople:
               type: object
               description: A list of the sales people assigned to this account. The first sales person in the list will be treated as the primary sales person and given special treatment.
+              required:
+                - data
               properties:
                 data:
                   type: array
                   uniqueItems: true
                   items:
                     type: object
+                    required:
+                      - id
+                      - type
                     properties:
                       id:
                         type: string
@@ -6199,19 +6966,19 @@ components:
                         type: string
                         example: users
                         default: users
-                    required:
-                      - id
-                      - type
-              required:
-                - data
             customFields:
               type: object
               description: Custom Fields relative to a sales account
+              required:
+                - data
               properties:
                 data:
                   type: array
                   items:
                     type: object
+                    required:
+                      - id
+                      - type
                     properties:
                       id:
                         type: string
@@ -6220,14 +6987,11 @@ components:
                         type: string
                         example: customFields
                         default: customFields
-                    required:
-                      - id
-                      - type
-              required:
-                - data
             businessPartner:
               type: object
               description: A link to the organization that provides the platform to this business location.
+              required:
+                - data
               properties:
                 data:
                   type: object
@@ -6243,11 +7007,9 @@ components:
                     id:
                       type: string
                       example: ABC
-              required:
-                - data
             businessCategories:
               type: object
-              description: A list of the types of business this location should be compared against. If not set during creation it will default "other".
+              description: A list of the types of business this location should be compared against. The first item on the list will be considered as the primary category. If not set during creation it will default "other".
               properties:
                 data:
                   type: array
@@ -6255,6 +7017,9 @@ components:
                   minItems: 0
                   items:
                     type: object
+                    required:
+                      - type
+                      - id
                     properties:
                       type:
                         type: string
@@ -6265,9 +7030,26 @@ components:
                       id:
                         type: string
                         example: 'active:diving:freediving'
-                    required:
-                      - type
-                      - id
+            businessMarket:
+              type: object
+              x-stoplight:
+                id: lgzfm7ltbzrwf
+              description: A link to the market within an organization that this business location belongs to.
+              properties:
+                data:
+                  type: object
+                  x-stoplight:
+                    id: 7ec68r6p3snic
+                  properties:
+                    type:
+                      x-stoplight:
+                        id: f8x1v0dsz1h34
+                      enum:
+                        - salesAccountMarket
+                    id:
+                      type: string
+                      x-stoplight:
+                        id: k5qv6n4dx1wxh
         included:
           type: array
           description: During Get and List operations you may request the related resources be included by using the `include` query parameter. This can save you making an additional network request.
@@ -6277,6 +7059,52 @@ components:
               - $ref: '#/components/schemas/users'
               - $ref: '#/components/schemas/businessCategories'
           readOnly: true
+    subscriptions:
+      type: object
+      description: 'Subscriptions represent a product, product edition or service that will be billed for on the defined recurrence period.'
+      title: Subscriptions
+      x-stoplight:
+        id: 04c49c2676b04
+      x-tags:
+        - Subscriptions
+      properties:
+        id:
+          type: string
+          description: The order id which is unique to a specific product subscription.
+          example: Of-60341002-c558-484c-a7fe-e1vr97eadbg3
+        type:
+          type: string
+          description: Type of the data that is returned.
+          default: subscriptions
+        attributes:
+          type: object
+          properties:
+            customerId:
+              type: string
+              description: The id of the business location.
+              example: AG-1234567
+            productName:
+              type: string
+              description: The name of the product that the subscription is assigned for.
+              example: Website Pro
+            sku:
+              type: string
+              description: 'The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md). This value is used when placing an order.'
+              example: A-H73ELH2OP6
+            customerName:
+              type: string
+              description: The name of the customer (Business).
+              example: Kurry Cart
+            billingStart:
+              type: string
+              description: The date/time when the item starts billing.
+            frequency:
+              type: string
+              description: The frequency for which the product is billed.
+              example: monthly
+            nextRenewal:
+              type: string
+              description: The calculated next renewal date of the item.
     subscriptionAssignment:
       type: object
       description: 'A SubscriptionAssignment is an allocation of a single Subscription unit. The way a subscription unit is allocated depends on the Product or Service represented by the Subscription. A common case is that Subscription Units are assigned to Locations. In that case, the SubscriptionAssignment stores the link between a purchased Subscription and the Location it was allocated to.'
@@ -6286,6 +7114,10 @@ components:
       properties:
         id:
           type: string
+          description: |-
+            The id is a string which is in the form - 
+            businessLocationId : productId : activationId
+          example: 'AG-1234:MP-12345:vb99d662-e12f-4r1c-g275-449aa19td438'
         type:
           type: string
           default: subscriptionAssignment
@@ -6814,11 +7646,8 @@ components:
         - type
     hoursOfOperation:
       type: array
+      description: The operating hours for the business location. Each entry in the array is a set of hours for a particular department or customer of the business. It is recommended to provide the `general` hours for all locations. Some locations may have additional definitions for other departments.
       nullable: true
-      description: |-
-        The operating hours for the business location. 
-
-        Each entry in the array is a set of hours for a particular department or customer of the business. It is recommended to provide the `general` hours for all locations. Some locations may have additional definitions for other departments.
       items:
         type: object
         required:
@@ -6869,11 +7698,7 @@ components:
                   $ref: '#/components/schemas/timeOfDay'
           specialHours:
             type: array
-            x-lifecycle:
-              status: proposed
             description: |-
-              [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
-
               Represents a set of time periods when a location's operational hours differ from its regular business hours. This may be a holiday or special event. These hours replace the regular hours for the day.
 
               A special hour period must represent a range of less than 24 hours. The `openTime` and `startDate` must predate the `closeTime` and `endDate`. 
@@ -6886,9 +7711,16 @@ components:
               required:
                 - startDate
                 - endDate
-                - openTime
-                - closeTime
+                - startTime
+                - endTime
               properties:
+                status:
+                  x-stoplight:
+                    id: nav2z12fnl9fr
+                  enum:
+                    - open
+                    - closed
+                  description: 'Describes the different modes that apply to special hour periods. Currently only `open` and `closed` are supported in the Vendasta platform. Overlapping `open` and `closed` periods are not allowed. When status is `open`, for the given business it will be open for the mentioned time period for the selected date. When status is `closed`, for the given business it will be closed for the selected date.'
                 startDate:
                   description: The calendar date this special hour period starts on.
                   type: string
@@ -6897,9 +7729,9 @@ components:
                   description: 'The calendar date this special hour period ends on. If `endDate` field is not set, default to the date specified in `startDate`. If set, this field must be equal to or at most 1 day after `startDate`.'
                   type: string
                   format: date
-                openTime:
+                startTime:
                   $ref: '#/components/schemas/timeOfDay'
-                closeTime:
+                endTime:
                   $ref: '#/components/schemas/timeOfDay'
     dayOfTheWeek:
       type: string
@@ -7526,6 +8358,11 @@ components:
             iconUrl: 'https://example.com'
             tagline: Short Description
             bannerImageUrl: 'https://example.com'
+            prices:
+              - amount: 0
+                currencyCode: CAD
+                frequency: UNIT_BILLING_FREQUENCY_MONTHLY
+                type: retail
           relationships:
             allowedCountries:
               data:
@@ -7550,33 +8387,6 @@ components:
           default: partnerActivatableProducts
           enum:
             - partnerActivatableProducts
-        attributes:
-          type: object
-          properties:
-            sku:
-              type: string
-              description: 'The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md).'
-              example: 'MP-1234:EDITION-123'
-            name:
-              type: string
-              description: Vendor provided name for the product.
-              example: Product Name
-            whiteLabelName:
-              type: string
-              description: Custom name for the product set by the Partner.
-              example: Custom Product Name
-            iconUrl:
-              type: string
-              description: 'Product logo url. Url to the jpg or png image with 1:1 aspect ratio. (Recommended: 240px x 240px).'
-              format: uri
-            tagline:
-              type: string
-              description: Briefly describes what the product does.
-              example: Short Description
-            bannerImageUrl:
-              type: string
-              description: Url to access the large rectangular image at the top of the marketing page.
-              format: uri
         relationships:
           type: object
           properties:
@@ -7614,6 +8424,54 @@ components:
                         enum:
                           - partnerActivatableProducts
                         default: partnerActivatableProducts
+        attributes:
+          type: object
+          properties:
+            sku:
+              type: string
+              description: 'The unique identifier of a product, product edition or package. It can be obtained by following [this guide](https://docs.apigateway.co/docs/openapi-specs/docs/Guides/Sell/FindSKU.md).'
+              example: 'MP-1234:EDITION-123'
+            name:
+              type: string
+              description: Vendor provided name for the product.
+              example: Product Name
+            whiteLabelName:
+              type: string
+              description: Custom name for the product set by the Partner.
+              example: Custom Product Name
+            iconUrl:
+              type: string
+              description: 'Product logo url. Url to the jpg or png image with 1:1 aspect ratio. (Recommended: 240px x 240px).'
+              format: uri
+            tagline:
+              type: string
+              description: Briefly describes what the product does.
+              example: Short Description
+            bannerImageUrl:
+              type: string
+              description: Url to access the large rectangular image at the top of the marketing page.
+              format: uri
+            prices:
+              type: array
+              description: Describes the price of the product.
+              items:
+                type: object
+                properties:
+                  frequency:
+                    type: string
+                    description: Billing frequency of the product.
+                  type:
+                    type: string
+                    description: Denotes the type of price.
+                    example: retail
+                  currencyCode:
+                    type: string
+                    description: Type of currency (code) of the price.
+                    example: CAD
+                  amount:
+                    type: number
+                    description: The cost of the product.
+                    example: 42
       required:
         - id
         - type
@@ -7635,6 +8493,7 @@ tags:
   - name: Sales Account Custom Fields
   - name: Sales Contacts
   - name: Subscription Assignments
+  - name: Subscriptions
   - name: Users
   - name: User Custom Fields
   - name: Options

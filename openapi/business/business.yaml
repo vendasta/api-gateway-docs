@@ -144,7 +144,9 @@ paths:
       x-lifecycle:
         status: trustedTester
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - customers
+        - OAuth2Prod:
             - customers
       parameters:
         - schema:
@@ -247,12 +249,12 @@ paths:
         - schema:
             type: string
           in: query
-          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+          description: 'The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
           name: 'page[cursor]'
         - schema:
             type: string
           in: query
-          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+          description: 'The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).'
           name: 'page[limit]'
         - schema:
             type: string
@@ -264,7 +266,7 @@ paths:
               - familyName
               - '-familyName'
             default: '-createdAt'
-            example: 'familyName'
+            example: familyName
           in: query
           name: sort
           description: |-
@@ -276,14 +278,16 @@ paths:
               - `familyName`: Family name ascending
               - `-familyName`: Family name descending
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - customers
+        - OAuth2Prod:
             - customers
       tags:
         - Customers
       x-lifecycle:
         status: trustedTester
     options:
-      summary: 'List valid HTTP verbs for /customers'
+      summary: List valid HTTP verbs for /customers
       operationId: options-customers
       responses:
         '204':
@@ -335,7 +339,9 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - customers
+        - OAuth2Prod:
             - customers
     delete:
       summary: Delete Customer
@@ -361,7 +367,9 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - customers
+        - OAuth2Prod:
             - customers
     patch:
       summary: Update Customer
@@ -394,7 +402,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - customers
+        - OAuth2Prod:
             - customers
       responses:
         '200':
@@ -438,12 +448,20 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    OAuth2:
+    OAuth2Demo:
       type: oauth2
       flows:
         authorizationCode:
           authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
           tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          scopes:
+            customers: Allows read-write access to customer details
+    OAuth2Prod:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-prod.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-prod.apigateway.co/oauth2/token'
           scopes:
             customers: Allows read-write access to customer details
   schemas:
@@ -526,14 +544,20 @@ components:
                 regionCode:
                   type: string
                   minLength: 1
-                  description: 'The code for the top level subdivision within the country (state/province) as defined by ISO 3166-2 format (CA-SK, US-FL, AG-08, AU-NSW)'
                   example: US-MI
+                  description: |-
+                    The code for the top level subdivision within the country (state/province). For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
+
+                    Examples: CA-SK, US-FL, AG-08, AU-NSW
                 countryCode:
                   type: string
                   minLength: 2
-                  description: 'The two letter country code defined by ISO 3166-1 (CA, US).'
                   example: US
                   maxLength: 2
+                  description: |-
+                    The two letter country code. For more info see the [Addresses guide](https://developers.vendasta.com/platform/1ljuzmi2uboim-addresses)
+
+                    Examples: CA, US, AU
             phoneNumbers:
               type: array
               description: A comma-separated list of phone numbers for a customer in E.164 format ex. +13065551234. At least one unique phone number or email is required.

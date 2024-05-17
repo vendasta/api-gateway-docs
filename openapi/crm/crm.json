@@ -1,0 +1,1027 @@
+{
+  "openapi": "3.1.0",
+  "x-stoplight": {
+    "id": "iyzxipdhj3szx"
+  },
+  "info": {
+    "title": "CRM Rest APIs",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://prod.apigateway.co/org",
+      "description": "Production"
+    },
+    {
+      "url": "https://demo.apigateway.co/org",
+      "description": "Demo"
+    },
+    {
+      "url": "http://localhost:11001/org",
+      "description": "Local"
+    },
+    {
+      "url": "{local}/org",
+      "description": "Local"
+    }
+  ],
+  "paths": {
+    "/{namespace}/{resourceTypeCode}/meta/fields": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "namespace",
+          "in": "path",
+          "required": true,
+          "description": "The namespace, PID/AGID"
+        },
+        {
+          "schema": {
+            "type": "string",
+            "enum": [
+              "contacts",
+              "companies",
+              "activities"
+            ],
+            "example": "contacts"
+          },
+          "name": "resourceTypeCode",
+          "in": "path",
+          "required": true,
+          "description": "The resourceTypeCode, here contacts, companies or activities."
+        }
+      ],
+      "get": {
+        "summary": "Get field schema",
+        "tags": [
+          "Resource Operations"
+        ],
+        "responses": {
+          "200": {
+            "description": "This API follows [Open API schema](https://spec.openapis.org/oas/v3.1.0#schema-object) of structure for response.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "contacts Resource": {
+                    "value": {
+                      "type": "object",
+                      "title": "CRM FieldSchema of Contact",
+                      "description": "CRM Field Schema of resourceType Contact for the partner 9YW9",
+                      "properties": {
+                        "platform__contact_additional_salesperson_ids": {
+                          "description": "Identifiers for additional salespeople in the platform.",
+                          "items": {
+                            "type": "string"
+                          },
+                          "title": "Additional Salesperson IDs",
+                          "type": "array"
+                        },
+                        "platform__contact_salesperson_id": {
+                          "description": "Identifier for a salesperson in the platform.",
+                          "format": "string",
+                          "title": "Salesperson ID",
+                          "type": "string"
+                        },
+                        "platform__ssc_contact_id": {
+                          "description": "Identifies the SSC contact, which may be associated with zero or more account groups.",
+                          "items": {
+                            "type": "string"
+                          },
+                          "readOnly": true,
+                          "title": "Platform SSC contact IDs",
+                          "type": "array"
+                        },
+                        "platform__user_id": {
+                          "description": "Identifier for contact's underlying IAM user.",
+                          "format": "string",
+                          "readOnly": true,
+                          "title": "Platform user ID",
+                          "type": "string"
+                        },
+                        "standard__contact_birth_year": {
+                          "description": "Contact's birth year. E.g. '1980'",
+                          "format": "string",
+                          "title": "Birth Year",
+                          "type": "string"
+                        },
+                        "standard__contact_company_name": {
+                          "description": "Name of the contact's company. This may be set independently from the name property on the contact's associated company.",
+                          "format": "string",
+                          "title": "Company name",
+                          "type": "string"
+                        },
+                        "standard__contact_company_website": {
+                          "description": "Name of the contact's company website. This may be set independently from the name property on the contact's associated company.",
+                          "format": "string",
+                          "title": "Company website",
+                          "type": "string"
+                        },
+                        "standard__contact_gender": {
+                          "description": "Gender of the contact. E.g. 'male', 'female', 'other'",
+                          "format": "string",
+                          "title": "Gender",
+                          "type": "string"
+                        },
+                        "standard__contact_interests": {
+                          "description": "Contact's interests. E.g. 'Hiking', 'Skiing', 'Cooking', 'Paintball'",
+                          "items": {
+                            "type": "string"
+                          },
+                          "title": "Interests",
+                          "type": "array"
+                        },
+                        "standard__contact_job_title": {
+                          "description": "Job title of the contact.",
+                          "format": "string",
+                          "title": "Job title",
+                          "type": "string"
+                        },
+                        "standard__contact_lifecycle_stage": {
+                          "description": "Lifecycle stage of the contact. E.g. 'Lead'",
+                          "format": "string",
+                          "title": "Lifecycle stage",
+                          "type": "string"
+                        },
+                        "standard__contact_linkedin_url": {
+                          "description": "URL of the contact's LinkedIn profile.",
+                          "format": "string",
+                          "title": "LinkedIn URL",
+                          "type": "string"
+                        },
+                        "standard__contact_mobile_phone_number": {
+                          "description": "Mobile phone number of the contact.",
+                          "format": "phone",
+                          "title": "Mobile phone number",
+                          "type": "string"
+                        },
+                        "standard__contact_next_task_due_date": {
+                          "description": "Date indicating when the next task of the contact is due for completion",
+                          "format": "date-time",
+                          "title": "Next task due date",
+                          "type": "string"
+                        },
+                        "standard__contact_next_task_id": {
+                          "description": "ID of the next task of the contact",
+                          "format": "string",
+                          "title": "Next task ID",
+                          "type": "string"
+                        },
+                        "standard__contact_primary_company_id": {
+                          "description": "The primary company associated with the contact.",
+                          "format": "string",
+                          "readOnly": true,
+                          "title": "Primary Company",
+                          "type": "string"
+                        },
+                        "standard__contact_primary_location_city_locality": {
+                          "description": "City or locality of the contact's primary location.",
+                          "format": "string",
+                          "title": "City/locality",
+                          "type": "string"
+                        },
+                        "standard__contact_primary_location_country": {
+                          "description": "Country of the contact's primary location.",
+                          "format": "string",
+                          "title": "Country",
+                          "type": "string"
+                        },
+                        "standard__contact_primary_location_state_province_region": {
+                          "description": "State, province, or region of the contact's primary location.",
+                          "format": "string",
+                          "title": "State/province/region",
+                          "type": "string"
+                        },
+                        "standard__contact_primary_location_street_address_1": {
+                          "description": "Street address line 1 of the contact's primary location.",
+                          "format": "string",
+                          "title": "Street address line 1",
+                          "type": "string"
+                        },
+                        "standard__contact_primary_location_street_address_2": {
+                          "description": "Street address line 2 of the contact's primary location.",
+                          "format": "string",
+                          "title": "Street address line 2",
+                          "type": "string"
+                        },
+                        "standard__contact_primary_location_zip_postal_code": {
+                          "description": "Zip or postal code of the contact's primary location.",
+                          "format": "string",
+                          "title": "Zip/postal code",
+                          "type": "string"
+                        },
+                        "standard__contact_role": {
+                          "description": "Role of the contact.",
+                          "format": "string",
+                          "title": "Role",
+                          "type": "string"
+                        },
+                        "standard__contact_seniority": {
+                          "description": "Seniority of the contact.",
+                          "format": "string",
+                          "title": "Seniority",
+                          "type": "string"
+                        },
+                        "standard__contact_skills": {
+                          "description": "Contact's skills. E.g. 'Java', 'Python', 'Javascript'",
+                          "items": {
+                            "type": "string"
+                          },
+                          "title": "Skills",
+                          "type": "array"
+                        },
+                        "standard__contact_source_name": {
+                          "description": "Name of the app or external system that created the contact. E.g. 'Salesforce', 'Hubspot', 'Gmail'",
+                          "format": "string",
+                          "title": "Source name",
+                          "type": "string"
+                        },
+                        "standard__contact_timezone": {
+                          "description": "Timezone of the contact. This is a string representing the timezone like 'America/New_York'. ",
+                          "format": "string",
+                          "title": "Timezone",
+                          "type": "string"
+                        },
+                        "standard__email": {
+                          "format": "email",
+                          "title": "Email",
+                          "type": "string"
+                        },
+                        "standard__first_name": {
+                          "format": "string",
+                          "title": "First name",
+                          "type": "string"
+                        },
+                        "standard__last_name": {
+                          "format": "string",
+                          "title": "Last name",
+                          "type": "string"
+                        },
+                        "standard__phone_number": {
+                          "format": "phone",
+                          "title": "Phone number",
+                          "type": "string"
+                        },
+                        "standard__tags": {
+                          "description": "Descriptive keywords that help you find and segment contacts.",
+                          "format": "tag",
+                          "title": "Tags",
+                          "type": "string"
+                        },
+                        "system__contact_created": {
+                          "description": "When the record was created",
+                          "format": "date",
+                          "readOnly": true,
+                          "title": "Created date",
+                          "type": "string"
+                        },
+                        "system__contact_external_id": {
+                          "description": "External identifier for the record, optional",
+                          "format": "string",
+                          "readOnly": true,
+                          "title": "External ID",
+                          "type": "string"
+                        },
+                        "system__contact_group_id": {
+                          "description": "Group ID for the record, optional. Used for grouping records together, and authorization where users are restricted to selected groups.",
+                          "format": "string",
+                          "readOnly": true,
+                          "title": "Group ID",
+                          "type": "string"
+                        },
+                        "system__contact_id": {
+                          "description": "unique identifier for the record",
+                          "format": "string",
+                          "readOnly": true,
+                          "title": "ID",
+                          "type": "string"
+                        },
+                        "system__contact_last_activity_date": {
+                          "description": "Date and time of last activity",
+                          "format": "date-time",
+                          "title": "Last activity date",
+                          "type": "string"
+                        },
+                        "system__contact_owner_id": {
+                          "description": "Owner ID for the record.",
+                          "format": "string",
+                          "readOnly": true,
+                          "title": "Owner ID",
+                          "type": "string"
+                        },
+                        "system__contact_updated": {
+                          "description": "When the record was last updated",
+                          "format": "date",
+                          "readOnly": true,
+                          "title": "Updated date",
+                          "type": "string"
+                        },
+                        "yesware__contact_enrichment_vendor_id": {
+                          "description": "The ID of the enrichment vendor in Yesware. If the contact has not been enriched, this field will be unset.",
+                          "format": "string",
+                          "title": "Yesware enrichment vendor ID",
+                          "type": "string"
+                        },
+                        "yesware__contact_id": {
+                          "description": "The ID of the contact in Yesware.",
+                          "format": "string",
+                          "title": "Yesware contact ID",
+                          "type": "string"
+                        },
+                        "yesware__contact_last_enrichment_date": {
+                          "description": "The date of the last enrichment in Yesware. If the contact has not been enriched, this field will be unset.",
+                          "format": "date-time",
+                          "title": "Yesware last enrichment date",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "User Not Found"
+          }
+        },
+        "operationId": "ListFieldSchema",
+        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`\n\nRetrieve field schema based on namespace.",
+        "x-lifecycle": {
+          "status": "proposed"
+        }
+      }
+    },
+    "/{namespace}/{resourceTypeCode}/meta/fields/{fieldId}/options": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "namespace",
+          "in": "path",
+          "required": true,
+          "description": "The namespace, PID/AGID"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "resourceTypeCode",
+          "in": "path",
+          "required": true,
+          "description": "The resourceTypeCode, here contacts, companies or activities."
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "fieldId",
+          "in": "path",
+          "required": true,
+          "description": "Unique identifier for field"
+        }
+      ],
+      "get": {
+        "summary": "Get field options",
+        "tags": [
+          "Resource Operations"
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of valid options for the field. This can be used to create a dropdown list for your users. ",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Get field options": {
+                    "value": {
+                      "options": [
+                        {
+                          "value": "Option 1",
+                          "name": "Option 1"
+                        },
+                        {
+                          "value": "Option 2",
+                          "name": "Option 2"
+                        },
+                        {
+                          "value": "Option 3",
+                          "name": "Option 3"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "options": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "jwikc0afwakmo"
+                      },
+                      "items": {
+                        "x-stoplight": {
+                          "id": "1jmcjoeuy5wm9"
+                        },
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "x-stoplight": {
+                              "id": "6hk1kskoxz8sj"
+                            },
+                            "description": "The text to be displayed to users. Note this might be translated."
+                          },
+                          "value": {
+                            "type": "string",
+                            "x-stoplight": {
+                              "id": "qdy9hr51rggn0"
+                            },
+                            "description": "The value to be saved in the database"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "operationId": "GetFieldOptions",
+        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`\n\nRetrieve the field options based on the given fieldId.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "filter",
+            "description": "Filtering is an OPTIONAL parameter. It filters field option based on given filter value."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "paging",
+            "description": "Pagination to retrieve a specific page of results"
+          }
+        ],
+        "x-lifecycle": {
+          "status": "proposed"
+        }
+      }
+    },
+    "/{namespace}/{resourceTypeCode}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "namespace",
+          "in": "path",
+          "required": true,
+          "description": "The namespace, PID/AGID"
+        },
+        {
+          "schema": {
+            "type": "string",
+            "enum": [
+              "contacts",
+              "companies",
+              "activities"
+            ]
+          },
+          "name": "resourceTypeCode",
+          "in": "path",
+          "required": true,
+          "description": "The resourceTypeCode, here contacts, companies or activities."
+        }
+      ],
+      "post": {
+        "summary": "Upsert CRM Record",
+        "tags": [
+          "Resource Operations"
+        ],
+        "operationId": "UpsertCrmRecord",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "Response Body": {
+                    "value": {
+                      "fields": [
+                        {
+                          "id": "standard__first_name",
+                          "value": "Bob"
+                        },
+                        {
+                          "id": "standard__email",
+                          "value": "crm@example.com"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`\n\nCreate/update CRM contacts, companies or activities records.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "x-examples": {
+                  "Example 1": {
+                    "subtype": "",
+                    "fields": [
+                      {
+                        "id": "externalId",
+                        "value": "example-first-name",
+                        "operation": "always_overwrite"
+                      },
+                      {
+                        "id": "externalId",
+                        "value": "example-last-name",
+                        "operation": "always_overwrite"
+                      },
+                      {
+                        "id": "externalId",
+                        "value": "crm@example.com",
+                        "operation": "always_overwrite"
+                      }
+                    ],
+                    "searchExisting": [
+                      "standard__email"
+                    ],
+                    "returnFields": [
+                      "standard__email",
+                      "standard__first_name"
+                    ]
+                  }
+                },
+                "properties": {
+                  "subtype": {
+                    "type": "string"
+                  },
+                  "fields": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        },
+                        "operation": {
+                          "type": "string",
+                          "description": "The supported operation types are `always_overwrite`, `overwrite_if_empty`, `overwrite_if_newer` & `combine`."
+                        }
+                      }
+                    }
+                  },
+                  "searchExisting": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "returnFields": {
+                    "type": "array",
+                    "description": "A list of fields that should have their merged values returned in the response. If empty no fields will be returned.",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "Request body": {
+                  "value": {
+                    "subtype": "",
+                    "fields": [
+                      {
+                        "id": "standard__first_name",
+                        "value": "example-first-name",
+                        "operation": "always_overwrite"
+                      },
+                      {
+                        "id": "standard__last_name",
+                        "value": "example-last-name",
+                        "operation": "always_overwrite"
+                      },
+                      {
+                        "id": "standard__email",
+                        "value": "crm@example.com",
+                        "operation": "always_overwrite"
+                      }
+                    ],
+                    "searchExisting": [
+                      "standard__email"
+                    ],
+                    "returnFields": [
+                      "standard__email",
+                      "standard__first_name"
+                    ]
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "subtype": {
+                    "type": "string"
+                  },
+                  "fields": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        },
+                        "operation": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "search_existing": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "return_fields": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "Example": {
+                  "value": "{\"subtype\": \"\",\n\"fields\": [\n{\n\"Id\": \"externalId\",\n\"value\": \"example-first-name\",\n\"Operation\": \"always_overwrite\"\n},\n{\n\"Id\": \"externalId\",\n\"value\": \"example-last-name\",\n\"Operation\": \"always_overwrite\"\n},\n{\n\"Id\": \"externalId\",\n\"value\": \"crm@example.com\",\n\"Operation\": \"always_overwrite\"\n}\n],\n\"search_existing\": [\n\"standard__email\"\n],\n\"return_fields\": [\n\"standard__email\",\n\"standard__first_name\"\n]\n}"
+                }
+              }
+            }
+          },
+          "description": ""
+        },
+        "x-lifecycle": {
+          "status": "proposed"
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CRMContact": {
+        "type": "object",
+        "title": "CRM FieldSchema of Contact",
+        "description": "CRM Field Schema of resourceType Contact for the partner 9YW9",
+        "properties": {
+          "platform__contact_additional_salesperson_ids": {
+            "description": "Identifiers for additional salespeople in the platform.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Additional Salesperson IDs",
+            "type": "array"
+          },
+          "platform__contact_salesperson_id": {
+            "description": "Identifier for a salesperson in the platform.",
+            "format": "string",
+            "title": "Salesperson ID",
+            "type": "string"
+          },
+          "platform__ssc_contact_id": {
+            "description": "Identifies the SSC contact, which may be associated with zero or more account groups.",
+            "items": {
+              "type": "string"
+            },
+            "readOnly": true,
+            "title": "Platform SSC contact IDs",
+            "type": "array"
+          },
+          "platform__user_id": {
+            "description": "Identifier for contact's underlying IAM user.",
+            "format": "string",
+            "readOnly": true,
+            "title": "Platform user ID",
+            "type": "string"
+          },
+          "standard__contact_birth_year": {
+            "description": "Contact's birth year. E.g. '1980'",
+            "format": "string",
+            "title": "Birth Year",
+            "type": "string"
+          },
+          "standard__contact_company_name": {
+            "description": "Name of the contact's company. This may be set independently from the name property on the contact's associated company.",
+            "format": "string",
+            "title": "Company name",
+            "type": "string"
+          },
+          "standard__contact_company_website": {
+            "description": "Name of the contact's company website. This may be set independently from the name property on the contact's associated company.",
+            "format": "string",
+            "title": "Company website",
+            "type": "string"
+          },
+          "standard__contact_gender": {
+            "description": "Gender of the contact. E.g. 'male', 'female', 'other'",
+            "format": "string",
+            "title": "Gender",
+            "type": "string"
+          },
+          "standard__contact_interests": {
+            "description": "Contact's interests. E.g. 'Hiking', 'Skiing', 'Cooking', 'Paintball'",
+            "items": {
+              "type": "string"
+            },
+            "title": "Interests",
+            "type": "array"
+          },
+          "standard__contact_job_title": {
+            "description": "Job title of the contact.",
+            "format": "string",
+            "title": "Job title",
+            "type": "string"
+          },
+          "standard__contact_lifecycle_stage": {
+            "description": "Lifecycle stage of the contact. E.g. 'Lead'",
+            "format": "string",
+            "title": "Lifecycle stage",
+            "type": "string"
+          },
+          "standard__contact_linkedin_url": {
+            "description": "URL of the contact's LinkedIn profile.",
+            "format": "string",
+            "title": "LinkedIn URL",
+            "type": "string"
+          },
+          "standard__contact_mobile_phone_number": {
+            "description": "Mobile phone number of the contact.",
+            "format": "phone",
+            "title": "Mobile phone number",
+            "type": "string"
+          },
+          "standard__contact_next_task_due_date": {
+            "description": "Date indicating when the next task of the contact is due for completion",
+            "format": "date-time",
+            "title": "Next task due date",
+            "type": "string"
+          },
+          "standard__contact_next_task_id": {
+            "description": "ID of the next task of the contact",
+            "format": "string",
+            "title": "Next task ID",
+            "type": "string"
+          },
+          "standard__contact_primary_company_id": {
+            "description": "The primary company associated with the contact.",
+            "format": "string",
+            "readOnly": true,
+            "title": "Primary Company",
+            "type": "string"
+          },
+          "standard__contact_primary_location_city_locality": {
+            "description": "City or locality of the contact's primary location.",
+            "format": "string",
+            "title": "City/locality",
+            "type": "string"
+          },
+          "standard__contact_primary_location_country": {
+            "description": "Country of the contact's primary location.",
+            "format": "string",
+            "title": "Country",
+            "type": "string"
+          },
+          "standard__contact_primary_location_state_province_region": {
+            "description": "State, province, or region of the contact's primary location.",
+            "format": "string",
+            "title": "State/province/region",
+            "type": "string"
+          },
+          "standard__contact_primary_location_street_address_1": {
+            "description": "Street address line 1 of the contact's primary location.",
+            "format": "string",
+            "title": "Street address line 1",
+            "type": "string"
+          },
+          "standard__contact_primary_location_street_address_2": {
+            "description": "Street address line 2 of the contact's primary location.",
+            "format": "string",
+            "title": "Street address line 2",
+            "type": "string"
+          },
+          "standard__contact_primary_location_zip_postal_code": {
+            "description": "Zip or postal code of the contact's primary location.",
+            "format": "string",
+            "title": "Zip/postal code",
+            "type": "string"
+          },
+          "standard__contact_role": {
+            "description": "Role of the contact.",
+            "format": "string",
+            "title": "Role",
+            "type": "string"
+          },
+          "standard__contact_seniority": {
+            "description": "Seniority of the contact.",
+            "format": "string",
+            "title": "Seniority",
+            "type": "string"
+          },
+          "standard__contact_skills": {
+            "description": "Contact's skills. E.g. 'Java', 'Python', 'Javascript'",
+            "items": {
+              "type": "string"
+            },
+            "title": "Skills",
+            "type": "array"
+          },
+          "standard__contact_source_name": {
+            "description": "Name of the app or external system that created the contact. E.g. 'Salesforce', 'Hubspot', 'Gmail'",
+            "format": "string",
+            "title": "Source name",
+            "type": "string"
+          },
+          "standard__contact_timezone": {
+            "description": "Timezone of the contact. This is a string representing the timezone like 'America/New_York'. ",
+            "format": "string",
+            "title": "Timezone",
+            "type": "string"
+          },
+          "standard__email": {
+            "format": "email",
+            "title": "Email",
+            "type": "string"
+          },
+          "standard__first_name": {
+            "format": "string",
+            "title": "First name",
+            "type": "string"
+          },
+          "standard__last_name": {
+            "format": "string",
+            "title": "Last name",
+            "type": "string"
+          },
+          "standard__phone_number": {
+            "format": "phone",
+            "title": "Phone number",
+            "type": "string"
+          },
+          "standard__tags": {
+            "description": "Descriptive keywords that help you find and segment contacts.",
+            "format": "tag",
+            "title": "Tags",
+            "type": "string"
+          },
+          "system__contact_created": {
+            "description": "When the record was created",
+            "format": "date",
+            "readOnly": true,
+            "title": "Created date",
+            "type": "string"
+          },
+          "system__contact_external_id": {
+            "description": "External identifier for the record, optional",
+            "format": "string",
+            "readOnly": true,
+            "title": "External ID",
+            "type": "string"
+          },
+          "system__contact_group_id": {
+            "description": "Group ID for the record, optional. Used for grouping records together, and authorization where users are restricted to selected groups.",
+            "format": "string",
+            "readOnly": true,
+            "title": "Group ID",
+            "type": "string"
+          },
+          "system__contact_id": {
+            "description": "unique identifier for the record",
+            "format": "string",
+            "readOnly": true,
+            "title": "ID",
+            "type": "string"
+          },
+          "system__contact_last_activity_date": {
+            "description": "Date and time of last activity",
+            "format": "date-time",
+            "title": "Last activity date",
+            "type": "string"
+          },
+          "system__contact_owner_id": {
+            "description": "Owner ID for the record.",
+            "format": "string",
+            "readOnly": true,
+            "title": "Owner ID",
+            "type": "string"
+          },
+          "system__contact_updated": {
+            "description": "When the record was last updated",
+            "format": "date",
+            "readOnly": true,
+            "title": "Updated date",
+            "type": "string"
+          },
+          "yesware__contact_enrichment_vendor_id": {
+            "description": "The ID of the enrichment vendor in Yesware. If the contact has not been enriched, this field will be unset.",
+            "format": "string",
+            "title": "Yesware enrichment vendor ID",
+            "type": "string"
+          },
+          "yesware__contact_id": {
+            "description": "The ID of the contact in Yesware.",
+            "format": "string",
+            "title": "Yesware contact ID",
+            "type": "string"
+          },
+          "yesware__contact_last_enrichment_date": {
+            "description": "The date of the last enrichment in Yesware. If the contact has not been enriched, this field will be unset.",
+            "format": "date-time",
+            "title": "Yesware last enrichment date",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "OAuth2Demo": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
+            "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token",
+            "scopes": {
+              "customers": "Allows the application to manage the customers for the business location(s) that you manage"
+            }
+          }
+        }
+      },
+      "OAuth2Prod": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token",
+            "refreshUrl": "",
+            "scopes": {
+              "customers": "Allows the application to manage the customers for the business location(s) that you manage"
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "OAuth2Demo": [
+        "customers"
+      ]
+    },
+    {
+      "OAuth2Prod": [
+        "customers"
+      ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Resource Operations",
+      "description": "Endpoints related to Resource Operations"
+    }
+  ]
+}

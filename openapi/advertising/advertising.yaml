@@ -60,7 +60,9 @@ paths:
         - $ref: '#/components/parameters/pageLimit'
         - $ref: '#/components/parameters/pageCursor'
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - advertising
+        - OAuth2Prod:
             - advertising
       x-lifecycle:
         status: trustedTester
@@ -121,7 +123,9 @@ paths:
         - $ref: '#/components/parameters/startAt'
         - $ref: '#/components/parameters/endAt'
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - advertising
+        - OAuth2Prod:
             - advertising
       x-lifecycle:
         status: trustedTester
@@ -182,7 +186,9 @@ paths:
       parameters:
         - $ref: '#/components/parameters/Authorization'
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - advertising
+        - OAuth2Prod:
             - advertising
       x-lifecycle:
         status: trustedTester
@@ -230,7 +236,9 @@ paths:
       x-lifecycle:
         status: trustedTester
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - advertising
+        - OAuth2Prod:
             - advertising
       parameters:
         - $ref: '#/components/parameters/Authorization'
@@ -291,7 +299,9 @@ paths:
         - $ref: '#/components/parameters/pageLimit'
         - $ref: '#/components/parameters/pageCursor'
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - advertising
+        - OAuth2Prod:
             - advertising
       x-lifecycle:
         status: trustedTester
@@ -342,7 +352,9 @@ paths:
       tags:
         - Campaign Info
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - adintel
+        - OAuth2Prod:
             - adintel
       parameters:
         - $ref: '#/components/parameters/Authorization'
@@ -384,7 +396,9 @@ paths:
       operationId: get-campaignStats
       description: Retrieve stats for all connected advertising campaigns for a given connected advertising account.
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - advertising
+        - OAuth2Prod:
             - advertising
       parameters:
         - $ref: '#/components/parameters/Authorization'
@@ -454,7 +468,9 @@ paths:
       operationId: get-campaignStats-id
       description: Retrieve account stats for one connected advertising campaign
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - advertising
+        - OAuth2Prod:
             - advertising
       parameters:
         - $ref: '#/components/parameters/Authorization'
@@ -801,24 +817,33 @@ components:
         maximum: 100
         minimum: 1
         default: 25
-      description: The maximum number of items you would like returned in a single batch. Use the links.next member in the response to get the next batch.
+      description: The maximum number of items you would like returned in a single batch. Use the links.next member in the response to get the next batch. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).
     pageCursor:
       name: 'page[cursor]'
       in: query
       required: false
       schema:
         type: string
-      description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+      description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).
   securitySchemes:
     JWT:
       type: http
       scheme: bearer
-    OAuth2:
+    OAuth2Demo:
       type: oauth2
       flows:
         authorizationCode:
           authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
           tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          refreshUrl: ''
+          scopes:
+            advertising: Access to the Advertising Intelligence REST API
+    OAuth2Prod:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-prod.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-prod.apigateway.co/oauth2/token'
           refreshUrl: ''
           scopes:
             advertising: Access to the Advertising Intelligence REST API

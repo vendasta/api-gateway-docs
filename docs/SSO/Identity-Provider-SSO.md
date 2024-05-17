@@ -1,21 +1,24 @@
-# Identity-Provider-(IDP)-SSO
+# Identity Provider (IDP) SSO
 
-You must be signed into the Partner Center to you configure your Identity Provider for the Vendasta Platform. This will allow your users to log into their apps and services using your custom login screen.
+You can replace Vendasta's login screens with your own by configuring Identity Provider (IDP) SSO. It is a great option if your customers already have a username & password (or other credentials) stored in your system. 
 
-Here is the page for managing and configuring SSO: https://partners.vendasta.com/integrations/sso
+We currently support either of the OAuth2 or OpenIDConnect standardized authentication flows.
 
-We currently support either of the OAuth2 or OpenIDConnect standardized authentication flows. If you have a valid OAuth2 or OpenIDConnect Identity Provider, you can use it to log in your users to Vendasta.
-- Create a new OAuth2 Client in your identity provider to represent the Vendasta Platform. Take note of the Client ID and Secret. When prompted for a Redirect URL, enter the value: https://sso-api-prod.apigateway.co/oauth2/callback
-- Enter the Client ID and Client Secret from step 1 into the form below.
-- Choose either the OpenIDConnect or OAuth2 integration type depending on which standard your identity provider supports.
-- Enter your identity provider's Discovery Endpoint or Authorization, Token, and User Info endpoints respectively.
-- Click "Save" to enable your integration.
+If you are using a commercial system to manage your users odds are good they have a way to add a new OAuth2 client. It may be labeled as "app", "integration", or "service provider". You may need to ask their support team to enable it for your instance.
 
-Here are the following areas that we currently support SSO for:
-- Business App
-- Reputation Management
-- Social Marketing
-- Customer Voice
-- Website Pro
-- Advertising Intelligence
-- Most other marketplace apps
+Once an OAuth2 client has been created you will enter its details at [Partner Center -> Adminstration -> Single Sign On](https://partners.vendasta.com/integrations/sso).
+
+
+If you built your own site you will need to implement the Authorization, Token and UserInfo endpoints from the OAuth2 specification. Only the authorization code flow with [PKCE](https://www.oauth.com/oauth2-servers/pkce/) is required.
+
+For a great into to OAuth2 see [Okta's illustrated guide](https://developer.okta.com/blog/2019/10/21/illustrated-guide-to-oauth-and-oidc).
+
+You may be able to make use of one of [these open source libraries](https://oauth.net/code/) to assist with your implementation. If you need to build it yourself we have [a guide for that too](Implementing-Oauth2-IDP.md).
+
+
+> SSO only identifies who is sitting at the computer. 
+> Creating their user record and setting permissions should be done as a separate step.
+>
+> You can [manage users by API](IDP-User-Sync.md) to keep them in sync with your system.
+>
+> Once you have completed setting up Single Sign On from your system, you may want to implement [Single Logout](Single-Logout.md).

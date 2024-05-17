@@ -2,6 +2,22 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2024-02-27
+Mark `seoKeywords` field as deprecated in `SalesAccount` resource.
+
+## 2023-10-24
+Add Reputation Management Premium edition ID under `Find SKU`
+
+## 2023-08-28
+Update the product name for Listing Builder to Local SEO, added the new editions, and added Additional Keyword addon SKUs.
+
+## 2023-06-01
+### Listing profile
+Update and get operations added to Listing APIs along with description of [Listingprofile](../../openapi/platform/listing.yaml/components/schemas/listingProfiles)
+
+## 2023-03-28
+Read scopes have been added to businessLocations/get and orders/get
+
 ## 2022-12-23
 
 ### Tags on sales orders

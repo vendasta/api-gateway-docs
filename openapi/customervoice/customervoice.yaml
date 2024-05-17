@@ -57,7 +57,9 @@ paths:
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
           required: true
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - reviews
+        - OAuth2Prod:
             - reviews
       x-lifecycle:
         status: trustedTester
@@ -133,7 +135,9 @@ paths:
       x-lifecycle:
         status: trustedTester
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - reviews
+        - OAuth2Prod:
             - reviews
       parameters:
         - schema:
@@ -255,15 +259,17 @@ paths:
         - schema:
             type: string
           in: query
-          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links.
+          description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).
           name: 'page[cursor]'
         - schema:
             type: string
           in: query
-          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder.
+          description: The maximum number of tasks you would like returned in a single batch. Use the links.next member in the response to get the remainder. [Pagination Docs](https://developers.vendasta.com/platform/ZG9jOjEwMTkzMDg0-overview#paging).
           name: 'page[limit]'
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - reviews
+        - OAuth2Prod:
             - reviews
       tags:
         - Templates
@@ -322,9 +328,11 @@ paths:
           name: Authorization
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
-      security:
-        - OAuth2:
-            - reviews
+    security:
+      - OAuth2Demo:
+          - reviews
+      - OAuth2Prod:
+          - reviews
     delete:
       summary: Delete Template
       tags:
@@ -349,7 +357,9 @@ paths:
           description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
           required: true
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - reviews
+        - OAuth2Prod:
             - reviews
     patch:
       summary: Update Template
@@ -382,7 +392,9 @@ paths:
           required: true
           description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
       security:
-        - OAuth2:
+        - OAuth2Demo:
+            - reviews
+        - OAuth2Prod:
             - reviews
       responses:
         '200':
@@ -426,12 +438,20 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    OAuth2:
+    OAuth2Demo:
       type: oauth2
       flows:
         authorizationCode:
           authorizationUrl: 'https://sso-api-demo.apigateway.co/oauth2/auth'
           tokenUrl: 'https://sso-api-demo.apigateway.co/oauth2/token'
+          scopes:
+            reviews: Read-write access to review request APIs
+    OAuth2Prod:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://sso-api-prod.apigateway.co/oauth2/auth'
+          tokenUrl: 'https://sso-api-prod.apigateway.co/oauth2/token'
           scopes:
             reviews: Read-write access to review request APIs
   schemas:
@@ -728,5 +748,7 @@ tags:
   - name: Templates
   - name: Options
 security:
-  - OAuth2:
+  - OAuth2Demo:
+      - reviews
+  - OAuth2Prod:
       - reviews

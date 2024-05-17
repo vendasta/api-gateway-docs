@@ -16,4 +16,16 @@ Let users who are already logged into Vendasta access your site/app. If you are 
 
 ## Build Navigation Links
 If you want to allow users to move from your app to another app follow this guide to build links that use the correct white-label domains for the user.
+
 [Find out more](Navigation-Links.md)
+
+## User Lifecycle Management for Partners
+Create, update and remove user profiles and permissions in the Vendasta platform based on events in your system.
+
+[Learn to sync users with your IDP](IDP-User-Sync.md)
+
+
+## User Lifecycel Management for marketplace apps
+Create, update and remove user profiles in your marketplace apps based on changes in the Vendasta platform.
+
+[Vendor SSO user syncing](https://developers.vendasta.com/vendor/d191b96068b71-sso-o-auth2-3-legged-flow#user-syncing)

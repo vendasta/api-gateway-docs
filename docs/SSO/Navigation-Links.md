@@ -7,19 +7,19 @@ that will send users to pages in the Vendasta platform and marketplace products.
 > ### Common Links
 > These links just need the AG-1234567 replaced with the correct business id
 > 
-> Business App -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=VBC&path=/account/location/{{accountId}}/dashboard&account_id=AG-1234567`
+> Business App -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=VBC&account_id=AG-1234567`
 >
-> Reputation Management -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=RM&path=/account/{{accountId}}/app/overview&account_id=AG-1234567`
+> Reputation Management -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=RM&&account_id=AG-1234567`
 >
-> Local SEO -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=MS&path=/edit/account/{{accountId}}/app/overview&account_id=AG-1234567`
+> Local SEO -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=MS&account_id=AG-1234567`
 >
-> Advertising Intelligence  -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=MP-94072e44d5364872b672d7ab4fc7a7e8&path=/business/{{accountId}}/overview&account_id=AG-1234567`
+> Advertising Intelligence  -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=MP-94072e44d5364872b672d7ab4fc7a7e8&account_id=AG-1234567`
 >
-> Social Marketing -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=SM&path=/account/{{accountId}}/overview&account_id=AG-1234567`
+> Social Marketing -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=SM&account_id=AG-1234567`
 >
-> Customer Voice Prod-> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=MP-c4974d390a044c28aec31e421aa662b2&path=/cv/account/{{accountId}}/overview&account_id=AG-1234567`
+> Customer Voice -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=MP-c4974d390a044c28aec31e421aa662b2&account_id=AG-1234567`
 >
-> Customer Voice Demo -> `https://sso-api-demo.apigateway.co/service-gateway?serviceProviderId=MP-fba21121b71148c9bb33e11fcd92d520&path=/cv/account/{{accountId}}/overview&account_id=AG-1234567`
+> Website -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=MP-ee4ea04e553a4b1780caf7aad7be07cd&account_id=AG-1234567`
 
 Many sites allow you to simply copy the URL from your web brower when you want to add a link 
 to your website. That works for basic usecases within the Vendasta platform however does not work
@@ -36,17 +36,13 @@ The base URL for links is `https://sso-api-prod.apigateway.co/service-gateway`. 
 #### Service Provider 
 `serviceProviderId` should be set to the ID of the app/product/center that you want to send the user to.
 
-~~"Service provider" is the technical name for a website/app/product/center that a user can use while "Client ID" referres to a specific version such as web or mobile.~~
-
-TODO get a list of the common ones
+It is typically the same as the marketplace app id. See [Find a SKU](../Guides/Sell/FindSKU.md) for a list.
 
 ### Service Context
 In order to select the correct login screen and branding info we need to know who is going to be using the service. One of the following parameters is required:
 - `account_id` - This is what you want most of the time. It is the ID of the Business Sales Account. For example `AG-1234567`
 - `group_path` - Used for multi location business groups
 - `serviceContext` - An opaque string provided by Vendasta
-
-TODO we should add support for partner_id which is needed for services like SSC. We should also make the casing consistent on the parameters.
 
 ### Deep Link
 
@@ -67,12 +63,8 @@ By default the SSO system will ensure the user has logged in before redirecting 
 Setting `&skipAuth=true` is helpful for building links to public pages and pages you don't want to require a login for. E.g. unsubscribe links. Note that the service provider may still initiate an SSO if it determines that it requires authentication.
 
 
-
 <!-- theme: warning -->
 > The service gateway does not currently validate that the destination product has been 
 > purchased or that the user who clicked on the link has access. To avoid users seeing 
-> permission denied or not found errors you should validate that before displaying the link.
+> permission denied or not found errors you should validate that before displaying the link in your system.
 > 
-
-## Get Entry URL
-TODO Should we document GetEntryURL and/or GetMultiEntryURL as a way to show the resolved URL instead of https://sso-api-prod.apigateway.co/service-gateway on websites?

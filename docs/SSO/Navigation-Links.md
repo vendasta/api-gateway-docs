@@ -22,6 +22,8 @@ that will send users to pages in the Vendasta platform and marketplace products.
 > Customer Voice -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=MP-c4974d390a044c28aec31e421aa662b2&account_id=AG-1234567`
 >
 > Website -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=MP-ee4ea04e553a4b1780caf7aad7be07cd&account_id=AG-1234567`
+>
+> Partner Center -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=AA&partner_id=<Your partner id>`
 
 Many sites allow you to simply copy the URL from your web brower when you want to add a link 
 to your website. That works for basic usecases within the Vendasta platform however does not work

@@ -42,6 +42,7 @@ Example:
 The endpoint should:
 1. Verify that the `client_id` is an expected value
 2. Prompt the user to log into your platform if they are not already logged in
+   - If you have a different database of users for employees vs customers you may want to display an "Employee Login" button alongside your customer login form
 3. Optional: Show the user a screen letting them know the website (based on `client_id` parameter) that they are about to log into and the permissions the website has requested (based on `scope` parameter) and get their consent the first time they SSO into the website
 4. Generate a random string to use as the auth `code`. Store it in a database or cache along with the id of the logged in user, client_id, scopes the user consented to and an expiry time a few minutes in the future.
 5. Redirect the users web browser to the URI specified by the `redirect_uri` parameter along with `?code=<auth code you generated>&state=<state query parameter from request>`
@@ -52,7 +53,7 @@ Example redirect:
     code=jkhhh-werwerw-sdfsdf-werwerw-werbadsfwer &
     state=f9376d0d-badd-48b4-bf8a-872978aa0098
 
-Note: If Vendasta did the login flow entirely in a web browser then there would be extra work required to verify the redirect_uri, code_challenge and code_challenge_method parameters. We call the token and user-info endpoints from our servers so PKCE is not required. 
+> Note: We call the token and user-info endpoints from our servers so PKCE is not required. If you have other clients (websites/apps) that do the login flow entirely in a web browser then you should verify the `redirect_uri`, `code_challenge` and `code_challenge_method` parameters as defined in the PKCE code flow spec. 
 
 ## Token Endpoint
 

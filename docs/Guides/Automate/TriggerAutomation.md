@@ -6,6 +6,14 @@ If you have setup automations in the Vendasta platform you can trigger them for 
 
 [Learn more about automations](https://support.vendasta.com/hc/en-us/sections/4406950706583-Automations)
 
+There are two options for triggering an Automation depending on the level of security needed based on the operations contained in the target Automation.
+
+1) Webhook Trigger
+2) API Trigger
+
+These options are found under the Advanced section under the Automations trigger list:
+
+
 ## Setup:
 
 Create an access token with at least `business` scopes following the [Authorization guide](../../Authorization/Authorization.md).

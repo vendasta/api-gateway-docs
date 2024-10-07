@@ -2,8 +2,8 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
-## 2024-09-26
-Deprecation of the Customer API. Current integrations are supported for deprecation period. No new development should occur against the Customer API. It is proposed to be replaced by the [UpsertCRMRecord](crm.json/paths/~1{namespace}~1{resourceTypeCode}/post) for the [new CRM](https://support.vendasta.com/hc/en-us/categories/24284629825559-CRM).
+## 2024-10-03
+Deprecation of the Customer API. Current integrations are supported for deprecation period. No new development should occur against the Customer API. It is proposed to be replaced by an API for new CRM that is still under development.
 
 ## 2024-02-27
 Mark `seoKeywords` field as deprecated in `SalesAccount` resource.

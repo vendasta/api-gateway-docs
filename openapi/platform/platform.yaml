@@ -3070,7 +3070,6 @@ paths:
                   enum:
                     - cancel
                     - immediate
-                    - restore
             examples:
               Example 1:
                 value:
@@ -3082,6 +3081,53 @@ paths:
     options:
       summary: 'List valid HTTP verbs for /subscriptionAssignments/{id}/actions/requestCancellation'
       operationId: options-subscriptionAssignment-requestCancellationAction
+      responses:
+        '204':
+          description: No Content
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+        - Subscription Assignments
+  '/subscriptionAssignments/{id}/actions/undoCancellation':
+    parameters:
+      - schema:
+          type: string
+          example: 'AG-CQD6ZR6:MP-R7G3NP55T725DM5VGD:beff34a4-cccc-4be8-bd9'
+        name: id
+        in: path
+        required: true
+        description: 'The id should be a string which is in the form - businessLocationId : productId : activationId'
+    post:
+      summary: Restore a Canceled Subscription Assignment
+      responses:
+        '204':
+          description: No Content
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Used for restoring a canceled subscription assignment.
+      tags:
+        - Subscription Assignments
+      x-lifecycle:
+        status: proposed
+      operationId: restore-subscriptionAssignments-by-id
+      security:
+        - OAuth2Demo:
+            - sales.account
+        - OAuth2Prod:
+            - sales.account
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          name: Authorization
+          required: true
+    options:
+      summary: 'List valid HTTP verbs for /subscriptionAssignments/{id}/actions/undoCancellation'
+      operationId: options-subscriptionAssignment-undoCancellationAction
       responses:
         '204':
           description: No Content

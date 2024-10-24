@@ -368,7 +368,7 @@ title: Request
 
 }
 ```
-For full details see [List Subscription Assisgments](../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments/get)
+For full details see [List Subscription Assisgments](../../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments/get)
 
 <!--
 type: tab
@@ -438,7 +438,7 @@ title: Request
 
 }
 ```
-For full details see [Cancel Subscription Assignment](../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments~1{id}~1actions~1requestCancellation/post)
+For full details see [Cancel Subscription Assignment](../../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments~1{id}~1actions~1requestCancellation/post)
 
 <!--
 type: tab

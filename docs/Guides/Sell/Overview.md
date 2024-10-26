@@ -346,21 +346,15 @@ If the product has been configured with a Retail Price at Partner Center -> Mark
 
 ## Cancel Products
 
-Cancelling products is a two step process: 
-1. [List Subscription Assisgments](../../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments/get) for a business location to find the id coorisponding to the SKU that you wish to cancel. 
+Canceling products is a two step process: 
+1. [List Subscription Assignments](../../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments/get) for a business location to find the id corresponding to the SKU that you wish to cancel. 
 2. [Cancel Subscription Assignment](../../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments~1{id}~1actions~1requestCancellation/post) by id
 
-By default the product will remain in a pendingUnassignment status until the items anniversary date, or commitment date, whichever is later. You may force the product to be deacivated immediatly.
-
-
-For example to cancell the `RM:EDITION-F7JZ5TV8` product you would use the `AG-1234567:RM:e8939ab9-1216-4ddf-9fab-dbe344e36869` id from the list subsription assignments call.
 
 
 
-<!--
-type: tab
-title: List Request
--->
+### Step1: List Subscription Assignments
+
 
 ```json http
 {
@@ -375,12 +369,10 @@ title: List Request
 
 }
 ```
-For full details see [List Subscription Assisgments](../../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments/get)
+For full details see [List Subscription Assignments](../../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments/get)
 
-<!--
-type: tab
-title: Example List Response
--->
+#### Example Response
+
 ```json
 {
   "data": [
@@ -408,10 +400,12 @@ title: Example List Response
 }
 ```
 
-<!--
-type: tab
-title: Cancel Request
--->
+### Step 2: Cancel by id
+
+Following the above example to cancel the `RM:EDITION-F7JZ5TV8` product you would use  `AG-1234567:RM:e8939ab9-1216-4ddf-9fab-dbe344e36869` as the id in the cancel request.
+
+By default the product will remain in a `pendingUnassignment` status until the item's anniversary date, or commitment date, whichever is later. You may force the product to be deactivated immediately by setting the `deactivationType` to `immediate`.
+
 
 ```json http
 {
@@ -439,9 +433,4 @@ It should return a `204 No Content` status.
 
 For full details see [Cancel Subscription Assignment](../../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments~1{id}~1actions~1requestCancellation/post)
 
-
-
-<!--
-type: tab-end
--->
 

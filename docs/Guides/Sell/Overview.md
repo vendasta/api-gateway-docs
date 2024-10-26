@@ -346,25 +346,32 @@ If the product has been configured with a Retail Price at Partner Center -> Mark
 
 ## Cancel Products
 
-Once an order has been fufilled the product(s) will appear in the list of subscription assignements for a business location.
+Cancelling products is a two step process: 
+1. [List Subscription Assisgments](../../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments/get) for a business location to find the id coorisponding to the SKU that you wish to cancel. 
+2. [Cancel Subscription Assignment](../../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments~1{id}~1actions~1requestCancellation/post) by id
+
+By default the product will remain in a pendingUnassignment status until the items anniversary date, or commitment date, whichever is later. You may force the product to be deacivated immediatly.
+
+
+For example to cancell the `RM:EDITION-F7JZ5TV8` product you would use the `AG-1234567:RM:e8939ab9-1216-4ddf-9fab-dbe344e36869` id from the list subsription assignments call.
+
+
 
 <!--
 type: tab
-title: Request
+title: List Request
 -->
 
 ```json http
 {
-  "method": "post",
+  "method": "get",
   "url": "https://prod.apigateway.co/platform/subscriptionAssignments",
   "query": {
     "filter[businessLocationId]": "AG-1234567"
   },
   "headers": {
-    "Authorization": "Bearer <Token with 'sales.account' scope>",
-    "Content-Type": "application/vnd.api+json"
-  },
-  "body": 
+    "Authorization": "Bearer <Token with 'sales.account' scope>"
+  }
 
 }
 ```
@@ -372,7 +379,7 @@ For full details see [List Subscription Assisgments](../../../openapi/platform/p
 
 <!--
 type: tab
-title: Example Response
+title: Example List Response
 -->
 ```json
 {
@@ -401,20 +408,9 @@ title: Example Response
 }
 ```
 
-
-<!--
-type: tab-end
--->
-
-
-To cancel a product use the id that was returned from the list of subscriptions to call the request cancelation action.
-
-For example to cancell the `RM:EDITION-F7JZ5TV8` product you would use the `AG-1234567:RM:e8939ab9-1216-4ddf-9fab-dbe344e36869` id from the list subsription assignments call.
-
-
 <!--
 type: tab
-title: Request
+title: Cancel Request
 -->
 
 ```json http
@@ -438,15 +434,11 @@ title: Request
 
 }
 ```
+
+It should return a `204 No Content` status.
+
 For full details see [Cancel Subscription Assignment](../../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments~1{id}~1actions~1requestCancellation/post)
 
-<!--
-type: tab
-title: Example Response
--->
-```bash
-204 No Content
-```
 
 
 <!--

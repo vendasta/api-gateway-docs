@@ -185,6 +185,53 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/businessLocations'
+            examples:
+              Example Request:
+                value:
+                  type: businessLocations
+                  attributes:
+                    customerIdentifier: string
+                    name: string
+                    address:
+                      line1: 109 8th Street E.
+                      line2: Suite 23
+                      city: string
+                      postalCode: S7M 1R3
+                      regionCode: CA-SK
+                      countryCode: CA
+                    phoneNumbers:
+                      - string
+                    serviceAreaBusiness: true
+                    geoCoordinate:
+                      latitude: -90
+                      longitude: -180
+                    hours:
+                      - hoursTypeId: general
+                        regularHours:
+                          - openDay: wednesday
+                            closeDay: wednesday
+                            openTime: '09:00'
+                            closeTime: '17:00'
+                        specialHours:
+                          - status: open
+                            startDate: '2019-08-24'
+                            endDate: '2019-08-24'
+                            startTime: '09:45'
+                            endTime: '16:45'
+                    tollFreeNumber: string
+                    trackingNumbers:
+                      - string
+                    commonNames:
+                      - string
+                  relationships:
+                    businessPartner:
+                      data:
+                        type: partners
+                        id: ABC
+                    businessCategories:
+                      data:
+                        - type: businessCategories
+                          id: 'active:diving:freediving'
       x-lifecycle:
         status: trustedTester
       description: |-
@@ -195,7 +242,6 @@ paths:
         The following members must be populated during creation:
         - `relationships.businessPartner.data.id`
         - `attributes.name`
-        - `attributes.address.countryCode` as well as other address fields based on the norms of the country.
       parameters:
         - schema:
             type: string
@@ -5316,6 +5362,52 @@ components:
         Any entity that works with a provider company (two-way communication). These generally have a sustained relationship with the provider company. This may include a potential buyer, an existing client, or a past client that has churned.
       x-tags:
         - Business Locations
+      x-examples:
+        Example Request:
+          type: businessLocations
+          attributes:
+            customerIdentifier: string
+            name: string
+            address:
+              line1: 109 8th Street E.
+              line2: Suite 23
+              city: string
+              postalCode: S7M 1R3
+              regionCode: CA-SK
+              countryCode: CA
+            phoneNumbers:
+              - string
+            serviceAreaBusiness: true
+            geoCoordinate:
+              latitude: -90
+              longitude: -180
+            hours:
+              - hoursTypeId: general
+                regularHours:
+                  - openDay: wednesday
+                    closeDay: wednesday
+                    openTime: '09:00'
+                    closeTime: '17:00'
+                specialHours:
+                  - status: open
+                    startDate: '2019-08-24'
+                    endDate: '2019-08-24'
+                    startTime: '09:45'
+                    endTime: '16:45'
+            tollFreeNumber: string
+            trackingNumbers:
+              - string
+            commonNames:
+              - string
+          relationships:
+            businessPartner:
+              data:
+                type: partners
+                id: ABC
+            businessCategories:
+              data:
+                - type: businessCategories
+                  id: 'active:diving:freediving'
       properties:
         id:
           type: string

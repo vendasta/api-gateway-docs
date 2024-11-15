@@ -2908,6 +2908,10 @@ paths:
         name: 'filter[partner.id]'
         in: query
         required: true
+      - schema:
+          type: string
+        name: 'filter[businessLocation.id]'
+        in: query
     get:
       summary: List Subscriptions
       responses:
@@ -2962,6 +2966,12 @@ paths:
         - schema:
             type: string
           in: query
+          name: 'filter[businessLocation.id]'
+          description: The Business Location ID.
+          required: true
+        - schema:
+            type: string
+          in: query
           name: 'page[cursor]'
           description: The cursor stores all your filters and current location in the list to allow paging over the results in smaller batches. The value will be provided in the response links. Pagination Docs.
         - schema:
@@ -2977,7 +2987,8 @@ paths:
 
         Returns a list of subscriptions based on the provided filters. 
 
-        Currently you can filter the list baseed on your partnerID using `filter[partner.id]`
+        Currently you can filter the list baseed on your partnerID using `filter[partner.id]` and optionally also filter by
+        the business location ID using `filter[businessLocation.id]`
 
         You will receive a different record for each subscription purchased for multi-activatable products.
       tags:

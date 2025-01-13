@@ -38,19 +38,7 @@
           "description": "The namespace, PID/AGID"
         },
         {
-          "schema": {
-            "type": "string",
-            "enum": [
-              "contacts",
-              "companies",
-              "activities"
-            ],
-            "example": "contacts"
-          },
-          "name": "resourceTypeCode",
-          "in": "path",
-          "required": true,
-          "description": "The resourceTypeCode, here contacts, companies or activities."
+          "$ref": "#/components/parameters/resourceTypeCode"
         }
       ],
       "get": {
@@ -366,13 +354,7 @@
           "description": "The namespace, PID/AGID"
         },
         {
-          "schema": {
-            "type": "string"
-          },
-          "name": "resourceTypeCode",
-          "in": "path",
-          "required": true,
-          "description": "The resourceTypeCode, here contacts, companies or activities."
+          "$ref": "#/components/parameters/resourceTypeCode"
         },
         {
           "schema": {
@@ -487,22 +469,27 @@
           },
           "name": "namespace",
           "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "resourceTypeCode",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "namespace",
+          "in": "path",
           "required": true,
           "description": "The namespace, PID/AGID"
         },
         {
-          "schema": {
-            "type": "string",
-            "enum": [
-              "contacts",
-              "companies",
-              "activities"
-            ]
-          },
-          "name": "resourceTypeCode",
-          "in": "path",
-          "required": true,
-          "description": "The resourceTypeCode, here contacts, companies or activities."
+          "$ref": "#/components/parameters/resourceTypeCode"
         }
       ],
       "post": {
@@ -547,7 +534,6 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
                 "x-examples": {
                   "Example 1": {
                     "subtype": "",
@@ -577,42 +563,60 @@
                     ]
                   }
                 },
-                "properties": {
-                  "subtype": {
-                    "type": "string"
-                  },
-                  "fields": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
+                "oneOf": [
+                  {
+                    "properties": {
+                      "subtype": {
+                        "type": "string"
+                      },
+                      "fields": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "value": {
+                              "type": "string"
+                            },
+                            "operation": {
+                              "type": "string",
+                              "description": "The supported operation types are `always_overwrite`, `overwrite_if_empty`, `overwrite_if_newer` & `combine`."
+                            }
+                          }
+                        }
+                      },
+                      "searchExisting": {
+                        "type": "array",
+                        "items": {
                           "type": "string"
-                        },
-                        "value": {
+                        }
+                      },
+                      "returnFields": {
+                        "type": "array",
+                        "description": "A list of fields that should have their merged values returned in the response. If empty no fields will be returned.",
+                        "items": {
                           "type": "string"
-                        },
-                        "operation": {
-                          "type": "string",
-                          "description": "The supported operation types are `always_overwrite`, `overwrite_if_empty`, `overwrite_if_newer` & `combine`."
                         }
                       }
                     }
                   },
-                  "searchExisting": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "returnFields": {
-                    "type": "array",
-                    "description": "A list of fields that should have their merged values returned in the response. If empty no fields will be returned.",
-                    "items": {
-                      "type": "string"
+                  {
+                    "x-stoplight": {
+                      "id": "40hjq3h4hwo2a"
+                    },
+                    "properties": {
+                      "data": {
+                        "$ref": "#/components/schemas/CRMObject",
+                        "x-stoplight": {
+                          "id": "fd8bicknxqstx"
+                        }
+                      }
                     }
                   }
-                }
+                ],
+                "type": "object"
               },
               "examples": {
                 "Request body": {
@@ -696,45 +700,181 @@
         "x-lifecycle": {
           "status": "proposed"
         }
+      },
+      "get": {
+        "summary": "List CRM Records",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "nmxqxv660wfeg"
+                      },
+                      "items": {
+                        "$ref": "#/components/schemas/CRMObject",
+                        "x-stoplight": {
+                          "id": "8tklpco0g76ob"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-namespace-resourceTypeCode",
+        "x-stoplight": {
+          "id": "v4id565nx72cr"
+        },
+        "requestBody": {
+          "content": {}
+        },
+        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`\n"
+      }
+    },
+    "/{namespace}/{resourceTypeCode}/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "namespace",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "resourceTypeCode",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "namespace",
+          "in": "path",
+          "required": true
+        },
+        {
+          "$ref": "#/components/parameters/resourceTypeCode"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get CRM Record",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "x-stoplight": {
+                        "id": "nt3nnw2wl68xv"
+                      }
+                    },
+                    "id": {
+                      "type": "string",
+                      "x-stoplight": {
+                        "id": "64lucngrsk1cf"
+                      }
+                    },
+                    "attributes": {
+                      "$ref": "#/components/schemas/CRMObject",
+                      "x-stoplight": {
+                        "id": "bf3vs3rvm05p1"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-namespace-resourceTypeCode-id",
+        "x-stoplight": {
+          "id": "ihzug9kevm4vw"
+        }
+      },
+      "delete": {
+        "summary": "Delete CRM Object",
+        "tags": [],
+        "responses": {},
+        "operationId": "delete-namespace-resourceTypeCode-id",
+        "x-stoplight": {
+          "id": "42qjr3nscek3x"
+        }
+      },
+      "patch": {
+        "summary": "Update CRM Object",
+        "tags": [],
+        "responses": {},
+        "operationId": "patch-namespace-resourceTypeCode-id",
+        "x-stoplight": {
+          "id": "dyhu65tdmok25"
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CRMObject",
+                    "x-stoplight": {
+                      "id": "07qwfgo1fwjgp"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
   "components": {
     "schemas": {
       "CRMContact": {
-        "type": "object",
-        "title": "CRM FieldSchema of Contact",
-        "description": "CRM Field Schema of resourceType Contact.",
+        "description": "CRM Contact Field Schema for AG-L56V52BMMW",
         "properties": {
-          "platform__contact_additional_salesperson_ids": {
-            "description": "Identifiers for additional salespeople in the platform.",
+          "standard__contact_additional_team_members": {
+            "description": "Additional team members for contact",
             "items": {
               "type": "string"
             },
-            "title": "Additional Salesperson IDs",
+            "title": "Contact additional team members",
             "type": "array"
-          },
-          "platform__contact_salesperson_id": {
-            "description": "Identifier for a salesperson in the platform.",
-            "format": "string",
-            "title": "Salesperson ID",
-            "type": "string"
-          },
-          "platform__ssc_contact_id": {
-            "description": "Identifies the SSC contact, which may be associated with zero or more account groups.",
-            "items": {
-              "type": "string"
-            },
-            "readOnly": true,
-            "title": "Platform SSC contact IDs",
-            "type": "array"
-          },
-          "platform__user_id": {
-            "description": "Identifier for contact's underlying IAM user.",
-            "format": "string",
-            "readOnly": true,
-            "title": "Platform user ID",
-            "type": "string"
           },
           "standard__contact_birth_year": {
             "description": "Contact's birth year. E.g. '1980'",
@@ -742,16 +882,18 @@
             "title": "Birth Year",
             "type": "string"
           },
-          "standard__contact_company_name": {
-            "description": "Name of the contact's company. This may be set independently from the name property on the contact's associated company.",
+          "standard__contact_fbclid": {
+            "description": "Facebook click ID used to create the contact",
             "format": "string",
-            "title": "Company name",
+            "readOnly": true,
+            "title": "FBCLID",
             "type": "string"
           },
-          "standard__contact_company_website": {
-            "description": "Name of the contact's company website. This may be set independently from the name property on the contact's associated company.",
+          "standard__contact_gclid": {
+            "description": "Google click ID used to create the contact",
             "format": "string",
-            "title": "Company website",
+            "readOnly": true,
+            "title": "GCLID",
             "type": "string"
           },
           "standard__contact_gender": {
@@ -774,6 +916,116 @@
             "title": "Job title",
             "type": "string"
           },
+          "standard__contact_last_campaign_email_bounced_date": {
+            "description": "Last campaign email bounced for the contact",
+            "format": "date",
+            "readOnly": true,
+            "title": "Last campaign email bounced date",
+            "type": "string"
+          },
+          "standard__contact_last_campaign_email_clicked_date": {
+            "description": "Last campaign email clicked date for the contact",
+            "format": "date",
+            "readOnly": true,
+            "title": "Last campaign email clicked date",
+            "type": "string"
+          },
+          "standard__contact_last_campaign_email_open_date": {
+            "description": "Last campaign email open date for the contact",
+            "format": "date",
+            "readOnly": true,
+            "title": "Last campaign email open date",
+            "type": "string"
+          },
+          "standard__contact_last_campaign_email_sent_date": {
+            "description": "Last campaign email sent for the contact",
+            "format": "date",
+            "readOnly": true,
+            "title": "Last campaign email sent date",
+            "type": "string"
+          },
+          "standard__contact_last_campaign_email_sent_name": {
+            "description": "Name of last campaign email sent for the contact",
+            "format": "string",
+            "readOnly": true,
+            "title": "Last campaign email sent name",
+            "type": "string"
+          },
+          "standard__contact_last_campaign_sms_delivered_date": {
+            "description": "Last campaign SMS delivered date for the contact",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Last campaign SMS delivered date",
+            "type": "string"
+          },
+          "standard__contact_last_campaign_sms_failed_date": {
+            "description": "Last campaign SMS failed date for the contact",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Last campaign SMS failed date",
+            "type": "string"
+          },
+          "standard__contact_last_campaign_sms_sent_date": {
+            "description": "Last campaign SMS sent date for the contact",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Last campaign SMS sent date",
+            "type": "string"
+          },
+          "standard__contact_last_campaign_sms_sent_name": {
+            "description": "Name of last campaign SMS sent to the contact",
+            "format": "string",
+            "readOnly": true,
+            "title": "Last campaign SMS sent name",
+            "type": "string"
+          },
+          "standard__contact_last_campaign_sms_undelivered_date": {
+            "description": "Last campaign SMS undelivered date for the contact",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Last campaign SMS undelivered date",
+            "type": "string"
+          },
+          "standard__contact_last_contact_date": {
+            "description": "Date of last contact with the contact",
+            "format": "date",
+            "readOnly": true,
+            "title": "Last contact date",
+            "type": "string"
+          },
+          "standard__contact_last_engagement_date": {
+            "description": "Date of last engagement with the contact",
+            "format": "date",
+            "readOnly": true,
+            "title": "Last engagement date",
+            "type": "string"
+          },
+          "standard__contact_last_sales_email_received_date": {
+            "description": "Date of last sales email received for the contact",
+            "format": "date",
+            "readOnly": true,
+            "title": "Last sales email received date",
+            "type": "string"
+          },
+          "standard__contact_last_sales_email_sent_date": {
+            "description": "Date of last sales email sent for the contact",
+            "format": "date",
+            "readOnly": true,
+            "title": "Last sales email sent date",
+            "type": "string"
+          },
+          "standard__contact_lead_quality": {
+            "description": "The calculated lead quality of the contact.",
+            "format": "string",
+            "readOnly": true,
+            "title": "Lead quality",
+            "type": "string"
+          },
+          "standard__contact_lead_score": {
+            "description": "The calculated lead score of the contact.",
+            "readOnly": true,
+            "title": "Lead score"
+          },
           "standard__contact_lifecycle_stage": {
             "description": "Lifecycle stage of the contact. E.g. 'Lead'",
             "format": "string",
@@ -786,22 +1038,80 @@
             "title": "LinkedIn URL",
             "type": "string"
           },
+          "standard__contact_marketing_email_consent_source": {
+            "description": "The source that updated the marketing email consent field.",
+            "format": "string",
+            "title": "Marketing email consent source",
+            "type": "string"
+          },
+          "standard__contact_marketing_email_consent_status": {
+            "description": "The current status for the contact marketing email consent, i.e: \"Subscribed\", \"Unsubscribed\", or unset.",
+            "format": "string",
+            "title": "Marketing email consent",
+            "type": "string"
+          },
+          "standard__contact_marketing_email_consent_timestamp": {
+            "description": "The timestamp in which the marketing email consent was updated.",
+            "format": "date-time",
+            "title": "Marketing email consent timestamp",
+            "type": "string"
+          },
+          "standard__contact_message": {
+            "description": "Message sent from Contact. Commonly input by the contact themselves on an intake form.",
+            "format": "string",
+            "title": "Message",
+            "type": "string"
+          },
           "standard__contact_mobile_phone_number": {
-            "description": "Mobile phone number of the contact.",
+            "description": "Additional phone number of the contact.",
             "format": "phone",
-            "title": "Mobile phone number",
+            "title": "Additional phone number",
+            "type": "string"
+          },
+          "standard__contact_msclkid": {
+            "description": "Microsoft click ID used to create the contact",
+            "format": "string",
+            "readOnly": true,
+            "title": "MSCLKID",
             "type": "string"
           },
           "standard__contact_next_task_due_date": {
             "description": "Date indicating when the next task of the contact is due for completion",
             "format": "date-time",
+            "readOnly": true,
             "title": "Next task due date",
             "type": "string"
           },
           "standard__contact_next_task_id": {
             "description": "ID of the next task of the contact",
             "format": "string",
+            "readOnly": true,
             "title": "Next task ID",
+            "type": "string"
+          },
+          "standard__contact_original_source": {
+            "description": "Lead attribution original source",
+            "format": "string",
+            "title": "Original source",
+            "type": "string"
+          },
+          "standard__contact_original_source_drill_1": {
+            "description": "Lead attribution original source drill down level 1",
+            "format": "string",
+            "title": "Original source drill down 1",
+            "type": "string"
+          },
+          "standard__contact_original_source_drill_2": {
+            "description": "Lead attribution original source drill down level 2",
+            "format": "string",
+            "title": "Original source drill down 2",
+            "type": "string"
+          },
+          "standard__contact_pipeline_id": {
+            "description": "The pipeline ID that is associated with the contact.",
+            "format": "string",
+            "readOnly": true,
+            "title": "Pipeline ID",
             "type": "string"
           },
           "standard__contact_primary_company_id": {
@@ -867,16 +1177,70 @@
             "title": "Skills",
             "type": "array"
           },
+          "standard__contact_sms_consent_source": {
+            "description": "The source that updated the SMS consent field.",
+            "format": "string",
+            "title": "SMS consent source",
+            "type": "string"
+          },
+          "standard__contact_sms_consent_status": {
+            "description": "The current status for the contact SMS consent, i.e: \"Subscribed\", \"Unsubscribed\", or unset.",
+            "format": "string",
+            "title": "SMS consent",
+            "type": "string"
+          },
+          "standard__contact_source_drill_1": {
+            "description": "Lead attribution record source drill down level 1",
+            "format": "string",
+            "title": "Record source drill down 1",
+            "type": "string"
+          },
+          "standard__contact_source_drill_2": {
+            "description": "Lead attribution record source drill down level 2",
+            "format": "string",
+            "title": "Record source drill down 2",
+            "type": "string"
+          },
           "standard__contact_source_name": {
             "description": "Name of the app or external system that created the contact. E.g. 'Salesforce', 'Hubspot', 'Gmail'",
             "format": "string",
-            "title": "Source name",
+            "title": "Record source",
             "type": "string"
           },
           "standard__contact_timezone": {
             "description": "Timezone of the contact. This is a string representing the timezone like 'America/New_York'. ",
             "format": "string",
             "title": "Timezone",
+            "type": "string"
+          },
+          "standard__contact_utm_campaign": {
+            "description": "The campaign of the UTM parameters for the contact. E.g. 'summer_sale', 'winter_sale', 'spring_sale', 'fall_sale', 'black_friday', 'cyber_monday', 'christmas', 'new_year', 'valentines', 'easter', 'mothers_day', 'fathers_day', 'back_to_school', 'halloween', 'thanksgiving', 'other'",
+            "format": "string",
+            "title": "UTM Campaign",
+            "type": "string"
+          },
+          "standard__contact_utm_content": {
+            "description": "The content of the UTM parameters for the contact. E.g. 'banner', 'sidebar', 'footer', 'header', 'popup', 'overlay', 'slider', 'carousel', 'video', 'audio', 'image', 'text', 'cta', 'form', 'other'",
+            "format": "string",
+            "title": "UTM Content",
+            "type": "string"
+          },
+          "standard__contact_utm_medium": {
+            "description": "The medium of the UTM parameters for the contact. E.g. 'cpc', 'email', 'social', 'organic', 'referral', 'affiliate', 'display', 'video', 'audio', 'sms', 'direct', 'other'",
+            "format": "string",
+            "title": "UTM Medium",
+            "type": "string"
+          },
+          "standard__contact_utm_source": {
+            "description": "The source of the UTM parameters for the contact. E.g. 'google', 'facebook', 'twitter', 'linkedin', 'instagram', 'pinterest', 'youtube', 'tiktok', 'snapchat', 'whatsapp', 'messenger', 'email', 'sms', 'direct', 'other'",
+            "format": "string",
+            "title": "UTM Source",
+            "type": "string"
+          },
+          "standard__contact_utm_term": {
+            "description": "The term of the UTM parameters for the contact. E.g. 'running+shoes', 'black+friday+sale', 'cyber+monday+sale', 'christmas+gifts', 'new+year+resolutions', 'valentines+gifts', 'easter+sale', 'mothers+day+gifts', 'fathers+day+gifts', 'back+to+school+sale', 'halloween+sale', 'thanksgiving+sale', 'other'",
+            "format": "string",
+            "title": "UTM Term",
             "type": "string"
           },
           "standard__email": {
@@ -899,6 +1263,12 @@
             "title": "Phone number",
             "type": "string"
           },
+          "standard__sms_consent_timestamp": {
+            "description": "The timestamp in which the SMS consent was updated.",
+            "format": "date-time",
+            "title": "SMS consent timestamp",
+            "type": "string"
+          },
           "standard__tags": {
             "description": "Descriptive keywords that help you find and segment contacts.",
             "format": "tag",
@@ -915,15 +1285,13 @@
           "system__contact_external_id": {
             "description": "External identifier for the record, optional",
             "format": "string",
-            "readOnly": true,
             "title": "External ID",
             "type": "string"
           },
           "system__contact_group_id": {
-            "description": "Group ID for the record, optional. Used for grouping records together, and authorization where users are restricted to selected groups.",
+            "description": "Market ID for the record, optional. Used for grouping records together, and authorization where users are restricted to selected markets.",
             "format": "string",
-            "readOnly": true,
-            "title": "Group ID",
+            "title": "Market ID",
             "type": "string"
           },
           "system__contact_id": {
@@ -936,14 +1304,14 @@
           "system__contact_last_activity_date": {
             "description": "Date and time of last activity",
             "format": "date-time",
+            "readOnly": true,
             "title": "Last activity date",
             "type": "string"
           },
           "system__contact_owner_id": {
-            "description": "Owner ID for the record.",
+            "description": "Owner of the record.",
             "format": "string",
-            "readOnly": true,
-            "title": "Owner ID",
+            "title": "Owner",
             "type": "string"
           },
           "system__contact_updated": {
@@ -952,26 +1320,2605 @@
             "readOnly": true,
             "title": "Updated date",
             "type": "string"
-          },
-          "yesware__contact_enrichment_vendor_id": {
-            "description": "The ID of the enrichment vendor in Yesware. If the contact has not been enriched, this field will be unset.",
+          }
+        },
+        "title": "CRM Contact",
+        "type": "object"
+      },
+      "CRMActivity": {
+        "description": "CRM Activity Field Schema for AG-L56V52BMMW",
+        "properties": {
+          "standard__activity_call_body": {
+            "description": "Description of the call, including any notes that you want to add. Or even a transcript.",
             "format": "string",
-            "title": "Yesware enrichment vendor ID",
+            "title": "Call body",
             "type": "string"
           },
-          "yesware__contact_id": {
-            "description": "The ID of the contact in Yesware.",
-            "format": "string",
-            "title": "Yesware contact ID",
-            "type": "string"
-          },
-          "yesware__contact_last_enrichment_date": {
-            "description": "The date of the last enrichment in Yesware. If the contact has not been enriched, this field will be unset.",
+          "standard__activity_call_date": {
+            "description": "Date and time the call was made.",
             "format": "date-time",
-            "title": "Yesware last enrichment date",
+            "title": "Call date",
+            "type": "string"
+          },
+          "standard__activity_call_direction": {
+            "description": "Direction of the call, e.g.: INBOUND, OUTBOUND, etc…",
+            "format": "string",
+            "title": "Call direction",
+            "type": "string"
+          },
+          "standard__activity_call_duration": {
+            "description": "Duration of the call in milliseconds.",
+            "format": "int64",
+            "title": "Call duration",
+            "type": "int"
+          },
+          "standard__activity_call_from_number": {
+            "format": "phone",
+            "title": "Call from number",
+            "type": "string"
+          },
+          "standard__activity_call_outcome": {
+            "description": "Outcome of the call, e.g.: BUSY, CONNECTED, LEFT_LIVE_MESSAGE, LEFT_VOICE_MESSAGE, NO_ANSWER, WRONG_NUMBER, etc…",
+            "format": "string",
+            "title": "Call outcome",
+            "type": "string"
+          },
+          "standard__activity_call_recording_url": {
+            "description": "URL to audio recording.",
+            "format": "string",
+            "title": "Call recording URL",
+            "type": "string"
+          },
+          "standard__activity_call_status": {
+            "description": "Technical status of the call, e.g.: SCHEDULED, BUSY, CALLING, CANCELLED, FAILED, IN_PROGRESS, NO_ANSWER, etc…",
+            "format": "string",
+            "title": "Call status",
+            "type": "string"
+          },
+          "standard__activity_call_to_number": {
+            "format": "phone",
+            "title": "Call to number",
+            "type": "string"
+          },
+          "standard__activity_call_transcript": {
+            "description": "Transcript of the call",
+            "format": "string",
+            "title": "Call Transcript",
+            "type": "string"
+          },
+          "standard__activity_campaign_id": {
+            "description": "An optional ID for the campaign that the email is associated with",
+            "format": "string",
+            "title": "Campaign ID",
+            "type": "string"
+          },
+          "standard__activity_communication_body": {
+            "description": "Text of the body.",
+            "format": "string",
+            "title": "Communication body",
+            "type": "string"
+          },
+          "standard__activity_communication_channel": {
+            "description": "Communication channels different than email, or a call, e.g.: SMS, VENDASTA_INBOX, WHATS_APP, LINKEDIN_MESSAGE, etc…",
+            "format": "string",
+            "title": "Communication channel",
+            "type": "string"
+          },
+          "standard__activity_communication_date": {
+            "description": "Date and time the activity was made.",
+            "format": "date-time",
+            "title": "Communication date",
+            "type": "string"
+          },
+          "standard__activity_communication_direction": {
+            "description": "Direction of the communication activity, e.g.: INBOUND, OUTBOUND, etc…",
+            "format": "string",
+            "title": "Communication direction",
+            "type": "string"
+          },
+          "standard__activity_communication_from_id": {
+            "description": "If the communication channel has an ID used for sending and receiving it can be recorded here.",
+            "format": "string",
+            "title": "Communication from ID",
+            "type": "string"
+          },
+          "standard__activity_communication_outcome": {
+            "description": "Outcome of the communication, e.g.: SCHEDULED, COMPLETED, RESCHEDULED, NO_SHOW, CANCELLED",
+            "format": "string",
+            "title": "Communication outcome",
+            "type": "string"
+          },
+          "standard__activity_communication_status": {
+            "description": "status of the communication, e.g.: DELIVERED, PROCESSED, BOUNCED",
+            "format": "string",
+            "title": "Communication status",
+            "type": "string"
+          },
+          "standard__activity_communication_to_id": {
+            "description": "If the communication channel has an ID used for sending and receiving it can be recorded here.",
+            "format": "string",
+            "title": "Communication to ID",
+            "type": "string"
+          },
+          "standard__activity_communication_type": {
+            "description": "Type of the communication, e.g: General, Campaign, Reputation review request",
+            "format": "string",
+            "title": "Communication type",
+            "type": "string"
+          },
+          "standard__activity_email_body": {
+            "description": "Text or HTML body of the email",
+            "format": "string",
+            "title": "Email body",
+            "type": "string"
+          },
+          "standard__activity_email_date": {
+            "description": "Date and time the email was sent.",
+            "format": "date-time",
+            "title": "Email date",
+            "type": "string"
+          },
+          "standard__activity_email_direction": {
+            "description": "The direction the email is going from/to, e.g.: SENT, INCOMING, FORWARDED, etc…",
+            "format": "string",
+            "title": "Email direction",
+            "type": "string"
+          },
+          "standard__activity_email_headers": {
+            "description": "JSON string of email headers.",
+            "format": "string",
+            "title": "Email headers",
+            "type": "string"
+          },
+          "standard__activity_email_id": {
+            "description": "The ID is a consistent ID for an email across multiple status activities",
+            "format": "string",
+            "title": "Email ID",
+            "type": "string"
+          },
+          "standard__activity_email_status": {
+            "description": "Status for the email delivery, e.g.: BOUNCED, FAILED, SCHEDULED, SENDING, SENT, etc…",
+            "format": "string",
+            "title": "Email status",
+            "type": "string"
+          },
+          "standard__activity_email_subject": {
+            "description": "Subject line of the logged email.",
+            "format": "string",
+            "title": "Email subject",
+            "type": "string"
+          },
+          "standard__activity_email_type": {
+            "description": "The email type, e.g.: Marketing, Sales, etc…",
+            "format": "string",
+            "title": "Email type",
+            "type": "string"
+          },
+          "standard__activity_manually_logged": {
+            "description": "Whether the activity was manually logged",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Manually logged",
+            "type": "boolean"
+          },
+          "standard__activity_meeting_action_items": {
+            "description": "Action items of the meeting",
+            "items": {
+              "type": "string"
+            },
+            "title": "Meeting action items",
+            "type": "array"
+          },
+          "standard__activity_meeting_analysis_processed_transcript_id": {
+            "description": "Processed transcript ID of the meeting analysis",
+            "format": "string",
+            "title": "Meeting transcript ID",
+            "type": "string"
+          },
+          "standard__activity_meeting_body": {
+            "description": "Meeting description.",
+            "format": "string",
+            "title": "Meeting body",
+            "type": "string"
+          },
+          "standard__activity_meeting_duration": {
+            "description": "Duration of the meeting in milliseconds.",
+            "format": "int64",
+            "title": "Meeting duration",
+            "type": "int"
+          },
+          "standard__activity_meeting_end_time": {
+            "format": "date-time",
+            "title": "Meeting end time",
+            "type": "string"
+          },
+          "standard__activity_meeting_internal_notes": {
+            "description": "Internal notes you take for your team not included in the meeting description.",
+            "format": "string",
+            "title": "Meeting internal notes",
+            "type": "string"
+          },
+          "standard__activity_meeting_key_takeaways": {
+            "description": "Key takeaways of the meeting",
+            "items": {
+              "type": "string"
+            },
+            "title": "Meeting key takeaways",
+            "type": "array"
+          },
+          "standard__activity_meeting_last_analyzed_date": {
+            "description": "Last analyzed by AI date of the meeting",
+            "format": "date",
+            "title": "Meeting last analyzed date",
+            "type": "string"
+          },
+          "standard__activity_meeting_location": {
+            "description": "Where the meeting takes place. The value could be a physical address, a conference room, a videoconference link, or a phone number.",
+            "format": "string",
+            "title": "Meeting location",
+            "type": "string"
+          },
+          "standard__activity_meeting_outcome": {
+            "description": "Outcome of the meeting, e.g.: SCHEDULED, COMPLETED, RESCHEDULED, NO_SHOW, CANCELLED",
+            "format": "string",
+            "title": "Meeting outcome",
+            "type": "string"
+          },
+          "standard__activity_meeting_recording_url": {
+            "description": "Recording URL of the meeting",
+            "format": "string",
+            "title": "Meeting recording URL",
+            "type": "string"
+          },
+          "standard__activity_meeting_sentiment": {
+            "description": "Sentiment of the meeting",
+            "format": "int64",
+            "title": "Meeting sentiment",
+            "type": "int"
+          },
+          "standard__activity_meeting_start_time": {
+            "format": "date-time",
+            "title": "Meeting start time",
+            "type": "string"
+          },
+          "standard__activity_meeting_status": {
+            "description": "Meeting status ex. SCHEDULED, COMPLETED, RESCHEDULED, etc.",
+            "format": "string",
+            "title": "Meeting status",
+            "type": "string"
+          },
+          "standard__activity_meeting_summary_body": {
+            "description": "Body of the summary of the meeting",
+            "format": "string",
+            "title": "Meeting summary body",
+            "type": "string"
+          },
+          "standard__activity_meeting_summary_title": {
+            "description": "Title of the summary of the meeting",
+            "format": "string",
+            "title": "Meeting summary title",
+            "type": "string"
+          },
+          "standard__activity_meeting_transcript": {
+            "description": "Transcript of the meeting",
+            "format": "string",
+            "title": "Meeting transcript",
+            "type": "string"
+          },
+          "standard__activity_meeting_transcript_url": {
+            "description": "Transcript URL of the meeting",
+            "format": "string",
+            "title": "Meeting transcript URL",
+            "type": "string"
+          },
+          "standard__activity_meeting_url": {
+            "description": "Link to a calendar, for example Google Calendar, Calendar Hero, etc.",
+            "format": "string",
+            "title": "Meeting URL",
+            "type": "string"
+          },
+          "standard__activity_name": {
+            "description": "Display name used when showing a summary of the activity.",
+            "format": "string",
+            "title": "Name",
+            "type": "string"
+          },
+          "standard__activity_note": {
+            "format": "string",
+            "title": "Note",
+            "type": "string"
+          },
+          "standard__activity_note_title": {
+            "format": "string",
+            "title": "Note title",
+            "type": "string"
+          },
+          "standard__activity_opportunity_change_id": {
+            "description": "The unique identifier for an Opportunity",
+            "format": "string",
+            "title": "Opportunity ID",
+            "type": "string"
+          },
+          "standard__activity_opportunity_change_last_edit_salesperson_id": {
+            "description": "The ID of the salesperson who last edited the Opportunity",
+            "format": "string",
+            "title": "Last edit salesperson ID",
+            "type": "string"
+          },
+          "standard__activity_opportunity_change_lost_reason": {
+            "description": "Explanation of why the Opportunity was lost",
+            "format": "string",
+            "title": "Lost reason",
+            "type": "string"
+          },
+          "standard__activity_opportunity_change_name": {
+            "description": "The name/title of the Opportunity",
+            "format": "string",
+            "title": "Opportunity name",
+            "type": "string"
+          },
+          "standard__activity_opportunity_change_notes": {
+            "description": "Notes about the Opportunity",
+            "format": "string",
+            "title": "Notes",
+            "type": "string"
+          },
+          "standard__activity_opportunity_change_pipeline_stage": {
+            "description": "The pipeline status of the Opportunity in the pipeline, (closed-won, closed-lost, open, etc)",
+            "format": "string",
+            "title": "Pipeline stage",
+            "type": "string"
+          },
+          "standard__activity_opportunity_change_updated_date": {
+            "description": "The date the Opportunity was last updated",
+            "format": "date",
+            "title": "Updated date",
+            "type": "string"
+          },
+          "standard__activity_record_change_field_ids_list": {
+            "items": {
+              "type": "string"
+            },
+            "title": "List of the Field ID's for the fields changed",
+            "type": "array"
+          },
+          "standard__activity_record_change_reference_id": {
+            "description": "The ChangeID that references the change",
+            "format": "string",
+            "title": "Record change reference ID",
+            "type": "string"
+          },
+          "standard__activity_record_change_type": {
+            "description": "The type of change associated with a CRM object record, e.g.: CREATED, CHANGED_TO, etc…",
+            "format": "string",
+            "title": "Record change type",
+            "type": "string"
+          },
+          "standard__activity_record_change_user_id": {
+            "format": "string",
+            "title": "ID of the person who made the change",
+            "type": "string"
+          },
+          "standard__activity_source_drill_1": {
+            "description": "Activity record source drill down 1",
+            "format": "string",
+            "title": "Record source drill down 1",
+            "type": "string"
+          },
+          "standard__activity_source_drill_2": {
+            "description": "Activity record source drill down 2",
+            "format": "string",
+            "title": "Record source drill down 2",
+            "type": "string"
+          },
+          "standard__activity_source_drill_3": {
+            "description": "Activity record source drill down 3",
+            "format": "string",
+            "title": "Record source drill down 3",
+            "type": "string"
+          },
+          "standard__activity_source_name": {
+            "description": "Name of the app or external system that created the activity. E.g. 'Salesforce', 'Hubspot', 'Gmail'",
+            "format": "string",
+            "title": "Record source",
+            "type": "string"
+          },
+          "standard__activity_tags": {
+            "description": "List of tags useful for segmentation of activities.",
+            "format": "tag",
+            "title": "Tags",
+            "type": "string"
+          },
+          "standard__activity_task_body": {
+            "description": "Notes taken for a task.",
+            "format": "string",
+            "title": "Task body",
+            "type": "string"
+          },
+          "standard__activity_task_due_date": {
+            "description": "Optional date indicating when the task is due for completion",
+            "format": "date-time",
+            "title": "Task due date",
+            "type": "string"
+          },
+          "standard__activity_task_is_overdue": {
+            "description": "Indicates if the task was not completed before the due date",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Task is overdue",
+            "type": "boolean"
+          },
+          "standard__activity_task_priority": {
+            "description": "Priority for a given task, e.g.: HIGH, MEDIUM, LOW, etc…",
+            "format": "string",
+            "title": "Task priority",
+            "type": "string"
+          },
+          "standard__activity_task_status": {
+            "description": "Status for a given task, e.g.: COMPLETED, NOT_STARTED, IN_PROGRESS, etc…",
+            "format": "string",
+            "title": "Task status",
+            "type": "string"
+          },
+          "standard__activity_task_type": {
+            "description": "Type of task to be executed, e.g.: EMAIL, CALL, TODO, etc…",
+            "format": "string",
+            "title": "Task type",
+            "type": "string"
+          },
+          "standard__activity_url": {
+            "description": "Link to more information about the activity.",
+            "format": "string",
+            "title": "URL",
+            "type": "string"
+          },
+          "standard__activity_url_name": {
+            "description": "Name of the link to more information about the activity.",
+            "format": "string",
+            "title": "URL name",
+            "type": "string"
+          },
+          "system__activity_activity_type": {
+            "description": "Type of activity",
+            "format": "string",
+            "title": "Activity type",
+            "type": "string"
+          },
+          "system__activity_created": {
+            "description": "When the record was created",
+            "format": "date",
+            "readOnly": true,
+            "title": "Created date",
+            "type": "string"
+          },
+          "system__activity_effective": {
+            "description": "Relevant date for the type",
+            "format": "date-time",
+            "title": "Effective date",
+            "type": "string"
+          },
+          "system__activity_external_id": {
+            "description": "External identifier for the record, optional",
+            "format": "string",
+            "readOnly": true,
+            "title": "External ID",
+            "type": "string"
+          },
+          "system__activity_id": {
+            "description": "unique identifier for the record",
+            "format": "string",
+            "readOnly": true,
+            "title": "ID",
+            "type": "string"
+          },
+          "system__activity_owner_id": {
+            "description": "Owner of the record.",
+            "format": "string",
+            "title": "Owner",
+            "type": "string"
+          },
+          "system__activity_source_id": {
+            "description": "ID in the source system",
+            "format": "string",
+            "title": "Source ID",
+            "type": "string"
+          },
+          "system__activity_updated": {
+            "description": "When the record was last updated",
+            "format": "date",
+            "readOnly": true,
+            "title": "Updated date",
             "type": "string"
           }
-        }
+        },
+        "title": "CRM Activity",
+        "type": "object"
+      },
+      "CRMCallActivity": {
+        "description": "CRM Call Field Schema for AG-L56V52BMMW",
+        "x-stoplight": {
+          "id": "010ed6999a364"
+        },
+        "properties": {
+          "standard__activity_call_body": {
+            "description": "Description of the call, including any notes that you want to add. Or even a transcript.",
+            "format": "string",
+            "title": "Call body",
+            "type": "string"
+          },
+          "standard__activity_call_date": {
+            "description": "Date and time the call was made.",
+            "format": "date-time",
+            "title": "Call date",
+            "type": "string"
+          },
+          "standard__activity_call_direction": {
+            "description": "Direction of the call, e.g.: INBOUND, OUTBOUND, etc…",
+            "format": "string",
+            "title": "Call direction",
+            "type": "string"
+          },
+          "standard__activity_call_duration": {
+            "description": "Duration of the call in milliseconds.",
+            "format": "int64",
+            "title": "Call duration",
+            "type": "int"
+          },
+          "standard__activity_call_from_number": {
+            "format": "phone",
+            "title": "Call from number",
+            "type": "string"
+          },
+          "standard__activity_call_outcome": {
+            "description": "Outcome of the call, e.g.: BUSY, CONNECTED, LEFT_LIVE_MESSAGE, LEFT_VOICE_MESSAGE, NO_ANSWER, WRONG_NUMBER, etc…",
+            "format": "string",
+            "title": "Call outcome",
+            "type": "string"
+          },
+          "standard__activity_call_recording_url": {
+            "description": "URL to audio recording.",
+            "format": "string",
+            "title": "Call recording URL",
+            "type": "string"
+          },
+          "standard__activity_call_status": {
+            "description": "Technical status of the call, e.g.: SCHEDULED, BUSY, CALLING, CANCELLED, FAILED, IN_PROGRESS, NO_ANSWER, etc…",
+            "format": "string",
+            "title": "Call status",
+            "type": "string"
+          },
+          "standard__activity_call_to_number": {
+            "format": "phone",
+            "title": "Call to number",
+            "type": "string"
+          },
+          "standard__activity_call_transcript": {
+            "description": "Transcript of the call",
+            "format": "string",
+            "title": "Call Transcript",
+            "type": "string"
+          },
+          "standard__activity_manually_logged": {
+            "description": "Whether the activity was manually logged",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Manually logged",
+            "type": "boolean"
+          },
+          "standard__activity_name": {
+            "description": "Display name used when showing a summary of the activity.",
+            "format": "string",
+            "title": "Name",
+            "type": "string"
+          },
+          "standard__activity_source_drill_1": {
+            "description": "Activity record source drill down 1",
+            "format": "string",
+            "title": "Record source drill down 1",
+            "type": "string"
+          },
+          "standard__activity_source_drill_2": {
+            "description": "Activity record source drill down 2",
+            "format": "string",
+            "title": "Record source drill down 2",
+            "type": "string"
+          },
+          "standard__activity_source_drill_3": {
+            "description": "Activity record source drill down 3",
+            "format": "string",
+            "title": "Record source drill down 3",
+            "type": "string"
+          },
+          "standard__activity_source_name": {
+            "description": "Name of the app or external system that created the activity. E.g. 'Salesforce', 'Hubspot', 'Gmail'",
+            "format": "string",
+            "title": "Record source",
+            "type": "string"
+          },
+          "standard__activity_tags": {
+            "description": "List of tags useful for segmentation of activities.",
+            "format": "tag",
+            "title": "Tags",
+            "type": "string"
+          },
+          "standard__activity_url": {
+            "description": "Link to more information about the activity.",
+            "format": "string",
+            "title": "URL",
+            "type": "string"
+          },
+          "standard__activity_url_name": {
+            "description": "Name of the link to more information about the activity.",
+            "format": "string",
+            "title": "URL name",
+            "type": "string"
+          },
+          "system__activity_activity_type": {
+            "description": "Type of activity",
+            "format": "string",
+            "title": "Activity type",
+            "type": "string"
+          },
+          "system__activity_created": {
+            "description": "When the record was created",
+            "format": "date",
+            "readOnly": true,
+            "title": "Created date",
+            "type": "string"
+          },
+          "system__activity_effective": {
+            "description": "Relevant date for the type",
+            "format": "date-time",
+            "title": "Effective date",
+            "type": "string"
+          },
+          "system__activity_external_id": {
+            "description": "External identifier for the record, optional",
+            "format": "string",
+            "readOnly": true,
+            "title": "External ID",
+            "type": "string"
+          },
+          "system__activity_id": {
+            "description": "unique identifier for the record",
+            "format": "string",
+            "readOnly": true,
+            "title": "ID",
+            "type": "string"
+          },
+          "system__activity_owner_id": {
+            "description": "Owner of the record.",
+            "format": "string",
+            "title": "Owner",
+            "type": "string"
+          },
+          "system__activity_source_id": {
+            "description": "ID in the source system",
+            "format": "string",
+            "title": "Source ID",
+            "type": "string"
+          },
+          "system__activity_updated": {
+            "description": "When the record was last updated",
+            "format": "date",
+            "readOnly": true,
+            "title": "Updated date",
+            "type": "string"
+          }
+        },
+        "title": "CRM Call",
+        "type": "object"
+      },
+      "CRMCommunicationActivity": {
+        "description": "CRM Communication Field Schema for AG-L56V52BMMW",
+        "x-stoplight": {
+          "id": "6d4b14936d092"
+        },
+        "properties": {
+          "standard__activity_communication_body": {
+            "description": "Text of the body.",
+            "format": "string",
+            "title": "Communication body",
+            "type": "string"
+          },
+          "standard__activity_communication_channel": {
+            "description": "Communication channels different than email, or a call, e.g.: SMS, VENDASTA_INBOX, WHATS_APP, LINKEDIN_MESSAGE, etc…",
+            "format": "string",
+            "title": "Communication channel",
+            "type": "string"
+          },
+          "standard__activity_communication_date": {
+            "description": "Date and time the activity was made.",
+            "format": "date-time",
+            "title": "Communication date",
+            "type": "string"
+          },
+          "standard__activity_communication_direction": {
+            "description": "Direction of the communication activity, e.g.: INBOUND, OUTBOUND, etc…",
+            "format": "string",
+            "title": "Communication direction",
+            "type": "string"
+          },
+          "standard__activity_communication_from_id": {
+            "description": "If the communication channel has an ID used for sending and receiving it can be recorded here.",
+            "format": "string",
+            "title": "Communication from ID",
+            "type": "string"
+          },
+          "standard__activity_communication_outcome": {
+            "description": "Outcome of the communication, e.g.: SCHEDULED, COMPLETED, RESCHEDULED, NO_SHOW, CANCELLED",
+            "format": "string",
+            "title": "Communication outcome",
+            "type": "string"
+          },
+          "standard__activity_communication_status": {
+            "description": "status of the communication, e.g.: DELIVERED, PROCESSED, BOUNCED",
+            "format": "string",
+            "title": "Communication status",
+            "type": "string"
+          },
+          "standard__activity_communication_to_id": {
+            "description": "If the communication channel has an ID used for sending and receiving it can be recorded here.",
+            "format": "string",
+            "title": "Communication to ID",
+            "type": "string"
+          },
+          "standard__activity_communication_type": {
+            "description": "Type of the communication, e.g: General, Campaign, Reputation review request",
+            "format": "string",
+            "title": "Communication type",
+            "type": "string"
+          },
+          "standard__activity_manually_logged": {
+            "description": "Whether the activity was manually logged",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Manually logged",
+            "type": "boolean"
+          },
+          "standard__activity_name": {
+            "description": "Display name used when showing a summary of the activity.",
+            "format": "string",
+            "title": "Name",
+            "type": "string"
+          },
+          "standard__activity_source_drill_1": {
+            "description": "Activity record source drill down 1",
+            "format": "string",
+            "title": "Record source drill down 1",
+            "type": "string"
+          },
+          "standard__activity_source_drill_2": {
+            "description": "Activity record source drill down 2",
+            "format": "string",
+            "title": "Record source drill down 2",
+            "type": "string"
+          },
+          "standard__activity_source_drill_3": {
+            "description": "Activity record source drill down 3",
+            "format": "string",
+            "title": "Record source drill down 3",
+            "type": "string"
+          },
+          "standard__activity_source_name": {
+            "description": "Name of the app or external system that created the activity. E.g. 'Salesforce', 'Hubspot', 'Gmail'",
+            "format": "string",
+            "title": "Record source",
+            "type": "string"
+          },
+          "standard__activity_tags": {
+            "description": "List of tags useful for segmentation of activities.",
+            "format": "tag",
+            "title": "Tags",
+            "type": "string"
+          },
+          "standard__activity_url": {
+            "description": "Link to more information about the activity.",
+            "format": "string",
+            "title": "URL",
+            "type": "string"
+          },
+          "standard__activity_url_name": {
+            "description": "Name of the link to more information about the activity.",
+            "format": "string",
+            "title": "URL name",
+            "type": "string"
+          },
+          "system__activity_activity_type": {
+            "description": "Type of activity",
+            "format": "string",
+            "title": "Activity type",
+            "type": "string"
+          },
+          "system__activity_created": {
+            "description": "When the record was created",
+            "format": "date",
+            "readOnly": true,
+            "title": "Created date",
+            "type": "string"
+          },
+          "system__activity_effective": {
+            "description": "Relevant date for the type",
+            "format": "date-time",
+            "title": "Effective date",
+            "type": "string"
+          },
+          "system__activity_external_id": {
+            "description": "External identifier for the record, optional",
+            "format": "string",
+            "readOnly": true,
+            "title": "External ID",
+            "type": "string"
+          },
+          "system__activity_id": {
+            "description": "unique identifier for the record",
+            "format": "string",
+            "readOnly": true,
+            "title": "ID",
+            "type": "string"
+          },
+          "system__activity_owner_id": {
+            "description": "Owner of the record.",
+            "format": "string",
+            "title": "Owner",
+            "type": "string"
+          },
+          "system__activity_source_id": {
+            "description": "ID in the source system",
+            "format": "string",
+            "title": "Source ID",
+            "type": "string"
+          },
+          "system__activity_updated": {
+            "description": "When the record was last updated",
+            "format": "date",
+            "readOnly": true,
+            "title": "Updated date",
+            "type": "string"
+          }
+        },
+        "title": "CRM Communication",
+        "type": "object"
+      },
+      "CRMCompany": {
+        "description": "CRM Company Field Schema for AG-L56V52BMMW",
+        "properties": {
+          "standard__company_additional_team_members": {
+            "description": "Additional team members for company",
+            "items": {
+              "type": "string"
+            },
+            "title": "Company additional team members",
+            "type": "array"
+          },
+          "standard__company_average_number_of_reviews_per_month": {
+            "description": "Average number of reviews the company receives each month.",
+            "readOnly": true,
+            "title": "Average number of reviews per month"
+          },
+          "standard__company_average_review_score": {
+            "description": "Average review score of the company.",
+            "readOnly": true,
+            "title": "Average review score"
+          },
+          "standard__company_category_ids": {
+            "description": "List of business category IDs for the company.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Business categories",
+            "type": "array"
+          },
+          "standard__company_facebook_average_number_of_likes_per_post": {
+            "description": "Average number of likes a Facebook post receives.",
+            "readOnly": true,
+            "title": "Average number of Facebook likes per post"
+          },
+          "standard__company_facebook_average_number_of_posts_per_month": {
+            "description": "Average number of Facebook posts made each month.",
+            "readOnly": true,
+            "title": "Average number of Facebook posts per month"
+          },
+          "standard__company_facebook_average_number_of_shares_per_post": {
+            "description": "Average number of shares a Facebook post receives.",
+            "readOnly": true,
+            "title": "Average number of Facebook shares per post"
+          },
+          "standard__company_facebook_data_last_updated_date": {
+            "description": "Date when the Facebook data fields were last updated.",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Facebook data last updated date",
+            "type": "string"
+          },
+          "standard__company_facebook_total_number_of_likes": {
+            "description": "Total number of likes on the company's Facebook page.",
+            "format": "int64",
+            "readOnly": true,
+            "title": "Total number of Facebook likes",
+            "type": "int"
+          },
+          "standard__company_facebook_url": {
+            "description": "Facebook URL of the company.",
+            "format": "string",
+            "title": "Facebook URL",
+            "type": "string"
+          },
+          "standard__company_fax_number": {
+            "description": "Fax number of the company.",
+            "format": "phone",
+            "title": "Fax number",
+            "type": "string"
+          },
+          "standard__company_fbclid": {
+            "description": "Facebook click ID used to create the company",
+            "format": "string",
+            "readOnly": true,
+            "title": "FBCLID",
+            "type": "string"
+          },
+          "standard__company_gbp_claimed": {
+            "description": "Whether the Google Business Profile associated with the company is claimed",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Google Business Profile claimed",
+            "type": "boolean"
+          },
+          "standard__company_gclid": {
+            "description": "Google click ID used to create the company",
+            "format": "string",
+            "readOnly": true,
+            "title": "GCLID",
+            "type": "string"
+          },
+          "standard__company_google_review_score": {
+            "description": "Google review score of the company.",
+            "readOnly": true,
+            "title": "Google review score"
+          },
+          "standard__company_instagram_data_last_updated_date": {
+            "description": "Date when the Instagram data fields were last updated.",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Instagram data last updated date",
+            "type": "string"
+          },
+          "standard__company_instagram_total_number_of_followers": {
+            "description": "Total number of followers on the company's Instagram account.",
+            "format": "int64",
+            "readOnly": true,
+            "title": "Total number of Instagram followers",
+            "type": "int"
+          },
+          "standard__company_instagram_total_number_of_posts": {
+            "description": "Total number of posts made on the company's Instagram account.",
+            "format": "int64",
+            "readOnly": true,
+            "title": "Total number of Instagram posts",
+            "type": "int"
+          },
+          "standard__company_instagram_url": {
+            "description": "Instagram URL of the company.",
+            "format": "string",
+            "title": "Instagram URL",
+            "type": "string"
+          },
+          "standard__company_last_campaign_email_bounced_date": {
+            "description": "Last campaign email bounced date for the company",
+            "format": "date",
+            "readOnly": true,
+            "title": "Last campaign email bounced date",
+            "type": "string"
+          },
+          "standard__company_last_campaign_email_clicked_date": {
+            "description": "Last campaign email clicked date for the company",
+            "format": "date",
+            "readOnly": true,
+            "title": "Last campaign email clicked date",
+            "type": "string"
+          },
+          "standard__company_last_campaign_email_open_date": {
+            "description": "Last campaign email open date for the company",
+            "format": "date",
+            "readOnly": true,
+            "title": "Last campaign email open date",
+            "type": "string"
+          },
+          "standard__company_last_campaign_email_sent_date": {
+            "description": "Last campaign email sent date for the company",
+            "format": "date",
+            "readOnly": true,
+            "title": "Last campaign email sent date",
+            "type": "string"
+          },
+          "standard__company_last_campaign_email_sent_name": {
+            "description": "Name of last campaign email sent for the company",
+            "format": "string",
+            "readOnly": true,
+            "title": "Last campaign email sent name",
+            "type": "string"
+          },
+          "standard__company_last_contact_date": {
+            "description": "Date of last contact with the company",
+            "format": "date",
+            "readOnly": true,
+            "title": "Last contact date",
+            "type": "string"
+          },
+          "standard__company_last_engagement_date": {
+            "description": "Date of last engagement with the company",
+            "format": "date",
+            "readOnly": true,
+            "title": "Last engagement date",
+            "type": "string"
+          },
+          "standard__company_last_listings_data_updated_date": {
+            "description": "Date when the listings data was last updated.",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Last listings data updated date",
+            "type": "string"
+          },
+          "standard__company_last_review_data_updated_date": {
+            "description": "Date when the review data fields were last updated.",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Last review data updated date",
+            "type": "string"
+          },
+          "standard__company_last_sales_email_received_date": {
+            "description": "Date of last sales email received for the company",
+            "format": "date",
+            "readOnly": true,
+            "title": "Last sales email received date",
+            "type": "string"
+          },
+          "standard__company_last_sales_email_sent_date": {
+            "description": "Date of last sales email sent for the company",
+            "format": "date",
+            "readOnly": true,
+            "title": "Last sales email sent date",
+            "type": "string"
+          },
+          "standard__company_last_social_performance_updated_date": {
+            "description": "Date when the social performance grade was last updated.",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Last social performance grade updated date",
+            "type": "string"
+          },
+          "standard__company_lead_quality": {
+            "description": "The calculated lead quality of the company.",
+            "format": "string",
+            "readOnly": true,
+            "title": "Lead quality",
+            "type": "string"
+          },
+          "standard__company_lead_score": {
+            "description": "The calculated lead score of the company.",
+            "readOnly": true,
+            "title": "Lead score"
+          },
+          "standard__company_legal_structure": {
+            "description": "The legal structure of the company, such as 'private', 'public', 'non-profit', etc.",
+            "format": "string",
+            "title": "Legal structure",
+            "type": "string"
+          },
+          "standard__company_lifecycle_stage": {
+            "description": "The stage of the company in the sales or marketing funnel, such as 'prospect', 'lead', 'customer', etc.",
+            "format": "string",
+            "title": "Lifecycle stage",
+            "type": "string"
+          },
+          "standard__company_linkedin_url": {
+            "description": "LinkedIn URL of the company.",
+            "format": "string",
+            "title": "LinkedIn URL",
+            "type": "string"
+          },
+          "standard__company_listings_incorrect_address_count": {
+            "description": "The number of listings with incorrect addresses found for the company.",
+            "format": "int64",
+            "readOnly": true,
+            "title": "Incorrect address count",
+            "type": "int"
+          },
+          "standard__company_listings_incorrect_phone_number_count": {
+            "description": "The number of listings with incorrect phone numbers found for the company.",
+            "format": "int64",
+            "readOnly": true,
+            "title": "Incorrect phone number count",
+            "type": "int"
+          },
+          "standard__company_listings_incorrect_website_count": {
+            "description": "The number of listings with incorrect websites found for the company.",
+            "format": "int64",
+            "readOnly": true,
+            "title": "Incorrect website count",
+            "type": "int"
+          },
+          "standard__company_listings_missing_address_count": {
+            "description": "The number of listings with missing addresses found for the company.",
+            "format": "int64",
+            "readOnly": true,
+            "title": "Missing address count",
+            "type": "int"
+          },
+          "standard__company_listings_missing_phone_number_count": {
+            "description": "The number of listings with missing phone numbers found for the company.",
+            "format": "int64",
+            "readOnly": true,
+            "title": "Missing phone number count",
+            "type": "int"
+          },
+          "standard__company_listings_missing_website_count": {
+            "description": "The number of listings with missing websites found for the company.",
+            "format": "int64",
+            "readOnly": true,
+            "title": "Missing website count",
+            "type": "int"
+          },
+          "standard__company_listings_number_of_available_sources": {
+            "description": "The number of sources where the company was found and is currently available to the public.",
+            "format": "int64",
+            "readOnly": true,
+            "title": "Number of available sources",
+            "type": "int"
+          },
+          "standard__company_listings_number_of_sources_found": {
+            "description": "The total number of sources where the company information was found.",
+            "format": "int64",
+            "readOnly": true,
+            "title": "Number of sources found",
+            "type": "int"
+          },
+          "standard__company_listings_percentage_of_accurate_listings": {
+            "description": "The percentage of listings with accurate information for the company.",
+            "readOnly": true,
+            "title": "Percentage of accurate listings"
+          },
+          "standard__company_listings_performance_grade": {
+            "description": "Grade of the company's overall listings performance.",
+            "format": "string",
+            "readOnly": true,
+            "title": "Listings performance grade",
+            "type": "string"
+          },
+          "standard__company_msclkid": {
+            "description": "Microsoft click ID used to create the company",
+            "format": "string",
+            "readOnly": true,
+            "title": "MSCLKID",
+            "type": "string"
+          },
+          "standard__company_name": {
+            "description": "Name of the company.",
+            "format": "string",
+            "title": "Company name",
+            "type": "string"
+          },
+          "standard__company_next_task_due_date": {
+            "description": "Date indicating when the next task of the company is due for completion",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Next task due date",
+            "type": "string"
+          },
+          "standard__company_next_task_id": {
+            "description": "ID of the next task of the company",
+            "format": "string",
+            "readOnly": true,
+            "title": "Next task ID",
+            "type": "string"
+          },
+          "standard__company_number_of_employees": {
+            "description": "Number of employees in the company. ",
+            "format": "string",
+            "title": "Number of employees",
+            "type": "string"
+          },
+          "standard__company_number_of_review_sources": {
+            "description": "Number of sources where the company has been reviewed.",
+            "format": "int64",
+            "readOnly": true,
+            "title": "Number of review sources",
+            "type": "int"
+          },
+          "standard__company_number_of_reviews": {
+            "description": "Total number of reviews across all sources for the company.",
+            "format": "int64",
+            "readOnly": true,
+            "title": "Number of reviews",
+            "type": "int"
+          },
+          "standard__company_original_source": {
+            "description": "Lead attribution original source",
+            "format": "string",
+            "title": "Original source",
+            "type": "string"
+          },
+          "standard__company_original_source_drill_1": {
+            "description": "Lead attribution original source drill down level 1",
+            "format": "string",
+            "title": "Original source drill down 1",
+            "type": "string"
+          },
+          "standard__company_original_source_drill_2": {
+            "description": "Lead attribution original source drill down level 2",
+            "format": "string",
+            "title": "Original source drill down 2",
+            "type": "string"
+          },
+          "standard__company_parent_company_id": {
+            "description": "The parent company associated with this company.",
+            "format": "string",
+            "readOnly": true,
+            "title": "Parent Company",
+            "type": "string"
+          },
+          "standard__company_phone_number": {
+            "description": "Phone number of the company.",
+            "format": "phone",
+            "title": "Phone number",
+            "type": "string"
+          },
+          "standard__company_pinterest_url": {
+            "description": "Pinterest URL of the company.",
+            "format": "string",
+            "title": "Pinterest URL",
+            "type": "string"
+          },
+          "standard__company_pipeline_id": {
+            "description": "The pipeline ID that is associated with the company.",
+            "format": "string",
+            "readOnly": true,
+            "title": "Pipeline ID",
+            "type": "string"
+          },
+          "standard__company_primary_location_city_locality": {
+            "description": "City or locality of the company's primary location.",
+            "format": "string",
+            "title": "City/locality",
+            "type": "string"
+          },
+          "standard__company_primary_location_country": {
+            "description": "Country of the company's primary location.",
+            "format": "string",
+            "title": "Country",
+            "type": "string"
+          },
+          "standard__company_primary_location_google_place_id": {
+            "description": "Google Place ID of the company's primary location.",
+            "format": "string",
+            "title": "Google Place ID",
+            "type": "string"
+          },
+          "standard__company_primary_location_lat_long": {
+            "description": "Latitude and Longitude of the company's primary location.",
+            "format": "geopoint",
+            "properties": {
+              "lat": {
+                "format": "int64",
+                "type": "int"
+              },
+              "long": {
+                "format": "int64",
+                "type": "int"
+              }
+            },
+            "title": "Latitude/longitude",
+            "type": "object"
+          },
+          "standard__company_primary_location_state_province_region": {
+            "description": "State, province, or region of the company's primary location.",
+            "format": "string",
+            "title": "State/province/region",
+            "type": "string"
+          },
+          "standard__company_primary_location_street_address_1": {
+            "description": "Street address line 1 of the company's primary location.",
+            "format": "string",
+            "title": "Street address line 1",
+            "type": "string"
+          },
+          "standard__company_primary_location_street_address_2": {
+            "description": "Street address line 2 of the company's primary location.",
+            "format": "string",
+            "title": "Street address line 2",
+            "type": "string"
+          },
+          "standard__company_primary_location_zip_postal_code": {
+            "description": "Zip or postal code of the company's primary location.",
+            "format": "string",
+            "title": "Zip/postal code",
+            "type": "string"
+          },
+          "standard__company_review_performance_grade": {
+            "description": "Grade of the companies overall review performance.",
+            "format": "string",
+            "readOnly": true,
+            "title": "Review performance grade",
+            "type": "string"
+          },
+          "standard__company_social_performance_grade": {
+            "description": "Grade of the companies overall social media performance.",
+            "format": "string",
+            "readOnly": true,
+            "title": "Social performance grade",
+            "type": "string"
+          },
+          "standard__company_source_drill_1": {
+            "description": "Lead attribution record source drill down level 1",
+            "format": "string",
+            "title": "Record source drill down 1",
+            "type": "string"
+          },
+          "standard__company_source_drill_2": {
+            "description": "Lead attribution record source drill down level 2",
+            "format": "string",
+            "title": "Record source drill down 2",
+            "type": "string"
+          },
+          "standard__company_source_name": {
+            "description": "Name of the app or external system that created the company. E.g. 'Salesforce', 'Hubspot', 'Gmail'",
+            "format": "string",
+            "title": "Record source",
+            "type": "string"
+          },
+          "standard__company_tags": {
+            "description": "User-defined keywords or labels that can be used to categorize or group companies together.",
+            "format": "tag",
+            "title": "Tags",
+            "type": "string"
+          },
+          "standard__company_tiktok_url": {
+            "description": "TikTok URL of the company.",
+            "format": "string",
+            "title": "TikTok URL",
+            "type": "string"
+          },
+          "standard__company_timezone": {
+            "description": "Timezone of the contact. This is a string representing the timezone like 'America/New_York'. ",
+            "format": "string",
+            "title": "Timezone",
+            "type": "string"
+          },
+          "standard__company_utm_campaign": {
+            "description": "The campaign of the UTM parameters for the company. E.g. 'summer_sale', 'winter_sale', 'spring_sale', 'fall_sale', 'black_friday', 'cyber_monday', 'christmas', 'new_year', 'valentines', 'easter', 'mothers_day', 'fathers_day', 'back_to_school', 'halloween', 'thanksgiving', 'other'",
+            "format": "string",
+            "title": "UTM Campaign",
+            "type": "string"
+          },
+          "standard__company_utm_content": {
+            "description": "The content of the UTM parameters for the company. E.g. 'banner', 'sidebar', 'footer', 'header', 'popup', 'overlay', 'slider', 'carousel', 'video', 'audio', 'image', 'text', 'cta', 'form', 'other'",
+            "format": "string",
+            "title": "UTM Content",
+            "type": "string"
+          },
+          "standard__company_utm_medium": {
+            "description": "The medium of the UTM parameters for the company. E.g. 'cpc', 'email', 'social', 'organic', 'referral', 'affiliate', 'display', 'video', 'audio', 'sms', 'direct', 'other'",
+            "format": "string",
+            "title": "UTM Medium",
+            "type": "string"
+          },
+          "standard__company_utm_source": {
+            "description": "The source of the UTM parameters for the company. E.g. 'google', 'facebook', 'twitter', 'linkedin', 'instagram', 'pinterest', 'youtube', 'tiktok', 'snapchat', 'whatsapp', 'messenger', 'email', 'sms', 'direct', 'other'",
+            "format": "string",
+            "title": "UTM Source",
+            "type": "string"
+          },
+          "standard__company_utm_term": {
+            "description": "The term of the UTM parameters for the company. E.g. 'running+shoes', 'black+friday+sale', 'cyber+monday+sale', 'christmas+gifts', 'new+year+resolutions', 'valentines+gifts', 'easter+sale', 'mothers+day+gifts', 'fathers+day+gifts', 'back+to+school+sale', 'halloween+sale', 'thanksgiving+sale', 'other'",
+            "format": "string",
+            "title": "UTM Term",
+            "type": "string"
+          },
+          "standard__company_website": {
+            "description": "Website of the company.",
+            "format": "string",
+            "title": "Website",
+            "type": "string"
+          },
+          "standard__company_website_desktop_speed": {
+            "description": "How long it takes to load the company's website on desktop.",
+            "format": "string",
+            "readOnly": true,
+            "title": "Website desktop speed",
+            "type": "string"
+          },
+          "standard__company_website_grade": {
+            "description": "Grade of the company's website performance.",
+            "format": "string",
+            "readOnly": true,
+            "title": "Website grade",
+            "type": "string"
+          },
+          "standard__company_website_instagram_present": {
+            "description": "Indicates if the company's website homepage links to its Instagram page.",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Website links to Instagram",
+            "type": "boolean"
+          },
+          "standard__company_website_is_facebook_present": {
+            "description": "Indicates if the company's website homepage links to its Facebook page.",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Website links to Facebook",
+            "type": "boolean"
+          },
+          "standard__company_website_is_mobile_friendly": {
+            "description": "Indicates if the company's website is mobile-friendly.",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Website is mobile friendly",
+            "type": "boolean"
+          },
+          "standard__company_website_is_secure": {
+            "description": "Indicates if the company's website is secure (uses HTTPS).",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Website is secure",
+            "type": "boolean"
+          },
+          "standard__company_website_last_data_updated_date": {
+            "description": "Date when the data pertaining to the company's website was last updated.",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Website data last updated date",
+            "type": "string"
+          },
+          "standard__company_website_mobile_speed": {
+            "description": "How long it takes to load the company's website on mobile.",
+            "format": "string",
+            "readOnly": true,
+            "title": "Website mobile speed",
+            "type": "string"
+          },
+          "standard__company_website_phone_present": {
+            "description": "Indicates if the company's website homepage provides its phone number.",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Website has phone number",
+            "type": "boolean"
+          },
+          "standard__company_website_physical_address_present": {
+            "description": "Indicates if the company's website homepage provides its physical address or other location information.",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Website has physical address",
+            "type": "boolean"
+          },
+          "standard__company_website_video_present": {
+            "description": "Indicates if the company's website homepage contains a video.",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Website has video",
+            "type": "boolean"
+          },
+          "standard__company_website_x_present": {
+            "description": "Indicates if the company's website homepage links to its X account.",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Website links to X",
+            "type": "boolean"
+          },
+          "standard__company_x_data_last_updated_date": {
+            "description": "Date when the X data fields were last updated.",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "X data last updated date",
+            "type": "string"
+          },
+          "standard__company_x_total_number_of_followers": {
+            "description": "Total number of accounts following the company on X.",
+            "format": "int64",
+            "readOnly": true,
+            "title": "Total number of followers on X",
+            "type": "int"
+          },
+          "standard__company_x_total_number_of_following": {
+            "description": "Total number of accounts the company is following on X.",
+            "format": "int64",
+            "readOnly": true,
+            "title": "Total number of following on X",
+            "type": "int"
+          },
+          "standard__company_x_total_number_of_posts": {
+            "description": "Total number of posts made on X.",
+            "format": "int64",
+            "readOnly": true,
+            "title": "Total number of X posts",
+            "type": "int"
+          },
+          "standard__company_x_url": {
+            "description": "X URL of the company.",
+            "format": "string",
+            "title": "X URL",
+            "type": "string"
+          },
+          "system__company_created": {
+            "description": "When the record was created",
+            "format": "date",
+            "readOnly": true,
+            "title": "Created date",
+            "type": "string"
+          },
+          "system__company_external_id": {
+            "description": "External identifier for the record, optional",
+            "format": "string",
+            "title": "External ID",
+            "type": "string"
+          },
+          "system__company_group_id": {
+            "description": "Market ID for the record, optional. Used for grouping records together, and authorization where users are restricted to selected markets.",
+            "format": "string",
+            "title": "Market ID",
+            "type": "string"
+          },
+          "system__company_id": {
+            "description": "unique identifier for the record",
+            "format": "string",
+            "readOnly": true,
+            "title": "ID",
+            "type": "string"
+          },
+          "system__company_last_activity_date": {
+            "description": "Date and time of last activity",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Last activity date",
+            "type": "string"
+          },
+          "system__company_owner_id": {
+            "description": "Owner of the record.",
+            "format": "string",
+            "title": "Owner",
+            "type": "string"
+          },
+          "system__company_updated": {
+            "description": "When the record was last updated",
+            "format": "date",
+            "readOnly": true,
+            "title": "Updated date",
+            "type": "string"
+          }
+        },
+        "title": "CRM Company",
+        "type": "object"
+      },
+      "CRMEmailActivity": {
+        "description": "CRM Email Field Schema for AG-L56V52BMMW",
+        "properties": {
+          "standard__activity_campaign_id": {
+            "description": "An optional ID for the campaign that the email is associated with",
+            "format": "string",
+            "title": "Campaign ID",
+            "type": "string"
+          },
+          "standard__activity_email_body": {
+            "description": "Text or HTML body of the email",
+            "format": "string",
+            "title": "Email body",
+            "type": "string"
+          },
+          "standard__activity_email_date": {
+            "description": "Date and time the email was sent.",
+            "format": "date-time",
+            "title": "Email date",
+            "type": "string"
+          },
+          "standard__activity_email_direction": {
+            "description": "The direction the email is going from/to, e.g.: SENT, INCOMING, FORWARDED, etc…",
+            "format": "string",
+            "title": "Email direction",
+            "type": "string"
+          },
+          "standard__activity_email_headers": {
+            "description": "JSON string of email headers.",
+            "format": "string",
+            "title": "Email headers",
+            "type": "string"
+          },
+          "standard__activity_email_id": {
+            "description": "The ID is a consistent ID for an email across multiple status activities",
+            "format": "string",
+            "title": "Email ID",
+            "type": "string"
+          },
+          "standard__activity_email_status": {
+            "description": "Status for the email delivery, e.g.: BOUNCED, FAILED, SCHEDULED, SENDING, SENT, etc…",
+            "format": "string",
+            "title": "Email status",
+            "type": "string"
+          },
+          "standard__activity_email_subject": {
+            "description": "Subject line of the logged email.",
+            "format": "string",
+            "title": "Email subject",
+            "type": "string"
+          },
+          "standard__activity_email_type": {
+            "description": "The email type, e.g.: Marketing, Sales, etc…",
+            "format": "string",
+            "title": "Email type",
+            "type": "string"
+          },
+          "standard__activity_manually_logged": {
+            "description": "Whether the activity was manually logged",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Manually logged",
+            "type": "boolean"
+          },
+          "standard__activity_name": {
+            "description": "Display name used when showing a summary of the activity.",
+            "format": "string",
+            "title": "Name",
+            "type": "string"
+          },
+          "standard__activity_source_drill_1": {
+            "description": "Activity record source drill down 1",
+            "format": "string",
+            "title": "Record source drill down 1",
+            "type": "string"
+          },
+          "standard__activity_source_drill_2": {
+            "description": "Activity record source drill down 2",
+            "format": "string",
+            "title": "Record source drill down 2",
+            "type": "string"
+          },
+          "standard__activity_source_drill_3": {
+            "description": "Activity record source drill down 3",
+            "format": "string",
+            "title": "Record source drill down 3",
+            "type": "string"
+          },
+          "standard__activity_source_name": {
+            "description": "Name of the app or external system that created the activity. E.g. 'Salesforce', 'Hubspot', 'Gmail'",
+            "format": "string",
+            "title": "Record source",
+            "type": "string"
+          },
+          "standard__activity_tags": {
+            "description": "List of tags useful for segmentation of activities.",
+            "format": "tag",
+            "title": "Tags",
+            "type": "string"
+          },
+          "standard__activity_url": {
+            "description": "Link to more information about the activity.",
+            "format": "string",
+            "title": "URL",
+            "type": "string"
+          },
+          "standard__activity_url_name": {
+            "description": "Name of the link to more information about the activity.",
+            "format": "string",
+            "title": "URL name",
+            "type": "string"
+          },
+          "system__activity_activity_type": {
+            "description": "Type of activity",
+            "format": "string",
+            "title": "Activity type",
+            "type": "string"
+          },
+          "system__activity_created": {
+            "description": "When the record was created",
+            "format": "date",
+            "readOnly": true,
+            "title": "Created date",
+            "type": "string"
+          },
+          "system__activity_effective": {
+            "description": "Relevant date for the type",
+            "format": "date-time",
+            "title": "Effective date",
+            "type": "string"
+          },
+          "system__activity_external_id": {
+            "description": "External identifier for the record, optional",
+            "format": "string",
+            "readOnly": true,
+            "title": "External ID",
+            "type": "string"
+          },
+          "system__activity_id": {
+            "description": "unique identifier for the record",
+            "format": "string",
+            "readOnly": true,
+            "title": "ID",
+            "type": "string"
+          },
+          "system__activity_owner_id": {
+            "description": "Owner of the record.",
+            "format": "string",
+            "title": "Owner",
+            "type": "string"
+          },
+          "system__activity_source_id": {
+            "description": "ID in the source system",
+            "format": "string",
+            "title": "Source ID",
+            "type": "string"
+          },
+          "system__activity_updated": {
+            "description": "When the record was last updated",
+            "format": "date",
+            "readOnly": true,
+            "title": "Updated date",
+            "type": "string"
+          }
+        },
+        "title": "CRM Email",
+        "type": "object"
+      },
+      "CRMMeetingActivity": {
+        "description": "CRM Meeting Field Schema for AG-L56V52BMMW",
+        "properties": {
+          "standard__activity_manually_logged": {
+            "description": "Whether the activity was manually logged",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Manually logged",
+            "type": "boolean"
+          },
+          "standard__activity_meeting_action_items": {
+            "description": "Action items of the meeting",
+            "items": {
+              "type": "string"
+            },
+            "title": "Meeting action items",
+            "type": "array"
+          },
+          "standard__activity_meeting_analysis_processed_transcript_id": {
+            "description": "Processed transcript ID of the meeting analysis",
+            "format": "string",
+            "title": "Meeting transcript ID",
+            "type": "string"
+          },
+          "standard__activity_meeting_body": {
+            "description": "Meeting description.",
+            "format": "string",
+            "title": "Meeting body",
+            "type": "string"
+          },
+          "standard__activity_meeting_duration": {
+            "description": "Duration of the meeting in milliseconds.",
+            "format": "int64",
+            "title": "Meeting duration",
+            "type": "int"
+          },
+          "standard__activity_meeting_end_time": {
+            "format": "date-time",
+            "title": "Meeting end time",
+            "type": "string"
+          },
+          "standard__activity_meeting_internal_notes": {
+            "description": "Internal notes you take for your team not included in the meeting description.",
+            "format": "string",
+            "title": "Meeting internal notes",
+            "type": "string"
+          },
+          "standard__activity_meeting_key_takeaways": {
+            "description": "Key takeaways of the meeting",
+            "items": {
+              "type": "string"
+            },
+            "title": "Meeting key takeaways",
+            "type": "array"
+          },
+          "standard__activity_meeting_last_analyzed_date": {
+            "description": "Last analyzed by AI date of the meeting",
+            "format": "date",
+            "title": "Meeting last analyzed date",
+            "type": "string"
+          },
+          "standard__activity_meeting_location": {
+            "description": "Where the meeting takes place. The value could be a physical address, a conference room, a videoconference link, or a phone number.",
+            "format": "string",
+            "title": "Meeting location",
+            "type": "string"
+          },
+          "standard__activity_meeting_outcome": {
+            "description": "Outcome of the meeting, e.g.: SCHEDULED, COMPLETED, RESCHEDULED, NO_SHOW, CANCELLED",
+            "format": "string",
+            "title": "Meeting outcome",
+            "type": "string"
+          },
+          "standard__activity_meeting_recording_url": {
+            "description": "Recording URL of the meeting",
+            "format": "string",
+            "title": "Meeting recording URL",
+            "type": "string"
+          },
+          "standard__activity_meeting_sentiment": {
+            "description": "Sentiment of the meeting",
+            "format": "int64",
+            "title": "Meeting sentiment",
+            "type": "int"
+          },
+          "standard__activity_meeting_start_time": {
+            "format": "date-time",
+            "title": "Meeting start time",
+            "type": "string"
+          },
+          "standard__activity_meeting_status": {
+            "description": "Meeting status ex. SCHEDULED, COMPLETED, RESCHEDULED, etc.",
+            "format": "string",
+            "title": "Meeting status",
+            "type": "string"
+          },
+          "standard__activity_meeting_summary_body": {
+            "description": "Body of the summary of the meeting",
+            "format": "string",
+            "title": "Meeting summary body",
+            "type": "string"
+          },
+          "standard__activity_meeting_summary_title": {
+            "description": "Title of the summary of the meeting",
+            "format": "string",
+            "title": "Meeting summary title",
+            "type": "string"
+          },
+          "standard__activity_meeting_transcript": {
+            "description": "Transcript of the meeting",
+            "format": "string",
+            "title": "Meeting transcript",
+            "type": "string"
+          },
+          "standard__activity_meeting_transcript_url": {
+            "description": "Transcript URL of the meeting",
+            "format": "string",
+            "title": "Meeting transcript URL",
+            "type": "string"
+          },
+          "standard__activity_meeting_url": {
+            "description": "Link to a calendar, for example Google Calendar, Calendar Hero, etc.",
+            "format": "string",
+            "title": "Meeting URL",
+            "type": "string"
+          },
+          "standard__activity_name": {
+            "description": "Display name used when showing a summary of the activity.",
+            "format": "string",
+            "title": "Name",
+            "type": "string"
+          },
+          "standard__activity_source_drill_1": {
+            "description": "Activity record source drill down 1",
+            "format": "string",
+            "title": "Record source drill down 1",
+            "type": "string"
+          },
+          "standard__activity_source_drill_2": {
+            "description": "Activity record source drill down 2",
+            "format": "string",
+            "title": "Record source drill down 2",
+            "type": "string"
+          },
+          "standard__activity_source_drill_3": {
+            "description": "Activity record source drill down 3",
+            "format": "string",
+            "title": "Record source drill down 3",
+            "type": "string"
+          },
+          "standard__activity_source_name": {
+            "description": "Name of the app or external system that created the activity. E.g. 'Salesforce', 'Hubspot', 'Gmail'",
+            "format": "string",
+            "title": "Record source",
+            "type": "string"
+          },
+          "standard__activity_tags": {
+            "description": "List of tags useful for segmentation of activities.",
+            "format": "tag",
+            "title": "Tags",
+            "type": "string"
+          },
+          "standard__activity_url": {
+            "description": "Link to more information about the activity.",
+            "format": "string",
+            "title": "URL",
+            "type": "string"
+          },
+          "standard__activity_url_name": {
+            "description": "Name of the link to more information about the activity.",
+            "format": "string",
+            "title": "URL name",
+            "type": "string"
+          },
+          "system__activity_activity_type": {
+            "description": "Type of activity",
+            "format": "string",
+            "title": "Activity type",
+            "type": "string"
+          },
+          "system__activity_created": {
+            "description": "When the record was created",
+            "format": "date",
+            "readOnly": true,
+            "title": "Created date",
+            "type": "string"
+          },
+          "system__activity_effective": {
+            "description": "Relevant date for the type",
+            "format": "date-time",
+            "title": "Effective date",
+            "type": "string"
+          },
+          "system__activity_external_id": {
+            "description": "External identifier for the record, optional",
+            "format": "string",
+            "readOnly": true,
+            "title": "External ID",
+            "type": "string"
+          },
+          "system__activity_id": {
+            "description": "unique identifier for the record",
+            "format": "string",
+            "readOnly": true,
+            "title": "ID",
+            "type": "string"
+          },
+          "system__activity_owner_id": {
+            "description": "Owner of the record.",
+            "format": "string",
+            "title": "Owner",
+            "type": "string"
+          },
+          "system__activity_source_id": {
+            "description": "ID in the source system",
+            "format": "string",
+            "title": "Source ID",
+            "type": "string"
+          },
+          "system__activity_updated": {
+            "description": "When the record was last updated",
+            "format": "date",
+            "readOnly": true,
+            "title": "Updated date",
+            "type": "string"
+          }
+        },
+        "title": "CRM Meeting",
+        "type": "object"
+      },
+      "CRMNoteActivity": {
+        "description": "CRM Note Field Schema for AG-L56V52BMMW",
+        "properties": {
+          "standard__activity_manually_logged": {
+            "description": "Whether the activity was manually logged",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Manually logged",
+            "type": "boolean"
+          },
+          "standard__activity_name": {
+            "description": "Display name used when showing a summary of the activity.",
+            "format": "string",
+            "title": "Name",
+            "type": "string"
+          },
+          "standard__activity_note": {
+            "format": "string",
+            "title": "Note",
+            "type": "string"
+          },
+          "standard__activity_note_title": {
+            "format": "string",
+            "title": "Note title",
+            "type": "string"
+          },
+          "standard__activity_source_drill_1": {
+            "description": "Activity record source drill down 1",
+            "format": "string",
+            "title": "Record source drill down 1",
+            "type": "string"
+          },
+          "standard__activity_source_drill_2": {
+            "description": "Activity record source drill down 2",
+            "format": "string",
+            "title": "Record source drill down 2",
+            "type": "string"
+          },
+          "standard__activity_source_drill_3": {
+            "description": "Activity record source drill down 3",
+            "format": "string",
+            "title": "Record source drill down 3",
+            "type": "string"
+          },
+          "standard__activity_source_name": {
+            "description": "Name of the app or external system that created the activity. E.g. 'Salesforce', 'Hubspot', 'Gmail'",
+            "format": "string",
+            "title": "Record source",
+            "type": "string"
+          },
+          "standard__activity_tags": {
+            "description": "List of tags useful for segmentation of activities.",
+            "format": "tag",
+            "title": "Tags",
+            "type": "string"
+          },
+          "standard__activity_url": {
+            "description": "Link to more information about the activity.",
+            "format": "string",
+            "title": "URL",
+            "type": "string"
+          },
+          "standard__activity_url_name": {
+            "description": "Name of the link to more information about the activity.",
+            "format": "string",
+            "title": "URL name",
+            "type": "string"
+          },
+          "system__activity_activity_type": {
+            "description": "Type of activity",
+            "format": "string",
+            "title": "Activity type",
+            "type": "string"
+          },
+          "system__activity_created": {
+            "description": "When the record was created",
+            "format": "date",
+            "readOnly": true,
+            "title": "Created date",
+            "type": "string"
+          },
+          "system__activity_effective": {
+            "description": "Relevant date for the type",
+            "format": "date-time",
+            "title": "Effective date",
+            "type": "string"
+          },
+          "system__activity_external_id": {
+            "description": "External identifier for the record, optional",
+            "format": "string",
+            "readOnly": true,
+            "title": "External ID",
+            "type": "string"
+          },
+          "system__activity_id": {
+            "description": "unique identifier for the record",
+            "format": "string",
+            "readOnly": true,
+            "title": "ID",
+            "type": "string"
+          },
+          "system__activity_owner_id": {
+            "description": "Owner of the record.",
+            "format": "string",
+            "title": "Owner",
+            "type": "string"
+          },
+          "system__activity_source_id": {
+            "description": "ID in the source system",
+            "format": "string",
+            "title": "Source ID",
+            "type": "string"
+          },
+          "system__activity_updated": {
+            "description": "When the record was last updated",
+            "format": "date",
+            "readOnly": true,
+            "title": "Updated date",
+            "type": "string"
+          }
+        },
+        "title": "CRM Note",
+        "type": "object"
+      },
+      "CRMOpportunityChangeActivity": {
+        "description": "CRM OpportunityChange Field Schema for AG-L56V52BMMW",
+        "properties": {
+          "standard__activity_manually_logged": {
+            "description": "Whether the activity was manually logged",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Manually logged",
+            "type": "boolean"
+          },
+          "standard__activity_name": {
+            "description": "Display name used when showing a summary of the activity.",
+            "format": "string",
+            "title": "Name",
+            "type": "string"
+          },
+          "standard__activity_opportunity_change_id": {
+            "description": "The unique identifier for an Opportunity",
+            "format": "string",
+            "title": "Opportunity ID",
+            "type": "string"
+          },
+          "standard__activity_opportunity_change_last_edit_salesperson_id": {
+            "description": "The ID of the salesperson who last edited the Opportunity",
+            "format": "string",
+            "title": "Last edit salesperson ID",
+            "type": "string"
+          },
+          "standard__activity_opportunity_change_lost_reason": {
+            "description": "Explanation of why the Opportunity was lost",
+            "format": "string",
+            "title": "Lost reason",
+            "type": "string"
+          },
+          "standard__activity_opportunity_change_name": {
+            "description": "The name/title of the Opportunity",
+            "format": "string",
+            "title": "Opportunity name",
+            "type": "string"
+          },
+          "standard__activity_opportunity_change_notes": {
+            "description": "Notes about the Opportunity",
+            "format": "string",
+            "title": "Notes",
+            "type": "string"
+          },
+          "standard__activity_opportunity_change_pipeline_stage": {
+            "description": "The pipeline status of the Opportunity in the pipeline, (closed-won, closed-lost, open, etc)",
+            "format": "string",
+            "title": "Pipeline stage",
+            "type": "string"
+          },
+          "standard__activity_opportunity_change_updated_date": {
+            "description": "The date the Opportunity was last updated",
+            "format": "date",
+            "title": "Updated date",
+            "type": "string"
+          },
+          "standard__activity_source_drill_1": {
+            "description": "Activity record source drill down 1",
+            "format": "string",
+            "title": "Record source drill down 1",
+            "type": "string"
+          },
+          "standard__activity_source_drill_2": {
+            "description": "Activity record source drill down 2",
+            "format": "string",
+            "title": "Record source drill down 2",
+            "type": "string"
+          },
+          "standard__activity_source_drill_3": {
+            "description": "Activity record source drill down 3",
+            "format": "string",
+            "title": "Record source drill down 3",
+            "type": "string"
+          },
+          "standard__activity_source_name": {
+            "description": "Name of the app or external system that created the activity. E.g. 'Salesforce', 'Hubspot', 'Gmail'",
+            "format": "string",
+            "title": "Record source",
+            "type": "string"
+          },
+          "standard__activity_tags": {
+            "description": "List of tags useful for segmentation of activities.",
+            "format": "tag",
+            "title": "Tags",
+            "type": "string"
+          },
+          "standard__activity_url": {
+            "description": "Link to more information about the activity.",
+            "format": "string",
+            "title": "URL",
+            "type": "string"
+          },
+          "standard__activity_url_name": {
+            "description": "Name of the link to more information about the activity.",
+            "format": "string",
+            "title": "URL name",
+            "type": "string"
+          },
+          "system__activity_activity_type": {
+            "description": "Type of activity",
+            "format": "string",
+            "title": "Activity type",
+            "type": "string"
+          },
+          "system__activity_created": {
+            "description": "When the record was created",
+            "format": "date",
+            "readOnly": true,
+            "title": "Created date",
+            "type": "string"
+          },
+          "system__activity_effective": {
+            "description": "Relevant date for the type",
+            "format": "date-time",
+            "title": "Effective date",
+            "type": "string"
+          },
+          "system__activity_external_id": {
+            "description": "External identifier for the record, optional",
+            "format": "string",
+            "readOnly": true,
+            "title": "External ID",
+            "type": "string"
+          },
+          "system__activity_id": {
+            "description": "unique identifier for the record",
+            "format": "string",
+            "readOnly": true,
+            "title": "ID",
+            "type": "string"
+          },
+          "system__activity_owner_id": {
+            "description": "Owner of the record.",
+            "format": "string",
+            "title": "Owner",
+            "type": "string"
+          },
+          "system__activity_source_id": {
+            "description": "ID in the source system",
+            "format": "string",
+            "title": "Source ID",
+            "type": "string"
+          },
+          "system__activity_updated": {
+            "description": "When the record was last updated",
+            "format": "date",
+            "readOnly": true,
+            "title": "Updated date",
+            "type": "string"
+          }
+        },
+        "title": "CRM OpportunityChange",
+        "type": "object"
+      },
+      "CRMRecordChangeActivity": {
+        "description": "CRM RecordChange Field Schema for AG-L56V52BMMW",
+        "properties": {
+          "standard__activity_manually_logged": {
+            "description": "Whether the activity was manually logged",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Manually logged",
+            "type": "boolean"
+          },
+          "standard__activity_name": {
+            "description": "Display name used when showing a summary of the activity.",
+            "format": "string",
+            "title": "Name",
+            "type": "string"
+          },
+          "standard__activity_record_change_field_ids_list": {
+            "items": {
+              "type": "string"
+            },
+            "title": "List of the Field ID's for the fields changed",
+            "type": "array"
+          },
+          "standard__activity_record_change_reference_id": {
+            "description": "The ChangeID that references the change",
+            "format": "string",
+            "title": "Record change reference ID",
+            "type": "string"
+          },
+          "standard__activity_record_change_type": {
+            "description": "The type of change associated with a CRM object record, e.g.: CREATED, CHANGED_TO, etc…",
+            "format": "string",
+            "title": "Record change type",
+            "type": "string"
+          },
+          "standard__activity_record_change_user_id": {
+            "format": "string",
+            "title": "ID of the person who made the change",
+            "type": "string"
+          },
+          "standard__activity_source_drill_1": {
+            "description": "Activity record source drill down 1",
+            "format": "string",
+            "title": "Record source drill down 1",
+            "type": "string"
+          },
+          "standard__activity_source_drill_2": {
+            "description": "Activity record source drill down 2",
+            "format": "string",
+            "title": "Record source drill down 2",
+            "type": "string"
+          },
+          "standard__activity_source_drill_3": {
+            "description": "Activity record source drill down 3",
+            "format": "string",
+            "title": "Record source drill down 3",
+            "type": "string"
+          },
+          "standard__activity_source_name": {
+            "description": "Name of the app or external system that created the activity. E.g. 'Salesforce', 'Hubspot', 'Gmail'",
+            "format": "string",
+            "title": "Record source",
+            "type": "string"
+          },
+          "standard__activity_tags": {
+            "description": "List of tags useful for segmentation of activities.",
+            "format": "tag",
+            "title": "Tags",
+            "type": "string"
+          },
+          "standard__activity_url": {
+            "description": "Link to more information about the activity.",
+            "format": "string",
+            "title": "URL",
+            "type": "string"
+          },
+          "standard__activity_url_name": {
+            "description": "Name of the link to more information about the activity.",
+            "format": "string",
+            "title": "URL name",
+            "type": "string"
+          },
+          "system__activity_activity_type": {
+            "description": "Type of activity",
+            "format": "string",
+            "title": "Activity type",
+            "type": "string"
+          },
+          "system__activity_created": {
+            "description": "When the record was created",
+            "format": "date",
+            "readOnly": true,
+            "title": "Created date",
+            "type": "string"
+          },
+          "system__activity_effective": {
+            "description": "Relevant date for the type",
+            "format": "date-time",
+            "title": "Effective date",
+            "type": "string"
+          },
+          "system__activity_external_id": {
+            "description": "External identifier for the record, optional",
+            "format": "string",
+            "readOnly": true,
+            "title": "External ID",
+            "type": "string"
+          },
+          "system__activity_id": {
+            "description": "unique identifier for the record",
+            "format": "string",
+            "readOnly": true,
+            "title": "ID",
+            "type": "string"
+          },
+          "system__activity_owner_id": {
+            "description": "Owner of the record.",
+            "format": "string",
+            "title": "Owner",
+            "type": "string"
+          },
+          "system__activity_source_id": {
+            "description": "ID in the source system",
+            "format": "string",
+            "title": "Source ID",
+            "type": "string"
+          },
+          "system__activity_updated": {
+            "description": "When the record was last updated",
+            "format": "date",
+            "readOnly": true,
+            "title": "Updated date",
+            "type": "string"
+          }
+        },
+        "title": "CRM RecordChange",
+        "type": "object"
+      },
+      "CRMTaskActivity": {
+        "description": "CRM Task Field Schema for AG-L56V52BMMW",
+        "properties": {
+          "standard__activity_manually_logged": {
+            "description": "Whether the activity was manually logged",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Manually logged",
+            "type": "boolean"
+          },
+          "standard__activity_name": {
+            "description": "Display name used when showing a summary of the activity.",
+            "format": "string",
+            "title": "Name",
+            "type": "string"
+          },
+          "standard__activity_source_drill_1": {
+            "description": "Activity record source drill down 1",
+            "format": "string",
+            "title": "Record source drill down 1",
+            "type": "string"
+          },
+          "standard__activity_source_drill_2": {
+            "description": "Activity record source drill down 2",
+            "format": "string",
+            "title": "Record source drill down 2",
+            "type": "string"
+          },
+          "standard__activity_source_drill_3": {
+            "description": "Activity record source drill down 3",
+            "format": "string",
+            "title": "Record source drill down 3",
+            "type": "string"
+          },
+          "standard__activity_source_name": {
+            "description": "Name of the app or external system that created the activity. E.g. 'Salesforce', 'Hubspot', 'Gmail'",
+            "format": "string",
+            "title": "Record source",
+            "type": "string"
+          },
+          "standard__activity_tags": {
+            "description": "List of tags useful for segmentation of activities.",
+            "format": "tag",
+            "title": "Tags",
+            "type": "string"
+          },
+          "standard__activity_task_body": {
+            "description": "Notes taken for a task.",
+            "format": "string",
+            "title": "Task body",
+            "type": "string"
+          },
+          "standard__activity_task_due_date": {
+            "description": "Optional date indicating when the task is due for completion",
+            "format": "date-time",
+            "title": "Task due date",
+            "type": "string"
+          },
+          "standard__activity_task_is_overdue": {
+            "description": "Indicates if the task was not completed before the due date",
+            "format": "boolean",
+            "readOnly": true,
+            "title": "Task is overdue",
+            "type": "boolean"
+          },
+          "standard__activity_task_priority": {
+            "description": "Priority for a given task, e.g.: HIGH, MEDIUM, LOW, etc…",
+            "format": "string",
+            "title": "Task priority",
+            "type": "string"
+          },
+          "standard__activity_task_status": {
+            "description": "Status for a given task, e.g.: COMPLETED, NOT_STARTED, IN_PROGRESS, etc…",
+            "format": "string",
+            "title": "Task status",
+            "type": "string"
+          },
+          "standard__activity_task_type": {
+            "description": "Type of task to be executed, e.g.: EMAIL, CALL, TODO, etc…",
+            "format": "string",
+            "title": "Task type",
+            "type": "string"
+          },
+          "standard__activity_url": {
+            "description": "Link to more information about the activity.",
+            "format": "string",
+            "title": "URL",
+            "type": "string"
+          },
+          "standard__activity_url_name": {
+            "description": "Name of the link to more information about the activity.",
+            "format": "string",
+            "title": "URL name",
+            "type": "string"
+          },
+          "system__activity_activity_type": {
+            "description": "Type of activity",
+            "format": "string",
+            "title": "Activity type",
+            "type": "string"
+          },
+          "system__activity_created": {
+            "description": "When the record was created",
+            "format": "date",
+            "readOnly": true,
+            "title": "Created date",
+            "type": "string"
+          },
+          "system__activity_effective": {
+            "description": "Relevant date for the type",
+            "format": "date-time",
+            "title": "Effective date",
+            "type": "string"
+          },
+          "system__activity_external_id": {
+            "description": "External identifier for the record, optional",
+            "format": "string",
+            "readOnly": true,
+            "title": "External ID",
+            "type": "string"
+          },
+          "system__activity_id": {
+            "description": "unique identifier for the record",
+            "format": "string",
+            "readOnly": true,
+            "title": "ID",
+            "type": "string"
+          },
+          "system__activity_owner_id": {
+            "description": "Owner of the record.",
+            "format": "string",
+            "title": "Owner",
+            "type": "string"
+          },
+          "system__activity_source_id": {
+            "description": "ID in the source system",
+            "format": "string",
+            "title": "Source ID",
+            "type": "string"
+          },
+          "system__activity_updated": {
+            "description": "When the record was last updated",
+            "format": "date",
+            "readOnly": true,
+            "title": "Updated date",
+            "type": "string"
+          }
+        },
+        "title": "CRM Task",
+        "type": "object"
+      },
+      "CRMObject": {
+        "title": "CRMObject",
+        "x-stoplight": {
+          "id": "tu3kganhi8b6f"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/CRMContact"
+          },
+          {
+            "$ref": "#/components/schemas/CRMCompany",
+            "x-stoplight": {
+              "id": "2iessaiq2ndfp"
+            }
+          },
+          {
+            "$ref": "#/components/schemas/CRMCallActivity",
+            "x-stoplight": {
+              "id": "emre66gqp0rzv"
+            }
+          },
+          {
+            "$ref": "#/components/schemas/CRMCommunicationActivity",
+            "x-stoplight": {
+              "id": "4odazxy8mwrv9"
+            }
+          },
+          {
+            "$ref": "#/components/schemas/CRMEmailActivity",
+            "x-stoplight": {
+              "id": "6rui8f6g164bw"
+            }
+          },
+          {
+            "$ref": "#/components/schemas/CRMMeetingActivity",
+            "x-stoplight": {
+              "id": "acbsbhqol6i4r"
+            }
+          },
+          {
+            "$ref": "#/components/schemas/CRMNoteActivity",
+            "x-stoplight": {
+              "id": "qve9btsp5rkxq"
+            }
+          },
+          {
+            "$ref": "#/components/schemas/CRMOpportunityChangeActivity",
+            "x-stoplight": {
+              "id": "95a6k6girrtvb"
+            }
+          },
+          {
+            "$ref": "#/components/schemas/CRMRecordChangeActivity",
+            "x-stoplight": {
+              "id": "g1bjdj8pq6q7y"
+            }
+          },
+          {
+            "$ref": "#/components/schemas/CRMTaskActivity",
+            "x-stoplight": {
+              "id": "4i1mkjtcigkpe"
+            }
+          }
+        ]
       }
     },
     "securitySchemes": {
@@ -1003,6 +3950,30 @@
             }
           }
         }
+      }
+    },
+    "parameters": {
+      "resourceTypeCode": {
+        "name": "resourceTypeCode",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "activities",
+            "callActivities",
+            "communicationActivities",
+            "companies",
+            "contacts",
+            "emailActivities",
+            "meetingActivities",
+            "noteActivities",
+            "opportunityChangeActivities",
+            "recordChangeActivities",
+            "taskActivities"
+          ]
+        },
+        "description": "The type of object being worked on"
       }
     }
   },

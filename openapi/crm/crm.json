@@ -5,7 +5,8 @@
   },
   "info": {
     "title": "CRM Rest APIs",
-    "version": "1.0"
+    "version": "1.0",
+    "summary": ""
   },
   "servers": [
     {
@@ -523,6 +524,22 @@
           },
           "name": "namespace",
           "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "resourceTypeCode",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "namespace",
+          "in": "path",
           "required": true,
           "description": "The namespace, PID/AGID"
         },
@@ -549,8 +566,51 @@
           "description": "The type of object being worked on"
         }
       ],
-      "post": {
+      "get": {
+        "summary": "List CRM Records",
+        "tags": [
+          "Resource Operations"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "nmxqxv660wfeg"
+                      },
+                      "items": {
+                        "$ref": "#/components/schemas/CRMObject",
+                        "x-stoplight": {
+                          "id": "8tklpco0g76ob"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "ListCRMRecords",
+        "x-stoplight": {
+          "id": "v4id565nx72cr"
+        },
+        "requestBody": {
+          "content": {}
+        },
+        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`\n"
+      },
+      "patch": {
         "summary": "Upsert CRM Record",
+        "x-stoplight": {
+          "id": "1de3f0654bc17"
+        },
         "tags": [
           "Resource Operations"
         ],
@@ -586,7 +646,7 @@
             "description": "Bad Request"
           }
         },
-        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`\n\nCreate/update CRM contacts, companies or activities records.",
+        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`\n\nCreate/update CRM contacts, companies or activities records.\n\nDefault rules will be used to match existing records. You may specificy your own fields that contain unique values in `searchExisting`.\n\nIf a match is found the records will be merged using the always_overwrite, overwrite_if_empty, overwrite_if_newer & combine stratagy",
         "requestBody": {
           "content": {
             "application/json": {
@@ -622,6 +682,47 @@
                 },
                 "oneOf": [
                   {
+                    "x-stoplight": {
+                      "id": "40hjq3h4hwo2a"
+                    },
+                    "description": "V2",
+                    "title": "Body V2",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/components/schemas/CRMObject",
+                        "x-stoplight": {
+                          "id": "fd8bicknxqstx"
+                        }
+                      },
+                      "searchExisting": {
+                        "type": "array",
+                        "x-stoplight": {
+                          "id": "cljd7ngnz4sj9"
+                        },
+                        "items": {
+                          "x-stoplight": {
+                            "id": "2mp0l0b686d6t"
+                          },
+                          "type": "string"
+                        }
+                      },
+                      "returnFields": {
+                        "type": "array",
+                        "x-stoplight": {
+                          "id": "y0c8br6d066lg"
+                        },
+                        "items": {
+                          "x-stoplight": {
+                            "id": "awbzvw8b72sq3"
+                          },
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "description": "V1",
+                    "title": "Body V1",
                     "properties": {
                       "subtype": {
                         "type": "string"
@@ -655,19 +756,6 @@
                         "description": "A list of fields that should have their merged values returned in the response. If empty no fields will be returned.",
                         "items": {
                           "type": "string"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "x-stoplight": {
-                      "id": "40hjq3h4hwo2a"
-                    },
-                    "properties": {
-                      "data": {
-                        "$ref": "#/components/schemas/CRMObject",
-                        "x-stoplight": {
-                          "id": "fd8bicknxqstx"
                         }
                       }
                     }
@@ -758,43 +846,17 @@
           "status": "proposed"
         }
       },
-      "get": {
-        "summary": "List CRM Records",
-        "tags": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "x-stoplight": {
-                        "id": "nmxqxv660wfeg"
-                      },
-                      "items": {
-                        "$ref": "#/components/schemas/CRMObject",
-                        "x-stoplight": {
-                          "id": "8tklpco0g76ob"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "operationId": "ListCRMRecords",
+      "post": {
+        "summary": "Create CRM Record",
+        "tags": [
+          "Resource Operations"
+        ],
+        "responses": {},
+        "operationId": "CreateCRMRecord",
         "x-stoplight": {
-          "id": "v4id565nx72cr"
+          "id": "j1bhs5sbm6rw4"
         },
-        "requestBody": {
-          "content": {}
-        },
-        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`\n"
+        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`\n\nCreate a new CRM record. \nTip: Use Upsert CRM Record to automatically check for existing records to merge the provided data into."
       }
     },
     "/{namespace}/{resourceTypeCode}/{id}": {
@@ -841,7 +903,9 @@
       ],
       "get": {
         "summary": "Get CRM Record",
-        "tags": [],
+        "tags": [
+          "Resource Operations"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -869,13 +933,17 @@
       },
       "delete": {
         "summary": "Delete CRM Record",
-        "tags": [],
+        "tags": [
+          "Resource Operations"
+        ],
         "responses": {},
         "operationId": "DeleteCRMRecord"
       },
       "patch": {
         "summary": "Update CRM Record",
-        "tags": [],
+        "tags": [
+          "Resource Operations"
+        ],
         "responses": {},
         "operationId": "UpdateCRMRecord",
         "requestBody": {
@@ -1358,7 +1426,7 @@
         "type": "object"
       },
       "CRMActivity": {
-        "description": "CRM Activity Field Schema for AG-L56V52BMMW",
+        "description": "The CRM Activity Field Schema combines the fields from all of the activity sub types",
         "properties": {
           "standard__activity_call_body": {
             "description": "Description of the call, including any notes that you want to add. Or even a transcript.",

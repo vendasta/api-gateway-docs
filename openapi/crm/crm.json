@@ -38,7 +38,26 @@
           "description": "The namespace, PID/AGID"
         },
         {
-          "$ref": "#/components/parameters/resourceTypeCode"
+          "name": "resourceTypeCode",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "activities",
+              "callActivities",
+              "communicationActivities",
+              "companies",
+              "contacts",
+              "emailActivities",
+              "meetingActivities",
+              "noteActivities",
+              "opportunityChangeActivities",
+              "recordChangeActivities",
+              "taskActivities"
+            ]
+          },
+          "description": "The type of object being worked on"
         }
       ],
       "get": {
@@ -354,7 +373,26 @@
           "description": "The namespace, PID/AGID"
         },
         {
-          "$ref": "#/components/parameters/resourceTypeCode"
+          "name": "resourceTypeCode",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "activities",
+              "callActivities",
+              "communicationActivities",
+              "companies",
+              "contacts",
+              "emailActivities",
+              "meetingActivities",
+              "noteActivities",
+              "opportunityChangeActivities",
+              "recordChangeActivities",
+              "taskActivities"
+            ]
+          },
+          "description": "The type of object being worked on"
         },
         {
           "schema": {
@@ -489,7 +527,26 @@
           "description": "The namespace, PID/AGID"
         },
         {
-          "$ref": "#/components/parameters/resourceTypeCode"
+          "name": "resourceTypeCode",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "activities",
+              "callActivities",
+              "communicationActivities",
+              "companies",
+              "contacts",
+              "emailActivities",
+              "meetingActivities",
+              "noteActivities",
+              "opportunityChangeActivities",
+              "recordChangeActivities",
+              "taskActivities"
+            ]
+          },
+          "description": "The type of object being worked on"
         }
       ],
       "post": {
@@ -730,7 +787,7 @@
             }
           }
         },
-        "operationId": "get-namespace-resourceTypeCode",
+        "operationId": "ListCRMRecords",
         "x-stoplight": {
           "id": "v4id565nx72cr"
         },
@@ -748,34 +805,30 @@
           },
           "name": "namespace",
           "in": "path",
-          "required": true
+          "required": true,
+          "description": "The account or partner ID"
         },
         {
-          "schema": {
-            "type": "string"
-          },
           "name": "resourceTypeCode",
           "in": "path",
-          "required": true
-        },
-        {
+          "required": true,
           "schema": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "activities",
+              "callActivities",
+              "communicationActivities",
+              "companies",
+              "contacts",
+              "emailActivities",
+              "meetingActivities",
+              "noteActivities",
+              "opportunityChangeActivities",
+              "recordChangeActivities",
+              "taskActivities"
+            ]
           },
-          "name": "id",
-          "in": "path",
-          "required": true
-        },
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "namespace",
-          "in": "path",
-          "required": true
-        },
-        {
-          "$ref": "#/components/parameters/resourceTypeCode"
+          "description": "The type of object being worked on"
         },
         {
           "schema": {
@@ -798,22 +851,13 @@
                   "type": "object",
                   "properties": {
                     "type": {
-                      "type": "string",
-                      "x-stoplight": {
-                        "id": "nt3nnw2wl68xv"
-                      }
+                      "type": "string"
                     },
                     "id": {
-                      "type": "string",
-                      "x-stoplight": {
-                        "id": "64lucngrsk1cf"
-                      }
+                      "type": "string"
                     },
                     "attributes": {
-                      "$ref": "#/components/schemas/CRMObject",
-                      "x-stoplight": {
-                        "id": "bf3vs3rvm05p1"
-                      }
+                      "$ref": "#/components/schemas/CRMObject"
                     }
                   }
                 }
@@ -821,28 +865,19 @@
             }
           }
         },
-        "operationId": "get-namespace-resourceTypeCode-id",
-        "x-stoplight": {
-          "id": "ihzug9kevm4vw"
-        }
+        "operationId": "GetCRMRecord"
       },
       "delete": {
-        "summary": "Delete CRM Object",
+        "summary": "Delete CRM Record",
         "tags": [],
         "responses": {},
-        "operationId": "delete-namespace-resourceTypeCode-id",
-        "x-stoplight": {
-          "id": "42qjr3nscek3x"
-        }
+        "operationId": "DeleteCRMRecord"
       },
       "patch": {
-        "summary": "Update CRM Object",
+        "summary": "Update CRM Record",
         "tags": [],
         "responses": {},
-        "operationId": "patch-namespace-resourceTypeCode-id",
-        "x-stoplight": {
-          "id": "dyhu65tdmok25"
-        },
+        "operationId": "UpdateCRMRecord",
         "requestBody": {
           "content": {
             "application/json": {
@@ -850,10 +885,7 @@
                 "type": "object",
                 "properties": {
                   "data": {
-                    "$ref": "#/components/schemas/CRMObject",
-                    "x-stoplight": {
-                      "id": "07qwfgo1fwjgp"
-                    }
+                    "$ref": "#/components/schemas/CRMObject"
                   }
                 }
               }
@@ -3950,30 +3982,6 @@
             }
           }
         }
-      }
-    },
-    "parameters": {
-      "resourceTypeCode": {
-        "name": "resourceTypeCode",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "type": "string",
-          "enum": [
-            "activities",
-            "callActivities",
-            "communicationActivities",
-            "companies",
-            "contacts",
-            "emailActivities",
-            "meetingActivities",
-            "noteActivities",
-            "opportunityChangeActivities",
-            "recordChangeActivities",
-            "taskActivities"
-          ]
-        },
-        "description": "The type of object being worked on"
       }
     }
   },

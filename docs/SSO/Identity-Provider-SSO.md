@@ -4,10 +4,27 @@ You can replace Vendasta's login screens with your own by configuring Identity P
 
 Vendasta currently supports OpenIDConnect, an industry standard protocol built to extend OAuth2.0 with a user identification layer that enables secure authentication and user identity verification in addition to the authorization flow provided by OAuth2.0.
 
-## Step 1 - User Management
+
+## Prerequisits
+### User Management
 SSO only identifies who is sitting at the computer. Creating their user record and setting permissions need to be done as a separate step.
 
-Vendasta provides several options for Managing Users
+
+Vendasta provides several options for Managing Users. 
+>To use 
+>
+>**Namespace**
+>
+>You need a namespace which is your Vendasta partner id and it is unique for each partner, this >partner id is generated when a new channel partner signs up to Vendasta.
+>
+>![namespace.png](../../assets/images/namespace.png)
+>
+>**Authorization token**
+>
+>You need a authorization token to access Vendasta APIs which should be generated against your namespace with required scope "user.admin"
+>
+> To create a service account and create a token , see [here](../../Authorization/2-legged-oauth/Overview.md).
+
 
 **1) User pre-syncing using REST APIs**
 

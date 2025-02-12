@@ -2,6 +2,9 @@
 
 The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2025-02-12
+Mark the `Sales Contacts` API as deprecated. The Sales & Success Center, which hosted these contact types has been retired, and the migration to the platform CRM completed for the majority of Partners. CRM APIs are currently in the `Trusted Tester` state.
+
 ## 2024-02-27
 Mark `seoKeywords` field as deprecated in `SalesAccount` resource.
 

@@ -6624,6 +6624,9 @@ components:
         You may configure the automation definition and obtain its ID within Partner Center.
       x-tags:
         - Automation Runs
+      required:
+        - type
+        - relationships
       properties:
         type:
           type: string
@@ -6658,10 +6661,17 @@ components:
                       pattern: ^Automation-
             businessLocation:
               type: object
-              description: A link to the business location that this automation is being run for. Either the businessLocation or order is required. (It depends on the automation type.)
+              description: |-
+                Deprecated: Pass the businessLocation.id in the attributes.entityId field instead.
+
+                A link to the business location that this automation is being run for. Either the businessLocation or order is required. (It depends on the automation type.)
+              deprecated: true
               properties:
                 data:
                   type: object
+                  required:
+                    - type
+                    - id
                   properties:
                     type:
                       type: string
@@ -6670,15 +6680,19 @@ components:
                     id:
                       type: string
                       example: AG-1234567
-                  required:
-                    - type
-                    - id
             order:
               type: object
-              description: 'Proposed: A link to the order that this automation is being run for. Either the businessLocation or order is required. (It depends on the automation type.)'
+              description: |-
+                Deprecated: Pass the order.id in the attributes.entityId field instead.
+
+                A link to the order that this automation is being run for. Either the businessLocation or order is required. (It depends on the automation type.)
+              deprecated: true
               properties:
                 data:
                   type: object
+                  required:
+                    - type
+                    - id
                   properties:
                     type:
                       type: string
@@ -6688,21 +6702,22 @@ components:
                     id:
                       type: string
                       example: 'AG-1234:ORD-1234567'
-                  required:
-                    - type
-                    - id
         attributes:
           type: object
           properties:
             entityId:
               type: string
-              description: 'A generic way of specifying the entity to pass to the automation. This is similar to the businessLocation or order but in a generic, combined field.'
+              description: |
+                The ID of the primary record that this automation relates to. It is used for reporting and rate limiting.
+
+                For automations using the `Triggered manually for a contact` trigger it should contain a contact id. 
+
+                For automations using the `Triggered manually for a order` trigger it should contain an order id. 
+
+                For automations using the `A webhook is received` trigger it may be left blank.
             data:
               type: object
               description: Extra data that you would like to send to the automation. The automation trigger must also be configured correctly to be able to read these values.
-      required:
-        - type
-        - relationships
     automations:
       title: Automation
       type: object

@@ -5913,6 +5913,7 @@ components:
         id:
           type: string
           example: 'AG-1234:ORD-1234567'
+          readOnly: true
         type:
           type: string
           default: orders
@@ -5967,6 +5968,8 @@ components:
             businessLocation:
               type: object
               description: 'Required during creation: The business location the order is for'
+              required:
+                - data
               properties:
                 data:
                   type: object
@@ -5982,14 +5985,14 @@ components:
                       default: businessLocations
                       enum:
                         - businessLocations
-              required:
-                - data
             salesPerson:
               type: object
               description: |-
                 The user who will be credited with the sale. Used to associate orders with salespersons in reports.
 
                 Note the user must have the salesperson role.
+              required:
+                - data
               properties:
                 data:
                   type: object
@@ -6005,8 +6008,6 @@ components:
                       enum:
                         - users
                       default: users
-              required:
-                - data
     orderCustomFields:
       title: Order Custom Fields
       type: object

@@ -1,0 +1,158 @@
+swagger: "2.0"
+info:
+  title: configuration_management/v1/api.proto
+  version: version not set
+tags:
+  - name: ConfigurationManagement
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /configuration_management.v1.ConfigurationManagement/CreateConfigurationFromSource:
+    post:
+      operationId: ConfigurationManagement_CreateConfigurationFromSource
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateConfigurationFromSourceResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateConfigurationFromSourceRequest'
+      tags:
+        - ConfigurationManagement
+  /configuration_management.v1.ConfigurationManagement/GetConfigurationPreviewDataForSource:
+    post:
+      summary: |-
+        GetConfigurationPreviewDataForSource returns the configurable objects present in an account group
+        that the user can then choose from to be included in the actual configuration
+      operationId: ConfigurationManagement_GetConfigurationPreviewDataForSource
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetConfigurationPreviewDataForSourceResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetConfigurationPreviewDataForSourceRequest'
+      tags:
+        - ConfigurationManagement
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1ConfigurationSource:
+    type: object
+    properties:
+      sourceNamespace:
+        type: string
+      sourceNamespaceType:
+        $ref: '#/definitions/v1SourceNamespaceType'
+  v1CreateConfigurationFromSourceRequest:
+    type: object
+    properties:
+      configurationSource:
+        $ref: '#/definitions/v1ConfigurationSource'
+      name:
+        type: string
+      selectedTypedObjectIds:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1TypedObjectIds'
+        title: typed_object_ids is a list of object ids that the user has selected to be included in the configuration
+  v1CreateConfigurationFromSourceResponse:
+    type: object
+    properties:
+      configurationId:
+        type: string
+  v1GetConfigurationPreviewDataForSourceRequest:
+    type: object
+    properties:
+      configurationSource:
+        $ref: '#/definitions/v1ConfigurationSource'
+  v1GetConfigurationPreviewDataForSourceResponse:
+    type: object
+    properties:
+      objectTypes:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1TypedObjectContainer'
+  v1SourceNamespaceType:
+    type: string
+    enum:
+      - SOURCE_NAMESPACE_PARTNER
+      - SOURCE_NAMESPACE_ACCOUNT_GROUP
+    default: SOURCE_NAMESPACE_PARTNER
+  v1TypedObject:
+    type: object
+    properties:
+      id:
+        type: string
+        title: id of the object in their own system
+      name:
+        type: string
+        title: name of the object derived from the object's owner service
+      description:
+        type: string
+        title: description of the object derived from the object's owner service
+      link:
+        type: string
+        title: link to view the object as it is in the source namespace
+    title: |-
+      TypedObject is a single configurable object
+      Example : A single automation entity
+  v1TypedObjectContainer:
+    type: object
+    properties:
+      typeId:
+        type: string
+      typeName:
+        type: string
+      objects:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1TypedObject'
+    title: TypedObjectContainer is a container of same type of objects that are being returned
+  v1TypedObjectIds:
+    type: object
+    properties:
+      typeId:
+        type: string
+      typedObjectIds:
+        type: array
+        items:
+          type: string

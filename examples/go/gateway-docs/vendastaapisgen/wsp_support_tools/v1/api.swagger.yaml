@@ -1,0 +1,1178 @@
+swagger: "2.0"
+info:
+  title: wsp_support_tools/v1/api.proto
+  version: version not set
+tags:
+  - name: SiteManager
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /wsp_support_tools.v1.SiteManager/ActivatePlugin:
+    post:
+      summary: ActivatePlugins represents a method for activating a list of plugins for the specified site
+      operationId: SiteManager_ActivatePlugin
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ActivatePluginRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/ChatCompletion:
+    post:
+      summary: ChatCompletion
+      operationId: SiteManager_ChatCompletion
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ChatCompletionResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ChatCompletionRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/CopySite:
+    post:
+      summary: |-
+        CopySite represents a method for duplicating the source files and database entries of a
+        site to a target site
+      operationId: SiteManager_CopySite
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CopySiteRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/Deactivate:
+    post:
+      summary: Deactivate allows a caller to deactivate the Site associated with the given site ID
+      operationId: SiteManager_Deactivate
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeactivateRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/DeactivatePlugin:
+    post:
+      summary: DeactivatePlugins represents a method for deactivating a list of plugins for the site
+      operationId: SiteManager_DeactivatePlugin
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeactivatePluginRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/DeleteSite:
+    post:
+      summary: |-
+        DeleteSite represents a method for deleting a site from WebsitePro. Amongst other things this method removes
+        the sites information from datastore, redis, cloudsql, filesystem, certificate and sftp
+      operationId: SiteManager_DeleteSite
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1DeleteSiteResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeleteSiteRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/DeleteStaging:
+    post:
+      summary: DeleteStaging allows callers to delete the staging area associated with the given site ID
+      operationId: SiteManager_DeleteStaging
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeleteStagingRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/DeleteUser:
+    post:
+      summary: DeleteUser deletes a WP user with the given identifier (can be login, email or ID)
+      operationId: SiteManager_DeleteUser
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeleteUserRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/DowngradeDomains:
+    post:
+      summary: DowngradeDomains allows callers to downgrade domains of the site associated with the given site ID
+      operationId: SiteManager_DowngradeDomains
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DowngradeDomainsRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/GetDiscrepancyData:
+    post:
+      operationId: SiteManager_GetDiscrepancyData
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetDiscrepancyDataResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties: {}
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/GetDownloadBackupURL:
+    post:
+      summary: |-
+        GetDownloadBackupURL represents a method of getting a signed URL that provides limited permissions and time
+         in which to make a request to download a WebsitePro site backup file from datastore
+      operationId: SiteManager_GetDownloadBackupURL
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetDownloadBackupURLResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetDownloadBackupURLRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/GetSiteHealthChecks:
+    post:
+      operationId: SiteManager_GetSiteHealthChecks
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ResourceUsagesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ResourceUsagesRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/GetSiteResourceUsagesSummary:
+    post:
+      summary: GetSiteSummary represents a method for getting the site details given an account id
+      operationId: SiteManager_GetSiteResourceUsagesSummary
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetSiteResourceUsagesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetSiteResourceUsagesRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/GetSiteStatus:
+    post:
+      summary: GetSiteStatus represents a method for returning the current status information of a site
+      operationId: SiteManager_GetSiteStatus
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetSiteStatusResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetSiteStatusRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/GetSiteSummary:
+    post:
+      summary: GetSiteSummary represents a method for getting the site details given an account id
+      operationId: SiteManager_GetSiteSummary
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetSiteSummaryResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetSiteSummaryRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/ListBackups:
+    post:
+      summary: |-
+        ListBackups represents a method for returning a list of backups available for the specified site and additional
+        data about the backup such as fileSize, numberOfPages, wordpressVersion, timestamp and list of plugins installed
+      operationId: SiteManager_ListBackups
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListBackupsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListBackupsRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/ListPlugins:
+    post:
+      summary: ListPlugins represents a method for returning a list of plugins that the specified site has installed
+      operationId: SiteManager_ListPlugins
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListPluginsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListPluginsRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/Reactivate:
+    post:
+      summary: Reactivate allows a caller to reactivate the Site associated with the given site ID
+      operationId: SiteManager_Reactivate
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ReactivateRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/ResetDatabaseUserLimits:
+    post:
+      summary: ResetDatabaseUserLimits represents a method for resetting the database user's resource limits for a specified site
+      operationId: SiteManager_ResetDatabaseUserLimits
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ResetDatabaseUserLimitsRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/RestoreSite:
+    post:
+      operationId: SiteManager_RestoreSite
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1RestoreSiteRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/Search:
+    post:
+      operationId: SiteManager_Search
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ResourceUsagesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ResourceUsagesRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/SetSkipUpgradeHTTP:
+    post:
+      summary: |-
+        SetSkipUpgradeHTTP allows the caller to set the value of skip upgrade HTTP to enabled or disabled (true/false).
+        Setting the skip to true forces a site to serve its content over HTTPS using the SSL certificate that is obtained
+        for the given site. Enforcing this is sometimes required because site databases will have static file links encoded
+        as HTTP, rather than HTTPS
+      operationId: SiteManager_SetSkipUpgradeHTTP
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SetSkipUpgradeHTTPRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/SetWPDebug:
+    post:
+      summary: |-
+        SetWPDebug allows callers to set the WP debug field of a site to enabled or disabled. Having the field enabled
+        makes a site echo its PHP errors at the top of the page that errors occur on, which facilitates debugging
+      operationId: SiteManager_SetWPDebug
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SetWPDebugRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/SetWPLoginExposed:
+    post:
+      summary: |-
+        SetWPLoginExposed allows the caller to set the exposure of the WP login page to true or false. Exposing WP login
+        may expose a site to security vulnerabilities because of DDOS attacks to that page, specifically, as it is a
+        popular login page that not many sites change
+      operationId: SiteManager_SetWPLoginExposed
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SetWPLoginExposedRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/SetWpOption:
+    post:
+      summary: SetWpOption allows a caller to set the wp option value of the site identified by the site ID specified
+      operationId: SiteManager_SetWpOption
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SetWpOptionRequest'
+      tags:
+        - SiteManager
+  /wsp_support_tools.v1.SiteManager/TransferSite:
+    post:
+      summary: |-
+        TransferSite represents a method for transferring a WebsitePro site from one account to another account.
+        The accounts can either be under the same partner or different ones
+      operationId: SiteManager_TransferSite
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1TransferSiteRequest'
+      tags:
+        - SiteManager
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1ActivatePluginRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+      pluginIds:
+        type: array
+        items:
+          type: string
+  v1Backup:
+    type: object
+    properties:
+      name:
+        type: string
+      fileSize:
+        type: string
+        format: int64
+      databaseSize:
+        type: string
+        format: int64
+      wordpressVersion:
+        type: string
+      numberOfPages:
+        type: string
+        format: int64
+      numberOfPosts:
+        type: string
+        format: int64
+      status:
+        type: string
+      plugins:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Plugin'
+      timestamp:
+        type: string
+      domain:
+        type: string
+  v1ChatCompletionRequest:
+    type: object
+    properties:
+      text:
+        type: string
+  v1ChatCompletionResponse:
+    type: object
+    properties:
+      resp:
+        type: string
+  v1CopySiteRequest:
+    type: object
+    properties:
+      currentSiteId:
+        type: string
+      currentAccountId:
+        type: string
+      destinationAccountId:
+        type: string
+  v1DeactivatePluginRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+      pluginIds:
+        type: array
+        items:
+          type: string
+  v1DeactivateRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+    title: DeactivateRequest is the request containing the identifier of the site to be deactivated
+  v1DeleteSiteRequest:
+    type: object
+    properties:
+      currentSiteId:
+        type: string
+      currentAccountId:
+        type: string
+  v1DeleteSiteResponse:
+    type: object
+    properties:
+      deleteSiteTasks:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1DeleteSiteTask'
+  v1DeleteSiteTask:
+    type: object
+    properties:
+      name:
+        type: string
+        title: The name of the site delete task
+      error:
+        type: string
+        title: The error message from the site delete task (empty if task was successful)
+  v1DeleteStagingRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+    title: DeleteStagingRequest is the request containing the identifier of the site to delete the staging area
+  v1DeleteUserRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+      userId:
+        type: string
+      reassignUserId:
+        type: string
+  v1DowngradeDomainsRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+    title: DowngradeDomainsRequest is the request containing the identifier of the site to downgrade domains
+  v1GetDiscrepancyDataResponse:
+    type: object
+    properties:
+      discrepancyData:
+        type: array
+        items:
+          type: string
+  v1GetDownloadBackupURLRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+      backupTimeString:
+        type: string
+  v1GetDownloadBackupURLResponse:
+    type: object
+    properties:
+      signedUrl:
+        type: string
+  v1GetSiteResourceUsagesRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+      monthYear:
+        type: string
+  v1GetSiteResourceUsagesResponse:
+    type: object
+    properties:
+      siteResourceUsages:
+        $ref: '#/definitions/v1SiteResourceUsages'
+  v1GetSiteStatusRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+  v1GetSiteStatusResponse:
+    type: object
+    properties:
+      status:
+        type: string
+  v1GetSiteSummaryRequest:
+    type: object
+    properties:
+      accountId:
+        type: string
+      domain:
+        type: string
+      siteId:
+        type: string
+  v1GetSiteSummaryResponse:
+    type: object
+    properties:
+      siteSummary:
+        $ref: '#/definitions/v1SiteSummary'
+  v1HealthCheckValues:
+    type: object
+    properties:
+      state:
+        type: string
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+  v1ListBackupsRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+      cursor:
+        type: string
+      pageSize:
+        type: string
+        format: int64
+  v1ListBackupsResponse:
+    type: object
+    properties:
+      backups:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Backup'
+      nextCursor:
+        type: string
+      hasMore:
+        type: boolean
+      totalNumRecords:
+        type: string
+  v1ListPluginsRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+      cursor:
+        type: string
+      pageSize:
+        type: string
+        format: int64
+  v1ListPluginsResponse:
+    type: object
+    properties:
+      plugins:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Plugin'
+      nextCursor:
+        type: string
+      hasMore:
+        type: boolean
+  v1Plugin:
+    type: object
+    properties:
+      id:
+        type: string
+        title: The ID of the WordPress plugin
+      name:
+        type: string
+        title: The name of the WordPress plugin
+      version:
+        type: string
+        title: The version of the plugin that the site is currently using
+      status:
+        type: string
+        title: The status of the plugin (active or inactive)
+  v1ReactivateRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+    title: ReactivateRequest is the request containing the identifier of the site to be reactivated
+  v1ResetDatabaseUserLimitsRequest:
+    type: object
+    properties:
+      currentSiteId:
+        type: string
+      currentAccountId:
+        type: string
+  v1ResourceUsagesRequest:
+    type: object
+    properties:
+      searchTerm:
+        type: string
+      searchFields:
+        type: array
+        items:
+          $ref: '#/definitions/v1SearchableField'
+      sortOptions:
+        $ref: '#/definitions/v1SortOptions'
+      pageSize:
+        type: string
+        format: int64
+      from:
+        type: string
+        format: int64
+  v1ResourceUsagesResponse:
+    type: object
+    properties:
+      sites:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1WordPressSite'
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+      totalResults:
+        type: string
+        format: int64
+        title: The total number of results for this query across all pages
+      siteHealths:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1SiteHealths'
+        title: The cursor to use for the next healthcheckData
+  v1RestoreSiteRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+      backupTimeString:
+        type: string
+  v1SearchableField:
+    type: string
+    enum:
+      - SEARCHABLE_FIELD_ACCOUNT_ID
+      - SEARCHABLE_FIELD_ACCOUNT_GROUP_NAME
+      - SEARCHABLE_FIELD_PRIMARY_DOMAIN
+    default: SEARCHABLE_FIELD_ACCOUNT_ID
+    description: All of the possible fields that can be searched against the search term.
+  v1SetSkipUpgradeHTTPRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+      enabled:
+        type: boolean
+  v1SetWPDebugRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+      type:
+        $ref: '#/definitions/v1SiteType'
+      enabled:
+        type: boolean
+  v1SetWPLoginExposedRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+      enabled:
+        type: boolean
+  v1SetWpOptionRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+      key:
+        type: string
+      value:
+        type: string
+    title: SetWpOptionRequest is the structure of the message that contains the site ID and key for which a new value can be set
+  v1SiteHealths:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      accountId:
+        type: string
+      primaryDomain:
+        type: string
+      healthCheckValues:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1HealthCheckValues'
+  v1SiteResourceUsages:
+    type: object
+    properties:
+      bandwidth:
+        type: string
+      visitors:
+        type: string
+  v1SiteSummary:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      accountId:
+        type: string
+      siteId:
+        type: string
+      primaryDomain:
+        type: string
+      alternativeDomains:
+        type: array
+        items:
+          type: string
+      isTemplate:
+        type: boolean
+      fileSize:
+        type: string
+        format: int64
+      databaseSize:
+        type: string
+        format: int64
+      wordpressVersion:
+        type: string
+      numberOfPages:
+        type: string
+        format: int64
+      numberOfPosts:
+        type: string
+        format: int64
+      objectCacheEnabled:
+        type: boolean
+      forceCacheEnabled:
+        type: boolean
+      created:
+        type: string
+        format: date-time
+      wpLoginExposed:
+        type: boolean
+      dbName:
+        type: string
+      dbHost:
+        type: string
+      dbUser:
+        type: string
+      stagingDbName:
+        type: string
+      stagingDomain:
+        type: string
+      userId:
+        type: string
+      mountPath:
+        type: string
+      editionId:
+        type: string
+      wpDebugEnabled:
+        type: boolean
+      stagingWpDebugEnabled:
+        type: boolean
+      cdnVersion:
+        type: string
+      objectCacheVersion:
+        type: string
+      deactivated:
+        type: boolean
+      template:
+        type: boolean
+      ignoreCacheHeaders:
+        type: boolean
+      gaTrackingId:
+        type: string
+      skipUpgradingHttp:
+        type: boolean
+      multiSite:
+        type: boolean
+      version:
+        type: string
+      wpMemoryLimit:
+        type: string
+      wpMaxMemoryLimit:
+        type: string
+      postMaxSize:
+        type: string
+      allowXmlRpc:
+        type: boolean
+      allowUrlFopen:
+        type: boolean
+      detached:
+        type: boolean
+      wpOption:
+        type: string
+      isObjectCache:
+        type: string
+      subsites:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1SubsiteInfo'
+  v1SiteType:
+    type: string
+    enum:
+      - SITE_TYPE_LIVE
+      - SITE_TYPE_STAGING
+    default: SITE_TYPE_LIVE
+    title: SiteType is an enum that indicates the types of sites that options can be set on
+  v1SortDirection:
+    type: string
+    enum:
+      - SORT_DIRECTION_ASC
+      - SORT_DIRECTION_DESC
+    default: SORT_DIRECTION_ASC
+    description: The directions that a result set can be sorted in.
+  v1SortField:
+    type: string
+    enum:
+      - SORT_FIELD_MODIFIED
+      - SORT_FIELD_CREATED
+      - SORT_FIELD_ACCOUNT_GROUP_NAME
+      - SORT_FIELD_PRIMARY_DOMAIN
+    default: SORT_FIELD_MODIFIED
+    description: The field to sort a result set on.
+  v1SortOptions:
+    type: object
+    properties:
+      direction:
+        $ref: '#/definitions/v1SortDirection'
+        title: A direction to sort results in
+      field:
+        $ref: '#/definitions/v1SortField'
+        title: Field to sort on
+    title: Options for controlling the order of query results
+  v1SubsiteInfo:
+    type: object
+    properties:
+      blogId:
+        type: string
+        format: int64
+        description: blog_id represents the unique integer id of the subsite.
+      blogName:
+        type: string
+        title: blog_name represents the title description of the subsite added by user
+      path:
+        type: string
+        title: path represents the path of the subsite in url after domain
+      status:
+        type: string
+        title: status represents the status of the subsite
+  v1TransferSiteRequest:
+    type: object
+    properties:
+      currentSiteId:
+        type: string
+      currentAccountId:
+        type: string
+      destinationAccountId:
+        type: string
+  v1WordPressAddon:
+    type: object
+    properties:
+      id:
+        type: string
+      currentVersion:
+        type: string
+      latestVersion:
+        type: string
+  v1WordPressSite:
+    type: object
+    properties:
+      siteId:
+        type: string
+      accountId:
+        type: string
+      accountGroupName:
+        type: string
+      primaryDomain:
+        type: string
+      pluginUpdates:
+        type: integer
+        format: int32
+        title: how many plugins are not the latest version
+      currentTheme:
+        $ref: '#/definitions/v1WordPressAddon'
+      currentCoreVersion:
+        type: string
+      latestCoreVersion:
+        type: string
+      filestoreSize:
+        type: integer
+        format: int32
+      databaseSize:
+        type: integer
+        format: int32
+      bandwidth:
+        type: integer
+        format: int32
+      visitors:
+        type: integer
+        format: int32
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time

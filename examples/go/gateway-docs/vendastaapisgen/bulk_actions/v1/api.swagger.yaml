@@ -1,0 +1,598 @@
+swagger: "2.0"
+info:
+  title: bulk_actions/v1/api.proto
+  version: version not set
+tags:
+  - name: ActionLists
+  - name: BulkActions
+  - name: BulkActionStatus
+  - name: BulkProcessor
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /bulk_actions.v1beta1.ActionLists/AddActionListItems:
+    post:
+      summary: Adds items to an action list
+      operationId: ActionLists_AddActionListItems
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1beta1AddActionListItemsRequest'
+      tags:
+        - ActionLists
+  /bulk_actions.v1beta1.ActionLists/ComputeActionListID:
+    post:
+      summary: Repeatably computes an action list ID for given input
+      operationId: ActionLists_ComputeActionListID
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1beta1ComputeActionListIDsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1beta1ComputeActionListIDsRequest'
+      tags:
+        - ActionLists
+  /bulk_actions.v1beta1.ActionLists/CreateActionList:
+    post:
+      summary: Creates a new action list
+      operationId: ActionLists_CreateActionList
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1beta1CreateActionListResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1beta1CreateActionListRequest'
+      tags:
+        - ActionLists
+  /bulk_actions.v1beta1.ActionLists/DeleteActionList:
+    post:
+      summary: Deletes an existing action list
+      operationId: ActionLists_DeleteActionList
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1beta1DeleteActionListRequest'
+      tags:
+        - ActionLists
+  /bulk_actions.v1beta1.ActionLists/GetActionListItemIDs:
+    post:
+      summary: Gets multiple action lists
+      operationId: ActionLists_GetActionListItemIDs
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1beta1GetActionListItemIDsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1beta1GetActionListItemIDsRequest'
+      tags:
+        - ActionLists
+  /bulk_actions.v1beta1.ActionLists/RemoveActionListItems:
+    post:
+      summary: Removes items from an action list
+      operationId: ActionLists_RemoveActionListItems
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1beta1RemoveActionListItemsRequest'
+      tags:
+        - ActionLists
+  /bulk_actions.v1beta1.BulkActionStatus/ListBulkActionStatusesForActionList:
+    post:
+      summary: Lists the Instances that have been run for an action list
+      operationId: BulkActionStatus_ListBulkActionStatusesForActionList
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1beta1ListBulkActionStatusesForActionListResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1beta1ListBulkActionStatusesForActionListRequest'
+      tags:
+        - BulkActionStatus
+  /bulk_actions.v1beta1.BulkActions/GetBulkActionInstanceItemIDs:
+    post:
+      summary: Gets status of items in a bulk action instance
+      operationId: BulkActions_GetBulkActionInstanceItemIDs
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1beta1GetBulkActionInstanceItemIDsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1beta1GetBulkActionInstanceItemIDsRequest'
+      tags:
+        - BulkActions
+  /bulk_actions.v1beta1.BulkActions/InitiateBulkAction:
+    post:
+      summary: Initiate bulk action to track actions done by "Action Executor"
+      operationId: BulkActions_InitiateBulkAction
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1beta1InitiateBulkActionRequest'
+      tags:
+        - BulkActions
+  /bulk_actions.v1beta1.BulkProcessor/GenerateUploadSignedURL:
+    post:
+      summary: Generates signed url for uploading file in the google cloud storage
+      operationId: BulkProcessor_GenerateUploadSignedURL
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1beta1GenerateUploadSignedURLResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1beta1GenerateUploadSignedURLRequest'
+      tags:
+        - BulkProcessor
+  /bulk_actions.v1beta1.BulkProcessor/InitiateBulkProcessor:
+    post:
+      summary: Initiate Bulk Processor to run processing
+      operationId: BulkProcessor_InitiateBulkProcessor
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1beta1InitiateBulkProcessorResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1beta1InitiateBulkProcessorRequest'
+      tags:
+        - BulkProcessor
+  /bulk_actions.v1beta1.BulkProcessor/ValidateFile:
+    post:
+      summary: Validate File for Bulk Processing
+      operationId: BulkProcessor_ValidateFile
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1beta1ValidateFileResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1beta1ValidateFileRequest'
+      tags:
+        - BulkProcessor
+definitions:
+  BulkProcessorDetailsCSVFile:
+    type: object
+    properties:
+      fileUrl:
+        type: string
+        title: Uploaded url of csv file to process for Bulk Processing
+    title: CSV file details
+  BulkProcessorDetailsImportUsers:
+    type: object
+    properties:
+      userListId:
+        type: string
+        title: User List identifier
+      updateUsers:
+        type: boolean
+        title: Should update existing users
+  BulkProcessorDetailsScheduleCampaign:
+    type: object
+    properties:
+      campaignId:
+        type: string
+        title: Campaign identifier
+      scheduleOn:
+        type: string
+        format: date-time
+        title: Datetime when campaign is schedule to start
+      sender:
+        $ref: '#/definitions/ScheduleCampaignSender'
+        title: Sender information
+      defaultAccountGroupId:
+        type: string
+        title: Optional account group id to temporarily place users on who lack one in a campaign
+  BulkProcessorDetailsUserList:
+    type: object
+    properties:
+      userListId:
+        type: string
+        title: User List identifer
+  ScheduleCampaignSender:
+    type: object
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      userId:
+        type: string
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1beta1ActionListKey:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: The partner identifier
+      marketId:
+        type: string
+        title: The market identifier (empty string means "all markets")
+      actionListId:
+        type: string
+        title: The unique identifier of the action list
+    title: The primary key of an action list to initiate a bulk action
+  v1beta1AddActionListItemsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: The partner identifier
+      marketId:
+        type: string
+        title: The market identifier
+      actionListId:
+        type: string
+        title: The unique identifier of the action list
+      itemIds:
+        type: array
+        items:
+          type: string
+        title: item identifiers to add to the action list
+  v1beta1BulkActionInstanceStatus:
+    type: object
+    properties:
+      instanceId:
+        type: string
+      processedItems:
+        type: string
+        format: int64
+      totalItems:
+        type: string
+        format: int64
+      errors:
+        type: array
+        items:
+          type: string
+      actionDisplayName:
+        type: string
+      isFinalized:
+        type: boolean
+  v1beta1BulkProcessorDetails:
+    type: object
+    properties:
+      csvFile:
+        $ref: '#/definitions/BulkProcessorDetailsCSVFile'
+        title: Details of csv file processor
+      userList:
+        $ref: '#/definitions/BulkProcessorDetailsUserList'
+        title: Details of user list processor
+      importUsers:
+        $ref: '#/definitions/BulkProcessorDetailsImportUsers'
+        title: Details related to import user processor
+      scheduleCampaign:
+        $ref: '#/definitions/BulkProcessorDetailsScheduleCampaign'
+        title: Details about scheduling a campaign
+    title: Bulk processor details will tell the processor what is available for the processing
+  v1beta1BulkProcessorType:
+    type: string
+    enum:
+      - BULK_PROCESSOR_TYPE_INVALID
+      - BULK_PROCESSOR_TYPE_IMPORT_USERS
+      - BULK_PROCESSOR_TYPE_SCHEDULE_CAMPAIGN
+    default: BULK_PROCESSOR_TYPE_INVALID
+    title: Type of bulk processor
+  v1beta1ComputeActionListIDsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: The partner identifier
+      marketId:
+        type: string
+        title: The market identifier (empty string means "all markets")
+      names:
+        type: array
+        items:
+          type: string
+        title: The names of the action lists
+  v1beta1ComputeActionListIDsResponse:
+    type: object
+    properties:
+      nameIdMapping:
+        type: object
+        additionalProperties:
+          type: string
+  v1beta1CreateActionListRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: The partner identifier
+      marketId:
+        type: string
+        title: The market identifier
+      itemIds:
+        type: array
+        items:
+          type: string
+        title: Optional list item identifiers of new action list
+      displayName:
+        type: string
+        title: The name that can be displayed to users who are presented with this list
+      actionListId:
+        type: string
+        description: The ID for the newly created action list.  Must be unique.  ID will be auto-generated if this is left blank.
+  v1beta1CreateActionListResponse:
+    type: object
+    properties:
+      actionListId:
+        type: string
+        title: The unique identifier of the action list
+  v1beta1DeleteActionListRequest:
+    type: object
+    properties:
+      actionListKey:
+        $ref: '#/definitions/v1beta1ActionListKey'
+        title: The unique key set of the action list
+  v1beta1GenerateUploadSignedURLRequest:
+    type: object
+    properties:
+      fileName:
+        type: string
+        title: file name that will be uploaded in google cloud storage
+      contentType:
+        type: string
+        title: give content_type of the file e.g. text/csv
+  v1beta1GenerateUploadSignedURLResponse:
+    type: object
+    properties:
+      signedUrl:
+        type: string
+        title: Signed url to upload CSV
+  v1beta1GetActionListItemIDsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: The partner identifier
+      marketId:
+        type: string
+        title: The market identifier
+      actionListId:
+        type: string
+        title: The unique identifier of the action list
+  v1beta1GetActionListItemIDsResponse:
+    type: object
+    properties:
+      itemIds:
+        type: array
+        items:
+          type: string
+        title: The list of action list item ids
+  v1beta1GetBulkActionInstanceItemIDsRequest:
+    type: object
+    properties:
+      instanceId:
+        type: string
+        title: The identifier of a bulk action instance
+  v1beta1GetBulkActionInstanceItemIDsResponse:
+    type: object
+    properties:
+      bulkActionItemIds:
+        type: array
+        items:
+          type: string
+        title: The identifiers of the action list's items to perform actions against
+  v1beta1InitiateBulkActionRequest:
+    type: object
+    properties:
+      actionListKey:
+        $ref: '#/definitions/v1beta1ActionListKey'
+      instanceId:
+        type: string
+        title: The identifier for the new bulk action instance. MUST be unique
+      hasFinalizeStep:
+        type: boolean
+        title: Set to true if this instance requires a "finalize" step after processing all of its items
+  v1beta1InitiateBulkProcessorRequest:
+    type: object
+    properties:
+      type:
+        $ref: '#/definitions/v1beta1BulkProcessorType'
+        title: Type of bulk processor
+      details:
+        $ref: '#/definitions/v1beta1BulkProcessorDetails'
+        title: Details of processor
+      partnerId:
+        type: string
+        title: The partner identifier
+  v1beta1InitiateBulkProcessorResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        title: ID of the bulk processor
+  v1beta1ListBulkActionStatusesForActionListRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: The partner identifier
+      marketId:
+        type: string
+        title: The market identifier
+      actionListId:
+        type: string
+        title: The unique identifier of the action list
+  v1beta1ListBulkActionStatusesForActionListResponse:
+    type: object
+    properties:
+      instances:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1beta1BulkActionInstanceStatus'
+  v1beta1RemoveActionListItemsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: The partner identifier
+      marketId:
+        type: string
+        title: The market identifier
+      actionListId:
+        type: string
+        title: The unique identifier of the action list
+      itemIds:
+        type: array
+        items:
+          type: string
+        title: item identifiers to add to the action list
+  v1beta1ValidateFileRequest:
+    type: object
+    properties:
+      type:
+        $ref: '#/definitions/v1beta1BulkProcessorType'
+        title: Type of bulk processor
+      fileUrl:
+        type: string
+        title: Path to a file
+      partnerId:
+        type: string
+        title: The unique partner ID
+  v1beta1ValidateFileResponse:
+    type: object
+    properties:
+      errors:
+        type: array
+        items:
+          type: string
+        title: List of errors, if valid it will be empty

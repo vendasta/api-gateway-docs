@@ -1,0 +1,5837 @@
+swagger: "2.0"
+info:
+  title: partner/v1/api.proto
+  version: version not set
+tags:
+  - name: Whitelabel
+  - name: PartnerTrial
+  - name: Addon
+  - name: Stats
+  - name: Partner
+  - name: PartnerSignup
+  - name: IAM
+  - name: FeatureFlags
+  - name: PartnerHealths
+  - name: Rewards
+  - name: SubscriptionTiers
+  - name: UserOnboarding
+  - name: PartnerTermsOfService
+  - name: PartnerUserAgreementTermsOfService
+  - name: CustomerSurveyService
+  - name: PreviewEmailService
+  - name: PartnerLegacy
+  - name: BrandingV2Service
+  - name: AcquisitionDataService
+  - name: FreeTrialService
+  - name: PartnerModelService
+  - name: CannyService
+  - name: GrowthEventService
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /partner.v1.AcquisitionDataService/GetAcquisitionData:
+    post:
+      operationId: AcquisitionDataService_GetAcquisitionData
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetAcquisitionDataResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetAcquisitionDataRequest'
+      tags:
+        - AcquisitionDataService
+  /partner.v1.Addon/Activate:
+    post:
+      summary: Activate an addon for a partner
+      operationId: Addon_Activate
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ActivateAddonResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ActivateAddonRequest'
+      tags:
+        - Addon
+  /partner.v1.Addon/Deactivate:
+    post:
+      summary: Deactivate an addon for a partner
+      operationId: Addon_Deactivate
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeactivateAddonRequest'
+      tags:
+        - Addon
+  /partner.v1.Addon/GetActivation:
+    post:
+      summary: Get a specific addon activation
+      operationId: Addon_GetActivation
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetAddonActivationResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetAddonActivationRequest'
+      tags:
+        - Addon
+  /partner.v1.Addon/ListActivations:
+    post:
+      summary: List addon activations for a partner
+      operationId: Addon_ListActivations
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListAddonActivationsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListAddonActivationsRequest'
+      tags:
+        - Addon
+  /partner.v1.Addon/ListPartnerAddons:
+    post:
+      summary: List the available addons for partners
+      operationId: Addon_ListPartnerAddons
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListPartnerAddonsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListPartnerAddonsRequest'
+      tags:
+        - Addon
+  /partner.v1.BrandingV2Service/GetBranding:
+    post:
+      summary: |-
+        Get the branding for a particular market or the partners fallback (empty market)
+        If getting the branding for a particular market, the result will be the merge of the partner branding and market specific branding
+      operationId: BrandingV2Service_GetBranding
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetBrandingV2Response'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetBrandingV2Request'
+      tags:
+        - BrandingV2Service
+  /partner.v1.BrandingV2Service/GetMultiBranding:
+    post:
+      summary: Get multiple partner's branding
+      operationId: BrandingV2Service_GetMultiBranding
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiBrandingV2Response'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiBrandingV2Request'
+      tags:
+        - BrandingV2Service
+  /partner.v1.BrandingV2Service/ListBranding:
+    post:
+      summary: List the brandings for a partner
+      operationId: BrandingV2Service_ListBranding
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListBrandingV2Response'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListBrandingV2Request'
+      tags:
+        - BrandingV2Service
+  /partner.v1.BrandingV2Service/UpsertBranding:
+    post:
+      summary: Update/Create a partner's branding
+      operationId: BrandingV2Service_UpsertBranding
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpsertBrandingV2Request'
+      tags:
+        - BrandingV2Service
+  /partner.v1.CannyService/GetSingleSignOn:
+    post:
+      operationId: CannyService_GetSingleSignOn
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetSingleSignOnResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetSingleSignOnRequest'
+      tags:
+        - CannyService
+  /partner.v1.CustomerSurveyService/AddFeedback:
+    post:
+      summary: 'Deprecated: This is no longer to be used'
+      operationId: CustomerSurveyService_AddFeedback
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CustomerSurveyAddFeedbackRequest'
+      tags:
+        - CustomerSurveyService
+  /partner.v1.CustomerSurveyService/ListResponses:
+    post:
+      summary: 'Deprecated: This is no longer to be used'
+      operationId: CustomerSurveyService_ListResponses
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CustomerSurveyListResponsesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CustomerSurveyListResponsesRequest'
+      tags:
+        - CustomerSurveyService
+  /partner.v1.CustomerSurveyService/Respond:
+    post:
+      summary: 'Deprecated: This is no longer to be used'
+      operationId: CustomerSurveyService_Respond
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CustomerSurveyRespondResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CustomerSurveyRespondRequest'
+      tags:
+        - CustomerSurveyService
+  /partner.v1.FeatureFlags/AddPartnerToWhitelist:
+    post:
+      summary: Adds a partner_id to a specific feature flag's list of whitelisted PIDs
+      operationId: FeatureFlags_AddPartnerToWhitelist
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1AddPartnerToWhitelistRequest'
+      tags:
+        - FeatureFlags
+  /partner.v1.FeatureFlags/BatchGet:
+    post:
+      summary: Gets a specified set of feature flag entities
+      operationId: FeatureFlags_BatchGet
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1BatchGetFeatureFlagResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1BatchGetFeatureFlagRequest'
+      tags:
+        - FeatureFlags
+  /partner.v1.FeatureFlags/BatchGetStatus:
+    post:
+      summary: Gets a boolean answer on whether or not a feature flag is enabled for specified arguments
+      operationId: FeatureFlags_BatchGetStatus
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1BatchGetStatusFeatureFlagResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1BatchGetStatusFeatureFlagRequest'
+      tags:
+        - FeatureFlags
+  /partner.v1.FeatureFlags/Create:
+    post:
+      summary: Creates a feature flag
+      operationId: FeatureFlags_Create
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateFeatureFlagRequest'
+      tags:
+        - FeatureFlags
+  /partner.v1.FeatureFlags/CreateAnalyticsDashboard:
+    post:
+      summary: CreateAnalyticsDashboard will create a dashboard used for experiment feature flags
+      operationId: FeatureFlags_CreateAnalyticsDashboard
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateAnalyticsDashboardRequest'
+      tags:
+        - FeatureFlags
+  /partner.v1.FeatureFlags/List:
+    post:
+      summary: Lists feature flag entities
+      operationId: FeatureFlags_List
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListFeatureFlagResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListFeatureFlagRequest'
+      tags:
+        - FeatureFlags
+  /partner.v1.FeatureFlags/Update:
+    post:
+      summary: Updates a feature flag
+      operationId: FeatureFlags_Update
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateFeatureFlagRequest'
+      tags:
+        - FeatureFlags
+  /partner.v1.FreeTrialService/GetFreeTrial:
+    post:
+      summary: GetFreeTrial gets partners free trial details
+      operationId: FreeTrialService_GetFreeTrial
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetFreeTrialResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetFreeTrialRequest'
+      tags:
+        - FreeTrialService
+  /partner.v1.FreeTrialService/GetFreeTrialStatus:
+    post:
+      summary: GetFreeTrialStatus gets the current status of a partners free trial
+      operationId: FreeTrialService_GetFreeTrialStatus
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetFreeTrialStatusResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetFreeTrialStatusRequest'
+      tags:
+        - FreeTrialService
+  /partner.v1.FreeTrialService/UpdateFreeTrial:
+    post:
+      summary: UpdateFreeTrial submits which fields we want to update on a free trial model
+      operationId: FreeTrialService_UpdateFreeTrial
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateFreeTrialRequest'
+      tags:
+        - FreeTrialService
+  /partner.v1.GrowthEventService/TriggerEvent:
+    post:
+      operationId: GrowthEventService_TriggerEvent
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1TriggerEventRequest'
+      tags:
+        - GrowthEventService
+  /partner.v1.IAM/GenerateAccountGroupSession:
+    post:
+      summary: Generates a session that is scoped to a given account group
+      operationId: IAM_GenerateAccountGroupSession
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GenerateAccountGroupSessionResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GenerateAccountGroupSessionRequest'
+      tags:
+        - IAM
+  /partner.v1.IAM/ResendPartnerAdminWelcomeEmail:
+    post:
+      summary: Resend welcome email for partner admins
+      operationId: IAM_ResendPartnerAdminWelcomeEmail
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ResendPartnerAdminWelcomeEmailRequest'
+      tags:
+        - IAM
+  /partner.v1.IAM/UpdatePartnerAdmin:
+    post:
+      summary: Update a partner admin
+      operationId: IAM_UpdatePartnerAdmin
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdatePartnerAdminRequest'
+      tags:
+        - IAM
+  /partner.v1.Partner/CanDoAction:
+    post:
+      summary: Returns if the partner can perform the action specified
+      operationId: Partner_CanDoAction
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1PartnerCanDoActionResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1PartnerCanDoActionRequest'
+      tags:
+        - Partner
+  /partner.v1.Partner/CreatePartnerAccountGroup:
+    post:
+      summary: Create a new PartnerAccountGroup entity
+      operationId: Partner_CreatePartnerAccountGroup
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreatePartnerAccountGroupRequest'
+      tags:
+        - Partner
+  /partner.v1.Partner/DeletePartnerAccountGroup:
+    post:
+      summary: Update the PartnerAccountGroup entity with the provided partner_id to have the given values
+      operationId: Partner_DeletePartnerAccountGroup
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeletePartnerAccountGroupRequest'
+      tags:
+        - Partner
+  /partner.v1.Partner/GetPartnerAccountGroupMapping:
+    post:
+      summary: Returns the mapped PartnerID and AccountGroupID
+      operationId: Partner_GetPartnerAccountGroupMapping
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetPartnerAccountGroupMappingResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetPartnerAccountGroupMappingRequest'
+      tags:
+        - Partner
+  /partner.v1.Partner/GetUpdateSubscriptionTierStatus:
+    post:
+      summary: Get the state of the partner's subscription update
+      operationId: Partner_GetUpdateSubscriptionTierStatus
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetUpdateSubscriptionTierStatusResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetUpdateSubscriptionTierStatusRequest'
+      tags:
+        - Partner
+  /partner.v1.Partner/InitiateSubscriptionTierUpdate:
+    post:
+      summary: Initiated the Update subscription tier action
+      operationId: Partner_InitiateSubscriptionTierUpdate
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1InitiateSubscriptionTierUpdateRequest'
+      tags:
+        - Partner
+  /partner.v1.Partner/Reset:
+    post:
+      operationId: Partner_Reset
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ResetPartnerRequest'
+      tags:
+        - Partner
+  /partner.v1.Partner/SwapPartnerAccountGroup:
+    post:
+      summary: Swap the mapped values of one partner_id with another partner_id
+      operationId: Partner_SwapPartnerAccountGroup
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SwapPartnerAccountGroupRequest'
+      tags:
+        - Partner
+  /partner.v1.Partner/UpdatePartnerAccountGroup:
+    post:
+      summary: Update the PartnerAccountGroup entity with the provided partner_id to have the given values
+      operationId: Partner_UpdatePartnerAccountGroup
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdatePartnerAccountGroupRequest'
+      tags:
+        - Partner
+  /partner.v1.Partner/UpdateSubscriptionTier:
+    post:
+      summary: Start the asynchronous process to update a partners subscription
+      operationId: Partner_UpdateSubscriptionTier
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateSubscriptionTierRequest'
+      tags:
+        - Partner
+  /partner.v1.PartnerHealths/Get:
+    post:
+      operationId: PartnerHealths_Get
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetPartnerHealthResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetPartnerHealthRequest'
+      tags:
+        - PartnerHealths
+  /partner.v1.PartnerHealths/GetMulti:
+    post:
+      operationId: PartnerHealths_GetMulti
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiPartnerHealthResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiPartnerHealthRequest'
+      tags:
+        - PartnerHealths
+  /partner.v1.PartnerHealths/List:
+    post:
+      operationId: PartnerHealths_List
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListPartnerHealthResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListPartnerHealthRequest'
+      tags:
+        - PartnerHealths
+  /partner.v1.PartnerHealths/Set:
+    post:
+      operationId: PartnerHealths_Set
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SetPartnerHealthRequest'
+      tags:
+        - PartnerHealths
+  /partner.v1.PartnerLegacy/CreatePartner:
+    post:
+      summary: Create a Partner
+      operationId: PartnerLegacy_CreatePartner
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreatePartnerRequest'
+      tags:
+        - PartnerLegacy
+  /partner.v1.PartnerLegacy/DeletePartner:
+    post:
+      summary: Delete a partner
+      operationId: PartnerLegacy_DeletePartner
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeletePartnerRequest'
+      tags:
+        - PartnerLegacy
+  /partner.v1.PartnerLegacy/GetCreatePartnerStatus:
+    post:
+      summary: Polling endpoint to get the result of CreatePartner. This endpoint blocks for a set amount of time
+      operationId: PartnerLegacy_GetCreatePartnerStatus
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetCreatePartnerStatusResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetCreatePartnerStatusRequest'
+      tags:
+        - PartnerLegacy
+  /partner.v1.PartnerLegacy/GetPartnerCenterNavigation:
+    post:
+      summary: GetPartnerCenterNavigation is the legacy navigation structure generation for partner center
+      operationId: PartnerLegacy_GetPartnerCenterNavigation
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetPartnerCenterNavigationResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetPartnerCenterNavigationRequest'
+      tags:
+        - PartnerLegacy
+  /partner.v1.PartnerLegacy/GetSignUpAddPaymentCardResult:
+    post:
+      summary: Check if the payment card the partner's added has any problems.
+      operationId: PartnerLegacy_GetSignUpAddPaymentCardResult
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetSignUpAddPaymentCardResultResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetSignUpAddPaymentCardResultRequest'
+      tags:
+        - PartnerLegacy
+  /partner.v1.PartnerLegacy/GetUpdatePartnerStatus:
+    post:
+      summary: Polling endpoint to get the result of UpdatePartner
+      operationId: PartnerLegacy_GetUpdatePartnerStatus
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetUpdatePartnerStatusResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetUpdatePartnerStatusRequest'
+      tags:
+        - PartnerLegacy
+  /partner.v1.PartnerLegacy/ListMarketsForUser:
+    post:
+      summary: ListMarketsForUser will return the markets that the user has access to on the partner
+      operationId: PartnerLegacy_ListMarketsForUser
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListMarketsForUserResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListMarketsForUserRequest'
+      tags:
+        - PartnerLegacy
+  /partner.v1.PartnerLegacy/UpdatePartner:
+    post:
+      summary: Update partner
+      operationId: PartnerLegacy_UpdatePartner
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdatePartnerRequest'
+      tags:
+        - PartnerLegacy
+  /partner.v1.PartnerLegacy/UpdatePartnerCompanyProfile:
+    post:
+      summary: Update the partner company profile values
+      operationId: PartnerLegacy_UpdatePartnerCompanyProfile
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateCompanyProfileRequest'
+      tags:
+        - PartnerLegacy
+  /partner.v1.PartnerModelService/GetMultiPartnerModel:
+    post:
+      summary: GetMultiPartnerModel returns a list of partners
+      operationId: PartnerModelService_GetMultiPartnerModel
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiPartnerModelResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiPartnerModelRequest'
+      tags:
+        - PartnerModelService
+  /partner.v1.PartnerModelService/GetPartnerModel:
+    post:
+      summary: GetPartnerModel returns the partner
+      operationId: PartnerModelService_GetPartnerModel
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetPartnerModelResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetPartnerModelRequest'
+      tags:
+        - PartnerModelService
+  /partner.v1.PartnerModelService/SearchPartnerModels:
+    post:
+      summary: SearchPartnerModels returns a list of partners matching the search criteria
+      operationId: PartnerModelService_SearchPartnerModels
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1SearchPartnerModelsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SearchPartnerModelsRequest'
+      tags:
+        - PartnerModelService
+  /partner.v1.PartnerModelService/UpdatePartnerModel:
+    post:
+      summary: UpdatePartnerModel updates the partner
+      operationId: PartnerModelService_UpdatePartnerModel
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdatePartnerModelRequest'
+      tags:
+        - PartnerModelService
+  /partner.v1.PartnerSignup/GetGoogleProfile:
+    post:
+      summary: receives a Google Code and returns a Google Profile
+      operationId: PartnerSignup_GetGoogleProfile
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetGoogleProfileResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetGoogleProfileRequest'
+      tags:
+        - PartnerSignup
+  /partner.v1.PartnerSignup/GetLinkedInProfile:
+    post:
+      summary: receives a LinkedIn Authorization Code and returns a LinkedIn Profile
+      operationId: PartnerSignup_GetLinkedInProfile
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetLinkedinProfileResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetLinkedinProfileRequest'
+      tags:
+        - PartnerSignup
+  /partner.v1.PartnerSignup/GetMicrosoftProfile:
+    post:
+      summary: receives a Microsoft Authorization Code and returns a Microsoft Profile
+      operationId: PartnerSignup_GetMicrosoftProfile
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMicrosoftProfileResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMicrosoftProfileRequest'
+      tags:
+        - PartnerSignup
+  /partner.v1.PartnerSignup/GetSelfSignUpStatus:
+    post:
+      summary: |-
+        Partner self sign up
+        GetSelfSignUpStatus is an endpoint to check the partner creation status
+      operationId: PartnerSignup_GetSelfSignUpStatus
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetSelfSignUpStatusResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetSelfSignUpStatusRequest'
+      tags:
+        - PartnerSignup
+  /partner.v1.PartnerSignup/IsEmailDisposable:
+    post:
+      operationId: PartnerSignup_IsEmailDisposable
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1IsEmailDisposableResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1IsEmailDisposableRequest'
+      tags:
+        - PartnerSignup
+  /partner.v1.PartnerSignup/IsEmailInUse:
+    post:
+      operationId: PartnerSignup_IsEmailInUse
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1IsEmailInUseResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1IsEmailInUseRequest'
+      tags:
+        - PartnerSignup
+  /partner.v1.PartnerSignup/Login:
+    post:
+      summary: login for self sign up, this operation works for with email/password or a google token
+      operationId: PartnerSignup_Login
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1LoginResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1LoginRequest'
+      tags:
+        - PartnerSignup
+  /partner.v1.PartnerSignup/SelfSignUp:
+    post:
+      operationId: PartnerSignup_SelfSignUp
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SelfSignUpRequest'
+      tags:
+        - PartnerSignup
+  /partner.v1.PartnerSignup/SelfSignUpExistingAccountGroup:
+    post:
+      summary: Self sign up a partner when the email submitted was already identified as an existent account group in VMF
+      operationId: PartnerSignup_SelfSignUpExistingAccountGroup
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SelfSignUpExistingAccountGroupRequest'
+      tags:
+        - PartnerSignup
+  /partner.v1.PartnerSignup/SelfSignUpWithGoogle:
+    post:
+      summary: |-
+        SelfSignUpWithGoogle and SelfSignUpWithLinkedIn
+        the main difference for SelfSignUp
+        is that it uses a token to retrieve user information
+      operationId: PartnerSignup_SelfSignUpWithGoogle
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SelfSignUpWithGoogleRequest'
+      tags:
+        - PartnerSignup
+  /partner.v1.PartnerSignup/SelfSignUpWithLinkedIn:
+    post:
+      operationId: PartnerSignup_SelfSignUpWithLinkedIn
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SelfSignUpWithLinkedRequest'
+      tags:
+        - PartnerSignup
+  /partner.v1.PartnerSignup/SignUp:
+    post:
+      summary: |-
+        Sign up is used for all possible sign up operations
+        supports normal sign up, using google, or linkedin as retrievers of user information
+      operationId: PartnerSignup_SignUp
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SignUpRequest'
+      tags:
+        - PartnerSignup
+  /partner.v1.PartnerTermsOfService/CreateTermsOfService:
+    post:
+      operationId: PartnerTermsOfService_CreateTermsOfService
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateTermsOfServiceRequest'
+      tags:
+        - PartnerTermsOfService
+  /partner.v1.PartnerTermsOfService/GetTermsOfService:
+    post:
+      operationId: PartnerTermsOfService_GetTermsOfService
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetTermsOfServiceResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetTermsOfServiceRequest'
+      tags:
+        - PartnerTermsOfService
+  /partner.v1.PartnerTrial/CancelTrial:
+    post:
+      summary: Cancels a trial for a partner
+      operationId: PartnerTrial_CancelTrial
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CancelTrialRequest'
+      tags:
+        - PartnerTrial
+  /partner.v1.PartnerTrial/CreateTrial:
+    post:
+      summary: Create a trial for a partner
+      operationId: PartnerTrial_CreateTrial
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateTrialRequest'
+      tags:
+        - PartnerTrial
+  /partner.v1.PartnerTrial/GetTrial:
+    post:
+      summary: Gets the trial object for a partner
+      operationId: PartnerTrial_GetTrial
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetTrialResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetTrialRequest'
+      tags:
+        - PartnerTrial
+  /partner.v1.PartnerTrial/ListTrial:
+    post:
+      summary: Lists trials for a partner
+      operationId: PartnerTrial_ListTrial
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListTrialResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListTrialRequest'
+      tags:
+        - PartnerTrial
+  /partner.v1.PartnerUserAgreementTermsOfService/GetUserAgreementTermsOfService:
+    post:
+      operationId: PartnerUserAgreementTermsOfService_GetUserAgreementTermsOfService
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetUserAgreementTermsOfServiceResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetUserAgreementTermsOfServiceRequest'
+      tags:
+        - PartnerUserAgreementTermsOfService
+  /partner.v1.PartnerUserAgreementTermsOfService/SetUserAgreementTermsOfService:
+    post:
+      operationId: PartnerUserAgreementTermsOfService_SetUserAgreementTermsOfService
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SetUserAgreementTermsOfServiceRequest'
+      tags:
+        - PartnerUserAgreementTermsOfService
+  /partner.v1.PreviewEmailService/CanSendPreviewEmail:
+    post:
+      summary: Returns a boolean of whether the partner is able to send preview emails or not
+      operationId: PreviewEmailService_CanSendPreviewEmail
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CanSendPreviewEmailResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CanSendPreviewEmailRequest'
+      tags:
+        - PreviewEmailService
+  /partner.v1.PreviewEmailService/CreatePreviewEmail:
+    post:
+      summary: Creates an entry when the partner successfully sends a preview email
+      operationId: PreviewEmailService_CreatePreviewEmail
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreatePreviewEmailRequest'
+      tags:
+        - PreviewEmailService
+  /partner.v1.Rewards/AddRewardToPartner:
+    post:
+      summary: If the Reward is not eligible by default, then each partner must be added individually
+      operationId: Rewards_AddRewardToPartner
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1AddRewardToPartnerRequest'
+      tags:
+        - Rewards
+  /partner.v1.Rewards/AttemptRewardClaim:
+    post:
+      summary: Manually trigger a reward claim check, and start processing if eligible and conditions met
+      operationId: Rewards_AttemptRewardClaim
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1AttemptRewardClaimRequest'
+      tags:
+        - Rewards
+  /partner.v1.Rewards/GetReward:
+    post:
+      summary: Get the Reward by ID, and partner ID
+      operationId: Rewards_GetReward
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetRewardResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetRewardRequest'
+      tags:
+        - Rewards
+  /partner.v1.Rewards/IsRewardConditionMetForPartner:
+    post:
+      summary: Get the Reward by ID, and partner ID
+      operationId: Rewards_IsRewardConditionMetForPartner
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1IsRewardConditionMetForPartnerResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1IsRewardConditionMetForPartnerRequest'
+      tags:
+        - Rewards
+  /partner.v1.Stats/ListTop:
+    post:
+      summary: List top partners and their relevant stats
+      operationId: Stats_ListTop
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListTopResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListTopRequest'
+      tags:
+        - Stats
+  /partner.v1.SubscriptionTiers/CompareSubscriptionTiers:
+    post:
+      summary: Datasource for visual comparison of subscription tiers
+      operationId: SubscriptionTiers_CompareSubscriptionTiers
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CompareSubscriptionTiersResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CompareSubscriptionTiersRequest'
+      tags:
+        - SubscriptionTiers
+  /partner.v1.SubscriptionTiers/GetSubscriptionTier:
+    post:
+      summary: Get specific subscription by Id
+      operationId: SubscriptionTiers_GetSubscriptionTier
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetSubscriptionTierResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetSubscriptionTierRequest'
+      tags:
+        - SubscriptionTiers
+  /partner.v1.SubscriptionTiers/ListSubscriptionTiers:
+    post:
+      summary: List all subscriptions
+      operationId: SubscriptionTiers_ListSubscriptionTiers
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListSubscriptionTiersResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListSubscriptionTiersRequest'
+      tags:
+        - SubscriptionTiers
+  /partner.v1.UserOnboarding/DeleteWizardStatus:
+    post:
+      summary: Replace the status for the onboarding wizard
+      operationId: UserOnboarding_DeleteWizardStatus
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeleteWizardStatusRequest'
+      tags:
+        - UserOnboarding
+  /partner.v1.UserOnboarding/GetWizardStatus:
+    post:
+      summary: Return the status of the onboarding wizard associated with a user and a partner
+      operationId: UserOnboarding_GetWizardStatus
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetWizardStatusResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetWizardStatusRequest'
+      tags:
+        - UserOnboarding
+  /partner.v1.UserOnboarding/ListWizardStatus:
+    post:
+      summary: Returns the statuses of the wizard across the partner
+      operationId: UserOnboarding_ListWizardStatus
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListWizardStatusResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListWizardStatusRequest'
+      tags:
+        - UserOnboarding
+  /partner.v1.UserOnboarding/ReplaceWizardStatus:
+    post:
+      summary: Replace the status for the onboarding wizard
+      operationId: UserOnboarding_ReplaceWizardStatus
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ReplaceWizardStatusRequest'
+      tags:
+        - UserOnboarding
+  /partner.v1.Whitelabel/GetBranding:
+    post:
+      summary: 'DEPRECATED: Use BrandingV2Service instead'
+      operationId: Whitelabel_GetBranding
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetBrandingResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetBrandingRequest'
+      tags:
+        - Whitelabel
+  /partner.v1.Whitelabel/GetConfiguration:
+    post:
+      summary: Gets the configuration for a partner/market context
+      operationId: Whitelabel_GetConfiguration
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetConfigurationResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetConfigurationRequest'
+      tags:
+        - Whitelabel
+  /partner.v1.Whitelabel/GetMultiBranding:
+    post:
+      summary: 'DEPRECATED: Use BrandingV2Service instead'
+      operationId: Whitelabel_GetMultiBranding
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiBrandingResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiBrandingRequest'
+      tags:
+        - Whitelabel
+definitions:
+  BrandingApp:
+    type: object
+    properties:
+      name:
+        type: string
+        title: The whitelabeled name of the application
+  BrandingAssets:
+    type: object
+    properties:
+      faviconUrl:
+        $ref: '#/definitions/v1URL'
+        title: Favicon is the small icon that will appear in browser tabs
+      shortcutIconUrl:
+        $ref: '#/definitions/v1URL'
+        title: Shortut Icon is a mid-size icon that will appear in other browsing contexts, such as when the page is added to homescreen
+      logoUrl:
+        $ref: '#/definitions/v1URL'
+        title: Logo is the image that will be used to brand the platform within pages
+  MutationPartnerAccessMutation:
+    type: object
+    properties:
+      accessList:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1PartnerAccess'
+  UpdateFeatureFlagRequestMutation:
+    type: object
+    properties:
+      name:
+        type: string
+        title: The name of the feature
+      description:
+        type: string
+        title: The description of the feature
+      accessLevel:
+        $ref: '#/definitions/v1AccessLevel'
+        title: The level of access it is
+      moreInfoUrl:
+        type: string
+        title: A url to go to for more info
+      archived:
+        type: boolean
+        title: a boolean representing whether or not this has been marked as archived
+      whitelist:
+        $ref: '#/definitions/MutationPartnerAccessMutation'
+        title: Partners who are given explicit access to a feature, regardless of access_level value
+      blacklist:
+        $ref: '#/definitions/MutationPartnerAccessMutation'
+        description: Which, if any, partner ids are blacklisted from receiving access to this feature. Highest priority of evaluation.
+      experimentSettings:
+        $ref: '#/definitions/v1ExperimentSetting'
+        title: Experiment Settings
+      ownerName:
+        type: string
+      expiration:
+        $ref: '#/definitions/v1Expiration'
+        title: Expiration is the amount of time after which the flag will self-disable
+      restartExpiry:
+        type: boolean
+        title: RestartExpiry causes the expiration to restart from today
+  UpdatePartnerModelMutationCountryState:
+    type: object
+    properties:
+      countryCode:
+        type: string
+      stateCode:
+        type: string
+  UpsertMutationMarketOverridesMutation:
+    type: object
+    properties:
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/v1Field'
+  googlerpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  partnerv1Status:
+    type: string
+    enum:
+      - STATUS_INVALID
+      - STATUS_IN_PROGRESS
+      - STATUS_COMPLETE
+      - STATUS_ERROR
+    default: STATUS_INVALID
+  partnerv1UITheme:
+    type: string
+    enum:
+      - UI_THEME_INVALID
+      - UI_THEME_DARK
+      - UI_THEME_LIGHT
+      - UI_THEME_USER_PREFERENCE
+    default: UI_THEME_INVALID
+    title: |-
+      - UI_THEME_INVALID: Unknown value assigned
+       - UI_THEME_DARK: Dark Theme
+       - UI_THEME_LIGHT: Light Theme
+       - UI_THEME_USER_PREFERENCE: Theme abides by user os preference
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  protobufNullValue:
+    type: string
+    enum:
+      - NULL_VALUE
+    default: NULL_VALUE
+    description: |-
+      `NullValue` is a singleton enumeration to represent the null value for the
+      `Value` type union.
+
+      The JSON representation for `NullValue` is JSON `null`.
+
+       - NULL_VALUE: Null value.
+  v1AccessLevel:
+    type: string
+    enum:
+      - ACCESS_LEVEL_ALPHA
+      - ACCESS_LEVEL_BETA
+      - ACCESS_LEVEL_ALL
+      - ACCESS_LEVEL_EXPERIMENT
+    default: ACCESS_LEVEL_ALPHA
+    title: AccessLevel describes the different possible levels of access we can release features to
+  v1AcquisitionData:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: the partner we acquired
+      tags:
+        type: array
+        items:
+          type: string
+        title: tags acquired
+      origin:
+        type: string
+        title: which system did this partner used to signup (self-signup, internal, etc...)
+      visitorIdCookie:
+        type: string
+        title: identified visitor cookie
+      conquerLocalAcademyVisitorId:
+        type: string
+        title: identified conquer local visitor cookie
+      conversionPoint:
+        type: string
+        title: where did this partner came from (superadmin, facebook)
+      numberOfEmployees:
+        type: string
+        title: identified number of employees
+      affiliateId:
+        type: string
+        title: referrer id (old affiliate program)
+      referrerId:
+        type: string
+        title: referrer id (new affiliate program)
+      created:
+        type: string
+        format: date-time
+        title: Time entity was created
+      updated:
+        type: string
+        format: date-time
+        title: Time entity was last updated
+      deleted:
+        type: string
+        format: date-time
+        title: Time entity was last updated
+      clearbitCollectedSignupDataId:
+        type: string
+        title: ID for CollectedSignUpData at prospect
+    title: Data acquired at the moment of partner creation
+  v1Action:
+    type: string
+    enum:
+      - ACTION_UNSPECIFIED
+      - ACTION_CREATE_SNAPSHOT_REPORT
+      - ACTION_CREATE_SNAPSHOT_REPORT_BULK
+      - ACTION_ACTIVATE_RM
+      - ACTION_ACTIVATE_DEMO_RM
+      - ACTION_ACTIVATE_SM
+      - ACTION_ACTIVATE_MS
+      - ACTION_CONVERT_DEMO_RM
+      - ACTION_ACTIVATE_MARKETPLACE_PRODUCT
+      - ACTION_REFRESH_SNAPSHOT_REPORT
+      - ACTION_ACTIVATE_LISTING_DISTRIBUTION
+      - ACTION_ACTIVATE_LISTING_SYNC_PRO
+      - ACTION_ACTIVATE_CUSTOM_PRODUCT
+      - ACTION_ACCESS_SNAPSHOT_WIDGET
+      - ACTION_ACTIVATE_ADDON
+    default: ACTION_UNSPECIFIED
+  v1ActivateAddonRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: identifier of the partner the addon is being activated for
+      addonId:
+        type: string
+        title: identifier of the addon being activated
+      quantity:
+        type: integer
+        format: int32
+        title: quantity of the addon being activated
+  v1ActivateAddonResponse:
+    type: object
+    properties:
+      activation:
+        $ref: '#/definitions/v1AddonActivation'
+        title: the newly activated activation
+  v1AddPartnerToWhitelistRequest:
+    type: object
+    properties:
+      featureFlagId:
+        type: string
+        title: the id of the feature flag that will have an extra whitelisted PID added to
+      partnerId:
+        type: string
+        title: the id of the partner who will be added to list of whitelisted PIDs of the feature flag
+    title: Request message for FeatureFlags.AddPartnerToWhitelist
+  v1AddRewardToPartnerRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      rewardId:
+        type: string
+  v1AddonActivation:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      addonId:
+        type: string
+      activationId:
+        type: string
+      quantity:
+        type: integer
+        format: int32
+      start:
+        type: string
+        format: date-time
+      end:
+        type: string
+        format: date-time
+      status:
+        $ref: '#/definitions/v1AddonActivationStatus'
+      activationFailureReason:
+        type: string
+  v1AddonActivationStatus:
+    type: string
+    enum:
+      - ADDON_ACTIVATION_STATUS_PENDING
+      - ADDON_ACTIVATION_STATUS_FAILURE
+      - ADDON_ACTIVATION_STATUS_SUCCESS
+    default: ADDON_ACTIVATION_STATUS_PENDING
+  v1AppIdentifier:
+    type: object
+    properties:
+      appId:
+        type: string
+      editionId:
+        type: string
+  v1AttemptRewardClaimRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      rewardId:
+        type: string
+  v1BatchGetFeatureFlagRequest:
+    type: object
+    properties:
+      ids:
+        type: array
+        items:
+          type: string
+        title: the ids of the feature flags to get
+    title: Request message for FeatureFlags.BatchGet
+  v1BatchGetFeatureFlagResponse:
+    type: object
+    properties:
+      flags:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1FeatureFlag'
+        title: feature flags found based on request ids
+    title: Response message for FeatureFlags.BatchGet
+  v1BatchGetStatusFeatureFlagRequest:
+    type: object
+    properties:
+      featureIds:
+        type: array
+        items:
+          type: string
+        title: a list of feature IDs (MUST be snake_case) to check if the status of
+      partnerId:
+        type: string
+        title: the ID of a partner (3-4 alphanumeric characters) for which to check if features are enabled
+      marketId:
+        type: string
+        title: if included, the ID of a market within a partner for which to check if features are enabled
+    title: Request message for FeatureFlags.BatchGetStatus
+  v1BatchGetStatusFeatureFlagResponse:
+    type: object
+    properties:
+      hasAccess:
+        type: array
+        items:
+          type: boolean
+        description: |-
+          A list of true/false for whether or not the specified partner+market has access to the requested features
+          respective of input feature ids order.
+          --------------------------------------
+          ** NOTE 1 **: If a feature flag is archived we will still perform the check as if it wasn't. This is to preserve
+          the previous functionality from va-vconfig.
+          ** NOTE 2 **: If a specified feature id on the request does not exist then the
+          respective entry in this response will be true.
+    title: Response message for FeatureFlags.BatchGetStatus
+  v1BillingFrequency:
+    type: string
+    enum:
+      - BILLING_FREQUENCY_INVALID
+      - BILLING_FREQUENCY_MONTHLY
+      - BILLING_FREQUENCY_YEARLY
+    default: BILLING_FREQUENCY_INVALID
+  v1Branding:
+    type: object
+    properties:
+      uiTheme:
+        $ref: '#/definitions/v1BrandingUITheme'
+        title: Major theme of the UI -- Dark/Light
+      primaryColor:
+        type: string
+        title: Primary Color
+      assets:
+        $ref: '#/definitions/BrandingAssets'
+        title: Assets such as logos and icons
+      apps:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/BrandingApp'
+        title: Application branding information
+      name:
+        type: string
+        title: The partner / market name of the request
+      partnerName:
+        type: string
+        title: The partner name regardless of market
+      theme:
+        $ref: '#/definitions/v1Theme'
+        title: Theme the partner/market selected theme
+    title: 'DEPRECATED: Use BrandingV2Service instead'
+  v1BrandingUITheme:
+    type: string
+    enum:
+      - Dark
+      - Light
+    default: Dark
+  v1BrandingV2:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      marketId:
+        type: string
+        description: ID of the market. Can be empty string.
+      faviconUrl:
+        type: string
+        title: Favicon is the small icon that will appear in browser tabs
+      shortcutIconUrl:
+        type: string
+        title: Shortcut Icon is a mid-size icon that will appear in other browsing contexts, such as when the page is added to a home screen
+      logoUrl:
+        type: string
+        title: Logo is the image that will be used to brand the platform within pages
+      uiTheme:
+        $ref: '#/definitions/partnerv1UITheme'
+        title: Major theme of the UI
+      primaryColor:
+        type: string
+        title: Primary Color
+      marketOverrides:
+        type: array
+        items:
+          $ref: '#/definitions/v1Field'
+        title: Specifies the fields that should be used from the market branding versus the partner (no market) branding
+      created:
+        type: string
+        format: date-time
+        title: Time entity was created
+      updated:
+        type: string
+        format: date-time
+        title: Time entity was last updated
+      name:
+        type: string
+        title: Name of the partner or their company
+      darkModeLogoUrl:
+        type: string
+        title: Optional additional logo for displaying when in dark mode
+      businessAppUiTheme:
+        $ref: '#/definitions/partnerv1UITheme'
+        title: The UI theme for business app, and the embedded biz app side nav in O&O products
+  v1BusinessCenterConfiguration:
+    type: object
+    properties:
+      showContentLibrary:
+        type: boolean
+      showLmiDashboard:
+        type: boolean
+      showExecutiveReport:
+        type: boolean
+      showStore:
+        type: boolean
+      cancellationNotificationEmail:
+        type: string
+      globalNotification:
+        type: string
+        title: A message to be displayed in business center to all users
+      businessAppBranding:
+        type: boolean
+      referralLink:
+        $ref: '#/definitions/v1ReferralLink'
+      accessTrialProducts:
+        type: boolean
+      hideQuickbooksConnector:
+        type: boolean
+      hideSmbAcademy:
+        type: boolean
+      showReviewGradeForSmbExecReport:
+        type: boolean
+      showGetStarted:
+        type: boolean
+      meetingSchedulerBusinessApp:
+        type: boolean
+      showSocialGradeForSmbExecReport:
+        type: boolean
+      showMyListingInBusinessCenter:
+        type: boolean
+      showInviteTeam:
+        type: boolean
+      disableBusinessNav:
+        type: boolean
+        title: 'Deprecated: use Configuration.disable_business_nav instead'
+      showFulfillment:
+        type: boolean
+      showOrderPage:
+        type: boolean
+      showInvoices:
+        type: boolean
+      showDashboard:
+        type: boolean
+      showFiles:
+        type: boolean
+      showMyProducts:
+        type: boolean
+      showCustomers:
+        type: boolean
+      showRecentActivity:
+        type: boolean
+      showInboxMessage:
+        type: boolean
+      showCustomerJourney:
+        type: boolean
+      showOnboardingVideo:
+        type: boolean
+      onboardingVideoUrl:
+        type: string
+      showMarketingFunnel:
+        type: boolean
+      showCustomGuides:
+        type: boolean
+      customGuidesTags:
+        type: array
+        items:
+          type: string
+      customGuidesUrl:
+        type: string
+      sendOnboardingCampaign:
+        type: boolean
+      onboardingCampaignId:
+        type: string
+      showRecommendationsBanner:
+        type: boolean
+      singleLocationDefaultTimeRange:
+        $ref: '#/definitions/v1TimeRange'
+      showGoogleSearchConsoleCta:
+        type: boolean
+      isBusinessProfileEditable:
+        type: boolean
+      allowSmbChatWithPartner:
+        type: boolean
+      showWordPressSalesOrders:
+        type: boolean
+      globalNotificationExpiryTime:
+        type: string
+        format: date-time
+      showListingScore:
+        type: boolean
+      multiLocationDefaultTimeRange:
+        $ref: '#/definitions/v1TimeRange'
+      hideCreateAccount:
+        type: boolean
+      notificationsEnabled:
+        type: boolean
+      showListingScoreAsPercent:
+        type: boolean
+      customGuidesInlineTitle:
+        type: boolean
+      allowExportReviews:
+        type: boolean
+      decoupleProductAndReportAccess:
+        type: boolean
+      showCrmCompanies:
+        type: boolean
+      showCrmTasks:
+        type: boolean
+      showCustomForms:
+        type: boolean
+      showAutomations:
+        type: boolean
+      showCrmOpportunities:
+        type: boolean
+      showDynamicLists:
+        type: boolean
+      showLeaderboard:
+        type: boolean
+      showAiAssistant:
+        type: boolean
+      showLeadScoring:
+        type: boolean
+      showInboxWidgetFooterContent:
+        type: boolean
+  v1CanSendPreviewEmailRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: Identifier of a partner
+  v1CanSendPreviewEmailResponse:
+    type: object
+    properties:
+      canSendPreviewEmails:
+        type: boolean
+        title: Whether the partner is allowed to send emails or not
+  v1CancelTrialRequest:
+    type: object
+    properties:
+      trialId:
+        type: string
+        title: the trial identifier
+      partnerId:
+        type: string
+        title: the partner id whose trial is being cancelled
+  v1Claimed:
+    type: object
+    properties:
+      date:
+        type: string
+        format: date-time
+  v1CompanyProfile:
+    type: object
+    properties:
+      name:
+        type: string
+      address:
+        type: string
+      address2:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      country:
+        type: string
+      postalCode:
+        type: string
+      phoneNumber:
+        type: string
+      websiteAddress:
+        type: string
+      emailAddress:
+        type: string
+      crmCompanyId:
+        type: string
+  v1CompareSubscriptionTiersRequest:
+    type: object
+    properties:
+      subscriptionTierIds:
+        type: array
+        items:
+          type: string
+        title: the subscription tier ids to compare
+      partnerId:
+        type: string
+  v1CompareSubscriptionTiersResponse:
+    type: object
+    properties:
+      rows:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ComparisonRow'
+  v1ComparisonCell:
+    type: object
+    properties:
+      count:
+        $ref: '#/definitions/v1CountConstraint'
+        title: a string representing a constraint on the feature such as "Limit 5"
+      isIncluded:
+        type: boolean
+        title: a boolean value representing the unilateral exclusion/inclusion of a feature
+      isLimited:
+        type: boolean
+        title: an item is included but in a limited capacity
+  v1ComparisonRow:
+    type: object
+    properties:
+      rowId:
+        type: string
+        title: unique ID to allow a frontend mapping of tier to i18n key
+      sectionId:
+        type: string
+        title: unique ID to map a row to a section
+      cells:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ComparisonCell'
+        title: cells ordered from lowest to highest by subscription tier rank
+  v1Configuration:
+    type: object
+    properties:
+      geoRegionForPerformanceMetrics:
+        type: array
+        items:
+          type: string
+      snapshotConfiguration:
+        $ref: '#/definitions/v1SnapshotConfiguration'
+      enabledFeatures:
+        type: array
+        items:
+          type: string
+      tags:
+        type: array
+        items:
+          type: string
+      subscriptionLevel:
+        $ref: '#/definitions/v1SubscriptionLevel'
+        title: 'Deprecated: use SubscriptionTier instead'
+      socialProfileGroupId:
+        type: string
+      reputationConfiguration:
+        $ref: '#/definitions/v1ReputationConfiguration'
+      salesConfiguration:
+        $ref: '#/definitions/v1SalesConfiguration'
+      businessCenterConfiguration:
+        $ref: '#/definitions/v1BusinessCenterConfiguration'
+      hasBrandsEnabled:
+        type: boolean
+      hasProductMarketplace:
+        type: boolean
+      adintelIsEnabled:
+        type: boolean
+      msAlwaysEnabled:
+        type: boolean
+      subscriptionFailure:
+        $ref: '#/definitions/v1SubscriptionFailure'
+        title: 'Deprecated: use PartnerHealths service instead'
+      emailConfiguration:
+        $ref: '#/definitions/v1EmailConfiguration'
+      mailingConfiguration:
+        $ref: '#/definitions/v1MailingConfiguration'
+      subscriptionTierId:
+        type: string
+        title: 'Deprecated: Retrieve subscription tier from Partner model in partner µService'
+      segmentedOnboardingConfiguration:
+        $ref: '#/definitions/v1SegmentedOnboardingConfiguration'
+        title: 'Deprecated: use UserOnboardingConfiguration instead'
+      taskManagerConfiguration:
+        $ref: '#/definitions/v1TaskManagerConfiguration'
+      msChatWidgetEnabled:
+        type: boolean
+        title: Local SEO App's Web Chat Widget for Business App is enabled at the partner level
+      disableBusinessNav:
+        type: boolean
+        title: Whether business nav is disabled in O&O products
+      exitLinkConfiguration:
+        $ref: '#/definitions/v1ExitLinkConfiguration'
+        title: Used to configure the exit link / back to dashboard link within the atlas navigation bar
+      disableProductSwitcher:
+        type: boolean
+        title: Whether the product switcher is disabled within the atlas navigation bar
+  v1CountConstraint:
+    type: object
+    properties:
+      included:
+        type: string
+        format: int64
+        title: number of units included in the subscription tier
+      additionalCost:
+        $ref: '#/definitions/v1TierCostConstraint'
+        title: the cost per additional unit
+  v1CreateAnalyticsDashboardRequest:
+    type: object
+    properties:
+      featureFlagId:
+        type: string
+        title: ID of the feature flag
+      userId:
+        type: string
+        title: Id of the user in vendasta platform
+    title: Request message for FeatureFlags.CreateAnalyticsDashboard
+  v1CreateFeatureFlagRequest:
+    type: object
+    properties:
+      id:
+        type: string
+        title: The ID of the feature
+      name:
+        type: string
+        title: The name of the feature
+      description:
+        type: string
+        title: The description of the feature
+      accessLevel:
+        $ref: '#/definitions/v1AccessLevel'
+        title: The access level for which this feature is released to
+      moreInfoUrl:
+        type: string
+        title: A url to go to for more info
+      whitelist:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1PartnerAccess'
+        title: Partners who are given explicit access to a feature, regardless of access_level value
+      blacklist:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1PartnerAccess'
+        description: Which, if any, partner ids are blacklisted from receiving access to this feature. Highest priority of evaluation.
+      experimentSettings:
+        $ref: '#/definitions/v1ExperimentSetting'
+        title: Experiment Settings
+      ownerName:
+        type: string
+        title: Owner Name is the name of the person who owns this feature flag
+      expiration:
+        $ref: '#/definitions/v1Expiration'
+        title: Expiration is the amount of time after which the flag will self-disable
+    title: Request message for FeatureFlags.Create
+  v1CreatePartnerAccountGroupRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the Partner (key value)
+      accountGroupId:
+        type: string
+        title: ID of the Account Group
+    title: CreatePartnerAccountGroupRequest is used to create a PartnerAccountGroup entity
+  v1CreatePartnerRequest:
+    type: object
+    properties:
+      idempotentKey:
+        type: string
+        title: Unique key used to poll the status of creating the partner
+      partnerId:
+        type: string
+        title: ID of the Partner, will be generated if omitted
+      companyProfile:
+        $ref: '#/definitions/v1CompanyProfile'
+        title: Company Profile (NAP Data)
+      accountGroupId:
+        type: string
+        title: Account Group ID
+      initialUser:
+        $ref: '#/definitions/v1PartnerUser'
+        title: Initial User created for Partner
+      billingCurrencyCode:
+        type: string
+        title: Billing currency 3 letter code
+      termsOfService:
+        $ref: '#/definitions/v1TermOfService'
+        title: Terms of Service accepted
+      startOnTutorialCampaign:
+        type: boolean
+        title: |-
+          Deprecated: Currently does nothing. Can use automations instead.
+          Start on tutorial Campaign
+      acquisitionData:
+        $ref: '#/definitions/v1PartnerAcquisitionData'
+        title: Acquisition Data
+      subdomain:
+        type: string
+        title: Subdomain
+      subscriptionTierId:
+        type: string
+        title: Subscription Tier ID defaults to free, if a paid tier requires a valid stripe token to setup payment
+      stripeToken:
+        type: string
+        description: The token to access stripes API used to setup payment card in the billing's merchant services.
+    title: Create Partner Request captures all the same fields that the AA Create Partner internal methods uses
+  v1CreatePreviewEmailRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: Identifier of a partner
+      templateId:
+        type: string
+        title: Identifier of the email template being sent
+      userId:
+        type: string
+        title: Email of the user sending the email
+  v1CreateTermsOfServiceRequest:
+    type: object
+    properties:
+      termsOfService:
+        $ref: '#/definitions/v1TermsOfService'
+  v1CreateTrialRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: The partner ID of the partner who is on the trial
+      subscriptionLevel:
+        $ref: '#/definitions/v1SubscriptionLevel'
+        title: The subscription level that the trial will be emulating
+      start:
+        type: string
+        format: date-time
+        title: The start date of the trial period
+      end:
+        type: string
+        format: date-time
+        title: The end date of the trial period
+      subscriptionTierId:
+        type: string
+        title: The subscription tier ID that the trial will be emulating
+  v1CustomerSurveyAddFeedbackRequest:
+    type: object
+    properties:
+      customerSurveyResponseId:
+        type: string
+      feedback:
+        type: string
+      email:
+        type: string
+        title: email is a base64 encoded email address to be used to identify users that aren't logged in
+  v1CustomerSurveyListResponsesRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The business to list the responses for
+      pagingOptions:
+        $ref: '#/definitions/v1CustomerSurveyPagedRequestOptions'
+        title: paging metadata
+  v1CustomerSurveyListResponsesResponse:
+    type: object
+    properties:
+      responses:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomerSurveyResponse'
+      pagingMetadata:
+        $ref: '#/definitions/v1CustomerSurveyPagedResponseMetadata'
+        title: paging metadata
+  v1CustomerSurveyPagedRequestOptions:
+    type: object
+    properties:
+      cursor:
+        type: string
+        title: cursor can be passed to retrieve the next page of results keyed by the cursor
+      pageSize:
+        type: string
+        format: int64
+        title: page_size specifies the number of items to return in the next page
+  v1CustomerSurveyPagedResponseMetadata:
+    type: object
+    properties:
+      nextCursor:
+        type: string
+        title: A cursor that can be provided to retrieve the next page of results
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+    description: |-
+      CustomerSurveyPagedResponseMetadata and CustomerSurveyPagedRequestOptions are duplicated from api.proto
+      so that it's easier to move this structure to a different microservice when needed.
+  v1CustomerSurveyRespondRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+      rating:
+        type: string
+        format: int64
+      email:
+        type: string
+        title: email is a base64 encoded email address to be used to identify users that aren't logged in
+  v1CustomerSurveyRespondResponse:
+    type: object
+    properties:
+      customerSurveyResponseId:
+        type: string
+  v1CustomerSurveyResponse:
+    type: object
+    properties:
+      customerSurveyResponseId:
+        type: string
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      accountGroupId:
+        type: string
+      userId:
+        type: string
+        title: |-
+          The user id is the derived id of who submitted the response (if logged in) or the user emailed the survey
+          It is possible the user presented did not fill out the form, it is our best guess as to who submitted the response
+      rating:
+        type: string
+        format: int64
+      feedback:
+        type: string
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+    title: CustomerSurveyResponse is a response to a customer satisfaction survey
+  v1DeactivateAddonRequest:
+    type: object
+    properties:
+      activationId:
+        type: string
+        title: identifier of the activation to deactivate
+      partnerId:
+        type: string
+      addonId:
+        type: string
+  v1DeletePartnerAccountGroupRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the Partner (key value)
+    title: DeletePartnerAccountGroupRequest is used to update the PartnerAccountGroup entity
+  v1DeletePartnerRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the Partner, will be generated if omitted
+  v1DeleteWizardStatusRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      userId:
+        type: string
+        title: ID of the user
+  v1EmailConfiguration:
+    type: object
+    properties:
+      senderName:
+        type: string
+      senderEmail:
+        type: string
+      replyEmail:
+        type: string
+  v1EmailPasswordCredential:
+    type: object
+    properties:
+      email:
+        type: string
+        title: email of the new partner
+      password:
+        type: string
+        title: password of the new partner
+  v1ExistingAccount:
+    type: object
+    properties:
+      credential:
+        $ref: '#/definitions/v1SignUpCredential'
+  v1ExitLinkConfiguration:
+    type: object
+    properties:
+      exitLinkText:
+        type: string
+        title: the text to display for the exit link (back to dashboard)
+      exitLinkUrl:
+        type: string
+        title: the url to redirect to when the exit link is clicked (https://sso.your-identity-provider.com)
+  v1ExperimentSetting:
+    type: object
+    properties:
+      variantRatio:
+        type: number
+        format: float
+        description: Ratio of variants vs control must be a number between 0 and 1.
+      selectionCriteria:
+        $ref: '#/definitions/v1SelectionCriteria'
+        title: Selection Criteria
+      metricsDashboardUrl:
+        type: string
+        title: URL of metrics dashboard
+  v1Expiration:
+    type: string
+    enum:
+      - EXPIRATION_INVALID
+      - EXPIRATION_UNSET
+      - EXPIRATION_TWO_WEEKS
+      - EXPIRATION_FOUR_WEEKS
+      - EXPIRATION_TWELVE_WEEKS
+      - EXPIRATION_TWENTY_FOUR_WEEKS
+      - EXPIRATION_ONE_MINUTE
+    default: EXPIRATION_INVALID
+    title: AccessLevel describes the different possible levels of access we can release features to
+  v1FeatureFlag:
+    type: object
+    properties:
+      id:
+        type: string
+        title: id is the identifier for this feature (MUST be snake_case)
+      name:
+        type: string
+        title: a concise name for this feature flag
+      description:
+        type: string
+        title: a more in-depth description of what this feature flag is for
+      accessLevel:
+        $ref: '#/definitions/v1AccessLevel'
+        title: access_level can be at one of the four allowed levels; alpha, beta, all, or experiment
+      accessLevelChangedDate:
+        type: string
+        format: date-time
+        title: a timestamp of when the access level on this feature was last changed
+      accessLevelChangedByEmail:
+        type: string
+        title: the email of who the access level was last changed by
+      created:
+        type: string
+        format: date-time
+        title: a timestamp of this feature flag's creation
+      createdByEmail:
+        type: string
+        title: the email of the person who created this feature flag
+      moreInfoUrl:
+        type: string
+        title: a url to go to for much more in-depth information around the feature being released by this flag
+      archived:
+        type: boolean
+        title: a boolean representing whether or not this has been marked as archived
+      whitelist:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1PartnerAccess'
+        title: a list of all the partner markets explicitly granted alpha access to this feature
+      blacklist:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1PartnerAccess'
+        title: a list of all the partner markets explicitly denied access to this feature, this has highest evaluation priority
+      experimentSettings:
+        $ref: '#/definitions/v1ExperimentSetting'
+        title: Experiment Settings
+      ownerName:
+        type: string
+        title: The name of the person who owns this feature flag
+      expiration:
+        $ref: '#/definitions/v1Expiration'
+        title: Expiration is the amount of time after which the flag will self-disable
+      expiryStart:
+        type: string
+        format: date-time
+        title: ExpiryStart is the time at which the flag will start counting down to expiry
+      expiryFinish:
+        type: string
+        format: date-time
+        title: ExpiryFinish is the time at which the flag will expire
+      isExpired:
+        type: boolean
+        title: IsExpired is a boolean indicating whether the flag has expired
+    title: FeatureFlag is an entity which describes a release of some kind which can be released incrementally
+  v1Field:
+    type: string
+    enum:
+      - FIELD_INVALID
+      - FIELD_LOGO_URL
+      - FIELD_FAVICON_URL
+      - FIELD_SHORTCUT_ICON_URL
+      - FIELD_UI_THEME
+      - FIELD_PRIMARY_COLOR
+      - FIELD_NAME
+      - FIELD_DARK_MODE_LOGO_URL
+      - FIELD_BUSINESS_APP_UI_THEME
+    default: FIELD_INVALID
+    title: Field names that the market branding can specify override values for
+  v1GenerateAccountGroupSessionRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: The Partner ID associated to the Account Group
+      accountGroupId:
+        type: string
+        title: The Account Group ID to generate a session for
+      email:
+        type: string
+        title: Optionally provide an email for this session for tracking purposes
+      writeAccess:
+        type: boolean
+        title: Whether or not this session should include write access to the account group
+      deleteAccess:
+        type: boolean
+        title: Whether or not this session should include delete access to the account group
+      userId:
+        type: string
+        title: Optionally provide a user id for this session for tracking purposes
+  v1GenerateAccountGroupSessionResponse:
+    type: object
+    properties:
+      idToken:
+        type: string
+  v1GetAcquisitionDataRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the owner of the acquired data
+  v1GetAcquisitionDataResponse:
+    type: object
+    properties:
+      acquisitionData:
+        $ref: '#/definitions/v1AcquisitionData'
+  v1GetAddonActivationRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: identifier of the partner
+      addonId:
+        type: string
+        title: identifier of the addon
+      activationId:
+        type: string
+        title: identifier of the activation
+  v1GetAddonActivationResponse:
+    type: object
+    properties:
+      activation:
+        $ref: '#/definitions/v1AddonActivation'
+        title: activation found satisfying the request
+  v1GetBrandingRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+    title: 'DEPRECATED: Use BrandingV2Service instead'
+  v1GetBrandingResponse:
+    type: object
+    properties:
+      branding:
+        $ref: '#/definitions/v1Branding'
+    title: 'DEPRECATED: Use BrandingV2Service instead'
+  v1GetBrandingV2Request:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of partner
+      marketId:
+        type: string
+        title: ID of market
+  v1GetBrandingV2Response:
+    type: object
+    properties:
+      branding:
+        $ref: '#/definitions/v1BrandingV2'
+  v1GetConfigurationRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+        title: Market ID is optional and will return the partner configuration if not provided
+  v1GetConfigurationResponse:
+    type: object
+    properties:
+      configuration:
+        $ref: '#/definitions/v1Configuration'
+  v1GetCreatePartnerStatusRequest:
+    type: object
+    properties:
+      idempotentKey:
+        type: string
+        title: Unique key that was used in the CreatePartnerRequest
+  v1GetCreatePartnerStatusResponse:
+    type: object
+    properties:
+      status:
+        $ref: '#/definitions/partnerv1Status'
+        title: Status of the create partner work
+      partnerId:
+        type: string
+        title: ID of the partner if status is complete
+      errorMessage:
+        type: string
+        title: Error message if status is error
+  v1GetFreeTrialRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the Partner
+      fieldMask:
+        $ref: '#/definitions/vendastatypesFieldMask'
+        title: Filters the response to include only the fields specified. If fieldMask is empty, all fields are returned
+  v1GetFreeTrialResponse:
+    type: object
+    properties:
+      trialStart:
+        type: string
+        format: date-time
+        title: Time the trial started
+      trialEnd:
+        type: string
+        format: date-time
+        title: Time the trial ends
+      onFreeTrial:
+        type: boolean
+        title: Compute if the partner is on a free trial, and has not yet been billed
+      actionRequiredStatus:
+        type: string
+        title: Status for any required actions caused by the trial
+  v1GetFreeTrialStatusRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the Partner
+  v1GetFreeTrialStatusResponse:
+    type: object
+    properties:
+      onFreeTrial:
+        type: boolean
+        description: On Free Trial returns true if the partner is on a free trial, and has not been billed yet.
+      freeTrialEnd:
+        type: string
+        format: date-time
+        title: Day free trial ends
+  v1GetGoogleProfileRequest:
+    type: object
+    properties:
+      googleCode:
+        type: string
+        title: this google code is provided by google in return to a signup attempt
+      redirectUrl:
+        type: string
+        title: the intermdiate access token is generated for a specific redirect url
+    title: Container for a Google Code, obtained during a signup with a google account
+  v1GetGoogleProfileResponse:
+    type: object
+    properties:
+      email:
+        type: string
+      emailVerified:
+        type: string
+      name:
+        type: string
+      picture:
+        type: string
+      givenName:
+        type: string
+      familyName:
+        type: string
+      locale:
+        type: string
+      token:
+        type: string
+    title: |-
+      Container for a google profile obtained by calling https://oauth2.googleapis.com/tokeninfo
+      the field list is choosen accordingly to https://developers.google.com/identity/sign-in/web/backend-auth
+      in adition to a token provided by https://oauth2.googleapis.com/token
+  v1GetLinkedinProfileRequest:
+    type: object
+    properties:
+      authorizationCode:
+        type: string
+        title: authorization_code returned by calling https://www.linkedin.com/oauth/v2/authorization
+      redirectUrl:
+        type: string
+        title: has to be the same used when requesting the authorization_code
+    title: Request to fetch a linkedin profile and an access token based on a authorization code
+  v1GetLinkedinProfileResponse:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      profilePictureUrn:
+        type: string
+      token:
+        type: string
+    description: |-
+      reference documentation:
+         * https://docs.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin
+         * https://docs.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow
+    title: |-
+      Container for a linkedin profile obtained by calling https://api.linkedin.com/v2/me
+      in adition to a token provided by https://www.linkedin.com/oauth/v2/accessToken
+  v1GetMicrosoftProfileRequest:
+    type: object
+    properties:
+      authorizationCode:
+        type: string
+        title: authorization_code returned by calling https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#send-the-sign-in-request
+      redirectUrl:
+        type: string
+        title: has to be the same used when requesting the authorization_code
+    title: Request to fetch a microsoft profile and an access token based on a authorization code
+  v1GetMicrosoftProfileResponse:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      picture:
+        type: string
+      idToken:
+        type: string
+    title: |-
+      Container for a microsoft profile obtained by calling https://learn.microsoft.com/en-us/entra/identity-platform/userinfo#calling-the-api
+      and the access token used for it
+  v1GetMultiBrandingRequest:
+    type: object
+    properties:
+      requests:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1GetBrandingRequest'
+    title: 'DEPRECATED: Use BrandingV2Service instead'
+  v1GetMultiBrandingResponse:
+    type: object
+    properties:
+      brandings:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1SinglePartnerMarketBranding'
+    title: 'DEPRECATED: Use BrandingV2Service instead'
+  v1GetMultiBrandingV2Request:
+    type: object
+    properties:
+      requests:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1GetBrandingV2Request'
+  v1GetMultiBrandingV2Response:
+    type: object
+    properties:
+      branding:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1BrandingV2'
+  v1GetMultiPartnerHealthRequest:
+    type: object
+    properties:
+      partnerIds:
+        type: array
+        items:
+          type: string
+        title: List of partner identifiers
+  v1GetMultiPartnerHealthResponse:
+    type: object
+    properties:
+      healths:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1PartnerHealth'
+        title: List of partner healths
+  v1GetMultiPartnerModelRequest:
+    type: object
+    properties:
+      partnerIds:
+        type: array
+        items:
+          type: string
+  v1GetMultiPartnerModelResponse:
+    type: object
+    properties:
+      partners:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1PartnerModel'
+  v1GetPartnerAccountGroupMappingRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the Partner
+      accountGroupId:
+        type: string
+        title: ID of the Account Group
+      accountGroupPartnerId:
+        type: string
+        description: |-
+          ID of the partner that the Account Group is on, if it doesn't match the partner on record it will 404
+          Currently, optional may become required in the future.
+    title: GetPartnerAccountGroupMappingRequest is used to get the mapped AccountGroupID given a PartnerID, or the mapped PartnerID given an AccountGroupID
+  v1GetPartnerAccountGroupMappingResponse:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the Partner
+      accountGroupId:
+        type: string
+        title: ID of the Account Group
+      accountGroupPartnerId:
+        type: string
+        title: ID of the partner that the Account Group is on
+    title: GetPartnerAccountGroupMappingResponse returns the mapped partnerID and accountGroupID
+  v1GetPartnerCenterNavigationRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+  v1GetPartnerCenterNavigationResponse:
+    type: object
+    properties:
+      navigation:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1NavigationItem'
+  v1GetPartnerHealthRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: Identifier of a partner
+  v1GetPartnerHealthResponse:
+    type: object
+    properties:
+      health:
+        $ref: '#/definitions/v1PartnerHealth'
+        title: Current health of a partner
+  v1GetPartnerModelRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+  v1GetPartnerModelResponse:
+    type: object
+    properties:
+      partner:
+        $ref: '#/definitions/v1PartnerModel'
+  v1GetRewardRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      rewardId:
+        type: string
+  v1GetRewardResponse:
+    type: object
+    properties:
+      reward:
+        $ref: '#/definitions/v1Reward'
+  v1GetSelfSignUpStatusRequest:
+    type: object
+    properties:
+      idempotentKey:
+        type: string
+        title: Unique key that was used in the SelfSignUpRequest
+    title: GetSelfSignUpStatusRequest is a container for check partner creation status
+  v1GetSelfSignUpStatusResponse:
+    type: object
+    properties:
+      status:
+        $ref: '#/definitions/partnerv1Status'
+        title: Status of the create partner work
+      partnerId:
+        type: string
+        title: ID of the partner if status is complete
+      errorMessage:
+        type: string
+        title: Error message if status is error
+    title: GetSelfSignUpStatusResponse is the response container for check partner creation status
+  v1GetSignUpAddPaymentCardResultRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+  v1GetSignUpAddPaymentCardResultResponse:
+    type: object
+    properties:
+      status:
+        $ref: '#/definitions/v1GetSignUpAddPaymentCardResultResponseStatus'
+      error:
+        type: string
+  v1GetSignUpAddPaymentCardResultResponseStatus:
+    type: string
+    enum:
+      - GET_SIGN_UP_ADD_PAYMENT_CARD_RESULT_RESPONSE_STATUS_INVALID
+      - GET_SIGN_UP_ADD_PAYMENT_CARD_RESULT_RESPONSE_STATUS_OK
+      - GET_SIGN_UP_ADD_PAYMENT_CARD_RESULT_RESPONSE_STATUS_HAS_ERROR
+    default: GET_SIGN_UP_ADD_PAYMENT_CARD_RESULT_RESPONSE_STATUS_INVALID
+  v1GetSingleSignOnRequest:
+    type: object
+    properties:
+      userId:
+        type: string
+  v1GetSingleSignOnResponse:
+    type: object
+    properties:
+      token:
+        type: string
+        title: Canny SSO Token
+      companyId:
+        type: string
+        title: Static ID of our Company in Canny
+      roadmapDomain:
+        type: string
+        title: Location to view our roadmap (Canny's website)
+  v1GetSubscriptionTierRequest:
+    type: object
+    properties:
+      id:
+        type: string
+        title: Id of subscription
+      partnerId:
+        type: string
+        title: used to look for any additional features to add for certain feature flags the PID has access to (optional)
+  v1GetSubscriptionTierResponse:
+    type: object
+    properties:
+      subscriptionTier:
+        $ref: '#/definitions/v1SubscriptionTier'
+        title: Subscription tier
+  v1GetTermsOfServiceRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      feature:
+        type: string
+  v1GetTermsOfServiceResponse:
+    type: object
+    properties:
+      termsOfService:
+        $ref: '#/definitions/v1TermsOfService'
+  v1GetTrialRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: The id of the partner who's trial is returned
+  v1GetTrialResponse:
+    type: object
+    properties:
+      trialId:
+        type: string
+        title: the trial identifier
+      partnerId:
+        type: string
+        title: The id of the partner who this trial will be applied to
+      created:
+        type: string
+        format: date-time
+        title: The date the trial object was created
+      updated:
+        type: string
+        format: date-time
+        title: The date the trial object was updated
+      subscriptionLevel:
+        $ref: '#/definitions/v1SubscriptionLevel'
+        title: The subscription level the trial is emulating
+      start:
+        type: string
+        format: date-time
+        title: The start date of this trial period
+      end:
+        type: string
+        format: date-time
+        title: The end date of this trial period
+      cancel:
+        type: string
+        format: date-time
+        title: The date this trial was cancelled
+      trial:
+        $ref: '#/definitions/v1Trial'
+        title: the trial which is returned
+  v1GetUpdatePartnerStatusRequest:
+    type: object
+    properties:
+      idempotentKey:
+        type: string
+        title: Unique key that was used in the CreatePartnerRequest
+  v1GetUpdatePartnerStatusResponse:
+    type: object
+    properties:
+      status:
+        $ref: '#/definitions/partnerv1Status'
+        title: Status of the create partner work
+      errorMessage:
+        type: string
+        title: Error message if status is error
+  v1GetUpdateSubscriptionTierStatusRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+  v1GetUpdateSubscriptionTierStatusResponse:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      status:
+        $ref: '#/definitions/v1UpdateSubscriptionTierStatus'
+      reason:
+        type: string
+      modified:
+        type: string
+        format: date-time
+  v1GetUserAgreementTermsOfServiceRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      userId:
+        type: string
+      feature:
+        type: string
+  v1GetUserAgreementTermsOfServiceResponse:
+    type: object
+    properties:
+      userAgreementTermsOfService:
+        $ref: '#/definitions/v1UserAgreementTermsOfService'
+  v1GetWizardStatusRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      userId:
+        type: string
+        title: ID of the user
+  v1GetWizardStatusResponse:
+    type: object
+    properties:
+      wizardStatus:
+        $ref: '#/definitions/v1WizardStatus'
+  v1GoogleTokenCredential:
+    type: object
+    properties:
+      googleToken:
+        type: string
+        title: google token to form the redirect url
+  v1InitiateSubscriptionTierUpdateRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      tierId:
+        type: string
+  v1IsEmailDisposableRequest:
+    type: object
+    properties:
+      email:
+        type: string
+        title: the email address we are checking against
+      recaptchaV2Token:
+        type: string
+        title: Recaptcha v2 token
+      recaptchaV3Token:
+        type: string
+        title: Recaptcha v3 token
+  v1IsEmailDisposableResponse:
+    type: object
+    properties:
+      isDisposable:
+        type: boolean
+        title: returns true if the email is disposable
+  v1IsEmailInUseRequest:
+    type: object
+    properties:
+      email:
+        type: string
+        title: the email address we are checking against
+      recaptchaV2Token:
+        type: string
+        title: Recaptcha v2 token
+      recaptchaV3Token:
+        type: string
+        title: Recaptcha v3 token
+      visitorId:
+        type: string
+        title: visitor id to track the request
+  v1IsEmailInUseResponse:
+    type: object
+    properties:
+      subjects:
+        type: array
+        items:
+          type: string
+        title: returns a list of subjects that are using the email. (empty array means its not in use)
+  v1IsRewardConditionMetForPartnerRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      rewardId:
+        type: string
+  v1IsRewardConditionMetForPartnerResponse:
+    type: object
+    properties:
+      rewardConditionsMet:
+        type: boolean
+  v1LinkedInTokenCredential:
+    type: object
+    properties:
+      linkedinAccessToken:
+        type: string
+        title: linkedin token to form the redirect url
+  v1ListAddonActivationsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: identifier of the partner to list addon activations for
+      pagingOptions:
+        $ref: '#/definitions/v1PagedRequestOptions'
+        title: paging metadata
+  v1ListAddonActivationsResponse:
+    type: object
+    properties:
+      activations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AddonActivation'
+        title: activations found satisfying the request
+      pagingMetadata:
+        $ref: '#/definitions/v1PagedResponseMetadata'
+        title: paging metadata
+  v1ListBrandingV2Request:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      pagingOptions:
+        $ref: '#/definitions/v1PagedRequestOptions'
+        title: Paging options (optional)
+  v1ListBrandingV2Response:
+    type: object
+    properties:
+      brandings:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1BrandingV2'
+        title: Brandings
+      pagingMetadata:
+        $ref: '#/definitions/v1PagedResponseMetadata'
+        title: Paging metadata
+  v1ListFeatureFlagFilters:
+    type: object
+    properties:
+      searchTerm:
+        type: string
+        title: Filter (not scored) results to only include that contain the search term in the ID, name, white list, or black list
+      accessLevel:
+        type: array
+        items:
+          $ref: '#/definitions/v1AccessLevel'
+        description: Match Access Level of feature flag if provided.
+  v1ListFeatureFlagRequest:
+    type: object
+    properties:
+      archivedOnly:
+        type: boolean
+        title: only include archived feature flags, omit for normal list of non-archived
+      cursor:
+        type: string
+        title: a cursor will allow iteration over searched results in a sane, bite-sized chunk, fashion
+      pageSize:
+        type: string
+        format: int64
+        title: page_size defines the maximum number of results to return, if set to 0 it will default to 25
+      filters:
+        $ref: '#/definitions/v1ListFeatureFlagFilters'
+        title: Filters
+    title: |-
+      A request for FeatureFlags.List
+      This can be used to list either normal, or archived flags
+  v1ListFeatureFlagResponse:
+    type: object
+    properties:
+      flags:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1FeatureFlag'
+        title: A list of the feature flags found based on the input request
+      nextCursor:
+        type: string
+        title: a cursor for continued iteration over search results
+      hasMore:
+        type: boolean
+        title: whether or not there are more entries to iterate over
+      totalResults:
+        type: string
+        format: int64
+        title: Total results
+    title: A response for FeatureFlags.List
+  v1ListMarketsForUserRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: id of the partner whose markets we want
+  v1ListMarketsForUserResponse:
+    type: object
+    properties:
+      markets:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Market'
+        title: List of markets
+  v1ListPartnerAddonsRequest:
+    type: object
+  v1ListPartnerAddonsResponse:
+    type: object
+    properties:
+      addons:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1PartnerAddon'
+  v1ListPartnerHealthRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: Identifier of a partner
+      pageSize:
+        type: string
+        format: int64
+        title: Page size for the response
+      cursor:
+        type: string
+        title: The cursor for next result
+  v1ListPartnerHealthResponse:
+    type: object
+    properties:
+      healths:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1PartnerHealth'
+        title: The health of a partner
+      cursor:
+        type: string
+        title: The cursor for paging
+      hasMore:
+        type: boolean
+        title: Whether there are more results
+      hits:
+        type: string
+        format: int64
+        title: Total number of healths for a partner
+  v1ListSubscriptionTiersRequest:
+    type: object
+    properties:
+      pageSize:
+        type: string
+        format: int64
+        title: the page size for the response
+      cursor:
+        type: string
+        format: int64
+        title: the cursor
+      partnerId:
+        type: string
+        title: used to look for any additional features to add for certain feature flags the PID has access to (optional)
+  v1ListSubscriptionTiersResponse:
+    type: object
+    properties:
+      subscriptionTier:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1SubscriptionTier'
+        title: Subscription tiers
+      cursor:
+        type: string
+        format: int64
+        title: the cursor for paging
+      hasMore:
+        type: boolean
+        title: whether there are more results
+      totalResults:
+        type: string
+        format: int64
+        title: total number of results
+  v1ListTopRequest:
+    type: object
+    properties:
+      partnerType:
+        $ref: '#/definitions/v1PartnerType'
+  v1ListTopResponse:
+    type: object
+    properties:
+      partnerStats:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1PartnerStats'
+  v1ListTrialRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: the partner id whose trials are being listed
+      pageSize:
+        type: string
+        format: int64
+        title: the page size for the response
+      cursor:
+        type: string
+        title: the cursor
+  v1ListTrialResponse:
+    type: object
+    properties:
+      trials:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Trial'
+        title: the trials that are returned
+      cursor:
+        type: string
+        title: the cursor for paging with trials
+      hasMore:
+        type: boolean
+        title: whether there are more trials
+      hits:
+        type: string
+        format: int64
+        title: number of trials returned
+  v1ListWizardStatusRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      paging:
+        $ref: '#/definitions/v1PagingRequestMetadata'
+        title: Paging options (optional)
+  v1ListWizardStatusResponse:
+    type: object
+    properties:
+      wizardStatuses:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1WizardStatus'
+      paging:
+        $ref: '#/definitions/v1PagedResponseData'
+  v1LoginRequest:
+    type: object
+    properties:
+      emailPasswordCredential:
+        $ref: '#/definitions/v1EmailPasswordCredential'
+      tokenCredential:
+        $ref: '#/definitions/v1GoogleTokenCredential'
+      linkedinCredential:
+        $ref: '#/definitions/v1LinkedInTokenCredential'
+      microsoftCredential:
+        $ref: '#/definitions/v1MicrosoftTokenCredential'
+      nextUrl:
+        type: string
+        title: the next url after being logged in to Partner Center
+      partnerId:
+        type: string
+        description: |-
+          Partner ID of new user logging in
+          If the partnerID is ommitted, this will trigger a fetch to database
+          to find the partnerID, when using with token credential, this will also trigger
+          a request to get the google profile to retrieve the user email, so ideally
+          the partnerID should be passed as parameter.
+    title: Login Request for logging into Partner Center after using the self sign up form
+  v1LoginResponse:
+    type: object
+    properties:
+      nextUrl:
+        type: string
+        title: the next url to redirect the user to for their new session
+    description: Login Response for logging in to Partner Center.
+  v1MailingConfiguration:
+    type: object
+    properties:
+      mailingCompanyName:
+        type: string
+      mailingAddress:
+        type: string
+      mailingAddress2:
+        type: string
+      mailingCity:
+        type: string
+      mailingState:
+        type: string
+      mailingCountry:
+        type: string
+      mailingPostalCode:
+        type: string
+      mailingPhoneNumber:
+        type: string
+      mailingWebsiteAddress:
+        type: string
+      mailingEmailAddress:
+        type: string
+  v1Market:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+  v1MicrosoftTokenCredential:
+    type: object
+    properties:
+      microsoftIdToken:
+        type: string
+        title: microsoft token to form the redirect url
+  v1Money:
+    type: object
+    properties:
+      valueInCents:
+        type: string
+        format: int64
+      currencyCode:
+        type: string
+  v1NavigationItem:
+    type: object
+    properties:
+      locked:
+        type: boolean
+      nestedTabs:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1NavigationItemChild'
+      link:
+        type: string
+      title:
+        type: string
+      tabId:
+        type: string
+      popOut:
+        type: boolean
+      ngRoute:
+        type: boolean
+      subsectionHeader:
+        type: string
+      svgIcon:
+        type: boolean
+      icon:
+        type: string
+      badge:
+        $ref: '#/definitions/v1NavigationItemBadge'
+      i18nKey:
+        type: string
+    description: |-
+      NavigationItem represents the navigation structure for partner center. This is probably not the idea navigation structure for partner
+      center nor is it an idea navigation structure in general. Instead, this is the structure ported over from the AA project so that
+      it can at least be well defined, tested, and the internals can be simplified.
+  v1NavigationItemBadge:
+    type: string
+    enum:
+      - NAVIGATION_ITEM_BADGE_NONE
+      - NAVIGATION_ITEM_BADGE_NEW
+      - NAVIGATION_ITEM_BADGE_BETA
+    default: NAVIGATION_ITEM_BADGE_NONE
+  v1NavigationItemChild:
+    type: object
+    properties:
+      locked:
+        type: boolean
+      link:
+        type: string
+      title:
+        type: string
+      tabId:
+        type: string
+      popOut:
+        type: boolean
+      ngRoute:
+        type: boolean
+      subsectionHeader:
+        type: string
+      svgIcon:
+        type: boolean
+      icon:
+        type: string
+      badge:
+        $ref: '#/definitions/v1NavigationItemBadge'
+      i18nKey:
+        type: string
+    title: |-
+      NavigationItemChild is a workaround because python doesn't allow recursive objects. As the current navigation structure only has 2 levels this will
+      have to do until the navigation goes straight to the frontend of PCC instead being proxied through AA
+  v1NewAccount:
+    type: object
+    properties:
+      credential:
+        $ref: '#/definitions/v1SignUpCredential'
+      companyProfile:
+        $ref: '#/definitions/v1CompanyProfile'
+  v1PagedRequestOptions:
+    type: object
+    properties:
+      cursor:
+        type: string
+        title: cursor can be passed to retrieve the next page of results keyed by the cursor
+      pageSize:
+        type: string
+        format: int64
+        title: page_size specifies the number of items to return in the next page
+  v1PagedResponseData:
+    type: object
+    properties:
+      nextCursor:
+        type: string
+        title: A cursor that can be provided to retrieve the next page of results
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+  v1PagedResponseMetadata:
+    type: object
+    properties:
+      nextCursor:
+        type: string
+        title: A cursor that can be provided to retrieve the next page of results
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+  v1PagingRequestMetadata:
+    type: object
+    properties:
+      cursor:
+        type: string
+      pageSize:
+        type: string
+        format: int64
+  v1PartnerAccess:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: the id of a partner is 3-4 alphanumeric characters
+      marketIds:
+        type: array
+        items:
+          type: string
+        title: a list of market ids (optional) for which to release this feature to within this specified partner
+    title: PartnerMarkets can be used to explicitly allow alpha access, or explicitly deny access
+  v1PartnerAcquisitionData:
+    type: object
+    properties:
+      tags:
+        type: array
+        items:
+          type: string
+        title: Tags to record unstructured properties about the partner on their account group
+      origin:
+        $ref: '#/definitions/v1PartnerOrigin'
+        title: Origin
+      visitorIdCookie:
+        type: string
+      conquerLocalAcademyVisitorId:
+        type: string
+      conversionPoint:
+        type: string
+      affiliateId:
+        type: string
+      numberOfEmployees:
+        type: string
+      referrerId:
+        type: string
+        title: contains the firstpromoter referrer ID
+      clearbitCollectedSignupDataId:
+        type: string
+        title: ID for CollectedSignUpData at prospect
+      useCase:
+        type: string
+        title: answer for signup use case question
+      industry:
+        type: string
+        title: industry of the partner
+      numberOfClients:
+        type: string
+        title: number of billed clients (SMB) the partner has
+  v1PartnerAddon:
+    type: object
+    properties:
+      sku:
+        type: string
+      name:
+        type: string
+      supportsBulkActivation:
+        type: boolean
+  v1PartnerAdminPermissions:
+    type: object
+    properties:
+      canAccessBilling:
+        type: boolean
+        title: Whether the admin can access billing
+      canAccessRetailBilling:
+        type: boolean
+        title: Whether the admin can access retail billing
+      canAccessAccounts:
+        type: boolean
+        title: Whether the admin can access accounts
+      canAccessMarketing:
+        type: boolean
+        title: Whether the admin can access marketing
+      canAccessSales:
+        type: boolean
+        title: Whether the admin can access sales
+      canAccessConcierge:
+        type: boolean
+        title: Whether the admin can access concierge
+      canAccessBrands:
+        type: boolean
+        title: Whether the admin can access brands
+      canAccessDashboard:
+        type: boolean
+        title: Whether the admin can access dashboard
+      canAccessOrders:
+        type: boolean
+        title: Whether the admin can access orders
+      canAccessMarketplace:
+        type: boolean
+        title: Whether the admin can access marketplace
+      canAccessCompanyProfile:
+        type: boolean
+        title: Whether the admin can access company profile
+      canAccessAutomations:
+        type: boolean
+        title: Whether the admin can access automations
+      defaultReportAccessScope:
+        $ref: '#/definitions/v1ReportAccessScope'
+        title: The default scope at which the admin can access reports
+      reportAccess:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ReportAccess'
+        title: The scopes at which an admin can access specific report resources
+  v1PartnerCanDoActionRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: The Partner ID
+      actionId:
+        $ref: '#/definitions/v1Action'
+        title: Specifies a particular action that can have a limit
+      businessId:
+        type: string
+        title: The ID of the business that the action is being performed for
+  v1PartnerCanDoActionResponse:
+    type: object
+    properties:
+      result:
+        type: boolean
+        title: Specifies if the action can be performed
+      reason:
+        type: string
+        title: Gives the reason for rejections
+  v1PartnerHealth:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: Identifier of a partner
+      state:
+        $ref: '#/definitions/v1PartnerHealthState'
+        title: State of partner health
+      subState:
+        $ref: '#/definitions/v1PartnerHealthSubState'
+        title: Sub-state of partner health
+      reason:
+        type: string
+        title: Reason for setting the partner health
+      changedOn:
+        type: string
+        format: date-time
+        title: The date when health was changed
+      changedBy:
+        type: string
+        title: The user that set the partner health
+      inRetention:
+        type: boolean
+        title: Whether the user is in retention or not
+  v1PartnerHealthState:
+    type: string
+    enum:
+      - PARTNER_HEALTH_STATE_HEALTHY
+      - PARTNER_HEALTH_STATE_AT_RISK
+      - PARTNER_HEALTH_STATE_RESTRICTED
+    default: PARTNER_HEALTH_STATE_HEALTHY
+  v1PartnerHealthSubState:
+    type: string
+    enum:
+      - PARTNER_HEALTH_SUB_STATE_UNSPECIFIED
+      - PARTNER_HEALTH_SUB_STATE_ACTIVE
+      - PARTNER_HEALTH_SUB_STATE_SUBSCRIPTION_OVERDUE
+      - PARTNER_HEALTH_SUB_STATE_SUBSCRIPTION_SUSPENDED
+      - PARTNER_HEALTH_SUB_STATE_PAYMENT_PLAN
+    default: PARTNER_HEALTH_SUB_STATE_UNSPECIFIED
+  v1PartnerInfo:
+    type: object
+    properties:
+      partnerName:
+        type: string
+        title: name of the partner
+      partnerApiKey:
+        type: string
+        title: partner API key
+      partnerType:
+        type: string
+        title: platform or product type used in superadmin
+      serviceLevel:
+        type: string
+        title: premium or standard level
+      accountExecutive:
+        type: string
+        title: string representing account executive for given partner
+      stripeBillingFlag:
+        type: boolean
+        title: whether partner is being billed through Stripe
+      excludeFromKpisFlag:
+        type: boolean
+        title: exclude partner from kpis
+      vbcFlag:
+        type: boolean
+        title: whether or not VBC is enabled for partner
+      campaignSubscriptionEnabledFlag:
+        type: boolean
+        title: whether or not Campaign Subscriptions are enabled for partner
+      vbcKey:
+        type: string
+        title: vbc api key
+      rmPid:
+        type: string
+        title: repMan partner id
+      rmKey:
+        type: string
+        title: repMan API Key
+      msPid:
+        type: string
+        title: listing builder partner id
+      msKey:
+        type: string
+        title: listing builder API Key
+      smPid:
+        type: string
+        title: social Marketing pid
+      smKey:
+        type: string
+        title: social Marketing API key
+      nbPid:
+        type: string
+        title: national Brands partner id
+      nbKey:
+        type: string
+        title: national Brands API Key
+      armPid:
+        type: string
+        title: task Manager pid
+      armKey:
+        type: string
+        title: task Manager API key
+      enableProductMarketplaceFlag:
+        type: boolean
+        title: whether or not the Product Marketplace is enabled for partner
+      hidePricingFlag:
+        type: boolean
+        title: whether to hide or show the pricing of products
+      stDefaultCampaignId:
+        type: string
+        title: indicates the campaign ID to be used when accounts are added to campaigns via Sales Tool
+      oauthKey:
+        type: string
+        title: key used for oauth
+      oauthSecret:
+        type: string
+        title: secret key used for oauth
+      rmMaxCompetitors:
+        type: integer
+        format: int32
+        title: maximum competitors for repMan
+      rmMaxServices:
+        type: integer
+        format: int32
+        title: maximum services for repMan
+      enableListingDistributionFlag:
+        type: boolean
+        title: whether listing distribution is enabled for partner
+      showExpiryFlag:
+        type: boolean
+        title: whether we should show when listing distribution expires
+      wholesalePrice:
+        type: integer
+        format: int32
+        title: number for the wholesale price in cents
+      enableForAdminFlag:
+        type: boolean
+        title: whether listing distribution is enabled for partner admins
+      enableListingSyncProFlag:
+        type: boolean
+        title: listing sync pro is enabled for partner
+      listingSyncProServiceProvider:
+        type: string
+        title: provider for ls is Uberall or Yext
+      enableListingSyncProDiscountFlag:
+        type: boolean
+        title: discount for listing sync pro is enabled for partner
+      pausedFlag:
+        type: boolean
+        title: pause partner center account
+      cancelledFlag:
+        type: boolean
+        title: cancel partner center account
+      premiumSupportFlag:
+        $ref: '#/definitions/v1SupportFlag'
+        title: whether the partner has premium support or not
+      standardPrioritySupportFlag:
+        $ref: '#/definitions/v1SupportFlag'
+        title: whether the partner skips the queue or not
+      priorityChatSupportFlag:
+        $ref: '#/definitions/v1SupportFlag'
+        title: whether the partner has priority live chat support or not
+      tags:
+        type: array
+        items:
+          type: string
+        title: properties about the partner
+  v1PartnerModel:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      subscriptionTierId:
+        type: string
+        title: Partner's subscription tier
+      premiumSupport:
+        type: boolean
+        title: Does partner have premium support
+      standardPrioritySupport:
+        type: boolean
+        title: Does partner have standard priority support
+      priorityChatSupport:
+        type: boolean
+        title: Does partner have priority chat support
+      name:
+        type: string
+        title: Partner's name
+      addressLineOne:
+        type: string
+        title: Partner's address line one
+      addressLineTwo:
+        type: string
+        title: Partner's address line two
+      city:
+        type: string
+        title: Partner's city
+      stateCode:
+        type: string
+        title: Partner's state
+      countryCode:
+        type: string
+        title: Partner's country
+      postalCode:
+        type: string
+        title: Partner's postal code
+      email:
+        type: string
+        title: Partner's email
+      phoneNumber:
+        type: string
+        title: Partner's phone number
+      website:
+        type: string
+        title: Partner's website
+      created:
+        type: string
+        format: date-time
+        title: Time entity was created
+      updated:
+        type: string
+        format: date-time
+        title: Time entity was last updated
+  v1PartnerOrigin:
+    type: string
+    enum:
+      - PARTNER_ORIGIN_INVALID
+      - PARTNER_ORIGIN_UNSET
+      - PARTNER_ORIGIN_INTERNAL
+      - PARTNER_ORIGIN_SELF_SIGN_UP
+    default: PARTNER_ORIGIN_INVALID
+  v1PartnerStats:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      companyName:
+        type: string
+      accountingStatus:
+        type: string
+      notPayedTerms:
+        type: string
+        format: int64
+      outstandingBalance:
+        type: number
+        format: double
+      currentlyAssignedSalesPerson:
+        type: string
+      additionalSalesPerson:
+        type: string
+      recurringMeetingTime:
+        type: string
+      recurringMeetingDay:
+        type: string
+      recurringMeetingFrequency:
+        type: string
+      subscriptionLevel:
+        type: string
+      partnerCohortSize:
+        type: string
+      isMultiLocation:
+        type: boolean
+      latestMonthRevenue:
+        type: number
+        format: double
+      oneMonthEarlierRevenue:
+        type: number
+        format: double
+      twoMonthEarlierRevenue:
+        type: number
+        format: double
+      ytdRevenue:
+        type: number
+        format: double
+      revGrowthSinceLastMonth:
+        type: number
+        format: double
+      percentageRevGrowthFromLastMonth:
+        type: number
+        format: double
+      uniqueBilledProductsLast6Months:
+        type: string
+        format: int64
+      logoUrl:
+        type: string
+      associatedPid:
+        type: string
+  v1PartnerType:
+    type: string
+    enum:
+      - PARTNER_TYPE_UNSPECIFIED
+      - PARTNER_TYPE_AGENCY
+      - PARTNER_TYPE_ENTERPRISE
+    default: PARTNER_TYPE_UNSPECIFIED
+  v1PartnerUser:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+  v1ReferralLink:
+    type: object
+    properties:
+      longUrl:
+        type: string
+      shortenedUrl:
+        type: string
+  v1ReplaceWizardStatusRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      userId:
+        type: string
+        title: ID of the user
+      activeStep:
+        type: string
+        title: Last step seeing by the user
+    title: Replace the active step where the user left the wizard onboarding
+  v1ReportAccess:
+    type: object
+    properties:
+      id:
+        type: string
+        title: The id of the report resource
+      idType:
+        $ref: '#/definitions/v1ReportAccessIDType'
+        title: The type of report resource for the id
+      scope:
+        $ref: '#/definitions/v1ReportAccessScope'
+        title: The scope at which the admin can access the report resource
+  v1ReportAccessIDType:
+    type: string
+    enum:
+      - REPORT_ACCESS_ID_TYPE_UNSET
+      - REPORT_ACCESS_ID_TYPE_REPORT
+      - REPORT_ACCESS_ID_TYPE_REPORT_CATEGORY
+    default: REPORT_ACCESS_ID_TYPE_UNSET
+  v1ReportAccessScope:
+    type: string
+    enum:
+      - REPORT_ACCESS_SCOPE_UNSET
+      - REPORT_ACCESS_SCOPE_NO_ACCESS
+      - REPORT_ACCESS_SCOPE_VIEW
+      - REPORT_ACCESS_SCOPE_EDIT
+    default: REPORT_ACCESS_SCOPE_UNSET
+  v1ReputationConfiguration:
+    type: object
+    properties:
+      maxCompetitors:
+        type: string
+        format: int64
+      maxServices:
+        type: string
+        format: int64
+      addressMatchStrictness:
+        type: string
+      companyNameMatchStrictness:
+        type: string
+      websiteMatchStrictness:
+        type: string
+  v1ResendPartnerAdminWelcomeEmailRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: Partner ID of the admin to send the email to
+      userId:
+        type: string
+        title: User ID of the admin to send the email to
+      usePlatformDefaultDomain:
+        type: boolean
+        title: If true, the email will be sent using the platform default domail rather than the partner's domain
+  v1ResetPartnerRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: identifier of the partner to be reset
+      cancelAllProducts:
+        type: boolean
+        title: |-
+          if true, cancel all products and addons for all accounts.
+          If false, set subscription to free tier, keep everything else activated
+  v1Reward:
+    type: object
+    properties:
+      rewardId:
+        type: string
+      amount:
+        $ref: '#/definitions/v1Money'
+      status:
+        $ref: '#/definitions/v1RewardStatus'
+      claimed:
+        $ref: '#/definitions/v1Claimed'
+  v1RewardStatus:
+    type: string
+    enum:
+      - REWARD_STATUS_INVALID
+      - REWARD_STATUS_UNSET
+      - REWARD_STATUS_INELIGIBLE
+      - REWARD_STATUS_ELIGIBLE
+      - REWARD_STATUS_PROCESSING_CLAIM
+      - REWARD_STATUS_CLAIMED
+    default: REWARD_STATUS_INVALID
+  v1SalesConfiguration:
+    type: object
+    properties:
+      hideProducts:
+        type: boolean
+      hideRmDemo:
+        type: boolean
+      stTeamActivity:
+        type: boolean
+      stAllowSalespersonCampaignAdd:
+        type: boolean
+      stShowProductsWholesalePrice:
+        type: boolean
+      stShowTrainingResourcesField:
+        type: boolean
+      stSalespersonSharedAccountAccess:
+        type: boolean
+      stDefaultDisplayCurrency:
+        type: string
+      stEnableSnapshotsPerSalespersonLimit:
+        type: boolean
+      stSnapshotsPerSalespersonLimit:
+        type: string
+        format: int64
+      stBusinessCenterAccess:
+        type: boolean
+      hideOrders:
+        type: boolean
+      sscWhitelabeled:
+        type: boolean
+      stShowInbox:
+        type: boolean
+    description: |-
+      SalesConfiguration is *returned* from RPCs.  All of the fields are true
+      booleans.  The server will have to infer the boolean value of each setting if
+      it was absent when the sales configuration was set.
+  v1SearchPartnerModelsFilters:
+    type: object
+    properties:
+      searchTerm:
+        type: string
+        title: Search term to filter out partners by partner_id and name
+      subscriptionTierId:
+        type: string
+        title: Partner's subscription tier
+  v1SearchPartnerModelsRequest:
+    type: object
+    properties:
+      cursor:
+        type: string
+        title: The cursor for the next result
+      pageSize:
+        type: string
+        format: int64
+        title: Page size for the response
+      fieldMask:
+        $ref: '#/definitions/vendastatypesFieldMask'
+        title: Field mask for response
+      filters:
+        $ref: '#/definitions/v1SearchPartnerModelsFilters'
+        title: Search term to filter out partners by partner_id and name
+  v1SearchPartnerModelsResponse:
+    type: object
+    properties:
+      partners:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1PartnerModel'
+        title: List of partners
+      nextCursor:
+        type: string
+        title: The cursor for paging
+      hasMore:
+        type: boolean
+        title: Whether there are more results
+  v1SegmentedOnboardingConfiguration:
+    type: string
+    enum:
+      - SEGMENTED_ONBOARDING_UNSET
+      - SEGMENTED_ONBOARDING_OPTIONAL
+      - SEGMENTED_ONBOARDING_REQUIRED
+      - SEGMENTED_ONBOARDING_DISABLED
+    default: SEGMENTED_ONBOARDING_UNSET
+  v1SelectionCriteria:
+    type: object
+    properties:
+      subscriptionTierIds:
+        type: array
+        items:
+          type: string
+        description: List of subscription tier IDs that will be included in the experiment, if empty list all subscription tiers included.
+      partnerCreatedAfterDate:
+        type: string
+        format: date-time
+        title: Only include partner created after this date
+  v1SelfSignUpExistingAccountGroupRequest:
+    type: object
+    properties:
+      idempotentKey:
+        type: string
+        title: Key used to poll the status of the creation workflow
+      recaptchaResponse:
+        type: string
+        title: Recaptcha v2 token
+      recaptchaV3Token:
+        type: string
+        title: Recaptcha v3 token
+      termsOfService:
+        $ref: '#/definitions/v1TermOfService'
+        title: Terms of Service accepted
+      acquisitionData:
+        $ref: '#/definitions/v1PartnerAcquisitionData'
+        title: Acquisition Data
+      googleToken:
+        $ref: '#/definitions/v1GoogleTokenCredential'
+      initialUser:
+        $ref: '#/definitions/v1EmailPasswordCredential'
+    title: SelfSignUpExistingAccountGroupRequest
+  v1SelfSignUpRequest:
+    type: object
+    properties:
+      idempotentKey:
+        type: string
+        title: Key to ensure no repeat requests are processed
+      initialUser:
+        $ref: '#/definitions/v1PartnerUser'
+        title: Initial user created for partner
+      websiteOptOutFlag:
+        type: boolean
+        title: Website opt out flag controls whether website address should be required for sign up or not
+      billingCurrencyCode:
+        type: string
+        title: Billing currency 3 letter code
+      companyProfile:
+        $ref: '#/definitions/v1CompanyProfile'
+        title: Company Profile (NAP Data)
+      acquisitionData:
+        $ref: '#/definitions/v1PartnerAcquisitionData'
+        title: Acquisition Data
+      recaptchaResponse:
+        type: string
+        title: Recaptcha v2 token
+      recaptchaV3Token:
+        type: string
+        title: Recaptcha v3 token
+      termsOfService:
+        $ref: '#/definitions/v1TermOfService'
+        title: Terms of Service accepted
+      userPassword:
+        type: string
+        title: Initial password for user in self sign up - should only be used for self sign up
+    title: Self Sign Up Request captures all the same fields that the AA PartnerSelfSignupApi internal handler needs
+  v1SelfSignUpWithGoogleRequest:
+    type: object
+    properties:
+      idempotentKey:
+        type: string
+        title: Key to ensure no repeat requests are processed
+      googleToken:
+        type: string
+        title: google's token to fetch user information
+      acquisitionData:
+        $ref: '#/definitions/v1PartnerAcquisitionData'
+        title: vendasta information about the partner
+      companyProfile:
+        $ref: '#/definitions/v1CompanyProfile'
+        title: information about the partner
+      websiteOptOutFlag:
+        type: boolean
+        title: Website opt out flag controls whether website address should be required for sign up or not
+      recaptchaResponse:
+        type: string
+        title: Recaptcha v2 token
+      recaptchaV3Token:
+        type: string
+        title: Recaptcha v3 token
+      billingCurrencyCode:
+        type: string
+        title: Billing currency 3 letter code (USD, CAD, AUD)
+      termsOfService:
+        $ref: '#/definitions/v1TermOfService'
+        title: accepted terms of servce
+    title: Self Sign Up With Google Request captures all the same fields that the AA PartnerGoogleSignupApi internal handler needs
+  v1SelfSignUpWithLinkedRequest:
+    type: object
+    properties:
+      idempotentKey:
+        type: string
+        title: Key to ensure no repeat requests are processed
+      linkedinToken:
+        type: string
+        title: linkedin's token to fetch user information
+      acquisitionData:
+        $ref: '#/definitions/v1PartnerAcquisitionData'
+        title: vendasta information about the partner
+      companyProfile:
+        $ref: '#/definitions/v1CompanyProfile'
+        title: information about the partner
+      websiteOptOutFlag:
+        type: boolean
+        title: Website opt out flag controls whether website address should be required for sign up or not
+      recaptchaResponse:
+        type: string
+        title: Recaptcha v2 token
+      recaptchaV3Token:
+        type: string
+        title: Recaptcha v3 token
+      billingCurrencyCode:
+        type: string
+        title: Billing currency 3 letter code (USD, CAD, AUD)
+      termsOfService:
+        $ref: '#/definitions/v1TermOfService'
+        title: accepted terms of servce
+    title: Self Sign Up With LinkedIn Request captures all the same fields that the AA needs + linkedin access token
+  v1SetPartnerHealthRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: Identifier of a partner
+      state:
+        $ref: '#/definitions/v1PartnerHealthState'
+        title: State to set for a partner  health
+      subState:
+        $ref: '#/definitions/v1PartnerHealthSubState'
+        title: Sub-State to set for a partner  health
+      reason:
+        type: string
+        title: Reason for setting the partner health
+      inRetention:
+        type: boolean
+        title: If they are in retention or not
+    title: A request message to create partner health
+  v1SetUserAgreementTermsOfServiceRequest:
+    type: object
+    properties:
+      userAgreementTermsOfService:
+        $ref: '#/definitions/v1UserAgreementTermsOfService'
+  v1SignUpCredential:
+    type: object
+    properties:
+      googleToken:
+        $ref: '#/definitions/v1GoogleTokenCredential'
+      user:
+        $ref: '#/definitions/v1UserCredential'
+      linkedinToken:
+        $ref: '#/definitions/v1LinkedInTokenCredential'
+      microsoftToken:
+        $ref: '#/definitions/v1MicrosoftTokenCredential'
+  v1SignUpRequest:
+    type: object
+    properties:
+      idempotentKey:
+        type: string
+        title: Key to ensure no repeat requests are processed
+      newAccount:
+        $ref: '#/definitions/v1NewAccount'
+        title: New Account (via self sign up, google, or linkedin)
+      existingAccount:
+        $ref: '#/definitions/v1ExistingAccount'
+        title: Existing Account (via self sign up, google, or linkedin)
+      acquisitionData:
+        $ref: '#/definitions/v1PartnerAcquisitionData'
+        title: Acquisition Data
+      termsOfService:
+        $ref: '#/definitions/v1TermOfService'
+        title: Terms of Service accepted
+      recaptchaV2Token:
+        type: string
+        title: Recaptcha v2 token
+      recaptchaV3Token:
+        type: string
+        title: Recaptcha v3 token
+      billingCurrencyCode:
+        type: string
+        title: Billing currency 3 letter code
+      websiteOptOutFlag:
+        type: boolean
+        title: Website opt out flag controls whether website address should be required for sign up or not
+      subscriptionTierId:
+        type: string
+        title: Subscription Tier ID defaults to free, if a paid tier requires a valid stripe token to setup payment
+      stripeToken:
+        type: string
+        description: The token to access stripes API used to setup payment card in the billing's merchant services.
+      nextUrl:
+        type: string
+        title: Next URL where the user will be redirected to with auth at the end of the signup flow
+  v1SinglePartnerMarketBranding:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      branding:
+        $ref: '#/definitions/v1Branding'
+  v1SnapshotConfiguration:
+    type: object
+    properties:
+      ppc:
+        type: boolean
+      remarketing:
+        type: boolean
+      useCustomSnapshotHeader:
+        type: boolean
+      customSnapshotHeader:
+        type: string
+      useCustomSnapshotFooter:
+        type: boolean
+      customSnapshotFooter:
+        type: string
+      useCustomSnapshotPopupMessage:
+        type: boolean
+      customSnapshotPopupMessage:
+        type: string
+      allowClaimUser:
+        type: boolean
+      seoAdvertisingDataProvider:
+        type: string
+        format: int64
+      snapshotReportName:
+        type: string
+  v1SubscriptionFailure:
+    type: string
+    enum:
+      - SUBSCRIPTION_FAILURE_NONE
+      - SUBSCRIPTION_FAILURE_OVERDUE
+    default: SUBSCRIPTION_FAILURE_NONE
+  v1SubscriptionLevel:
+    type: string
+    enum:
+      - SUBSCRIPTION_LEVEL_BASIC
+      - SUBSCRIPTION_LEVEL_PROFESSIONAL
+      - SUBSCRIPTION_LEVEL_ENTERPRISE
+      - SUBSCRIPTION_LEVEL_LITE
+      - SUBSCRIPTION_LEVEL_PREMIUM
+      - SUBSCRIPTION_LEVEL_ELITE
+      - SUBSCRIPTION_LEVEL_FREE
+      - SUBSCRIPTION_LEVEL_STARTER
+      - SUBSCRIPTION_LEVEL_BASIC_PLUS
+      - SUBSCRIPTION_LEVEL_PROFESSIONAL_PLUS
+      - SUBSCRIPTION_LEVEL_ENTERPRISE_PLUS
+      - SUBSCRIPTION_LEVEL_REPLACED_BY_SUBSCRIPTION_TIERS
+      - SUBSCRIPTION_LEVEL_ENTERPRISE_PLUS_PILOT
+    default: SUBSCRIPTION_LEVEL_BASIC
+  v1SubscriptionTier:
+    type: object
+    properties:
+      id:
+        type: string
+        title: Id of subscription
+      partnerModelLevel:
+        type: string
+        description: Subscription Level used in AA (partner center legacy), formatted like FREE, STARTER, VBP_BASIC, etc...
+      name:
+        type: string
+        title: Name of subscription, for use by developers to track common name of subscription, use I18N when displayed to users
+      pricingPlanId:
+        type: string
+        title: Pricing plan ID for subscription used in billing
+      tierVersion:
+        type: string
+        title: Tier Version is logical grouping to classify sets of subscriptions like the original 4 subscription vs the VBP subscriptions
+      archived:
+        type: boolean
+        description: Archived for subscription types that are no longer in use, and should not be allowed for any new or existing partner to be set to.
+      enabledFeatures:
+        type: array
+        items:
+          type: string
+        title: List of enabled features
+      allowTrials:
+        type: boolean
+        title: If subscription allows trials
+      rank:
+        type: string
+        format: int64
+        description: Rank of tier to identify if tier if you compare two tiers if X > Y then X is an upgrade over Y, and if X < Y then X is a downgrade.
+      usageLimits:
+        $ref: '#/definitions/v1TierUsageLimits'
+        description: usage the amount of free instances of a service the tier is allowed before being charged.
+      subscriptionUpdate:
+        $ref: '#/definitions/v1SubscriptionUpdate'
+        description: Subscription updated info.
+      allowSelfUpgrade:
+        type: boolean
+        description: Allow partner to self upgrade to this subscription tier.
+      allowFreeTrials:
+        type: boolean
+        title: Allow free 14 day trials. Not the same as old allow_trials value
+  v1SubscriptionTierUpdateType:
+    type: string
+    enum:
+      - SUBSCRIPTION_TIER_UPDATE_TYPE_INVALID
+      - SUBSCRIPTION_TIER_UPDATE_TYPE_FREE_TO_PAID
+      - SUBSCRIPTION_TIER_UPDATE_TYPE_SWITCH_FREE_TRIAL
+      - SUBSCRIPTION_TIER_UPDATE_TYPE_CANCEL_FREE_TRIAL
+      - SUBSCRIPTION_TIER_UPDATE_TYPE_CANCEL_FREE_TRIAL_FAILED_PAYMENT
+      - SUBSCRIPTION_TIER_UPDATE_TYPE_FREE_TO_FREE_TRIAL
+      - SUBSCRIPTION_TIER_UPDATE_TYPE_PAID_TO_PAID
+    default: SUBSCRIPTION_TIER_UPDATE_TYPE_INVALID
+    description: |-
+      - SUBSCRIPTION_TIER_UPDATE_TYPE_FREE_TO_PAID: For going from the free tier to a paid VBP2 tier
+       - SUBSCRIPTION_TIER_UPDATE_TYPE_SWITCH_FREE_TRIAL: For selecting a new tier during the free trial period of a paid tier to another valid paid tier that allows free trials.
+       - SUBSCRIPTION_TIER_UPDATE_TYPE_CANCEL_FREE_TRIAL: For canceling the your free trial of a paid tier, the only valid tier to input is the free tier.
+       - SUBSCRIPTION_TIER_UPDATE_TYPE_CANCEL_FREE_TRIAL_FAILED_PAYMENT: For canceling the your free trial of a paid tier after a failed payment, the only valid tier to input is the free tier.
+      Also suspends the partners contract.
+       - SUBSCRIPTION_TIER_UPDATE_TYPE_FREE_TO_FREE_TRIAL: For going from the free tier to a free trial
+       - SUBSCRIPTION_TIER_UPDATE_TYPE_PAID_TO_PAID: For going from the paid tier to a paid tier
+    title: Making it explicit which type of subscription update you are preforming
+  v1SubscriptionUpdate:
+    type: object
+    properties:
+      salesOrderAppId:
+        $ref: '#/definitions/v1AppIdentifier'
+      subscriptionSkus:
+        type: array
+        items:
+          type: string
+      oneTimeSubscriptionSkus:
+        type: array
+        items:
+          type: string
+      monthlySubscriptionSkus:
+        type: array
+        items:
+          type: string
+  v1SupportFlag:
+    type: string
+    enum:
+      - SUPPORT_FLAG_INVALID
+      - SUPPORT_FLAG_UNSET
+      - SUPPORT_FLAG_TRUE
+      - SUPPORT_FLAG_FALSE
+    default: SUPPORT_FLAG_INVALID
+  v1SwapPartnerAccountGroupRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the first Partner (key value)
+      accountGroupId:
+        type: string
+        title: ID of the AccountGroup the Partner is currently mapped to
+      withPartnerId:
+        type: string
+        title: ID of the second Partner (key value)
+      withAccountGroupId:
+        type: string
+        title: ID of the AccountGroup the second Partner is currently mapped to
+    title: SwapPartnerAccountGroupRequest is used to swap the values of one PartnerAccountGroup with the values of another
+  v1TaskManagerConfiguration:
+    type: object
+    properties:
+      tmShowInbox:
+        type: boolean
+  v1TermOfService:
+    type: object
+    properties:
+      accepted:
+        type: boolean
+        title: Terms of Service accepted
+      browserIpAddress:
+        type: string
+        title: The IP address of the person's browsers creating the partner
+    title: Terms of Service accepted during partner creation, should only be used for Self Signup Partners
+  v1TermsOfService:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      termsOfService:
+        type: string
+      product:
+        type: string
+      language:
+        type: string
+      createdOn:
+        type: string
+        format: date-time
+      feature:
+        type: string
+  v1Theme:
+    type: object
+    properties:
+      name:
+        type: string
+      primaryColor:
+        type: string
+      primaryHoverColor:
+        type: string
+      primaryActiveColor:
+        type: string
+      secondaryColor:
+        type: string
+      secondaryHoverColor:
+        type: string
+      secondaryActiveColor:
+        type: string
+      focusColor:
+        type: string
+      fontColor:
+        type: string
+      fontDisabledColor:
+        type: string
+      accentsColor:
+        type: string
+      accentsActiveColor:
+        type: string
+      borderColor:
+        type: string
+  v1TierCostConstraint:
+    type: object
+    properties:
+      cost:
+        type: string
+        format: int64
+        title: integer representation of the lowest denomination of the applied currency
+      currencyCode:
+        type: string
+        title: the currency code of the cost
+      isFree:
+        type: boolean
+        description: Whether the feature is free or not since a zero cost feature is not necessarily intended to be free.
+  v1TierUsageLimits:
+    type: object
+    properties:
+      teamMembers:
+        type: string
+        format: int64
+        description: The number of seats a tier is allowed to have for free, any additional seats above the value will incur a charge.
+      emailsPerMonth:
+        type: string
+        format: int64
+        description: Number of emails the subscription tier is allowed to send for free.
+      annualFee:
+        type: string
+        format: int64
+        title: the annual fee for upgrading to the subscription on a annual basis, instead of monthly (this will be moved at later time)
+      newSeatCost:
+        type: string
+        format: int64
+        title: the cost adding a new seat (user) to their subscription if they're over their free seat usage (this will be moved at later time)
+      wholesaleDiscount:
+        type: string
+        format: int64
+        title: the percentage discount that the tier can eligible for when purchasing in wholesale (this will be moved at later time)
+      snapshots:
+        type: string
+        format: int64
+        title: Snapshots
+      toolkits:
+        type: string
+        format: int64
+        title: Local Business Online Toolkits
+      toolkitData:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ToolkitData'
+        title: Details about each item in the toolkit
+      monthlyFee:
+        type: string
+        format: int64
+        title: monthly fee for upgrading thier subscription tier and pay monthly (this will be moved at later time)
+      onboardingFee:
+        type: string
+        format: int64
+        title: one time fee for onboarding when upgrading subscription tier (this will be moved at later time)
+      automationsPerMonth:
+        type: string
+        format: int64
+        title: number of marketing automations runs per month
+  v1TimeRange:
+    type: string
+    enum:
+      - TIME_RANGE_SEVEN_DAYS
+      - TIME_RANGE_THIRTY_DAYS
+      - TIME_RANGE_NINETY_DAYS
+      - TIME_RANGE_SIX_MONTHS
+      - TIME_RANGE_TWELVE_MONTHS
+      - TIME_RANGE_UNSPECIFIED
+    default: TIME_RANGE_SEVEN_DAYS
+  v1ToolkitData:
+    type: object
+    properties:
+      sku:
+        type: string
+      limit:
+        type: string
+        format: int64
+  v1Trial:
+    type: object
+    properties:
+      trialId:
+        type: string
+        title: the trial identifier
+      partnerId:
+        type: string
+        title: The id of the partner who this trial will be applied to
+      created:
+        type: string
+        format: date-time
+        title: The date the trial object was created
+      updated:
+        type: string
+        format: date-time
+        title: The date the trial object was updated
+      subscriptionLevel:
+        $ref: '#/definitions/v1SubscriptionLevel'
+        title: 'Deprecated: Use SubscriptionTier - Was the subscription level the trial is emulating'
+      start:
+        type: string
+        format: date-time
+        title: The start date of this trial period
+      end:
+        type: string
+        format: date-time
+        title: The end date of this trial period
+      cancel:
+        type: string
+        format: date-time
+        title: The date this trial was cancelled
+      createdBy:
+        type: string
+        title: The user that created the trial
+      modifiedBy:
+        type: string
+        title: The user that last modified the trial
+      subscriptionTierId:
+        type: string
+        title: The subscription tier the trial is emulating
+  v1TriggerEventRequest:
+    type: object
+    properties:
+      eventData:
+        type: object
+        title: |-
+          Metadata for the event, string key value pairs
+          Can be changed based on the automation event
+      eventType:
+        type: string
+        title: Type of event we want to trigger
+      partnerId:
+        type: string
+        title: Partner ID of the partner we want to trigger the event for
+  v1URL:
+    type: object
+    properties:
+      secure:
+        type: string
+      insecure:
+        type: string
+    title: URL stores both secure/insecure versions of a URL
+  v1UpdateCancelFreeTrialReasonMutation:
+    type: object
+    properties:
+      userId:
+        type: string
+        title: ID of the user who submitted the reason
+      cancelReason:
+        type: string
+        title: Radio selection for cancel reason
+      additionalComment:
+        type: string
+        title: Additional comment for cancel reason
+  v1UpdateCompanyProfileRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      companyProfileInfo:
+        $ref: '#/definitions/v1CompanyProfile'
+        title: Company Profile
+  v1UpdateFeatureFlagRequest:
+    type: object
+    properties:
+      id:
+        type: string
+        title: The ID of the feature
+      mutations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/UpdateFeatureFlagRequestMutation'
+        title: A list of mutations to be able to individually specify what fields are being updated
+    title: Request message for FeatureFlags.Update
+  v1UpdateFreeTrialActionRequiredStatusMutation:
+    type: object
+    properties:
+      actionRequiredStatus:
+        type: string
+  v1UpdateFreeTrialMutation:
+    type: object
+    properties:
+      cancelFreeTrialReason:
+        $ref: '#/definitions/v1UpdateCancelFreeTrialReasonMutation'
+      actionRequiredStatus:
+        $ref: '#/definitions/v1UpdateFreeTrialActionRequiredStatusMutation'
+  v1UpdateFreeTrialRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      mutations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1UpdateFreeTrialMutation'
+  v1UpdatePartnerAccountGroupRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the Partner (key value)
+      accountGroupId:
+        type: string
+        title: ID of the Account Group
+    title: UpdatePartnerAccountGroupRequest is used to update the PartnerAccountGroup entity
+  v1UpdatePartnerAdminRequest:
+    type: object
+    properties:
+      userId:
+        type: string
+        title: User ID of the partner admin to update permissions for
+      fieldMask:
+        $ref: '#/definitions/vendastatypesFieldMask'
+        title: Mask for what fields should be updated
+      permissions:
+        $ref: '#/definitions/v1PartnerAdminPermissions'
+        title: The permissions to update for the partner admin
+  v1UpdatePartnerModelMutation:
+    type: object
+    properties:
+      premiumSupport:
+        type: boolean
+      standardPrioritySupport:
+        type: boolean
+      priorityChatSupport:
+        type: boolean
+      name:
+        type: string
+      addressLineOne:
+        type: string
+      addressLineTwo:
+        type: string
+      city:
+        type: string
+      countryAndState:
+        $ref: '#/definitions/UpdatePartnerModelMutationCountryState'
+      postalCode:
+        type: string
+      email:
+        type: string
+      phoneNumber:
+        type: string
+      website:
+        type: string
+  v1UpdatePartnerModelRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      mutations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1UpdatePartnerModelMutation'
+        title: A list of mutations to be able to individually specify what fields are being updated
+  v1UpdatePartnerRequest:
+    type: object
+    properties:
+      idempotentKey:
+        type: string
+        title: Unique key used to poll the status of creating the partner
+      partnerId:
+        type: string
+        title: ID of the Partner, will be generated if omitted
+      partnerInfo:
+        $ref: '#/definitions/v1PartnerInfo'
+        title: The info of the partner to be updated
+  v1UpdateSubscriptionTierRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      tierId:
+        type: string
+      frequency:
+        $ref: '#/definitions/v1BillingFrequency'
+      updateType:
+        $ref: '#/definitions/v1SubscriptionTierUpdateType'
+  v1UpdateSubscriptionTierStatus:
+    type: string
+    enum:
+      - UPDATE_SUBSCRIPTION_TIER_STATUS_INVALID
+      - UPDATE_SUBSCRIPTION_TIER_STATUS_UNSET
+      - UPDATE_SUBSCRIPTION_TIER_STATUS_PROCESSING
+      - UPDATE_SUBSCRIPTION_TIER_STATUS_SUCCESS
+      - UPDATE_SUBSCRIPTION_TIER_STATUS_FAILURE
+    default: UPDATE_SUBSCRIPTION_TIER_STATUS_INVALID
+  v1UpsertBrandingV2Request:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      marketId:
+        type: string
+        title: ID of the market. Can be empty string
+      mutations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1UpsertMutation'
+        title: A list of mutations to be able to individually specify what fields are being updated
+  v1UpsertMutation:
+    type: object
+    properties:
+      faviconUrl:
+        type: string
+      shortcutIconUrl:
+        type: string
+      logoUrl:
+        type: string
+      uiTheme:
+        $ref: '#/definitions/partnerv1UITheme'
+      primaryColor:
+        type: string
+      marketOverrides:
+        $ref: '#/definitions/UpsertMutationMarketOverridesMutation'
+        description: MarketOverridesMutation should only be added to Branding with a specific marketID. Has no benefit on the empty marketID.
+      name:
+        type: string
+      darkModeLogoUrl:
+        type: string
+      businessAppUiTheme:
+        $ref: '#/definitions/partnerv1UITheme'
+  v1UserAgreementTermsOfService:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      userId:
+        type: string
+      accepted:
+        type: boolean
+      acceptedAt:
+        type: string
+        format: date-time
+      feature:
+        type: string
+  v1UserCredential:
+    type: object
+    properties:
+      user:
+        $ref: '#/definitions/v1PartnerUser'
+        title: new user with information about first name, last name, and email
+      password:
+        type: string
+        title: password for new user
+  v1WizardStatus:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      userId:
+        type: string
+        title: ID of the user
+      activeStep:
+        type: string
+        title: Unique string to indicate the step they are on in the wizard
+      created:
+        type: string
+        format: date-time
+        title: Created date of entity
+      updated:
+        type: string
+        format: date-time
+        title: Last updated date of entity
+  vendastatypesFieldMask:
+    type: object
+    properties:
+      paths:
+        type: array
+        items:
+          type: string
+        description: The set of field mask paths.
+    description: |-
+      paths: "f.a"
+          paths: "f.b.d"
+
+      Here `f` represents a field in some root message, `a` and `b`
+      fields in the message found in `f`, and `d` a field found in the
+      message in `f.b`.
+
+      Field masks are used to specify a subset of fields that should be
+      returned by a get operation or modified by an update operation.
+      Field masks also have a custom JSON encoding (see below).
+
+      # Field Masks in Projections
+
+      When used in the context of a projection, a response message or
+      sub-message is filtered by the API to only contain those fields as
+      specified in the mask. For example, if the mask in the previous
+      example is applied to a response message as follows:
+
+          f {
+            a : 22
+            b {
+              d : 1
+              x : 2
+            }
+            y : 13
+          }
+          z: 8
+
+      The result will not contain specific values for fields x,y and z
+      (their value will be set to the default, and omitted in proto text
+      output):
+
+
+          f {
+            a : 22
+            b {
+              d : 1
+            }
+          }
+
+      A repeated field is not allowed except at the last position of a
+      paths string.
+
+      If a FieldMask object is not present in a get operation, the
+      operation applies to all fields (as if a FieldMask of all fields
+      had been specified).
+
+      Note that a field mask does not necessarily apply to the
+      top-level response message. In case of a REST get operation, the
+      field mask applies directly to the response, but in case of a REST
+      list operation, the mask instead applies to each individual message
+      in the returned resource list. In case of a REST custom method,
+      other definitions may be used. Where the mask applies will be
+      clearly documented together with its declaration in the API.  In
+      any case, the effect on the returned resource/resources is required
+      behavior for APIs.
+
+      # Field Masks in Update Operations
+
+      A field mask in update operations specifies which fields of the
+      targeted resource are going to be updated. The API is required
+      to only change the values of the fields as specified in the mask
+      and leave the others untouched. If a resource is passed in to
+      describe the updated values, the API ignores the values of all
+      fields not covered by the mask.
+
+      If a repeated field is specified for an update operation, the existing
+      repeated values in the target resource will be overwritten by the new values.
+      Note that a repeated field is only allowed in the last position of a `paths`
+      string.
+
+      If a sub-message is specified in the last position of the field mask for an
+      update operation, then the existing sub-message in the target resource is
+      overwritten. Given the target message:
+
+          f {
+            b {
+              d : 1
+              x : 2
+            }
+            c : 1
+          }
+
+      And an update message:
+
+          f {
+            b {
+              d : 10
+            }
+          }
+
+      then if the field mask is:
+
+       paths: "f.b"
+
+      then the result will be:
+
+          f {
+            b {
+              d : 10
+            }
+            c : 1
+          }
+
+      However, if the update mask was:
+
+       paths: "f.b.d"
+
+      then the result would be:
+
+          f {
+            b {
+              d : 10
+              x : 2
+            }
+            c : 1
+          }
+
+      In order to reset a field's value to the default, the field must
+      be in the mask and set to the default value in the provided resource.
+      Hence, in order to reset all fields of a resource, provide a default
+      instance of the resource and set all fields in the mask, or do
+      not provide a mask as described below.
+
+      If a field mask is not present on update, the operation applies to
+      all fields (as if a field mask of all fields has been specified).
+      Note that in the presence of schema evolution, this may mean that
+      fields the client does not know and has therefore not filled into
+      the request will be reset to their default. If this is unwanted
+      behavior, a specific service may require a client to always specify
+      a field mask, producing an error if not.
+
+      As with get operations, the location of the resource which
+      describes the updated values in the request message depends on the
+      operation kind. In any case, the effect of the field mask is
+      required to be honored by the API.
+
+      ## Considerations for HTTP REST
+
+      The HTTP kind of an update operation which uses a field mask must
+      be set to PATCH instead of PUT in order to satisfy HTTP semantics
+      (PUT must only be used for full updates).
+
+      # JSON Encoding of Field Masks
+
+      In JSON, a field mask is encoded as a single string where paths are
+      separated by a comma. Fields name in each path are converted
+      to/from lower-camel naming conventions.
+
+      As an example, consider the following message declarations:
+
+          message Profile {
+            User user = 1;
+            Photo photo = 2;
+          }
+          message User {
+            string display_name = 1;
+            string address = 2;
+          }
+
+      In proto a field mask for `Profile` may look as such:
+
+          mask {
+            paths: "user.display_name"
+            paths: "photo"
+          }
+
+      In JSON, the same mask is represented as below:
+
+          {
+            mask: "user.displayName,photo"
+          }
+
+      # Field Masks and Oneof Fields
+
+      Field masks treat fields in oneofs just as regular fields. Consider the
+      following message:
+
+          message SampleMessage {
+            oneof test_oneof {
+              string name = 4;
+              SubMessage sub_message = 9;
+            }
+          }
+
+      The field mask can be:
+
+          mask {
+            paths: "name"
+          }
+
+      Or:
+
+          mask {
+            paths: "sub_message"
+          }
+
+      Note that oneof type names ("test_oneof" in this case) cannot be used in
+      paths.
+    title: '`FieldMask` represents a set of symbolic field paths, for example:'

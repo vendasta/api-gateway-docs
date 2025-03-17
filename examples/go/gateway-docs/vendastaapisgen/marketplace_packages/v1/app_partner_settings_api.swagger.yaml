@@ -1,0 +1,318 @@
+swagger: "2.0"
+info:
+  title: marketplace_packages/v1/app_partner_settings_api.proto
+  version: version not set
+tags:
+  - name: AppPartnerSettings
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /marketplace_packages.v1.AppPartnerSettings/ConvertRetailPricesForMarket:
+    post:
+      summary: ConvertRetailPricesForMarket converts existing retail price record using the provided currency and rate for the partner's market.
+      operationId: AppPartnerSettings_ConvertRetailPricesForMarket
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ConvertRetailPricesForMarketRequest'
+      tags:
+        - AppPartnerSettings
+  /marketplace_packages.v1.AppPartnerSettings/CreateOrUpdateRetailPrice:
+    post:
+      summary: CreateOrUpdateRetailPrice updates a retail price information, create a record if it not existing yet.
+      operationId: AppPartnerSettings_CreateOrUpdateRetailPrice
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetRetailPriceResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateOrUpdateRetailPriceRequest'
+      tags:
+        - AppPartnerSettings
+  /marketplace_packages.v1.AppPartnerSettings/DeleteRetailPrice:
+    post:
+      summary: DeleteRetailPrice deletes existing retail price record. Deleting non-existing record will not cause this rpc to error.
+      operationId: AppPartnerSettings_DeleteRetailPrice
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeleteRetailPriceRequest'
+      tags:
+        - AppPartnerSettings
+  /marketplace_packages.v1.AppPartnerSettings/GetMultiRetailPrice:
+    post:
+      summary: GetMultiRetailPrice returns the retail prices of multiple apps/editions for a partner/market combination OR business ID
+      operationId: AppPartnerSettings_GetMultiRetailPrice
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiRetailPriceResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiRetailPriceRequest'
+      tags:
+        - AppPartnerSettings
+  /marketplace_packages.v1.AppPartnerSettings/GetRetailPrice:
+    post:
+      summary: GetRetailPrice returns the retail price of an application based on app, edition, partner and market
+      operationId: AppPartnerSettings_GetRetailPrice
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetRetailPriceResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetRetailPriceRequest'
+      tags:
+        - AppPartnerSettings
+definitions:
+  CurrenciesCurrency:
+    type: string
+    enum:
+      - USD
+      - AUD
+      - BRL
+      - CAD
+      - CHF
+      - CNY
+      - CZK
+      - EUR
+      - GBP
+      - HKD
+      - INR
+      - JPY
+      - KHR
+      - KRW
+      - MXN
+      - NOK
+      - NZD
+      - RUB
+      - SEK
+      - SGD
+      - TRY
+      - ZAR
+      - DZD
+      - AWG
+      - FJD
+      - KYD
+    default: USD
+  FrequenciesFrequency:
+    type: string
+    enum:
+      - MONTHLY
+      - DAILY
+      - ONCE
+      - YEARLY
+      - WEEKLY
+      - OTHER
+    default: MONTHLY
+  GetMultiRetailPriceResponseRetailPriceResponse:
+    type: object
+    properties:
+      productId:
+        $ref: '#/definitions/v1ProductIdentifier'
+        title: The app/edition ID combination of the requested retail price
+      retailPrice:
+        $ref: '#/definitions/v1RetailPrice'
+        title: The requested retail price
+  googlerpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  v1ConvertRetailPricesForMarketRequest:
+    type: object
+    properties:
+      partnerMarket:
+        $ref: '#/definitions/v1PartnerMarketContainer'
+        title: the partner market combination to convert retail prices for the requested currency
+      currency:
+        type: string
+        title: the currency, which is the retail prices will be converted to
+      conversionRate:
+        type: number
+        format: float
+        title: the conversion rate is the rate, which will be used to convert the retail prices from USD to the currency above
+  v1CreateOrUpdateRetailPriceRequest:
+    type: object
+    properties:
+      appId:
+        type: string
+        title: the id of the application to get the retail price for
+      editionId:
+        type: string
+        title: the id of the tier to get the retail price for, related to the app
+      partnerId:
+        type: string
+        title: partner_id is the id of the partner that has the associated retail price for a app
+      marketId:
+        type: string
+        title: market_id is a sub group nested under the partner corresponding to partner_id
+      retailPrice:
+        $ref: '#/definitions/v1RetailPrice'
+        title: price to sell the application at from the SMB perspective
+  v1DeleteRetailPriceRequest:
+    type: object
+    properties:
+      appId:
+        type: string
+        title: the id of the application to get the retail price for
+      editionId:
+        type: string
+        title: the id of the tier to get the retail price for, related to the app
+      partnerId:
+        type: string
+        title: partner_id is the id of the partner that has the associated retail price for a app
+      marketId:
+        type: string
+        title: market_id is a sub group nested under the partner corresponding to partner_id
+  v1GetMultiRetailPriceRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: the id of the business to get the retail price for
+      partnerMarket:
+        $ref: '#/definitions/v1PartnerMarketContainer'
+        title: the partner market combination to get the retail price for
+      productIds:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ProductIdentifier'
+    title: Parameters to fetch the retail price of multiple products, scoped to one partner/market combination OR business ID
+  v1GetMultiRetailPriceResponse:
+    type: object
+    properties:
+      retailPrices:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/GetMultiRetailPriceResponseRetailPriceResponse'
+        title: The list of requested retail prices
+    title: Response for GetMultiRetailPrice containing a repeated list of retail price objects
+  v1GetRetailPriceRequest:
+    type: object
+    properties:
+      appId:
+        type: string
+        title: the id of the application to get the retai price for
+      editionId:
+        type: string
+        title: the id of the tier to get the retail price for, related to the app
+      businessId:
+        type: string
+        title: the id of the business to get the retail price for
+      partnerMarket:
+        $ref: '#/definitions/v1PartnerMarketContainer'
+        title: the partner market combination to get the retail price for
+      dontUseMsrp:
+        type: boolean
+        description: option to disable getting MSRP from apps if retail price is not available.
+  v1GetRetailPriceResponse:
+    type: object
+    properties:
+      retailPrice:
+        $ref: '#/definitions/v1RetailPrice'
+        title: price to sell the application at from the SMB perspective
+  v1PartnerMarketContainer:
+    type: object
+    properties:
+      marketId:
+        type: string
+        title: market_id is a sub group nested under the partner corresponding to partner_id
+      partnerId:
+        type: string
+        title: partner_id is the id of the partner that has the associated retail price for a app
+  v1ProductIdentifier:
+    type: object
+    properties:
+      appId:
+        type: string
+        title: the id of the application to get the retail price for
+      editionId:
+        type: string
+        title: the id of the edition of the app to get the retail price for
+  v1RetailPrice:
+    type: object
+    properties:
+      price:
+        type: string
+        format: int64
+        title: the price of the app
+      billingFrequency:
+        $ref: '#/definitions/FrequenciesFrequency'
+        title: the frequency in which the purchaser should be billed for the app
+      currency:
+        $ref: '#/definitions/CurrenciesCurrency'
+        title: the currency in which the purchaser would make payment(s) in
+      setupFee:
+        type: string
+        format: int64
+        title: the setup fee in cents
+    title: RetailPrice is the price that an app should be sold to a business at

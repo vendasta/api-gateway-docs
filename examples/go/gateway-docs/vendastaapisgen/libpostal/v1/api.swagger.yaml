@@ -1,0 +1,191 @@
+swagger: "2.0"
+info:
+  title: libpostal/v1/api.proto
+  version: version not set
+tags:
+  - name: LibPostal
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /libpostal.v1.LibPostal/Expand:
+    post:
+      summary: Expand given an address, converts messy real-world addresses into normalized equivalents suitable for search indexing, hashing, etc.
+      operationId: LibPostal_Expand
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ExpandResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ExpandRequest'
+      tags:
+        - LibPostal
+  /libpostal.v1.LibPostal/ExpandBatch:
+    post:
+      summary: ExpandBatch is a batch version of Expand
+      operationId: LibPostal_ExpandBatch
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ExpandBatchResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ExpandBatchRequest'
+      tags:
+        - LibPostal
+  /libpostal.v1.LibPostal/Parse:
+    post:
+      summary: Parse given an address, will return a structured response on what it computes to be each piece of the given string.
+      operationId: LibPostal_Parse
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ParseResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ParseRequest'
+      tags:
+        - LibPostal
+  /libpostal.v1.LibPostal/ParseBatch:
+    post:
+      summary: ParseBatch is a batch version of Parse
+      operationId: LibPostal_ParseBatch
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ParseBatchResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ParseBatchRequest'
+      tags:
+        - LibPostal
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1AddressComponent:
+    type: object
+    properties:
+      label:
+        type: string
+      value:
+        type: string
+    title: |-
+      AddressComponent represents a piece of an address were the available label options are:
+      "house", "category", "near", "house_number", "road", "unit", "level", "staircase", "entrance", "po_box", "postcode",
+      "suburb", "city_district", "city", "island", "state_district", "state", "country_region", "country", "world_region"
+  v1ExpandBatchRequest:
+    type: object
+    properties:
+      requests:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ExpandRequest'
+    title: ExpandBatchRequest is the request message for LibPostal.ExpandBatch
+  v1ExpandBatchResponse:
+    type: object
+    properties:
+      responses:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ExpandResponse'
+    title: ExpandBatchResponse is the response message for LibPostal.ExpandBatch
+  v1ExpandRequest:
+    type: object
+    properties:
+      address:
+        type: string
+    title: ExpandRequest is the request message for LibPostal.Expand
+  v1ExpandResponse:
+    type: object
+    properties:
+      addresses:
+        type: array
+        items:
+          type: string
+    title: ExpandResponse is the response message for LibPostal.Expand
+  v1ParseBatchRequest:
+    type: object
+    properties:
+      requests:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ParseRequest'
+    title: ParseBatchRequest is the request message for LibPostal.ParseBatch
+  v1ParseBatchResponse:
+    type: object
+    properties:
+      responses:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ParseResponse'
+    title: ParseBatchResponse is the response message for LibPostal.ParseBatch
+  v1ParseRequest:
+    type: object
+    properties:
+      address:
+        type: string
+    title: ParseRequest is the request message for LibPostal.Parse
+  v1ParseResponse:
+    type: object
+    properties:
+      addressComponents:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AddressComponent'
+    title: ParseResponse is the response message for LibPostal.Parse

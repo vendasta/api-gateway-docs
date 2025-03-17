@@ -1,0 +1,335 @@
+swagger: "2.0"
+info:
+  title: meeting_analysis/v1/api.proto
+  version: version not set
+tags:
+  - name: MeetingAnalysis
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /meeting_analysis.v1.MeetingAnalysis/CreateConversation:
+    post:
+      summary: CreateConversation is a utility api used by developers to ease testing. You won't be able to use this in production.
+      operationId: MeetingAnalysis_CreateConversation
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateConversationResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateConversationRequest'
+      tags:
+        - MeetingAnalysis
+  /meeting_analysis.v1.MeetingAnalysis/CreateEvaluation:
+    post:
+      operationId: MeetingAnalysis_CreateEvaluation
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateEvaluationRequest'
+      tags:
+        - MeetingAnalysis
+  /meeting_analysis.v1.MeetingAnalysis/GetConversation:
+    post:
+      operationId: MeetingAnalysis_GetConversation
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetConversationResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetConversationRequest'
+      tags:
+        - MeetingAnalysis
+  /meeting_analysis.v1.MeetingAnalysis/ListConversations:
+    post:
+      operationId: MeetingAnalysis_ListConversations
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListConversationsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListConversationsRequest'
+      tags:
+        - MeetingAnalysis
+definitions:
+  ListConversationsRequestFilters:
+    type: object
+    properties:
+      namespace:
+        type: string
+      source:
+        $ref: '#/definitions/v1ConversationSource'
+      keywords:
+        type: array
+        items:
+          type: string
+      sentiment:
+        type: string
+        format: int64
+      salesScore:
+        type: string
+        format: int64
+  ListConversationsRequestSort:
+    type: object
+    properties:
+      field:
+        $ref: '#/definitions/v1ConversationSortField'
+      direction:
+        $ref: '#/definitions/v1SortDirection'
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1Conversation:
+    type: object
+    properties:
+      id:
+        type: string
+      namespace:
+        type: string
+      externalId:
+        type: string
+      source:
+        $ref: '#/definitions/v1ConversationSource'
+      rawTranscript:
+        type: string
+      recordingUrl:
+        type: string
+      meetingDate:
+        type: string
+        format: date-time
+      internalAttendees:
+        type: array
+        items:
+          type: string
+      externalAttendees:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ExternalAttendee'
+      title:
+        type: string
+      summary:
+        type: string
+      keywords:
+        type: array
+        items:
+          type: string
+      keyTakeaways:
+        type: array
+        items:
+          type: string
+      actionItems:
+        type: array
+        items:
+          type: string
+      sentiment:
+        type: string
+        format: int64
+      sentimentExplanation:
+        type: string
+      salesScore:
+        type: string
+        format: int64
+      salesScoreExplanation:
+        type: string
+      analysingModelUsed:
+        type: string
+      promptUsed:
+        type: string
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+      deleted:
+        type: string
+        format: date-time
+      duration:
+        type: string
+  v1ConversationSortField:
+    type: string
+    enum:
+      - CONVERSATION_SORT_FIELD_UNSPECIFIED
+      - CONVERSATION_SORT_FIELD_CREATED
+      - CONVERSATION_SORT_FIELD_UPDATED
+      - CONVERSATION_SORT_FIELD_TITLE
+      - CONVERSATION_SORT_FIELD_SENTIMENT
+      - CONVERSATION_SORT_FIELD_SALES_SCORE
+    default: CONVERSATION_SORT_FIELD_UNSPECIFIED
+  v1ConversationSource:
+    type: string
+    enum:
+      - CONVERSATION_SOURCE_UNSPECIFIED
+      - CONVERSATION_SOURCE_GOOGLE_MEET
+      - CONVERSATION_SOURCE_GONG
+    default: CONVERSATION_SOURCE_UNSPECIFIED
+  v1CreateConversationRequest:
+    type: object
+    properties:
+      conversation:
+        $ref: '#/definitions/v1Conversation'
+  v1CreateConversationResponse:
+    type: object
+    properties:
+      id:
+        type: string
+  v1CreateEvaluationRequest:
+    type: object
+    properties:
+      conversationId:
+        type: string
+      feedback:
+        $ref: '#/definitions/v1EvaluationFeedback'
+      comment:
+        type: string
+      reasons:
+        type: array
+        items:
+          $ref: '#/definitions/v1EvaluationReason'
+  v1EvaluationFeedback:
+    type: string
+    enum:
+      - EVALUATION_FEEDBACK_UNDEFINED
+      - EVALUATION_FEEDBACK_POSITIVE
+      - EVALUATION_FEEDBACK_NEGATIVE
+    default: EVALUATION_FEEDBACK_UNDEFINED
+  v1EvaluationReason:
+    type: string
+    enum:
+      - EVALUATION_REASON_UNDEFINED
+      - EVALUATION_REASON_INACCURATE_SUMMARY
+      - EVALUATION_REASON_INACCURATE_TAKEAWAYS
+      - EVALUATION_REASON_INACCURATE_ACTION_ITEMS
+      - EVALUATION_REASON_LACK_OF_DETAILS
+      - EVALUATION_REASON_WRONG_SPEAKERS
+      - EVALUATION_REASON_OTHER
+    default: EVALUATION_REASON_UNDEFINED
+  v1ExternalAttendee:
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+      phoneNumber:
+        type: string
+      contactId:
+        type: string
+  v1GetConversationRequest:
+    type: object
+    properties:
+      id:
+        type: string
+  v1GetConversationResponse:
+    type: object
+    properties:
+      conversation:
+        $ref: '#/definitions/v1Conversation'
+  v1ListConversationsRequest:
+    type: object
+    properties:
+      filters:
+        $ref: '#/definitions/ListConversationsRequestFilters'
+      pagingOptions:
+        $ref: '#/definitions/vendastatypesPagedRequestOptions'
+      sort:
+        $ref: '#/definitions/ListConversationsRequestSort'
+      searchTerm:
+        type: string
+  v1ListConversationsResponse:
+    type: object
+    properties:
+      conversations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Conversation'
+      metadata:
+        $ref: '#/definitions/vendastatypesPagedResponseMetadata'
+  v1SortDirection:
+    type: string
+    enum:
+      - SORT_DIRECTION_UNSET
+      - SORT_DIRECTION_ASCENDING
+      - SORT_DIRECTION_DESCENDING
+    default: SORT_DIRECTION_UNSET
+  vendastatypesPagedRequestOptions:
+    type: object
+    properties:
+      cursor:
+        type: string
+        title: cursor can be passed to retrieve the next page of results keyed by the cursor
+      pageSize:
+        type: string
+        format: int64
+        title: page_size specifies the number of items to return in the next page
+  vendastatypesPagedResponseMetadata:
+    type: object
+    properties:
+      nextCursor:
+        type: string
+        title: A cursor that can be provided to retrieve the next page of results
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+      totalResults:
+        type: string
+        format: int64
+        title: The total number of results. This is not supported on all paged apis and will be 0 if it is not supported

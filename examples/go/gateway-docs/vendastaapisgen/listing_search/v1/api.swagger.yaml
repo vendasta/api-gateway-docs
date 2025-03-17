@@ -1,0 +1,160 @@
+swagger: "2.0"
+info:
+  title: listing_search/v1/api.proto
+  version: version not set
+tags:
+  - name: SearchAdapter
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /listingsearch.v1.SearchAdapter/Get:
+    post:
+      operationId: SearchAdapter_Get
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetRequest'
+      tags:
+        - SearchAdapter
+  /listingsearch.v1.SearchAdapter/Search:
+    post:
+      operationId: SearchAdapter_Search
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1SearchResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SearchRequest'
+      tags:
+        - SearchAdapter
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1Geo:
+    type: object
+    properties:
+      latitude:
+        type: number
+        format: double
+      longitude:
+        type: number
+        format: double
+    title: Geographical location
+  v1GetRequest:
+    type: object
+    properties:
+      id:
+        type: string
+        title: The id that represents the location within the underlying service
+    title: A request to lookup details of a business
+  v1GetResponse:
+    type: object
+    properties:
+      location:
+        $ref: '#/definitions/v1Location'
+    title: GetResponse returns the location data for the related get request
+  v1Location:
+    type: object
+    properties:
+      id:
+        type: string
+        title: The id that represents the location within the underlying service
+      companyName:
+        type: string
+        title: The name of the location
+      address:
+        type: string
+        title: The postal address of the location
+      locality:
+        type: string
+        title: This typically refers to a city, but may refer to a suburb or a neighborhood in certain countries
+      state:
+        type: string
+        title: The state or territory abbreviation
+      country:
+        type: string
+        title: The country code
+      zipCode:
+        type: string
+        title: A string specifying the zip code or postal code
+      point:
+        $ref: '#/definitions/v1Geo'
+        title: A location on the Earth specified by a latitude and longitude
+      website:
+        type: string
+        title: The website of the location
+      phone:
+        type: string
+        title: The primary phone number of the location
+      url:
+        type: string
+        title: The url location of where you can find the location on the internet
+    title: Location is a holder for search results from the corresponding api that a search is for
+  v1SearchRequest:
+    type: object
+    properties:
+      companyName:
+        type: string
+      address:
+        type: string
+      locality:
+        type: string
+      state:
+        type: string
+      country:
+        type: string
+      zipCode:
+        type: string
+      phone:
+        type: string
+      location:
+        $ref: '#/definitions/v1Geo'
+    title: A request to perform a search on behalf of a business
+  v1SearchResponse:
+    type: object
+    properties:
+      locations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Location'
+    title: SearchResponse returns the location data that was found for the related search request

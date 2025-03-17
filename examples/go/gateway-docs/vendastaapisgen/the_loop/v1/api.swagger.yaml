@@ -1,0 +1,853 @@
+swagger: "2.0"
+info:
+  title: the_loop/v1/api.proto
+  version: version not set
+tags:
+  - name: TheLoop
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /theloop.v1.TheLoop/Comment:
+    post:
+      operationId: TheLoop_Comment
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CommentResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CommentRequest'
+      tags:
+        - TheLoop
+  /theloop.v1.TheLoop/CreateCommonResource:
+    post:
+      summary: CreateCommonResource will create a common resource to allow you to specify it as an option in the common resources of a PostType
+      operationId: TheLoop_CreateCommonResource
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateCommonResourceRequest'
+      tags:
+        - TheLoop
+  /theloop.v1.TheLoop/CreatePostType:
+    post:
+      summary: CreatePostType will create the post type and return the generated id
+      operationId: TheLoop_CreatePostType
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreatePostTypeResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreatePostTypeRequest'
+      tags:
+        - TheLoop
+  /theloop.v1.TheLoop/DeletePostType:
+    post:
+      summary: DeletePostType will delete the post type
+      operationId: TheLoop_DeletePostType
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeletePostTypeRequest'
+      tags:
+        - TheLoop
+  /theloop.v1.TheLoop/GetChannels:
+    post:
+      summary: GetChannels returns the unique list of channels used on post types
+      operationId: TheLoop_GetChannels
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetChannelsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetChannelsRequest'
+      tags:
+        - TheLoop
+  /theloop.v1.TheLoop/GetPost:
+    post:
+      summary: GetPost will return the requested post
+      operationId: TheLoop_GetPost
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetPostResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetPostRequest'
+      tags:
+        - TheLoop
+  /theloop.v1.TheLoop/GetPostType:
+    post:
+      summary: GetPostType will return the post type
+      operationId: TheLoop_GetPostType
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetPostTypeResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetPostTypeRequest'
+      tags:
+        - TheLoop
+  /theloop.v1.TheLoop/Like:
+    post:
+      operationId: TheLoop_Like
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1LikeResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1LikeRequest'
+      tags:
+        - TheLoop
+  /theloop.v1.TheLoop/ListComments:
+    post:
+      operationId: TheLoop_ListComments
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListCommentsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListCommentsRequest'
+      tags:
+        - TheLoop
+  /theloop.v1.TheLoop/ListCommonResources:
+    post:
+      operationId: TheLoop_ListCommonResources
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListCommonResourcesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListCommonResourcesRequest'
+      tags:
+        - TheLoop
+  /theloop.v1.TheLoop/ListPostTypes:
+    post:
+      summary: ListPostTypes returns a paged list of post types based on the filters provided
+      operationId: TheLoop_ListPostTypes
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListPostTypesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListPostTypesRequest'
+      tags:
+        - TheLoop
+  /theloop.v1.TheLoop/ListPosts:
+    post:
+      operationId: TheLoop_ListPosts
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListPostsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListPostsRequest'
+      tags:
+        - TheLoop
+  /theloop.v1.TheLoop/Subscribe:
+    post:
+      summary: Subscribe subscribes the user to all post updates, i.e. likes and comments
+      operationId: TheLoop_Subscribe
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SubscribeRequest'
+      tags:
+        - TheLoop
+  /theloop.v1.TheLoop/Unlike:
+    post:
+      operationId: TheLoop_Unlike
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UnlikeRequest'
+      tags:
+        - TheLoop
+  /theloop.v1.TheLoop/Unsubscribe:
+    post:
+      summary: 'Unsubscribe unsubscribes the user to all post updates, for example: i.e. likes and comments'
+      operationId: TheLoop_Unsubscribe
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UnsubscribeRequest'
+      tags:
+        - TheLoop
+  /theloop.v1.TheLoop/UpdatePostType:
+    post:
+      summary: UpdatePostTypeRequest will update the post type with the specified operation
+      operationId: TheLoop_UpdatePostType
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdatePostTypeRequest'
+      tags:
+        - TheLoop
+definitions:
+  ListPostsRequestDateRangeFilter:
+    type: object
+    properties:
+      beginRange:
+        type: string
+        format: date-time
+      endRange:
+        type: string
+        format: date-time
+  OperationCommonResources:
+    type: object
+    properties:
+      commonResources:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ExtractedValue'
+  PostLatestComments:
+    type: object
+    properties:
+      comments:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/theloopv1Comment'
+      pagingMetadata:
+        $ref: '#/definitions/v1PagedResponseMetadata'
+  UpdatePostTypeRequestOperation:
+    type: object
+    properties:
+      name:
+        type: string
+      commonResources:
+        $ref: '#/definitions/OperationCommonResources'
+      templateId:
+        type: string
+      partnerIdPath:
+        type: string
+      marketIdPath:
+        type: string
+      userIdPath:
+        type: string
+      filters:
+        $ref: '#/definitions/UpdatePostTypeRequestOperationFilters'
+      channel:
+        type: string
+      iconResource:
+        $ref: '#/definitions/v1IconResource'
+      postIdTemplate:
+        type: string
+  UpdatePostTypeRequestOperationFilters:
+    type: object
+    properties:
+      filters:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Filter'
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  theloopv1Comment:
+    type: object
+    properties:
+      id:
+        type: string
+        title: The id of the comment populated on creation
+      user:
+        $ref: '#/definitions/v1User'
+        title: The commenter populated on creation
+      text:
+        type: string
+        title: The text of the comment
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+  v1CommentRequest:
+    type: object
+    properties:
+      postIdentifier:
+        $ref: '#/definitions/v1PostIdentifier'
+        title: The post to comment on
+      text:
+        type: string
+        title: the text of the comment
+  v1CommentResponse:
+    type: object
+    properties:
+      comment:
+        $ref: '#/definitions/theloopv1Comment'
+        title: The comment that was created
+  v1CommonResource:
+    type: object
+    properties:
+      id:
+        type: string
+        title: The id of the common resource, use this as the id for the common resources of your posttype
+      name:
+        type: string
+        title: The display name of this common resource
+  v1CreateCommonResourceRequest:
+    type: object
+    properties:
+      commonResource:
+        $ref: '#/definitions/v1CommonResource'
+  v1CreatePostTypeRequest:
+    type: object
+    properties:
+      postType:
+        $ref: '#/definitions/v1PostType'
+  v1CreatePostTypeResponse:
+    type: object
+    properties:
+      typeId:
+        type: string
+  v1DeletePostTypeRequest:
+    type: object
+    properties:
+      typeId:
+        type: string
+        title: Identifier for a post type
+  v1ExtractedValue:
+    type: object
+    properties:
+      id:
+        type: string
+      valuePath:
+        type: string
+  v1Filter:
+    type: object
+    properties:
+      value:
+        $ref: '#/definitions/v1ExtractedValue'
+      label:
+        type: string
+      options:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1FilterOption'
+  v1FilterOption:
+    type: object
+    properties:
+      id:
+        type: string
+      value:
+        type: string
+  v1GetChannelsRequest:
+    type: object
+  v1GetChannelsResponse:
+    type: object
+    properties:
+      channels:
+        type: array
+        items:
+          type: string
+  v1GetPostRequest:
+    type: object
+    properties:
+      postIdentifier:
+        $ref: '#/definitions/v1PostIdentifier'
+  v1GetPostResponse:
+    type: object
+    properties:
+      post:
+        $ref: '#/definitions/v1Post'
+        title: The post
+  v1GetPostTypeRequest:
+    type: object
+    properties:
+      typeId:
+        type: string
+  v1GetPostTypeResponse:
+    type: object
+    properties:
+      postType:
+        $ref: '#/definitions/v1PostType'
+  v1Icon:
+    type: object
+    properties:
+      iconPath:
+        type: string
+      matIcon:
+        type: string
+  v1IconResource:
+    type: object
+    properties:
+      resourcePath:
+        type: string
+        title: Path to extract value to be used for checking icon type
+      defaultIcon:
+        $ref: '#/definitions/v1Icon'
+        title: Default icon, can be either a path or mat icon
+      customTypes:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1IconType'
+        title: Map of custom icon types
+  v1IconType:
+    type: object
+    properties:
+      type:
+        type: string
+      icon:
+        $ref: '#/definitions/v1Icon'
+  v1LikeRequest:
+    type: object
+    properties:
+      postIdentifier:
+        $ref: '#/definitions/v1PostIdentifier'
+  v1LikeResponse:
+    type: object
+    properties:
+      user:
+        $ref: '#/definitions/v1User'
+        title: The user that liked the post
+  v1ListCommentsRequest:
+    type: object
+    properties:
+      postIdentifier:
+        $ref: '#/definitions/v1PostIdentifier'
+      pagingOptions:
+        $ref: '#/definitions/v1PagedRequestOptions'
+  v1ListCommentsResponse:
+    type: object
+    properties:
+      comments:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/theloopv1Comment'
+      pagingMetadata:
+        $ref: '#/definitions/v1PagedResponseMetadata'
+        title: paging metadata
+  v1ListCommonResourcesRequest:
+    type: object
+    properties:
+      pagingOptions:
+        $ref: '#/definitions/v1PagedRequestOptions'
+        title: paging options
+  v1ListCommonResourcesResponse:
+    type: object
+    properties:
+      commonResources:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CommonResource'
+      pagingMetadata:
+        $ref: '#/definitions/v1PagedResponseMetadata'
+        title: paging metadata
+  v1ListPostTypesRequest:
+    type: object
+    properties:
+      filters:
+        $ref: '#/definitions/v1ListPostTypesRequestFilters'
+      pagingOptions:
+        $ref: '#/definitions/v1PagedRequestOptions'
+  v1ListPostTypesRequestFilters:
+    type: object
+    properties:
+      channel:
+        type: string
+  v1ListPostTypesResponse:
+    type: object
+    properties:
+      postTypes:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1PostType'
+      pagingMetadata:
+        $ref: '#/definitions/v1PagedResponseMetadata'
+        title: paging metadata
+  v1ListPostsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketIds:
+        type: array
+        items:
+          type: string
+      userIds:
+        type: array
+        items:
+          type: string
+      postTypeIds:
+        type: array
+        items:
+          type: string
+      resourceFilters:
+        type: array
+        items:
+          type: string
+      dateRange:
+        $ref: '#/definitions/ListPostsRequestDateRangeFilter'
+      pagingOptions:
+        $ref: '#/definitions/v1PagedRequestOptions'
+      renderOption:
+        $ref: '#/definitions/v1RenderOption'
+  v1ListPostsResponse:
+    type: object
+    properties:
+      posts:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Post'
+      pagingMetadata:
+        $ref: '#/definitions/v1PagedResponseMetadata'
+        title: paging metadata
+      totalResults:
+        type: string
+        format: int64
+        title: The number of total results there are
+  v1PagedRequestOptions:
+    type: object
+    properties:
+      cursor:
+        type: string
+        title: cursor can be passed to retrieve the next page of results keyed by the cursor
+      pageSize:
+        type: string
+        format: int64
+        title: page_size specifies the number of items to return in the next page
+  v1PagedResponseMetadata:
+    type: object
+    properties:
+      nextCursor:
+        type: string
+        title: A cursor that can be provided to retrieve the next page of results
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+  v1Post:
+    type: object
+    properties:
+      postIdentifier:
+        $ref: '#/definitions/v1PostIdentifier'
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      user:
+        $ref: '#/definitions/v1User'
+        title: Generally the creator of the post
+      resources:
+        type: array
+        items:
+          type: string
+        title: List of ids to support filtering
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+      html:
+        type: string
+        title: The html of the rendered post
+      likes:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1User'
+      latestComments:
+        $ref: '#/definitions/PostLatestComments'
+      isSubscribed:
+        type: boolean
+        title: Is the current user subscribed to a post
+      style:
+        type: string
+        title: The custom styles to render for this post type
+      icon:
+        $ref: '#/definitions/v1Icon'
+        title: Icon for post, it can be either a path or mat icon
+  v1PostIdentifier:
+    type: object
+    properties:
+      postId:
+        type: string
+      typeId:
+        type: string
+  v1PostType:
+    type: object
+    properties:
+      typeId:
+        type: string
+        title: Unique id of this post type, is generated at creation time
+      name:
+        type: string
+        title: Name of this post
+      postIdTemplate:
+        type: string
+        title: The template, to be filled in via the event data to generate a post id from that event
+      eventTypeId:
+        type: string
+        title: The event that to be subscribed to in order to create posts from
+      commonResources:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ExtractedValue'
+        title: |-
+          The list of common resource ids and the path to get the value when creating the post. Example of a common resource would be an account group id
+          So that all of the posts related to a specific account group can all be filtered together
+      templateId:
+        type: string
+        title: The templates.Template id to render this post type with
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+      partnerIdPath:
+        type: string
+        title: The path to extract the partner id from the event data
+      marketIdPath:
+        type: string
+        title: The path to extract the market id from the event data
+      userIdPath:
+        type: string
+        title: The path to extract the user id from the event data
+      filters:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Filter'
+        title: A list of the filters available for this specific post type
+      channel:
+        type: string
+        title: Channel for grouping post types (like a category)
+      iconResource:
+        $ref: '#/definitions/v1IconResource'
+        title: Icon for post type
+  v1RenderOption:
+    type: string
+    enum:
+      - RENDER_OPTION_FULL
+      - RENDER_OPTION_COMPACT
+    default: RENDER_OPTION_FULL
+    description: |-
+      - RENDER_OPTION_FULL: FULL renders the full template html and style and returns latest comments
+       - RENDER_OPTION_COMPACT: COMPACT renders the compact template html, and does not return style or latest comments
+    title: RenderOption affects the way post information will be returned
+  v1SubscribeRequest:
+    type: object
+    properties:
+      postIdentifier:
+        $ref: '#/definitions/v1PostIdentifier'
+  v1UnlikeRequest:
+    type: object
+    properties:
+      postIdentifier:
+        $ref: '#/definitions/v1PostIdentifier'
+  v1UnsubscribeRequest:
+    type: object
+    properties:
+      postIdentifier:
+        $ref: '#/definitions/v1PostIdentifier'
+  v1UpdatePostTypeRequest:
+    type: object
+    properties:
+      typeId:
+        type: string
+        title: the id of the post type
+      operations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/UpdatePostTypeRequestOperation'
+        title: A list of operations to perform on the post type
+  v1User:
+    type: object
+    properties:
+      userId:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string

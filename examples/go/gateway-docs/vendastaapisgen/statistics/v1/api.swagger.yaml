@@ -1,0 +1,121 @@
+swagger: "2.0"
+info:
+  title: statistics/v1/api.proto
+  version: version not set
+tags:
+  - name: DeveloperMetrics
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /statistics.v1.DeveloperMetrics/ListStats:
+    post:
+      operationId: DeveloperMetrics_ListStats
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListStatsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListStatsRequest'
+      tags:
+        - DeveloperMetrics
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1ListStatsRequest:
+    type: object
+    properties:
+      ids:
+        type: array
+        items:
+          type: string
+        title: Identifiers for divisions
+      timeRange:
+        $ref: '#/definitions/v1TimeRange'
+        title: 'Time range: last 30, 60, 90 days'
+  v1ListStatsResponse:
+    type: object
+    properties:
+      statsMap:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/v1StatsEntry'
+        title: Map returning with key with division identifier, team identifiers or 'ALL' developers
+  v1Stats:
+    type: object
+    properties:
+      deploymentAverage:
+        type: number
+        format: double
+        title: Deployment average based on aggregation of divisions or teams
+      deploymentTotalAverage:
+        type: number
+        format: double
+        title: Deployment total average based on aggregation of divisions or teams
+      currentChangeFailsAverage:
+        type: number
+        format: double
+        title: Current change fails average based on aggregation of divisions or teams
+      currentLeadTimesAverage:
+        type: number
+        format: double
+        title: Current lead times average based on aggregation of divisions or teams
+      currentMttrsAverage:
+        type: number
+        format: double
+        title: Current mean time to restore stats average based on aggregation of divisions or teams
+  v1StatsEntry:
+    type: object
+    properties:
+      timedStats:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1TimedStats'
+        title: List of statistics grouped by time period
+  v1TimeRange:
+    type: string
+    enum:
+      - TIME_RANGE_UNSET
+      - TIME_RANGE_INVALID
+      - TIME_RANGE_LAST_30_DAYS
+      - TIME_RANGE_LAST_60_DAYS
+      - TIME_RANGE_LAST_90_DAYS
+    default: TIME_RANGE_UNSET
+    description: TimeRange defines time ranges used in app metrics.
+  v1TimedStats:
+    type: object
+    properties:
+      stats:
+        $ref: '#/definitions/v1Stats'
+        title: Grouping of common statistics
+      period:
+        type: string
+        title: 'Period that the stats were grouped by: last 90, 60, or 30 days'

@@ -1,0 +1,1829 @@
+swagger: "2.0"
+info:
+  title: mission_control/v2/api.proto
+  version: version not set
+tags:
+  - name: AppMetrics
+  - name: MissionControl
+  - name: ServiceLevels
+  - name: User
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /missioncontrol.v2.AppMetrics/ChangeFailGetMulti:
+    post:
+      operationId: AppMetrics_ChangeFailGetMulti
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ChangeFailGetMultiResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          description: ChangeFailGetMultiRequest is the request body of getting change fail data for multiple apps.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ChangeFailGetMultiRequest'
+      tags:
+        - AppMetrics
+  /missioncontrol.v2.AppMetrics/DeploymentFrequencyGetMulti:
+    post:
+      operationId: AppMetrics_DeploymentFrequencyGetMulti
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2DeploymentFrequencyGetMultiResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          description: DeploymentFrequencyGetMultiResponse is the request body of getting deployment frequency data for multiple apps.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2DeploymentFrequencyGetMultiRequest'
+      tags:
+        - AppMetrics
+  /missioncontrol.v2.AppMetrics/LeadTimeGetMulti:
+    post:
+      operationId: AppMetrics_LeadTimeGetMulti
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2LeadTimeGetMultiResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          description: LeadTimeGetMultiRequest represents the request body of getting lead time data for multiple apps.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2LeadTimeGetMultiRequest'
+      tags:
+        - AppMetrics
+  /missioncontrol.v2.AppMetrics/LeadTimeList:
+    post:
+      operationId: AppMetrics_LeadTimeList
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2LeadTimeListResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          description: |-
+            LeadTimeListRequest lets you list LeadTimes by app id or issue id (or both!)
+            If both app id and issue id are supplied the list will only contain one item as an app id and issue id combination
+            defines the primary key for a LeadTime.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2LeadTimeListRequest'
+      tags:
+        - AppMetrics
+  /missioncontrol.v2.AppMetrics/MTTRGetMulti:
+    post:
+      operationId: AppMetrics_MTTRGetMulti
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2MTTRGetMultiResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          description: MTTRGetMultiRequest is the request body of getting mean time to restore (MTTR) stats for multiple apps.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2MTTRGetMultiRequest'
+      tags:
+        - AppMetrics
+  /missioncontrol.v2.AppMetrics/UserDeployFrequencyGetMulti:
+    post:
+      operationId: AppMetrics_UserDeployFrequencyGetMulti
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2UserDeployFrequencyGetMultiResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          description: UserDeployFrequencyGetMultiRequest is the request body of getting deployment frequency data for multiple users (developers).
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2UserDeployFrequencyGetMultiRequest'
+      tags:
+        - AppMetrics
+  /missioncontrol.v2.MissionControl/CreateApplication:
+    post:
+      summary: Creates a new application, this should match either an existing AppEngine project, vstatic app or a k8s µservice.
+      operationId: MissionControl_CreateApplication
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2CreateApplicationRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/CreateDelivery:
+    post:
+      summary: A delivery controls how a deployment of an application is hosted to the end user.
+      operationId: MissionControl_CreateDelivery
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2CreateDeliveryResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2CreateDeliveryRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/CreateDeployment:
+    post:
+      summary: |-
+        Creates a new deployment that is a child of an application. A deployment contains the artifacts of an
+        application (App Bundles, CSS, etc...)
+      operationId: MissionControl_CreateDeployment
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2CreateDeploymentResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2CreateDeploymentRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/DeleteApplication:
+    post:
+      summary: Deletes an application
+      operationId: MissionControl_DeleteApplication
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2DeleteApplicationRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/DeleteDelivery:
+    post:
+      summary: Delete an existing delivery
+      operationId: MissionControl_DeleteDelivery
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2DeleteDeliveryRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/GetApplicationLinks:
+    post:
+      summary: Get application links
+      operationId: MissionControl_GetApplicationLinks
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetApplicationLinksResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetApplicationLinksRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/GetSecurityVulnerabilities:
+    post:
+      summary: Get security vulnerabilities associated with a microservice
+      operationId: MissionControl_GetSecurityVulnerabilities
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetSecurityVulnerabilitiesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetSecurityVulnerabilitiesRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/GetUserSettings:
+    post:
+      summary: Get user settings
+      operationId: MissionControl_GetUserSettings
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetUserSettingsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetUserSettingsRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/GetZones:
+    post:
+      summary: Get the zones a microservice is eligible for. This can be restricted to the zones that are serving traffic.
+      operationId: MissionControl_GetZones
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetZonesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetZonesRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/ListApplications:
+    post:
+      summary: Lists a page of applications
+      operationId: MissionControl_ListApplications
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ListApplicationsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ListApplicationsRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/ListDeliveries:
+    post:
+      summary: Lists deliveries for an application
+      operationId: MissionControl_ListDeliveries
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ListDeliveriesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ListDeliveriesRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/ListDeliveriesByUser:
+    post:
+      summary: Lists deliveries created by a user
+      operationId: MissionControl_ListDeliveriesByUser
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ListDeliveriesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ListDeliveriesByUserRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/ListDeployments:
+    post:
+      summary: List deployments for an application in created order descenging.
+      operationId: MissionControl_ListDeployments
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ListDeploymentsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ListDeploymentsRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/ListEvents:
+    post:
+      summary: List mission control events
+      operationId: MissionControl_ListEvents
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ListEventsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ListEventsRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/SendBuildNotification:
+    post:
+      summary: SendBuildNotification for the given build id
+      operationId: MissionControl_SendBuildNotification
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2SendBuildNotificationRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/UpdateApplication:
+    post:
+      summary: Updates an application
+      operationId: MissionControl_UpdateApplication
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2UpdateApplicationRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/UpdateDelivery:
+    post:
+      summary: Update an existing delivery
+      operationId: MissionControl_UpdateDelivery
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2UpdateDeliveryRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/UpdateDeployment:
+    post:
+      summary: Update a Deployment
+      operationId: MissionControl_UpdateDeployment
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2UpdateDeploymentResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2UpdateDeploymentRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.MissionControl/UpdateUserSettings:
+    post:
+      summary: Updates user settings
+      operationId: MissionControl_UpdateUserSettings
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2UpdateUserSettingsRequest'
+      tags:
+        - MissionControl
+  /missioncontrol.v2.ServiceLevels/Get:
+    post:
+      summary: |-
+        Gets the ServiceLevel for an associated github repository or service name. Github repositories may contain
+        more than one service so the response supports multiples as well.
+      operationId: ServiceLevels_Get
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ServiceLevelsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetServiceLevelsRequest'
+      tags:
+        - ServiceLevels
+  /missioncontrol.v2.ServiceLevels/Query:
+    post:
+      summary: Runs a query for services with the specified properties.
+      operationId: ServiceLevels_Query
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ServiceLevelsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2QueryServiceLevelsRequest'
+      tags:
+        - ServiceLevels
+  /missioncontrol.v2.ServiceLevels/Update:
+    post:
+      summary: Updates a service (creates or overwrites)
+      operationId: ServiceLevels_Update
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ServiceLevel'
+      tags:
+        - ServiceLevels
+  /missioncontrol.v2.User/GetUserSettings:
+    post:
+      summary: Get user settings
+      operationId: User_GetUserSettings
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetUserSettingsResponseV2'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetUserSettingsRequestV2'
+      tags:
+        - User
+  /missioncontrol.v2.User/UpdateUserSettings:
+    post:
+      summary: Updates user settings
+      operationId: User_UpdateUserSettings
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2UpdateUserSettingsRequestV2'
+      tags:
+        - User
+definitions:
+  StatRateUnit:
+    type: string
+    enum:
+      - STAT_RATE_UNIT_UNSET
+      - STAT_RATE_UNIT_INVALID
+      - STAT_RATE_UNIT_DAY
+      - STAT_RATE_UNIT_WEEK
+      - STAT_RATE_UNIT_MONTH
+      - STAT_RATE_UNIT_THREE_MONTHS
+    default: STAT_RATE_UNIT_UNSET
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v2Alert:
+    type: object
+    properties:
+      message:
+        type: string
+      type:
+        $ref: '#/definitions/v2AlertType'
+    title: For providing alerts about an application (for example, things to look out for after deploying, etc)
+  v2AlertType:
+    type: string
+    enum:
+      - ALERT_TYPE_NOT_SET
+      - ALERT_TYPE_INFO
+      - ALERT_TYPE_WARNING
+      - ALERT_TYPE_DANGER
+    default: ALERT_TYPE_NOT_SET
+  v2AppConfig:
+    type: object
+    properties:
+      appengineProjectId:
+        type: string
+        title: The appengine project ID for this App (APP_TYPE_GAE)
+      entryUrlTemplate:
+        type: string
+        description: |-
+          A entry url to the application which contains the string <deployment>.
+          This will be used to create a deployment view link in mission control,
+          and <deployment> will be replaced with the specific deployment id.
+      deliveryMethods:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2DeliveryMethod'
+        title: The methods by which this application can be delivered
+  v2AppType:
+    type: string
+    enum:
+      - APP_TYPE_NOT_SET
+      - APP_TYPE_VSTATIC
+      - APP_TYPE_GAE
+      - APP_TYPE_GKE
+      - APP_TYPE_NPM
+      - APP_TYPE_CLOUDBUILD
+    default: APP_TYPE_NOT_SET
+  v2Application:
+    type: object
+    properties:
+      appId:
+        type: string
+        title: 'unique identifier for the application (example: partner-center-client)'
+      appName:
+        type: string
+        title: 'human readable name for the application (example: Partner Center Client)'
+      appType:
+        $ref: '#/definitions/v2AppType'
+        title: Type of application eg. Vstatic, GoogleAppEngine, GoogleKubernetesEngine etc
+      githubRepoUrl:
+        type: string
+        title: 'The Github Repository URL (example: https://github.com/vendasta/IAM)'
+      entryUrlTemplate:
+        type: string
+        title: 'DEPRECATED: Use the entry url template in the app config'
+      prodConfig:
+        $ref: '#/definitions/v2AppConfig'
+        title: Application configuration used for the production environment
+      demoConfig:
+        $ref: '#/definitions/v2AppConfig'
+        title: Application configuration used for the demo environment
+      googleRepoName:
+        type: string
+        title: The name of the source.cloud.google.com/repos for this project, ex. github-vendasta-mission-control
+      invalidConfigurationError:
+        type: string
+        title: Provides details about an invalid missioncontrol.yaml file
+      alerts:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2Alert'
+        title: Provides alerts about an application (for example, things to look out for after deploying, etc)
+      appRoot:
+        type: string
+        description: 'If your application is not in the root of the repo, set this to the path. Ex: ''server'', or ''sdks/go''.'
+      defaultBranch:
+        type: string
+        description: If your appplication does not use master as the default branch, set this, otherwise master is assumed.
+    title: |-
+      Application represents a piece of software that can have only a single delivered artifact at any given time.
+      For example: the Partner Center has a single vStatic application called `partner-center-client`
+  v2ApplicationLink:
+    type: object
+    properties:
+      buttonText:
+        type: string
+      url:
+        type: string
+      collapsed:
+        type: boolean
+  v2Artifacts:
+    type: object
+    properties:
+      gcsBucket:
+        type: string
+      image:
+        type: string
+    title: Code artifacts used for an application deployment
+  v2BuildStatus:
+    type: string
+    enum:
+      - BUILD_STATUS_UNKNOWN
+      - BUILD_STATUS_SUCCESS
+      - BUILD_STATUS_FAILED
+    default: BUILD_STATUS_UNKNOWN
+    title: BuildStatus represents the status of a build
+  v2ChangeFailData:
+    type: object
+    properties:
+      appId:
+        type: string
+      timeRange:
+        $ref: '#/definitions/v2TimeRange'
+      current:
+        type: number
+        format: double
+        description: The change fail data for 'current' period of time (e.g. current last 90 days).
+      previous:
+        type: number
+        format: double
+        description: The change fail data for 'previous' period of time (e.g. previous last 90 days).
+      environment:
+        $ref: '#/definitions/v2Environment'
+    description: ChangeFailData represents the change fail statistics for a period of time (e.g. last 90 days).
+  v2ChangeFailGetMultiRequest:
+    type: object
+    properties:
+      appIds:
+        type: array
+        items:
+          type: string
+      timeRange:
+        $ref: '#/definitions/v2TimeRange'
+      environment:
+        $ref: '#/definitions/v2Environment'
+    description: ChangeFailGetMultiRequest is the request body of getting change fail data for multiple apps.
+  v2ChangeFailGetMultiResponse:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2ChangeFailData'
+    description: ChangeFailGetMultiResponse is the response body of getting change fail data for multiple apps.
+  v2CreateApplicationRequest:
+    type: object
+    properties:
+      application:
+        $ref: '#/definitions/v2Application'
+    title: Request message for MissionControl.CreateApplication
+  v2CreateDeliveryRequest:
+    type: object
+    properties:
+      delivery:
+        $ref: '#/definitions/v2Delivery'
+        title: The delivery to create
+    title: Request message for MissionControl.CreateDelivery
+  v2CreateDeliveryResponse:
+    type: object
+    properties:
+      deliveryId:
+        type: string
+        title: The ID of the delivery
+    title: Response message for MissionControl.CreateDelivery
+  v2CreateDeploymentRequest:
+    type: object
+    properties:
+      deployment:
+        $ref: '#/definitions/v2Deployment'
+    title: Request message for MissionControl.CreateDeployment
+  v2CreateDeploymentResponse:
+    type: object
+    properties:
+      deploymentId:
+        type: string
+        title: The unique identifier for the created deployment
+    title: Response message for MissionControl.CreateDeployment
+  v2DeleteApplicationRequest:
+    type: object
+    properties:
+      appId:
+        type: string
+        title: The application ID
+    title: Request message for MissionControl.DeleteApplication
+  v2DeleteDeliveryRequest:
+    type: object
+    properties:
+      appId:
+        type: string
+      deliveryId:
+        type: string
+      environment:
+        $ref: '#/definitions/v2Environment'
+        title: Environment that this delivery is for
+    title: Request message for MissionControl.DeleteDelivery
+  v2Delivery:
+    type: object
+    properties:
+      appId:
+        type: string
+        title: The ID of the application the delivery is for
+      deploymentId:
+        type: string
+        title: The ID of the deployment being used for this delivery
+      deliveryId:
+        type: string
+        title: The unique id for the delivery
+      deliveryType:
+        $ref: '#/definitions/v2DeliveryType'
+        title: The type of delivery
+      environment:
+        $ref: '#/definitions/v2Environment'
+        description: The environment this delivery is for.
+      created:
+        type: string
+        format: date-time
+        title: The date the delivery was created
+      updated:
+        type: string
+        format: date-time
+        title: The date the delivery was last updated
+      userEmail:
+        type: string
+        title: The email of the user who created this delivery
+      zone:
+        type: string
+        title: |-
+          The name of the zone to deliver to (Only specify if Zone delivery type)
+          DEPRECATED: Zone should now be provided with the specified Delivery Method
+      deliveryMethodId:
+        type: string
+        title: The id of the delivery method this delivery should use
+      lock:
+        $ref: '#/definitions/v2DeliveryLock'
+        title: Lock for the delivery (optional)
+      automated:
+        type: boolean
+        title: Delivery was initiated automatically. This is normally true for deliveries triggered by pipeline
+      message:
+        type: string
+        title: The message that the delivery creator leaves to provide context on the delivery. ie. rollback reason
+      isRollback:
+        type: boolean
+        description: A bool to indicate whether this delivery is a rollback.
+      buildId:
+        type: string
+        description: The build ID used to create the deployment. This can be provided to a create delivery request as an alternative to the deployment ID.
+    title: The delivery is the action of a setting a deployment for an application
+  v2DeliveryLock:
+    type: object
+    properties:
+      userEmail:
+        type: string
+        title: The email of the user that is locking delivery for this type
+      message:
+        type: string
+        title: Message as to why delivery needs to be locked
+      created:
+        type: string
+        format: date-time
+        title: The date the lock was created
+  v2DeliveryMethod:
+    type: object
+    properties:
+      deliveryMethodId:
+        type: string
+        title: Identifier for this delivery method
+      deliveryType:
+        $ref: '#/definitions/v2DeliveryType'
+        description: The type of deliverer to handle deliveries with this method.
+      args:
+        type: array
+        items:
+          type: string
+        title: Extra arguments passed to the deliverer when creating a new delivery with this method
+      description:
+        type: string
+        title: descripton of this method of delivery (Optional)
+      zones:
+        type: array
+        items:
+          type: string
+        title: Zone for delivery (Optional)
+      weight:
+        type: string
+        title: Weight (Optional)
+  v2DeliveryType:
+    type: string
+    enum:
+      - DELIVERY_TYPE_DEFAULT
+      - DELIVERY_TYPE_ZONE
+    default: DELIVERY_TYPE_DEFAULT
+  v2Deployment:
+    type: object
+    properties:
+      appId:
+        type: string
+        title: The application ID
+      deploymentId:
+        type: string
+        title: (Ouput Only) The ID of the deployment
+      gitHash:
+        type: string
+        title: |-
+          if applicable, the git hash of this deployment
+          if the deployment contains a "range" of commits this would be the ending hash
+      artifacts:
+        $ref: '#/definitions/v2Artifacts'
+        description: The arficacts to be served for this application.
+      environment:
+        $ref: '#/definitions/v2Environment'
+        description: Environment to scope this deployment to.
+      created:
+        type: string
+        format: date-time
+        title: Output only - Time the deployment was created
+      updated:
+        type: string
+        format: date-time
+        title: Output only - Time the deployment was last updated
+      buildId:
+        type: string
+        title: Optional - Google Cloud Builder ID that built and published this deployment
+      gitCommitDetails:
+        $ref: '#/definitions/v2GitCommitDetails'
+        title: Output only - Details about the provided git_hash
+      author:
+        type: string
+        title: Output only - The creator of the deployment
+      name:
+        type: string
+        description: If deploying a custom artifact, a name is required.
+      branchName:
+        type: string
+        title: If applicable, the git branch name of this deployment
+      status:
+        $ref: '#/definitions/v2DeploymentStatus'
+        title: The status of the deployment
+      statusDescription:
+        type: string
+        title: An optional description of why the deployment is in the current status
+      gitHashBase:
+        type: string
+        title: |-
+          Optional The git_hash of the base hash included in this deployment
+          if the deployment contains a "range" of commits this would be the starting hash
+      additionalGitCommitDetails:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2GitCommitDetails'
+        title: Output only - Additional Details about the provided commits
+      k8sConfig:
+        $ref: '#/definitions/v2K8SConfig'
+        title: Output only - Details about the kubernetes specific details of this deployment
+    description: Deployment represents an immutable artifact that can be delivered to the end user.
+  v2DeploymentFrequencyData:
+    type: object
+    properties:
+      appId:
+        type: string
+      environment:
+        $ref: '#/definitions/v2Environment'
+      rate:
+        $ref: '#/definitions/v2StatRate'
+        title: The average rate over time of the deployment frequency for this application
+      stats:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2StatSnapshot'
+        description: stats is a list of snapshots of a stat over time.
+    description: |-
+      DeployFrequency provides a gauge for the current rate of the stat, i.e. 5/day, as well as a graphable stat over time,
+      a repeated set of dates and values, that can be plugged into a graph or sparkline.
+  v2DeploymentFrequencyGetMultiRequest:
+    type: object
+    properties:
+      appIds:
+        type: array
+        items:
+          type: string
+      environment:
+        $ref: '#/definitions/v2Environment'
+    description: DeploymentFrequencyGetMultiResponse is the request body of getting deployment frequency data for multiple apps.
+  v2DeploymentFrequencyGetMultiResponse:
+    type: object
+    properties:
+      deploymentFrequencies:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2DeploymentFrequencyData'
+    description: DeploymentFrequencyGetMultiResponse is the response body of getting deployment frequency data for multiple apps.
+  v2DeploymentStatus:
+    type: string
+    enum:
+      - DEPLOYMENT_STATUS_UNKNOWN
+      - DEPLOYMENT_STATUS_GOOD
+      - DEPLOYMENT_STATUS_BAD
+    default: DEPLOYMENT_STATUS_UNKNOWN
+  v2Environment:
+    type: string
+    enum:
+      - ENVIRONMENT_TEST
+      - ENVIRONMENT_DEMO
+      - ENVIRONMENT_PROD
+      - ENVIRONMENT_UNSET
+      - ENVIRONMENT_INVALID
+    default: ENVIRONMENT_TEST
+    description: Environment represents an environment that segments an application into demo and production deliveries.
+  v2Event:
+    type: object
+    properties:
+      appId:
+        type: string
+      environment:
+        $ref: '#/definitions/v2Environment'
+      eventType:
+        $ref: '#/definitions/v2EventType'
+      eventId:
+        type: string
+      userEmail:
+        type: string
+      title:
+        type: string
+      details:
+        type: string
+      created:
+        type: string
+        format: date-time
+      buildId:
+        type: string
+        title: Optional - Google Cloud Builder ID that built and published this deployment
+      automated:
+        type: boolean
+        title: Event created from an automatic process. This is normally true for deliveries and rollbacks triggered by pipeline
+      probableAppType:
+        $ref: '#/definitions/v2AppType'
+        description: |-
+          The most likely type of the app that was built. This is determined based on the first step of the build so it's
+          not a guarantee, but it is most likely to be accurate.
+      triggerName:
+        type: string
+        title: Name of the trigger that caused the build. May be empty
+      buildLogUrl:
+        type: string
+        title: Link to the build logs for the event
+  v2EventType:
+    type: string
+    enum:
+      - EVENT_TYPE_NOT_SET
+      - EVENT_TYPE_BUILD
+      - EVENT_TYPE_DEPLOYMENT
+      - EVENT_TYPE_DELIVERY
+      - EVENT_TYPE_ROLLBACK
+      - EVENT_TYPE_LOCK
+    default: EVENT_TYPE_NOT_SET
+  v2GetApplicationLinksRequest:
+    type: object
+    properties:
+      applicationId:
+        type: string
+      environment:
+        $ref: '#/definitions/v2Environment'
+  v2GetApplicationLinksResponse:
+    type: object
+    properties:
+      links:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2ApplicationLink'
+  v2GetSecurityVulnerabilitiesRequest:
+    type: object
+    properties:
+      applicationId:
+        type: string
+  v2GetSecurityVulnerabilitiesResponse:
+    type: object
+    properties:
+      vulnerabilities:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2SecurityVulnerability'
+  v2GetServiceLevelsRequest:
+    type: object
+    properties:
+      name:
+        type: string
+      githubRepoUrl:
+        type: string
+      includeDeleted:
+        type: boolean
+  v2GetUserSettingsRequest:
+    type: object
+    properties:
+      userEmail:
+        type: string
+  v2GetUserSettingsRequestV2:
+    type: object
+    properties:
+      iamUserId:
+        type: string
+  v2GetUserSettingsResponse:
+    type: object
+    properties:
+      settings:
+        $ref: '#/definitions/v2UserSettings'
+  v2GetUserSettingsResponseV2:
+    type: object
+    properties:
+      settings:
+        $ref: '#/definitions/v2UserSettingsV2'
+  v2GetZonesRequest:
+    type: object
+    properties:
+      applicationId:
+        type: string
+      environment:
+        $ref: '#/definitions/v2Environment'
+      enabled:
+        type: boolean
+        title: |-
+          If true, only the zones a microservice is serving traffic to will be returned, otherwise all zones a microservice
+          could be deployed to will be returned
+  v2GetZonesResponse:
+    type: object
+    properties:
+      name:
+        type: array
+        items:
+          type: string
+  v2GitCommitDetails:
+    type: object
+    properties:
+      author:
+        $ref: '#/definitions/v2GithubCommitUser'
+        title: The user who created the content
+      committer:
+        $ref: '#/definitions/v2GithubCommitUser'
+        title: The user who committed the content
+      message:
+        type: string
+        title: the content of the git commit message
+    title: The details of the git commit (if any)
+  v2GithubCommitUser:
+    type: object
+    properties:
+      date:
+        type: string
+        format: date-time
+      name:
+        type: string
+      email:
+        type: string
+    description: Details about the user who committed/authored a specific git commit.
+  v2K8SConfig:
+    type: object
+    properties:
+      clusterContext:
+        type: string
+        title: k8s context for this deployment - ie which cluster context should be used to deliver this commit
+      controller:
+        $ref: '#/definitions/v2KubernetesController'
+        description: How should this deployment's pods be managed? By default we use a Deployment.
+    title: Details about the kubernetes specific details of a deployment
+  v2KubernetesController:
+    type: string
+    enum:
+      - KUBERNETES_CONTROLLER_DEPLOYMENT
+      - KUBERNETES_CONTROLLER_ARGOROLLOUT
+    default: KUBERNETES_CONTROLLER_DEPLOYMENT
+  v2LeadTime:
+    type: object
+    properties:
+      id:
+        type: string
+        title: A unique identifier for this LeadTime. It is a string consisting of "<app_id>|<issue_id>"
+      appId:
+        type: string
+        title: The app id this LeadTime is for, i.e. "mission-control"
+      deliveryIds:
+        type: array
+        items:
+          type: string
+        description: |-
+          A list of delivery ids that were involved in this lead time. One deployment id can be delivered multiple times,
+          so there may be many more delivery ids than deployment ids.
+      deploymentIds:
+        type: array
+        items:
+          type: string
+        description: A deployment id links with a commit to git, and can be delivered to many zones.
+      environment:
+        $ref: '#/definitions/v2Environment'
+        title: Environment will almost always be ENVIRONMENT_PROD
+      issueId:
+        type: string
+        description: |-
+          The issue id associated with this lead time. Can be looked up in our current issue tracker (hopefully) for
+          additional context.
+      duration:
+        type: string
+        format: int64
+        description: The amount of milliseconds of lead time there was for this issue.
+      created:
+        type: string
+        format: date-time
+        description: When the LeadTime was first created.
+      updated:
+        type: string
+        format: date-time
+        description: When the LeadTime was last updated.
+    description: |-
+      LeadTime represents the amount of time it took (duration, in ms) for the issue in question (issue_id) to go from
+      its first commit to its latest deployment to production. The list of deployment_ids could be used in conjunction with
+      the app_id to see which deployments they link to.
+  v2LeadTimeGetMultiRequest:
+    type: object
+    properties:
+      appIds:
+        type: array
+        items:
+          type: string
+      environment:
+        $ref: '#/definitions/v2Environment'
+      timeRange:
+        $ref: '#/definitions/v2TimeRange'
+    description: LeadTimeGetMultiRequest represents the request body of getting lead time data for multiple apps.
+  v2LeadTimeGetMultiResponse:
+    type: object
+    properties:
+      summaries:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2LeadTimeSummary'
+    description: LeadTimeGetMultiResponse is the response body of getting lead time data for multiple apps.
+  v2LeadTimeListRequest:
+    type: object
+    properties:
+      appId:
+        type: string
+      issueId:
+        type: string
+      pagingOptions:
+        $ref: '#/definitions/v2PagedRequestOptions'
+    description: |-
+      LeadTimeListRequest lets you list LeadTimes by app id or issue id (or both!)
+      If both app id and issue id are supplied the list will only contain one item as an app id and issue id combination
+      defines the primary key for a LeadTime.
+  v2LeadTimeListResponse:
+    type: object
+    properties:
+      leadTimes:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2LeadTime'
+      pagingMetadata:
+        $ref: '#/definitions/v2PagedResponseMetadata'
+    title: LeadTimeListResponse lists lead times requested and options for how to get more (if there are indeed more)
+  v2LeadTimeSummary:
+    type: object
+    properties:
+      appId:
+        type: string
+      timeRange:
+        $ref: '#/definitions/v2TimeRange'
+      environment:
+        $ref: '#/definitions/v2Environment'
+      current:
+        type: number
+        format: double
+        description: |-
+          The lead time data for 'current' period of time (e.g. current last 90 days).
+          The unit is Milliseconds.
+      previous:
+        type: number
+        format: double
+        description: |-
+          The lead time data for 'previous' period of time (e.g. previous last 90 days).
+          The unit is Milliseconds.
+    description: LeadTimeSummary represents the lead time summary for an app for a period of time.
+  v2ListApplicationsRequest:
+    type: object
+    properties:
+      appType:
+        $ref: '#/definitions/v2AppType'
+      pagingOptions:
+        $ref: '#/definitions/v2PagedRequestOptions'
+    title: Request message for MissionControl.ListApplicationsRequest
+  v2ListApplicationsResponse:
+    type: object
+    properties:
+      applications:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2Application'
+      pagingMetadata:
+        $ref: '#/definitions/v2PagedResponseMetadata'
+    title: Response message for MissionControl.ListApplications
+  v2ListDeliveriesByUserRequest:
+    type: object
+    properties:
+      userId:
+        type: string
+        title: The user id
+      environment:
+        $ref: '#/definitions/v2Environment'
+        title: The environment to get
+      pagingOptions:
+        $ref: '#/definitions/v2PagedRequestOptions'
+    title: Request message for MissionControl.ListDeliveriesByUser
+  v2ListDeliveriesRequest:
+    type: object
+    properties:
+      appId:
+        type: string
+        title: The application ID
+      environment:
+        $ref: '#/definitions/v2Environment'
+        title: The environment to get
+      pagingOptions:
+        $ref: '#/definitions/v2PagedRequestOptions'
+    title: Request message for MissionControl.ListDeliveries
+  v2ListDeliveriesResponse:
+    type: object
+    properties:
+      deliveries:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2Delivery'
+      pagingMetadata:
+        $ref: '#/definitions/v2PagedResponseMetadata'
+    title: Response message for MissionControl.ListDeliveries
+  v2ListDeploymentsRequest:
+    type: object
+    properties:
+      appId:
+        type: string
+        title: The unique identifier of the application
+      environment:
+        $ref: '#/definitions/v2Environment'
+        title: The environment to scope the deployments to
+      pagingOptions:
+        $ref: '#/definitions/v2PagedRequestOptions'
+    title: Request message for MissionControl.ListDeployments
+  v2ListDeploymentsResponse:
+    type: object
+    properties:
+      deployments:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2Deployment'
+      pagingMetadata:
+        $ref: '#/definitions/v2PagedResponseMetadata'
+    title: Response message for MissionControl.ListDeployments
+  v2ListEventsRequest:
+    type: object
+    properties:
+      appId:
+        type: string
+        title: Filters response to only include events for this application (optional)
+      environment:
+        $ref: '#/definitions/v2Environment'
+        title: Filters response to only include events for this environment (optional)
+      eventType:
+        $ref: '#/definitions/v2EventType'
+        title: Filters response to only include events of this type (optional)
+      start:
+        type: string
+        format: date-time
+        title: Filters response to only include events that occured after this time (optional)
+      userEmail:
+        type: string
+        title: Filters response to  only include events created by this user (optional)
+      pagingOptions:
+        $ref: '#/definitions/v2PagedRequestOptions'
+  v2ListEventsResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2Event'
+      pagingMetadata:
+        $ref: '#/definitions/v2PagedResponseMetadata'
+  v2MTTRData:
+    type: object
+    properties:
+      appId:
+        type: string
+      timeRange:
+        $ref: '#/definitions/v2TimeRange'
+      environment:
+        $ref: '#/definitions/v2Environment'
+      current:
+        type: number
+        format: double
+        description: Mean time to restore stats for 'current' period of time (e.g. current last 90 days).
+      previous:
+        type: number
+        format: double
+        description: Mean time to restore stats for 'previous' period of time (e.g. previous last 90 days).
+    description: MTTRData represents mean time to restore stats for a period of time (e.g. last 90 days).
+  v2MTTRGetMultiRequest:
+    type: object
+    properties:
+      appIds:
+        type: array
+        items:
+          type: string
+      timeRange:
+        $ref: '#/definitions/v2TimeRange'
+      environment:
+        $ref: '#/definitions/v2Environment'
+    description: MTTRGetMultiRequest is the request body of getting mean time to restore (MTTR) stats for multiple apps.
+  v2MTTRGetMultiResponse:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2MTTRData'
+    description: MTTRGetMultiResponse is the response body of getting mean time to restore stats for multiple apps.
+  v2PagedRequestOptions:
+    type: object
+    properties:
+      cursor:
+        type: string
+        title: A cursor can be passed to retrieve the next page of results keyed by the cursor
+      pageSize:
+        type: string
+        format: int64
+        title: Specifies the number of items to return in the next page
+    title: Provides options for the paged request
+  v2PagedResponseMetadata:
+    type: object
+    properties:
+      nextCursor:
+        type: string
+        title: A cursor that can be provided to retrieve the next page of results
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+    title: Contains metadata about the paged response
+  v2QueryServiceLevelsRequest:
+    type: object
+    properties:
+      platform:
+        type: string
+      language:
+        type: string
+      owner:
+        type: string
+      dependency:
+        type: string
+      includeDeleted:
+        type: boolean
+  v2SecurityVulnerability:
+    type: object
+    properties:
+      severity:
+        type: string
+      title:
+        type: string
+      description:
+        type: string
+      mitigation:
+        type: string
+  v2SendBuildNotificationRequest:
+    type: object
+    properties:
+      buildId:
+        type: string
+        title: The build identifier
+      message:
+        type: string
+        title: Optional - A message to include in the resulting slack notification
+      repository:
+        type: string
+        title: Optional - The repository to include in links within the project. It will default to the application id
+      status:
+        $ref: '#/definitions/v2BuildStatus'
+        title: Status of the build
+      gitHash:
+        type: string
+        title: Optional - The git hash the build notification is for. Used in the absence of a deployment
+  v2ServiceLevel:
+    type: object
+    properties:
+      name:
+        type: string
+      githubRepoUrl:
+        type: string
+        title: The github repo for this service
+      platform:
+        type: string
+        title: The platform this service runs on
+      language:
+        type: string
+        title: The language the service is written in
+      availability:
+        type: number
+        format: double
+        title: The availability target (SLO) for this service
+      readiness:
+        $ref: '#/definitions/v2ServiceReadiness'
+        title: The readiness status of the service
+      owner:
+        type: string
+        title: Team that owns/maintains the service
+      hardDependencies:
+        type: array
+        items:
+          type: string
+        title: List of dependencies of the service (transitive dependency)
+      created:
+        type: string
+        format: date-time
+      modified:
+        type: string
+        format: date-time
+      deleted:
+        type: string
+        format: date-time
+  v2ServiceLevelsResponse:
+    type: object
+    properties:
+      serviceLevels:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2ServiceLevel'
+  v2ServiceReadiness:
+    type: string
+    enum:
+      - SERVICE_READINESS_GENERAL
+      - SERVICE_READINESS_PROTOTYPE
+      - SERVICE_READINESS_DEPRECATED
+      - SERVICE_READINESS_SUNSET
+    default: SERVICE_READINESS_GENERAL
+  v2StatRate:
+    type: object
+    properties:
+      statsPerUnit:
+        type: number
+        format: double
+        description: Number of stats that occurred during the unit period of time.
+      unit:
+        $ref: '#/definitions/StatRateUnit'
+    description: Represents a rate of some particular stat. Final composed version would be 4.6666/day, 5/month, 3/quarter, etc.
+  v2StatSnapshot:
+    type: object
+    properties:
+      statDate:
+        type: string
+        format: date-time
+      statValue:
+        type: string
+        format: int64
+    title: |-
+      StatSnapshot is a stat's value at a moment in time. E.g. it was 5 on October 31st, 2019.
+      {
+       "stat_date": "2019-10-31T00:00:00Z"
+       "stat_value": 5,
+      }
+  v2TimeRange:
+    type: string
+    enum:
+      - TIME_RANGE_UNSET
+      - TIME_RANGE_INVALID
+      - TIME_RANGE_LAST_30_DAYS
+      - TIME_RANGE_LAST_60_DAYS
+      - TIME_RANGE_LAST_90_DAYS
+    default: TIME_RANGE_UNSET
+    description: TimeRange defines time ranges used in app metrics.
+  v2UpdateApplicationRequest:
+    type: object
+    properties:
+      application:
+        $ref: '#/definitions/v2Application'
+    title: Request message for MissionControl.UpdateApplication
+  v2UpdateDeliveryRequest:
+    type: object
+    properties:
+      appId:
+        type: string
+        title: The ID of the application the delivery is for
+      deliveryId:
+        type: string
+        title: The unique id for the delivery
+      environment:
+        $ref: '#/definitions/v2Environment'
+        title: Environment that this delivery is for
+      lock:
+        $ref: '#/definitions/v2DeliveryLock'
+        title: Lock for the delivery (optional)
+    title: Request message for MissionControl.DeleteDelivery
+  v2UpdateDeploymentRequest:
+    type: object
+    properties:
+      appId:
+        type: string
+        title: The application ID
+      deploymentId:
+        type: string
+        title: The ID of the deployment
+      environment:
+        $ref: '#/definitions/v2Environment'
+        title: Environment of the deployment
+      status:
+        $ref: '#/definitions/v2DeploymentStatus'
+        title: Status of the deployment
+      buildId:
+        type: string
+        title: |-
+          (optional) BuildID - If provided it will update ALL deployments with this buildID
+          deployment_id and environment of one instance are still required
+    title: Request message for MissionControl.UpdateDeployment
+  v2UpdateDeploymentResponse:
+    type: object
+    properties:
+      deploymentId:
+        type: string
+        title: The unique identifier for the created deployment
+    title: Response message for MissionControl.UpdateDeployment
+  v2UpdateUserSettingsRequest:
+    type: object
+    properties:
+      settings:
+        $ref: '#/definitions/v2UserSettings'
+  v2UpdateUserSettingsRequestV2:
+    type: object
+    properties:
+      settings:
+        $ref: '#/definitions/v2UserSettingsV2'
+  v2UserDeployFrequencyData:
+    type: object
+    properties:
+      userId:
+        type: string
+      environment:
+        $ref: '#/definitions/v2Environment'
+      rate:
+        $ref: '#/definitions/v2StatRate'
+        title: The average rate over time of the deployment frequency for this application
+      stats:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2StatSnapshot'
+        description: stats is a list of snapshots of a stat over time.
+    description: |-
+      UserDeployFrequencyData provides a gauge for the current rate of the stat for a user (developer),
+      i.e. 5/day, as well as a graphable stat over time,
+      a repeated set of dates and values, that can be plugged into a graph or sparkline.
+  v2UserDeployFrequencyGetMultiRequest:
+    type: object
+    properties:
+      userIds:
+        type: array
+        items:
+          type: string
+      environment:
+        $ref: '#/definitions/v2Environment'
+      timeRange:
+        $ref: '#/definitions/v2TimeRange'
+    description: UserDeployFrequencyGetMultiRequest is the request body of getting deployment frequency data for multiple users (developers).
+  v2UserDeployFrequencyGetMultiResponse:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2UserDeployFrequencyData'
+    description: UserDeployFrequencyGetMultiResponse is the response body of getting deployment frequency data for multiple users.
+  v2UserNotifications:
+    type: object
+    properties:
+      buildSuccessSlackOptOut:
+        type: boolean
+      buildFailureSlackOptOut:
+        type: boolean
+  v2UserNotificationsV2:
+    type: object
+    properties:
+      buildSuccessSlackOptOut:
+        type: boolean
+      buildFailureSlackOptOut:
+        type: boolean
+  v2UserSettings:
+    type: object
+    properties:
+      userEmail:
+        type: string
+      favoritedApps:
+        type: array
+        items:
+          type: string
+      notifications:
+        $ref: '#/definitions/v2UserNotifications'
+      alternateEmail:
+        type: string
+        title: An alternate email that we should use to try and tie settings to a user
+  v2UserSettingsV2:
+    type: object
+    properties:
+      iamUserId:
+        type: string
+      userEmail:
+        type: string
+      favoritedApps:
+        type: array
+        items:
+          type: string
+      notifications:
+        $ref: '#/definitions/v2UserNotificationsV2'
+      alternateEmail:
+        type: string
+        title: An alternate email that we should use to try and tie settings to a user

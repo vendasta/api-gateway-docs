@@ -1,0 +1,1634 @@
+swagger: "2.0"
+info:
+  title: sso/v1/api.proto
+  version: version not set
+tags:
+  - name: IdentityProvider
+  - name: ServiceProvider
+  - name: ServiceProviderAdmin
+  - name: IdentityProviderAdmin
+  - name: Consent
+  - name: ConsentAdmin
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /sso.v1.Consent/RevokeGrant:
+    post:
+      summary: Revoke a Scope Grant from a service provider
+      operationId: Consent_RevokeGrant
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1RevokeGrantRequest'
+      tags:
+        - Consent
+  /sso.v1.ConsentAdmin/CreateScope:
+    post:
+      summary: Create a new scope
+      operationId: ConsentAdmin_CreateScope
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateScopeRequest'
+      tags:
+        - ConsentAdmin
+  /sso.v1.ConsentAdmin/DeleteScope:
+    post:
+      summary: Delete a scope
+      operationId: ConsentAdmin_DeleteScope
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeleteScopeRequest'
+      tags:
+        - ConsentAdmin
+  /sso.v1.ConsentAdmin/GetMultiScope:
+    post:
+      summary: Get multiple scopes
+      operationId: ConsentAdmin_GetMultiScope
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiScopeResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiScopeRequest'
+      tags:
+        - ConsentAdmin
+  /sso.v1.ConsentAdmin/ListScopes:
+    post:
+      summary: List the registered scopes
+      operationId: ConsentAdmin_ListScopes
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListScopesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListScopesRequest'
+      tags:
+        - ConsentAdmin
+  /sso.v1.ConsentAdmin/UpdateScope:
+    post:
+      summary: Update an existing scope
+      operationId: ConsentAdmin_UpdateScope
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateScopeRequest'
+      tags:
+        - ConsentAdmin
+  /sso.v1.IdentityProvider/GetEntryURL:
+    post:
+      summary: Get the entry URL of a service provider.
+      operationId: IdentityProvider_GetEntryURL
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetEntryURLResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetEntryURLRequest'
+      tags:
+        - IdentityProvider
+  /sso.v1.IdentityProvider/GetEntryURLWithCode:
+    post:
+      summary: Get the entry URL of a service provider with a code that will be exchanged for a user session.
+      operationId: IdentityProvider_GetEntryURLWithCode
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetEntryURLWithCodeResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetEntryURLWithCodeRequest'
+      tags:
+        - IdentityProvider
+  /sso.v1.IdentityProvider/GetMultiEntryURL:
+    post:
+      summary: Return the entry url data for the given service provider ids
+      operationId: IdentityProvider_GetMultiEntryURL
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiEntryURLResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiEntryURLRequest'
+      tags:
+        - IdentityProvider
+  /sso.v1.IdentityProvider/Logout:
+    post:
+      summary: Logout of the session for a user.
+      operationId: IdentityProvider_Logout
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1LogoutRequest'
+      tags:
+        - IdentityProvider
+  /sso.v1.IdentityProviderAdmin/CreateIdentityProvider:
+    post:
+      summary: Create a new identity provider configuration.
+      operationId: IdentityProviderAdmin_CreateIdentityProvider
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateIdentityProviderConfigurationRequest'
+      tags:
+        - IdentityProviderAdmin
+  /sso.v1.IdentityProviderAdmin/DeleteIdentityProvider:
+    post:
+      summary: Delete an identity provider configuration.
+      operationId: IdentityProviderAdmin_DeleteIdentityProvider
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeleteIdentityProviderConfigurationRequest'
+      tags:
+        - IdentityProviderAdmin
+  /sso.v1.IdentityProviderAdmin/GetIdentityProvider:
+    post:
+      summary: Get an identity provider configuration.
+      operationId: IdentityProviderAdmin_GetIdentityProvider
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetIdentityProviderConfigurationResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetIdentityProviderConfigurationRequest'
+      tags:
+        - IdentityProviderAdmin
+  /sso.v1.IdentityProviderAdmin/HasCustomIdentityProvider:
+    post:
+      summary: Check if the partner has custom IDP configured applicable to the service provider id (if provided, based on its `service_provider_type`)
+      operationId: IdentityProviderAdmin_HasCustomIdentityProvider
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1HasCustomIdentityProviderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1HasCustomIdentityProviderRequest'
+      tags:
+        - IdentityProviderAdmin
+  /sso.v1.IdentityProviderAdmin/UpdateIdentityProvider:
+    post:
+      summary: Update an existing identity provider configuration.
+      operationId: IdentityProviderAdmin_UpdateIdentityProvider
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateIdentityProviderConfigurationRequest'
+      tags:
+        - IdentityProviderAdmin
+  /sso.v1.ServiceProvider/GetLogoutURL:
+    post:
+      summary: Get the logout url for an identity provider
+      operationId: ServiceProvider_GetLogoutURL
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetLogoutURLResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetLogoutURLRequest'
+      tags:
+        - ServiceProvider
+  /sso.v1.ServiceProvider/GetSessionTransferURL:
+    post:
+      summary: Get the session transfer URL for a given context.
+      operationId: ServiceProvider_GetSessionTransferURL
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetSessionTransferURLResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetSessionTransferURLRequest'
+      tags:
+        - ServiceProvider
+  /sso.v1.ServiceProviderAdmin/CreateConfig:
+    post:
+      summary: Create a new Configuration
+      operationId: ServiceProviderAdmin_CreateConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateConfigResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateConfigRequest'
+      tags:
+        - ServiceProviderAdmin
+  /sso.v1.ServiceProviderAdmin/CreateSamlServiceProviderConfig:
+    post:
+      summary: Write request for the SAML metadata file of a service provider to vstore
+      operationId: ServiceProviderAdmin_CreateSamlServiceProviderConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateSamlServiceProviderConfigResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateSamlServiceProviderConfigRequest'
+      tags:
+        - ServiceProviderAdmin
+  /sso.v1.ServiceProviderAdmin/CreateServiceProvider:
+    post:
+      summary: Create a service provider.
+      operationId: ServiceProviderAdmin_CreateServiceProvider
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateServiceProviderRequest'
+      tags:
+        - ServiceProviderAdmin
+  /sso.v1.ServiceProviderAdmin/DeleteConfig:
+    post:
+      summary: Delete a config with a specified client ID
+      operationId: ServiceProviderAdmin_DeleteConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeleteConfigRequest'
+      tags:
+        - ServiceProviderAdmin
+  /sso.v1.ServiceProviderAdmin/DeleteSAMLServiceProviderConfig:
+    post:
+      summary: Delete the SAML service provider configuration for the given service provider config id
+      operationId: ServiceProviderAdmin_DeleteSAMLServiceProviderConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeleteSAMLServiceProviderConfigRequest'
+      tags:
+        - ServiceProviderAdmin
+  /sso.v1.ServiceProviderAdmin/DeleteServiceProvider:
+    post:
+      summary: Delete a service provider.
+      operationId: ServiceProviderAdmin_DeleteServiceProvider
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeleteServiceProviderRequest'
+      tags:
+        - ServiceProviderAdmin
+  /sso.v1.ServiceProviderAdmin/GetMultiConfig:
+    post:
+      summary: Get multiple Configuration entities
+      operationId: ServiceProviderAdmin_GetMultiConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiConfigResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiConfigRequest'
+      tags:
+        - ServiceProviderAdmin
+  /sso.v1.ServiceProviderAdmin/GetSAMLIdentityProviderMetadata:
+    post:
+      summary: Get the SAML identity provider metadata for the given service provider id
+      operationId: ServiceProviderAdmin_GetSAMLIdentityProviderMetadata
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetSAMLIdentityProviderMetadataResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          description: |-
+            Message definition for requesting SAML identity provider metadata.
+            Example request body:
+            {
+              "serviceProviderConfigId": "95L86dW5"
+            }
+            service_provider_config_id is the unique identifier for this metadata file entry for a service provider as the service provider can have multiple metadata file entries.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetSAMLIdentityProviderMetadataRequest'
+      tags:
+        - ServiceProviderAdmin
+  /sso.v1.ServiceProviderAdmin/GetServiceProvider:
+    post:
+      summary: Get a service provider.
+      operationId: ServiceProviderAdmin_GetServiceProvider
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetServiceProviderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetServiceProviderRequest'
+      tags:
+        - ServiceProviderAdmin
+  /sso.v1.ServiceProviderAdmin/ListConfigs:
+    post:
+      summary: List client configurations for oauth2
+      operationId: ServiceProviderAdmin_ListConfigs
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListConfigsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListConfigsRequest'
+      tags:
+        - ServiceProviderAdmin
+  /sso.v1.ServiceProviderAdmin/ListSAMLServiceProviderConfigs:
+    post:
+      summary: List the SAML service provider config for the given service provider id
+      operationId: ServiceProviderAdmin_ListSAMLServiceProviderConfigs
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListSAMLServiceProviderConfigsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListSAMLServiceProviderConfigsRequest'
+      tags:
+        - ServiceProviderAdmin
+  /sso.v1.ServiceProviderAdmin/ListServiceProviders:
+    post:
+      summary: List service providers
+      operationId: ServiceProviderAdmin_ListServiceProviders
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListServiceProvidersResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListServiceProvidersRequest'
+      tags:
+        - ServiceProviderAdmin
+  /sso.v1.ServiceProviderAdmin/RegenerateSAMLServiceProviderConfigCertificate:
+    post:
+      summary: Regenerate the SAML service provider configuration certificate
+      operationId: ServiceProviderAdmin_RegenerateSAMLServiceProviderConfigCertificate
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1RegenerateSAMLServiceProviderConfigCertificateResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          description: Request Message definition for Regenerating SAML Service Provider Configuration Certificate.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1RegenerateSAMLServiceProviderConfigCertificateRequest'
+      tags:
+        - ServiceProviderAdmin
+  /sso.v1.ServiceProviderAdmin/UpdateConfig:
+    post:
+      summary: Update a config with specified changes
+      operationId: ServiceProviderAdmin_UpdateConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateConfigRequest'
+      tags:
+        - ServiceProviderAdmin
+  /sso.v1.ServiceProviderAdmin/UpdateSAMLServiceProviderConfig:
+    post:
+      summary: Update the SAML service provider configuration
+      operationId: ServiceProviderAdmin_UpdateSAMLServiceProviderConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          description: Message definition for Updating SAML Service Provider Configuration.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateSAMLServiceProviderConfigRequest'
+      tags:
+        - ServiceProviderAdmin
+  /sso.v1.ServiceProviderAdmin/UpdateServiceProvider:
+    post:
+      summary: Update a service provider.
+      operationId: ServiceProviderAdmin_UpdateServiceProvider
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateServiceProviderRequest'
+      tags:
+        - ServiceProviderAdmin
+definitions:
+  GetMultiConfigResponseConfigContainer:
+    type: object
+    properties:
+      config:
+        $ref: '#/definitions/v1Oauth2Config'
+  GetMultiScopeResponseScopeContainer:
+    type: object
+    properties:
+      scope:
+        $ref: '#/definitions/v1Scope'
+  MutationOAuth2ConfigurationMutation:
+    type: object
+    properties:
+      authorizationEndpoint:
+        type: string
+      tokenEndpoint:
+        type: string
+      userinfoEndpoint:
+        type: string
+  MutationOpenIDConnectConfigurationMutation:
+    type: object
+    properties:
+      discoveryEndpoint:
+        type: string
+  ServiceContextAccount:
+    type: object
+    properties:
+      accountId:
+        type: string
+  ServiceContextBrand:
+    type: object
+    properties:
+      groupPath:
+        type: string
+  ServiceContextPartner:
+    type: object
+    properties:
+      partnerId:
+        type: string
+  ServiceContextSuperAdmin:
+    type: object
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1AcsUrl:
+    type: object
+    properties:
+      binding:
+        type: string
+        description: Binding defines the transport protocol that will be used to convey SAML messages to service providers.
+      location:
+        type: string
+        description: Location is the URL of the service provider's assertion consumer service.
+  v1AutoImpersonation:
+    type: object
+    title: Automatically use the impersonation information from the calling token
+  v1CreateConfigRequest:
+    type: object
+    properties:
+      name:
+        type: string
+        title: The human-readable name of the configuration
+      redirectUris:
+        type: array
+        items:
+          type: string
+        title: A list of uris valid to be redirected to
+      serviceProviderId:
+        type: string
+        title: The service provider we're creating this for
+      logoutUri:
+        type: string
+        description: |-
+          The logout uri will be used during the OpenID Connect logout workflow.
+          This must be an absolute uri. The logout uri will be iFramed into the sso logout page if a user has visited
+          this client's application
+          Deprecated: set a back-channel logout URL on your service-provider-id instead.
+          This field is ignored.
+    title: Request for creating a new configuration. Only 1 configuration per-app
+  v1CreateConfigResponse:
+    type: object
+    properties:
+      clientId:
+        type: string
+        title: Unique client id this configuration is keyed by
+      clientSecret:
+        type: string
+        title: Secret to be used along with the client id
+    title: Response for creating a new configuration. Only 1 configuration per-app
+  v1CreateIdentityProviderConfigurationRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      clientId:
+        type: string
+      clientSecret:
+        type: string
+      openId:
+        $ref: '#/definitions/v1OpenIDConnectConfiguration'
+      oauth2:
+        $ref: '#/definitions/v1OAuth2Configuration'
+  v1CreateSamlServiceProviderConfigRequest:
+    type: object
+    properties:
+      fields:
+        $ref: '#/definitions/v1SamlServiceProviderConfig'
+      metadataXmlString:
+        type: string
+      serviceProviderId:
+        type: string
+    title: Request for the SAML metadata file entry of a service provider
+  v1CreateSamlServiceProviderConfigResponse:
+    type: object
+    properties:
+      serviceProviderConfigId:
+        type: string
+    description: |-
+      Response for the SAML metadata file entry of a service provider.
+      service_provider_config_id is the unique identifier for this metadata file entry for a service provider as the service provider can have multiple metadata file entries.
+  v1CreateScopeRequest:
+    type: object
+    properties:
+      id:
+        type: string
+        title: a unique identifier of a scope
+      name:
+        type: string
+        title: a human readable name of the scope
+      description:
+        type: string
+        title: The description of what the scope gives access to
+  v1CreateServiceProviderRequest:
+    type: object
+    properties:
+      serviceProvider:
+        $ref: '#/definitions/v1ServiceProviderConfig'
+    title: CreateServiceProviderRequest is used to create a new service provider for OAuth2
+  v1DeleteConfigRequest:
+    type: object
+    properties:
+      clientId:
+        type: string
+        title: Unique client id this configuration is keyed by
+    title: Request for deleting a config
+  v1DeleteIdentityProviderConfigurationRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+  v1DeleteSAMLServiceProviderConfigRequest:
+    type: object
+    properties:
+      serviceProviderConfigId:
+        type: string
+        title: Primary key of the service provider config
+    title: |-
+      Request Message definition for Delete SAML Service Provider Configurations for particular service provider config id.
+      Example request body:
+      {
+        "serviceProviderConfigId": "95L86dW5"
+      }
+  v1DeleteScopeRequest:
+    type: object
+    properties:
+      scopeId:
+        type: string
+  v1DeleteServiceProviderRequest:
+    type: object
+    properties:
+      serviceProviderId:
+        type: string
+  v1GetEntryURLRequest:
+    type: object
+    properties:
+      serviceProviderId:
+        type: string
+        description: The service provider ID.
+      context:
+        $ref: '#/definitions/v1ServiceContext'
+        description: See ServiceContext for more information.
+      path:
+        type: string
+        description: |-
+          An optional path and/or query parameters. If provided, the user will be directed
+          to this location within the app after any authentication takes place.
+
+          E.g. "/dashboard?filter=active&sort=name"
+      skipGatewayAuthentication:
+        type: boolean
+        description: |-
+          By specifying 'skip_gateway_authentication' sso will not attempt to authorize the user before
+          sending them to a service provider. This is helpful for building links to public pages
+          and pages you don't want to require a login for. E.g. unsubscribe links.
+
+          Note that the service provider may still initiate an SSO if it determines that it requires authentication.
+      impersonateeUserId:
+        type: string
+        title: 'Deprecated: Use impersonation_type instead'
+      autoImpersonation:
+        $ref: '#/definitions/v1AutoImpersonation'
+        title: 'Default: Automatically detect the impersonatee from the calling token'
+      explicitImpersonateeUserId:
+        type: string
+        title: Impersonate this user explicitly
+      noImpersonation:
+        $ref: '#/definitions/v1NoImpersonation'
+        title: Disregard all impersonations
+  v1GetEntryURLResponse:
+    type: object
+    properties:
+      entryUrl:
+        type: string
+        title: The entry URL
+  v1GetEntryURLWithCodeRequest:
+    type: object
+    properties:
+      serviceProviderId:
+        type: string
+        description: The service provider ID.
+      sessionId:
+        type: string
+        description: The session ID the identity provider wants to pass along to the service providers.
+      userId:
+        type: string
+        description: The user ID.
+      email:
+        type: string
+        description: The user's email.
+      context:
+        $ref: '#/definitions/v1ServiceContext'
+        description: The service context needed to help determine which identity provider to use.
+      nextUrl:
+        type: string
+        description: The next URL to send the user to, once the code exchange is complete on the entry URL.
+      backUrl:
+        type: string
+        title: The back url is the url that clicking the "Back" in the navigation bar
+      backUrlText:
+        type: string
+        title: Back url text is the text that will be displayed for the back button in the navigation
+      federatedIdentityProvider:
+        type: string
+        title: Denotes if an identity is delegated to another identity provider, e.g. google
+      impersonatorUserId:
+        type: string
+        description: |-
+          The user id of the person who is impersonating the user specified in "user_id"
+          Leave this blank if NOT impersonating.
+  v1GetEntryURLWithCodeResponse:
+    type: object
+    properties:
+      entryUrl:
+        type: string
+        title: The entry URL, containing the code in the query params
+  v1GetIdentityProviderConfigurationRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+  v1GetIdentityProviderConfigurationResponse:
+    type: object
+    properties:
+      configuration:
+        $ref: '#/definitions/v1IdentityProviderConfiguration'
+  v1GetLogoutURLRequest:
+    type: object
+    properties:
+      sessionId:
+        type: string
+        title: The user's session id
+      context:
+        $ref: '#/definitions/v1ServiceContext'
+        description: The service context.
+      serviceProviderId:
+        type: string
+        description: |-
+          The service provider id is used for when a logout happens and the user tries to re-login.
+          SSO needs to know the user's next destination, so this endpoint will go back to the application
+          the user had just logged out of when building the logout url.
+  v1GetLogoutURLResponse:
+    type: object
+    properties:
+      logoutUrl:
+        type: string
+        description: The url to redirect to for logging out.
+  v1GetMultiConfigRequest:
+    type: object
+    properties:
+      clientIds:
+        type: array
+        items:
+          type: string
+        title: list of config ids
+    title: Request for getting multiple configuration entities
+  v1GetMultiConfigResponse:
+    type: object
+    properties:
+      configs:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/GetMultiConfigResponseConfigContainer'
+        title: list of configurations
+    title: Response for getting multiple configuration entities
+  v1GetMultiEntryURLRequest:
+    type: object
+    properties:
+      serviceProviderIds:
+        type: array
+        items:
+          type: string
+        title: A list of service provider IDs to get entry urls for
+      context:
+        $ref: '#/definitions/v1ServiceContext'
+        description: See ServiceContext for more information to build the entry urls.
+      impersonateeUserId:
+        type: string
+        title: 'Deprecated: Use impersonation_type instead'
+      autoImpersonation:
+        $ref: '#/definitions/v1AutoImpersonation'
+        title: 'Default: Automatically detect the impersonatee from the calling token'
+      explicitImpersonateeUserId:
+        type: string
+        title: Impersonate this user explicitly
+      noImpersonation:
+        $ref: '#/definitions/v1NoImpersonation'
+        title: Disregard all impersonations
+  v1GetMultiEntryURLResponse:
+    type: object
+    properties:
+      entryUrls:
+        type: array
+        items:
+          type: string
+        description: An ordered list of entry urls. Order corresponds to the service provider id request order.
+  v1GetMultiScopeRequest:
+    type: object
+    properties:
+      scopeIds:
+        type: array
+        items:
+          type: string
+  v1GetMultiScopeResponse:
+    type: object
+    properties:
+      scopes:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/GetMultiScopeResponseScopeContainer'
+  v1GetSAMLIdentityProviderMetadataRequest:
+    type: object
+    properties:
+      serviceProviderConfigId:
+        type: string
+    description: |-
+      Message definition for requesting SAML identity provider metadata.
+      Example request body:
+      {
+        "serviceProviderConfigId": "95L86dW5"
+      }
+      service_provider_config_id is the unique identifier for this metadata file entry for a service provider as the service provider can have multiple metadata file entries.
+  v1GetSAMLIdentityProviderMetadataResponse:
+    type: object
+    properties:
+      metadata:
+        type: string
+    title: |-
+      Message definition for SAML identity provider metadata response.
+      Example response body:
+      {
+        "metadata": "xml string representation of IDP metadata"
+      }
+  v1GetServiceProviderRequest:
+    type: object
+    properties:
+      serviceProviderId:
+        type: string
+  v1GetServiceProviderResponse:
+    type: object
+    properties:
+      serviceProvider:
+        $ref: '#/definitions/v1ServiceProviderConfig'
+  v1GetSessionTransferURLRequest:
+    type: object
+    properties:
+      serviceProviderId:
+        type: string
+        title: An ID unique to a service/application (such as a marketplace application ID)
+      context:
+        $ref: '#/definitions/v1ServiceContext'
+        description: The service context.
+  v1GetSessionTransferURLResponse:
+    type: object
+    properties:
+      sessionTransferUrl:
+        type: string
+        description: The session transfer URL to send the user to (which may result in a redirect to a login screen).
+  v1HasCustomIdentityProviderRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      serviceProviderId:
+        type: string
+  v1HasCustomIdentityProviderResponse:
+    type: object
+    properties:
+      hasCustomIdp:
+        type: boolean
+  v1IdentityProviderConfiguration:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+      clientId:
+        type: string
+      openId:
+        $ref: '#/definitions/v1OpenIDConnectConfiguration'
+      oauth2:
+        $ref: '#/definitions/v1OAuth2Configuration'
+  v1ListConfigsRequest:
+    type: object
+    properties:
+      serviceProviderId:
+        type: string
+        title: service_provider_id is the service provider id that owns the configurations
+      pageSize:
+        type: string
+        format: int64
+        title: page size
+      cursor:
+        type: string
+        title: cursor
+  v1ListConfigsResponse:
+    type: object
+    properties:
+      clientConfigurations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Oauth2Config'
+      cursor:
+        type: string
+      hasMore:
+        type: boolean
+  v1ListSAMLServiceProviderConfigsRequest:
+    type: object
+    properties:
+      serviceProviderId:
+        type: string
+      pageSize:
+        type: string
+        format: int64
+        title: page size
+      cursor:
+        type: string
+        title: cursor
+    title: |-
+      Request Message definition for List SAML Service Provider Configurations for particular service provider id.
+      Example request body:
+      {
+        "serviceProviderId": "MP-CVJRLBCTY53CSZGBJQGR3GHQR8VT"
+      }
+  v1ListSAMLServiceProviderConfigsResponse:
+    type: object
+    properties:
+      serviceProviderConfigs:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1SamlServiceProviderConfig'
+      cursor:
+        type: string
+      hasMore:
+        type: boolean
+    description: Response Message definition for List SAML Service Provider Configurations for particular service provider id.
+  v1ListScopesRequest:
+    type: object
+    properties:
+      pageSize:
+        type: string
+        format: int64
+      cursor:
+        type: string
+  v1ListScopesResponse:
+    type: object
+    properties:
+      scopes:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Scope'
+      cursor:
+        type: string
+      hasMore:
+        type: boolean
+  v1ListServiceProvidersRequest:
+    type: object
+    properties:
+      pageSize:
+        type: string
+        format: int64
+        title: page size
+      cursor:
+        type: string
+        title: cursor
+  v1ListServiceProvidersResponse:
+    type: object
+    properties:
+      serviceProviders:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ServiceProviderConfig'
+      cursor:
+        type: string
+      hasMore:
+        type: boolean
+  v1LogoutRequest:
+    type: object
+    properties:
+      sessionId:
+        type: string
+        title: The session ID to logout
+      userId:
+        type: string
+        title: The user ID to logout, affects all sessions related to the user
+  v1NoImpersonation:
+    type: object
+    title: Don't use any impersonation at all
+  v1OAuth2Configuration:
+    type: object
+    properties:
+      authorizationEndpoint:
+        type: string
+        description: The URL of the authorization server's authorization endpoint.
+      tokenEndpoint:
+        type: string
+        description: The URL of the authorization server's token endpoint.
+      userinfoEndpoint:
+        type: string
+        description: The URL of the user info endpoint. The user info endpoint returns the claims requested by SSO.
+  v1Oauth2Config:
+    type: object
+    properties:
+      clientId:
+        type: string
+        title: Unique client id this configuration is keyed by
+      serviceProviderId:
+        type: string
+        title: The service provider this configuration belongs to
+      name:
+        type: string
+        title: Human-readable name for this configuration
+      redirectUris:
+        type: array
+        items:
+          type: string
+        title: Authorized redirect URIs
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+      deleted:
+        type: string
+        format: date-time
+      logoutUri:
+        type: string
+        title: |-
+          The logout uri will be used during the OpenID Connect logout workflow.
+          This must be an absolute uri. The logout uri will be iFramed into the sso logout page if a user has visited
+          this client's application
+    title: Configuration for oauth2
+  v1OpenIDConnectConfiguration:
+    type: object
+    properties:
+      discoveryEndpoint:
+        type: string
+        description: The wellknown OpenID Connect discovery endpoint URL.
+  v1RegenerateSAMLServiceProviderConfigCertificateRequest:
+    type: object
+    properties:
+      serviceProviderConfigId:
+        type: string
+        title: Primary key of the service provider config
+    description: Request Message definition for Regenerating SAML Service Provider Configuration Certificate.
+  v1RegenerateSAMLServiceProviderConfigCertificateResponse:
+    type: object
+    properties:
+      certificate:
+        type: string
+        title: The new certificate
+  v1RevokeGrantRequest:
+    type: object
+    properties:
+      userId:
+        type: string
+      serviceProviderId:
+        type: string
+      scopeIds:
+        type: array
+        items:
+          type: string
+  v1SamlServiceProviderConfig:
+    type: object
+    properties:
+      entityId:
+        type: string
+        title: Unique identifier of a SAML service provider
+      acsUrls:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AcsUrl'
+        title: |-
+          SAML Assertion Consumer Service URL is the Base URL of the service provider to construct SAML endpoints from,
+          needs to be a URL with protocol, server, port and context path
+      signedAuthRequest:
+        type: boolean
+        title: Flag indicating whether this SAML service provider signs authentication requests
+      wantSignedAssertion:
+        type: boolean
+        title: Flag indicating whether this SAML service provider requires signed assertions in the SAML response message
+      wantEncryptedAssertion:
+        type: boolean
+        title: Flag indicating whether this SAML service provider requires encrypted assertions in the SAML response message
+      nameIdFormats:
+        type: array
+        items:
+          type: string
+        title: |-
+          Aligns the expectations between the identity provider and the service provider on format the authenticated user identity that is
+          communicated through the NameID attribute in the assertion. Like persistence, email address, unspecified or transient.
+          "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent"
+      signingCertificate:
+        type: string
+        title: Signing certificate of a SAML service provider
+      encryptionCertificate:
+        type: string
+        title: Encryption certificate of a SAML service provider
+      serviceProviderConfigId:
+        type: string
+        title: Primary key of a SAML service provider
+      serviceProviderId:
+        type: string
+        title: Unique Identifier of a service provider
+    description: |-
+      Service provider metadata contains keys, services and URLs defining SAML endpoints of your application (here Comporium).
+      Metadata can be either generated automatically upon first request to the service, or it can be pre-created .
+      Once created metadata needs to be provided to the identity providers (here Vendasta) with whom we want to establish trust.
+  v1Scope:
+    type: object
+    properties:
+      id:
+        type: string
+        title: The identifier of the scope
+      name:
+        type: string
+        title: The name of the scope
+      description:
+        type: string
+        title: The description of what the scope gives access to
+      created:
+        type: string
+        format: date-time
+        title: When the scope was created
+      updated:
+        type: string
+        format: date-time
+        title: When the scope was last updated
+  v1ServiceContext:
+    type: object
+    properties:
+      account:
+        $ref: '#/definitions/ServiceContextAccount'
+      partner:
+        $ref: '#/definitions/ServiceContextPartner'
+      superAdmin:
+        $ref: '#/definitions/ServiceContextSuperAdmin'
+      brand:
+        $ref: '#/definitions/ServiceContextBrand'
+    description: |-
+      The service context is used to determine which identity provider to use. This context is used in conjunction with
+      the identity context, provided by the identity provider. The two contexts require domain logic to be glued together;
+      for example, when the service provider provides an account, we can determine the partner from that account, then
+      match that up to an identity provider Partner context.
+  v1ServiceProviderConfig:
+    type: object
+    properties:
+      serviceProviderId:
+        type: string
+        title: Identifier of a service provider
+      entryUrl:
+        type: string
+        description: The entry url of the application, must handle a code on the request.
+      sessionUrl:
+        type: string
+        title: The url to be called to get a code for entering the application
+      primaryDomain:
+        type: string
+        title: The base url for the service provider
+      alternativeDomains:
+        type: array
+        items:
+          type: string
+        title: Alternative domains for a service provider
+      ownedAndOperated:
+        type: boolean
+        title: Denotes whether or not a service provider is owned and operated by Vendasta
+      logoutUrl:
+        type: string
+        description: The back-channel logout webhook URL for the service provider.
+      serviceProviderType:
+        $ref: '#/definitions/v1ServiceProviderType'
+        title: Service Provider Type denotes which login screen SSO should use for this service
+      partnerId:
+        type: string
+        title: The partner ID this service provider will belong to
+      preApprovedScopes:
+        type: array
+        items:
+          type: string
+        description: |-
+          The scopes that are pre-approved for this service provider.
+          If owned_and_operated is set to true, these scopes will be automatically approved, however, scopes not in this list will fail the auth flow or require user consent for the scopes not in the list.
+    title: ServiceProviderConfig for service provider for OAuth2
+  v1ServiceProviderType:
+    type: string
+    enum:
+      - SERVICE_PROVIDER_TYPE_PRODUCT
+      - SERVICE_PROVIDER_TYPE_PLATFORM
+    default: SERVICE_PROVIDER_TYPE_PRODUCT
+    title: |-
+      - SERVICE_PROVIDER_TYPE_PRODUCT: The Service Provider should use the configured Product login page for the partner
+      By default this would use VBC
+       - SERVICE_PROVIDER_TYPE_PLATFORM: The Service Provider should use the configured Platform login page for the partner
+      By default this would use VLC
+  v1UpdateConfigRequest:
+    type: object
+    properties:
+      clientId:
+        type: string
+        title: The client ID for the config
+      mutations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1UpdateConfigRequestMutation'
+        title: A list of mutations to be able to individually specify what fields are being updated
+    title: Request for updating configs
+  v1UpdateConfigRequestMutation:
+    type: object
+    properties:
+      name:
+        type: string
+        title: The name of the client
+      redirectUris:
+        $ref: '#/definitions/v1UpdateConfigRequestMutationRepeatedStringMutation'
+        title: Authorized redirect URIs
+      logoutUri:
+        type: string
+        description: |-
+          Logout uri of a client configuration
+          Deprecated: set a back-channel logout URL on your service-provider-id instead.
+          This field is ignored.
+  v1UpdateConfigRequestMutationRepeatedStringMutation:
+    type: object
+    properties:
+      repeatedString:
+        type: array
+        items:
+          type: string
+  v1UpdateIdentityProviderConfigurationRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      mutations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1UpdateIdentityProviderConfigurationRequestMutation'
+  v1UpdateIdentityProviderConfigurationRequestMutation:
+    type: object
+    properties:
+      clientId:
+        type: string
+      clientSecret:
+        type: string
+      openId:
+        $ref: '#/definitions/MutationOpenIDConnectConfigurationMutation'
+      replaceOpenId:
+        $ref: '#/definitions/v1OpenIDConnectConfiguration'
+      oauth2:
+        $ref: '#/definitions/MutationOAuth2ConfigurationMutation'
+      replaceOauth2:
+        $ref: '#/definitions/v1OAuth2Configuration'
+  v1UpdateSAMLServiceProviderConfigRequest:
+    type: object
+    properties:
+      fields:
+        $ref: '#/definitions/v1SamlServiceProviderConfig'
+      metadataXmlString:
+        type: string
+      serviceProviderConfigId:
+        type: string
+        description: service_provider_config_id is the unique identifier for this metadata file entry for a service provider as the service provider can have multiple metadata file entries.
+    description: Message definition for Updating SAML Service Provider Configuration.
+  v1UpdateScopeRequest:
+    type: object
+    properties:
+      scopeId:
+        type: string
+      mutations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1UpdateScopeRequestMutation'
+  v1UpdateScopeRequestMutation:
+    type: object
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+  v1UpdateServiceProviderRequest:
+    type: object
+    properties:
+      serviceProvider:
+        $ref: '#/definitions/v1ServiceProviderConfig'
+        title: service_provider will replace the service provider with the given configuration
+      serviceProviderId:
+        type: string
+        title: The id of a service provider
+      mutations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1UpdateServiceProviderRequestMutation'
+        title: A list of mutations to be able to individually specify what fields are being updated
+  v1UpdateServiceProviderRequestMutation:
+    type: object
+    properties:
+      entryUrl:
+        type: string
+        title: The entry url of the service provider
+      sessionUrl:
+        type: string
+        title: The url to be called to get a code for entering the application
+      primaryDomain:
+        type: string
+        title: The base url for the service provider
+      alternativeDomains:
+        $ref: '#/definitions/v1UpdateServiceProviderRequestMutationRepeatedStringMutation'
+        title: Alternative domains for a service provider
+      ownedAndOperated:
+        type: boolean
+        title: Denotes whether or not a service provider is owned and operated by Vendasta
+      logoutUrl:
+        type: string
+        title: The url to be called when a user logs out
+      serviceProviderType:
+        $ref: '#/definitions/v1ServiceProviderType'
+        title: Service Provider Type denotes which login screen SSO should use for this service
+      preApprovedScopes:
+        $ref: '#/definitions/v1UpdateServiceProviderRequestMutationRepeatedStringMutation'
+        title: Pre approved scopes for the service provider; should only be set for service providers owned by Vendasta
+  v1UpdateServiceProviderRequestMutationRepeatedStringMutation:
+    type: object
+    properties:
+      repeatedString:
+        type: array
+        items:
+          type: string

@@ -1,0 +1,1168 @@
+swagger: "2.0"
+info:
+  title: marketplace_apps/v2/partner_api.proto
+  version: version not set
+tags:
+  - name: Partner
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /marketplaceapps.v2.Partner/GetAppSettings:
+    post:
+      summary: Singular get given keys
+      operationId: Partner_GetAppSettings
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetAppSettingsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetAppSettingsRequest'
+      tags:
+        - Partner
+  /marketplaceapps.v2.Partner/GetMultiApp:
+    post:
+      operationId: Partner_GetMultiApp
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetMultiAppResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetMultiAppRequest'
+      tags:
+        - Partner
+  /marketplaceapps.v2.Partner/GetPurchaseLink:
+    post:
+      operationId: Partner_GetPurchaseLink
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetPurchaseLinkResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetPurchaseLinkRequest'
+      tags:
+        - Partner
+  /marketplaceapps.v2.Partner/GetUpgradeDialogContent:
+    post:
+      summary: Singular get given keys for an UpgradeDialogContent entity
+      operationId: Partner_GetUpgradeDialogContent
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetUpgradeDialogContentResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetUpgradeDialogContentRequest'
+      tags:
+        - Partner
+  /marketplaceapps.v2.Partner/ListAppSettings:
+    post:
+      summary: List AppSettings with paging for particular partner and market
+      operationId: Partner_ListAppSettings
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ListAppSettingsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ListAppSettingsRequest'
+      tags:
+        - Partner
+  /marketplaceapps.v2.Partner/ListPartnerEnabledApps:
+    post:
+      summary: List apps enabled for a partner
+      operationId: Partner_ListPartnerEnabledApps
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ListPartnerEnabledAppsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ListPartnerEnabledAppsRequest'
+      tags:
+        - Partner
+  /marketplaceapps.v2.Partner/ReplaceAppSettings:
+    post:
+      summary: Update or Create an AppSettings entity
+      operationId: Partner_ReplaceAppSettings
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ReplaceAppSettingsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ReplaceAppSettingsRequest'
+      tags:
+        - Partner
+  /marketplaceapps.v2.Partner/ReplaceUpgradeDialogContent:
+    post:
+      summary: Create or Update an UpgradeDialogContent entity
+      operationId: Partner_ReplaceUpgradeDialogContent
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ReplaceUpgradeDialogContentRequest'
+      tags:
+        - Partner
+  /marketplaceapps.v2.Partner/SuggestProduct:
+    post:
+      operationId: Partner_SuggestProduct
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2SuggestProductRequest'
+      tags:
+        - Partner
+definitions:
+  ListPartnerEnabledAppsRequestListAppsFilter:
+    type: object
+    properties:
+      appType:
+        $ref: '#/definitions/v2AppType'
+        description: The type of the applications to return in the final set.
+      filterTerm:
+        type: string
+        description: |-
+          filter_term is the used as a regular expression pattern to filter applications against names and appIds.
+          If the filter term isn't specified, no filtering is performed.
+  RequiredParentDetails:
+    type: object
+    properties:
+      key:
+        $ref: '#/definitions/v2AppKey'
+        title: An indentifier for the parent application
+      iconUrl:
+        type: string
+        title: The icon for the parent application
+      name:
+        type: string
+        title: The name for the parent application
+      tagline:
+        type: string
+        title: The tagline for the parent application
+    title: A struct representing basic information about a parent application
+  marketplaceappsv2Edition:
+    type: object
+    properties:
+      appKey:
+        $ref: '#/definitions/v2AppKey'
+        title: The app key to identify this edition of the app
+      name:
+        type: string
+        title: The name of the edition
+      created:
+        type: string
+        format: date-time
+        title: The time the edition was created
+      updated:
+        type: string
+        format: date-time
+        title: The time the edition was updated
+      billingId:
+        type: string
+        title: The Billing ID (SKU) of the edition
+    title: A representation of a specific edition of an app
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v2ActivationInformation:
+    type: object
+    properties:
+      orderFormEnabled:
+        type: boolean
+        title: |-
+          order_form_enabled determines whether or not the application requires an order form submission to be successfully activated
+          on an account
+      multipleActivationsEnabled:
+        type: boolean
+        title: allows_multiple_activations determines whether or not multiple instance of this app can be active at the same time for a user
+      activationSpecificUrlEnabled:
+        type: boolean
+        title: activation_specific_url_enabled determines whether or not the application requires an activation specific entry url
+      separateOrderForms:
+        type: boolean
+        title: separate_order_forms determines whether or not the application requires separate order forms for each activation
+      requiredBusinessData:
+        $ref: '#/definitions/v2RequiredBusinessData'
+        title: Business profile fields that this app requires to populated before activation
+      suspended:
+        type: string
+        format: date-time
+        title: suspended is a timestamp after which the app is suspended, and cannot be activated
+      countryRestrictions:
+        $ref: '#/definitions/v2PermissionLists'
+        title: Allowed or not allowed countries for this app/addon
+      appRestrictions:
+        $ref: '#/definitions/v2AppRestrictions'
+        description: The apps and (potentially) their editions that must be active for this app.
+  v2App:
+    type: object
+    properties:
+      key:
+        $ref: '#/definitions/v2AppKey'
+      sharedMarketingInformation:
+        $ref: '#/definitions/v2SharedMarketingInformation'
+      endUserMarketingInformation:
+        $ref: '#/definitions/v2EndUserMarketingInformation'
+      parentRequirements:
+        $ref: '#/definitions/v2RequiredParent'
+      ssoIntegration:
+        $ref: '#/definitions/v2SSOIntegration'
+      activationInformation:
+        $ref: '#/definitions/v2ActivationInformation'
+      trialConfiguration:
+        $ref: '#/definitions/v2TrialConfiguration'
+      basicIntegration:
+        $ref: '#/definitions/v2BasicIntegration'
+      editionInformation:
+        $ref: '#/definitions/v2EditionInformation'
+      externalIdentifiers:
+        $ref: '#/definitions/v2ExternalIdentifiers'
+      price:
+        $ref: '#/definitions/v2Price'
+      appType:
+        $ref: '#/definitions/v2AppType'
+      appLevelAdminDashboardEnabled:
+        $ref: '#/definitions/v2AppLevelAdminDashboardEnabled'
+      childApps:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2ChildApp'
+    description: |-
+      The base application definition. Note that the data for the different sections will be represented based on passed.
+      projection filters for the App Service RPC set.
+  v2AppKey:
+    type: object
+    properties:
+      appId:
+        type: string
+      editionId:
+        type: string
+    description: |-
+      The full identifier for a marketplace app. Note that if the edition_id is left empty, the application that is requested (or fetched)
+      will just be the base app configuration with no edition overrides.
+  v2AppKeyWithQuantity:
+    type: object
+    properties:
+      appKey:
+        $ref: '#/definitions/v2AppKey'
+        title: required - The app identifier
+      quantity:
+        type: string
+        format: int64
+        title: Optional - default is 1. It is expected only apps / addons capable of multi activation will be given a quantity
+  v2AppLevelAdminDashboard:
+    type: object
+    properties:
+      allowSelfServeForPartner:
+        type: boolean
+        title: The partner can SSO directly into the app
+    title: The settings to control how an app can be accessed directly
+  v2AppLevelAdminDashboardEnabled:
+    type: object
+    properties:
+      appLevelAdminDashboardEnabledForPartnerCenter:
+        type: boolean
+        title: boolean indicating whether on not AppLevelAdminDashboardEnabled are enabled for the app
+    title: AppLevelAdminDashboardEnabled Configuration
+  v2AppRestrictions:
+    type: object
+    properties:
+      requiredAppIds:
+        type: array
+        items:
+          type: string
+        description: A set of apps that must be active, and is not edition specific.
+      requiredEditionIds:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2EditionIdentifier'
+        description: A set of apps that must be active, and is edition specific.
+    description: A set of conditions that must be satisfied for the app to be activated.
+  v2AppSettings:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      marketId:
+        type: string
+        title: ID of the market
+      appId:
+        type: string
+        title: ID of the app
+      autoActivation:
+        $ref: '#/definitions/v2AutoActivation'
+        title: Auto Activation details
+      editionChange:
+        $ref: '#/definitions/v2EditionChange'
+        title: Edition Change settings
+      trial:
+        $ref: '#/definitions/v2Trial'
+        title: Trial settings
+      branding:
+        $ref: '#/definitions/v2Branding'
+        title: Branding settings
+      appLevelAdminDashboard:
+        $ref: '#/definitions/v2AppLevelAdminDashboard'
+        title: AppLevelAdminDashboard settings
+    title: AppSettings are the partner configurable settings of an app
+  v2AppType:
+    type: string
+    enum:
+      - APP_TYPE_ALL
+      - APP_TYPE_APP
+      - APP_TYPE_ADDON
+    default: APP_TYPE_ALL
+  v2AutoActivation:
+    type: object
+    properties:
+      autoActivateByDefault:
+        type: boolean
+        title: Should the app be activated on account create
+      editionId:
+        type: string
+        title: Edition that should be auto activated on account create
+    title: Auto Activation details of an app
+  v2BasicIntegration:
+    type: object
+    properties:
+      applicationUrl:
+        type: string
+        description: |-
+          The URL the user would be redirected to, when launching the product from business center.
+          It would be the frontend's logic that will determine the precedence among the three URLs
+          to be used when launching an app (application url, sso url or activation url).
+      allowWhiteLabeling:
+        type: boolean
+        title: Indicates the Vendor is allowing the app to be white labelled
+      appLevelHasAdminDashboard:
+        type: boolean
+        title: |-
+          Indicates to the user if the app has a vendor dashboard
+          When enabled the reseller will be able to choose to let their admins access the vendor dashboard
+      hideFromClientDashboard:
+        type: boolean
+        title: |-
+          When enabled the product will not appear within the client's dashboard
+          This can be used in conjunction with the app_level_has_admin_dashboard to only allow the resellers users to access the vendor dashboard
+    description: Basic integration settings/information for an app.
+  v2Branding:
+    type: object
+    properties:
+      name:
+        type: string
+        title: Name override
+      iconUrl:
+        type: string
+        title: IconURL override
+      enabled:
+        type: boolean
+        title: Indicate whether the override should be used
+    title: The settings to control partner configurable app information
+  v2ChildApp:
+    type: object
+    properties:
+      appId:
+        type: string
+        description: The app ID of the dependent child.
+  v2EditionChange:
+    type: object
+    properties:
+      editionUpgradeAction:
+        $ref: '#/definitions/v2EditionUpgradeAction'
+      customUpgradePackageIds:
+        type: array
+        items:
+          type: string
+      priceReferencePackageId:
+        type: string
+      hideUpgradeCta:
+        type: boolean
+    description: The settings to control what to do on edition change.
+  v2EditionIdentifier:
+    type: object
+    properties:
+      appId:
+        type: string
+      editionId:
+        type: string
+    description: Identifies an edition with the app and edition IDs.
+  v2EditionInformation:
+    type: object
+    properties:
+      editions:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/marketplaceappsv2Edition'
+        title: The possible editions for this app
+      usesEditions:
+        type: boolean
+        title: Indicates whether or not the app uses editions
+  v2EditionUpgradeAction:
+    type: string
+    enum:
+      - EDITION_UPGRADE_ACTION_UNSET
+      - EDITION_UPGRADE_ACTION_CREATE_ORDER
+      - EDITION_UPGRADE_ACTION_CONTACT_SALES
+      - EDITION_UPGRADE_ACTION_CUSTOM_ORDER
+    default: EDITION_UPGRADE_ACTION_UNSET
+    description: ' - EDITION_UPGRADE_ACTION_UNSET: If left unset it will default to create order.'
+  v2EndOfTrialActions:
+    type: string
+    enum:
+      - END_OF_TRIAL_ACTIONS_DO_NOTHING
+    default: END_OF_TRIAL_ACTIONS_DO_NOTHING
+    description: '- END_OF_TRIAL_ACTIONS_DO_NOTHING: Do nothing once trial ends'
+    title: Indicating what to do once the trial has ended
+  v2EndUserMarketingInformation:
+    type: object
+    properties:
+      description:
+        type: string
+        description: A description of the application. This field could contain HTML/CSS tags/selectors.
+      keySellingPoints:
+        type: array
+        items:
+          type: string
+        description: A list of specific points used to entice an enduser to purchase the application.
+      faqs:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2FrequentlyAskedQuestions'
+        description: A list of enqueries an enduser might ask.
+      fileUrls:
+        type: array
+        items:
+          type: string
+        description: |-
+          A list of urls for different files containing additional marketing information for the applications.
+          The intended use for this field is to surface urls for document file types like .pdf and .doc, however
+          this field can be used for any file type.
+      screenshotUrls:
+        type: array
+        items:
+          type: string
+        description: |-
+          A list of urls for different screenshots showcasing things like how the application is used and
+          its value proposition.
+      needHelp:
+        type: string
+        title: Need Help section information
+      videos:
+        type: array
+        items:
+          type: string
+        title: Videos for EndUserMarketingInformation
+  v2ExternalIdentifiers:
+    type: object
+    properties:
+      billingId:
+        type: string
+        title: The billing id of the app (sku)
+  v2FrequentlyAskedQuestions:
+    type: object
+    properties:
+      question:
+        type: string
+      answer:
+        type: string
+  v2GetAppSettingsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      marketId:
+        type: string
+        title: ID of the market
+      appId:
+        type: string
+        title: ID of the app
+      disableFallback:
+        type: boolean
+        title: Indicates whether to disable fallback to partner/vendor level app settings
+  v2GetAppSettingsResponse:
+    type: object
+    properties:
+      appSettings:
+        $ref: '#/definitions/v2AppSettings'
+        title: The App Settings
+  v2GetMultiAppRequest:
+    type: object
+    properties:
+      projectionFilter:
+        $ref: '#/definitions/vendastatypesFieldMask'
+      appKeys:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2AppKey'
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      includeNotEnabled:
+        type: boolean
+  v2GetMultiAppResponse:
+    type: object
+    properties:
+      apps:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2App'
+  v2GetPurchaseLinkRequest:
+    type: object
+    properties:
+      userId:
+        type: string
+        title: required - The user_id to obtain the purchase link for (not subjectId)
+      businessId:
+        type: string
+        title: required - The business (account group) to obtain the purchase link for
+      appKeysWithQuantity:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2AppKeyWithQuantity'
+        title: required - The apps we want to provide a link to purchase for complete with quantity
+      purchaseAcceptedNextUrl:
+        type: string
+        description: required - Where the user will be redirected to after the purchase is successful.
+      purchaseDeclinedNextUrl:
+        type: string
+        title: required - Where the user will be redirected to if they decline the purchase
+  v2GetPurchaseLinkResponse:
+    type: object
+    properties:
+      purchaseLink:
+        type: string
+        description: |-
+          The purchase_link that can be used to direct the user to the purchase page.
+          Will only be provided if purchase_allowed is true.
+      purchaseAllowed:
+        type: boolean
+        title: |-
+          Whether the user can actually perform the purchase.
+          If this returns false, the client should display generic "contact admin" content
+          Reasons a user may not be able to perform the purchase can be found here:
+           https://vendasta.jira.com/wiki/spaces/RD/pages/1609597263/Purchase+Link+Exposed+to+Vendors#Implementation
+  v2GetUpgradeDialogContentRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      marketId:
+        type: string
+        title: ID of the market
+      appId:
+        type: string
+        title: ID of the app
+  v2GetUpgradeDialogContentResponse:
+    type: object
+    properties:
+      upgradeDialogContent:
+        $ref: '#/definitions/v2UpgradeDialogContent'
+        title: The upgrade dialog content that was just got
+  v2ListAppSettingsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      marketId:
+        type: string
+        title: ID of the market
+      cursor:
+        type: string
+        description: Cursor allows paging of results, the next_cursor returned by the last response is expected.
+      pageSize:
+        type: string
+        format: int64
+        description: The number of results to return.
+  v2ListAppSettingsResponse:
+    type: object
+    properties:
+      appSettings:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2AppSettings'
+        title: List of AppSettings
+      nextCursor:
+        type: string
+        title: Next position in pagination
+      hasMore:
+        type: boolean
+        title: Indicates if more data is available
+  v2ListPartnerEnabledAppsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      marketId:
+        type: string
+        title: ID of the market
+      cursor:
+        type: string
+        description: the position to get the frame of data based on a set of filters and the search term.
+      pageSize:
+        type: string
+        format: int64
+        description: the size of the frame of data to recieve in the response.
+      filter:
+        $ref: '#/definitions/ListPartnerEnabledAppsRequestListAppsFilter'
+        description: If filter is supplied, the options will be applied as an 'and' operation.
+  v2ListPartnerEnabledAppsResponse:
+    type: object
+    properties:
+      apps:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2App'
+      cursor:
+        type: string
+      hasMore:
+        type: boolean
+  v2LmiCategory:
+    type: string
+    enum:
+      - LMI_CATEGORY_NOT_SET
+      - LMI_CATEGORY_WEBSITE
+      - LMI_CATEGORY_CONTENT_AND_EXPERIENCE
+      - LMI_CATEGORY_LISTINGS
+      - LMI_CATEGORY_REPUTATION
+      - LMI_CATEGORY_SEO
+      - LMI_CATEGORY_SOCIAL
+      - LMI_CATEGORY_ADVERTISING
+    default: LMI_CATEGORY_NOT_SET
+    description: |-
+      Definition of the local marketing indices supported by the marketplace. Note that this field
+      is only intended for marketing information. It does not define the functionality an application
+      would provide.
+  v2PermissionLists:
+    type: object
+    properties:
+      whitelist:
+        type: array
+        items:
+          type: string
+      blacklist:
+        type: array
+        items:
+          type: string
+    title: An include and exclude list used for defining country restrictions
+  v2Price:
+    type: object
+    properties:
+      setupFee:
+        type: string
+        format: int64
+        title: Setup fee in cents
+      usesCustomPricing:
+        type: boolean
+        title: Indicates whether or not the app supports custom pricing
+  v2ProductSuggestion:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      categoryId:
+        type: string
+      productName:
+        type: string
+      productWebsiteUrl:
+        type: string
+      reason:
+        $ref: '#/definitions/v2SuggestionReason'
+      otherReasonText:
+        type: string
+  v2ReplaceAppSettingsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      marketId:
+        type: string
+        title: ID of the market
+      appId:
+        type: string
+        title: ID of the app
+      fieldMask:
+        $ref: '#/definitions/vendastatypesFieldMask'
+        title: FieldMask for omitting values on update. If missing, update them all
+      autoActivation:
+        $ref: '#/definitions/v2AutoActivation'
+        title: Auto Activation details
+      editionChange:
+        $ref: '#/definitions/v2EditionChange'
+        title: Edition Change settings
+      trial:
+        $ref: '#/definitions/v2Trial'
+        title: Trial settings
+      branding:
+        $ref: '#/definitions/v2Branding'
+        title: Branding settings
+      appLevelAdminDashboard:
+        $ref: '#/definitions/v2AppLevelAdminDashboard'
+        title: AppLevelAdminDashboard settings
+  v2ReplaceAppSettingsResponse:
+    type: object
+    properties:
+      appSettings:
+        $ref: '#/definitions/v2AppSettings'
+        title: The App Settings that was just created
+  v2ReplaceUpgradeDialogContentRequest:
+    type: object
+    properties:
+      upgradeDialogContent:
+        $ref: '#/definitions/v2UpgradeDialogContent'
+        title: Upgrade dialog content to be replaced
+  v2RequiredBusinessData:
+    type: object
+    properties:
+      hours:
+        type: boolean
+      descriptionLong:
+        type: boolean
+      descriptionShort:
+        type: boolean
+      services:
+        type: boolean
+      brands:
+        type: boolean
+    title: RequiredBusinessData is used to indicate profile fields that must have a value before activating an app
+  v2RequiredParent:
+    type: object
+    properties:
+      enabled:
+        type: boolean
+        description: |-
+          enabled determines whether or not the application requires the pre-condition of an active parent on an
+          account before the activation of itself.
+      parentDetails:
+        $ref: '#/definitions/RequiredParentDetails'
+  v2SSOIntegration:
+    type: object
+    properties:
+      enabled:
+        type: boolean
+        description: enabled determines whether or not the applicaiton requires sso for end users to access its' functionality.
+      entryUrl:
+        type: string
+        description: |-
+          The URL the user would be redirected to, when launching the product from business center client. Please note that
+          not all applications have sso configuration.
+    description: The integration required for SSOing into the application.
+  v2SharedMarketingInformation:
+    type: object
+    properties:
+      name:
+        type: string
+        description: The name of the application.
+      editionName:
+        type: string
+        description: |-
+          The name of the edition for the application. This field is only applicable if the AppKey
+          contains an edition id.
+      iconUrl:
+        type: string
+        description: A url for the icon representing the app.
+      tagline:
+        type: string
+        description: A short and snappy slogan to represent what the app does.
+      bannerImageUrl:
+        type: string
+        description: The URL for a banner image. This image is intended to represent the application in certain types of visualizations.
+      lmiCategories:
+        type: array
+        items:
+          $ref: '#/definitions/v2LmiCategory'
+        description: |-
+          The local marketing index categories the product falls in. For example if the lmi category is `advertising`, that
+          means that the app will provide services or functionality that effects the advertising of a SMB.
+    description: SharedMarketingInformation is to be consumed by all user types in the platform.
+  v2SuggestProductRequest:
+    type: object
+    properties:
+      productSuggestion:
+        $ref: '#/definitions/v2ProductSuggestion'
+  v2SuggestionReason:
+    type: string
+    enum:
+      - SUGGESTION_REASON_INVALID
+      - SUGGESTION_REASON_START_OFFERING
+      - SUGGESTION_REASON_ALREADY_OFFER
+      - SUGGESTION_REASON_WORK_WELL_WITH_OTHER_PRODUCTS
+      - SUGGESTION_REASON_WANT_TO_USE_MYSELF
+      - SUGGESTION_REASON_OTHER
+    default: SUGGESTION_REASON_INVALID
+  v2Trial:
+    type: object
+    properties:
+      allowSelfServe:
+        type: boolean
+        title: The SMB can, without Partner approval, activate this App as a trial
+    title: The settings to control how trials behave
+  v2TrialConfiguration:
+    type: object
+    properties:
+      trialEnabled:
+        type: boolean
+        title: boolean indicating whether on not trials are enabled for the app
+      trialDuration:
+        type: integer
+        format: int32
+        title: default duration of the trial, in days
+      endOfTrialAction:
+        $ref: '#/definitions/v2EndOfTrialActions'
+        title: action to take at end of trial
+    title: Trial Configuration
+  v2UpgradeDialogContent:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      marketId:
+        type: string
+        title: ID of the market
+      appId:
+        type: string
+        title: ID of the app
+      titleText:
+        type: string
+        description: The title text of the upgrade dialog.
+      sellingPoints:
+        type: array
+        items:
+          type: string
+        description: The selling points of the upgrade dialog.
+      imageUrl:
+        type: string
+        description: The image URL of the upgrade dialog.
+      buttonText:
+        type: string
+        description: The button text of the upgrade dialog.
+      imageFileName:
+        type: string
+        description: The image file name of the upgrade dialog.
+    description: UpgradeDialogContent are the partner configurable content of the upgrade dialog.
+  vendastatypesFieldMask:
+    type: object
+    properties:
+      paths:
+        type: array
+        items:
+          type: string
+        description: The set of field mask paths.
+    description: |-
+      paths: "f.a"
+          paths: "f.b.d"
+
+      Here `f` represents a field in some root message, `a` and `b`
+      fields in the message found in `f`, and `d` a field found in the
+      message in `f.b`.
+
+      Field masks are used to specify a subset of fields that should be
+      returned by a get operation or modified by an update operation.
+      Field masks also have a custom JSON encoding (see below).
+
+      # Field Masks in Projections
+
+      When used in the context of a projection, a response message or
+      sub-message is filtered by the API to only contain those fields as
+      specified in the mask. For example, if the mask in the previous
+      example is applied to a response message as follows:
+
+          f {
+            a : 22
+            b {
+              d : 1
+              x : 2
+            }
+            y : 13
+          }
+          z: 8
+
+      The result will not contain specific values for fields x,y and z
+      (their value will be set to the default, and omitted in proto text
+      output):
+
+
+          f {
+            a : 22
+            b {
+              d : 1
+            }
+          }
+
+      A repeated field is not allowed except at the last position of a
+      paths string.
+
+      If a FieldMask object is not present in a get operation, the
+      operation applies to all fields (as if a FieldMask of all fields
+      had been specified).
+
+      Note that a field mask does not necessarily apply to the
+      top-level response message. In case of a REST get operation, the
+      field mask applies directly to the response, but in case of a REST
+      list operation, the mask instead applies to each individual message
+      in the returned resource list. In case of a REST custom method,
+      other definitions may be used. Where the mask applies will be
+      clearly documented together with its declaration in the API.  In
+      any case, the effect on the returned resource/resources is required
+      behavior for APIs.
+
+      # Field Masks in Update Operations
+
+      A field mask in update operations specifies which fields of the
+      targeted resource are going to be updated. The API is required
+      to only change the values of the fields as specified in the mask
+      and leave the others untouched. If a resource is passed in to
+      describe the updated values, the API ignores the values of all
+      fields not covered by the mask.
+
+      If a repeated field is specified for an update operation, the existing
+      repeated values in the target resource will be overwritten by the new values.
+      Note that a repeated field is only allowed in the last position of a `paths`
+      string.
+
+      If a sub-message is specified in the last position of the field mask for an
+      update operation, then the existing sub-message in the target resource is
+      overwritten. Given the target message:
+
+          f {
+            b {
+              d : 1
+              x : 2
+            }
+            c : 1
+          }
+
+      And an update message:
+
+          f {
+            b {
+              d : 10
+            }
+          }
+
+      then if the field mask is:
+
+       paths: "f.b"
+
+      then the result will be:
+
+          f {
+            b {
+              d : 10
+            }
+            c : 1
+          }
+
+      However, if the update mask was:
+
+       paths: "f.b.d"
+
+      then the result would be:
+
+          f {
+            b {
+              d : 10
+              x : 2
+            }
+            c : 1
+          }
+
+      In order to reset a field's value to the default, the field must
+      be in the mask and set to the default value in the provided resource.
+      Hence, in order to reset all fields of a resource, provide a default
+      instance of the resource and set all fields in the mask, or do
+      not provide a mask as described below.
+
+      If a field mask is not present on update, the operation applies to
+      all fields (as if a field mask of all fields has been specified).
+      Note that in the presence of schema evolution, this may mean that
+      fields the client does not know and has therefore not filled into
+      the request will be reset to their default. If this is unwanted
+      behavior, a specific service may require a client to always specify
+      a field mask, producing an error if not.
+
+      As with get operations, the location of the resource which
+      describes the updated values in the request message depends on the
+      operation kind. In any case, the effect of the field mask is
+      required to be honored by the API.
+
+      ## Considerations for HTTP REST
+
+      The HTTP kind of an update operation which uses a field mask must
+      be set to PATCH instead of PUT in order to satisfy HTTP semantics
+      (PUT must only be used for full updates).
+
+      # JSON Encoding of Field Masks
+
+      In JSON, a field mask is encoded as a single string where paths are
+      separated by a comma. Fields name in each path are converted
+      to/from lower-camel naming conventions.
+
+      As an example, consider the following message declarations:
+
+          message Profile {
+            User user = 1;
+            Photo photo = 2;
+          }
+          message User {
+            string display_name = 1;
+            string address = 2;
+          }
+
+      In proto a field mask for `Profile` may look as such:
+
+          mask {
+            paths: "user.display_name"
+            paths: "photo"
+          }
+
+      In JSON, the same mask is represented as below:
+
+          {
+            mask: "user.displayName,photo"
+          }
+
+      # Field Masks and Oneof Fields
+
+      Field masks treat fields in oneofs just as regular fields. Consider the
+      following message:
+
+          message SampleMessage {
+            oneof test_oneof {
+              string name = 4;
+              SubMessage sub_message = 9;
+            }
+          }
+
+      The field mask can be:
+
+          mask {
+            paths: "name"
+          }
+
+      Or:
+
+          mask {
+            paths: "sub_message"
+          }
+
+      Note that oneof type names ("test_oneof" in this case) cannot be used in
+      paths.
+    title: '`FieldMask` represents a set of symbolic field paths, for example:'

@@ -1,0 +1,287 @@
+swagger: "2.0"
+info:
+  title: accounts/v2/events_api.proto
+  version: version not set
+tags:
+  - name: EventEmissionService
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /accounts.v2.EventEmissionService/EmitActivationEvent:
+    post:
+      summary: |-
+        EmitActivationEvent triggers the emission of an activation event with the provided information
+        This RPC should only be called by the order-fulfillment microservice, or another orchestrator in the provisioning flow
+      operationId: EventEmissionService_EmitActivationEvent
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2EmitActivationEventRequest'
+      tags:
+        - EventEmissionService
+  /accounts.v2.EventEmissionService/EmitCancellationEvent:
+    post:
+      summary: EmitCancellationEvent emits a cancellation event for a given item
+      operationId: EventEmissionService_EmitCancellationEvent
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2EmitCancellationEventRequest'
+      tags:
+        - EventEmissionService
+  /accounts.v2.EventEmissionService/EmitDeactivationEvent:
+    post:
+      summary: |-
+        EmitDeactivationEvent triggers the emission of a deactivation event with the provided information
+        This RPC should only be called by the order-fulfillment microservice, or another orchestrator in the provisioning flow
+      operationId: EventEmissionService_EmitDeactivationEvent
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2EmitDeactivationEventRequest'
+      tags:
+        - EventEmissionService
+  /accounts.v2.EventEmissionService/EmitUndoCancellationEvent:
+    post:
+      summary: EmitUndoCancellationEvent emits a undoCancellation event for a given item
+      operationId: EventEmissionService_EmitUndoCancellationEvent
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2EmitUndoCancellationEventRequest'
+      tags:
+        - EventEmissionService
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v2EmitActivationEventRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: The unique identifier of the business for which the activation occurred
+      salespersonId:
+        type: string
+        title: The identifier of the salesperson associated with the business
+      accountId:
+        type: string
+        title: The vendor defined identifier of the activation instance
+      appId:
+        type: string
+        title: The identifier of the base marketplace product
+      addonId:
+        type: string
+        title: The identifier of the addon to the base product that has been activated
+      editionId:
+        type: string
+        title: The identifier of the edition of the base product that has been activated
+      isTrial:
+        type: boolean
+        title: Indicating whether or not the activation is a trial
+      activationId:
+        type: string
+        title: The unique identifier of this instance of the product being active
+      eventTime:
+        type: string
+        format: date-time
+        title: Time the activation was resolved
+      approved:
+        type: boolean
+        title: Indicating whether the activation was approved by the vendor or not
+      appName:
+        type: string
+        title: Name of the product or addon being activated
+      businessName:
+        type: string
+        title: Name of the business
+      rejectedReason:
+        type: string
+        title: Human readable reason for vendor rejection if the activation was rejected
+      orderFormSubmissionId:
+        type: string
+        title: The identifier of the order form submission associated with the activation
+      vendorOrderId:
+        type: string
+        title: The identifier of the source order that generated the activation
+  v2EmitCancellationEventRequest:
+    type: object
+    properties:
+      activationId:
+        type: string
+        description: A unique ID assigned for this specific activation.
+      businessId:
+        type: string
+        title: The ID of the business for the item
+      appId:
+        type: string
+        title: The id of marketplace application or parent id of the addon
+      editionId:
+        type: string
+        title: the edition id if applicable for the app or addon
+      scheduledFor:
+        type: string
+        format: date-time
+        title: Time the item is set to deactivate
+      cancelationTime:
+        type: string
+        format: date-time
+        title: Time the cancellation action was done
+      itemName:
+        type: string
+        title: Name of the product or addon being canceled
+      vendorOrderId:
+        type: string
+        title: Vendor's order id
+      billingOrderId:
+        type: string
+        title: Order id stamped on the billing subscription
+      addonId:
+        type: string
+        title: The id of the addon if applicable
+      eventTime:
+        type: string
+        format: date-time
+        title: The time the cancelation event was triggered
+  v2EmitDeactivationEventRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: The unique identifier of the business for which the deactivation occurred
+      salespersonId:
+        type: string
+        title: The identifier of the salesperson associated with the business
+      accountId:
+        type: string
+        title: The vendor defined identifier of the activation instance
+      appId:
+        type: string
+        title: The identifier of the base marketplace product
+      addonId:
+        type: string
+        title: The identifier of the addon to the base product that has been deactivated
+      editionId:
+        type: string
+        title: The identifier of the edition of the base product that has been deactivated
+      isTrial:
+        type: boolean
+        title: Indicating whether or not the activation was a trial
+      activationId:
+        type: string
+        title: The unique identifier of this instance of the product being active
+      eventTime:
+        type: string
+        format: date-time
+        title: Time the deactivation was resolved
+      appName:
+        type: string
+        title: Name of the product or addon being deactivated
+      businessName:
+        type: string
+        title: Name of the business
+  v2EmitUndoCancellationEventRequest:
+    type: object
+    properties:
+      activationId:
+        type: string
+        description: A unique ID assigned for this specific activation.
+      businessId:
+        type: string
+        title: The ID of the business for the item
+      appId:
+        type: string
+        title: The id of marketplace application or parent id of the addon
+      editionId:
+        type: string
+        title: the edition id if applicable for the app or addon
+      undoCancelationTime:
+        type: string
+        format: date-time
+        title: Time the cancelation was undone
+      renewalDate:
+        type: string
+        format: date-time
+        title: Time the item was set to renew
+      itemName:
+        type: string
+        title: Name of the product or addon for the undo cancellation event
+      vendorOrderId:
+        type: string
+        title: Vendor's order id
+      billingOrderId:
+        type: string
+        title: Order id stamped on the billing subscription
+      addonId:
+        type: string
+        title: The id of the addon if applicable
+      eventTime:
+        type: string
+        format: date-time
+        title: The time the undocancelation event was triggered

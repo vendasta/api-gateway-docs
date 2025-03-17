@@ -1,0 +1,476 @@
+swagger: "2.0"
+info:
+  title: vstore/v1/api.proto
+  version: version not set
+tags:
+  - name: VStore
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /vstore.v1.VStore/BeginTransaction:
+    post:
+      operationId: VStore_BeginTransaction
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1BeginTransactionResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1BeginTransactionRequest'
+      tags:
+        - VStore
+  /vstore.v1.VStore/CreateSession:
+    post:
+      operationId: VStore_CreateSession
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateSessionResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateSessionRequest'
+      tags:
+        - VStore
+  /vstore.v1.VStore/DeleteSession:
+    post:
+      operationId: VStore_DeleteSession
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeleteSessionRequest'
+      tags:
+        - VStore
+  /vstore.v1.VStore/GetMulti:
+    post:
+      operationId: VStore_GetMulti
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiRequest'
+      tags:
+        - VStore
+  /vstore.v1.VStore/Mutate:
+    post:
+      operationId: VStore_Mutate
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1MutateRequest'
+      tags:
+        - VStore
+  /vstore.v1.VStore/Rollback:
+    post:
+      operationId: VStore_Rollback
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1RollbackRequest'
+      tags:
+        - VStore
+  /vstore.v1.VStore/StreamingQuery:
+    post:
+      operationId: VStore_StreamingQuery
+      responses:
+        "200":
+          description: A successful response.(streaming responses)
+          schema:
+            type: object
+            properties:
+              result:
+                $ref: '#/definitions/v1StreamedEntity'
+              error:
+                $ref: '#/definitions/rpcStatus'
+            title: Stream result of v1StreamedEntity
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1StreamingQueryRequest'
+      tags:
+        - VStore
+definitions:
+  GetMultiResponseEntityContainer:
+    type: object
+    properties:
+      entity:
+        $ref: '#/definitions/v1Entity'
+    title: EntityContainer provides a container for Entity to have nullable results
+  MutationInsert:
+    type: object
+    properties:
+      entity:
+        $ref: '#/definitions/v1Entity'
+    description: Insert a new entity in vStore. If any of the rows already exist, the mutation fails with an already exists error.
+  MutationReplace:
+    type: object
+    properties:
+      entity:
+        $ref: '#/definitions/v1Entity'
+    description: Replaces will overwrite or insert an entity into vStore.
+  MutationUpdate:
+    type: object
+    properties:
+      entity:
+        $ref: '#/definitions/v1Entity'
+    description: Updates an existing entity in vStore. If the entity does not exist, the mutation fails with a not found error.
+  StreamingQueryRequestFilter:
+    type: object
+    properties:
+      keyFilter:
+        $ref: '#/definitions/v1KeyFilter'
+      rangeFilter:
+        $ref: '#/definitions/v1RangeFilter'
+      columnFilter:
+        $ref: '#/definitions/v1ColumnFilter'
+      columnInListFilter:
+        $ref: '#/definitions/v1ColumnFilter'
+    title: Filter provides the option to filter out results from the response
+  StreamingQueryRequestLimit:
+    type: object
+    properties:
+      pageSize:
+        type: string
+        format: int64
+    title: Limit provides the option to limit the number of results that are returned
+  StreamingQueryRequestOffset:
+    type: object
+    properties:
+      cursor:
+        type: string
+      startingKeySet:
+        $ref: '#/definitions/v1KeySet'
+    description: Offset provides the option to skip results and start at either the provided cursor or the provided key set.
+  StreamingQueryRequestOrderBy:
+    type: object
+    properties:
+      column:
+        type: string
+      order:
+        $ref: '#/definitions/v1Order'
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  protobufNullValue:
+    type: string
+    enum:
+      - NULL_VALUE
+    default: NULL_VALUE
+    description: |-
+      `NullValue` is a singleton enumeration to represent the null value for the
+      `Value` type union.
+
+      The JSON representation for `NullValue` is JSON `null`.
+
+       - NULL_VALUE: Null value.
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1BeginTransactionRequest:
+    type: object
+    properties:
+      namespace:
+        type: string
+      sessionId:
+        type: string
+        format: byte
+    title: BeginTransactionRequest is the request message for VStore.BeginTransaction
+  v1BeginTransactionResponse:
+    type: object
+    properties:
+      transactionId:
+        type: string
+        format: byte
+    title: BeginTransactionResponse is the response message for VStore.BeginTransaction
+  v1ColumnFilter:
+    type: object
+    properties:
+      columns:
+        type: array
+        items:
+          type: string
+      values:
+        type: array
+        items:
+          type: object
+    description: ColumnFilter bounds the results to the provided column-value pair(s). The provided columns must have an existing index.
+  v1CreateSessionRequest:
+    type: object
+    properties:
+      namespace:
+        type: string
+    title: CreateSessionRequest is the request message for VStore.CreateSession
+  v1CreateSessionResponse:
+    type: object
+    properties:
+      sessionId:
+        type: string
+        format: byte
+    title: CreateSessionResponse is the response message for VStore.CreateSession
+  v1DeleteSessionRequest:
+    type: object
+    properties:
+      namespace:
+        type: string
+      sessionId:
+        type: string
+        format: byte
+  v1Entity:
+    type: object
+    properties:
+      kindId:
+        type: string
+      values:
+        type: object
+      version:
+        type: string
+        format: int64
+    title: Entity represents a storable row in vStore
+  v1GetMultiRequest:
+    type: object
+    properties:
+      namespace:
+        type: string
+      sessionId:
+        type: string
+        format: byte
+      transactionId:
+        type: string
+        format: byte
+        title: If provided will do the GetMulti in the given transaction, otherwise will be done in a read only transaction
+      keySets:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1KeySet'
+      projection:
+        $ref: '#/definitions/v1Projection'
+    title: GetMultiRequest is the request message for VStore.GetMulti
+  v1GetMultiResponse:
+    type: object
+    properties:
+      entities:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/GetMultiResponseEntityContainer'
+    title: GetResponse is the response message for VStore.GetMulti
+  v1KeyFilter:
+    type: object
+    properties:
+      keys:
+        type: array
+        items:
+          type: string
+        description: |-
+          Keys to filter by. You must always provide parent key components if you provide any children.
+          eg: keys = [PID, AG-123], rows PID:AG-123:* are matches, but if keys = [AG-123] or ["", AG-123], you will not get any matches.
+      prefix:
+        type: boolean
+        title: |-
+          if prefix is set to True, the filter will match an incomplete prefix on the last specified key
+          eg: keys = [PID, AG-4], row PID:AG-456 is a match with partial == true, not a match otherwise
+    title: KeyFilter provides key set filters
+  v1KeySet:
+    type: object
+    properties:
+      kindId:
+        type: string
+      keys:
+        type: array
+        items:
+          type: string
+    title: KeySet uniquely identifies a single Entity in vStore
+  v1MutateRequest:
+    type: object
+    properties:
+      namespace:
+        type: string
+      sessionId:
+        type: string
+        format: byte
+      transactionId:
+        type: string
+        format: byte
+      mutations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Mutation'
+        title: The list of mutations to be written in the transaction
+    title: MutateRequest is the request message for VStore.Mutate
+  v1Mutation:
+    type: object
+    properties:
+      insert:
+        $ref: '#/definitions/MutationInsert'
+      update:
+        $ref: '#/definitions/MutationUpdate'
+      replace:
+        $ref: '#/definitions/MutationReplace'
+    description: Mutation provides the options to mutate data in vStore.
+  v1Order:
+    type: string
+    enum:
+      - ORDER_ASC
+      - ORDER_DESC
+    default: ORDER_ASC
+  v1Projection:
+    type: object
+    properties:
+      columns:
+        type: array
+        items:
+          type: string
+    title: Projection provides the option to select the columns that are returned
+  v1RangeFilter:
+    type: object
+    properties:
+      begin:
+        type: array
+        items:
+          type: string
+        description: Key set to start filtering from.
+      end:
+        type: array
+        items:
+          type: string
+        description: Key set to stop filtering at.
+    title: RangeFilter will bound results by [begin, end)
+  v1RollbackRequest:
+    type: object
+    properties:
+      namespace:
+        type: string
+      sessionId:
+        type: string
+        format: byte
+      transactionId:
+        type: string
+        format: byte
+    title: RollbackRequest is the request message for VStore.Rollback
+  v1StreamedEntity:
+    type: object
+    properties:
+      entity:
+        $ref: '#/definitions/v1Entity'
+      cursor:
+        type: string
+  v1StreamingQueryRequest:
+    type: object
+    properties:
+      namespace:
+        type: string
+      sessionId:
+        type: string
+        format: byte
+      select:
+        $ref: '#/definitions/v1Projection'
+      from:
+        type: string
+      where:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/StreamingQueryRequestFilter'
+      limit:
+        $ref: '#/definitions/StreamingQueryRequestLimit'
+      offset:
+        $ref: '#/definitions/StreamingQueryRequestOffset'
+      index:
+        type: string
+        description: Chooses which index to query against, if left empty, it will use the default primary key index.
+      orderBy:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/StreamingQueryRequestOrderBy'
+        title: |-
+          Order By of the query -- the columns used here should be covered, in order, by an index for sorting effeciency
+          For example, given an index of: colA ASC colB DESC colC DESC
+          Fast: colA=valueA; orderBy colB DESC colC DESC
+          Fast: orderBy colA ASC colB DESC colC DESC
+          Fast: orderBy colA ASC colB DESC
+    title: StreamingQueryRequest is the request message for VStore.StreamingQuery

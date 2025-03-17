@@ -1,0 +1,244 @@
+swagger: "2.0"
+info:
+  title: developer_center/v1/api.proto
+  version: version not set
+tags:
+  - name: DeveloperCenter
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /developercenter.v1.DeveloperCenter/ListEvents:
+    post:
+      operationId: DeveloperCenter_ListEvents
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListEventsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListEventsRequest'
+      tags:
+        - DeveloperCenter
+  /developercenter.v1.DeveloperCenter/ListMicroservices:
+    post:
+      operationId: DeveloperCenter_ListMicroservices
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListMicroservicesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListMicroservicesRequest'
+      tags:
+        - DeveloperCenter
+  /developercenter.v1.DeveloperCenter/ListSymbols:
+    post:
+      operationId: DeveloperCenter_ListSymbols
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListSymbolsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListSymbolsRequest'
+      tags:
+        - DeveloperCenter
+definitions:
+  ListEventsResponseEvent:
+    type: object
+    properties:
+      name:
+        type: string
+      id:
+        type: string
+      description:
+        type: string
+      jsonSchema:
+        type: string
+      jsonExample:
+        type: string
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1Enum:
+    type: object
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      fullyQualifiedName:
+        type: string
+  v1Environment:
+    type: object
+    properties:
+      name:
+        type: string
+      hosts:
+        type: array
+        items:
+          type: string
+  v1Field:
+    type: object
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      fullyQualifiedName:
+        type: string
+  v1GetSymbolResponse:
+    type: object
+    properties:
+      service:
+        $ref: '#/definitions/v1Service'
+      message:
+        $ref: '#/definitions/v1Message'
+      enum:
+        $ref: '#/definitions/v1Enum'
+  v1ListEventsRequest:
+    type: object
+    properties:
+      cursor:
+        type: string
+      pageSize:
+        type: string
+        format: int64
+  v1ListEventsResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/ListEventsResponseEvent'
+      nextCursor:
+        type: string
+      hasMore:
+        type: boolean
+  v1ListMicroservicesRequest:
+    type: object
+  v1ListMicroservicesResponse:
+    type: object
+    properties:
+      microservices:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Microservice'
+  v1ListSymbolsRequest:
+    type: object
+    properties:
+      microserviceId:
+        type: string
+      version:
+        type: string
+  v1ListSymbolsResponse:
+    type: object
+    properties:
+      symbols:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1GetSymbolResponse'
+  v1Message:
+    type: object
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      fullyQualifiedName:
+        type: string
+      fields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Field'
+      jsonSchema:
+        type: string
+      jsonExample:
+        type: string
+  v1Microservice:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      versions:
+        type: array
+        items:
+          type: string
+      environments:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Environment'
+  v1RPC:
+    type: object
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      fullyQualifiedName:
+        type: string
+  v1Service:
+    type: object
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      fullyQualifiedName:
+        type: string
+      rpcs:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1RPC'

@@ -1,0 +1,1005 @@
+swagger: "2.0"
+info:
+  title: business/v1/api.proto
+  version: version not set
+tags:
+  - name: BusinessService
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /business.v1.BusinessService/Create:
+    post:
+      summary: |-
+        Create is used to create a new business.  Clients must specify the
+        partner ID and market ID that they want the business to be created
+        in.  Their IAM identity must have the appropriate policy setup for
+        this to be allowed.  Note that products can not be provisioned with
+        this RPC; a business must be created with this RPC first, and then
+        products can be provisioned on it.
+      operationId: BusinessService_Create
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateRequest'
+      tags:
+        - BusinessService
+  /business.v1.BusinessService/GetMulti:
+    post:
+      summary: GetMulti is used to get Business(es) by their Business ID.
+      operationId: BusinessService_GetMulti
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiRequest'
+      tags:
+        - BusinessService
+  /business.v1.BusinessService/List:
+    post:
+      summary: List will return a list of businesses that match the filters.
+      operationId: BusinessService_List
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListRequest'
+      tags:
+        - BusinessService
+  /business.v1.BusinessService/Search:
+    post:
+      summary: Search will return a scored list of businesses that match the filters.
+      operationId: BusinessService_Search
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1SearchResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SearchRequest'
+      tags:
+        - BusinessService
+  /business.v1.BusinessService/Update:
+    post:
+      summary: Update is used to update specified fields of their business
+      operationId: BusinessService_Update
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateRequest'
+      tags:
+        - BusinessService
+definitions:
+  GetMultiResponseBusinessContainer:
+    type: object
+    properties:
+      business:
+        $ref: '#/definitions/v1Business'
+  HealthCareProfessionalInformationGender:
+    type: string
+    enum:
+      - NotSpecified
+      - Female
+      - Male
+      - Other
+    default: NotSpecified
+  HoursOfOperationDayOfWeek:
+    type: string
+    enum:
+      - MONDAY
+      - TUESDAY
+      - WEDNESDAY
+      - THURSDAY
+      - FRIDAY
+      - SATURDAY
+      - SUNDAY
+      - PUBLIC_HOLIDAYS
+    default: MONDAY
+  HoursOfOperationSpan:
+    type: object
+    properties:
+      dayOfWeek:
+        type: array
+        items:
+          $ref: '#/definitions/HoursOfOperationDayOfWeek'
+        title: The days of the week (a list of days as text) this span applies to
+      opens:
+        type: string
+        title: |-
+          A description of when the business opens in military time:
+          "16:40" is 4:30 PM?
+      closes:
+        type: string
+        title: |-
+          A descriptoin of when the business closes in military time:
+          "13:00" is 1:00 PM?
+      description:
+        type: string
+        title: |-
+          A description accompanying the span.  Use this field for
+          describing holiday hours?
+    title: |-
+      Stores information about a particular timespan that the business
+      is open
+  RichDataPaymentMethods:
+    type: string
+    enum:
+      - AMERICAN_EXPRESS
+      - ANDROID_PAY
+      - APPLE_PAY
+      - CASH
+      - CHECK
+      - DEBIT
+      - DINERS_CLUB
+      - DISCOVER
+      - MASTERCARD
+      - PAYPAL
+      - SAMSUNG_PAY
+      - STORE_CARD
+      - TRAVELERS_CHECK
+      - VISA
+    default: AMERICAN_EXPRESS
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1Administration:
+    type: object
+    properties:
+      notes:
+        type: string
+        title: Notes about this business
+    title: |-
+      A set of information about the administration of this business. This information is only
+      available to admins, and not to the local business owner
+  v1BasicData:
+    type: object
+    properties:
+      companyName:
+        type: string
+        title: The operating name of the business
+      address:
+        type: string
+        title: The street address of the location
+      city:
+        type: string
+        title: The city of the location
+      state:
+        type: string
+        title: The state/province/territory of the location
+      zip:
+        type: string
+        title: The zip/postalcode of the location
+      country:
+        type: string
+        title: The country of the location
+      website:
+        type: string
+        title: The website of the location or business
+      workNumber:
+        type: array
+        items:
+          type: string
+        title: |-
+          A list of local phone numbers used by the business.  These can
+          not be toll-free numbers
+      callTrackingNumber:
+        type: array
+        items:
+          type: string
+        description: |-
+          A list of call-tracking nubmers used by the business.  These are
+          generally used for advertising attribution.
+      location:
+        $ref: '#/definitions/v1Geo'
+        title: The geo point describing the location
+      timezone:
+        type: string
+        title: The timezone of the location in text form (ie. "MT" or "ET")
+      serviceAreaBusiness:
+        type: boolean
+        description: |-
+          Does this business serve an area, rather than operate out of a publicly-available location?
+          For example, plumbers, electricians, or people who work at home and sell services online.
+    description: |-
+      A set of basic information about a business that is common to almost all
+      types of business.  Most of this information is required to construct a
+      good online business listing.
+  v1Business:
+    type: object
+    properties:
+      businessId:
+        type: string
+        description: |-
+          A unique business identifier.  This is a universally unique ID that is
+          used throughout the platform to identify a single business location.
+      partnerId:
+        type: string
+        title: The partner ID that this business has a relationship
+      marketId:
+        type: string
+        description: |-
+          The market ID that the business has a relationship with.  Note that
+          "" can be a valid market ID.
+      basicData:
+        $ref: '#/definitions/v1BasicData'
+        description: |-
+          Stores the basic data on the account.  This field should never be
+          null.
+      suspended:
+        type: boolean
+        description: |-
+          Indicates whether the business has been suspended due to billing
+          issues.
+      deleted:
+        type: string
+        format: date-time
+        description: |-
+          When the business was deleted.  If the the timestamp is zero, then the
+          business has not been deleted.
+      created:
+        type: string
+        format: date-time
+        description: |-
+          When the business was first created.  This field is automatically
+          assigned by the system and can not be specified on creation or
+          update operations.
+      updated:
+        type: string
+        format: date-time
+        description: |-
+          When any fields on the business were last modified.  This field i9s
+          automatically assigned by the system and can not be specified on
+          creation or update operations.
+      inferredAttributes:
+        type: array
+        items:
+          type: string
+        description: |-
+          A list of attributes that have been inferred.  This field uses a
+          syntax equivalent to the FieldMask.
+      products:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Product'
+        title: A list of the products currently provisioned for the business
+      externalIdentifiers:
+        $ref: '#/definitions/v1ExternalIdentifiers'
+        description: |-
+          External Identifiers on the account.  Because these fields are all
+          optional, this field can be null, but any good business will have
+          a taxonomhy specified, so in practice it should not be null.
+      socialUrls:
+        $ref: '#/definitions/v1SocialURLs'
+        description: |-
+          The list of social URLs associated with the business.  This field
+          can be null.
+      hoursOfOperation:
+        $ref: '#/definitions/v1HoursOfOperation'
+        description: The hours of operation of the business.  This field can be null.
+      richData:
+        $ref: '#/definitions/v1RichData'
+        description: |-
+          Extra data about the business.  Much of this data may be specific
+          to certain types of business.  This field can be null.
+      administration:
+        $ref: '#/definitions/v1Administration'
+        description: Data about the administration of this business. This field can be null.
+    description: |-
+      Describes all of the details about a single location of a business.  For
+      multi-location businesses, one Business for each location in the platform
+      is required.
+  v1CreateRequest:
+    type: object
+    properties:
+      business:
+        $ref: '#/definitions/v1Business'
+  v1CreateResponse:
+    type: object
+    properties:
+      businessId:
+        type: string
+  v1CustomField:
+    type: object
+    properties:
+      name:
+        type: string
+        title: The name of the custom field should be meaningful to users
+      value:
+        type: string
+        title: The value of the custom field for a particular business
+    title: |-
+      CustomField allows partners to extend the metrics stored on a business to
+      suit their own use cases
+  v1ExternalIdentifiers:
+    type: object
+    properties:
+      origin:
+        type: string
+        title: |-
+          An indicator of where this account was created.  SDK clients may choose
+          to override this value
+      customerIdentifier:
+        type: string
+        description: |-
+          Reserved for external customer use.  Allows SDK clients to assign an id
+          to a business that is meaningful in their external system.
+      tags:
+        type: array
+        items:
+          type: string
+        description: |-
+          Tags are used for grouping businesses and list construction.  There is a
+          limit of 16 tags per business. Note that tags are not used to indicate
+          list membership.
+      actionLists:
+        type: array
+        items:
+          type: string
+        description: The ids of the lists that this business is a part of.
+      taxonomyIds:
+        type: array
+        items:
+          type: string
+        description: |-
+          The service category of the business.  This is important for listing
+          services and helping to refine what rich data is relevant to a particular
+          business.  Up to 3 categories can be assigned from the taxonomy.
+      salesPersonId:
+        type: string
+        description: The ID of the salesperson associated with this business.
+      partnerId:
+        type: string
+        description: The partner ID of the business.
+      marketId:
+        type: string
+        description: The market ID of the business.
+    title: |-
+      A set of identifiers associated with a business.  Note that they are
+      optional, so Market ID and Partner ID are not included in this structure
+  v1FieldMask:
+    type: object
+    properties:
+      paths:
+        type: array
+        items:
+          type: string
+        description: The set of field mask paths.
+    description: |-
+      paths: "f.a"
+          paths: "f.b.d"
+
+      Here `f` represents a field in some root message, `a` and `b`
+      fields in the message found in `f`, and `d` a field found in the
+      message in `f.b`.
+
+      Field masks are used to specify a subset of fields that should be
+      returned by a get operation or modified by an update operation.
+      Field masks also have a custom JSON encoding (see below).
+
+      # Field Masks in Projections
+
+      When used in the context of a projection, a response message or
+      sub-message is filtered by the API to only contain those fields as
+      specified in the mask. For example, if the mask in the previous
+      example is applied to a response message as follows:
+
+          f {
+            a : 22
+            b {
+              d : 1
+              x : 2
+            }
+            y : 13
+          }
+          z: 8
+
+      The result will not contain specific values for fields x,y and z
+      (their value will be set to the default, and omitted in proto text
+      output):
+
+
+          f {
+            a : 22
+            b {
+              d : 1
+            }
+          }
+
+      A repeated field is not allowed except at the last position of a
+      paths string.
+
+      If a FieldMask object is not present in a get operation, the
+      operation applies to all fields (as if a FieldMask of all fields
+      had been specified).
+
+      Note that a field mask does not necessarily apply to the
+      top-level response message. In case of a REST get operation, the
+      field mask applies directly to the response, but in case of a REST
+      list operation, the mask instead applies to each individual message
+      in the returned resource list. In case of a REST custom method,
+      other definitions may be used. Where the mask applies will be
+      clearly documented together with its declaration in the API.  In
+      any case, the effect on the returned resource/resources is required
+      behavior for APIs.
+
+      # Field Masks in Update Operations
+
+      A field mask in update operations specifies which fields of the
+      targeted resource are going to be updated. The API is required
+      to only change the values of the fields as specified in the mask
+      and leave the others untouched. If a resource is passed in to
+      describe the updated values, the API ignores the values of all
+      fields not covered by the mask.
+
+      If a repeated field is specified for an update operation, the existing
+      repeated values in the target resource will be overwritten by the new values.
+      Note that a repeated field is only allowed in the last position of a `paths`
+      string.
+
+      If a sub-message is specified in the last position of the field mask for an
+      update operation, then the existing sub-message in the target resource is
+      overwritten. Given the target message:
+
+          f {
+            b {
+              d : 1
+              x : 2
+            }
+            c : 1
+          }
+
+      And an update message:
+
+          f {
+            b {
+              d : 10
+            }
+          }
+
+      then if the field mask is:
+
+       paths: "f.b"
+
+      then the result will be:
+
+          f {
+            b {
+              d : 10
+            }
+            c : 1
+          }
+
+      However, if the update mask was:
+
+       paths: "f.b.d"
+
+      then the result would be:
+
+          f {
+            b {
+              d : 10
+              x : 2
+            }
+            c : 1
+          }
+
+      In order to reset a field's value to the default, the field must
+      be in the mask and set to the default value in the provided resource.
+      Hence, in order to reset all fields of a resource, provide a default
+      instance of the resource and set all fields in the mask, or do
+      not provide a mask as described below.
+
+      If a field mask is not present on update, the operation applies to
+      all fields (as if a field mask of all fields has been specified).
+      Note that in the presence of schema evolution, this may mean that
+      fields the client does not know and has therefore not filled into
+      the request will be reset to their default. If this is unwanted
+      behavior, a specific service may require a client to always specify
+      a field mask, producing an error if not.
+
+      As with get operations, the location of the resource which
+      describes the updated values in the request message depends on the
+      operation kind. In any case, the effect of the field mask is
+      required to be honored by the API.
+
+      ## Considerations for HTTP REST
+
+      The HTTP kind of an update operation which uses a field mask must
+      be set to PATCH instead of PUT in order to satisfy HTTP semantics
+      (PUT must only be used for full updates).
+
+      # JSON Encoding of Field Masks
+
+      In JSON, a field mask is encoded as a single string where paths are
+      separated by a comma. Fields name in each path are converted
+      to/from lower-camel naming conventions.
+
+      As an example, consider the following message declarations:
+
+          message Profile {
+            User user = 1;
+            Photo photo = 2;
+          }
+          message User {
+            string display_name = 1;
+            string address = 2;
+          }
+
+      In proto a field mask for `Profile` may look as such:
+
+          mask {
+            paths: "user.display_name"
+            paths: "photo"
+          }
+
+      In JSON, the same mask is represented as below:
+
+          {
+            mask: "user.displayName,photo"
+          }
+
+      # Field Masks and Oneof Fields
+
+      Field masks treat fields in oneofs just as regular fields. Consider the
+      following message:
+
+          message SampleMessage {
+            oneof test_oneof {
+              string name = 4;
+              SubMessage sub_message = 9;
+            }
+          }
+
+      The field mask can be:
+
+          mask {
+            paths: "name"
+          }
+
+      Or:
+
+          mask {
+            paths: "sub_message"
+          }
+
+      Note that oneof type names ("test_oneof" in this case) cannot be used in
+      paths.
+    title: '`FieldMask` represents a set of symbolic field paths, for example:'
+  v1Geo:
+    type: object
+    properties:
+      latitude:
+        type: number
+        format: double
+        title: |-
+          The latitude of the point is the north/south angle the point makes with
+          the equator it ranges from -90° at the south pole, through 0° at the
+          equator, and to +90° at the north pole
+      longitude:
+        type: number
+        format: double
+        description: |-
+          The longitude of the point is the west/east angle the point makes with
+          the Prime Meridian (The Royal Observatory in Greenwich, England) it
+          ranges from -180°, though 0° at the Royal Observatory, and to +180°.
+          Note that there is a discontinuity at ±180° as they describe the same
+          angle.
+    title: Geo stores a geographic point for marking locations
+  v1GetMultiRequest:
+    type: object
+    properties:
+      businessIds:
+        type: array
+        items:
+          type: string
+      projectionFilter:
+        $ref: '#/definitions/v1ProjectionFilter'
+  v1GetMultiResponse:
+    type: object
+    properties:
+      businesses:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/GetMultiResponseBusinessContainer'
+  v1HealthCareProfessionalInformation:
+    type: object
+    properties:
+      dateOfBirth:
+        type: string
+        format: date-time
+        title: |-
+          The birth date of the practitioner. Some patients have an age
+          preference when selecting a practitioner
+      email:
+        type: string
+        title: Direct contact email for the practitioner
+      fellowship:
+        type: array
+        items:
+          type: string
+        title: |-
+          A list of free-form locations where the practitioner performed their
+          fellowships if applicable
+      firstName:
+        type: string
+        title: The first name of the practitioner
+      gender:
+        $ref: '#/definitions/HealthCareProfessionalInformationGender'
+        title: |-
+          The gender of the practitioner. Some patients have a gender
+          preference when selecting a practitioner
+      initials:
+        type: string
+        title: The initials of the practitioner
+      insurancesAccepted:
+        type: array
+        items:
+          type: string
+        title: |-
+          A free-form text list of insurance providers accepted by
+          the practitioner
+      isTakingPatients:
+        type: boolean
+        description: |-
+          Indicates whether the practitioner is accepting new patients.  Can be
+          null, indicating that they did not specify.
+      lastName:
+        type: string
+        title: The last name of the practitioner
+      medicalLicenseNumber:
+        type: string
+        description: |-
+          The practitioner's medical licence number, assigned by their
+          particular certification authority.
+      nationalProviderIdentifier:
+        type: string
+        description: |-
+          The 10-digit NPI number is assigned to all health practitioners by the
+          Centers for Medicare and Medicaid Services (CMS).
+      office:
+        type: string
+        title: Which operating office this location refers to
+      professionalCredential:
+        type: array
+        items:
+          type: string
+        title: A list of free-form text credentials held by the practitioner
+      residency:
+        type: array
+        items:
+          type: string
+        description: |-
+          A list of free-form locations where the practitioner performed their
+          residencies if applicable.
+      school:
+        type: array
+        items:
+          type: string
+        title: |-
+          A list of free-form text schools the practitioner obtained educational
+          certifications through
+      specialty:
+        type: array
+        items:
+          type: string
+        title: A list of free-form specialties of the practitioner
+      standardizedTitle:
+        type: string
+        title: The title used by the practitioner to describe themselves
+      stateLicense:
+        type: string
+        title: The license number issued by the practitioner's state
+    title: Stores data specific to a business in the "Medical" Taxonomy
+  v1HoursOfOperation:
+    type: object
+    properties:
+      hoursOfOperation:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/HoursOfOperationSpan'
+        title: The list of time spans that describe the business's hours
+    description: |-
+      Stores information about the hours that a business is open in the form of
+      a list of time-spans describing the business's hours.
+  v1ListRequest:
+    type: object
+    properties:
+      filters:
+        $ref: '#/definitions/v1ListRequestFilters'
+      cursor:
+        type: string
+      pageSize:
+        type: string
+        format: int64
+  v1ListRequestFilters:
+    type: object
+    properties:
+      partnerId:
+        type: string
+  v1ListResponse:
+    type: object
+    properties:
+      businesses:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Business'
+      nextCursor:
+        type: string
+      hasMore:
+        type: boolean
+  v1Product:
+    type: object
+    properties:
+      isTrial:
+        type: boolean
+        title: Whether the product is a trial account or not
+      tags:
+        type: array
+        items:
+          type: string
+        title: Tags on the product
+      marketplaceAppId:
+        type: string
+        title: The marketplace app id or the legacy product id of the product
+      accountId:
+        type: string
+        title: The product-specific Account ID
+      expiry:
+        type: string
+        format: date-time
+        title: The date on which the product expires
+    title: A representation of a single product on a business
+  v1ProjectionFilter:
+    type: object
+    properties:
+      products:
+        type: boolean
+        title: Controls if products is returned on the business
+      externalIdentifiers:
+        type: boolean
+        title: Controls if external_identifiers is returned on the business
+      socialUrls:
+        type: boolean
+        title: Controls if social_urls is returned on the business
+      hoursOfOperation:
+        type: boolean
+        title: Controls if hours_of_operation is returned on the business
+      contactDetails:
+        type: boolean
+        title: Controls if contact_details is returned on the business
+      richData:
+        type: boolean
+        title: Controls if rich_data is returned on the business
+  v1RichData:
+    type: object
+    properties:
+      tollFreeNumber:
+        type: string
+        description: |-
+          The toll-free phone number associated with a business.  This is stored
+          separately than basic NAP data because many listing sites don't allow
+          a toll-free number to be used as a primary phone number, but they often
+          do allow it to be captured separately.
+      description:
+        type: string
+        description: The long-form description of the business.
+      shortDescription:
+        type: string
+        title: The short description of the business or "tagline"
+      servicesOffered:
+        type: array
+        items:
+          type: string
+        title: A free-form text list of services offered by the business
+      brandsCarried:
+        type: array
+        items:
+          type: string
+        title: A free-form text list of brands carried by the business
+      landmark:
+        type: string
+        title: |-
+          A landmark near the business that is helpful to customers trying to
+          locate the business (ie. The Penhorn Mall)
+      paymentMethods:
+        type: array
+        items:
+          $ref: '#/definitions/RichDataPaymentMethods'
+        title: A list of payment methods accepted by the business
+      customFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomField'
+        title: A set of custom fields on a business specific to a partner
+      healthCareProfessionalInformation:
+        $ref: '#/definitions/v1HealthCareProfessionalInformation'
+        title: RichData specific to business in the "Medical" Taxonomy
+    description: |-
+      RichData stores data on businesses that is more in-depth than the basic data
+      much of this data is specific to certain types of business.  This means that
+      proper selection of taxonomy ids is important to effectively using RichData.
+  v1SearchRequest:
+    type: object
+    properties:
+      filters:
+        $ref: '#/definitions/v1SearchRequestFilters'
+      cursor:
+        type: string
+      pageSize:
+        type: string
+        format: int64
+      searchTerm:
+        type: string
+        title: search_term is an arbitrary string to perform full text search across business location data
+  v1SearchRequestFilters:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      customerIdentifier:
+        type: string
+  v1SearchResponse:
+    type: object
+    properties:
+      businesses:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Business'
+      nextCursor:
+        type: string
+      hasMore:
+        type: boolean
+      totalResults:
+        type: string
+        format: int64
+  v1SocialURLs:
+    type: object
+    properties:
+      googleplusUrl:
+        type: string
+        description: The business's Google+ Page.  Should not be a Google+ User profile.
+      linkedinUrl:
+        type: string
+        title: |-
+          The business's LinkedIn Company Page.  Should not be a LinkedIn personal
+          profile
+      foursquareUrl:
+        type: string
+        description: The business's FourSquare Location Page.
+      twitterUrl:
+        type: string
+        description: |-
+          The business's Twitter Page.  Twitter does not differentiate between
+          users and businesses.
+      facebookUrl:
+        type: string
+        description: |-
+          The business's Facebook Page.  The page should be public, and should
+          not be a facebook user.
+      rssUrl:
+        type: string
+        description: |-
+          A RSS feed URL for content produced by the business.  Usually a blog
+          or podcast feed.
+      youtubeUrl:
+        type: string
+        description: The URL for the business's youtube channel.
+      instagramUrl:
+        type: string
+        description: |-
+          The URL for the business's instagram account.  Instagram does not
+          differentiate between users and businesses.
+      pinterestUrl:
+        type: string
+        description: The URL for the business's Pinterest account.
+    description: |-
+      A set of Social Media URLs associated with the business.  These should be the
+      publically accessible URLs.
+  v1UpdateOperation:
+    type: object
+    properties:
+      basicData:
+        $ref: '#/definitions/v1BasicData'
+        title: Specifying this operation will update the business' basic data
+      socialUrls:
+        $ref: '#/definitions/v1SocialURLs'
+        title: Specifying this operation will update the business' social urls
+      hoursOfOperation:
+        $ref: '#/definitions/v1HoursOfOperation'
+        title: Specifying this operation will update the business' hours of operation
+      administration:
+        $ref: '#/definitions/v1Administration'
+        title: Specifying this operation will update the business' administration details
+      richData:
+        $ref: '#/definitions/v1RichData'
+        title: Specifying this operation will update the business' rich data
+      externalIdentifiers:
+        $ref: '#/definitions/v1ExternalIdentifiers'
+        title: Specifying this operation will update the business' external identifiers
+      fieldMask:
+        $ref: '#/definitions/v1FieldMask'
+    title: Update operation allows updating a specific piece of the business
+  v1UpdateRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+      updateOperations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1UpdateOperation'

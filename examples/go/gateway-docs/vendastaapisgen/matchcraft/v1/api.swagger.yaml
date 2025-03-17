@@ -1,0 +1,218 @@
+swagger: "2.0"
+info:
+  title: matchcraft/v1/api.proto
+  version: version not set
+tags:
+  - name: Matchcraft
+  - name: Advantage
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /matchcraft.v1.Advantage/CheckForAdvantageUser:
+    post:
+      summary: CheckForAdvantageUser checks if the caller's identity has a corresponding, configured AdVantage user.
+      description: |-
+        "Configured" means that two preconditions are met:
+        1. There is a valid user on the AdVantage side.
+        2. That a user or partner configuration entry exists on the Vendasta Matchcraft service side.
+
+        The configuration entry on the Vendasta side is necessary to connect the Vendasta IAM user to the right AdVantage
+        user. Differences in email, partner, user ID, etc are all overcome via this configuration entry.
+
+        This RPC will currently only check for a valid configuration entry, it will NOT verify the user on the AdVantage
+        side.
+      operationId: Advantage_CheckForAdvantageUser
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CheckForAdvantageUserResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CheckForAdvantageUserRequest'
+      tags:
+        - Advantage
+  /matchcraft.v1.Advantage/GetAdvantageRedirectURL:
+    post:
+      summary: |-
+        GetAdvantageRedirectURL returns the url that will redirect the user to a AdVantage dashboard, with an SSO token
+        attached for the caller's identity. The client is responsible for the redirection.
+      operationId: Advantage_GetAdvantageRedirectURL
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetAdvantageRedirectURLResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetAdvantageRedirectURLRequest'
+      tags:
+        - Advantage
+  /matchcraft.v1.Matchcraft/GetRedirectURL:
+    post:
+      summary: GetRedirectURL returns the url that will redirect the user to a matchcraft dashboard
+      operationId: Matchcraft_GetRedirectURL
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetRedirectURLResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetRedirectURLRequest'
+      tags:
+        - Matchcraft
+  /matchcraft.v1.Matchcraft/ListReportingProducts:
+    post:
+      summary: ListReportingProducts returns a list of matchcraft reporting products
+      operationId: Matchcraft_ListReportingProducts
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListReportingProductsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListReportingProductsRequest'
+      tags:
+        - Matchcraft
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1CheckForAdvantageUserRequest:
+    type: object
+  v1CheckForAdvantageUserResponse:
+    type: object
+    properties:
+      exists:
+        type: boolean
+        description: Whether or not the caller identity has a fully-configured AdVantage user (see CheckForAdvantageUser).
+  v1GetAdvantageRedirectURLRequest:
+    type: object
+  v1GetAdvantageRedirectURLResponse:
+    type: object
+    properties:
+      url:
+        type: string
+        description: The url which will authenticate the user, and redirect them to the AdVantage platform.
+  v1GetRedirectURLRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: The business id for an account
+      merchantId:
+        type: string
+        title: The merchant id for a matchcraft campaign
+    title: GetRedirectURLRequest gets the matchcraft redirect url for a business_id and merchant_id
+  v1GetRedirectURLResponse:
+    type: object
+    properties:
+      redirectUrl:
+        type: string
+        title: The url which will redirect the user to the matchcraft dashboard
+    title: GetRedirectURLResponse the matchcraft dashboard redirect url
+  v1ListReportingProductsRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: The ID of the business to get multiple matchcraft reporting products
+      pagingOptions:
+        $ref: '#/definitions/v1PagedRequestOptions'
+        title: Options for how to page the response for this request
+    title: ListReportingProductsRequest is issued to get multiple matchcraft reporting products
+  v1ListReportingProductsResponse:
+    type: object
+    properties:
+      reportingProducts:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ReportingProduct'
+        title: A list of matchcraft reporting products
+      pagingMetadata:
+        $ref: '#/definitions/v1PagedResponseMetadata'
+        title: Metadata about the paging
+    title: ListReportingProductsResponse message for a request that returns multiple matchcraft reporting products
+  v1PagedRequestOptions:
+    type: object
+    properties:
+      cursor:
+        type: string
+        title: cursor can be passed to retrieve the next page of results keyed by the cursor
+      pageSize:
+        type: string
+        format: int64
+        title: page_size specifies the number of items to return in the next page
+    title: Options for how to page the response for a List request
+  v1PagedResponseMetadata:
+    type: object
+    properties:
+      nextCursor:
+        type: string
+        title: A cursor that can be provided to retrieve the next page of results
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+    title: Metadata related to the paged response from a List request
+  v1ReportingProduct:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: The id of the business
+      merchantId:
+        type: string
+        title: The id of the reporting product
+      descriptor:
+        type: string
+        title: The description of the reporting product
+    title: ReportingProduct is a matchcraft reporting product

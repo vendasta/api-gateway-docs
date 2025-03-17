@@ -1,0 +1,809 @@
+swagger: "2.0"
+info:
+  title: notifications/v1/admin.proto
+  version: version not set
+tags:
+  - name: NotificationsAdmin
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /notifications.v1.NotificationsAdmin/CreateType:
+    post:
+      operationId: NotificationsAdmin_CreateType
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateTypeRequest'
+      tags:
+        - NotificationsAdmin
+  /notifications.v1.NotificationsAdmin/DeleteType:
+    post:
+      operationId: NotificationsAdmin_DeleteType
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeleteTypeRequest'
+      tags:
+        - NotificationsAdmin
+  /notifications.v1.NotificationsAdmin/GetType:
+    post:
+      operationId: NotificationsAdmin_GetType
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetTypeResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetTypeRequest'
+      tags:
+        - NotificationsAdmin
+  /notifications.v1.NotificationsAdmin/ListTypes:
+    post:
+      operationId: NotificationsAdmin_ListTypes
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListTypesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListTypesRequest'
+      tags:
+        - NotificationsAdmin
+  /notifications.v1.NotificationsAdmin/Preview:
+    post:
+      summary: Preview inserts a notification into the caller's stream
+      operationId: NotificationsAdmin_Preview
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1PreviewRequest'
+      tags:
+        - NotificationsAdmin
+  /notifications.v1.NotificationsAdmin/Release:
+    post:
+      operationId: NotificationsAdmin_Release
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ReleaseRequest'
+      tags:
+        - NotificationsAdmin
+  /notifications.v1.NotificationsAdmin/UpdateType:
+    post:
+      operationId: NotificationsAdmin_UpdateType
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateTypeRequest'
+      tags:
+        - NotificationsAdmin
+definitions:
+  EmailParticipantTemplateOperation:
+    type: object
+    properties:
+      nameTemplate:
+        $ref: '#/definitions/v1Template'
+      addressTemplate:
+        $ref: '#/definitions/v1Template'
+  MediumConfigurationBundleConfiguration:
+    type: object
+    properties:
+      window:
+        type: string
+        title: The amount of time similar notifications should be bundled together before a new bundle is created
+      contentTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The template that should be used when showing bundled notifications
+      linkTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The template id for building the link for bundled notifications
+  MediumConfigurationEmailConfiguration:
+    type: object
+    properties:
+      contentTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The template id for building the email content of this notification type
+      linkTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The template id for building the link for a notification
+      subjectTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The subject line for the email, this determines threading in many email systems
+      from:
+        $ref: '#/definitions/MediumConfigurationEmailConfigurationParticipantTemplate'
+      contentType:
+        $ref: '#/definitions/v1ContentType'
+        title: The content type of the email body
+      espId:
+        type: string
+        description: An identifier that has been preconfigured for use by the `email` microservice.
+      sampleData:
+        type: object
+        description: Sample data used for previewing email notifications.
+  MediumConfigurationEmailConfigurationParticipantTemplate:
+    type: object
+    properties:
+      nameTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The template id that calculates the name of the email participant
+      addressTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The template id that calculates the address of the email participant
+  MediumConfigurationWebConfiguration:
+    type: object
+    properties:
+      contentTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The template for building the content of the notification
+      linkTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The template for building the link for a notification
+      sampleData:
+        type: object
+        description: Sample data used for previewing web notifications.
+  NotificationTypeEmailParticipantTemplate:
+    type: object
+    properties:
+      nameTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The template id that calculates the name of the email participant
+      addressTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The template id that calculates the address of the email participant
+  PreviewRequestEvent:
+    type: object
+    properties:
+      eventTypeId:
+        type: string
+        title: The event type id that has been registered with Event Broker
+      emittedAt:
+        type: string
+        format: date-time
+        title: The time that the event was emitted at
+      data:
+        type: object
+        title: The data of the event
+  TemplateInlineTemplate:
+    type: object
+    properties:
+      content:
+        type: string
+  UpdateNotificationTypeOperationMediumConfigurationOperation:
+    type: object
+  UpdateNotificationTypeOperationReplaceMediumConfiguration:
+    type: object
+    properties:
+      configuration:
+        $ref: '#/definitions/v1MediumConfiguration'
+  UpdateNotificationTypeOperationSetAccessRequirements:
+    type: object
+    properties:
+      accessRequirements:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AccessRequirement'
+  UpdateNotificationTypeOperationSetCategory:
+    type: object
+    properties:
+      category:
+        type: array
+        items:
+          type: string
+  UpdateNotificationTypeOperationSetHydrators:
+    type: object
+    properties:
+      hydrators:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Hydrator'
+  UpdateNotificationTypeOperationSetLocales:
+    type: object
+    properties:
+      locales:
+        type: array
+        items:
+          type: string
+  UpdateNotificationTypeOperationSetPersonaAccessRequirements:
+    type: object
+    properties:
+      personaAccessRequirements:
+        type: array
+        items:
+          $ref: '#/definitions/v1PersonaType'
+  UpdateTypeRequestUpdateNotificationTypeOperation:
+    type: object
+    properties:
+      category:
+        $ref: '#/definitions/UpdateNotificationTypeOperationSetCategory'
+        title: Change the notification type's category
+      description:
+        type: string
+        title: Change the notification type's description
+      replaceMediumConfiguration:
+        $ref: '#/definitions/UpdateNotificationTypeOperationReplaceMediumConfiguration'
+        description: Replace a medium configuration. This will create the configuration if it does not yet exist.
+      mediumConfiguration:
+        $ref: '#/definitions/UpdateNotificationTypeOperationMediumConfigurationOperation'
+        title: Update a specific property in the medium configuration
+      domainId:
+        type: string
+        title: Change the notification type's domainID
+      hydrators:
+        $ref: '#/definitions/UpdateNotificationTypeOperationSetHydrators'
+        title: Change the hydrators that the notification relies on
+      name:
+        type: string
+        description: Change the name of the notification type.
+      accessRequirements:
+        $ref: '#/definitions/UpdateNotificationTypeOperationSetAccessRequirements'
+        description: |-
+          Change the access requirements for a notification type.
+          This could mean that users currently subscribed to the notification will no longer have access.
+      web:
+        $ref: '#/definitions/UpdateTypeRequestUpdateNotificationTypeOperationWeb'
+        title: Update the web medium configuration
+      webBundle:
+        $ref: '#/definitions/UpdateTypeRequestUpdateNotificationTypeOperationWebBundle'
+        title: Update the web bundle configuration
+      email:
+        $ref: '#/definitions/UpdateTypeRequestUpdateNotificationTypeOperationEmail'
+        title: Update the email configuration
+      personaAccessRequirements:
+        $ref: '#/definitions/UpdateNotificationTypeOperationSetPersonaAccessRequirements'
+        title: Updates the persona access requirements
+      featureFlagId:
+        type: string
+        title: Update the feature flag id
+      locales:
+        $ref: '#/definitions/UpdateNotificationTypeOperationSetLocales'
+        title: Update the notification type's locales
+      eventTypeId:
+        type: string
+        title: Update the unique identifier of the event this notification type is based on
+  UpdateTypeRequestUpdateNotificationTypeOperationEmail:
+    type: object
+    properties:
+      enabled:
+        type: boolean
+      contentTemplate:
+        $ref: '#/definitions/v1Template'
+      linkTemplate:
+        $ref: '#/definitions/v1Template'
+      subjectTemplate:
+        $ref: '#/definitions/v1Template'
+      from:
+        $ref: '#/definitions/EmailParticipantTemplateOperation'
+      contentType:
+        $ref: '#/definitions/v1ContentType'
+      espId:
+        type: string
+      sampleData:
+        type: object
+  UpdateTypeRequestUpdateNotificationTypeOperationWeb:
+    type: object
+    properties:
+      enabled:
+        type: boolean
+      contentTemplate:
+        $ref: '#/definitions/v1Template'
+      linkTemplate:
+        $ref: '#/definitions/v1Template'
+      sampleData:
+        type: object
+  UpdateTypeRequestUpdateNotificationTypeOperationWebBundle:
+    type: object
+    properties:
+      enabled:
+        type: boolean
+      window:
+        type: string
+      contentTemplate:
+        $ref: '#/definitions/v1Template'
+      linkTemplate:
+        $ref: '#/definitions/v1Template'
+      sampleData:
+        type: object
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  protobufNullValue:
+    type: string
+    enum:
+      - NULL_VALUE
+    default: NULL_VALUE
+    description: |-
+      `NullValue` is a singleton enumeration to represent the null value for the
+      `Value` type union.
+
+      The JSON representation for `NullValue` is JSON `null`.
+
+       - NULL_VALUE: Null value.
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1AccessRequirement:
+    type: object
+    properties:
+      resource:
+        $ref: '#/definitions/v1Resource'
+      scopeIds:
+        type: array
+        items:
+          type: string
+    title: See the resource service for more detailed information
+  v1ContentType:
+    type: string
+    enum:
+      - CONTENT_TYPE_HTML
+      - CONTENT_TYPE_TEXT
+    default: CONTENT_TYPE_HTML
+  v1CreateTypeRequest:
+    type: object
+    properties:
+      notificationTypeId:
+        type: string
+        title: The unique identifier of the notification type
+      category:
+        type: array
+        items:
+          type: string
+        title: |-
+          The notification hierarchical category with the leaf being the Display Name
+          Example: [Business, Product Activations, Rejections]
+      description:
+        type: string
+        description: Description of the notification. Displayed to users.
+      name:
+        type: string
+        description: The user-facing name of the notification. Should describe the notification in as few words as possible.
+      eventTypeId:
+        type: string
+        title: The unique identifier of the event this notification type is based on
+      configurations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1MediumConfiguration'
+        title: |-
+          Separate configurations for each kind of delivery medium
+          Deprecated: use the individual medium configurations on this message
+      domainId:
+        type: string
+        title: Identifier for the domain that this notification type's links will be built relative to
+      hydrators:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Hydrator'
+        title: Hydrators required for this notification type
+      accessRequirements:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AccessRequirement'
+        title: The access checks that the user needs to pass in order to receive or subscribe to this notification
+      web:
+        $ref: '#/definitions/v1NotificationTypeWeb'
+      webBundle:
+        $ref: '#/definitions/v1NotificationTypeWebBundle'
+      email:
+        $ref: '#/definitions/v1NotificationTypeEmail'
+      personaAccessRequirements:
+        type: array
+        items:
+          $ref: '#/definitions/v1PersonaType'
+        description: |-
+          In addition to the access_requirements, you can set general persona types that have access to this
+          notification type.
+      featureFlagId:
+        type: string
+        description: |-
+          The feature flag identifier which controls who will receive notifications when in development.
+
+          If a the feature flag is set, notifications will only be sent if the context of the notification,
+          i.e. partner and market, have the feature enabled.
+
+          This type will also be hidden if the partner and market does not have the feature enabled when
+          looking up the types to display settings.
+
+          This can be empty.
+      locales:
+        type: array
+        items:
+          type: string
+        title: The locales supported by this notification type
+  v1DeleteTypeRequest:
+    type: object
+    properties:
+      notificationTypeId:
+        type: string
+  v1GetTypeRequest:
+    type: object
+    properties:
+      notificationTypeId:
+        type: string
+  v1GetTypeResponse:
+    type: object
+    properties:
+      type:
+        $ref: '#/definitions/v1NotificationType'
+  v1Hydrator:
+    type: object
+    properties:
+      accountGroup:
+        type: boolean
+        title: |-
+          New properties: `_account_group_name`, `_account_group_address`
+          Required on the event schema: `account_group_id`
+      salesperson:
+        type: boolean
+        title: |-
+          New properties: `_salesperson_name`
+          Required on the event schema: `salesperson_id`, (`partner_id` OR `account_group_id`)
+      product:
+        type: boolean
+        title: |-
+          New properties: `_product_name`
+          Required on the event schema: `account_group_id` OR (`partner_id` AND `market_id`), `app_id`
+          Optional on the event schema: `addon_id`
+      partnerBranding:
+        type: boolean
+        title: |-
+          New properties: `_branding.name`, `_branding.primary_color`, `_branding.assets`, `_branding.apps`
+          Required on the event schema: (`partner_id` AND `market_id`) OR `account_group_id`
+      digitalAgent:
+        type: boolean
+        title: |-
+          New properties: `_digital_agent_name`
+          Required on the event schema: `digital_agent_id`
+      user:
+        type: boolean
+        description: |-
+          New properties: `_user.first_name`, `_user.last_name`
+          Required on the event schema: `user_id`
+          This hydrator supports multiples, meaning if the event schema has a repeated string property `user_ids`, the hydrator will inflate a list of `_users`, in the same order that the `user_ids` were provided.
+    description: |-
+      Hydrators allow a notification to have access to additional attributes that are not necessarily part of the schema
+      of the event they are based on. This is useful for templating business names and other human-readable data that is
+      unlikely to be part of the event.
+
+      Hydrated data is calculated at the time that the notification is saved and is not updated.
+
+      Each hydrator requires a different set of properties to be present on the event schema in order to perform hydration.
+  v1ListTypesRequest:
+    type: object
+    properties:
+      pageSize:
+        type: string
+        format: int64
+      cursor:
+        type: string
+  v1ListTypesResponse:
+    type: object
+    properties:
+      types:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1NotificationType'
+      hasMore:
+        type: boolean
+      nextCursor:
+        type: string
+  v1MediumConfiguration:
+    type: object
+    properties:
+      medium:
+        $ref: '#/definitions/v1NotificationMedium'
+        title: 'deprecated: The medium that this configuration is for. A medium should have at most a single configuration - use WebConfiguration or EmailConfiguration'
+      templateId:
+        type: string
+        title: 'deprecated: The template id for building the content of this notification type on this delivery medium - use WebConfiguration'
+      linkTemplateId:
+        type: string
+        title: 'deprecated: The template id for building the link for this delivery medium and notification type - use WebConfiguration'
+      disabled:
+        type: boolean
+        title: A disabled medium configuration will not have notifications delivered for it
+      bundleConfiguration:
+        $ref: '#/definitions/MediumConfigurationBundleConfiguration'
+      emailConfiguration:
+        $ref: '#/definitions/MediumConfigurationEmailConfiguration'
+      webConfiguration:
+        $ref: '#/definitions/MediumConfigurationWebConfiguration'
+  v1NotificationMedium:
+    type: string
+    enum:
+      - NOTIFICATION_MEDIUM_WEB
+      - NOTIFICATION_MEDIUM_EMAIL
+    default: NOTIFICATION_MEDIUM_WEB
+    title: The Medium that the notification will be sent to
+  v1NotificationType:
+    type: object
+    properties:
+      notificationTypeId:
+        type: string
+        title: The unique identifier of the notification type
+      category:
+        type: array
+        items:
+          type: string
+        title: |-
+          The notification hierarchical category with the leaf being the Display Name
+          Example: [Business, Product Activations, Rejections]
+      description:
+        type: string
+        description: Description of the notification. Displayed to users.
+      name:
+        type: string
+        description: The user-facing name of the notification. Should describe the notification in as few words as possible.
+      eventTypeId:
+        type: string
+        title: The unique identifier of the event this notification type is based on
+      configurations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1MediumConfiguration'
+        title: |-
+          Deprecated: Use the web, web_bundle and email configurations on the base message
+          Separate configurations for each kind of delivery medium
+      domainId:
+        type: string
+        title: Identifier for the domain that this notification type's links will be built relative to
+      hydrators:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Hydrator'
+        title: Hydrators required for this notification type
+      accessRequirements:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AccessRequirement'
+        title: Access requirements needed to subscribe to or receive notifications of this type
+      web:
+        $ref: '#/definitions/v1NotificationTypeWeb'
+        title: Web medium configuration
+      webBundle:
+        $ref: '#/definitions/v1NotificationTypeWebBundle'
+        title: Web bundle medium configuration
+      email:
+        $ref: '#/definitions/v1NotificationTypeEmail'
+        title: Email configuration
+      personaAccessRequirements:
+        type: array
+        items:
+          $ref: '#/definitions/v1PersonaType'
+        description: |-
+          In addition to the access_requirements, you can set general persona types that have access to this
+          notification type.
+      featureFlagId:
+        type: string
+        description: |-
+          The feature flag identifier which controls who will receive notifications when in development.
+
+          If a the feature flag is set, notifications will only be sent if the context of the notification,
+          i.e. partner and market, have the feature enabled.
+
+          This type will also be hidden if the partner and market does not have the feature enabled when
+          looking up the types to display settings.
+
+          This can be empty.
+      locales:
+        type: array
+        items:
+          type: string
+        title: The locales supported by this notification type
+  v1NotificationTypeEmail:
+    type: object
+    properties:
+      enabled:
+        type: boolean
+        title: Enable email
+      contentTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The template id for building the email content of this notification type
+      linkTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The template id for building the link for a notification
+      subjectTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The subject line for the email, this determines threading in many email systems
+      from:
+        $ref: '#/definitions/NotificationTypeEmailParticipantTemplate'
+      contentType:
+        $ref: '#/definitions/v1ContentType'
+        title: The content type of the email body
+      espId:
+        type: string
+        description: An identifier that has been preconfigured for use by the `email` microservice.
+      sampleData:
+        type: object
+        description: Sample data used for previewing email notifications.
+  v1NotificationTypeWeb:
+    type: object
+    properties:
+      enabled:
+        type: boolean
+        title: Enable the web configuration
+      contentTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The template for building the content of the notification
+      linkTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The template for building the link for a notification
+      sampleData:
+        type: object
+        description: Sample data used for previewing web notifications.
+  v1NotificationTypeWebBundle:
+    type: object
+    properties:
+      enabled:
+        type: boolean
+        title: Enable the web bundle
+      window:
+        type: string
+        title: Bundle window size
+      contentTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The template for building the content of the notification
+      linkTemplate:
+        $ref: '#/definitions/v1Template'
+        title: The template for building the link for a notification
+      sampleData:
+        type: object
+        description: Sample data used for previewing web notifications.
+  v1PersonaType:
+    type: string
+    enum:
+      - PERSONA_TYPE_PARTNER
+      - PERSONA_TYPE_SALES_PERSON
+      - PERSONA_TYPE_DIGITAL_AGENT
+      - PERSONA_TYPE_SMB
+    default: PERSONA_TYPE_PARTNER
+  v1PreviewRequest:
+    type: object
+    properties:
+      notificationTypeId:
+        type: string
+        description: The ID of the notification type being previewed.
+      medium:
+        $ref: '#/definitions/v1NotificationMedium'
+        title: The medium to send the notification for
+      event:
+        $ref: '#/definitions/PreviewRequestEvent'
+        title: A fake event
+  v1ReleaseRequest:
+    type: object
+    properties:
+      notificationTypeId:
+        type: string
+        description: The notification type id to release.
+      userId:
+        type: array
+        items:
+          type: string
+        description: A list of users to create subscriptions for.
+      medium:
+        $ref: '#/definitions/v1NotificationMedium'
+        title: The medium to create subscriptions for
+  v1Resource:
+    type: object
+    properties:
+      id:
+        type: string
+  v1Template:
+    type: object
+    properties:
+      id:
+        type: string
+        title: the template_id of an existing template stored in the templates microservice
+      inline:
+        $ref: '#/definitions/TemplateInlineTemplate'
+        title: an template whose content is defined in-line with this request
+  v1UpdateTypeRequest:
+    type: object
+    properties:
+      notificationTypeId:
+        type: string
+        title: The unique identifier of the notification type
+      operations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/UpdateTypeRequestUpdateNotificationTypeOperation'

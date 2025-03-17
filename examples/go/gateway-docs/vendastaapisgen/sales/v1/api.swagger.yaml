@@ -1,0 +1,2387 @@
+swagger: "2.0"
+info:
+  title: sales/v1/api.proto
+  version: version not set
+tags:
+  - name: Sales
+  - name: SalesTeamService
+  - name: BusinessService
+  - name: ExternalIdentifiers
+  - name: Contacts
+  - name: UserActionsProvider
+  - name: SalesActivityService
+  - name: Meeting
+  - name: PartnerService
+  - name: CampaignService
+  - name: Tasks
+  - name: LegacyEvents
+  - name: Freshdesk
+  - name: BusinessActivity
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /sales.v1.BusinessActivity/CreateBusinessActivity:
+    post:
+      summary: Creates a business activity
+      operationId: BusinessActivity_CreateBusinessActivity
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateBusinessActivityRequest'
+      tags:
+        - BusinessActivity
+  /sales.v1.BusinessService/List:
+    post:
+      summary: List returns a list of businesses filtered by list options
+      operationId: BusinessService_List
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1BusinessListResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1BusinessListRequest'
+      tags:
+        - BusinessService
+  /sales.v1.BusinessService/RequestSubscriptionChange:
+    post:
+      summary: |-
+        RequestSubscriptionChange allows a business to send a request to the partner configured email address to change
+        their subscription for a product. Most likely use case is to cancel.
+      operationId: BusinessService_RequestSubscriptionChange
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1RequestSubscriptionChangeRequest'
+      tags:
+        - BusinessService
+  /sales.v1.BusinessService/Search:
+    post:
+      summary: BusinessSearch returns a set of businesses in scored order depending on match criteria
+      operationId: BusinessService_Search
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1BusinessSearchResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1BusinessSearchRequest'
+      tags:
+        - BusinessService
+  /sales.v1.CampaignService/AddContactToCampaign:
+    post:
+      operationId: CampaignService_AddContactToCampaign
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1AddContactToCampaignRequest'
+      tags:
+        - CampaignService
+  /sales.v1.CampaignService/GetMultiCampaigns:
+    post:
+      operationId: CampaignService_GetMultiCampaigns
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiCampaignsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiCampaignsRequest'
+      tags:
+        - CampaignService
+  /sales.v1.CampaignService/LookupCampaigns:
+    post:
+      operationId: CampaignService_LookupCampaigns
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1LookupCampaignsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1LookupCampaignsRequest'
+      tags:
+        - CampaignService
+  /sales.v1.Contacts/Create:
+    post:
+      operationId: Contacts_Create
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ContactCreateResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ContactCreateRequest'
+      tags:
+        - Contacts
+  /sales.v1.Contacts/GetContactsByEmail:
+    post:
+      summary: GetContacts returns contacts for a business
+      operationId: Contacts_GetContactsByEmail
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetContactsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetContactsByEmailRequest'
+      tags:
+        - Contacts
+  /sales.v1.ExternalIdentifiers/Create:
+    post:
+      operationId: ExternalIdentifiers_Create
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ExternalIdentifierCreateRequest'
+      tags:
+        - ExternalIdentifiers
+  /sales.v1.ExternalIdentifiers/GetByInternalID:
+    post:
+      operationId: ExternalIdentifiers_GetByInternalID
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ExternalIdentifierGetByInternalIDResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ExternalIdentifierGetByInternalIDRequest'
+      tags:
+        - ExternalIdentifiers
+  /sales.v1.Freshdesk/GetConfiguration:
+    post:
+      summary: Get current configuration
+      operationId: Freshdesk_GetConfiguration
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetConfigurationResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetConfigurationRequest'
+      tags:
+        - Freshdesk
+  /sales.v1.Freshdesk/SearchTickets:
+    post:
+      summary: Searches Freshdesk tickets using Freshdesk's API
+      operationId: Freshdesk_SearchTickets
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1SearchTicketsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SearchTicketsRequest'
+      tags:
+        - Freshdesk
+  /sales.v1.Freshdesk/SetConfiguration:
+    post:
+      summary: Set up configuration needed to use freshdesks api
+      operationId: Freshdesk_SetConfiguration
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SetConfigurationRequest'
+      tags:
+        - Freshdesk
+  /sales.v1.Freshdesk/ViewTicket:
+    post:
+      summary: Retrieves Freshdesk ticket details
+      operationId: Freshdesk_ViewTicket
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ViewTicketResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ViewTicketRequest'
+      tags:
+        - Freshdesk
+  /sales.v1.LegacyEvents/PublishAskQuestionEvent:
+    post:
+      operationId: LegacyEvents_PublishAskQuestionEvent
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1PublishAskQuestionEventRequest'
+      tags:
+        - LegacyEvents
+  /sales.v1.LegacyEvents/PublishClaimAccountEvent:
+    post:
+      operationId: LegacyEvents_PublishClaimAccountEvent
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1PublishClaimAccountEventRequest'
+      tags:
+        - LegacyEvents
+  /sales.v1.LegacyEvents/PublishPackageInterestEvent:
+    post:
+      operationId: LegacyEvents_PublishPackageInterestEvent
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1PublishPackageInterestEventRequest'
+      tags:
+        - LegacyEvents
+  /sales.v1.LegacyEvents/PublishProductInterestEvent:
+    post:
+      operationId: LegacyEvents_PublishProductInterestEvent
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1PublishProductInterestEventRequest'
+      tags:
+        - LegacyEvents
+  /sales.v1.LegacyEvents/PublishSnapshotOpenEvent:
+    post:
+      summary: 'Note: Do NOT add new RPCs here after SSC-2697'
+      operationId: LegacyEvents_PublishSnapshotOpenEvent
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1PublishSnapshotOpenEventRequest'
+      tags:
+        - LegacyEvents
+  /sales.v1.Meeting/GetZoomMeetingInfo:
+    post:
+      summary: Get StoreZoomMeetingInfo
+      operationId: Meeting_GetZoomMeetingInfo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetZoomMeetingInfoResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetZoomMeetingInfoRequest'
+      tags:
+        - Meeting
+  /sales.v1.Meeting/StoreZoomMeetingInfo:
+    post:
+      summary: Create StoreZoomMeetingInfo
+      operationId: Meeting_StoreZoomMeetingInfo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1StoreZoomMeetingInfoRequest'
+      tags:
+        - Meeting
+  /sales.v1.PartnerService/GetPartnerSalesDomain:
+    post:
+      operationId: PartnerService_GetPartnerSalesDomain
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1PartnerSalesDomainResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1PartnerSalesDomainRequest'
+      tags:
+        - PartnerService
+  /sales.v1.PartnerService/UpdatePartnerSalesDomain:
+    post:
+      operationId: PartnerService_UpdatePartnerSalesDomain
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdatePartnerSalesDomainRequest'
+      tags:
+        - PartnerService
+  /sales.v1.Sales/CreateOrUpdateAutoAssignConfig:
+    post:
+      summary: CreateOrUpdateAutoAssignConfig creates or updates the auto assign account configuration for the market.
+      operationId: Sales_CreateOrUpdateAutoAssignConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateOrUpdateAutoAssignConfigRequest'
+      tags:
+        - Sales
+  /sales.v1.Sales/GetAssignedSalespersonForPartner:
+    post:
+      summary: Get Assigned Salesperson get the salesperson in VMF who is assigned to the requesting partner.
+      operationId: Sales_GetAssignedSalespersonForPartner
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetAssignedSalespersonForPartnerResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetAssignedSalespersonForPartnerRequest'
+      tags:
+        - Sales
+  /sales.v1.Sales/GetAutoAssignConfig:
+    post:
+      summary: GetAutoAssignConfig gets the auto assign account configuration for market.
+      operationId: Sales_GetAutoAssignConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetAutoAssignConfigResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetAutoAssignConfigRequest'
+      tags:
+        - Sales
+  /sales.v1.Sales/GetMultiSalesperson:
+    post:
+      summary: GetMultiSalesperson gets multiple sales people
+      operationId: Sales_GetMultiSalesperson
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiSalespersonResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiSalespersonRequest'
+      tags:
+        - Sales
+  /sales.v1.Sales/GetSalesperson:
+    post:
+      summary: GetSalesperson gets a salesperson
+      operationId: Sales_GetSalesperson
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1Salesperson'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetSalespersonRequest'
+      tags:
+        - Sales
+  /sales.v1.Sales/ListSalespersons:
+    post:
+      summary: List Salespersons will return a paged result of salespersons
+      operationId: Sales_ListSalespersons
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListSalespersonsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListSalespersonsRequest'
+      tags:
+        - Sales
+  /sales.v1.Sales/LookupSalespersons:
+    post:
+      summary: LookupSalespersons who match the search criteria given in the request
+      operationId: Sales_LookupSalespersons
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1LookupSalespersonsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1LookupSalespersonsRequest'
+      tags:
+        - Sales
+  /sales.v1.Sales/SendResetPasswordEmail:
+    post:
+      summary: SendResetPasswordEmail send reset password email to salesperson
+      operationId: Sales_SendResetPasswordEmail
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SendResetPasswordEmailRequest'
+      tags:
+        - Sales
+  /sales.v1.SalesActivityService/Create:
+    post:
+      summary: Create would create a sales activity
+      operationId: SalesActivityService_Create
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateSalesActivityResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateSalesActivityRequest'
+      tags:
+        - SalesActivityService
+  /sales.v1.SalesActivityService/GetMulti:
+    post:
+      summary: GetMulti returns multiple sales activity
+      operationId: SalesActivityService_GetMulti
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiSalesActivityResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiSalesActivityRequest'
+      tags:
+        - SalesActivityService
+  /sales.v1.SalesTeamService/GetMembers:
+    post:
+      operationId: SalesTeamService_GetMembers
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMembersResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMembersRequest'
+      tags:
+        - SalesTeamService
+  /sales.v1.SalesTeamService/GetMulti:
+    post:
+      operationId: SalesTeamService_GetMulti
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiSalesTeamResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiSalesTeamRequest'
+      tags:
+        - SalesTeamService
+  /sales.v1.SalesTeamService/GetTeamsBySalespersons:
+    post:
+      operationId: SalesTeamService_GetTeamsBySalespersons
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetTeamsBySalespersonsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetTeamsBySalespersonsRequest'
+      tags:
+        - SalesTeamService
+  /sales.v1.SalesTeamService/List:
+    post:
+      operationId: SalesTeamService_List
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListSalesTeamsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListSalesTeamsRequest'
+      tags:
+        - SalesTeamService
+  /sales.v1.SalesTeamService/UpdateTeamName:
+    post:
+      operationId: SalesTeamService_UpdateTeamName
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateTeamNameRequest'
+      tags:
+        - SalesTeamService
+  /sales.v1.Tasks/AssignSalesTask:
+    post:
+      operationId: Tasks_AssignSalesTask
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1AssignSalesTaskRequest'
+      tags:
+        - Tasks
+  /sales.v1.Tasks/CreateSalesTask:
+    post:
+      operationId: Tasks_CreateSalesTask
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateSalesTaskResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateSalesTaskRequest'
+      tags:
+        - Tasks
+  /sales.v1.UserActionsProvider/BulkUploadUserActions:
+    post:
+      summary: UploadUserActionCSV allows an API user to send a CSV file that contains many user actions to be processed
+      operationId: UserActionsProvider_BulkUploadUserActions
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1BulkUploadUserActionsRequest'
+      tags:
+        - UserActionsProvider
+  /sales.v1.UserActionsProvider/ListUserActions:
+    post:
+      summary: Return user actions for an account group Id
+      operationId: UserActionsProvider_ListUserActions
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1UserActionsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetUserActionsRequest'
+      tags:
+        - UserActionsProvider
+  /sales.v1.UserActionsProvider/UploadUserAction:
+    post:
+      summary: UploadUserAction allows an API user to upoad a user action for an account group ID
+      operationId: UserActionsProvider_UploadUserAction
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UserActionsRequest'
+      tags:
+        - UserActionsProvider
+  /sales.v1.UserActionsProvider/UploadUserActionForCustomerID:
+    post:
+      summary: UploadUserActionForCustomerID allows an API user to upload a user action for a customer ID
+      operationId: UserActionsProvider_UploadUserActionForCustomerID
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UploadUserActionForCustomerIDRequest'
+      tags:
+        - UserActionsProvider
+definitions:
+  AddContactToCampaignRequestRecipient:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+      emailAddress:
+        type: string
+  AddContactToCampaignRequestSender:
+    type: object
+    properties:
+      emailAddress:
+        type: string
+      name:
+        type: string
+      salespersonId:
+        type: string
+  AutoAssignCriteriaAccountOriginCriteria:
+    type: object
+    properties:
+      origin:
+        type: string
+    title: Matches accounts based on the "origin" to check if they were created from the self sign up in public store
+  AutoAssignCriteriaCategoryCriteria:
+    type: object
+    properties:
+      categories:
+        type: array
+        items:
+          type: string
+    description: Matches accounts based on the business categories (also known as the business taxonomy).
+  AutoAssignCriteriaConversionPointCriteria:
+    type: object
+    properties:
+      conversionPoint:
+        type: array
+        items:
+          type: string
+    title: Matches accounts based on the conversion_point custom field applied. (VMF Only as of Sep 2019)
+  AutoAssignCriteriaLocationCriteria:
+    type: object
+    properties:
+      country:
+        type: string
+      state:
+        type: string
+      city:
+        type: string
+    description: Matches accounts based on their geographical location.
+  AutoAssignCriteriaTagCriteria:
+    type: object
+    properties:
+      tags:
+        type: array
+        items:
+          type: string
+      matchType:
+        $ref: '#/definitions/v1TagMatchType'
+    description: Matches accounts based on the generic tags applied.
+  BusinessListResponseSalestoolBusiness:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      accountGroupId:
+        type: string
+      name:
+        type: string
+      address:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      zip:
+        type: string
+      country:
+        type: string
+      contactFirstName:
+        type: string
+      contactLastName:
+        type: string
+      contactEmail:
+        type: string
+      created:
+        type: string
+        format: date-time
+  GetMultiSalesActivityResponseSalesActivityContainer:
+    type: object
+    properties:
+      salesActivity:
+        $ref: '#/definitions/v1SalesActivity'
+  GetTeamsBySalespersonsResponseTeamsForSalesperson:
+    type: object
+    properties:
+      salespersonId:
+        type: string
+      salesTeams:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1SalesTeam'
+  ListSalesTeamsRequestListSalesTeamsFilters:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+  ListSalespersonsRequestListSalespersonsFilters:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      onlySalesManagers:
+        type: boolean
+      searchTerm:
+        type: string
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1ActionCategory:
+    type: string
+    enum:
+      - ACTION_CATEGORY_UNKNOWN
+      - ACTION_CATEGORY_CLICK
+      - ACTION_CATEGORY_VIEW
+      - ACTION_CATEGORY_LINGER
+      - ACTION_CATEGORY_TYPED
+      - ACTION_CATEGORY_PURCHASED
+      - ACTION_CATEGORY_ADDED_TO_CART
+    default: ACTION_CATEGORY_UNKNOWN
+  v1AddContactToCampaignRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      campaignId:
+        type: string
+      marketId:
+        type: string
+      contact:
+        $ref: '#/definitions/AddContactToCampaignRequestRecipient'
+      sender:
+        $ref: '#/definitions/AddContactToCampaignRequestSender'
+  v1Archived:
+    type: string
+    enum:
+      - ARCHIVED_ANY
+      - ARCHIVED_YES
+      - ARCHIVED_NO
+    default: ARCHIVED_ANY
+  v1AssignSalesTaskRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      accountGroupId:
+        type: string
+      taskId:
+        type: string
+      salespersonUserId:
+        type: string
+  v1Attachment:
+    type: object
+    properties:
+      url:
+        type: string
+      name:
+        type: string
+      updated:
+        type: string
+        format: date-time
+      thumbnailUrl:
+        type: string
+  v1AutoAssignCriteria:
+    type: object
+    properties:
+      locationCriteria:
+        $ref: '#/definitions/AutoAssignCriteriaLocationCriteria'
+      categoryCriteria:
+        $ref: '#/definitions/AutoAssignCriteriaCategoryCriteria'
+      tagCriteria:
+        $ref: '#/definitions/AutoAssignCriteriaTagCriteria'
+      conversionPointCriteria:
+        $ref: '#/definitions/AutoAssignCriteriaConversionPointCriteria'
+      accountOriginCriteria:
+        $ref: '#/definitions/AutoAssignCriteriaAccountOriginCriteria'
+  v1AutoAssignRule:
+    type: object
+    properties:
+      criteria:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AutoAssignCriteria'
+        description: |-
+          The criteria that defines what accounts match this rule.
+          More than one criteria can be defined.
+          The account must match all or any of them to be a match for the rule, depending on the criteria match type.
+      salespersonIds:
+        type: array
+        items:
+          type: string
+        description: The salespeople that are eligible to be assigned accounts that meet the criteria.
+      criteriaMatchType:
+        $ref: '#/definitions/v1CriteriaMatchType'
+        description: Controls whether we must match all ot any of the criteria, default behavior is to match all criteria.
+      campaignId:
+        type: string
+        title: If filled will add to the campaign
+      appKeys:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AutoAssignRuleAppKey'
+  v1AutoAssignRuleAppKey:
+    type: object
+    properties:
+      appId:
+        type: string
+      editionId:
+        type: string
+  v1BulkUploadUserActionsRequest:
+    type: object
+    properties:
+      userActions:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1UserActionsRequest'
+        title: An array of user actions
+  v1Business:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      name:
+        type: string
+      accountGroupId:
+        type: string
+      hotness:
+        type: string
+        format: int64
+      city:
+        type: string
+      zip:
+        type: string
+      address:
+        type: string
+      state:
+        type: string
+      country:
+        type: string
+      phoneNumber:
+        type: string
+      salespersonId:
+        type: string
+      lastSalesActivityDate:
+        type: string
+        format: date-time
+      lastCustomerActivityDate:
+        type: string
+        format: date-time
+      salesStatus:
+        type: string
+      isRead:
+        type: boolean
+      salesPersonAction:
+        type: string
+      latestSnapshotExpiry:
+        type: string
+        format: date-time
+      snapshotOrCampaignEmailStatus:
+        type: boolean
+      activityType:
+        type: string
+      lastConnectedDate:
+        type: string
+        format: date-time
+      lifecycleStage:
+        type: string
+  v1BusinessListRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: The namespace the business is in
+      marketIds:
+        type: array
+        items:
+          type: string
+        title: The business must be in one of the market ids
+      contactEmail:
+        type: string
+        title: The email of the salestool contact to filter businesses by
+  v1BusinessListResponse:
+    type: object
+    properties:
+      businesses:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/BusinessListResponseSalestoolBusiness'
+  v1BusinessPagedResponseMetadata:
+    type: object
+    properties:
+      nextCursor:
+        type: string
+        title: A cursor that can be provided to retrieve the next page of results
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+      totalResults:
+        type: string
+        format: int64
+        title: The total number of results for this query across all pages
+    title: Contains metadata about the paged response
+  v1BusinessSearchFilters:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      salesStatuses:
+        type: array
+        items:
+          type: string
+      salesAction:
+        type: string
+      fromDate:
+        type: string
+        format: date-time
+      toDate:
+        type: string
+        format: date-time
+      archived:
+        $ref: '#/definitions/v1Archived'
+      accountTags:
+        type: array
+        items:
+          type: string
+      businessCategories:
+        type: array
+        items:
+          type: string
+      onCampaign:
+        $ref: '#/definitions/v1Campaign'
+      snapshotSent:
+        $ref: '#/definitions/v1Snapshot'
+      query:
+        type: string
+      assignees:
+        type: array
+        items:
+          type: string
+      goal:
+        type: string
+      trainingPriorities:
+        type: string
+      customFieldPartnerId:
+        type: string
+        description: DEPRECATED. Will no longer function.
+      lifecycleStage:
+        $ref: '#/definitions/v1LifecycleStage'
+  v1BusinessSearchRequest:
+    type: object
+    properties:
+      filters:
+        $ref: '#/definitions/v1BusinessSearchFilters'
+      pagingOptions:
+        $ref: '#/definitions/v1PagedRequestOptions'
+        title: Options for how to page the response for this request
+      sortOptions:
+        $ref: '#/definitions/v1BusinessSearchSortOptions'
+  v1BusinessSearchResponse:
+    type: object
+    properties:
+      businesses:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Business'
+      pagingMetadata:
+        $ref: '#/definitions/v1BusinessPagedResponseMetadata'
+  v1BusinessSearchSortOptions:
+    type: object
+    properties:
+      sortKey:
+        type: string
+      sortAscending:
+        type: boolean
+  v1Campaign:
+    type: string
+    enum:
+      - CAMPAIGN_ANY
+      - CAMPAIGN_ON
+      - CAMPAIGN_OFF
+    default: CAMPAIGN_ANY
+  v1Contact:
+    type: object
+    properties:
+      version:
+        type: string
+      accountGroupId:
+        type: string
+      contactId:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      phoneNumber:
+        type: string
+      phoneExtension:
+        type: string
+      title:
+        type: string
+      notes:
+        type: string
+      vbcUserId:
+        type: string
+      deleted:
+        type: string
+      deletedDate:
+        type: string
+      created:
+        type: string
+      updated:
+        type: string
+    title: Salestool contact - The new contact object is available in the v2 APIs
+  v1ContactCreateRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      phoneNumber:
+        type: string
+        title: |-
+          The primary phone number of the contact as entered by the user.
+          It may include the extension when a separate field is not used for user input
+      phoneNumberCountry:
+        type: string
+        description: An optional 2 character country code used to aid in parsing the raw primary phone number.
+      phoneExtension:
+        type: string
+        title: A local addition to the phone number that is dialed after a connection has been established
+      notes:
+        type: string
+        title: Notes recorded in relation to the contact
+  v1ContactCreateResponse:
+    type: object
+    properties:
+      contactId:
+        type: string
+  v1Conversation:
+    type: object
+    properties:
+      id:
+        type: string
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+      message:
+        type: string
+      fromEmail:
+        type: string
+      toEmails:
+        type: array
+        items:
+          type: string
+      ticketId:
+        type: string
+      attachments:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Attachment'
+  v1CreateBusinessActivityRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+      activityType:
+        type: string
+      activityDetail:
+        type: string
+      productName:
+        type: string
+      productId:
+        type: string
+      doNotSendEmail:
+        type: boolean
+  v1CreateOrUpdateAutoAssignConfigRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        description: The unique partner ID.
+      marketId:
+        type: string
+        description: The unique market ID.
+      rules:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AutoAssignRule'
+        description: |-
+          The rules the define which accounts get assigned to which salespeople.
+          These rules will be checked, in order, against an account using the rule's criteria, and the first matching rule (if any) is applicable.
+  v1CreateSalesActivityRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+      salespersonId:
+        type: string
+      submittedBy:
+        type: string
+      action:
+        type: string
+      customActionName:
+        type: string
+      status:
+        type: string
+      notes:
+        type: string
+  v1CreateSalesActivityResponse:
+    type: object
+    properties:
+      salesActivity:
+        $ref: '#/definitions/v1SalesActivity'
+  v1CreateSalesTaskRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      accountGroupId:
+        type: string
+      title:
+        type: string
+      dueDate:
+        type: string
+        format: date-time
+      salespersonIds:
+        type: array
+        items:
+          type: string
+  v1CreateSalesTaskResponse:
+    type: object
+    properties:
+      taskId:
+        type: string
+      taskNamespace:
+        type: string
+  v1CriteriaMatchType:
+    type: string
+    enum:
+      - CRITERIA_MATCH_TYPE_ALL
+      - CRITERIA_MATCH_TYPE_ANY
+    default: CRITERIA_MATCH_TYPE_ALL
+    description: |2-
+       - CRITERIA_MATCH_TYPE_ALL: Accounts matching all of the criteria will match this rule.
+       - CRITERIA_MATCH_TYPE_ANY: Accounts matching any of the criteria will match this rule.
+  v1ExternalIdentifierCreateRequest:
+    type: object
+    properties:
+      externalIdProvider:
+        type: string
+      internalId:
+        type: string
+      externalId:
+        type: string
+  v1ExternalIdentifierGetByInternalIDRequest:
+    type: object
+    properties:
+      externalIdProvider:
+        type: string
+      internalId:
+        type: string
+  v1ExternalIdentifierGetByInternalIDResponse:
+    type: object
+    properties:
+      externalId:
+        type: string
+  v1GetAssignedSalespersonForPartnerRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+  v1GetAssignedSalespersonForPartnerResponse:
+    type: object
+    properties:
+      salesperson:
+        $ref: '#/definitions/v1Salesperson'
+      accountGroupId:
+        type: string
+  v1GetAutoAssignConfigRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        description: The unique partner ID.
+      marketId:
+        type: string
+        description: The unique market ID.
+  v1GetAutoAssignConfigResponse:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        description: The unique partner ID.
+      marketId:
+        type: string
+        description: The unique market ID.
+      rules:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AutoAssignRule'
+        description: The rules the define which accounts get assigned to which salespeople.
+  v1GetConfigurationRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      accountGroupId:
+        type: string
+  v1GetConfigurationResponse:
+    type: object
+    properties:
+      domain:
+        type: string
+        title: freshdesk domain, e.g. mycompany.freshdesk.com
+      isValid:
+        type: boolean
+        title: Whether the configuration is valid. We are able to successfully send requests using the existing configuration
+  v1GetContactsByEmailRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The specific business to request contacts for
+      email:
+        type: string
+        title: The salesperson requesting the information
+  v1GetContactsResponse:
+    type: object
+    properties:
+      contacts:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Contact'
+  v1GetMembersRequest:
+    type: object
+    properties:
+      groupId:
+        type: string
+        title: The id of the sales team
+  v1GetMembersResponse:
+    type: object
+    properties:
+      salesPeople:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Salesperson'
+  v1GetMultiCampaignsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      accountGroupId:
+        type: string
+      campaignIds:
+        type: array
+        items:
+          type: string
+  v1GetMultiCampaignsResponse:
+    type: object
+    properties:
+      campaigns:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1SalesCampaign'
+  v1GetMultiSalesActivityRequest:
+    type: object
+    properties:
+      keys:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1SalesActivityKey'
+  v1GetMultiSalesActivityResponse:
+    type: object
+    properties:
+      salesActivities:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/GetMultiSalesActivityResponseSalesActivityContainer'
+  v1GetMultiSalesTeamRequest:
+    type: object
+    properties:
+      groupIds:
+        type: array
+        items:
+          type: string
+  v1GetMultiSalesTeamResponse:
+    type: object
+    properties:
+      salesTeams:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1SalesTeam'
+  v1GetMultiSalespersonRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: partner_id is the namespace the salespeople are in
+      salespersonIds:
+        type: array
+        items:
+          type: string
+        title: salesperson_ids are the IAM SubjectIDs of the matching IAM Personas
+  v1GetMultiSalespersonResponse:
+    type: object
+    properties:
+      salespersons:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Salesperson'
+        title: salespersons are the list of sales person information
+  v1GetSalespersonRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: partner_id is the namespace the salesperson is in
+      salespersonId:
+        type: string
+        title: salesperson_id is the IAM SubjectID of the matching IAM Persona
+      userId:
+        type: string
+        title: user_id is the IAM UserID the Subject belongs to
+  v1GetTeamsBySalespersonsRequest:
+    type: object
+    properties:
+      salespersonIds:
+        type: array
+        items:
+          type: string
+        title: The ids of the salespeople whose teams we need
+  v1GetTeamsBySalespersonsResponse:
+    type: object
+    properties:
+      teamMapping:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/GetTeamsBySalespersonsResponseTeamsForSalesperson'
+        title: The sales teams that the provided members belong to
+  v1GetUserActionsRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The account group that the action is associated with
+      cursor:
+        type: string
+        description: Cursor allows paging of results, the next_cursor returned by the last response is expected.
+      pageSize:
+        type: string
+        format: int64
+        description: The number of results to return.
+  v1GetZoomMeetingInfoRequest:
+    type: object
+    properties:
+      meetingId:
+        type: string
+  v1GetZoomMeetingInfoResponse:
+    type: object
+    properties:
+      zoomMeeting:
+        $ref: '#/definitions/v1ZoomMeeting'
+  v1LifecycleStage:
+    type: string
+    enum:
+      - LIFECYCLE_STAGE_UNSET
+      - LIFECYCLE_STAGE_LEAD
+      - LIFECYCLE_STAGE_PROSPECT
+      - LIFECYCLE_STAGE_CUSTOMER
+    default: LIFECYCLE_STAGE_UNSET
+    description: |-
+      Where a business is at in the lifecycle stage
+      The account-group domain has the same concept of a lifecycle stage. Adding to this enum
+      most likely means you need to update the one in account-group as well.
+  v1ListSalesTeamsRequest:
+    type: object
+    properties:
+      filters:
+        $ref: '#/definitions/ListSalesTeamsRequestListSalesTeamsFilters'
+      pagingOptions:
+        $ref: '#/definitions/v1PagedRequestOptions'
+        title: Options for how to page the response for this request
+  v1ListSalesTeamsResponse:
+    type: object
+    properties:
+      salesTeams:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1SalesTeam'
+      pagingMetadata:
+        $ref: '#/definitions/v1PagedResponseMetadata'
+  v1ListSalespersonsRequest:
+    type: object
+    properties:
+      filters:
+        $ref: '#/definitions/ListSalespersonsRequestListSalespersonsFilters'
+      pagingOptions:
+        $ref: '#/definitions/v1PagedRequestOptions'
+        title: Options for how to page the response for this request
+  v1ListSalespersonsResponse:
+    type: object
+    properties:
+      salespersons:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Salesperson'
+      pagingMetadata:
+        $ref: '#/definitions/v1PagedResponseMetadata'
+  v1LookupCampaignsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      status:
+        type: array
+        items:
+          type: string
+      focus:
+        type: array
+        items:
+          type: string
+      state:
+        type: array
+        items:
+          type: string
+      offset:
+        type: string
+        format: int64
+      pageSize:
+        type: string
+        format: int64
+      searchTerm:
+        type: string
+      marketId:
+        type: string
+  v1LookupCampaignsResponse:
+    type: object
+    properties:
+      campaigns:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1SalesCampaign'
+  v1LookupSalespersonsRequest:
+    type: object
+    properties:
+      pagingOptions:
+        $ref: '#/definitions/v1PagedRequestOptions'
+      partnerId:
+        type: string
+      searchTerm:
+        type: string
+      marketIds:
+        type: array
+        items:
+          type: string
+      includeLastLogin:
+        type: boolean
+  v1LookupSalespersonsResponse:
+    type: object
+    properties:
+      salespersons:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Salesperson'
+  v1PagedRequestOptions:
+    type: object
+    properties:
+      cursor:
+        type: string
+        title: cursor can be passed to retrieve the next page of results keyed by the cursor
+      pageSize:
+        type: string
+        format: int64
+        title: page_size specifies the number of items to return in the next page
+    title: To provide options for the paged request
+  v1PagedResponseMetadata:
+    type: object
+    properties:
+      nextCursor:
+        type: string
+        title: A cursor that can be provided to retrieve the next page of results
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+    title: Contains metadata about the paged response
+  v1Pagination:
+    type: object
+    properties:
+      pageIndex:
+        type: integer
+        format: int32
+      pageSize:
+        type: integer
+        format: int32
+  v1PartnerSalesDomainRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+  v1PartnerSalesDomainResponse:
+    type: object
+    properties:
+      domain:
+        type: string
+  v1PublishAskQuestionEventRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      accountGroupId:
+        type: string
+      vbcUserId:
+        type: string
+  v1PublishClaimAccountEventRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      accountGroupId:
+        type: string
+      userEmail:
+        type: string
+  v1PublishPackageInterestEventRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      accountGroupId:
+        type: string
+      packageId:
+        type: string
+      vbcUserId:
+        type: string
+      userEmail:
+        type: string
+      message:
+        type: string
+  v1PublishProductInterestEventRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      accountGroupId:
+        type: string
+      vbcUserId:
+        type: string
+      productId:
+        type: string
+      message:
+        type: string
+      userEmail:
+        type: string
+  v1PublishSnapshotOpenEventRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      accountGroupId:
+        type: string
+      snapshotId:
+        type: string
+  v1RequestSubscriptionChangeRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: The id of the business that is making the request to change subscription
+      message:
+        type: string
+        title: The message from the business to be sent, requesting the change
+      phoneNumber:
+        type: string
+        title: The phone number to be contacted about the subscription change
+      name:
+        type: string
+        title: The person to contact about the subscription change
+  v1SalesActivity:
+    type: object
+    properties:
+      key:
+        $ref: '#/definitions/v1SalesActivityKey'
+      opportunityId:
+        type: string
+      salespersonId:
+        type: string
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      salesStatus:
+        type: string
+      previousSalesStatus:
+        type: string
+      salespersonAction:
+        type: string
+      customActionName:
+        type: string
+      productName:
+        type: string
+      productPrice:
+        type: number
+        format: double
+      connected:
+        type: boolean
+      notes:
+        type: string
+      closedLostReason:
+        type: string
+      audioKey:
+        type: string
+      created:
+        type: string
+        format: date-time
+      lastEdited:
+        type: string
+        format: date-time
+      deleted:
+        type: string
+        format: date-time
+      opportunityName:
+        type: string
+      salesPersonName:
+        type: string
+  v1SalesActivityKey:
+    type: object
+    properties:
+      salesActivityId:
+        type: string
+      businessId:
+        type: string
+  v1SalesCampaign:
+    type: object
+    properties:
+      name:
+        type: string
+      campaignStatus:
+        type: string
+      campaignId:
+        type: string
+      campaignSchedule:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ScheduleStep'
+  v1SalesTeam:
+    type: object
+    properties:
+      teamName:
+        type: string
+      groupId:
+        type: string
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      updated:
+        type: string
+        format: date-time
+  v1Salesperson:
+    type: object
+    properties:
+      salespersonId:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      phoneNumber:
+        type: array
+        items:
+          type: string
+      userId:
+        type: string
+        title: Refers to the iam user.User
+      countryCode:
+        type: string
+      marketId:
+        type: string
+      photoUrlHttps:
+        type: string
+      lastLogin:
+        type: string
+        format: date-time
+      jobTitle:
+        type: string
+      isSalesManager:
+        type: boolean
+      meetingBookingUrl:
+        type: string
+    title: 'Deprecated: Define your salesperson RPCs in v2 and use the v2 salesperson'
+  v1ScheduleStep:
+    type: object
+    properties:
+      stepType:
+        type: string
+      secondsAfterLastEmail:
+        type: string
+        format: int64
+      name:
+        type: string
+      templateId:
+        type: string
+  v1SearchTicketsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      accountGroupId:
+        type: string
+      pagination:
+        $ref: '#/definitions/v1Pagination'
+  v1SearchTicketsResponse:
+    type: object
+    properties:
+      tickets:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Ticket'
+  v1SendResetPasswordEmailRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      salespersonId:
+        type: string
+  v1SetConfigurationRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      domain:
+        type: string
+        title: freshdesk domain, e.g. mycompany.freshdesk.com
+      apiKey:
+        type: string
+        title: Api token from freshdesk users account
+  v1Snapshot:
+    type: string
+    enum:
+      - SNAPSHOT_ANY
+      - SNAPSHOT_SENT
+      - SNAPSHOT_NOT_SENT
+    default: SNAPSHOT_ANY
+  v1StoreZoomMeetingInfoRequest:
+    type: object
+    properties:
+      meetingId:
+        type: string
+      accountGroupId:
+        type: string
+      salesPersonId:
+        type: string
+  v1TagMatchType:
+    type: string
+    enum:
+      - TAG_MATCH_TYPE_ALL
+      - TAG_MATCH_TYPE_ANY
+    default: TAG_MATCH_TYPE_ALL
+    description: |2-
+       - TAG_MATCH_TYPE_ALL: Accounts containing all of the tags will match this rule.
+       - TAG_MATCH_TYPE_ANY: Accounts containing any of the tags will match this rule.
+  v1Ticket:
+    type: object
+    properties:
+      id:
+        type: string
+        format: int64
+      updated:
+        type: string
+        format: date-time
+      requested:
+        type: string
+        format: date-time
+      requesterId:
+        type: string
+        format: int64
+      responderId:
+        type: string
+        format: int64
+      subject:
+        type: string
+      statusId:
+        type: string
+        format: int64
+      sourceId:
+        type: string
+        format: int64
+  v1TicketPriority:
+    type: string
+    enum:
+      - TICKET_PRIORITY_UNSET
+      - TICKET_PRIORITY_LOW
+      - TICKET_PRIORITY_MEDIUM
+      - TICKET_PRIORITY_HIGH
+      - TICKET_PRIORITY_URGENT
+    default: TICKET_PRIORITY_UNSET
+  v1UpdatePartnerSalesDomainRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      domain:
+        type: string
+  v1UpdateTeamNameRequest:
+    type: object
+    properties:
+      groupId:
+        type: string
+      newTeamName:
+        type: string
+  v1UploadUserActionForCustomerIDRequest:
+    type: object
+    properties:
+      customerId:
+        type: string
+        title: The customer ID that the action is associated with
+      partnerId:
+        type: string
+        title: The partner ID that the customer ID belongs to
+      category:
+        $ref: '#/definitions/v1ActionCategory'
+        title: The category that the action is included in
+      description:
+        type: string
+        title: The description of the event that occurred
+  v1UserAction:
+    type: object
+    properties:
+      created:
+        type: string
+        format: date-time
+        title: The account group that the action is associated with
+      category:
+        $ref: '#/definitions/v1ActionCategory'
+        title: The category that the action is included in
+      description:
+        type: string
+        title: The description of the event that occurred
+  v1UserActionsPagedResponseMetadata:
+    type: object
+    properties:
+      nextCursor:
+        type: string
+        title: A cursor that can be provided to retrieve the next page of results
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+      totalResults:
+        type: string
+        format: int64
+        title: Total results found by the operation
+    title: Contains metadata about the paged response
+  v1UserActionsRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The account group that the action is associated with
+      category:
+        $ref: '#/definitions/v1ActionCategory'
+        title: The category that the action is included in
+      description:
+        type: string
+        title: The description of the event that occurred
+  v1UserActionsResponse:
+    type: object
+    properties:
+      userActions:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1UserAction'
+        title: A collection of UserActions returned
+      pagingMetadata:
+        $ref: '#/definitions/v1UserActionsPagedResponseMetadata'
+        title: Contains paging data returned from the query
+  v1ViewTicketIncludeFields:
+    type: object
+    properties:
+      conversations:
+        type: boolean
+      requester:
+        type: boolean
+      company:
+        type: boolean
+      stats:
+        type: boolean
+  v1ViewTicketRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      accountGroupId:
+        type: string
+      ticketId:
+        type: string
+        format: int64
+      includeFields:
+        $ref: '#/definitions/v1ViewTicketIncludeFields'
+  v1ViewTicketResponse:
+    type: object
+    properties:
+      baseTicket:
+        $ref: '#/definitions/v1Ticket'
+      tags:
+        type: array
+        items:
+          type: string
+      conversations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Conversation'
+      priority:
+        $ref: '#/definitions/v1TicketPriority'
+      description:
+        type: string
+      dueBy:
+        type: string
+        format: date-time
+  v1ZoomMeeting:
+    type: object
+    properties:
+      meetingId:
+        type: string
+      accountGroupId:
+        type: string
+      salesPersonId:
+        type: string

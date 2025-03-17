@@ -1,0 +1,5407 @@
+swagger: "2.0"
+info:
+  title: sales_orders/v1/api.proto
+  version: version not set
+tags:
+  - name: SalesOrders
+  - name: SalesOrdersDevelopment
+  - name: SalesOrdersAuxiliaryFieldData
+  - name: SalesOrdersAuxiliaryFieldSchema
+  - name: CustomerSalesOrders
+  - name: Public
+  - name: VendorOrders
+  - name: Notifications
+  - name: DeclinedReasons
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /salesorders.v1.CustomerSalesOrders/ApproveSalesOrder:
+    post:
+      summary: A Customer approving a sales order
+      operationId: CustomerSalesOrders_ApproveSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CustomerApproveSalesOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CustomerApproveSalesOrderRequest'
+      tags:
+        - CustomerSalesOrders
+  /salesorders.v1.CustomerSalesOrders/CreateForPartnerApproval:
+    post:
+      summary: A Customer wants to create an order with payment information that the Partner must look at and approve
+      operationId: CustomerSalesOrders_CreateForPartnerApproval
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateForPartnerApprovalResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateForPartnerApprovalRequest'
+      tags:
+        - CustomerSalesOrders
+  /salesorders.v1.CustomerSalesOrders/CreateSalesOrder:
+    post:
+      summary: Api for customer to create a sales order
+      operationId: CustomerSalesOrders_CreateSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CustomerCreateSalesOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CustomerCreateSalesOrderRequest'
+      tags:
+        - CustomerSalesOrders
+  /salesorders.v1.CustomerSalesOrders/CreateWithPaymentIntent:
+    post:
+      summary: A Customer wants to create a sales order with payment information that will automatically charge and activate the items
+      operationId: CustomerSalesOrders_CreateWithPaymentIntent
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateWithPaymentIntentResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateWithPaymentIntentRequest'
+      tags:
+        - CustomerSalesOrders
+  /salesorders.v1.CustomerSalesOrders/DeclineSalesOrder:
+    post:
+      summary: Decline a sales order
+      operationId: CustomerSalesOrders_DeclineSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1DeclineResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeclineSalesOrderRequest'
+      tags:
+        - CustomerSalesOrders
+  /salesorders.v1.CustomerSalesOrders/GetConfig:
+    post:
+      summary: Get configuration details related to a partner's sales orders (Terms and Conditions, Tax Options, Administration Common Form Section)
+      operationId: CustomerSalesOrders_GetConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetConfigurationResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CustomerGetConfigurationRequest'
+      tags:
+        - CustomerSalesOrders
+  /salesorders.v1.CustomerSalesOrders/GetSalesOrder:
+    post:
+      summary: Get data for a sales order
+      operationId: CustomerSalesOrders_GetSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetSalesOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetSalesOrderRequest'
+      tags:
+        - CustomerSalesOrders
+  /salesorders.v1.CustomerSalesOrders/GetUsers:
+    post:
+      summary: GetUsers gets the users for the agreements of the order
+      operationId: CustomerSalesOrders_GetUsers
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetUsersResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetUsersRequest'
+      tags:
+        - CustomerSalesOrders
+  /salesorders.v1.CustomerSalesOrders/InitiateOrderExport:
+    post:
+      summary: InitiateOrderExport creates a downloadable CSV of ALL orders for a business
+      operationId: CustomerSalesOrders_InitiateOrderExport
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1InitiateOrderExportResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1InitiateOrderExportRequest'
+      tags:
+        - CustomerSalesOrders
+  /salesorders.v1.CustomerSalesOrders/ListSalesOrder:
+    post:
+      summary: List sales orders
+      operationId: CustomerSalesOrders_ListSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListSalesOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListCustomerSalesOrderRequest'
+      tags:
+        - CustomerSalesOrders
+  /salesorders.v1.CustomerSalesOrders/PreviewOrderActivations:
+    post:
+      summary: PreviewOrderActivations will return the difference between what is already activated for an account and what is going to be activated in an order
+      operationId: CustomerSalesOrders_PreviewOrderActivations
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1PreviewOrderActivationsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1PreviewOrderActivationsRequest'
+      tags:
+        - CustomerSalesOrders
+  /salesorders.v1.CustomerSalesOrders/UpdateAnswers:
+    post:
+      summary: Update Answers for an Order
+      operationId: CustomerSalesOrders_UpdateAnswers
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1UpdateAnswersResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateAnswersRequest'
+      tags:
+        - CustomerSalesOrders
+  /salesorders.v1.DeclinedReasons/ArchiveReason:
+    post:
+      summary: Archive an existing declined reason option
+      operationId: DeclinedReasons_ArchiveReason
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ArchiveReasonRequest'
+      tags:
+        - DeclinedReasons
+  /salesorders.v1.DeclinedReasons/CreateReason:
+    post:
+      summary: Create a new declined reason option
+      operationId: DeclinedReasons_CreateReason
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateReasonResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateReasonRequest'
+      tags:
+        - DeclinedReasons
+  /salesorders.v1.DeclinedReasons/GetReason:
+    post:
+      summary: Get declined reason option by ID
+      operationId: DeclinedReasons_GetReason
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetReasonResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetReasonRequest'
+      tags:
+        - DeclinedReasons
+  /salesorders.v1.DeclinedReasons/ListReasons:
+    post:
+      summary: Retrieve a list of reason options created by a partner
+      operationId: DeclinedReasons_ListReasons
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListReasonsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListReasonsRequest'
+      tags:
+        - DeclinedReasons
+  /salesorders.v1.DeclinedReasons/UpdateReason:
+    post:
+      summary: Update an existing declined reason option
+      operationId: DeclinedReasons_UpdateReason
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1UpdateReasonResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateReasonRequest'
+      tags:
+        - DeclinedReasons
+  /salesorders.v1.Notifications/GetSubscribedLocations:
+    post:
+      summary: GetSubscribedLocations will return the locations the user is subscribed to
+      operationId: Notifications_GetSubscribedLocations
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetSubscribedLocationsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetSubscribedLocationsRequest'
+      tags:
+        - Notifications
+  /salesorders.v1.Notifications/GetSubscribers:
+    post:
+      summary: GetSubscribers will return the users that are subscribed to the order
+      operationId: Notifications_GetSubscribers
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetSubscribersResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetSubscribersRequest'
+      tags:
+        - Notifications
+  /salesorders.v1.Notifications/Subscribe:
+    post:
+      summary: Subscribe subscribes the calling user to notifications of status changes to the order
+      operationId: Notifications_Subscribe
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SubscribeRequest'
+      tags:
+        - Notifications
+  /salesorders.v1.Notifications/Unsubscribe:
+    post:
+      summary: Unsubscribe unsubscribes the calling user to notifications of status changes to the order
+      operationId: Notifications_Unsubscribe
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UnsubscribeRequest'
+      tags:
+        - Notifications
+  /salesorders.v1.Public/ApproveSalesOrder:
+    post:
+      summary: A Customer approving a sales order
+      operationId: Public_ApproveSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ApproveResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ApproveRequest'
+      tags:
+        - Public
+  /salesorders.v1.Public/DeclineSalesOrder:
+    post:
+      summary: A Customer declining a sales order
+      operationId: Public_DeclineSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1DeclineResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeclineRequest'
+      tags:
+        - Public
+  /salesorders.v1.Public/GetConfig:
+    post:
+      summary: Get configuration details related to a partner's sales orders (Terms and Conditions, Tax Options, Administration Common Form Section)
+      operationId: Public_GetConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetConfigurationResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetConfigurationRequest'
+      tags:
+        - Public
+  /salesorders.v1.Public/GetOrderRecipientSession:
+    post:
+      summary: |-
+        Given an opaque access token identifying an external user, return an order_recipient temporary IAM session
+        for allowing actions such as reading, approving, and commenting on proposals and orders
+      operationId: Public_GetOrderRecipientSession
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetOrderRecipientSessionResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetOrderRecipientSessionRequest'
+      tags:
+        - Public
+  /salesorders.v1.Public/GetSalesOrder:
+    post:
+      summary: Get data for a sales order
+      operationId: Public_GetSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetRequest'
+      tags:
+        - Public
+  /salesorders.v1.Public/UpdateOrderFormAnswers:
+    post:
+      summary: Update Answers for an Order
+      operationId: Public_UpdateOrderFormAnswers
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1UpdateOrderFormAnswersResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateOrderFormAnswersRequest'
+      tags:
+        - Public
+  /salesorders.v1.SalesOrders/ActivateProducts:
+    post:
+      summary: Activate products in a sales order
+      operationId: SalesOrders_ActivateProducts
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ActivateProductsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ActivateProductsRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/ApproveCancellation:
+    post:
+      summary: ApproveCancellation will set an order into the cancelled status
+      operationId: SalesOrders_ApproveCancellation
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ApproveCancellationRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/ApproveSalesOrder:
+    post:
+      summary: An admin approving a sales order
+      operationId: SalesOrders_ApproveSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ApproveSalesOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ApproveSalesOrderRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/ArchiveSalesOrder:
+    post:
+      summary: Archive a sales order
+      operationId: SalesOrders_ArchiveSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ArchiveSalesOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ArchiveSalesOrderRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/CancelOrder:
+    post:
+      summary: Cancelling the order will put the order in a cancelled status
+      operationId: SalesOrders_CancelOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CancelOrderRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/ChargeOrder:
+    post:
+      operationId: SalesOrders_ChargeOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ChargeOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ChargeOrderRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/CheckSalesOrderExists:
+    post:
+      summary: Check if an order exists for the given criteria
+      operationId: SalesOrders_CheckSalesOrderExists
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CheckSalesOrderExistsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CheckSalesOrderExistsRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/ConvertToDraft:
+    post:
+      summary: ConvertToDraft will convert a sales order to the draft status
+      operationId: SalesOrders_ConvertToDraft
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ConvertToDraftRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/CreateAndActivateOrder:
+    post:
+      summary: CreateAndActivateOrder creates an order that will go directly into activation
+      operationId: SalesOrders_CreateAndActivateOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateAndActivateOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateAndActivateOrderRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/CreateDraftSalesOrder:
+    post:
+      summary: CreateDraftSalesOrder creates an order in a draft state
+      operationId: SalesOrders_CreateDraftSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateDraftSalesOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateDraftSalesOrderRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/CreateInvoice:
+    post:
+      summary: CreateInvoice creates a billing invoice with the orders lineItems and returns the id
+      operationId: SalesOrders_CreateInvoice
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateInvoiceResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateInvoiceRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/CreateLeasedToAutomationsSalesOrder:
+    post:
+      summary: Create a new sales order that is leased to automations so that an automation can act on it
+      operationId: SalesOrders_CreateLeasedToAutomationsSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateLeasedToAutomationsSalesOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateLeasedToAutomationsSalesOrderRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/CreateSalesOrder:
+    post:
+      summary: Create data for a sales order
+      operationId: SalesOrders_CreateSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateSalesOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateSalesOrderRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/CustomerApproveSalesOrder:
+    post:
+      summary: A Customer approving a sales order. [deprecated] use the one from the CustomerSalesOrders service instead
+      operationId: SalesOrders_CustomerApproveSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CustomerApproveSalesOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CustomerApproveSalesOrderRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/CustomerCreateSalesOrder:
+    post:
+      summary: Api for customer to create a sales order. [deprecated], use the one from the CustomerSalesOrders service instead
+      operationId: SalesOrders_CustomerCreateSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CustomerCreateSalesOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CustomerCreateSalesOrderRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/DeclineCancellation:
+    post:
+      summary: Declining a cancellation request will return the order to its previous status
+      operationId: SalesOrders_DeclineCancellation
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeclineCancellationRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/DeclineSalesOrder:
+    post:
+      summary: Decline a sales order
+      operationId: SalesOrders_DeclineSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1DeclineSalesOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeclineSalesOrderRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/DeleteConfig:
+    post:
+      summary: Delete an Order Config
+      operationId: SalesOrders_DeleteConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeleteConfigRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/DeleteSalesOrder:
+    post:
+      summary: Delete a sales order
+      operationId: SalesOrders_DeleteSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeleteSalesOrderRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/DuplicateSalesOrder:
+    post:
+      summary: Duplicate an order an existing order. The new order created will be set to "DRAFT" status
+      operationId: SalesOrders_DuplicateSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1DuplicateSalesOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DuplicateSalesOrderRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/GetConfig:
+    post:
+      summary: Get an Order Config
+      operationId: SalesOrders_GetConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetConfigResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetConfigRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/GetMultiSalesOrder:
+    post:
+      summary: |-
+        GetMultiSalesOrder will fetch multiple orders at the same time.
+        It supports ids in the format of `ORD-123` or `AG-1234567:ORD-123`
+        If the order can not be found or the caller does not have access a nil placeholder will be returned in the position corresponding to the id's location in the request.
+        This RPC will not return a not found or permission denied error. It may return a unauthenticated error.
+      operationId: SalesOrders_GetMultiSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiSalesOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiSalesOrderRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/GetOrderRecipientDetails:
+    post:
+      summary: Given an opaque access token identifying an external user, return details about that external user
+      operationId: SalesOrders_GetOrderRecipientDetails
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetOrderRecipientDetailsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetOrderRecipientDetailsRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/GetSalesOrder:
+    post:
+      summary: Get data for a sales order
+      operationId: SalesOrders_GetSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetSalesOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetSalesOrderRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/GetSalesOrderByIdempotencyKey:
+    post:
+      summary: Get data for a sales order by idempotency key
+      operationId: SalesOrders_GetSalesOrderByIdempotencyKey
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetSalesOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetSalesOrderByIdempotencyKeyRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/GetStatusCounts:
+    post:
+      summary: GetStatusCounts returns the counts of the number of orders currently in each status based on the filters
+      operationId: SalesOrders_GetStatusCounts
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetStatusCountsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetStatusCountsRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/GetUsers:
+    post:
+      summary: GetUsers gets the users that have taken action on a given order
+      operationId: SalesOrders_GetUsers
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetUsersResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetUsersRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/IgnoreAllProductActivationErrors:
+    post:
+      summary: IgnoreAllProductActivationErrors marks all product activation as ignore errors for an order
+      operationId: SalesOrders_IgnoreAllProductActivationErrors
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1IgnoreAllProductActivationErrorsRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/IgnoreProductActivationError:
+    post:
+      summary: IgnoreProductActivationResponse marks a product activation as ignore errors
+      operationId: SalesOrders_IgnoreProductActivationError
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1IgnoreProductActivationErrorRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/LeaseSalesOrderToAutomations:
+    post:
+      summary: |-
+        Lease a sales order to automations so that an automation can act on it
+        DEPRECATED: Leasing orders no longer supported
+      operationId: SalesOrders_LeaseSalesOrderToAutomations
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1LeaseSalesOrderToAutomationsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1LeaseSalesOrderToAutomationsRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/ListSalesOrder:
+    post:
+      summary: List sales orders
+      operationId: SalesOrders_ListSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListSalesOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListSalesOrderRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/ListTags:
+    post:
+      summary: ListTags returns the unique tags for the filters provided
+      operationId: SalesOrders_ListTags
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListTagsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListTagsRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/PreviewOrderActivations:
+    post:
+      summary: PreviewOrderActivations will return the difference between what is already activated for an account and what is going to be activated in an order
+      operationId: SalesOrders_PreviewOrderActivations
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1PreviewOrderActivationsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1PreviewOrderActivationsRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/RequestCancellation:
+    post:
+      summary: Requesting a cancellation will submit the order to the administrator for cancellation
+      operationId: SalesOrders_RequestCancellation
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1RequestCancellationRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/ScheduleActivation:
+    post:
+      summary: Schedule activation for products in a sales order
+      operationId: SalesOrders_ScheduleActivation
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ScheduleActivationRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/SendExistingOrderToCustomerForApproval:
+    post:
+      summary: SendExistingOrderToCustomerForApproval will send an existing order in the awaiting customer approval status to a user
+      operationId: SalesOrders_SendExistingOrderToCustomerForApproval
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SendExistingOrderToCustomerForApprovalRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/SendForCustomerApproval:
+    post:
+      summary: SendForCustomerApproval creates an order and sends it to the SMB for approval
+      operationId: SalesOrders_SendForCustomerApproval
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1SendForCustomerApprovalResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SendForCustomerApprovalRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/SubmitDraftForCustomerApproval:
+    post:
+      summary: SubmitDraftForCustomerApproval updates answers for a last time and changes the status to SubmittedForCustomerApproval
+      operationId: SalesOrders_SubmitDraftForCustomerApproval
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1SubmitDraftForApprovalResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SubmitDraftForApprovalRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/SubmitDraftSalesOrder:
+    post:
+      summary: SubmitDraftSalesOrder updates answers for a last time and changes the status to Submitted
+      operationId: SalesOrders_SubmitDraftSalesOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1SubmitDraftResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SubmitDraftRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/UpdateAnswers:
+    post:
+      summary: Update Answers for an Order
+      operationId: SalesOrders_UpdateAnswers
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1UpdateAnswersResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateAnswersRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/UpdateAttachments:
+    post:
+      summary: Update attachments for an order
+      operationId: SalesOrders_UpdateAttachments
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateAttachmentsRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/UpdateConfig:
+    post:
+      summary: Update an Order Config
+      operationId: SalesOrders_UpdateConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateConfigRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/UpdateContractDuration:
+    post:
+      summary: UpdateContractDuration will update the contract_duration of an order
+      operationId: SalesOrders_UpdateContractDuration
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateContractDurationRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/UpdateCurrentRevenue:
+    post:
+      summary: UpdateCurrentRevenue will update the revenue of all the LineItems of the order [deprecated] use UpdateLineItems instead
+      operationId: SalesOrders_UpdateCurrentRevenue
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateCurrentRevenueRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/UpdateCustomerAttachments:
+    post:
+      summary: Update customer attachments for an order
+      operationId: SalesOrders_UpdateCustomerAttachments
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateCustomerAttachmentsRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/UpdateCustomerNotes:
+    post:
+      summary: Update customer notes for an order
+      operationId: SalesOrders_UpdateCustomerNotes
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateCustomerNotesRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/UpdateCustomerRecipientUserId:
+    post:
+      summary: UpdateCustomerRecipientUserId will update the customer recipient user ID for an order
+      operationId: SalesOrders_UpdateCustomerRecipientUserId
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateCustomerRecipientUserIdRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/UpdateEnforceContractTerm:
+    post:
+      summary: UpdateEnforceContractTerm will update the enforce_contract_term field on an order
+      operationId: SalesOrders_UpdateEnforceContractTerm
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateEnforceContractTermRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/UpdateLineItems:
+    post:
+      summary: UpdateLineItems will update the LineItems of the order
+      operationId: SalesOrders_UpdateLineItems
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateLineItemsRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/UpdateNotes:
+    post:
+      summary: Update Notes for an Order
+      operationId: SalesOrders_UpdateNotes
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateNotesRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/UpdatePaymentMethodToken:
+    post:
+      summary: UpdatePaymentMethodToken will update the payment method token for an order
+      operationId: SalesOrders_UpdatePaymentMethodToken
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdatePaymentMethodTokenRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/UpdateRequestedActivation:
+    post:
+      summary: UpdateRequestedActivation will update the requested_activation of an order
+      operationId: SalesOrders_UpdateRequestedActivation
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateRequestedActivationRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/UpdateSalesOrderMarket:
+    post:
+      summary: Update the market of the sales order
+      operationId: SalesOrders_UpdateSalesOrderMarket
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateSalesOrderMarketRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/UpdateSalesperson:
+    post:
+      summary: Update the salesperson of an order
+      operationId: SalesOrders_UpdateSalesperson
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1UpdateSalespersonResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateSalespersonRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/UpdateTags:
+    post:
+      summary: Update Tags for an Order
+      operationId: SalesOrders_UpdateTags
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1UpdateTagsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateTagsRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrders/ValidateLineItems:
+    post:
+      summary: Given an order, determine if the order and its line items are in a valid state
+      operationId: SalesOrders_ValidateLineItems
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ValidateLineItemsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ValidateLineItemsRequest'
+      tags:
+        - SalesOrders
+  /salesorders.v1.SalesOrdersAuxiliaryFieldData/ListAuxiliaryData:
+    post:
+      operationId: SalesOrdersAuxiliaryFieldData_ListAuxiliaryData
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListAuxiliaryDataResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListSalesOderAuxiliaryDataRequest'
+      tags:
+        - SalesOrdersAuxiliaryFieldData
+  /salesorders.v1.SalesOrdersAuxiliaryFieldData/UpsertAuxiliaryData:
+    post:
+      operationId: SalesOrdersAuxiliaryFieldData_UpsertAuxiliaryData
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpsertSalesOrderAuxiliaryDataRequest'
+      tags:
+        - SalesOrdersAuxiliaryFieldData
+  /salesorders.v1.SalesOrdersAuxiliaryFieldSchema/ArchiveAuxiliaryDataFieldSchema:
+    post:
+      operationId: SalesOrdersAuxiliaryFieldSchema_ArchiveAuxiliaryDataFieldSchema
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ArchiveAuxiliaryDataFieldSchemaRequest'
+      tags:
+        - SalesOrdersAuxiliaryFieldSchema
+  /salesorders.v1.SalesOrdersAuxiliaryFieldSchema/CreateAuxiliaryDataFieldSchema:
+    post:
+      operationId: SalesOrdersAuxiliaryFieldSchema_CreateAuxiliaryDataFieldSchema
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateAuxiliaryDataFieldSchemaRequest'
+      tags:
+        - SalesOrdersAuxiliaryFieldSchema
+  /salesorders.v1.SalesOrdersAuxiliaryFieldSchema/GetAuxiliaryDataFieldSchema:
+    post:
+      operationId: SalesOrdersAuxiliaryFieldSchema_GetAuxiliaryDataFieldSchema
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetAuxiliaryDataFieldSchemaResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetAuxiliaryDataFieldSchemaRequest'
+      tags:
+        - SalesOrdersAuxiliaryFieldSchema
+  /salesorders.v1.SalesOrdersAuxiliaryFieldSchema/GetMultiAuxiliaryDataFieldSchema:
+    post:
+      operationId: SalesOrdersAuxiliaryFieldSchema_GetMultiAuxiliaryDataFieldSchema
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiAuxiliaryDataFieldSchemaResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiAuxiliaryDataFieldSchemaRequest'
+      tags:
+        - SalesOrdersAuxiliaryFieldSchema
+  /salesorders.v1.SalesOrdersAuxiliaryFieldSchema/ListAuxiliaryDataFieldSchema:
+    post:
+      operationId: SalesOrdersAuxiliaryFieldSchema_ListAuxiliaryDataFieldSchema
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListAuxiliaryDataFieldSchemaResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListAuxiliaryDataFieldSchemaRequest'
+      tags:
+        - SalesOrdersAuxiliaryFieldSchema
+  /salesorders.v1.SalesOrdersAuxiliaryFieldSchema/UnarchiveAuxiliaryDataFieldSchema:
+    post:
+      operationId: SalesOrdersAuxiliaryFieldSchema_UnarchiveAuxiliaryDataFieldSchema
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UnarchiveAuxiliaryDataFieldSchemaRequest'
+      tags:
+        - SalesOrdersAuxiliaryFieldSchema
+  /salesorders.v1.SalesOrdersAuxiliaryFieldSchema/UpdateAuxiliaryDataFieldSchema:
+    post:
+      operationId: SalesOrdersAuxiliaryFieldSchema_UpdateAuxiliaryDataFieldSchema
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateAuxiliaryDataFieldSchemaRequest'
+      tags:
+        - SalesOrdersAuxiliaryFieldSchema
+  /salesorders.v1.SalesOrdersDevelopment/CreateArchivedOrder:
+    post:
+      operationId: SalesOrdersDevelopment_CreateArchivedOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateArchivedOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateArchivedOrderRequest'
+      tags:
+        - SalesOrdersDevelopment
+  /salesorders.v1.VendorOrders/ListOrders:
+    post:
+      summary: Lists orders for a vendor by the vendors partner id
+      operationId: VendorOrders_ListOrders
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListOrdersResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListOrdersRequest'
+      tags:
+        - VendorOrders
+definitions:
+  InitiateOrderExportRequestDataFormatOption:
+    type: string
+    enum:
+      - ORDERS_PER_ROW
+      - PRODUCTS_PER_ROW
+      - ORDERS_PER_ROW_SALES
+      - PRODUCTS_PER_ROW_SALES
+      - ORDERS_PER_ROW_BUYER
+      - PRODUCTS_PER_ROW_BUYER
+    default: ORDERS_PER_ROW
+    description: |-
+      - ORDERS_PER_ROW: specifies to produces one line per order with columns suitable for a Partner Admin.
+       - PRODUCTS_PER_ROW: specifies to produces one line per product in the matching orders with columns suitable for a Partner Admin. Order level values will be duplicated on each row.
+       - ORDERS_PER_ROW_SALES: specifies to produces one line per order with columns suitable for a Salesperson (SSC).
+       - PRODUCTS_PER_ROW_SALES: specifies to produces one line per product in the matching orders with columns suitable for a Salesperson (SSC). Order level values will be duplicated on each row.
+       - ORDERS_PER_ROW_BUYER: specifies to produces one line per order with columns suitable for the Buyer (Business Center).
+       - PRODUCTS_PER_ROW_BUYER: specifies to produces one line per product in the matching orders with columns suitable for the Buyer (Business Center). Order level values will be duplicated on each row.
+    title: Options for how the data should be formatted in the exported file
+  LineItemAppKey:
+    type: object
+    properties:
+      appId:
+        type: string
+      editionId:
+        type: string
+      packageId:
+        type: string
+        description: A package id is optional, it is used to group line items together in a package.
+      packageInstanceId:
+        type: string
+        description: |-
+          A package instance id keeps track of the package instance that a line item belongs to. For example, if the customer purchases two packages that contain the same product,
+          this will identify which package the product belongs to.
+
+          This must be provided if a package id is provided, and should not be provided if there is no package id provided. The ID should be a uuid.
+  OrderFormFieldOption:
+    type: object
+    properties:
+      label:
+        type: string
+      value:
+        type: string
+    title: Stores the valid set of options with display text and internal value. Both fields will always be populated
+  googlerpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  salesordersv1Status:
+    type: string
+    enum:
+      - SUBMITTED
+      - APPROVED
+      - DECLINED
+      - DRAFTED
+      - FULFILLED
+      - PROCESSING
+      - ACTIVATION_ERRORS
+      - ARCHIVED
+      - SUBMITTED_FOR_CUSTOMER_APPROVAL
+      - CANCELLATION_REQUESTED
+      - CANCELLED
+      - SCHEDULED_ACTIVATION
+      - AWAITING_PAYMENT
+      - PROCESSING_PAYMENT
+      - RESUBMITTED
+    default: SUBMITTED
+    description: |-
+      - SUBMITTED: Submitted is the status when an order is ready for admin approval
+       - APPROVED: Approved is the status when an order is has been approved by an admin
+       - DECLINED: Declined is the status when an order is has been declined by an admin or a smb
+       - DRAFTED: Drafted is currently not used but would be the state the order can be created in before it's sent to someone else
+       - FULFILLED: Fulfilled is the status when an order has had all of the products activated
+       - PROCESSING: Processing is the status when an order is currently activating the products
+       - ACTIVATION_ERRORS: ActivationErrors is the status when an order is has encountered an error when activating products
+       - ARCHIVED: Archived is the status to use when hiding the orders from the ui unless explicitly asked for
+       - SUBMITTED_FOR_CUSTOMER_APPROVAL: SubmittedForCustomerApproval is the status when an order has been sent to a SMB to approve
+       - CANCELLATION_REQUESTED: CancellationRequested is the status when a sales person requests to cancel a full order
+       - CANCELLED: Cancelled is the status when a after an admin has approved a Cancellation
+       - SCHEDULED_ACTIVATION: ScheduledActivation is the status of an order after the admin requests to activate products on the contract start date
+       - AWAITING_PAYMENT: AwaitingPayment is the status of a BIY order on creation before we attempt to charge
+       - PROCESSING_PAYMENT: ProcessingPayment is the status of a BIY order while waiting on confirmation for the charge
+       - RESUBMITTED: Resubmitted is the status of an order when it has been resubmitted for admin approval, after being submitted at least one other time in the past
+    title: The different statuses representing any given state an order can be in
+  v1ActivateProductsRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      customFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomField'
+        title: A list of additional unique information pertaining to an individual product
+      commonFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CommonField'
+        title: A list of additional information that is shared across multiple products
+      extraFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Field'
+        title: A list of extra information
+    title: Request for activating products on the order
+  v1ActivateProductsResponse:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: Sales order
+    title: Response of activating products on the order
+  v1ActivationStatus:
+    type: string
+    enum:
+      - PENDING
+      - ACTIVATED
+      - ERRORED
+      - ALREADY_ACTIVATED
+      - IGNORED_ERRORS
+      - CANCELED
+      - DEACTIVATED
+      - UNKNOWN
+      - SCHEDULED
+      - UNSCHEDULED
+    default: PENDING
+    description: |-
+      - PENDING: The product is in the process of being activated
+       - ACTIVATED: The product was successfully activated via the order
+       - ERRORED: An error occured while activating the product during the activation step
+       - ALREADY_ACTIVATED: The product was already active prior to fulfilling the order
+       - IGNORED_ERRORS: An error occurred while activating the product during the activation step but then the item was marked as ignored errors
+       - CANCELED: The product was requested to be deactivated at a time in the future (awaiting a deactivation date)
+       - DEACTIVATED: The product has been deactivated/turned off
+       - UNKNOWN: The product activation status is in an unknown status. Otherwise a client will inaccurately assume the default status is Pending.
+       - SCHEDULED: The product activation has been scheduled
+       - UNSCHEDULED: The product activation has been unscheduled
+    title: The different statuses representing any given state that a product can be in during the activation process
+  v1AddonActivation:
+    type: object
+    properties:
+      addonId:
+        type: string
+        title: Unique identifier of a single addon that is going through the activation process
+      appId:
+        type: string
+        title: Unique identifier of the parent app for the addon that is going through the activation process
+      activationStatus:
+        $ref: '#/definitions/v1ActivationStatus'
+        title: The activation status of a single product
+    title: Represents a single addon with its corresponding activation status
+  v1AddonKey:
+    type: object
+    properties:
+      addonId:
+        type: string
+        title: Unique identifier of an addon
+      appId:
+        type: string
+        title: The parent app for the addon
+  v1Agreement:
+    type: object
+    properties:
+      userId:
+        type: string
+        title: The user who may have agreed to this agreement
+      term:
+        type: string
+        title: The term that the user may have agreed to
+      agreed:
+        type: boolean
+        title: Whether or not the user agreed
+  v1ApproveCancellationRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+    title: Request for approving a requested cancellation
+  v1ApproveRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      agreements:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Agreement'
+        title: The terms the customer was presented
+    title: Request for the customer to approve an order
+  v1ApproveResponse:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: Sales order
+    title: Response of a customer approving an order
+  v1ApproveSalesOrderRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+    title: Request for approving a order
+  v1ApproveSalesOrderResponse:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: Sales order
+    title: Response of approving an order
+  v1ArchiveAuxiliaryDataFieldSchemaRequest:
+    type: object
+    properties:
+      identifier:
+        $ref: '#/definitions/v1FieldSchemaIdentifier'
+  v1ArchiveReasonRequest:
+    type: object
+    properties:
+      id:
+        type: string
+        title: Declined reason that we want to archive
+  v1ArchiveSalesOrderRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+    title: ArchiveSalesOrderRequest is use to archive an order
+  v1ArchiveSalesOrderResponse:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: Sales order
+    title: ArchiveSalesOrderResponse is returned when an order is archived
+  v1Attachment:
+    type: object
+    properties:
+      name:
+        type: string
+        title: The name of the attachment
+      url:
+        type: string
+        title: The url to the attachment
+    title: Represents an attachment on an order
+  v1AuxiliaryDataFieldSchema:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      fieldId:
+        type: string
+      fieldType:
+        $ref: '#/definitions/v1AuxiliaryDataFieldType'
+      fieldName:
+        type: string
+      fieldDescription:
+        type: string
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+      dropdownOptions:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1DropdownOption'
+      currencyCode:
+        type: string
+        title: currency code according to ISO-4217, e.g. 'USD', 'CAD', 'BRL', etc
+      archived:
+        type: string
+        format: date-time
+      externalId:
+        type: string
+  v1AuxiliaryDataFieldType:
+    type: string
+    enum:
+      - AUXILIARY_DATA_FIELD_TYPE_INVALID
+      - AUXILIARY_DATA_FIELD_TYPE_STRING
+      - AUXILIARY_DATA_FIELD_TYPE_INTEGER
+      - AUXILIARY_DATA_FIELD_TYPE_DATE
+      - AUXILIARY_DATA_FIELD_TYPE_DROPDOWN
+      - AUXILIARY_DATA_FIELD_TYPE_CURRENCY
+    default: AUXILIARY_DATA_FIELD_TYPE_INVALID
+  v1BillingPeriod:
+    type: object
+    properties:
+      startDate:
+        type: string
+        format: date-time
+        title: The start date of the billing period
+      endDate:
+        type: string
+        format: date-time
+        title: The end date of the billing period
+      duration:
+        $ref: '#/definitions/v1Duration'
+        title: Value representing the duration to bill for (use instead of end date)
+    title: The Time frame to bill for
+  v1Business:
+    type: object
+    properties:
+      companyName:
+        type: string
+      address:
+        type: string
+      address2:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      zip:
+        type: string
+      country:
+        type: string
+      website:
+        type: string
+      phoneNumber:
+        type: string
+      deleted:
+        type: boolean
+  v1CancelOrderRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      notes:
+        type: string
+        title: Notes from the partner administrator cancelling the order
+    title: Request to cancel the order
+  v1ChargeOrderRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+  v1ChargeOrderResponse:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: Sales order
+  v1CheckSalesOrderExistsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: The partner the order is being made under
+      businessId:
+        type: string
+        title: The business the order is being made for
+      productId:
+        type: string
+        description: A product ID that must be included in the order if provided here.
+      productEditionId:
+        type: string
+        description: A product edition ID that must be included in the order if provided here.
+      statuses:
+        type: array
+        items:
+          $ref: '#/definitions/salesordersv1Status'
+        description: The statuses the sales order check if for. If empty, check for sales order with any status.
+    title: CheckSalesOrderExistsRequest is used to check for the existance of active sales orders
+  v1CheckSalesOrderExistsResponse:
+    type: object
+    properties:
+      exists:
+        type: boolean
+        title: boolean that will only be true if an order matched the criteria given in the request
+    title: CheckSalesOrderExistsResponse describes if an order exists
+  v1CommonField:
+    type: object
+    properties:
+      field:
+        $ref: '#/definitions/v1Field'
+        title: The field that may be shared by multiple products
+      productIds:
+        type: array
+        items:
+          type: string
+        title: List of unique product identifiers that share the common field
+      addonKeys:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AddonKey'
+        title: List of addon keys that share the common field
+    title: Represents the answer to a common field may be shared between products
+  v1Config:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: The partner this config is for
+      marketId:
+        type: string
+        title: The market this config is for (this can be empty if it's the config for the partner
+      defaultNotesContent:
+        type: string
+        title: When creating a new Order, this is the content that will pre-populate the Notes field
+      extraFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1OrderFormField'
+        description: |-
+          Extra fields that will be added to all orders (created from that point on) The only type that is currently
+          supported is Text. Prefix/suffix and regex validation are also currently not supported.
+      termsOfServiceUrl:
+        type: string
+        title: |-
+          The terms of service url is intended to be a PDF, but as it's just a url to a file it could also be a webpage
+          Deprecated: use TermsOfServiceOptions instead
+      workflowStepOptions:
+        $ref: '#/definitions/v1WorkflowStepOptions'
+        title: Options regarding how sales orders flow through the system
+      salespersonOptions:
+        $ref: '#/definitions/v1SalespersonOptions'
+        title: Options regarding how Salesperson interacts with orders
+      taxOptions:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1TaxOptions'
+        title: Options for adding tax to orders
+      customerTermsOfServiceOptions:
+        $ref: '#/definitions/v1TermsOfServiceOptions'
+        title: The options for showing which terms of service(s) to the customer
+      customerOptions:
+        $ref: '#/definitions/v1CustomerOptions'
+        title: Options for customer initiated orders
+      emailOptions:
+        $ref: '#/definitions/v1EmailOptions'
+        title: Options for how emails are sent
+  v1ConvertToDraftRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+    title: Request for converting a sales order to draft status
+  v1Cost:
+    type: object
+    properties:
+      customPrice:
+        type: string
+        format: int64
+        title: The custom price of the order item. Can only be changed if the application supports custom pricing
+    title: Cost represents the wholesale cost of an order
+  v1CreateAndActivateOrderRequest:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: The order to create
+      useCustomerPrice:
+        type: boolean
+        title: |-
+          Indicates whether or not to automatically resolve the line items' retail pricing.
+          The request's line items are expected to have nil revenue if this is set to true.
+          For more information and error scenarios, see Confluence docs:
+          https://vendasta.jira.com/wiki/spaces/PSYC/pages/2211971323/New+use+customer+price+on+sales-orders+Create+APIs
+    title: Request for creating an order directly into activation state
+  v1CreateAndActivateOrderResponse:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+    title: Response for creating an order directly into activation state
+  v1CreateArchivedOrderRequest:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+  v1CreateArchivedOrderResponse:
+    type: object
+    properties:
+      orderId:
+        type: string
+  v1CreateAuxiliaryDataFieldSchemaRequest:
+    type: object
+    properties:
+      fieldSchema:
+        $ref: '#/definitions/v1AuxiliaryDataFieldSchema'
+  v1CreateDraftSalesOrderRequest:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: The order to create
+      useCustomerPrice:
+        type: boolean
+        title: |-
+          Indicates whether or not to automatically resolve the line items' retail pricing.
+          The request's line items are expected to have nil revenue if this is set to true.
+          For more information and error scenarios, see Confluence docs:
+          https://vendasta.jira.com/wiki/spaces/PSYC/pages/2211971323/New+use+customer+price+on+sales-orders+Create+APIs
+  v1CreateDraftSalesOrderResponse:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+  v1CreateForPartnerApprovalRequest:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: The order to create
+    title: Request for sending orders with payment information that the Partner must approve
+  v1CreateForPartnerApprovalResponse:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+    title: Response when sending orders with payment information that the Partner must approve
+  v1CreateInvoiceRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+    title: Request for creating an invoice from this sales order
+  v1CreateInvoiceResponse:
+    type: object
+    properties:
+      invoiceId:
+        type: string
+        title: The ID of the invoice that was created. This id refers to a billing_v1.Invoice
+  v1CreateLeasedToAutomationsSalesOrderRequest:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: The order to create
+      useCustomerPrice:
+        type: boolean
+        title: |-
+          Indicates whether or not to automatically resolve the line items' retail pricing.
+           // The request's line items are expected to have nil revenue if this is set to true.
+           // For more information and error scenarios, see Confluence docs:
+           // https://vendasta.jira.com/wiki/spaces/PSYC/pages/2211971323/New+use+customer+price+on+sales-orders+Create+APIs
+  v1CreateLeasedToAutomationsSalesOrderResponse:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+  v1CreateReasonRequest:
+    type: object
+    properties:
+      reason:
+        type: string
+        description: The reason the order was declined.
+      partnerId:
+        type: string
+        title: Partner the declined reason belongs to
+  v1CreateReasonResponse:
+    type: object
+    properties:
+      declinedReason:
+        $ref: '#/definitions/v1DeclinedReason'
+        title: Created declined reason
+  v1CreateSalesOrderRequest:
+    type: object
+    properties:
+      salespersonId:
+        type: string
+        title: ID of the salesperson who should attend to the order
+      partnerId:
+        type: string
+        title: ID of the partner that the order belongs to
+      businessId:
+        type: string
+        title: ID of the business that the order is for
+      marketId:
+        type: string
+        title: ID of the market that the order belongs to
+      opportunityIds:
+        type: array
+        items:
+          type: string
+        title: Opportunity id(s) that the order is fulfilling
+      requestedActivation:
+        type: string
+        format: date-time
+        title: Time submitted by a salesperson that indicates when an administrator should activate the products on the order
+      notes:
+        type: string
+        title: Additional notes written by a salesperson for admin only
+      packages:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Package'
+        title: Data for the package(s) being activated upon approval of this order
+      customFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomField'
+        title: A list of additional unique information pertaining to an individual product
+      commonFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CommonField'
+        title: A list of additional information that is shared across multiple products
+      products:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Product'
+        title: Data for the product(s) being activated upon approval of this order
+      origin:
+        $ref: '#/definitions/v1Origin'
+        title: Where the order was created
+      attachments:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Attachment'
+        title: Data for the attachments on the order
+      extraFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Field'
+        title: Extra fields are the fields that a partner (or market) admin has added to their orders by default to be filled
+      lineItems:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1LineItem'
+        title: Lineitems replace Products and Packages
+      contractDuration:
+        $ref: '#/definitions/v1Duration'
+        description: Value representing the duration of a contract.
+      customerNotes:
+        type: string
+        title: Additional notes written for customer by a salesperson
+      quoteId:
+        type: string
+        title: ID of the quote associated with the order if the order was created from a quote
+      tags:
+        type: array
+        items:
+          type: string
+        title: Tags on the order
+      idempotencyKey:
+        type: string
+        title: Optional key used to prevent request duplication and allows safety when retrying requests
+      useCustomerPrice:
+        type: boolean
+        title: |-
+          Indicates whether or not to automatically resolve the line items' retail pricing.
+          The request's line items are expected to have nil revenue if this is set to true.
+          For more information and error scenarios, see Confluence docs:
+          https://vendasta.jira.com/wiki/spaces/PSYC/pages/2211971323/New+use+customer+price+on+sales-orders+Create+APIs
+      orderIsSmbPayable:
+        type: boolean
+        title: Indicates whether the order should be charged to the SMB or not
+      enforceContractTerm:
+        type: boolean
+        title: Indicates whether to enforce the contract term
+      customerAttachments:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Attachment'
+        title: Data for the customer attachments on the order
+    title: Containing information to create a new order
+  v1CreateSalesOrderResponse:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+    title: Response of creating an order
+  v1CreateWithPaymentIntentRequest:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: The order to create
+  v1CreateWithPaymentIntentResponse:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of the created order
+  v1Currency:
+    type: string
+    enum:
+      - USD
+      - CAD
+      - EUR
+      - AUD
+      - GBP
+      - NZD
+      - ZAR
+    default: USD
+    title: '- ZAR: Do not add to this list. If more currencies are required currency_code should be used instead'
+  v1CustomField:
+    type: object
+    properties:
+      fields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Field'
+        title: List of custom fields for a given product
+      productId:
+        type: string
+        title: Unique identifier of a single product that the custom questions belong to, and will not be provided if the custom field belongs to an addon
+      addonKey:
+        $ref: '#/definitions/v1AddonKey'
+        title: Addon key of an addon that the custom questions belong to, and will not be provided if the custom field belongs to a product
+    title: Represents the answer(s) to a custom field that is unique to a product
+  v1CustomPriceMapping:
+    type: object
+    properties:
+      productId:
+        type: string
+        title: The ID of the product
+      customPrice:
+        type: string
+        format: int64
+        title: The custom price value of the product
+    title: Representing custom prices for variable priced products in a package
+  v1CustomSalesPersonApproveAction:
+    type: object
+    properties:
+      customActions:
+        $ref: '#/definitions/v1CustomSalespersonAction'
+      description:
+        type: string
+  v1CustomSalespersonAction:
+    type: object
+    properties:
+      label:
+        type: string
+      automationId:
+        type: string
+        title: The automation that gets triggered when for this button
+  v1CustomerApproveSalesOrderRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      agreements:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Agreement'
+        title: The terms the customer was presented
+      paymentMethodToken:
+        type: string
+        title: (Optional) An ID used to associate a payment method to the order, which if provided will set the order status to awaiting payment
+    title: Request for the customer to approve an order
+  v1CustomerApproveSalesOrderResponse:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: Sales order
+    title: Response of a customer approving an order
+  v1CustomerCreateSalesOrderRequest:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: The order to create
+  v1CustomerCreateSalesOrderResponse:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+  v1CustomerGetConfigurationRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+      businessId:
+        type: string
+  v1CustomerOptions:
+    type: object
+    properties:
+      allowCustomerInitiatedOrders:
+        type: boolean
+        title: Whether or not a customer can initiate an order
+  v1CustomerRecipient:
+    type: object
+    properties:
+      userId:
+        type: string
+        title: The ID of the user
+      firstName:
+        type: string
+        title: The user's first name
+      lastName:
+        type: string
+        title: The user's last name
+    title: The customer who receives the order
+  v1DeclineCancellationRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      notes:
+        type: string
+        title: Notes explaining why the cancellation was declined
+    title: Request for declining a request to cancel the order
+  v1DeclineRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      declinedReason:
+        type: string
+        title: Reason to why the order is declined
+    title: Request for the customer to decline an order
+  v1DeclineResponse:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: Sales order
+    title: Response of a customer declining an order
+  v1DeclineSalesOrderRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      declinedReason:
+        type: string
+        title: Notes about why the order is declined
+      declinedReasonIds:
+        type: array
+        items:
+          type: string
+        title: The selected declined reasons
+    title: Request for declining a order
+  v1DeclineSalesOrderResponse:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: Sales order
+    title: Response of declining an order
+  v1DeclinedReason:
+    type: object
+    properties:
+      id:
+        type: string
+      reason:
+        type: string
+      partnerId:
+        type: string
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+      archived:
+        type: string
+        format: date-time
+    title: Declined reason options managed by partner
+  v1DeleteConfigRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+  v1DeleteSalesOrderRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+    title: DeleteSalesOrderRequest is use to delete an order
+  v1DropdownOption:
+    type: object
+    properties:
+      label:
+        type: string
+      value:
+        type: string
+  v1DuplicateSalesOrderRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+  v1DuplicateSalesOrderResponse:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+  v1Duration:
+    type: object
+    properties:
+      value:
+        type: string
+        format: int64
+        description: Value for duration of time of a given operation.
+      duration:
+        $ref: '#/definitions/v1DurationPeriod'
+        description: Unit for measuring time.
+  v1DurationPeriod:
+    type: string
+    enum:
+      - UNSPECIFIED
+      - MONTH
+      - YEAR
+      - DAY
+      - WEEK
+    default: UNSPECIFIED
+  v1EmailContent:
+    type: object
+    properties:
+      subject:
+        type: string
+        title: Text for the subject of the email
+      heading:
+        type: string
+        title: Text for the heading line of an email
+      body:
+        type: string
+        title: Text for the body of an email
+      button:
+        type: string
+        title: Text for the action button of an email
+  v1EmailCustomContent:
+    type: object
+    properties:
+      contractAwaitingApproval:
+        $ref: '#/definitions/v1EmailContent'
+        title: Email that an SMB receives when an order has been submitted for their approval
+      orderProcessed:
+        $ref: '#/definitions/v1EmailContent'
+        title: Email that an SMB receives when they have approved or submitted an order
+      orderDeclined:
+        $ref: '#/definitions/v1EmailContent'
+        title: Email that an SMB receives when they have declined an order
+  v1EmailOptions:
+    type: object
+    properties:
+      emailCustomContent:
+        $ref: '#/definitions/v1EmailCustomContent'
+        title: Emails that can have custom content set
+  v1Field:
+    type: object
+    properties:
+      fieldId:
+        type: string
+        title: Unique identifier of a custom or common field
+      answer:
+        type: string
+        title: Response related to the question of the field_id
+      fieldType:
+        $ref: '#/definitions/v1FieldType'
+        title: The type of field
+      label:
+        type: string
+        title: The question for the custom or common field
+      description:
+        type: string
+        title: The description of the field
+      prefix:
+        type: string
+        title: For textbox fields, this string will be displayed in front of the textbox
+      suffix:
+        type: string
+        title: For textbox fields, this string will be displayed behind the textbox
+      regexValidator:
+        type: string
+        title: A regex string used to validate a fields answer
+      regexErrorMessage:
+        type: string
+        title: The error message displayed if the regex_validator does not match the answer
+    title: Represents an information field pertaining to a product
+  v1FieldDataUpsertOperation:
+    type: object
+    properties:
+      fieldDataId:
+        type: string
+      externalId:
+        type: string
+      integer:
+        type: string
+        format: int64
+      string:
+        type: string
+      date:
+        type: string
+        format: date-time
+      dropdownValue:
+        type: string
+      currencyValue:
+        type: string
+        format: int64
+      deleteValue:
+        type: boolean
+        title: deletes the field's current value from the object
+  v1FieldSchemaIdentifier:
+    type: object
+    properties:
+      fieldId:
+        type: string
+      externalId:
+        type: string
+      partnerId:
+        type: string
+  v1FieldType:
+    type: string
+    enum:
+      - NOT_SPECIFIED
+      - TEXT
+      - TEXTAREA
+      - DROPDOWN
+      - CHECKBOX
+      - FILE
+      - VBCUSER
+    default: NOT_SPECIFIED
+    title: Available types that a field can be
+  v1FulfillmentOrderStatus:
+    type: string
+    enum:
+      - FULFILLMENT_STATUS_UNSET
+      - FULFILLMENT_STATUS_DETAILS_NEEDED
+      - FULFILLMENT_STATUS_IN_REVIEW
+      - FULFILLMENT_STATUS_IN_PROGRESS
+      - FULFILLMENT_STATUS_COMPLETED
+      - FULFILLMENT_STATUS_CANCELLED
+    default: FULFILLMENT_STATUS_UNSET
+    description: |2-
+       - FULFILLMENT_STATUS_DETAILS_NEEDED: Details Needed: Fulfillment Form needs to be submitted
+       - FULFILLMENT_STATUS_IN_REVIEW: In Review: Fulfillment Form has been submitted. Vendor is reviewing submission
+       - FULFILLMENT_STATUS_IN_PROGRESS: In Progress: Fulfillment Form has required info and work has begun to deliver order.
+       - FULFILLMENT_STATUS_COMPLETED: Completed: Work for the order is done and has been delivered.
+       - FULFILLMENT_STATUS_CANCELLED: Cancelled: Fulfillment has not been completed and will not be completed.
+  v1FulfillmentStatus:
+    type: object
+    properties:
+      status:
+        type: string
+        title: The status of the fulfillment project, which is custom for each partner
+      dueDate:
+        type: string
+        format: date-time
+        title: The due date of the fulfillment project
+      assignee:
+        type: string
+        title: The assignee of the fulfillment project
+      projectId:
+        type: string
+        title: The identifier of the fulfillment project
+      projectName:
+        type: string
+        title: The project name
+  v1GetAuxiliaryDataFieldSchemaRequest:
+    type: object
+    properties:
+      identifier:
+        $ref: '#/definitions/v1FieldSchemaIdentifier'
+  v1GetAuxiliaryDataFieldSchemaResponse:
+    type: object
+    properties:
+      fieldSchema:
+        $ref: '#/definitions/v1AuxiliaryDataFieldSchema'
+  v1GetConfigRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+  v1GetConfigResponse:
+    type: object
+    properties:
+      config:
+        $ref: '#/definitions/v1Config'
+  v1GetConfigurationRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+    title: Request to get configuration details related to a partner's sales orders (eg Terms and Conditions, Tax Options, Administration Common Form Section)
+  v1GetConfigurationResponse:
+    type: object
+    properties:
+      configuration:
+        $ref: '#/definitions/v1Config'
+        title: Config is the order configuration options set by the partner
+    title: Response of the configuration partner/market's order configuration
+  v1GetMultiAuxiliaryDataFieldSchemaRequest:
+    type: object
+    properties:
+      identifiers:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1FieldSchemaIdentifier'
+  v1GetMultiAuxiliaryDataFieldSchemaResponse:
+    type: object
+    properties:
+      fieldSchemas:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AuxiliaryDataFieldSchema'
+  v1GetMultiSalesOrderRequest:
+    type: object
+    properties:
+      orderIds:
+        type: array
+        items:
+          type: string
+        title: Unique identifier of an order, can be in the form of either ORD-123 or AG-123:ORD-123
+    title: Containing information to get multiple orders
+  v1GetMultiSalesOrderResponse:
+    type: object
+    properties:
+      orders:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Order'
+  v1GetOrderRecipientDetailsRequest:
+    type: object
+    properties:
+      token:
+        type: string
+  v1GetOrderRecipientDetailsResponse:
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+  v1GetOrderRecipientSessionRequest:
+    type: object
+    properties:
+      token:
+        type: string
+  v1GetOrderRecipientSessionResponse:
+    type: object
+    properties:
+      session:
+        type: string
+  v1GetReasonRequest:
+    type: object
+    properties:
+      id:
+        type: string
+        title: ID of the declined reason to retrieve
+  v1GetReasonResponse:
+    type: object
+    properties:
+      declinedReason:
+        $ref: '#/definitions/v1DeclinedReason'
+        title: Declined reason retrieved by ID
+  v1GetRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+    title: Containing information to get an order
+  v1GetResponse:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: Sales order
+    title: Response of getting an order
+  v1GetSalesOrderByIdempotencyKeyRequest:
+    type: object
+    properties:
+      idempotencyKey:
+        type: string
+        title: The idempotency key for the order
+    title: Containing information to get an order by an idempotency key
+  v1GetSalesOrderRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      projectionFilter:
+        $ref: '#/definitions/v1SalesOrderProjectionFilter'
+        title: projection filter to decide which additional fields to include
+    title: Containing information to get an order
+  v1GetSalesOrderResponse:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: Sales order
+    title: Response of getting an order
+  v1GetStatusCountsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      filters:
+        $ref: '#/definitions/v1GetStatusCountsRequestFilters'
+  v1GetStatusCountsRequestFilters:
+    type: object
+    properties:
+      marketIds:
+        type: array
+        items:
+          type: string
+        title: Filter for orders created for businesses in specific markets
+      salespersonId:
+        type: string
+        title: Singular salesperson filter
+    title: Filters to list sales orders based on given filter criterias
+  v1GetStatusCountsResponse:
+    type: object
+    properties:
+      counts:
+        type: object
+        additionalProperties:
+          type: string
+          format: int64
+        title: |-
+          Counts is a map from the status to the number of orders that are currently in that status
+          the key is the value of the order.Status values but proto doesn't allow enums as the key type so it's ints
+  v1GetSubscribedLocationsRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+    title: Looks up the subscription status of the caller for the order specified
+  v1GetSubscribedLocationsResponse:
+    type: object
+    properties:
+      locations:
+        type: array
+        items:
+          $ref: '#/definitions/v1SubscriptionLocation'
+        title: The locations the user is subscribed to
+  v1GetSubscribersRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+  v1GetSubscribersResponse:
+    type: object
+    properties:
+      subscribers:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Subscriber'
+        title: The list of subscribers for the given order
+  v1GetUsersRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+  v1GetUsersResponse:
+    type: object
+    properties:
+      users:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/v1User'
+  v1IgnoreAllProductActivationErrorsRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+    title: Request for ignoring all product activation errors on an order
+  v1IgnoreProductActivationErrorRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      productActivationUniqueId:
+        type: string
+        title: The unique identifier of the product activation
+    title: Request for ignoring a product activation error
+  v1InitiateOrderExportRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: partner id for partner making request
+      filters:
+        $ref: '#/definitions/v1InitiateOrderExportRequestFilters'
+        title: Filters for the request
+      sortOption:
+        $ref: '#/definitions/v1InitiateOrderExportRequestSortOption'
+        title: Sort options for the request
+      tryAgainUrl:
+        type: string
+        title: Try again URL is a link for the Failure Notification for retrying the export
+      selectedDataFormat:
+        $ref: '#/definitions/InitiateOrderExportRequestDataFormatOption'
+        title: The selected option for how the data should be formatted in the exported file
+  v1InitiateOrderExportRequestDateRangeFilter:
+    type: object
+    properties:
+      beginRange:
+        type: string
+        format: date-time
+      endRange:
+        type: string
+        format: date-time
+    title: Begin and end of date range
+  v1InitiateOrderExportRequestFilters:
+    type: object
+    properties:
+      marketIds:
+        type: array
+        items:
+          type: string
+        title: Multiple market request
+      salespersonIds:
+        type: array
+        items:
+          type: string
+        title: Multiple salesperson filter
+      salesTeamIds:
+        type: array
+        items:
+          type: string
+        title: Multiple sales team filter
+      created:
+        $ref: '#/definitions/v1InitiateOrderExportRequestDateRangeFilter'
+        title: Created date range filter
+      requestedActivation:
+        $ref: '#/definitions/v1InitiateOrderExportRequestDateRangeFilter'
+        title: Requested activation date filter
+      expiryDate:
+        $ref: '#/definitions/v1InitiateOrderExportRequestDateRangeFilter'
+        title: Expiry date filter
+      statuses:
+        type: array
+        items:
+          $ref: '#/definitions/salesordersv1Status'
+        title: Multiple status filter
+      tags:
+        type: array
+        items:
+          type: string
+        title: Tags required to be on the order
+      untagged:
+        type: boolean
+        title: Will filter for orders that don't have tags if true
+      packageIds:
+        type: array
+        items:
+          type: string
+        title: |-
+          Any one of these packages must be included in the order
+          The package id is defined by the marketplace for a grouping of products sold together
+      businessIds:
+        type: array
+        items:
+          type: string
+        title: Multiple specific business filter
+      orderId:
+        type: string
+        title: Singular order identifier to filter for
+    title: Filters to export sales orders based on given filter criterias
+  v1InitiateOrderExportRequestSortDirection:
+    type: string
+    enum:
+      - ASCENDING
+      - DESCENDING
+    default: ASCENDING
+    title: The directions that a result set can be sorted in
+  v1InitiateOrderExportRequestSortField:
+    type: string
+    enum:
+      - REQUESTED_ACTIVATION
+      - CREATED
+      - STATUS
+      - EXPIRY_DATE
+    default: REQUESTED_ACTIVATION
+    title: The field to sort a result set on
+  v1InitiateOrderExportRequestSortOption:
+    type: object
+    properties:
+      direction:
+        $ref: '#/definitions/v1InitiateOrderExportRequestSortDirection'
+        title: A direction to sort results in
+      field:
+        $ref: '#/definitions/v1InitiateOrderExportRequestSortField'
+        title: Field to sort on
+    title: Options for controlling the order of query results
+  v1InitiateOrderExportResponse:
+    type: object
+    properties:
+      exportId:
+        type: string
+        title: The unique identifier for the file generation that can be used to check its status
+    title: Defines the response body from InitiateOrderExport
+  v1LeaseData:
+    type: object
+    properties:
+      actionType:
+        type: string
+        title: Type of action that was taken on the order (eg. approve, decline)
+      declinedReason:
+        type: string
+        title: For action_type decline, notes about why the order is declined
+      declinedReasonIds:
+        type: array
+        items:
+          type: string
+        title: The selected declined reasons
+    title: Data about the order to be used by the automations service
+  v1LeaseSalesOrderToAutomationsRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      customFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomField'
+        title: Custom field answers for the order
+      commonFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CommonField'
+        title: Common field answers for the order
+      extraFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Field'
+        title: Extra fields are the fields that a partner (or market) admin has added to their orders by default to be filled
+      leaseData:
+        $ref: '#/definitions/v1LeaseData'
+        title: Data about the order to be used by the automations service
+    title: Request for leasing a sales order to automations
+  v1LeaseSalesOrderToAutomationsResponse:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: Sales order
+    title: Response for leasing a sales order to automations
+  v1LineItem:
+    type: object
+    properties:
+      appKey:
+        $ref: '#/definitions/LineItemAppKey'
+      packageId:
+        type: string
+      currency:
+        $ref: '#/definitions/v1Currency'
+        title: While this is not deprecated, more currencies than the value of the enum are supported. To use those currencies use currency_code instead
+      initialRevenue:
+        $ref: '#/definitions/v1Revenue'
+        title: 'DEPRECATED: not important now that there is a draft state for sales orders, history of the order should be used instead'
+      currentRevenue:
+        $ref: '#/definitions/v1Revenue'
+      quantity:
+        type: string
+        format: int64
+      isTrial:
+        type: boolean
+        title: Only used when AppKey is the identifier
+      currencyCode:
+        type: string
+        description: The 3-letter currency code defined in ISO 4217.
+      cost:
+        $ref: '#/definitions/v1Cost'
+      customPrices:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomPriceMapping'
+        title: The custom price mapping for variable priced products in a package in the order
+      billingPeriod:
+        $ref: '#/definitions/v1BillingPeriod'
+        title: The billing period of the line item
+      autoBillable:
+        type: boolean
+        title: 'DEPRECATED: use non_billable instead'
+      nonBillable:
+        type: boolean
+        title: |-
+          Indicates whether this line item should be billable or not
+          If true, the item will not be billed
+      taxRateIds:
+        type: array
+        items:
+          type: string
+        title: The tax rate ids that apply to this line item
+  v1ListAuxiliaryDataFieldSchemaRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      pagingOptions:
+        $ref: '#/definitions/vendastatypesPagedRequestOptions'
+      filters:
+        $ref: '#/definitions/v1ListAuxiliaryDataFieldSchemaRequestFilters'
+  v1ListAuxiliaryDataFieldSchemaRequestFilters:
+    type: object
+    properties:
+      onlyArchived:
+        type: boolean
+  v1ListAuxiliaryDataFieldSchemaResponse:
+    type: object
+    properties:
+      fieldSchemas:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AuxiliaryDataFieldSchema'
+      pagingMetadata:
+        $ref: '#/definitions/vendastatypesPagedResponseMetadata'
+  v1ListAuxiliaryDataResponse:
+    type: object
+    properties:
+      jsonSchema:
+        type: string
+      jsonData:
+        type: string
+      pagingMetadata:
+        $ref: '#/definitions/vendastatypesPagedResponseMetadata'
+  v1ListCustomerSalesOrderRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: partner id for partner making request
+      filters:
+        $ref: '#/definitions/v1ListCustomerSalesOrderRequestFilters'
+        title: Filters for the request
+      sortOption:
+        $ref: '#/definitions/v1ListCustomerSalesOrderRequestSortOption'
+        title: Sort options for the request
+      cursor:
+        type: string
+        title: current cursor position
+      pageSize:
+        type: string
+        format: int64
+        title: |-
+          size of the page to list
+          0 assumes the default page size
+    title: Request to get a list of orders for a customer
+  v1ListCustomerSalesOrderRequestDateRangeFilter:
+    type: object
+    properties:
+      beginRange:
+        type: string
+        format: date-time
+      endRange:
+        type: string
+        format: date-time
+    title: Begin and end of date range
+  v1ListCustomerSalesOrderRequestFilters:
+    type: object
+    properties:
+      statuses:
+        type: array
+        items:
+          $ref: '#/definitions/salesordersv1Status'
+        title: Multiple status filter
+      created:
+        $ref: '#/definitions/v1ListCustomerSalesOrderRequestDateRangeFilter'
+        title: Created date range filter
+      requestedActivation:
+        $ref: '#/definitions/v1ListCustomerSalesOrderRequestDateRangeFilter'
+        title: Requested activation date filter
+      expiryDate:
+        $ref: '#/definitions/v1ListCustomerSalesOrderRequestDateRangeFilter'
+        title: Expiry date filter
+      businessId:
+        type: string
+        title: Singular business filter
+    title: Filters to list sales orders based on given filter criterias
+  v1ListCustomerSalesOrderRequestSortDirection:
+    type: string
+    enum:
+      - ASCENDING
+      - DESCENDING
+    default: ASCENDING
+    title: The directions that a result set can be sorted in
+  v1ListCustomerSalesOrderRequestSortField:
+    type: string
+    enum:
+      - REQUESTED_ACTIVATION
+      - CREATED
+      - STATUS
+      - EXPIRY_DATE
+    default: REQUESTED_ACTIVATION
+    title: The field to sort a result set on
+  v1ListCustomerSalesOrderRequestSortOption:
+    type: object
+    properties:
+      direction:
+        $ref: '#/definitions/v1ListCustomerSalesOrderRequestSortDirection'
+        title: A direction to sort results in
+      field:
+        $ref: '#/definitions/v1ListCustomerSalesOrderRequestSortField'
+        title: Field to sort on
+    title: Options for controlling the order of query results
+  v1ListOrdersRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: The partner id of the vendor
+      cursor:
+        type: string
+        title: current cursor position
+      filters:
+        $ref: '#/definitions/v1ListOrdersRequestFilters'
+        title: The filters for listing orders
+    title: Request for getting order items for vendors data
+  v1ListOrdersRequestDateRangeFilter:
+    type: object
+    properties:
+      beginRange:
+        type: string
+        format: date-time
+      endRange:
+        type: string
+        format: date-time
+    title: Begin and end of date range
+  v1ListOrdersRequestFilters:
+    type: object
+    properties:
+      resellerIds:
+        type: array
+        items:
+          type: string
+        title: The unique ids of resellers
+      activationStatuses:
+        type: array
+        items:
+          $ref: '#/definitions/v1ActivationStatus'
+        title: The activation statuses to filter for
+      fulfillmentStatuses:
+        type: array
+        items:
+          type: string
+        title: The fulfillment statuses to filter for
+      appIds:
+        type: array
+        items:
+          type: string
+        title: The app ids to filter for
+      created:
+        $ref: '#/definitions/v1ListOrdersRequestDateRangeFilter'
+        title: Created date range filter
+      searchTerm:
+        type: string
+        title: Search term across account name, product name, project name
+      excludeChildren:
+        type: boolean
+        title: Indicator of whether or not to exclude children (addons) results from the search
+      excludeAppIds:
+        type: boolean
+        title: Indicator to treat any provided app ids as excluded
+      excludeResellerIds:
+        type: boolean
+        title: Indicator to treat any provided reseller ids as excluded
+  v1ListOrdersResponse:
+    type: object
+    properties:
+      orders:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1VendorOrder'
+      nextCursor:
+        type: string
+        title: A cursor that can be provided to retrieve the next page of results
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+      totalResults:
+        type: string
+        format: int64
+        description: An int64 indicating the total number of orders returned by the query.
+    title: Response for getting orders for vendors
+  v1ListReasonsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: Partner ID that the list of declined reasons belong to
+      filters:
+        $ref: '#/definitions/v1ListReasonsRequestFilters'
+        title: Filters for listing reasons
+  v1ListReasonsRequestFilters:
+    type: object
+    properties:
+      includeArchived:
+        type: boolean
+        description: Option to include archived reasons.
+  v1ListReasonsResponse:
+    type: object
+    properties:
+      declinedReasons:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1DeclinedReason'
+        title: List of declined reasons for a partner
+  v1ListSalesOderAuxiliaryDataRequest:
+    type: object
+    properties:
+      salesOrderAuxiliaryDataObjectId:
+        $ref: '#/definitions/v1SalesOrderAuxiliaryDataObjectID'
+      pagingOptions:
+        $ref: '#/definitions/vendastatypesPagedRequestOptions'
+  v1ListSalesOrderRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: partner id for partner making request
+      filters:
+        $ref: '#/definitions/v1ListSalesOrderRequestFilters'
+        title: Filters for the request
+      sortOption:
+        $ref: '#/definitions/v1ListSalesOrderRequestSortOption'
+        title: Sort options for the request
+      cursor:
+        type: string
+        title: current cursor position
+      pageSize:
+        type: string
+        format: int64
+        title: |-
+          size of the page to list
+          0 assumes the default page size
+    title: Request to get a list of orders for a partner
+  v1ListSalesOrderRequestDateRangeFilter:
+    type: object
+    properties:
+      beginRange:
+        type: string
+        format: date-time
+      endRange:
+        type: string
+        format: date-time
+    title: Begin and end of date range
+  v1ListSalesOrderRequestFilters:
+    type: object
+    properties:
+      marketId:
+        type: string
+        title: 'DEPRECATED: Singular market filter. Use market_ids instead. If both are supplied, market_ids will be used instead'
+      salespersonId:
+        type: string
+        title: |-
+          DEPRECATED: Singular salesperson filter.  Use salesperson_ids instead.  If both are supplied, salesperson_ids
+          will be used instead
+      created:
+        $ref: '#/definitions/v1ListSalesOrderRequestDateRangeFilter'
+        title: Created date range filter
+      requestedActivation:
+        $ref: '#/definitions/v1ListSalesOrderRequestDateRangeFilter'
+        title: Requested activation date filter
+      statuses:
+        type: array
+        items:
+          $ref: '#/definitions/salesordersv1Status'
+        title: Multiple status filter
+      businessId:
+        type: string
+        title: Singular business filter
+      productId:
+        type: string
+        title: Singular product filter
+      productEditionId:
+        type: string
+        title: Singular product edition filter
+      marketIds:
+        type: array
+        items:
+          type: string
+        title: Multi market request
+      tags:
+        type: array
+        items:
+          type: string
+        title: Tags required to be on the order
+      untagged:
+        type: boolean
+        description: Will filter for orders that don't have tags if true.
+      packageId:
+        type: string
+        title: Singular package filter
+      expiryDate:
+        $ref: '#/definitions/v1ListSalesOrderRequestDateRangeFilter'
+        title: Expiry date filter
+      salespersonIds:
+        type: array
+        items:
+          type: string
+        title: Multiple salesperson filter
+      orderId:
+        type: string
+        title: 'DEPRECATED: Singular order identifier to filter for. Use order_ids instead. If both are supplied, order_ids will be used instead'
+      orderIds:
+        type: array
+        items:
+          type: string
+        title: Multiple order identifiers to filter for
+      includeArchivedOrders:
+        type: boolean
+        title: Will include archived orders if true
+    title: Filters to list sales orders based on given filter criterias
+  v1ListSalesOrderRequestSortDirection:
+    type: string
+    enum:
+      - ASCENDING
+      - DESCENDING
+    default: ASCENDING
+    title: The directions that a result set can be sorted in
+  v1ListSalesOrderRequestSortField:
+    type: string
+    enum:
+      - REQUESTED_ACTIVATION
+      - CREATED
+      - STATUS
+      - EXPIRY_DATE
+    default: REQUESTED_ACTIVATION
+    title: The field to sort a result set on
+  v1ListSalesOrderRequestSortOption:
+    type: object
+    properties:
+      direction:
+        $ref: '#/definitions/v1ListSalesOrderRequestSortDirection'
+        title: A direction to sort results in
+      field:
+        $ref: '#/definitions/v1ListSalesOrderRequestSortField'
+        title: Field to sort on
+    title: Options for controlling the order of query results
+  v1ListSalesOrderResponse:
+    type: object
+    properties:
+      orders:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Order'
+        title: list of the requested sales order data
+      nextCursor:
+        type: string
+        title: A cursor that can be provided to retrieve the next page of results
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+      totalResults:
+        type: string
+        format: int64
+        title: The number of total results there are
+    title: Response to get a list of orders for a partner
+  v1ListTagsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: partner id for partner making request
+      filters:
+        $ref: '#/definitions/v1ListTagsRequestFilters'
+        title: Filters for the request
+  v1ListTagsRequestFilters:
+    type: object
+    properties:
+      marketIds:
+        type: array
+        items:
+          type: string
+        title: The market_ids to include when filtering for tags, if empty will filter for all markets
+    title: Filters to list tags based on given filter criterias
+  v1ListTagsResponse:
+    type: object
+    properties:
+      tags:
+        type: array
+        items:
+          type: string
+  v1Order:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: The unique identifier of the order
+      salespersonId:
+        type: string
+        title: Salesperson who submitted the order
+      partnerId:
+        type: string
+        title: The partner the order is being made under
+      businessId:
+        type: string
+        title: The business the order is being made for
+      marketId:
+        type: string
+        title: The market the order is being made under
+      opportunityIds:
+        type: array
+        items:
+          type: string
+        title: The opportunities that are being used for the order
+      status:
+        $ref: '#/definitions/salesordersv1Status'
+        title: The current status of the order
+      requestedActivation:
+        type: string
+        format: date-time
+        title: The requested activation date for the order's products
+      notes:
+        type: string
+        title: Notes for the partner administrator from the salesperson
+      packages:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Package'
+        title: Packages in the order
+      customFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomField'
+        title: Custom field answers for the packages
+      commonFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CommonField'
+        title: Common field answers for the packages
+      created:
+        type: string
+        format: date-time
+        title: Time the order was submitted by a salesperson
+      productActivations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ProductActivation'
+        title: The list of products with their corresponding activation status
+      addonActivations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AddonActivation'
+        title: The list of addons with their corresponding activation status
+      statusHistory:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1StatusHistoryItem'
+        title: The historical list of status updates that have taken place on the order
+      declinedReason:
+        type: string
+        title: |-
+          DEPRECATED: declined_reason is now added to the StatusHistoryItem
+          The reason the order was declined
+      products:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Product'
+        title: Products in the order
+      origin:
+        $ref: '#/definitions/v1Origin'
+        title: Who created the order
+      attachments:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Attachment'
+        title: Attachments on the order
+      extraFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Field'
+        title: Extra fields are the fields that a partner (or market) admin has added to their orders by default to be filled
+      lineItems:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1LineItem'
+        title: Line items that make up the order
+      contractDuration:
+        $ref: '#/definitions/v1Duration'
+        description: Value representing the duration of a contract.
+      taxOptions:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1TaxOptions'
+        title: Options for adding tax to orders
+      tags:
+        type: array
+        items:
+          type: string
+        title: Tags for orders
+      agreements:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Agreement'
+        title: The terms that a customer has agreed to for this order
+      expiryDate:
+        type: string
+        format: date-time
+        title: The requested activation date for the order's products
+      paymentMethodToken:
+        type: string
+        title: An id used by BIY sales orders to associate a payment method
+      customerNotes:
+        type: string
+        title: Notes for the customer from the salesperson/admin
+      offerExpiry:
+        type: string
+        format: date-time
+        description: |-
+          The most recently added date that the customer must approve this order by. This cannot be set on creation and only
+          when sending the order to a customer. It is valid that this is in the past for expired orders, or orders that have
+          made it through the customer approval stage.
+      quoteId:
+        type: string
+        title: The id of the quote associated to the order if the order was created from a quote
+      business:
+        $ref: '#/definitions/v1Business'
+        title: Details about the business that the order is for
+      salesperson:
+        $ref: '#/definitions/v1Salesperson'
+        title: Details about the salesperson who submitted the order
+      idempotencyKey:
+        type: string
+        title: Optional key used to prevent request duplication and allows safety when retrying requests
+      leasedToAutomations:
+        type: string
+        format: date-time
+        title: 'DEPRECATED: No longer supported'
+      fulfillmentStatus:
+        $ref: '#/definitions/v1FulfillmentOrderStatus'
+        title: The overall fulfillment status of the order calculated from all of the related orders
+      hasFulfillment:
+        type: boolean
+        title: Determines if the sales order has any fulfillment forms associated with it
+      orderIsSmbPayable:
+        type: boolean
+        title: Indicates whether the order should be charged to the SMB or not
+      enforceContractTerm:
+        type: boolean
+        title: Indicates whether to enforce the contract term
+      customerAttachments:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Attachment'
+        title: Customer attachments on the order
+      customerRecipient:
+        $ref: '#/definitions/v1CustomerRecipient'
+        description: |-
+          The customer who receives the order
+          This field is only hydrated if a projection filter is supplied.
+    title: Data representing an order form submitted by a salesperson
+  v1OrderFormField:
+    type: object
+    properties:
+      label:
+        type: string
+      id:
+        type: string
+      type:
+        type: string
+      options:
+        type: array
+        items:
+          type: string
+        title: 'Deprecated: Replaced by options_with_labels'
+      description:
+        type: string
+      required:
+        type: boolean
+      uploadUrl:
+        type: string
+        title: 'Deprecated: For file upload fields this is where we upload and store the file'
+      prefix:
+        type: string
+        title: For textbox fields, this string will be displayed in front of the textbox
+      suffix:
+        type: string
+        title: For textbox fields, this string will be displayed behind the textbox
+      regexValidator:
+        type: string
+        title: A regex string used to validate a fields answer
+      regexErrorMessage:
+        type: string
+        title: The error message displayed if the regex_validator does not match the answer
+      useWebhookValidator:
+        type: boolean
+        title: Indicates if this field will call out to the order_form_validator_webhook_url under Integration
+      allowMultiples:
+        type: boolean
+        description: |-
+          The following 3 options are for dropdowns that allow you to choose multiple options
+          Whether or not to allow multiple choices.
+      allowDuplicates:
+        type: boolean
+        description: If you should be able to choose the same option twice.
+      maxChoices:
+        type: string
+        format: int64
+        title: The maximum number of choices you can make
+      forOfficeUseOnly:
+        type: boolean
+        title: if this is true the field will not be shown to end users
+      optionsWithLabels:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/OrderFormFieldOption'
+      officeEditableOnly:
+        type: boolean
+        title: if this is true the field will not be editable by end users
+    title: Field asking user for information when they try to activate the app
+  v1Origin:
+    type: string
+    enum:
+      - SSC
+      - VBC
+      - PC
+      - IMPORT
+    default: SSC
+    title: Origin of the create request, whether a salesperson or smb created it
+  v1Package:
+    type: object
+    properties:
+      packageId:
+        type: string
+        title: Unique identifier of a package
+      currency:
+        $ref: '#/definitions/v1Currency'
+        title: Type of currency the revenue of a package is in
+      revenue:
+        $ref: '#/definitions/v1Revenue'
+        title: Revenue of a package
+      quantity:
+        type: string
+        format: int64
+        title: How many of the package is being requested
+      productIds:
+        type: array
+        items:
+          type: string
+        title: |-
+          List of unique identifiers for the products that belong to the package
+          DEPRECATED: get the products that are in a package from marketplace
+      addonKeys:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AddonKey'
+        title: 'DEPRECATED: get the addons that are in a package from marketplace'
+      customPrices:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomPriceMapping'
+        title: The custom price mapping of the order
+    title: Representing a package in an order
+  v1PreviewOrderActivationsRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+    title: Request for comparing current activations with activations that will be done for order
+  v1PreviewOrderActivationsResponse:
+    type: object
+    properties:
+      productActivations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ProductActivation'
+        title: List of product activations for order with activations marking products that are already active
+    title: Request for comparing requested activations for the order with what's currently active
+  v1Pricing:
+    type: object
+    properties:
+      amount:
+        type: string
+        format: int64
+        title: The amount that was set for items using custom pricing
+      setupFee:
+        type: string
+        format: int64
+        title: The set up fee amount that was paid by the reseller (partner)
+      currencyCode:
+        type: string
+        title: The currency used by the reseller (partner)
+      frequency:
+        type: string
+        title: The frequency that the amount will be charged
+  v1Product:
+    type: object
+    properties:
+      productId:
+        type: string
+        title: Unique identifier of the product that will be activated when an order is fulfilled
+      currency:
+        $ref: '#/definitions/v1Currency'
+        title: Type of currency that will be used when the product is invoiced
+      revenue:
+        $ref: '#/definitions/v1Revenue'
+        title: Amount of money that will be charged when the product is invoiced
+      editionId:
+        type: string
+        title: Optional unique identifier for the edition of the product that will be activated when an order if fulfilled
+      parentProductId:
+        type: string
+        title: Optional unique identifier for the parent of product that will be activated when an order is fulfilled
+  v1ProductActivation:
+    type: object
+    properties:
+      productId:
+        type: string
+        title: Identifier of a single product that is going through the activation process
+      editionId:
+        type: string
+        title: Identifies the (optional) edition of that product that is going through the activation process
+      activationStatus:
+        $ref: '#/definitions/v1ActivationStatus'
+        title: The activation status of a single product
+      uniqueId:
+        type: string
+        title: Unique identifier for this product activation, it is possible for this to be empty (historical activations, activations not fully processed, etc)
+      previousEditionId:
+        type: string
+        title: Identifies the previous edition id of that product if this activation is an edition change (optional)
+      activationId:
+        type: string
+        title: Identifies the existing activation of a product if it was activated before the order was completed
+      isEditionChange:
+        type: boolean
+        title: Identifies whether or not this activation is an edition change or not
+    title: Represents a single product with its corresponding activation status
+  v1RequestCancellationRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      notes:
+        type: string
+        title: Notes for the partner administrator from the salesperson this will be appended to the notes on the order
+    title: Request for submitting a request to cancel the order
+  v1Revenue:
+    type: object
+    properties:
+      revenueComponents:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1RevenueComponent'
+    title: Revenue represents the retail price of an order
+  v1RevenueComponent:
+    type: object
+    properties:
+      value:
+        type: string
+        format: int64
+        description: The value in the smallest common currency unit i.e. cents. Therefore 4000 would represent $40.00.
+      period:
+        $ref: '#/definitions/v1RevenuePeriod'
+        description: The frequency this revenue occurs.
+      isStartingRevenue:
+        type: boolean
+        title: The indication if this is only the starting price or the actual price
+  v1RevenuePeriod:
+    type: string
+    enum:
+      - ONETIME
+      - DAILY
+      - WEEKLY
+      - BIWEEKLY
+      - MONTHLY
+      - YEARLY
+    default: ONETIME
+  v1SalesOrderAuxiliaryDataObjectID:
+    type: object
+    properties:
+      orderId:
+        type: string
+      businessId:
+        type: string
+  v1SalesOrderProjectionFilter:
+    type: object
+    properties:
+      includeUserInfoInStatusHistory:
+        type: boolean
+        title: Indicates whether info and role should be included about the user in the status history
+      includeCustomerRecipient:
+        type: boolean
+        title: Indicates whether customer recipient data should be included
+  v1Salesperson:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      phoneNumber:
+        type: string
+    title: A User is the information about a user
+  v1SalespersonOptions:
+    type: object
+    properties:
+      validateRequiredFields:
+        type: boolean
+        description: Setting to validate required fields inside Order form.
+      disableSellingStandaloneProducts:
+        type: boolean
+        title: If true sales people can only create opportunities and orders with packages
+      disableTagging:
+        type: boolean
+        title: If true sales people cannot tag orders
+  v1ScheduleActivationRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      customFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomField'
+        title: A list of additional unique information pertaining to an individual product
+      commonFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CommonField'
+        title: A list of additional information that is shared across multiple products
+      extraFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Field'
+        title: A list of extra information
+  v1SendExistingOrderToCustomerForApprovalRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      userId:
+        type: string
+        title: The user to send the order to
+      offerExpiry:
+        type: string
+        format: date-time
+        title: The date and time at which this offer expires and can no longer be approved by the customer
+      orderIsSmbPayable:
+        type: boolean
+        title: Indicates whether the order should be charged to the SMB or not
+  v1SendForCustomerApprovalRequest:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: The order to create
+      userId:
+        type: string
+        title: The user to send the order to
+      offerExpiry:
+        type: string
+        format: date-time
+        title: The date and time at which this offer expires and can no longer be approved by the customer
+      useCustomerPrice:
+        type: boolean
+        title: |-
+          Indicates whether or not to automatically resolve the line items' retail pricing.
+          The request's line items are expected to have nil revenue if this is set to true.
+          For more information and error scenarios, see Confluence docs:
+          https://vendasta.jira.com/wiki/spaces/PSYC/pages/2211971323/New+use+customer+price+on+sales-orders+Create+APIs
+  v1SendForCustomerApprovalResponse:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+  v1Source:
+    type: string
+    enum:
+      - SOURCE_INVALID
+      - SOURCE_SYSTEM
+      - SOURCE_SYSTEM_ADMIN
+    default: SOURCE_INVALID
+  v1StatusHistoryItem:
+    type: object
+    properties:
+      userId:
+        type: string
+        title: The unique identifier of the user that updated the status
+      status:
+        $ref: '#/definitions/salesordersv1Status'
+        title: The status the order was changed to
+      created:
+        type: string
+        format: date-time
+        title: The time the status was created
+      email:
+        type: string
+        description: The email fo the user that updated the status.
+      metadata:
+        type: string
+        title: The metadata is freeform json about the status history item. It's structure depends on the status
+      name:
+        type: string
+        title: The name or email of the user
+      source:
+        $ref: '#/definitions/v1Source'
+        title: The source of the user
+      userRole:
+        $ref: '#/definitions/v1UserRole'
+        title: role of the user triggering status change(admin, salesperson, client)
+    title: Represents a status change on the order to determine who it was updated by and what time it was updated
+  v1SubmitDraftForApprovalRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      userId:
+        type: string
+        title: The user to send the order to
+      customFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomField'
+        title: Custom field answers for the order
+      commonFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CommonField'
+        title: Common field answers for the order
+      extraFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Field'
+        title: Extra fields are the fields that a partner (or market) admin has added to their orders by default to be filled
+      offerExpiry:
+        type: string
+        format: date-time
+        title: The date and time at which this offer expires and can no longer be approved by the customer
+    title: Request to submit a sales order draft
+  v1SubmitDraftForApprovalResponse:
+    type: object
+    properties:
+      orderId:
+        type: string
+  v1SubmitDraftRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      customFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomField'
+        title: Custom field answers for the order
+      commonFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CommonField'
+        title: Common field answers for the order
+      extraFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Field'
+        title: Extra fields are the fields that a partner (or market) admin has added to their orders by default to be filled
+    title: Request to submit a sales order draft
+  v1SubmitDraftResponse:
+    type: object
+    properties:
+      orderId:
+        type: string
+  v1SubscribeRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      location:
+        $ref: '#/definitions/v1SubscriptionLocation'
+        title: The location the user is subscribing to (this is where the notification links will send them back to)
+  v1Subscriber:
+    type: object
+    properties:
+      userId:
+        type: string
+        title: The identifier of the subscriber
+      location:
+        $ref: '#/definitions/v1SubscriptionLocation'
+        title: Which location they have subscribed to
+  v1SubscriptionLocation:
+    type: string
+    enum:
+      - SUBSCRIPTION_LOCATION_NOT_USED
+      - SUBSCRIPTION_LOCATION_PARTNER_CENTER
+      - SUBSCRIPTION_LOCATION_SALES_CENTER
+      - SUBSCRIPTION_LOCATION_BUSINESS_CENTER
+    default: SUBSCRIPTION_LOCATION_NOT_USED
+    description: '- SUBSCRIPTION_LOCATION_NOT_USED: Don''t use this'
+    title: The locations of where a user can be subscribed to
+  v1TaxOptions:
+    type: object
+    properties:
+      label:
+        type: string
+        title: Setting that defines a name for a given tax that should be applied to an order
+      percentageMultiplier:
+        type: number
+        format: double
+        title: Setting that defines a tax percentage multiplier with a precision between 0.0000 and 1.0000
+      initialAmount:
+        type: string
+        format: int64
+        title: The initial amount (in cents) of tax to be applied to an order after all tax rules have been taken into account
+      taxRateId:
+        type: string
+        title: The id of the tax rate that this tax corresponds to
+  v1TermsOfService:
+    type: object
+    properties:
+      text:
+        type: string
+        description: The sentence to describe what they are agreeing to.
+      termsOfServiceUrl:
+        type: string
+        title: The url to show. Intended to be a PDF, but as it's just a url to a file it could also be a web page
+      linkTitle:
+        type: string
+        title: The text that will be hyper linked to the url
+      required:
+        type: boolean
+        title: Whether or not the user must agree to these TOS before submitting the order
+  v1TermsOfServiceOptions:
+    type: object
+    properties:
+      hideDefaultTermsOfService:
+        type: boolean
+        title: If this is true the default terms of service will not be prepended to the list of TOS
+      termsOfService:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1TermsOfService'
+        title: The list of terms of services that can be agreed to
+  v1UnarchiveAuxiliaryDataFieldSchemaRequest:
+    type: object
+    properties:
+      identifier:
+        $ref: '#/definitions/v1FieldSchemaIdentifier'
+  v1UnsubscribeRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      location:
+        $ref: '#/definitions/v1SubscriptionLocation'
+        title: The location the user is subscribing from
+  v1UpdateAnswersRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      customFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomField'
+        title: Custom field answers for the order
+      commonFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CommonField'
+        title: Common field answers for the order
+      extraFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Field'
+        title: Extra fields are the fields that a partner (or market) admin has added to their orders by default to be filled
+    title: Request to update a sales order
+  v1UpdateAnswersResponse:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: Sales order
+    title: Response of a customer approving an order
+  v1UpdateAttachmentsRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      attachments:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Attachment'
+        title: Attachments on the order
+  v1UpdateAuxiliaryDataFieldSchemaRequest:
+    type: object
+    properties:
+      fieldSchema:
+        $ref: '#/definitions/v1AuxiliaryDataFieldSchema'
+      fieldMask:
+        $ref: '#/definitions/vendastatypesFieldMask'
+        description: Supported updates for name, and description only at this time.
+  v1UpdateConfigRequest:
+    type: object
+    properties:
+      config:
+        $ref: '#/definitions/v1Config'
+      fieldMask:
+        $ref: '#/definitions/vendastatypesFieldMask'
+        title: The fields to change on the config
+  v1UpdateContractDurationRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      contractDuration:
+        $ref: '#/definitions/v1Duration'
+        description: Value representing the duration of a contract.
+    title: The payload for updating the contract duration of an order
+  v1UpdateCurrentRevenueRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      lineItems:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1LineItem'
+        title: The LineItems to be updated
+    title: The payload for updating the Revenue of the LineItems of an order
+  v1UpdateCustomerAttachmentsRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      attachments:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Attachment'
+        title: Attachments on the order
+  v1UpdateCustomerNotesRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      customerNotes:
+        type: string
+        title: Customer notes on the order
+  v1UpdateCustomerRecipientUserIdRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      customerRecipientUserId:
+        type: string
+        title: The user ID of the customer who receives the order
+    title: The payload for updating the CustomerRecipientUserId of an order
+  v1UpdateEnforceContractTermRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      enforceContractTerm:
+        type: boolean
+        title: Value representing the field to enforce the contract term of an order
+    title: The payload for updating the enforce_contract_term field on an order
+  v1UpdateLineItemsRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      lineItems:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1LineItem'
+        title: The LineItems to be updated
+    title: The payload for updating the LineItems of an order
+  v1UpdateNotesRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      notes:
+        type: string
+        title: Notes on the order
+  v1UpdateOrderFormAnswersRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      customFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomField'
+        title: Custom field answers for the order
+      commonFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CommonField'
+        title: Common field answers for the order
+      extraFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Field'
+        title: Extra fields are the fields that a partner (or market) admin has added to their orders by default to be filled
+    title: Request to update a sales order
+  v1UpdateOrderFormAnswersResponse:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+        title: Sales order
+    title: Response of a customer approving an order
+  v1UpdatePaymentMethodTokenRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      paymentMethodToken:
+        type: string
+        title: The payment method token to associate with the order
+    title: The payload for updating the PaymentMethodToken of an order
+  v1UpdateReasonRequest:
+    type: object
+    properties:
+      id:
+        type: string
+        description: The id of the reason to update.
+      reason:
+        type: string
+        title: The updated reason
+  v1UpdateReasonResponse:
+    type: object
+    properties:
+      declinedReason:
+        $ref: '#/definitions/v1DeclinedReason'
+        title: Updated declined reason
+  v1UpdateRequestedActivationRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      requestedActivation:
+        type: string
+        format: date-time
+        title: The new requested activation date
+    title: The payload for updating the requested activation of an order
+  v1UpdateSalesOrderMarketRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      marketId:
+        type: string
+        title: The market to update the order to
+  v1UpdateSalespersonRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      salespersonId:
+        type: string
+        title: List of tags for an order
+  v1UpdateSalespersonResponse:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+  v1UpdateTagsRequest:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: Unique identifier of an order
+      businessId:
+        type: string
+        title: The business the order belongs to
+      tags:
+        type: array
+        items:
+          type: string
+        title: List of tags for an order
+  v1UpdateTagsResponse:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+  v1UpsertSalesOrderAuxiliaryDataRequest:
+    type: object
+    properties:
+      salesOrderAuxiliaryDataObjectId:
+        $ref: '#/definitions/v1SalesOrderAuxiliaryDataObjectID'
+      fieldDataUpsertOperations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1FieldDataUpsertOperation'
+  v1User:
+    type: object
+    properties:
+      userId:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      phoneNumber:
+        type: string
+    title: A User is the information about a user
+  v1UserRole:
+    type: string
+    enum:
+      - USER_ROLE_UNSPECIFIED
+      - USER_ROLE_ADMIN
+      - USER_ROLE_SALESPERSON
+      - USER_ROLE_CLIENT
+    default: USER_ROLE_UNSPECIFIED
+  v1ValidateLineItemsRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: The business the order belongs to
+      orderId:
+        type: string
+        title: The order to validate
+  v1ValidateLineItemsResponse:
+    type: object
+    properties:
+      errorCodes:
+        type: array
+        items:
+          $ref: '#/definitions/v1ValidationErrorCodes'
+        title: The validation errors
+  v1ValidationErrorCodes:
+    type: string
+    enum:
+      - UNKNOWN_ERROR_CODE
+      - ALREADY_ACTIVE
+      - INVALID_BILLING_TERMS
+    default: UNKNOWN_ERROR_CODE
+    description: |-
+      - UNKNOWN_ERROR_CODE: Unknown error
+       - ALREADY_ACTIVE: Items in the order are already active for the business
+       - INVALID_BILLING_TERMS: The order has invalid billing terms
+    title: Error codes for validation errors
+  v1VendorOrder:
+    type: object
+    properties:
+      orderId:
+        type: string
+        title: The unique identifier of the order
+      orderFormSubmissionId:
+        type: string
+        title: The unique identifier of the order form for the particular order item
+      resellerId:
+        type: string
+        title: The unique identifier of the reseller (partner) who placed the order
+      resellerName:
+        type: string
+        title: The name of the reseller (partner) who placed the order
+      businessId:
+        type: string
+        title: The unique identifier of the business the order was for
+      appId:
+        type: string
+        title: The unique identifier of the product / order item
+      appName:
+        type: string
+        title: The name of the product / order item
+      business:
+        $ref: '#/definitions/v1Business'
+        title: The business information that the order was for
+      created:
+        type: string
+        format: date-time
+        title: Time the order was placed by the reseller (partner)
+      pricing:
+        $ref: '#/definitions/v1Pricing'
+        title: Pricing information for the order item
+      activationStatus:
+        $ref: '#/definitions/v1ActivationStatus'
+        title: Activation status is the current activation state of the product
+      fulfillmentStatus:
+        $ref: '#/definitions/v1FulfillmentStatus'
+        title: Fulfillment status is the current fulfillment state of the product
+      rejectedReason:
+        type: string
+        title: The reason for a rejected order
+  v1WorkflowStepOptions:
+    type: object
+    properties:
+      allowSendDirectToAdmin:
+        type: boolean
+        title: Whether or not the salesperson can send an order directly to an admin
+      allowSendToCustomer:
+        type: boolean
+        title: Whether or not the salesperson can send an order to a customer
+      maintainTermsAndConditionsAgreement:
+        type: boolean
+        title: Whether or not the terms and conditions remain even when converting to draft
+      customSalespersonActions:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomSalespersonAction'
+        description: More buttons to show to the salesperson for when they submit.
+      allowOrderFormEditing:
+        type: boolean
+        title: Allow editing of the order form after it has been submitted
+      allowCollectPaymentFromCustomer:
+        type: boolean
+        title: Whether or not the order sent for approval by a salesperson collects payment information from the customer
+      customApproveActions:
+        $ref: '#/definitions/v1CustomSalesPersonApproveAction'
+        title: More buttons to show to the approve action
+      canChargeSmbOnOrderSubmission:
+        type: boolean
+        title: Whether or not the salesperson can charge an SMB's saved payment method when they submit an order
+  vendastatypesFieldMask:
+    type: object
+    properties:
+      paths:
+        type: array
+        items:
+          type: string
+        description: The set of field mask paths.
+    description: |-
+      paths: "f.a"
+          paths: "f.b.d"
+
+      Here `f` represents a field in some root message, `a` and `b`
+      fields in the message found in `f`, and `d` a field found in the
+      message in `f.b`.
+
+      Field masks are used to specify a subset of fields that should be
+      returned by a get operation or modified by an update operation.
+      Field masks also have a custom JSON encoding (see below).
+
+      # Field Masks in Projections
+
+      When used in the context of a projection, a response message or
+      sub-message is filtered by the API to only contain those fields as
+      specified in the mask. For example, if the mask in the previous
+      example is applied to a response message as follows:
+
+          f {
+            a : 22
+            b {
+              d : 1
+              x : 2
+            }
+            y : 13
+          }
+          z: 8
+
+      The result will not contain specific values for fields x,y and z
+      (their value will be set to the default, and omitted in proto text
+      output):
+
+
+          f {
+            a : 22
+            b {
+              d : 1
+            }
+          }
+
+      A repeated field is not allowed except at the last position of a
+      paths string.
+
+      If a FieldMask object is not present in a get operation, the
+      operation applies to all fields (as if a FieldMask of all fields
+      had been specified).
+
+      Note that a field mask does not necessarily apply to the
+      top-level response message. In case of a REST get operation, the
+      field mask applies directly to the response, but in case of a REST
+      list operation, the mask instead applies to each individual message
+      in the returned resource list. In case of a REST custom method,
+      other definitions may be used. Where the mask applies will be
+      clearly documented together with its declaration in the API.  In
+      any case, the effect on the returned resource/resources is required
+      behavior for APIs.
+
+      # Field Masks in Update Operations
+
+      A field mask in update operations specifies which fields of the
+      targeted resource are going to be updated. The API is required
+      to only change the values of the fields as specified in the mask
+      and leave the others untouched. If a resource is passed in to
+      describe the updated values, the API ignores the values of all
+      fields not covered by the mask.
+
+      If a repeated field is specified for an update operation, the existing
+      repeated values in the target resource will be overwritten by the new values.
+      Note that a repeated field is only allowed in the last position of a `paths`
+      string.
+
+      If a sub-message is specified in the last position of the field mask for an
+      update operation, then the existing sub-message in the target resource is
+      overwritten. Given the target message:
+
+          f {
+            b {
+              d : 1
+              x : 2
+            }
+            c : 1
+          }
+
+      And an update message:
+
+          f {
+            b {
+              d : 10
+            }
+          }
+
+      then if the field mask is:
+
+       paths: "f.b"
+
+      then the result will be:
+
+          f {
+            b {
+              d : 10
+            }
+            c : 1
+          }
+
+      However, if the update mask was:
+
+       paths: "f.b.d"
+
+      then the result would be:
+
+          f {
+            b {
+              d : 10
+              x : 2
+            }
+            c : 1
+          }
+
+      In order to reset a field's value to the default, the field must
+      be in the mask and set to the default value in the provided resource.
+      Hence, in order to reset all fields of a resource, provide a default
+      instance of the resource and set all fields in the mask, or do
+      not provide a mask as described below.
+
+      If a field mask is not present on update, the operation applies to
+      all fields (as if a field mask of all fields has been specified).
+      Note that in the presence of schema evolution, this may mean that
+      fields the client does not know and has therefore not filled into
+      the request will be reset to their default. If this is unwanted
+      behavior, a specific service may require a client to always specify
+      a field mask, producing an error if not.
+
+      As with get operations, the location of the resource which
+      describes the updated values in the request message depends on the
+      operation kind. In any case, the effect of the field mask is
+      required to be honored by the API.
+
+      ## Considerations for HTTP REST
+
+      The HTTP kind of an update operation which uses a field mask must
+      be set to PATCH instead of PUT in order to satisfy HTTP semantics
+      (PUT must only be used for full updates).
+
+      # JSON Encoding of Field Masks
+
+      In JSON, a field mask is encoded as a single string where paths are
+      separated by a comma. Fields name in each path are converted
+      to/from lower-camel naming conventions.
+
+      As an example, consider the following message declarations:
+
+          message Profile {
+            User user = 1;
+            Photo photo = 2;
+          }
+          message User {
+            string display_name = 1;
+            string address = 2;
+          }
+
+      In proto a field mask for `Profile` may look as such:
+
+          mask {
+            paths: "user.display_name"
+            paths: "photo"
+          }
+
+      In JSON, the same mask is represented as below:
+
+          {
+            mask: "user.displayName,photo"
+          }
+
+      # Field Masks and Oneof Fields
+
+      Field masks treat fields in oneofs just as regular fields. Consider the
+      following message:
+
+          message SampleMessage {
+            oneof test_oneof {
+              string name = 4;
+              SubMessage sub_message = 9;
+            }
+          }
+
+      The field mask can be:
+
+          mask {
+            paths: "name"
+          }
+
+      Or:
+
+          mask {
+            paths: "sub_message"
+          }
+
+      Note that oneof type names ("test_oneof" in this case) cannot be used in
+      paths.
+    title: '`FieldMask` represents a set of symbolic field paths, for example:'
+  vendastatypesPagedRequestOptions:
+    type: object
+    properties:
+      cursor:
+        type: string
+        title: cursor can be passed to retrieve the next page of results keyed by the cursor
+      pageSize:
+        type: string
+        format: int64
+        title: page_size specifies the number of items to return in the next page
+  vendastatypesPagedResponseMetadata:
+    type: object
+    properties:
+      nextCursor:
+        type: string
+        title: A cursor that can be provided to retrieve the next page of results
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+      totalResults:
+        type: string
+        format: int64
+        title: The total number of results. This is not supported on all paged apis and will be 0 if it is not supported

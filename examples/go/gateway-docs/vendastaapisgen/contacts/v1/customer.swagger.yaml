@@ -1,0 +1,1590 @@
+swagger: "2.0"
+info:
+  title: contacts/v1/customer.proto
+  version: version not set
+tags:
+  - name: CustomerService
+  - name: VendorCustomerService
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /contacts.v1.CustomerService/BulkCreate:
+    post:
+      summary: Bulk create customers from a file in Google Cloud Storage
+      operationId: CustomerService_BulkCreate
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1BulkCreateCustomerResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1BulkCreateCustomerRequest'
+      tags:
+        - CustomerService
+  /contacts.v1.CustomerService/BulkUpdate:
+    post:
+      summary: Updates a list of customers
+      operationId: CustomerService_BulkUpdate
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1BulkUpdateCustomersResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1BulkUpdateCustomersRequest'
+      tags:
+        - CustomerService
+  /contacts.v1.CustomerService/Create:
+    post:
+      summary: Creates a customer or conflict record
+      operationId: CustomerService_Create
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateCustomerResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateCustomerRequest'
+      tags:
+        - CustomerService
+  /contacts.v1.CustomerService/CreateWithoutConflict:
+    post:
+      summary: Creates a customer or returns conflicting field information
+      operationId: CustomerService_CreateWithoutConflict
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateWithoutConflictResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateWithoutConflictRequest'
+      tags:
+        - CustomerService
+  /contacts.v1.CustomerService/Delete:
+    post:
+      summary: Deletes a customer
+      operationId: CustomerService_Delete
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeleteCustomerRequest'
+      tags:
+        - CustomerService
+  /contacts.v1.CustomerService/DesyncCustomers:
+    post:
+      summary: Triggers the customer delete webhook and removes the external customer mapping
+      operationId: CustomerService_DesyncCustomers
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DesyncCustomersRequest'
+      tags:
+        - CustomerService
+  /contacts.v1.CustomerService/Get:
+    post:
+      summary: Get a customer
+      operationId: CustomerService_Get
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetCustomerResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetCustomerRequest'
+      tags:
+        - CustomerService
+  /contacts.v1.CustomerService/GetMultiCustomers:
+    post:
+      summary: Get multiple customers
+      operationId: CustomerService_GetMultiCustomers
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiCustomersResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiCustomersRequest'
+      tags:
+        - CustomerService
+  /contacts.v1.CustomerService/List:
+    post:
+      summary: List customers
+      operationId: CustomerService_List
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListCustomersResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListCustomersRequest'
+      tags:
+        - CustomerService
+  /contacts.v1.CustomerService/ListCustomerOrigins:
+    post:
+      summary: Lists all of the origins for an account group's customers with a total count of customers with that origin
+      operationId: CustomerService_ListCustomerOrigins
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListCustomerOriginsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListCustomerOriginsRequest'
+      tags:
+        - CustomerService
+  /contacts.v1.CustomerService/SyncCustomers:
+    post:
+      summary: Triggers the customer create webhook
+      operationId: CustomerService_SyncCustomers
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SyncCustomersRequest'
+      tags:
+        - CustomerService
+  /contacts.v1.CustomerService/Update:
+    post:
+      summary: Updates an existing customer
+      operationId: CustomerService_Update
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1UpdateCustomerResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateCustomerRequest'
+      tags:
+        - CustomerService
+  /contacts.v1.VendorCustomerService/VendorAssociateCustomerID:
+    post:
+      summary: Vendor associate Vendasta's internal customer ID to vendor's customer ID
+      operationId: VendorCustomerService_VendorAssociateCustomerID
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1VendorAssociateCustomerIDRequest'
+      tags:
+        - VendorCustomerService
+  /contacts.v1.VendorCustomerService/VendorCreate:
+    post:
+      summary: Vendor Creates a customer, and an idMapping
+      operationId: VendorCustomerService_VendorCreate
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1VendorCreateCustomerResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1VendorCreateCustomerRequest'
+      tags:
+        - VendorCustomerService
+  /contacts.v1.VendorCustomerService/VendorDelete:
+    post:
+      summary: Vendor delete a customer
+      operationId: VendorCustomerService_VendorDelete
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1VendorDeleteCustomerRequest'
+      tags:
+        - VendorCustomerService
+  /contacts.v1.VendorCustomerService/VendorGet:
+    post:
+      summary: Vendor get a customer
+      operationId: VendorCustomerService_VendorGet
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1VendorGetCustomerResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1VendorGetCustomerRequest'
+      tags:
+        - VendorCustomerService
+  /contacts.v1.VendorCustomerService/VendorList:
+    post:
+      summary: Vendor list customers
+      operationId: VendorCustomerService_VendorList
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1VendorListCustomersResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1VendorListCustomersRequest'
+      tags:
+        - VendorCustomerService
+  /contacts.v1.VendorCustomerService/VendorListCustomerOrigins:
+    post:
+      summary: lists all of the origins for an account group's customers with a total count of customers with that origin
+      operationId: VendorCustomerService_VendorListCustomerOrigins
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1VendorListCustomerOriginsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1VendorListCustomerOriginsRequest'
+      tags:
+        - VendorCustomerService
+  /contacts.v1.VendorCustomerService/VendorSyncAllCustomers:
+    post:
+      summary: Sends a customer create webhook for all customers in an account
+      operationId: VendorCustomerService_VendorSyncAllCustomers
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1VendorSyncAllCustomersRequest'
+      tags:
+        - VendorCustomerService
+  /contacts.v1.VendorCustomerService/VendorUpdate:
+    post:
+      summary: Vendor update a customer
+      operationId: VendorCustomerService_VendorUpdate
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1VendorUpdateCustomerResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1VendorUpdateCustomerRequest'
+      tags:
+        - VendorCustomerService
+definitions:
+  GetMultiCustomersRequestCustomerIdentifiers:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The account group the requested customer belongs to
+      customerId:
+        type: string
+        title: The ID of the customer that is being requested
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1BulkCreateCustomerRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The account group to add customers to
+      partnerId:
+        type: string
+        title: The partner to add customers to
+      filePath:
+        type: string
+        title: The path of the csv file for bulk creating customers in Google Cloud Storage
+      mapping:
+        $ref: '#/definitions/v1CustomerHeaderMapping'
+        title: The header mapping in the csv file
+  v1BulkCreateCustomerResponse:
+    type: object
+    properties:
+      errors:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1BulkCreateCustomerValidationError'
+        title: Validation errors
+  v1BulkCreateCustomerValidationError:
+    type: object
+    properties:
+      index:
+        type: string
+        format: int64
+        title: Index of the customer that has errors
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/v1CustomerValidationError'
+        title: Errors for that specific customer
+  v1BulkUpdateCustomersRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The account group the customers exists in
+      customerIds:
+        type: array
+        items:
+          type: string
+        title: The ids of customers to update
+      permissionToContact:
+        type: boolean
+        title: This flag is true if the customer has explicitly opted-in to receive communication from the Business
+  v1BulkUpdateCustomersResponse:
+    type: object
+    properties:
+      customers:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Customer'
+        title: The customers updated in the bulk update request
+  v1Conflict:
+    type: object
+    properties:
+      conflictId:
+        type: string
+        title: A unique id for the conflict
+      customerId:
+        type: string
+        title: A unique id for the customer
+      accountGroupId:
+        type: string
+        title: The account group to add this customer to
+      partnerId:
+        type: string
+        title: The partner to add this customer to
+      firstName:
+        type: string
+        title: The first name of the customer
+      lastName:
+        type: string
+        title: The last name of the customer
+      address:
+        type: string
+        title: The street address of where the customer is
+      city:
+        type: string
+        title: The city where the customer is
+      state:
+        type: string
+        title: The state where the customer is
+      country:
+        type: string
+        title: The country where the customer is
+      phoneNumbers:
+        type: array
+        items:
+          type: string
+        title: The phone number of the customer
+      emailAddresses:
+        type: array
+        items:
+          type: string
+        title: The email address of the customer
+      tags:
+        type: array
+        items:
+          type: string
+        title: The tags of the customer
+      origins:
+        type: array
+        items:
+          type: string
+        title: The application ID that created the customer
+      permissionToContact:
+        type: string
+        format: date-time
+        title: The time the customer has explicitly opted-in to receive communication from the Business
+      created:
+        type: string
+        format: date-time
+        title: The time the customer was created
+      updated:
+        type: string
+        format: date-time
+        title: The time the customer was last modified
+      deleted:
+        type: string
+        format: date-time
+        title: The time the customer was deleted. Will be nil if the contact has not been deleted
+      assignedRepFirstName:
+        type: string
+        title: The first name of the rep assigned to the customer
+      assignedRepLastName:
+        type: string
+        title: The last name of the rep assigned to the customer
+  v1ConflictingField:
+    type: object
+    properties:
+      customerId:
+        type: string
+        title: The id of the customer you are conflicting with
+      fieldType:
+        $ref: '#/definitions/v1CustomerFieldType'
+        title: The field you are conflicting with ex. email
+      fieldValue:
+        type: string
+        title: The existing matching value
+  v1CreateCustomerRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The account group to add this customer to
+      partnerId:
+        type: string
+        title: The partner to add this customer to
+      firstName:
+        type: string
+        title: The first name of the customer
+      lastName:
+        type: string
+        title: The last name of the customer
+      address:
+        type: string
+        title: The street address of where the customer is
+      city:
+        type: string
+        title: The city where the customer is
+      state:
+        type: string
+        title: The state where the customer is
+      country:
+        type: string
+        title: The country where the customer is
+      phoneNumbers:
+        type: array
+        items:
+          type: string
+        title: The phone number of the customer
+      emailAddresses:
+        type: array
+        items:
+          type: string
+        title: The email address of the customer
+      tags:
+        type: array
+        items:
+          type: string
+        title: The tags of the customer
+      origins:
+        type: array
+        items:
+          type: string
+        title: The application ID that created the customer
+      permissionToContact:
+        type: boolean
+        title: This flag is true if the customer has explicitly opted-in to receive communication from the Business
+      assignedRepFirstName:
+        type: string
+        title: The first name of the rep assigned to the customer
+      assignedRepLastName:
+        type: string
+        title: The last name of the rep assigned to the customer
+  v1CreateCustomerResponse:
+    type: object
+    properties:
+      customer:
+        $ref: '#/definitions/v1Customer'
+      conflict:
+        $ref: '#/definitions/v1Conflict'
+      entityType:
+        $ref: '#/definitions/v1EntityType'
+        title: The entity's type (e.g. customer)
+  v1CreateWithoutConflictRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The account group for this customer
+      partnerId:
+        type: string
+        title: The account group's partner
+      firstName:
+        type: string
+        title: The given name of the customer
+      lastName:
+        type: string
+        title: The surname of the customer
+      address:
+        type: string
+        title: The street address of the customer
+      city:
+        type: string
+        title: The city of the customer
+      state:
+        type: string
+        title: The region of the customer
+      country:
+        type: string
+        title: The country of the customer
+      phoneNumbers:
+        type: array
+        items:
+          type: string
+        title: A list of phone numbers for the customer
+      emailAddresses:
+        type: array
+        items:
+          type: string
+        title: A list of emails for the customer
+      tags:
+        type: array
+        items:
+          type: string
+        title: A list of business identifiers for a customer
+      origins:
+        type: array
+        items:
+          type: string
+        title: The application ID where the customer originated
+      permissionToContact:
+        type: boolean
+        title: This flag is true if the customer has explicitly opted-in to receive communication from the Business
+      assignedRepFirstName:
+        type: string
+        title: The first name of the rep assigned to the customer
+      assignedRepLastName:
+        type: string
+        title: The last name of the rep assigned to the customer
+  v1CreateWithoutConflictResponse:
+    type: object
+    properties:
+      customer:
+        $ref: '#/definitions/v1Customer'
+        title: The newly created customer
+      conflictingFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ConflictingField'
+        title: The existing values you are conflicting with in the case of a failed create
+  v1Customer:
+    type: object
+    properties:
+      customerId:
+        type: string
+        title: A unique id for the customer
+      accountGroupId:
+        type: string
+        title: The account group to add this customer to
+      partnerId:
+        type: string
+        title: The partner to add this customer to
+      firstName:
+        type: string
+        title: The first name of the customer
+      lastName:
+        type: string
+        title: The last name of the customer
+      address:
+        type: string
+        title: The street address of where the customer is
+      city:
+        type: string
+        title: The city where the customer is
+      state:
+        type: string
+        title: The state where the customer is
+      country:
+        type: string
+        title: The country where the customer is
+      phoneNumbers:
+        type: array
+        items:
+          type: string
+        title: The phone number of the customer
+      emailAddresses:
+        type: array
+        items:
+          type: string
+        title: The email address of the customer
+      tags:
+        type: array
+        items:
+          type: string
+        title: The tags of the customer
+      origins:
+        type: array
+        items:
+          type: string
+        title: The application ID that created the customer
+      permissionToContact:
+        type: string
+        format: date-time
+        title: The time the customer has explicitly opted-in to receive communication from the Business
+      created:
+        type: string
+        format: date-time
+        title: The time the customer was created
+      updated:
+        type: string
+        format: date-time
+        title: The time the customer was last modified
+      deleted:
+        type: string
+        format: date-time
+        title: The time the customer was deleted. Will be nil if the contact has not been deleted
+      vendorCustomerId:
+        type: string
+        title: Vendor Customer ID if it is created by vendors
+      assignedRepFirstName:
+        type: string
+        title: The first name of the rep assigned to the customer
+      assignedRepLastName:
+        type: string
+        title: The last name of the rep assigned to the customer
+  v1CustomerFieldType:
+    type: string
+    enum:
+      - CUSTOMER_FIELD_TYPE_NONE
+      - CUSTOMER_FIELD_TYPE_EMAIL
+      - CUSTOMER_FIELD_TYPE_PHONE
+    default: CUSTOMER_FIELD_TYPE_NONE
+  v1CustomerFilters:
+    type: object
+    properties:
+      created:
+        $ref: '#/definitions/v1DateRangeFilter'
+        title: Filter by created
+      tag:
+        type: array
+        items:
+          type: string
+        title: Filter by Tag
+      origin:
+        type: array
+        items:
+          type: string
+        title: Filter by Origin
+      negateTags:
+        type: boolean
+        title: Negate the tag filter
+  v1CustomerHeaderMapping:
+    type: object
+    properties:
+      emails:
+        type: array
+        items:
+          type: string
+      phones:
+        type: array
+        items:
+          type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      address:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      country:
+        type: string
+      permissionToContact:
+        type: string
+    title: Mapping headers in the csv file to match each field to whatever it's named
+  v1CustomerOrigin:
+    type: object
+    properties:
+      origin:
+        type: string
+        title: The vendor ID of the application that originally created the customer record
+      name:
+        type: string
+        title: The white labeled name of the customer origin
+      count:
+        type: string
+        format: int64
+        title: The total number of customers with this origin
+  v1CustomerSortDirection:
+    type: string
+    enum:
+      - CUSTOMER_SORT_DIRECTION_ASCENDING
+      - CUSTOMER_SORT_DIRECTION_DESCENDING
+    default: CUSTOMER_SORT_DIRECTION_ASCENDING
+    description: The directions that a result set can be sorted in.
+  v1CustomerSortField:
+    type: string
+    enum:
+      - CUSTOMER_SORT_FIELD_FIRST_NAME
+      - CUSTOMER_SORT_FIELD_LAST_NAME
+      - CUSTOMER_SORT_FIELD_CREATED
+    default: CUSTOMER_SORT_FIELD_FIRST_NAME
+    description: The field to sort a result set on.
+  v1CustomerSortOptions:
+    type: object
+    properties:
+      direction:
+        $ref: '#/definitions/v1CustomerSortDirection'
+        title: A direction to sort results in
+      field:
+        $ref: '#/definitions/v1CustomerSortField'
+        title: Field to sort on
+    title: Options for controlling the order of query results
+  v1CustomerValidationError:
+    type: string
+    enum:
+      - CUSTOMER_VALIDATION_ERROR_NO_ERRORS
+      - CUSTOMER_VALIDATION_ERROR_EMAIL_OR_PHONE_REQUIRED
+      - CUSTOMER_VALIDATION_ERROR_INVALID_EMAIL
+      - CUSTOMER_VALIDATION_ERROR_INVALID_PHONE
+      - CUSTOMER_VALIDATION_ERROR_INVALID_FIRST_NAME
+      - CUSTOMER_VALIDATION_ERROR_INVALID_LAST_NAME
+    default: CUSTOMER_VALIDATION_ERROR_NO_ERRORS
+    title: '- CUSTOMER_VALIDATION_ERROR_NO_ERRORS: Possible validation errors'
+  v1DateRangeFilter:
+    type: object
+    properties:
+      beginRange:
+        type: string
+        format: date-time
+        title: Start date of range
+      endRange:
+        type: string
+        format: date-time
+        title: End date of range
+    title: The start and end of date range (inclusive)
+  v1DeleteCustomerRequest:
+    type: object
+    properties:
+      customerId:
+        type: string
+        title: The customer ID to delete
+      accountGroupId:
+        type: string
+        title: The account group to delete customer for
+  v1DesyncCustomersRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The account group the customers exists in
+      customerIds:
+        type: array
+        items:
+          type: string
+        title: The ids of customers to desync from another product
+      appId:
+        type: string
+        title: The app id of the product to desync from
+  v1EntityType:
+    type: string
+    enum:
+      - ENTITY_TYPE_UNKNOWN
+      - ENTITY_TYPE_CUSTOMER
+      - ENTITY_TYPE_CONFLICT
+    default: ENTITY_TYPE_UNKNOWN
+  v1GetCustomerRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The account group the requested customer belongs to
+      customerId:
+        type: string
+        title: The ID of the customer that is being requested
+  v1GetCustomerResponse:
+    type: object
+    properties:
+      customer:
+        $ref: '#/definitions/v1Customer'
+        title: The requested customer
+  v1GetMultiCustomersRequest:
+    type: object
+    properties:
+      customerIdentifiers:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/GetMultiCustomersRequestCustomerIdentifiers'
+        title: List of account group id - customer id pairs for the requested customers
+    title: Gets multiple customers
+  v1GetMultiCustomersResponse:
+    type: object
+    properties:
+      customers:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Customer'
+        title: List of the requested customers
+    title: Returns multiple requested customers
+  v1ListCustomerOriginsRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The identifier of the account group for which to list customer origins
+  v1ListCustomerOriginsResponse:
+    type: object
+    properties:
+      origins:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomerOrigin'
+        title: A list of all of the origins for an account group's customers
+  v1ListCustomersRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The identifier of the account group for which to list customers
+      cursor:
+        type: string
+        title: The cursor at which to begin the list
+      pageSize:
+        type: string
+        format: int64
+        title: The page size of the results to be listed
+      searchTerm:
+        type: string
+        title: The search term by which to filter the list
+      sortOptions:
+        $ref: '#/definitions/v1CustomerSortOptions'
+        title: sort_options control what fields it can sort on and the sorting direction
+      filters:
+        $ref: '#/definitions/v1CustomerFilters'
+        title: The filters that can be applied
+  v1ListCustomersResponse:
+    type: object
+    properties:
+      customers:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Customer'
+        title: The customers matching the list request
+      nextCursor:
+        type: string
+        title: The cursor to list the next page of customers
+      hasMore:
+        type: boolean
+        title: Indicates whether there are more customers to list
+      totalResults:
+        type: string
+        format: int64
+        title: Total number of customers for account group
+  v1SyncCustomersRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The account group the customers exists in
+      customerIds:
+        type: array
+        items:
+          type: string
+        title: The ids of customers to sync to another product
+      appId:
+        type: string
+        title: The app id of the product to sync to
+  v1UpdateCustomerRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The account group this customer belongs to
+      customerId:
+        type: string
+        title: The unique id of the customer
+      firstName:
+        type: string
+        title: The first name of the customer
+      lastName:
+        type: string
+        title: The last name of the customer
+      address:
+        type: string
+        title: The street address of where the customer is
+      city:
+        type: string
+        title: The city where the customer is
+      state:
+        type: string
+        title: The state where the customer is
+      country:
+        type: string
+        title: The country where the customer is
+      phoneNumbers:
+        type: array
+        items:
+          type: string
+        title: The phone number of the customer
+      emailAddresses:
+        type: array
+        items:
+          type: string
+        title: The email address of the customer
+      tags:
+        type: array
+        items:
+          type: string
+        title: The tags of the customer
+      origin:
+        type: string
+        title: The application ID that edited the customer
+      permissionToContact:
+        type: boolean
+        title: This flag is true if the customer has explicitly opted-in to receive communication from the Business
+      fieldMask:
+        $ref: '#/definitions/vendastatypesFieldMask'
+        title: Mask for what fields should be updated
+      assignedRepFirstName:
+        type: string
+        title: The first name of the rep assigned to the customer
+      assignedRepLastName:
+        type: string
+        title: The last name of the rep assigned to the customer
+  v1UpdateCustomerResponse:
+    type: object
+    properties:
+      customer:
+        $ref: '#/definitions/v1Customer'
+        title: The updated customer
+  v1VendorAssociateCustomerIDRequest:
+    type: object
+    properties:
+      customerId:
+        type: string
+        title: Customer List's internal customer ID
+      vendorCustomerId:
+        type: string
+        title: The vendor's customer ID
+      vendorAppId:
+        type: string
+        title: The vendor's app ID
+  v1VendorCreateCustomerRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The account group to add this customer to
+      vendorCustomerId:
+        type: string
+        title: The customer id on the external source to map to
+      appId:
+        type: string
+        title: The app id that the customer is synced with
+      firstName:
+        type: string
+        title: The first name of the customer
+      lastName:
+        type: string
+        title: The last name of the customer
+      address:
+        type: string
+        title: The street address of where the customer is
+      city:
+        type: string
+        title: The city where the customer is
+      state:
+        type: string
+        title: The state where the customer is
+      country:
+        type: string
+        title: The country where the customer is
+      phoneNumbers:
+        type: array
+        items:
+          type: string
+        title: The phone number of the customer
+      emailAddresses:
+        type: array
+        items:
+          type: string
+        title: The email address of the customer
+      tags:
+        type: array
+        items:
+          type: string
+        title: The tags of the customer
+      origin:
+        type: string
+        title: The application ID that created the customer
+      permissionToContact:
+        type: boolean
+        title: This flag is true if the customer has explicitly opted-in to receive communication from the Business
+      assignedRepFirstName:
+        type: string
+        title: The first name of the rep assigned to the customer
+      assignedRepLastName:
+        type: string
+        title: The last name of the rep assigned to the customer
+  v1VendorCreateCustomerResponse:
+    type: object
+    properties:
+      customer:
+        $ref: '#/definitions/v1Customer'
+        title: The new customer that's been created
+      conflictingCustomerId:
+        type: string
+        title: The customer id that conflict with
+  v1VendorDeleteCustomerRequest:
+    type: object
+    properties:
+      vendorCustomerId:
+        type: string
+        title: The vendor customer ID to delete
+      accountGroupId:
+        type: string
+        title: The account group to delete customer for
+      vendorAppId:
+        type: string
+        title: The vendor app id where the request is from
+  v1VendorGetCustomerRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The account group this customer exists in
+      vendorCustomerId:
+        type: string
+        title: The vendor's customer ID
+      vendorAppId:
+        type: string
+        title: The vendor app id where the request is from
+  v1VendorGetCustomerResponse:
+    type: object
+    properties:
+      customer:
+        $ref: '#/definitions/v1Customer'
+        title: The customer that's been updated or the representation of the conflict that's been updated
+      conflictingCustomerId:
+        type: string
+        title: The ID of the customer that the conflict is conflicting with, if any
+  v1VendorListCustomerOriginsRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The identifier of the account group for which to list customer origins
+  v1VendorListCustomerOriginsResponse:
+    type: object
+    properties:
+      origins:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomerOrigin'
+        title: A list of all of the origins for an account group's customers
+  v1VendorListCustomersRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The identifier of the account group for which to list customers
+      vendorAppId:
+        type: string
+        title: The vendor app id where the request is from
+      cursor:
+        type: string
+        title: The cursor at which to begin the list
+      pageSize:
+        type: string
+        format: int64
+        title: The page size of the results to be listed
+      searchTerm:
+        type: string
+        title: The search term by which to filter the list
+      sortOptions:
+        $ref: '#/definitions/v1CustomerSortOptions'
+        title: sort_options control what fields it can sort on and the sorting direction
+      filters:
+        $ref: '#/definitions/v1CustomerFilters'
+        title: The filters that can be applied
+  v1VendorListCustomersResponse:
+    type: object
+    properties:
+      customers:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Customer'
+        title: The customers matching the list request
+      nextCursor:
+        type: string
+        title: The cursor to list the next page of customers
+      hasMore:
+        type: boolean
+        title: Indicates whether there are more customers to list
+      totalResults:
+        type: string
+        format: int64
+        title: Total number of customers for account group
+  v1VendorSyncAllCustomersRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The identifier of the account group for which to sync customers
+      vendorAppId:
+        type: string
+        title: The vendor app id where the request is from
+  v1VendorUpdateCustomerRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The account group this customer exists in
+      vendorCustomerId:
+        type: string
+        title: The vendor's customer ID
+      vendorAppId:
+        type: string
+        title: The vendor's app ID
+      firstName:
+        type: string
+        title: The customer's first name
+      lastName:
+        type: string
+        title: The customer's last name
+      address:
+        type: string
+        title: The customer's address
+      city:
+        type: string
+        title: The customer's city
+      state:
+        type: string
+        title: The customer's state
+      country:
+        type: string
+        title: The customer's country
+      phoneNumbers:
+        type: array
+        items:
+          type: string
+        title: The customer's phone numbers
+      emailAddresses:
+        type: array
+        items:
+          type: string
+        title: The the customers email addresses
+      tags:
+        type: array
+        items:
+          type: string
+        title: The business's tags for the customer
+      origin:
+        type: string
+        title: The origin of this update
+      permissionToContact:
+        type: boolean
+        title: This flag is true if the customer has explicitly opted-in to receive communication from the Business
+      fieldMask:
+        $ref: '#/definitions/vendastatypesFieldMask'
+        title: Mask for what fields should be updated
+      assignedRepFirstName:
+        type: string
+        title: The first name of the rep assigned to the customer
+      assignedRepLastName:
+        type: string
+        title: The last name of the rep assigned to the customer
+  v1VendorUpdateCustomerResponse:
+    type: object
+    properties:
+      customer:
+        $ref: '#/definitions/v1Customer'
+        title: The customer that's been updated or the representation of the conflict that's been updated
+      conflictingCustomerId:
+        type: string
+        title: The ID of the customer that the conflict is conflicting with, if any
+  vendastatypesFieldMask:
+    type: object
+    properties:
+      paths:
+        type: array
+        items:
+          type: string
+        description: The set of field mask paths.
+    description: |-
+      paths: "f.a"
+          paths: "f.b.d"
+
+      Here `f` represents a field in some root message, `a` and `b`
+      fields in the message found in `f`, and `d` a field found in the
+      message in `f.b`.
+
+      Field masks are used to specify a subset of fields that should be
+      returned by a get operation or modified by an update operation.
+      Field masks also have a custom JSON encoding (see below).
+
+      # Field Masks in Projections
+
+      When used in the context of a projection, a response message or
+      sub-message is filtered by the API to only contain those fields as
+      specified in the mask. For example, if the mask in the previous
+      example is applied to a response message as follows:
+
+          f {
+            a : 22
+            b {
+              d : 1
+              x : 2
+            }
+            y : 13
+          }
+          z: 8
+
+      The result will not contain specific values for fields x,y and z
+      (their value will be set to the default, and omitted in proto text
+      output):
+
+
+          f {
+            a : 22
+            b {
+              d : 1
+            }
+          }
+
+      A repeated field is not allowed except at the last position of a
+      paths string.
+
+      If a FieldMask object is not present in a get operation, the
+      operation applies to all fields (as if a FieldMask of all fields
+      had been specified).
+
+      Note that a field mask does not necessarily apply to the
+      top-level response message. In case of a REST get operation, the
+      field mask applies directly to the response, but in case of a REST
+      list operation, the mask instead applies to each individual message
+      in the returned resource list. In case of a REST custom method,
+      other definitions may be used. Where the mask applies will be
+      clearly documented together with its declaration in the API.  In
+      any case, the effect on the returned resource/resources is required
+      behavior for APIs.
+
+      # Field Masks in Update Operations
+
+      A field mask in update operations specifies which fields of the
+      targeted resource are going to be updated. The API is required
+      to only change the values of the fields as specified in the mask
+      and leave the others untouched. If a resource is passed in to
+      describe the updated values, the API ignores the values of all
+      fields not covered by the mask.
+
+      If a repeated field is specified for an update operation, the existing
+      repeated values in the target resource will be overwritten by the new values.
+      Note that a repeated field is only allowed in the last position of a `paths`
+      string.
+
+      If a sub-message is specified in the last position of the field mask for an
+      update operation, then the existing sub-message in the target resource is
+      overwritten. Given the target message:
+
+          f {
+            b {
+              d : 1
+              x : 2
+            }
+            c : 1
+          }
+
+      And an update message:
+
+          f {
+            b {
+              d : 10
+            }
+          }
+
+      then if the field mask is:
+
+       paths: "f.b"
+
+      then the result will be:
+
+          f {
+            b {
+              d : 10
+            }
+            c : 1
+          }
+
+      However, if the update mask was:
+
+       paths: "f.b.d"
+
+      then the result would be:
+
+          f {
+            b {
+              d : 10
+              x : 2
+            }
+            c : 1
+          }
+
+      In order to reset a field's value to the default, the field must
+      be in the mask and set to the default value in the provided resource.
+      Hence, in order to reset all fields of a resource, provide a default
+      instance of the resource and set all fields in the mask, or do
+      not provide a mask as described below.
+
+      If a field mask is not present on update, the operation applies to
+      all fields (as if a field mask of all fields has been specified).
+      Note that in the presence of schema evolution, this may mean that
+      fields the client does not know and has therefore not filled into
+      the request will be reset to their default. If this is unwanted
+      behavior, a specific service may require a client to always specify
+      a field mask, producing an error if not.
+
+      As with get operations, the location of the resource which
+      describes the updated values in the request message depends on the
+      operation kind. In any case, the effect of the field mask is
+      required to be honored by the API.
+
+      ## Considerations for HTTP REST
+
+      The HTTP kind of an update operation which uses a field mask must
+      be set to PATCH instead of PUT in order to satisfy HTTP semantics
+      (PUT must only be used for full updates).
+
+      # JSON Encoding of Field Masks
+
+      In JSON, a field mask is encoded as a single string where paths are
+      separated by a comma. Fields name in each path are converted
+      to/from lower-camel naming conventions.
+
+      As an example, consider the following message declarations:
+
+          message Profile {
+            User user = 1;
+            Photo photo = 2;
+          }
+          message User {
+            string display_name = 1;
+            string address = 2;
+          }
+
+      In proto a field mask for `Profile` may look as such:
+
+          mask {
+            paths: "user.display_name"
+            paths: "photo"
+          }
+
+      In JSON, the same mask is represented as below:
+
+          {
+            mask: "user.displayName,photo"
+          }
+
+      # Field Masks and Oneof Fields
+
+      Field masks treat fields in oneofs just as regular fields. Consider the
+      following message:
+
+          message SampleMessage {
+            oneof test_oneof {
+              string name = 4;
+              SubMessage sub_message = 9;
+            }
+          }
+
+      The field mask can be:
+
+          mask {
+            paths: "name"
+          }
+
+      Or:
+
+          mask {
+            paths: "sub_message"
+          }
+
+      Note that oneof type names ("test_oneof" in this case) cannot be used in
+      paths.
+    title: '`FieldMask` represents a set of symbolic field paths, for example:'

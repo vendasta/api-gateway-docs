@@ -1,0 +1,609 @@
+swagger: "2.0"
+info:
+  title: listing_syndication/v1/api.proto
+  version: version not set
+tags:
+  - name: SyndicationService
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /listing_syndication.v1.SyndicationService/DataValidation:
+    post:
+      summary: |-
+        DataValidation will pull the account group's Listing Profile data and determine if it is valid to submit to the listing source. If not it will provide
+        a list of reasons why the data is invalid.
+      operationId: SyndicationService_DataValidation
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1DataValidationResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DataValidationRequest'
+      tags:
+        - SyndicationService
+  /listing_syndication.v1.SyndicationService/EnableSyndicationToSource:
+    post:
+      summary: Enables syndication to a source for a specific partner and source id. This will run a backfill for existing accounts.
+      operationId: SyndicationService_EnableSyndicationToSource
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1EnableSyndicationToSourceRequest'
+      tags:
+        - SyndicationService
+  /listing_syndication.v1.SyndicationService/GetEditionSourceConfig:
+    post:
+      summary: GetEditionSourceConfig gets the free source ids for a namespace
+      operationId: SyndicationService_GetEditionSourceConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetEditionSourceConfigResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetEditionSourceConfigRequest'
+      tags:
+        - SyndicationService
+  /listing_syndication.v1.SyndicationService/GetMultiMostRecentSyndicationStatus:
+    post:
+      summary: |-
+        GetSyndicationStatus returns the results of the most recent syndication attempt of a list of businesses. A single or multiple sources can be specified to
+        get the status for.
+      operationId: SyndicationService_GetMultiMostRecentSyndicationStatus
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiMostRecentSyndicationStatusResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiMostRecentSyndicationStatusRequest'
+      tags:
+        - SyndicationService
+  /listing_syndication.v1.SyndicationService/ListSyndicationSettings:
+    post:
+      summary: ListSyndicationSettings will list the syndication settings of a business with the option to filter by source ids and syndication on/off
+      operationId: SyndicationService_ListSyndicationSettings
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListSyndicationSettingResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListSyndicationSettingRequest'
+      tags:
+        - SyndicationService
+  /listing_syndication.v1.SyndicationService/SetAssociatedSocialService:
+    post:
+      summary: SetAssociatedSocialService will set the associated social service ID for a source of a business
+      operationId: SyndicationService_SetAssociatedSocialService
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SetAssociatedSocialServiceRequest'
+      tags:
+        - SyndicationService
+  /listing_syndication.v1.SyndicationService/SetEditionSourceConfig:
+    post:
+      summary: SetEditionSourceConfig sets the free source ids for a namespace
+      operationId: SyndicationService_SetEditionSourceConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SetEditionSourceConfigRequest'
+      tags:
+        - SyndicationService
+  /listing_syndication.v1.SyndicationService/SetSyndicationStatus:
+    post:
+      summary: |-
+        SetSyndicationStatusRequest should never be used unless you have syndicated to a source outside of Listing-Syndication and need to update the status manually.
+        For now it will only set the source_location_id and metadata for the source.
+        This endpoint will set the status field of SyncStatus to SyncSuccessful by default and should only be used for setting successfully synced Apple location data.
+      operationId: SyndicationService_SetSyndicationStatus
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SetSyndicationStatusRequest'
+      tags:
+        - SyndicationService
+  /listing_syndication.v1.SyndicationService/SubmitListingSyndication:
+    post:
+      summary: |-
+        SubmitListingSyndication kicks off syndication to a listing source for a single account. Multiple sources can be syndicated at once. It will use the
+        Listing Profile as the data source for submission.
+      operationId: SyndicationService_SubmitListingSyndication
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1SubmitListingSyndicationResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SubmitListingSyndicationRequest'
+      tags:
+        - SyndicationService
+  /listing_syndication.v1.SyndicationService/TurnOffSyndication:
+    post:
+      summary: TurnOffSyndication will turn off syndication for a source of a business
+      operationId: SyndicationService_TurnOffSyndication
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1TurnOffSyndicationSettingRequest'
+      tags:
+        - SyndicationService
+  /listing_syndication.v1.SyndicationService/TurnOnSyndication:
+    post:
+      summary: TurnOnSyndication will turn on syndication for a source of a business
+      operationId: SyndicationService_TurnOnSyndication
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1TurnOnSyndicationSettingRequest'
+      tags:
+        - SyndicationService
+definitions:
+  ListSyndicationSettingRequestOptionalListSyndicationSettingFilters:
+    type: object
+    properties:
+      sourceIds:
+        type: array
+        items:
+          type: string
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1DataValidationRequest:
+    type: object
+    properties:
+      sourceIds:
+        type: array
+        items:
+          type: string
+          format: int64
+        title: source_ids is a list of source ids
+      accountGroupId:
+        type: string
+        title: The account group id to get the NAP data to syndicate the source
+      force:
+        type: boolean
+        title: Force is used for skipping the data4seo step in the validation workflow
+    title: DataValidationRequest Request/Response Messages
+  v1DataValidationResponse:
+    type: object
+    properties:
+      result:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ValidationResult'
+        title: List of result for each invalid field
+  v1DetailedSyndicationStatusResultValue:
+    type: object
+    properties:
+      dataType:
+        type: string
+      status:
+        type: string
+      syncedFields:
+        type: array
+        items:
+          type: string
+      failedFields:
+        type: array
+        items:
+          type: string
+      lastSyncTime:
+        type: string
+        format: date-time
+      errorMessage:
+        type: string
+  v1DetailedSyndicationStatusResults:
+    type: object
+    properties:
+      key:
+        type: string
+      value:
+        $ref: '#/definitions/v1DetailedSyndicationStatusResultValue'
+  v1EnableSyndicationToSourceRequest:
+    type: object
+    properties:
+      sourceId:
+        type: string
+      partnerId:
+        type: string
+        title: Optional partner_id to enable syndication for a specific partner. Will come in handy for testing
+  v1FieldValidationResult:
+    type: object
+    properties:
+      fieldName:
+        type: string
+        title: Invalid Field name
+      messages:
+        type: array
+        items:
+          type: string
+        title: Error messages for the invalid field
+  v1GetEditionSourceConfigRequest:
+    type: object
+    properties:
+      namespace:
+        type: string
+  v1GetEditionSourceConfigResponse:
+    type: object
+    properties:
+      freeSourceIds:
+        type: array
+        items:
+          type: string
+          format: int64
+  v1GetMultiMostRecentSyndicationStatusRequest:
+    type: object
+    properties:
+      sourceIds:
+        type: array
+        items:
+          type: string
+          format: int64
+        title: source_ids is a list of source ids that we syndicated to
+      accountGroupIds:
+        type: array
+        items:
+          type: string
+        title: The account group ids that were used for syndication
+  v1GetMultiMostRecentSyndicationStatusResponse:
+    type: object
+    properties:
+      syndicationStatuses:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1SyndicationStatus'
+  v1ListSyndicationSettingRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+      filters:
+        $ref: '#/definitions/ListSyndicationSettingRequestOptionalListSyndicationSettingFilters'
+      pageOptions:
+        $ref: '#/definitions/v1PagedRequestOptions'
+  v1ListSyndicationSettingResponse:
+    type: object
+    properties:
+      syndicationSettings:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1SyndicationSetting'
+      pagingMetadata:
+        $ref: '#/definitions/v1PagedResponseMetadata'
+  v1Metadata:
+    type: object
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+  v1PagedRequestOptions:
+    type: object
+    properties:
+      cursor:
+        type: string
+        title: cursor can be passed to retrieve the next page of results keyed by the cursor
+      pageSize:
+        type: string
+        format: int64
+        title: page_size specifies the number of items to return in the next page
+  v1PagedResponseMetadata:
+    type: object
+    properties:
+      nextCursor:
+        type: string
+        title: A cursor that can be provided to retrieve the next page of results
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+  v1SetAssociatedSocialServiceRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+      sourceId:
+        type: string
+      associatedSocialServiceId:
+        type: string
+  v1SetEditionSourceConfigRequest:
+    type: object
+    properties:
+      namespace:
+        type: string
+      freeSourceIds:
+        type: array
+        items:
+          type: string
+          format: int64
+  v1SetSyndicationStatusRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+      sourceId:
+        type: string
+      listingUrl:
+        type: string
+      listingExternalId:
+        type: string
+      metadata:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Metadata'
+      status:
+        type: string
+      lastAttemptedOn:
+        type: string
+        format: date-time
+      lastSucceededOn:
+        type: string
+        format: date-time
+  v1SubmitListingSyndicationRequest:
+    type: object
+    properties:
+      sourceIds:
+        type: array
+        items:
+          type: string
+          format: int64
+        title: source_ids is a list of source ids
+      accountGroupId:
+        type: string
+        title: The account group id to get the NAP data to syndicate the source
+      trigger:
+        type: string
+        title: trigger is a brief description of what started or triggered the workflow
+      force:
+        type: boolean
+        title: force listing syndication
+    title: SubmitListingSyndication Request/Response Messages
+  v1SubmitListingSyndicationResponse:
+    type: object
+    properties:
+      workflowId:
+        type: string
+        title: ID of Temporal Workflow that was started
+  v1SyndicationSetting:
+    type: object
+    properties:
+      businessId:
+        type: string
+      sourceId:
+        type: string
+      syndicationOn:
+        type: boolean
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+      deleted:
+        type: string
+        format: date-time
+      lastSyndicationOnTime:
+        type: string
+        format: date-time
+      lastSyndicationOffTime:
+        type: string
+        format: date-time
+      sourceLocationId:
+        type: string
+      associatedSocialServiceId:
+        type: string
+  v1SyndicationStatus:
+    type: object
+    properties:
+      businessId:
+        type: string
+      sourceId:
+        type: string
+      sourceLocationId:
+        type: string
+        title: This will be the account group ID
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+      deleted:
+        type: string
+        format: date-time
+      lastAttemptedOn:
+        type: string
+        format: date-time
+      lastSucceededOn:
+        type: string
+        format: date-time
+      listingUrl:
+        type: string
+      listingExternalId:
+        type: string
+      lastSyncAttemptId:
+        type: string
+      lastSuccessfulAttemptId:
+        type: string
+      status:
+        type: string
+      detailedResults:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1DetailedSyndicationStatusResults'
+      metadata:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Metadata'
+      force:
+        type: boolean
+  v1TurnOffSyndicationSettingRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+      sourceId:
+        type: string
+  v1TurnOnSyndicationSettingRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+      sourceId:
+        type: string
+      sourceLocationId:
+        type: string
+      associatedSocialServiceId:
+        type: string
+  v1ValidationResult:
+    type: object
+    properties:
+      isValid:
+        type: boolean
+      sourceId:
+        type: string
+        format: int64
+      fieldValidationResult:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1FieldValidationResult'

@@ -1,0 +1,560 @@
+swagger: "2.0"
+info:
+  title: listing_score/v1/listing_score.proto
+  version: version not set
+tags:
+  - name: ListingScore
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /listingscore.v1.ListingScore/GetBusinessScoreSummary:
+    post:
+      summary: Get score summary for a business and date range
+      operationId: ListingScore_GetBusinessScoreSummary
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetBusinessScoreSummaryResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetBusinessScoreSummaryRequest'
+      tags:
+        - ListingScore
+  /listingscore.v1.ListingScore/GetCitationData:
+    post:
+      summary: Get the citation count and historical data for an account
+      operationId: ListingScore_GetCitationData
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetCitationDataResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetCitationDataRequest'
+      tags:
+        - ListingScore
+  /listingscore.v1.ListingScore/GetListingAccuracy:
+    post:
+      summary: Get the listing accuracy data for an account
+      operationId: ListingScore_GetListingAccuracy
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetListingAccuracyResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetListingAccuracyRequest'
+      tags:
+        - ListingScore
+  /listingscore.v1.ListingScore/GetListingPresence:
+    post:
+      summary: Get the listing presence data for an account
+      operationId: ListingScore_GetListingPresence
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetListingPresenceResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetListingPresenceRequest'
+      tags:
+        - ListingScore
+  /listingscore.v1.ListingScore/GetSourceScores:
+    post:
+      summary: Get listing score breakdown by source for an account
+      operationId: ListingScore_GetSourceScores
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetSourceScoresResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetSourceScoresRequest'
+      tags:
+        - ListingScore
+  /v1/industry-stats/get:
+    post:
+      summary: Get the industry stats based on taxonomy
+      operationId: ListingScore_GetIndustryStats
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetIndustryStatsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetIndustryStatsRequest'
+      tags:
+        - ListingScore
+  /v1/listing-score/create:
+    post:
+      summary: Create a listing score for an account
+      operationId: ListingScore_CreateScore
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateScoreRequest'
+      tags:
+        - ListingScore
+  /v1/listing-score/get:
+    post:
+      summary: Get a listing score for an account
+      operationId: ListingScore_GetScore
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetScoreResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetScoreRequest'
+      tags:
+        - ListingScore
+  /v1/listing-score/historical/get:
+    post:
+      summary: Get the historical listing score for an account
+      operationId: ListingScore_GetHistoricalScoreData
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetHistoricalScoreDataResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetHistoricalScoreDataRequest'
+      tags:
+        - ListingScore
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1CreateScoreRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        description: The unique identifier of the account group.
+      incompleteData:
+        type: boolean
+        title: Tag low count listings
+    title: A request for creating the listing score for an account
+  v1GetBusinessScoreSummaryRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        description: The unique identifier of the account group.
+      startDate:
+        type: string
+        format: date-time
+      endDate:
+        type: string
+        format: date-time
+  v1GetBusinessScoreSummaryResponse:
+    type: object
+    properties:
+      industryAverage:
+        type: string
+        format: int64
+        title: The average score for other businesses in the same country and taxonomy
+      industryNinetyFifthPercentile:
+        type: string
+        format: int64
+        title: The 95th percentile score for other businesses in the same country and industry
+      industryAveragePercentile:
+        type: string
+        format: int64
+        title: The percentile the industry_average falls into
+      score:
+        type: string
+        format: int64
+        title: The current listing score
+      scoreStartedAt:
+        type: string
+        format: int64
+        title: The first listing score value for the business
+      scoreAtStartDate:
+        type: string
+        format: int64
+        title: The score at the beginning of the date range
+      businessPercentile:
+        type: string
+        format: int64
+        title: The percentile that the business's score falls into
+      businessPercentileStartedAt:
+        type: string
+        format: int64
+        title: The percentile that the business's score at the beginning of the date range falls into
+      historicalScores:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1HistoricalScoreDataPoint'
+        title: These are the historical total scores for the business
+  v1GetCitationDataRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: account group identifier
+    title: A request to get the citation data for an account group
+  v1GetCitationDataResponse:
+    type: object
+    properties:
+      citationCount:
+        type: string
+        format: int64
+        title: Current Citiation Count (score)
+      citationHistory:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1HistoricalScoreDataPoint'
+        title: A list of historical citation counts
+    title: A response with the current citation score and a list of historical citation scores
+  v1GetHistoricalScoreDataRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        description: The unique identifier of the account group.
+    title: A request for getting the historical score for an account
+  v1GetHistoricalScoreDataResponse:
+    type: object
+    properties:
+      historicalScoreData:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1HistoricalScoreDataPoint'
+        description: The historical listing score of the account group.
+    title: A response containing the historical listing score for an account
+  v1GetIndustryStatsRequest:
+    type: object
+    properties:
+      taxonomyId:
+        type: string
+        description: The unique identifier of the taxonomy.
+      country:
+        type: string
+        description: The unique identifier of the country.
+      state:
+        type: string
+        description: The unique identifier of the state.
+      city:
+        type: string
+        description: The unique identifier of the city.
+    title: A request for getting the industry stats for a taxonomy
+  v1GetIndustryStatsResponse:
+    type: object
+    properties:
+      world:
+        $ref: '#/definitions/v1IndustryStats'
+        title: The industry stats based on world
+      country:
+        $ref: '#/definitions/v1IndustryStats'
+        title: The industry stats based on country
+      state:
+        $ref: '#/definitions/v1IndustryStats'
+        title: The industry stats based on state
+      city:
+        $ref: '#/definitions/v1IndustryStats'
+        title: The industry stats based on city
+    title: A response containing the industry stats for a taxonomy
+  v1GetListingAccuracyRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        description: The unique identifier of the account group.
+      sourceIds:
+        type: array
+        items:
+          type: string
+          format: int64
+        title: Source Ids to base the score off of
+    title: A request for getting the listing accuray data for an account
+  v1GetListingAccuracyResponse:
+    type: object
+    properties:
+      listingAccuracy:
+        type: number
+        format: float
+        title: The actual listing accuracy for that account
+      worldAverage:
+        type: number
+        format: float
+        title: The average listing accuracy for all accounts under same taxonomy category
+      countryAverage:
+        type: number
+        format: float
+        title: The average listing accuracy for all accounts under same taxonomy category and same country
+      stateAverage:
+        type: number
+        format: float
+        title: The average listing accuracy for all accounts under same taxonomy category and same state
+      cityAverage:
+        type: number
+        format: float
+        title: The average listing accuracy for all accounts under same taxonomy category and same city
+    title: A response containing the listing accuracy values for an account
+  v1GetListingPresenceRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        description: The unique identifier of the account group.
+      sourceIds:
+        type: array
+        items:
+          type: string
+          format: int64
+        title: Source Ids to base the score off of
+    title: A request for getting the listing presence data for an account
+  v1GetListingPresenceResponse:
+    type: object
+    properties:
+      listingCount:
+        type: string
+        format: int64
+        title: The actual listing count for that account
+      worldAverage:
+        type: number
+        format: float
+        title: The average listing count for all accounts under same taxonomy category
+      countryAverage:
+        type: number
+        format: float
+        title: The average listing count for all accounts under same taxonomy category and same country
+      stateAverage:
+        type: number
+        format: float
+        title: The average listing count for all accounts under same taxonomy category and same state
+      cityAverage:
+        type: number
+        format: float
+        title: The average listing count for all accounts under same taxonomy category and same city
+    title: A response containing the listing presence values for an account
+  v1GetScoreRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        description: The unique identifier of the account group.
+      sourceIds:
+        type: array
+        items:
+          type: string
+          format: int64
+        title: Source Ids to base the score off of
+    title: A request for getting the listing score for an account
+  v1GetScoreResponse:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        description: The unique identifier of the account group.
+      score:
+        type: string
+        format: int64
+        description: The listing score of the account group.
+      updated:
+        type: string
+        format: date-time
+        title: The last updated timestamp for the account
+    title: A response containing the listing score for an account
+  v1GetSourceScoresRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        description: The unique identifier of the account group.
+      sourceIds:
+        type: array
+        items:
+          type: string
+          format: int64
+        title: Source Ids to base the score off of
+    title: A request for getting a listing score source breakdown for an account
+  v1GetSourceScoresResponse:
+    type: object
+    properties:
+      totalScore:
+        type: string
+        format: int64
+        title: Total score for the account, including listings and citations
+      listingScore:
+        type: string
+        format: int64
+        title: Total score from scraped listing
+      maxListingScore:
+        type: string
+        format: int64
+        title: Max possible score from scraped listings
+      citationScore:
+        type: string
+        format: int64
+        title: Total score from citations
+      sourceScores:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1SourceScore'
+        title: listing score breakdowns by source
+    title: Response with detailed listing score data, including breakdown by source
+  v1HistoricalScoreDataPoint:
+    type: object
+    properties:
+      score:
+        type: string
+        format: int64
+        title: The data point
+      timestamp:
+        type: string
+        format: date-time
+        title: The corresponding timestamp for the data point
+    title: A model definition for historical data and required time format
+  v1IndustryStats:
+    type: object
+    properties:
+      average:
+        type: number
+        format: float
+      percentiles:
+        $ref: '#/definitions/v1Percentiles'
+    title: A model definition for industry stats average and relevant percentiles
+  v1Percentiles:
+    type: object
+    properties:
+      ninetyFifth:
+        type: number
+        format: float
+      eightieth:
+        type: number
+        format: float
+      fiftieth:
+        type: number
+        format: float
+      twentieth:
+        type: number
+        format: float
+      tenth:
+        type: number
+        format: float
+      ninetieth:
+        type: number
+        format: float
+      seventyFifth:
+        type: number
+        format: float
+      fortieth:
+        type: number
+        format: float
+      thirtieth:
+        type: number
+        format: float
+    title: Relevant percentiles for computing letter grades and industry stats
+  v1SourceScore:
+    type: object
+    properties:
+      source:
+        type: string
+        format: int64
+      score:
+        type: string
+        format: int64
+      maxScore:
+        type: string
+        format: int64
+    title: source level score data for an account

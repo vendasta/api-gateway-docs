@@ -1,0 +1,1093 @@
+swagger: "2.0"
+info:
+  title: sms/v2/api.proto
+  version: version not set
+tags:
+  - name: SmsService
+  - name: ConversationService
+  - name: A2PRegistration
+  - name: RegulationService
+  - name: ConfigService
+  - name: EventService
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /sms.v2.A2PRegistration/CreateA2PRegistrationInfo:
+    post:
+      summary: Create a new A2P registration info record for a business.
+      operationId: A2PRegistration_CreateA2PRegistrationInfo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2CreateA2PRegistrationInfoRequest'
+      tags:
+        - A2PRegistration
+  /sms.v2.A2PRegistration/DeleteA2PRegistrationInfo:
+    post:
+      summary: Delete the A2P registration info record for a business by owner id.
+      operationId: A2PRegistration_DeleteA2PRegistrationInfo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2DeleteA2PRegistrationInfoRequest'
+      tags:
+        - A2PRegistration
+  /sms.v2.A2PRegistration/GetA2PRegistrationInfo:
+    post:
+      summary: Get the A2P registration info record for a business by owner id.
+      operationId: A2PRegistration_GetA2PRegistrationInfo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetA2PRegistrationInfoResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetA2PRegistrationInfoRequest'
+      tags:
+        - A2PRegistration
+  /sms.v2.A2PRegistration/GetLatestA2PRegistrationStatus:
+    post:
+      summary: Get the most recent A2P registration status for a business by owner id and optionally Twilio subaccount id.
+      operationId: A2PRegistration_GetLatestA2PRegistrationStatus
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetLatestA2PRegistrationStatusResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetLatestA2PRegistrationStatusRequest'
+      tags:
+        - A2PRegistration
+  /sms.v2.A2PRegistration/TriggerA2PRegistration:
+    post:
+      summary: Trigger A2P registration for account with already given A2P registration info.
+      operationId: A2PRegistration_TriggerA2PRegistration
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2TriggerA2PRegistrationRequest'
+      tags:
+        - A2PRegistration
+  /sms.v2.A2PRegistration/UpsertA2PRegistrationInfo:
+    post:
+      summary: |-
+        Update an existing A2P registration info record for a business, or create it if it does not exist.
+        The existing values on the model will all be replaced by the values passed in.
+      operationId: A2PRegistration_UpsertA2PRegistrationInfo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2UpsertA2PRegistrationInfoRequest'
+      tags:
+        - A2PRegistration
+  /sms.v2.ConfigService/GetPhoneNumberConfig:
+    post:
+      summary: Get the config for a phone number
+      operationId: ConfigService_GetPhoneNumberConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetPhoneNumberConfigResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetPhoneNumberConfigRequest'
+      tags:
+        - ConfigService
+  /sms.v2.ConfigService/UpsertPhoneNumberConfig:
+    post:
+      summary: Upsert a config for a phone numbner
+      operationId: ConfigService_UpsertPhoneNumberConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2UpsertPhoneNumberConfigRequest'
+      tags:
+        - ConfigService
+  /sms.v2.ConversationService/ClaimPhoneNumber:
+    post:
+      summary: creates a twilio subaccount and provisions a phone number
+      operationId: ConversationService_ClaimPhoneNumber
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ClaimPhoneNumberRequest'
+      tags:
+        - ConversationService
+  /sms.v2.ConversationService/SendMessage:
+    post:
+      summary: sends message in a conversation
+      operationId: ConversationService_SendMessage
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2SendMessageResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2SendMessageRequest'
+      tags:
+        - ConversationService
+  /sms.v2.EventService/GetAttributeEventStats:
+    post:
+      summary: Get all the stats available for the given attribute
+      operationId: EventService_GetAttributeEventStats
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetAttributeEventStatsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetAttributeEventStatsRequest'
+      tags:
+        - EventService
+  /sms.v2.RegulationService/CreateRegulationInfo:
+    post:
+      summary: create new regulation info for a business
+      operationId: RegulationService_CreateRegulationInfo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2CreateRegulationInfoResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2CreateRegulationInfoRequest'
+      tags:
+        - RegulationService
+  /sms.v2.SmsService/CanSendSms:
+    post:
+      summary: Check if a sender can send an SMS
+      operationId: SmsService_CanSendSms
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2CanSendSmsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2CanSendSmsRequest'
+      tags:
+        - SmsService
+  /sms.v2.SmsService/CreateSmsClickedEvent:
+    post:
+      summary: creates an SMS clicked event
+      operationId: SmsService_CreateSmsClickedEvent
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2CreateSmsClickedEventRequest'
+      tags:
+        - SmsService
+  /sms.v2.SmsService/GetAccountInfo:
+    post:
+      summary: gets sms account info
+      operationId: SmsService_GetAccountInfo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetAccountInfoResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetAccountInfoRequest'
+      tags:
+        - SmsService
+  /sms.v2.SmsService/GetLimit:
+    post:
+      summary: Get the SMS message limit for an owner
+      operationId: SmsService_GetLimit
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetLimitResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetLimitRequest'
+      tags:
+        - SmsService
+  /sms.v2.SmsService/SendMessageV2:
+    post:
+      summary: Send an SMS message from an owner to a recipient phone number
+      operationId: SmsService_SendMessageV2
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2SendMessageV2Response'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2SendMessageV2Request'
+      tags:
+        - SmsService
+definitions:
+  googlerpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  v2A2PRegistrationInfo:
+    type: object
+    properties:
+      ownerId:
+        type: string
+        title: ID of the entity in Vendasta that owns the A2P registration info, account group id or partner id
+      ownerType:
+        $ref: '#/definitions/v2OwnerType'
+        title: The type of entity that owns the A2P registration info, account group or partner
+      friendlyName:
+        type: string
+        title: 'Deprecated: friendly name used in twilio, no longer used since there is not a 1:1 mapping between A2P registration info and twilio subaccounts'
+      business:
+        $ref: '#/definitions/v2Business'
+        description: The business details that will be submitted to Twilio for this A2P registration.
+      authorizedRepresentative:
+        $ref: '#/definitions/v2AuthorizedRepresentative'
+        description: The contact details for the authorized representative of the business.
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+      submitted:
+        type: string
+        format: date-time
+        title: The time that the registration was submitted
+  v2A2PRegistrationStatus:
+    type: object
+    properties:
+      id:
+        type: string
+      ownerId:
+        type: string
+      ownerType:
+        $ref: '#/definitions/v2OwnerType'
+      subaccountId:
+        type: string
+      messagingServiceId:
+        type: string
+      secondaryBusinessProfile:
+        $ref: '#/definitions/v2SecondaryBusinessProfile'
+      trustBundle:
+        $ref: '#/definitions/v2TrustBundle'
+      brand:
+        $ref: '#/definitions/v2Brand'
+      messagingCampaign:
+        $ref: '#/definitions/v2MessagingCampaign'
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+  v2Attribute:
+    type: object
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+    title: Attributes are key-value pairs that can be attached to a message
+  v2AuthorizedRepresentative:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      phoneNumber:
+        type: string
+      businessTitle:
+        type: string
+        description: Freeform title, eg. CEO, President, etc.
+      jobPosition:
+        type: string
+        description: More structured title from a list of options.
+  v2Brand:
+    type: object
+    properties:
+      id:
+        type: string
+      status:
+        $ref: '#/definitions/v2BrandStatus'
+      updated:
+        type: string
+        format: date-time
+  v2BrandStatus:
+    type: string
+    enum:
+      - BRAND_STATUS_UNSPECIFIED
+      - BRAND_STATUS_PENDING
+      - BRAND_STATUS_IN_REVIEW
+      - BRAND_STATUS_FAILED
+      - BRAND_STATUS_APPROVED
+    default: BRAND_STATUS_UNSPECIFIED
+  v2Business:
+    type: object
+    properties:
+      legalName:
+        type: string
+        description: The name of the business that they are legally registered as.
+      businessType:
+        type: string
+        description: THe type of registered business, eg. corporation or LLC.
+      industry:
+        type: string
+        description: The major industry that the business operates in.
+      registrationIdentifier:
+        $ref: '#/definitions/v2RegistrationIdentifier'
+        description: Regional/national registration identifier.
+      regionOfOperation:
+        type: string
+        description: The major region the business operates in, generally a continent.
+      websiteUrl:
+        type: string
+        description: The business' primary website.
+      socialMediaProfileUrls:
+        type: array
+        items:
+          type: string
+        description: The business' social media profile URLs.
+      streetAddress:
+        type: string
+        description: The street address of the business as registered. May be different than their actual operating location.
+      streetAddressSecondary:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+        title: 2 letter state code or full state name
+      postalCode:
+        type: string
+      country:
+        type: string
+        title: 2 letter ISO country code
+  v2CallForwardingConfig:
+    type: object
+    properties:
+      phoneNumber:
+        type: string
+      enabled:
+        type: boolean
+    description: A configuration for how incoming calls to the phone number should be forwarded.
+  v2CanSendReason:
+    type: string
+    enum:
+      - CAN_SEND_REASON_UNSPECIFIED
+      - CAN_SEND_REASON_MISSING_PHONE_NUMBER
+      - CAN_SEND_REASON_MISSING_SUBACCOUNT
+      - CAN_SEND_REASON_A2P_REGISTRATION_REQUIRED
+      - CAN_SEND_REASON_A2P_REGISTRATION_IN_PROGRESS
+      - CAN_SEND_REASON_A2P_REGISTRATION_REJECTED
+      - CAN_SEND_REASON_UNSUPPORTED_COUNTRY
+      - CAN_SEND_REASON_UNSUPPORTED_SENDER
+    default: CAN_SEND_REASON_UNSPECIFIED
+  v2CanSendSmsRequest:
+    type: object
+    properties:
+      sender:
+        $ref: '#/definitions/v2Sender'
+        title: The sender to check if they can send an SMS
+    title: Request to check if a sender can send an SMS
+  v2CanSendSmsResponse:
+    type: object
+    properties:
+      canSendSms:
+        type: boolean
+      reason:
+        $ref: '#/definitions/v2CanSendReason'
+        title: The reason the sender cannot send an SMS
+    title: Response containing if a sender can send an SMS
+  v2ClaimPhoneNumberRequest:
+    type: object
+    properties:
+      ownerId:
+        type: string
+        title: unique id of the organization
+      ownerType:
+        $ref: '#/definitions/v2OwnerType'
+        title: Type of entity that is trying to claim a phone number
+  v2CreateA2PRegistrationInfoRequest:
+    type: object
+    properties:
+      ownerId:
+        type: string
+        title: ID of the entity in Vendasta that owns the A2P registration info, account group id or partner id
+      ownerType:
+        $ref: '#/definitions/v2OwnerType'
+        title: Type of entity that owns the A2P registration info, account group or partner
+      business:
+        $ref: '#/definitions/v2Business'
+        description: The business details that will be submitted to Twilio for this A2P registration.
+      authorizedRepresentative:
+        $ref: '#/definitions/v2AuthorizedRepresentative'
+        description: The contact details for the authorized representative of the business.
+      submitted:
+        type: boolean
+        description: Whether or not the registration form has been submitted.
+    title: Request to create an A2P registration information record
+  v2CreateRegulationInfoRequest:
+    type: object
+    properties:
+      namespace:
+        type: string
+        title: Namespace of microservice in Vendasta that needs the regulation info
+      ownerId:
+        type: string
+        title: ID of the entity in Vendasta that owns the regulation info, account group id or partner id
+      ownerType:
+        $ref: '#/definitions/v2OwnerType'
+        title: The type of the owner ID (e.g. account group, partner)
+      countryCode:
+        type: string
+        title: Country Code of the regulation
+      businessAttributes:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2Attribute'
+        title: Attributes for the business object in Twilio
+      supportingDocuments:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2SupportingDocumentInfo'
+        title: Supporting documents for the regulation info
+  v2CreateRegulationInfoResponse:
+    type: object
+    properties:
+      regulationInfoId:
+        type: string
+        title: ID of the regulation info
+  v2CreateSmsClickedEventRequest:
+    type: object
+    properties:
+      messageUuid:
+        type: string
+        title: Unique id to associate to a particular message_sid
+    title: Request to create an SMS clicked event
+  v2DataField:
+    type: string
+    enum:
+      - DATA_FIELD_UNSPECIFIED
+      - DATA_FIELD_LEGAL_BUSINESS_NAME
+      - DATA_FIELD_BUSINESS_CATEGORY
+      - DATA_FIELD_BUSINESS_TYPE
+      - DATA_FIELD_REGION_OF_OPERATION
+      - DATA_FIELD_REGISTRATION_IDENTIFIER
+      - DATA_FIELD_STREET_ADDRESS
+      - DATA_FIELD_STREET_ADDRESS_SECONDARY
+      - DATA_FIELD_CITY
+      - DATA_FIELD_STATE
+      - DATA_FIELD_POSTAL_CODE
+      - DATA_FIELD_WEBSITE_URL
+      - DATA_FIELD_COUNTRY
+      - DATA_FIELD_FIRST_NAME
+      - DATA_FIELD_LAST_NAME
+      - DATA_FIELD_JOB_POSITION
+      - DATA_FIELD_BUSINESS_TITLE
+      - DATA_FIELD_EMAIL
+      - DATA_FIELD_PHONE_NUMBER
+      - DATA_FIELD_BUSINESS_REGISTRATION_NUMBER
+    default: DATA_FIELD_UNSPECIFIED
+  v2DeleteA2PRegistrationInfoRequest:
+    type: object
+    properties:
+      ownerId:
+        type: string
+        title: ID of the entity in Vendasta that owns the A2P registration info, account group id or partner id
+  v2GetA2PRegistrationInfoRequest:
+    type: object
+    properties:
+      ownerId:
+        type: string
+        title: ID of the entity in Vendasta that owns the A2P registration info, account group id or partner id
+  v2GetA2PRegistrationInfoResponse:
+    type: object
+    properties:
+      a2pRegistrationInfo:
+        $ref: '#/definitions/v2A2PRegistrationInfo'
+  v2GetAccountInfoRequest:
+    type: object
+    properties:
+      sender:
+        $ref: '#/definitions/v2Participant'
+        title: The sender to get sms info about
+      namespace:
+        type: string
+        title: The namespace that would be used in SendMessageV2 for compatibility
+    title: Request to get info about an sms account
+  v2GetAccountInfoResponse:
+    type: object
+    properties:
+      phoneNumber:
+        type: string
+      subaccountId:
+        type: string
+        title: The Twillio subaccount ID
+    title: Response with info about an sms account
+  v2GetAttributeEventStatsRequest:
+    type: object
+    properties:
+      sender:
+        $ref: '#/definitions/v2Sender'
+        title: The sender to get EventStats for
+      attribute:
+        $ref: '#/definitions/v2Attribute'
+        title: The attribute to get EventStats for
+    title: Request for the GetAttributeEventStats RPC
+  v2GetAttributeEventStatsResponse:
+    type: object
+    properties:
+      stats:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2StatusStat'
+        title: The event stats
+    title: Response for the GetAttributeEventStats RPC
+  v2GetLatestA2PRegistrationStatusRequest:
+    type: object
+    properties:
+      ownerId:
+        type: string
+        title: ID of the entity in Vendasta that owns the A2P registration info, account group id or partner id
+      subaccountId:
+        type: string
+        title: Twilio subaccount id
+  v2GetLatestA2PRegistrationStatusResponse:
+    type: object
+    properties:
+      status:
+        $ref: '#/definitions/v2A2PRegistrationStatus'
+  v2GetLimitRequest:
+    type: object
+    properties:
+      namespace:
+        type: string
+        description: The place that the limit pertains to, eg. RM.
+      ownerId:
+        type: string
+        title: ID in our system for the limit (e.g. account group ID)
+      limitType:
+        $ref: '#/definitions/v2LimitType'
+        title: The type of limit being requested
+  v2GetLimitResponse:
+    type: object
+    properties:
+      namespace:
+        type: string
+        description: The place that the limit pertains to, eg. RM.
+      ownerId:
+        type: string
+        title: ID in our system for the limit (e.g. account group ID)
+      limitType:
+        $ref: '#/definitions/v2LimitType'
+        title: The type of limit being returned
+      usage:
+        type: string
+        format: int64
+        title: The current usage of the limit
+      limit:
+        type: string
+        format: int64
+        title: The limit
+      created:
+        type: string
+        format: date-time
+        title: The time the limit was created
+      updated:
+        type: string
+        format: date-time
+        title: The time the limit was last updated
+  v2GetPhoneNumberConfigRequest:
+    type: object
+    properties:
+      ownerId:
+        type: string
+        title: ID in our system of the owner of the phone number whose configuration will be returned
+      ownerType:
+        $ref: '#/definitions/v2OwnerType'
+        title: Type of the owner (e.g. account group)
+  v2GetPhoneNumberConfigResponse:
+    type: object
+    properties:
+      phoneNumberConfig:
+        $ref: '#/definitions/v2PhoneNumberConfig'
+        title: The sub-account config
+  v2LimitType:
+    type: string
+    enum:
+      - LIMIT_TYPE_UNSPECIFIED
+      - LIMIT_TYPE_DAILY
+    default: LIMIT_TYPE_UNSPECIFIED
+  v2Media:
+    type: object
+    properties:
+      contentType:
+        type: string
+      locationPath:
+        type: string
+      fileName:
+        type: string
+  v2MessagingCampaign:
+    type: object
+    properties:
+      id:
+        type: string
+      status:
+        $ref: '#/definitions/v2MessagingCampaignStatus'
+      updated:
+        type: string
+        format: date-time
+  v2MessagingCampaignStatus:
+    type: string
+    enum:
+      - MESSAGING_CAMPAIGN_STATUS_UNSPECIFIED
+      - MESSAGING_CAMPAIGN_STATUS_PENDING
+      - MESSAGING_CAMPAIGN_STATUS_FAILED
+      - MESSAGING_CAMPAIGN_STATUS_VERIFIED
+    default: MESSAGING_CAMPAIGN_STATUS_UNSPECIFIED
+  v2MissedCallMessagingConfig:
+    type: object
+    properties:
+      enabled:
+        type: boolean
+      trigger:
+        $ref: '#/definitions/v2MissedCallTrigger'
+      messageContent:
+        type: string
+    title: A configuration for how and when messaging should be used to follow up with calls made to the number
+  v2MissedCallTrigger:
+    type: string
+    enum:
+      - MISSED_CALL_TRIGGER_UNSPECIFIED
+      - MISSED_CALL_TRIGGER_CALL_RECEIVED
+      - MISSED_CALL_TRIGGER_FORWARDED_CALL_MISSED
+    default: MISSED_CALL_TRIGGER_UNSPECIFIED
+  v2OwnerType:
+    type: string
+    enum:
+      - OWNER_TYPE_UNSPECIFIED
+      - OWNER_TYPE_PARTNER
+      - OWNER_TYPE_ACCOUNT_GROUP
+    default: OWNER_TYPE_UNSPECIFIED
+  v2Participant:
+    type: object
+    properties:
+      internalId:
+        type: string
+        title: ID in our system for the sender (e.g. account group ID)
+      type:
+        $ref: '#/definitions/v2ParticipantType'
+        title: The participant's type in our system (e.g. account group)
+  v2ParticipantType:
+    type: string
+    enum:
+      - PARTICIPANT_TYPE_UNKNOWN
+      - PARTICIPANT_TYPE_ACCOUNT_GROUP
+      - PARTICIPANT_TYPE_CUSTOMER
+      - PARTICIPANT_TYPE_PARTNER
+    default: PARTICIPANT_TYPE_UNKNOWN
+  v2PhoneNumberConfig:
+    type: object
+    properties:
+      callForwarding:
+        $ref: '#/definitions/v2CallForwardingConfig'
+      missedCallMessaging:
+        $ref: '#/definitions/v2MissedCallMessagingConfig'
+      voiceAi:
+        $ref: '#/definitions/v2VoiceAIConfig'
+    description: A configuration for a phone number in the Twilio platform.
+  v2Recipient:
+    type: object
+    properties:
+      phoneNumber:
+        type: string
+        title: The phone number to send an SMS message to
+    title: Someone who receives an SMS message
+  v2RegistrationIdentifier:
+    type: object
+    properties:
+      identifierType:
+        type: string
+        description: The type of the identifier, usually a national standard, eg. EIN for the US.
+      identifier:
+        type: string
+        description: The value of the identifier.
+  v2SecondaryBusinessProfile:
+    type: object
+    properties:
+      id:
+        type: string
+      status:
+        $ref: '#/definitions/v2ValidationStatus'
+      authorizedRepresentativeId:
+        type: string
+      addressResourceId:
+        type: string
+      addressSupportingDocumentId:
+        type: string
+      secondaryBusinessInformationId:
+        type: string
+      fieldsWithIssues:
+        type: array
+        items:
+          $ref: '#/definitions/v2DataField'
+  v2SendMessageRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: The account group id
+      conversationId:
+        type: string
+        title: deprecated, this field is no longer used
+      recipientPhoneNumber:
+        type: string
+        title: Phone number of the recipient
+      messageBody:
+        type: string
+        title: The message body
+      media:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2Media'
+        title: message media content
+    title: Request to send a Message in a conversation
+  v2SendMessageResponse:
+    type: object
+    properties:
+      messageId:
+        type: string
+        title: The message external id
+      conversationId:
+        type: string
+        title: The conversation external id
+    title: Response of a message sent in a conversation
+  v2SendMessageV2Request:
+    type: object
+    properties:
+      sender:
+        $ref: '#/definitions/v2Sender'
+      recipient:
+        $ref: '#/definitions/v2Recipient'
+      messageBody:
+        type: string
+        title: The message body
+      attributes:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2Attribute'
+        title: Arbitrary attributes to be sent with the message
+      idempotencyKey:
+        type: string
+        title: The idemopotency key, if provided, will be used as part of the hash for determining the uniqueness of an sms
+      mediaUrls:
+        type: array
+        items:
+          type: string
+        title: message media content urls
+  v2SendMessageV2Response:
+    type: object
+    properties:
+      messageId:
+        type: string
+        title: The Vendasta internal message id
+  v2Sender:
+    type: object
+    properties:
+      ownerId:
+        type: string
+        title: ID in our system for the sender (e.g. account group ID)
+      ownerType:
+        $ref: '#/definitions/v2OwnerType'
+        title: Type of the owner (e.g. account group)
+      namespace:
+        type: string
+        description: The place that the message is coming from, eg. RM.
+    title: Someone who sends an SMS message
+  v2StatusStat:
+    type: object
+    properties:
+      status:
+        $ref: '#/definitions/v2StatusType'
+      value:
+        type: string
+        format: int64
+  v2StatusType:
+    type: string
+    enum:
+      - STATUS_TYPE_UNSPECIFIED
+      - STATUS_TYPE_QUEUED
+      - STATUS_TYPE_SENDING
+      - STATUS_TYPE_SENT
+      - STATUS_TYPE_FAILED
+      - STATUS_TYPE_DELIVERED
+      - STATUS_TYPE_UNDELIVERED
+      - STATUS_TYPE_RECEIVING
+      - STATUS_TYPE_RECEIVED
+      - STATUS_TYPE_ACCEPTED
+      - STATUS_TYPE_SCHEDULED
+      - STATUS_TYPE_CANCELED
+    default: STATUS_TYPE_UNSPECIFIED
+  v2SupportingDocumentInfo:
+    type: object
+    properties:
+      documentType:
+        type: string
+        title: Twilio's type of document
+      attributes:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2Attribute'
+        title: The attributes of the document, or address attributes to be processed
+      fileId:
+        type: string
+        title: File ID for a document that has been uploaded to the SMS microservice (http endpoint)
+      processAddress:
+        type: boolean
+        title: Whether to process address attributes into a Twilio address object
+  v2TriggerA2PRegistrationRequest:
+    type: object
+    properties:
+      ownerId:
+        type: string
+        title: ID of the entity in Vendasta that owns the A2P registration info, account group id or partner id
+  v2TrustBundle:
+    type: object
+    properties:
+      id:
+        type: string
+      status:
+        $ref: '#/definitions/v2ValidationStatus'
+      companyId:
+        type: string
+      fieldsWithIssues:
+        type: array
+        items:
+          $ref: '#/definitions/v2DataField'
+  v2UpsertA2PRegistrationInfoRequest:
+    type: object
+    properties:
+      ownerId:
+        type: string
+        title: ID of the entity in Vendasta that owns the A2P registration info, account group id or partner id
+      ownerType:
+        $ref: '#/definitions/v2OwnerType'
+        title: Type of entity that owns the A2P registration info, account group or partner
+      business:
+        $ref: '#/definitions/v2Business'
+        description: The business details that will be submitted to Twilio for this A2P registration.
+      authorizedRepresentative:
+        $ref: '#/definitions/v2AuthorizedRepresentative'
+        description: The contact details for the authorized representative of the business.
+      submitted:
+        type: boolean
+        description: Whether or not the registration form has been submitted.
+  v2UpsertPhoneNumberConfigRequest:
+    type: object
+    properties:
+      ownerId:
+        type: string
+        title: ID in our system of the owner of the phone number whose configuration will be updated
+      ownerType:
+        $ref: '#/definitions/v2OwnerType'
+        title: Type of the owner (e.g. account group)
+      phoneNumberConfig:
+        $ref: '#/definitions/v2PhoneNumberConfig'
+        title: The phone number configuration to update or create
+  v2ValidationStatus:
+    type: string
+    enum:
+      - VALIDATION_STATUS_UNSPECIFIED
+      - VALIDATION_STATUS_COMPLIANT
+      - VALIDATION_STATUS_NON_COMPLIANT
+    default: VALIDATION_STATUS_UNSPECIFIED
+  v2VoiceAIConfig:
+    type: object
+    properties:
+      enabled:
+        type: boolean
+    description: A configuration for how AI should engage with incoming calls.

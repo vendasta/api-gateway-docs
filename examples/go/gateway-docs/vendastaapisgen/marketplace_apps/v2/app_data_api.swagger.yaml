@@ -1,0 +1,384 @@
+swagger: "2.0"
+info:
+  title: marketplace_apps/v2/app_data_api.proto
+  version: version not set
+tags:
+  - name: MarketplaceAppData
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /marketplaceapps.v2.MarketplaceAppData/GetMultiAppData:
+    post:
+      summary: GetMultiAppData gets the data related to each given appId
+      operationId: MarketplaceAppData_GetMultiAppData
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetMultiAppDataResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetMultiAppDataRequest'
+      tags:
+        - MarketplaceAppData
+  /marketplaceapps.v2.MarketplaceAppData/ListAppIDsByMultiTag:
+    post:
+      summary: ListAppIDByMultiTags lists ids of apps that have the specified tags
+      operationId: MarketplaceAppData_ListAppIDsByMultiTag
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ListAppIDsByMultiTagResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ListAppIDsByMultiTagRequest'
+      tags:
+        - MarketplaceAppData
+  /marketplaceapps.v2.MarketplaceAppData/ListByMultiTag:
+    post:
+      summary: ListByMultiTag lists tag records that have the specified scope, kind and tag.
+      operationId: MarketplaceAppData_ListByMultiTag
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ListByMultiTagResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ListByMultiTagRequest'
+      tags:
+        - MarketplaceAppData
+  /marketplaceapps.v2.MarketplaceAppData/ListValuesByMultiKind:
+    post:
+      summary: ListValuesByMultiKinds lists all the unique value(s) for the given kind(s)
+      operationId: MarketplaceAppData_ListValuesByMultiKind
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ListValuesByMultiKindResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ListValuesByMultiKindRequest'
+      tags:
+        - MarketplaceAppData
+  /marketplaceapps.v2.MarketplaceAppData/TagApps:
+    post:
+      summary: TagApps adds the given tag info for the given app_id(s)
+      operationId: MarketplaceAppData_TagApps
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2TagAppsRequest'
+      tags:
+        - MarketplaceAppData
+  /marketplaceapps.v2.MarketplaceAppData/UntagApps:
+    post:
+      summary: UntagApps removes the given tag info for the given app_id(s)
+      operationId: MarketplaceAppData_UntagApps
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2UntagAppsRequest'
+      tags:
+        - MarketplaceAppData
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v2AppTag:
+    type: object
+    properties:
+      scope:
+        type: string
+        title: |-
+          scope of the tag, ie:
+          scope = /             global data
+          scope = /<pid>        partner-specific data
+          scope = /<pid>/<mid>  market/storefront-specific data
+      kind:
+        type: string
+        title: 'tag kind, ie: tag/lmi'
+      value:
+        type: string
+        title: 'tag id or name, ie: reputation, SEO'
+      data:
+        type: string
+        title: additional info of the tag
+      appId:
+        type: string
+        title: id of the app
+    title: App Tag record
+  v2GetMultiAppDataRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: ID of the partner
+      marketId:
+        type: string
+        title: ID of the market
+      appId:
+        type: array
+        items:
+          type: string
+        title: ID of the app
+    title: get the data for the given appIds in a market scope
+  v2GetMultiAppDataResponse:
+    type: object
+    properties:
+      apps:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2MarketplaceApp'
+        title: List of the apps asked for
+    title: List the appIds data asked for
+  v2KindValues:
+    type: object
+    properties:
+      kind:
+        type: string
+        title: 'data kind, ie: /tag/lmi'
+      values:
+        type: array
+        items:
+          type: string
+        title: list of values for the kind
+    title: list of the kind/values of the app
+  v2ListAppIDsByMultiTagRequest:
+    type: object
+    properties:
+      tags:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2Tag'
+        title: kind tag pair identifies what tag to look for in an app
+      cursor:
+        type: string
+        title: record index offset where to start fetching record for the list
+      pageSize:
+        type: string
+        format: int64
+        title: the number of results/record to return
+  v2ListAppIDsByMultiTagResponse:
+    type: object
+    properties:
+      appIds:
+        type: array
+        items:
+          type: string
+        title: list of app IDs matching the query terms provided
+      nextCursor:
+        type: string
+        title: next record index offset in pagination
+      hasMore:
+        type: boolean
+        title: indicates if more data is available
+  v2ListByMultiTagRequest:
+    type: object
+    properties:
+      tags:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2ScopedTag'
+        title: scope-kind-value identifies what tag to look for
+      cursor:
+        type: string
+        description: the position to get the frame of data based on a set of filters and the search term.
+      pageSize:
+        type: string
+        format: int64
+        description: the size of the frame of data to recieve in the response.
+  v2ListByMultiTagResponse:
+    type: object
+    properties:
+      appTags:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2AppTag'
+        title: App Tag information
+      nextCursor:
+        type: string
+        title: Next position in pagination
+      hasMore:
+        type: boolean
+        title: Indicates if more data is available
+  v2ListValuesByMultiKindRequest:
+    type: object
+    properties:
+      scope:
+        type: string
+        title: |-
+          Slash-delimited scope path, determines whitelabeling and access privileges
+          scope = /             global data
+          scope = /<pid>        partner-specific data
+          scope = /<pid>/<mid>  market/storefront-specific data
+      kind:
+        type: array
+        items:
+          type: string
+    title: kinds to be listed with their respective values
+  v2ListValuesByMultiKindResponse:
+    type: object
+    properties:
+      scope:
+        type: string
+        title: |-
+          Slash-delimited scope path, determines whitelabeling and access privileges
+          scope = /             global data
+          scope = /<pid>        partner-specific data
+          scope = /<pid>/<mid>  market/storefront-specific data
+      tagValues:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2KindValues'
+        title: Possible values for each kind in the request
+    title: list of the kinds with their respective values
+  v2MarketplaceApp:
+    type: object
+    properties:
+      appId:
+        type: string
+        title: ID of the app
+      scope:
+        type: string
+        title: 'scope of the data, ie: /VUNI/default-market'
+      appData:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2KindValues'
+        title: List of the data for the app
+    title: the app data
+  v2ScopedTag:
+    type: object
+    properties:
+      scope:
+        type: string
+        title: |-
+          scope of the tag, ie:
+          scope = /             global data
+          scope = /<pid>        partner-specific data
+          scope = /<pid>/<mid>  market/storefront-specific data
+      kind:
+        type: string
+        title: 'tag kind, ie: tag/lmi'
+      value:
+        type: string
+        title: 'tag id or name, ie: reputation, SEO'
+      data:
+        type: string
+        title: additional info of the tag
+  v2Tag:
+    type: object
+    properties:
+      kind:
+        type: string
+        title: 'tag kind, ie: tag/lmi'
+      value:
+        type: string
+        title: 'tag id or name, ie: reputation, SEO'
+  v2TagAppsRequest:
+    type: object
+    properties:
+      tags:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2ScopedTag'
+        description: list of tags to be attached to a resource ID (app ID).
+      appId:
+        type: array
+        items:
+          type: string
+        description: list if resource IDs (app IDs) to which the tags will be attached.
+  v2UntagAppsRequest:
+    type: object
+    properties:
+      tags:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2ScopedTag'
+        description: list of tags to be removed from a resource ID (app ID).
+      appId:
+        type: array
+        items:
+          type: string
+        description: list if resource IDs (app IDs) from which the tags will be removed.

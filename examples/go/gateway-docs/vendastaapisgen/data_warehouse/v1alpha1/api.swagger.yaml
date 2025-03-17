@@ -1,0 +1,1801 @@
+swagger: "2.0"
+info:
+  title: data_warehouse/v1alpha1/api.proto
+  version: version not set
+tags:
+  - name: DataWarehouseService
+  - name: DataWarehouseAdminService
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /data_warehouse.v1alpha1.DataWarehouseAdminService/CreateDataContract:
+    post:
+      summary: |-
+        Create a data contract.
+        This will trigger creation to warehouse resources (tables, scheduled queries) relevant to the data contract
+      operationId: DataWarehouseAdminService_CreateDataContract
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1CreateDataContractRequest'
+      tags:
+        - DataWarehouseAdminService
+  /data_warehouse.v1alpha1.DataWarehouseAdminService/DeleteDataContract:
+    post:
+      summary: |-
+        Delete a data contract.
+        This will trigger destruction of warehouse resources (views, scheduled queries) relevant to the specified data contract
+      operationId: DataWarehouseAdminService_DeleteDataContract
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1DeleteDataContractRequest'
+      tags:
+        - DataWarehouseAdminService
+  /data_warehouse.v1alpha1.DataWarehouseAdminService/DeleteReportCategory:
+    post:
+      summary: Delete a report category
+      operationId: DataWarehouseAdminService_DeleteReportCategory
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1DeleteReportCategoryRequest'
+      tags:
+        - DataWarehouseAdminService
+  /data_warehouse.v1alpha1.DataWarehouseAdminService/GetDataContract:
+    post:
+      summary: |-
+        Get a data contract.
+        Will return a NotFound error if the contract does not exist or if it has been deleted.
+      operationId: DataWarehouseAdminService_GetDataContract
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1GetDataContractResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1GetDataContractRequest'
+      tags:
+        - DataWarehouseAdminService
+  /data_warehouse.v1alpha1.DataWarehouseAdminService/ListDataContracts:
+    post:
+      summary: List data contracts.
+      operationId: DataWarehouseAdminService_ListDataContracts
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1ListDataContractsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1ListDataContractsRequest'
+      tags:
+        - DataWarehouseAdminService
+  /data_warehouse.v1alpha1.DataWarehouseAdminService/ListOfficialReports:
+    post:
+      summary: List reports that have been officially create for use across partitions
+      operationId: DataWarehouseAdminService_ListOfficialReports
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1ListOfficialReportsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1ListOfficialReportsRequest'
+      tags:
+        - DataWarehouseAdminService
+  /data_warehouse.v1alpha1.DataWarehouseAdminService/RefreshContractPartition:
+    post:
+      summary: |-
+        Refresh a specific data contract inside a specific partition.
+        This will trigger the manual run of a scheduled query to recreate a table inside a partition ASAP.
+        NOTE: This is a debugging/operational control and not something that meant to be invoked outside of that context
+      operationId: DataWarehouseAdminService_RefreshContractPartition
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1RefreshContractPartitionRequest'
+      tags:
+        - DataWarehouseAdminService
+  /data_warehouse.v1alpha1.DataWarehouseAdminService/RefreshDataContract:
+    post:
+      summary: |-
+        Refresh a specific data contract.
+        This will trigger the manual run of a scheduled query to recreate a data contract's table ASAP.
+        This will not refresh any partitions relevant to this contract - only the contract's base table itself.
+        NOTE: This is a debugging/operational control and not something that meant to be invoked outside of that context
+      operationId: DataWarehouseAdminService_RefreshDataContract
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1RefreshDataContractRequest'
+      tags:
+        - DataWarehouseAdminService
+  /data_warehouse.v1alpha1.DataWarehouseAdminService/UpdateDataContract:
+    post:
+      summary: |-
+        Update the specified fields of a data contract
+        This may trigger updates to warehouse resources (views, scheduled queries) relevant to the data contract
+      operationId: DataWarehouseAdminService_UpdateDataContract
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1UpdateDataContractRequest'
+      tags:
+        - DataWarehouseAdminService
+  /data_warehouse.v1alpha1.DataWarehouseAdminService/UpsertDataContract:
+    post:
+      summary: |-
+        Create or update a data contract
+        This will trigger updates to warehouse resources (views, scheduled queries) relevant to the data contract
+      operationId: DataWarehouseAdminService_UpsertDataContract
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1UpsertDataContractRequest'
+      tags:
+        - DataWarehouseAdminService
+  /data_warehouse.v1alpha1.DataWarehouseAdminService/UpsertOfficialReport:
+    post:
+      summary: |-
+        Upsert an official report to be used across partitions, based on an existing Looker dashboard.
+        See https://vendasta.jira.com/wiki/spaces/~47928679/pages/2048721462/Embedded+Looker for more information.
+      operationId: DataWarehouseAdminService_UpsertOfficialReport
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1UpsertOfficialReportRequest'
+      tags:
+        - DataWarehouseAdminService
+  /data_warehouse.v1alpha1.DataWarehouseAdminService/UpsertReportCategory:
+    post:
+      summary: Create or update a report category
+      operationId: DataWarehouseAdminService_UpsertReportCategory
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1UpsertReportCategoryRequest'
+      tags:
+        - DataWarehouseAdminService
+  /data_warehouse.v1alpha1.DataWarehouseAdminService/ValidateDataContract:
+    post:
+      summary: Validate a data contract.
+      operationId: DataWarehouseAdminService_ValidateDataContract
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1ValidateDataContractResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1ValidateDataContractRequest'
+      tags:
+        - DataWarehouseAdminService
+  /data_warehouse.v1alpha1.DataWarehouseService/CreateReport:
+    post:
+      summary: Create a custom report
+      operationId: DataWarehouseService_CreateReport
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1CreateReportResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1CreateReportRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/DeleteReport:
+    post:
+      summary: Delete a custom report
+      operationId: DataWarehouseService_DeleteReport
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1DeleteReportRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/DeleteReportAssociation:
+    post:
+      summary: Delete a report association
+      operationId: DataWarehouseService_DeleteReportAssociation
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1DeleteReportAssociationRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/GetPartitionConfiguration:
+    post:
+      summary: Returns the status of a partition in the warehouse
+      operationId: DataWarehouseService_GetPartitionConfiguration
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1GetPartitionConfigurationResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1GetPartitionConfigurationRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/GetReport:
+    post:
+      summary: Get multiple reports by their ids
+      operationId: DataWarehouseService_GetReport
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1GetReportResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1GetReportRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/GetReportAssociation:
+    post:
+      summary: Get report association
+      operationId: DataWarehouseService_GetReportAssociation
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1GetReportAssociationResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1GetReportAssociationRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/GetReportCategory:
+    post:
+      summary: |-
+        Get a report category
+        Will return a NotFound error if the category does not exist or if it has been deleted.
+      operationId: DataWarehouseService_GetReportCategory
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1GetReportCategoryResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1GetReportCategoryRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/GetReportMulti:
+    post:
+      summary: Get multiple reports by their ids
+      operationId: DataWarehouseService_GetReportMulti
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1GetReportMultiResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1GetReportMultiRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/GetReportPermissions:
+    post:
+      summary: Gets the report permission setting and all associations for a report
+      operationId: DataWarehouseService_GetReportPermissions
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1GetReportPermissionsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1GetReportPermissionsRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/GetUserMulti:
+    post:
+      summary: |-
+        Get users by their ids.
+        Note: This is mostly a passthrough to IAM that flattens some of the information on IAM roles onto a single User object that is easier to work with
+      operationId: DataWarehouseService_GetUserMulti
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1GetUserMultiResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1GetUserMultiRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/ListReportAssociations:
+    post:
+      summary: List report associations
+      operationId: DataWarehouseService_ListReportAssociations
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1ListReportAssociationsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1ListReportAssociationsRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/ListReportCategories:
+    post:
+      summary: List report categories
+      operationId: DataWarehouseService_ListReportCategories
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1ListReportCategoriesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1ListReportCategoriesRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/ListReports:
+    post:
+      summary: List available reports directly from looker
+      operationId: DataWarehouseService_ListReports
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1ListReportsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1ListReportsRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/ListReportsByCategory:
+    post:
+      summary: List available reports by category
+      operationId: DataWarehouseService_ListReportsByCategory
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1ListReportsByCategoryResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1ListReportsByCategoryRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/ListReportsV2:
+    post:
+      summary: List available reports
+      operationId: DataWarehouseService_ListReportsV2
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1ListReportsV2Response'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1ListReportsV2Request'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/RefreshReport:
+    post:
+      summary: Refresh a custom report
+      operationId: DataWarehouseService_RefreshReport
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1RefreshReportRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/SearchUsers:
+    post:
+      summary: |-
+        Search for users to associate with reports
+        Note: This is mostly a passthrough to IAM that flattens some of the information on IAM roles onto a single User object that is easier to work with
+      operationId: DataWarehouseService_SearchUsers
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1SearchUsersResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1SearchUsersRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/UpdatePartitionConfiguration:
+    post:
+      summary: Updates the configuration of a partition in the warehouse.
+      description: |-
+        The PartitionIdentifier informs the data-warehouse how to scope the data inside the partition.
+        For example, a `partner_id` PartitionIdentifier will configure the warehouse to scope the data down to a particular partnerID.
+        Multiple partitions for the same partition_identifier can not be enabled.
+
+        Common use cases:
+          1. Turn the warehouse on: This will create resources in a partition, or recreate resources in a previously disabled partition
+          2. Turn the warehouse off: This will destroy resources associated with a partition.
+      operationId: DataWarehouseService_UpdatePartitionConfiguration
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1UpdatePartitionConfigurationRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/UpdateReport:
+    post:
+      summary: Update a custom report
+      operationId: DataWarehouseService_UpdateReport
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1UpdateReportRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/UpdateReportPermissions:
+    post:
+      summary: |-
+        Update report permission setting and replace all associations for a report
+        This will delete all existing associations and replace them with the provided list and so it should only be called when you are working with a complete list of associations
+      operationId: DataWarehouseService_UpdateReportPermissions
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1UpdateReportPermissionsRequest'
+      tags:
+        - DataWarehouseService
+  /data_warehouse.v1alpha1.DataWarehouseService/UpsertReportAssociation:
+    post:
+      summary: Create or update a report association
+      operationId: DataWarehouseService_UpsertReportAssociation
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1UpsertReportAssociationRequest'
+      tags:
+        - DataWarehouseService
+definitions:
+  DataContractDetails:
+    type: object
+    properties:
+      description:
+        type: string
+        title: The description for the contract table and its partition tables
+      fieldDescriptions:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/DetailsFieldDescription'
+        title: The descriptions for the fields on the contract table and its partition tables
+      labels:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/DetailsLabel'
+        title: The labels to be applied to contract table and its partition tables
+  DataContractPartitionFilter:
+    type: object
+    properties:
+      partitionStrategy:
+        $ref: '#/definitions/v1alpha1DataContractPartitionStrategy'
+      filterBy:
+        type: string
+        description: A field from the view query to filter by for the partition. This means the partition will select all fields from the view query (except the filter_by field) only where the PartitionID is equal to the filter_by specified here.
+      customQuery:
+        type: string
+        title: |-
+          The custom query is a standard SQL BigQuery query that selects from the data contract table created by the view_query and scopes it to a particular partition.
+          It should be used if a more complicated filter is needed (such as excluding more fields or filtering on more conditions).
+          Since the name of DataContractTableRef and PartitionID can not be known ahead of time, it is necessary to use two tokens in the query that will be replaced at runtime:
+          - {{ .DataContractTableRef }}: The name of the data contract table created by the view query
+          - {{ .PartitionID }}: The id of the partition
+          example:
+          SELECT
+            id,
+            name
+          FROM
+            {{ .DataContractTableRef }}
+          WHERE
+            partner_id = {{ .PartitionID }} AND hidden = false
+          Note that we did not select partner_id in the custom query because it no longer has a purpose within the scope of the partition
+      includeFullResults:
+        type: boolean
+        title: The entire results of the view query will be copied to each partition. This should be used in cases where the data in a contract is global / not specific to individual customers
+    title: A PartitionFilter describes how to scope the view query to a specific customer partition
+  DetailsFieldDescription:
+    type: object
+    properties:
+      name:
+        type: string
+        title: The name of the field selected from the view and/or partition query that should be described
+      description:
+        type: string
+  DetailsLabel:
+    type: object
+    properties:
+      key:
+        type: string
+        title: |-
+          Keys and values can have a maximum length of 63 characters.
+          Keys must begin with a lowercase letter, and contain only lowercase letters, numeric characters, underscores, and dashes.
+          Keys must be unique per contract
+      value:
+        type: string
+  ListReportsByCategoryResponseCategoryWithReports:
+    type: object
+    properties:
+      description:
+        type: string
+        title: description of the category
+      name:
+        type: string
+        title: name of the category
+      reports:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/data_warehousev1alpha1Report'
+        title: reports in the category
+      pagingMetadata:
+        $ref: '#/definitions/vendastatypesPagedResponseMetadata'
+        title: paging metadata for the reports in the category
+  UpdatePartitionConfigurationRequestFeatureOperation:
+    type: object
+    properties:
+      enableCreateAndEditReports:
+        type: boolean
+      disableCreateAndEditReports:
+        type: boolean
+  ValidationFailureSeverity:
+    type: string
+    enum:
+      - SEVERITY_UNSET
+      - SEVERITY_CRITICAL
+      - SEVERITY_WARNING
+    default: SEVERITY_UNSET
+  data_warehousev1alpha1PartitionStrategy:
+    type: string
+    enum:
+      - PARTITION_STRATEGY_UNSET
+      - PARTITION_STRATEGY_PARTNER_ID
+      - PARTITION_STRATEGY_INTERNAL
+    default: PARTITION_STRATEGY_UNSET
+  data_warehousev1alpha1Report:
+    type: object
+    properties:
+      id:
+        type: string
+        title: the id of the report in Looker
+      path:
+        type: string
+        description: |-
+          the path to the report in Looker, eg "/dashboards/8"
+          This property is read-only.
+      title:
+        type: string
+        title: the title of the report - this is what the dashboard is titled in Looker
+      description:
+        type: string
+        title: the description of the report - this is dashboard's description in Looker
+      thumbnailUrl:
+        type: string
+        description: |-
+          a publicly accessible URL to the preview thumbnail of the report
+          This is property read-only.
+      categoryId:
+        type: string
+        title: the category that the report belongs in
+      partitionId:
+        $ref: '#/definitions/v1alpha1PartitionIdentifier'
+        title: the partition id that created this report, empty if the report was created to be used by all partitions
+      layoutAndElementsHash:
+        type: string
+        format: byte
+        title: a hash of the layout type and elements of a Looker report, used to determine if a report layout has changed
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1alpha1CreateDataContractRequest:
+    type: object
+    properties:
+      dataContract:
+        $ref: '#/definitions/v1alpha1DataContract'
+  v1alpha1CreateReportRequest:
+    type: object
+    properties:
+      partitionId:
+        $ref: '#/definitions/v1alpha1PartitionIdentifier'
+      title:
+        type: string
+      description:
+        type: string
+  v1alpha1CreateReportResponse:
+    type: object
+    properties:
+      reportId:
+        type: string
+  v1alpha1DataContract:
+    type: object
+    properties:
+      dataContractId:
+        type: string
+        title: The globally unique identifier for this data contract
+      viewQuery:
+        type: string
+        description: |-
+          The view query describes how to render the data contract before partitioning
+          It should be a valid Standard SQL BigQuery materialized view query.
+          example:
+          SELECT
+            account_group_id as business_id,
+            company_name as business_name,
+            partner_id
+          FROM
+            `repcore-prod.vstore_demo_account_group.AccountGroup_view`
+          This will be created as a materialized view that will then be filtered by a relevant partition filter query for each active partition.
+      partitionFilters:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/DataContractPartitionFilter'
+        description: |-
+          Describes how the data from the view query will be partitioned across customers
+          There can only be one filter_query per partition_strategy.
+          Data will only be rendered for PartitionConfigurations having a partition_strategy supported in this list.
+      scheduledQueryResourceName:
+        type: string
+        title: The Resource Name of the scheduled query that creates the base table for this contract
+      details:
+        $ref: '#/definitions/DataContractDetails'
+        title: Details describing the data contract
+  v1alpha1DataContractPartitionStrategy:
+    type: string
+    enum:
+      - PARTITION_STRATEGY_UNSET
+      - PARTITION_STRATEGY_PARTNER_ID
+      - PARTITION_STRATEGY_INTERNAL
+    default: PARTITION_STRATEGY_UNSET
+  v1alpha1DeleteDataContractRequest:
+    type: object
+    properties:
+      dataContractId:
+        type: string
+  v1alpha1DeleteReportAssociationRequest:
+    type: object
+    properties:
+      id:
+        type: string
+      idType:
+        $ref: '#/definitions/v1alpha1ReportAssociationIDType'
+      participantId:
+        type: string
+  v1alpha1DeleteReportCategoryRequest:
+    type: object
+    properties:
+      categoryId:
+        type: string
+  v1alpha1DeleteReportRequest:
+    type: object
+    properties:
+      reportId:
+        type: string
+  v1alpha1GetDataContractRequest:
+    type: object
+    properties:
+      dataContractId:
+        type: string
+  v1alpha1GetDataContractResponse:
+    type: object
+    properties:
+      dataContract:
+        $ref: '#/definitions/v1alpha1DataContract'
+  v1alpha1GetPartitionConfigurationRequest:
+    type: object
+    properties:
+      partitionId:
+        $ref: '#/definitions/v1alpha1PartitionIdentifier'
+  v1alpha1GetPartitionConfigurationResponse:
+    type: object
+    properties:
+      partitionConfiguration:
+        $ref: '#/definitions/v1alpha1PartitionConfiguration'
+  v1alpha1GetReportAssociationRequest:
+    type: object
+    properties:
+      id:
+        type: string
+      idType:
+        $ref: '#/definitions/v1alpha1ReportAssociationIDType'
+      participantId:
+        type: string
+  v1alpha1GetReportAssociationResponse:
+    type: object
+    properties:
+      association:
+        $ref: '#/definitions/v1alpha1ReportAssociation'
+  v1alpha1GetReportCategoryRequest:
+    type: object
+    properties:
+      categoryId:
+        type: string
+  v1alpha1GetReportCategoryResponse:
+    type: object
+    properties:
+      category:
+        $ref: '#/definitions/v1alpha1ReportCategory'
+  v1alpha1GetReportMultiRequest:
+    type: object
+    properties:
+      reportIds:
+        type: array
+        items:
+          type: string
+      partitionId:
+        $ref: '#/definitions/v1alpha1PartitionIdentifier'
+  v1alpha1GetReportMultiResponse:
+    type: object
+    properties:
+      reports:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/data_warehousev1alpha1Report'
+  v1alpha1GetReportPermissionsRequest:
+    type: object
+    properties:
+      partitionId:
+        $ref: '#/definitions/v1alpha1PartitionIdentifier'
+      reportId:
+        type: string
+  v1alpha1GetReportPermissionsResponse:
+    type: object
+    properties:
+      permission:
+        $ref: '#/definitions/v1alpha1ReportPermission'
+      associations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1alpha1GetReportPermissionsResponseAssociation'
+  v1alpha1GetReportPermissionsResponseAssociation:
+    type: object
+    properties:
+      scope:
+        $ref: '#/definitions/v1alpha1ReportAssociationScope'
+      user:
+        $ref: '#/definitions/v1alpha1User'
+  v1alpha1GetReportRequest:
+    type: object
+    properties:
+      reportId:
+        type: string
+      partitionId:
+        $ref: '#/definitions/v1alpha1PartitionIdentifier'
+  v1alpha1GetReportResponse:
+    type: object
+    properties:
+      report:
+        $ref: '#/definitions/data_warehousev1alpha1Report'
+  v1alpha1GetUserMultiRequest:
+    type: object
+    properties:
+      partitionId:
+        $ref: '#/definitions/v1alpha1PartitionIdentifier'
+      userIds:
+        type: array
+        items:
+          type: string
+  v1alpha1GetUserMultiResponse:
+    type: object
+    properties:
+      users:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1alpha1User'
+  v1alpha1ListDataContractsRequest:
+    type: object
+    properties:
+      pagingOptions:
+        $ref: '#/definitions/vendastatypesPagedRequestOptions'
+  v1alpha1ListDataContractsResponse:
+    type: object
+    properties:
+      dataContracts:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1alpha1DataContract'
+      pagingMetadata:
+        $ref: '#/definitions/vendastatypesPagedResponseMetadata'
+  v1alpha1ListOfficialReportsRequest:
+    type: object
+    properties:
+      filters:
+        $ref: '#/definitions/v1alpha1ListOfficialReportsRequestFilters'
+      pagingOptions:
+        $ref: '#/definitions/vendastatypesPagedRequestOptions'
+  v1alpha1ListOfficialReportsRequestFilters:
+    type: object
+    properties:
+      partitionStrategy:
+        $ref: '#/definitions/data_warehousev1alpha1PartitionStrategy'
+        title: filter to only reports of the specified partition strategy
+  v1alpha1ListOfficialReportsResponse:
+    type: object
+    properties:
+      results:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/data_warehousev1alpha1Report'
+      pagingMetadata:
+        $ref: '#/definitions/vendastatypesPagedResponseMetadata'
+  v1alpha1ListReportAssociationsRequest:
+    type: object
+    properties:
+      filters:
+        $ref: '#/definitions/v1alpha1ListReportAssociationsRequestFilters'
+      pagingOptions:
+        $ref: '#/definitions/vendastatypesPagedRequestOptions'
+      partitionId:
+        $ref: '#/definitions/v1alpha1PartitionIdentifier'
+  v1alpha1ListReportAssociationsRequestFilters:
+    type: object
+    properties:
+      id:
+        type: string
+      idType:
+        $ref: '#/definitions/v1alpha1ReportAssociationIDType'
+      participantId:
+        type: string
+  v1alpha1ListReportAssociationsResponse:
+    type: object
+    properties:
+      associations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1alpha1ReportAssociation'
+      pagingMetadata:
+        $ref: '#/definitions/vendastatypesPagedResponseMetadata'
+  v1alpha1ListReportCategoriesRequest:
+    type: object
+    properties:
+      pagingOptions:
+        $ref: '#/definitions/vendastatypesPagedRequestOptions'
+  v1alpha1ListReportCategoriesResponse:
+    type: object
+    properties:
+      categories:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1alpha1ReportCategory'
+      pagingMetadata:
+        $ref: '#/definitions/vendastatypesPagedResponseMetadata'
+  v1alpha1ListReportsByCategoryRequest:
+    type: object
+    properties:
+      filters:
+        $ref: '#/definitions/v1alpha1ListReportsByCategoryRequestFilters'
+      partitionId:
+        $ref: '#/definitions/v1alpha1PartitionIdentifier'
+        title: results will include reports created by the specified partition, in addition to reports created for all partitions
+      pagingOptions:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/vendastatypesPagedRequestOptions'
+        title: 'a map of category_id: paging_options'
+  v1alpha1ListReportsByCategoryRequestFilters:
+    type: object
+    properties:
+      categoryIds:
+        type: array
+        items:
+          type: string
+        title: Filter to only reports that belong to the specified categories
+      searchTerm:
+        type: string
+  v1alpha1ListReportsByCategoryResponse:
+    type: object
+    properties:
+      results:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/ListReportsByCategoryResponseCategoryWithReports'
+        title: a map of category_id to results for that category
+  v1alpha1ListReportsRequest:
+    type: object
+    properties:
+      partitionId:
+        $ref: '#/definitions/v1alpha1PartitionIdentifier'
+        description: |-
+          partition_id helps us filter down reports to the current context of the user
+          For example, in PCC if you have access to multiple partners, you only want to see results for the partner you're currently looking at.
+      pagingOptions:
+        $ref: '#/definitions/vendastatypesPagedRequestOptions'
+  v1alpha1ListReportsResponse:
+    type: object
+    properties:
+      results:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1alpha1ListReportsResponseReport'
+      pagingMetadata:
+        $ref: '#/definitions/vendastatypesPagedResponseMetadata'
+  v1alpha1ListReportsResponseReport:
+    type: object
+    properties:
+      id:
+        type: string
+        title: the id of the report in Looker
+      path:
+        type: string
+        title: the path to the report in Looker, eg "/dashboards/8"
+      title:
+        type: string
+        title: the title of the report - this is what the dashboard is titled in Looker
+      description:
+        type: string
+        title: the description of the report - this is dashboard's description in Looker
+      thumbnailUrl:
+        type: string
+        title: a publicly accessible URL to the preview thumbnail of the report
+  v1alpha1ListReportsV2Request:
+    type: object
+    properties:
+      filters:
+        $ref: '#/definitions/v1alpha1ListReportsV2RequestFilters'
+      partitionId:
+        $ref: '#/definitions/v1alpha1PartitionIdentifier'
+        title: results will include reports created by the specified partition, in addition to reports created for all partitions
+      pagingOptions:
+        $ref: '#/definitions/vendastatypesPagedRequestOptions'
+  v1alpha1ListReportsV2RequestFilters:
+    type: object
+    properties:
+      categoryIds:
+        type: array
+        items:
+          type: string
+        title: Filter to only reports that belong to the specified categories
+      searchTerm:
+        type: string
+  v1alpha1ListReportsV2Response:
+    type: object
+    properties:
+      results:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/data_warehousev1alpha1Report'
+      pagingMetadata:
+        $ref: '#/definitions/vendastatypesPagedResponseMetadata'
+  v1alpha1PartitionConfiguration:
+    type: object
+    properties:
+      partitionId:
+        $ref: '#/definitions/v1alpha1PartitionIdentifier'
+      activatedAt:
+        type: string
+        format: date-time
+      activatedBy:
+        type: string
+      deactivatedAt:
+        type: string
+        format: date-time
+      deactivatedBy:
+        type: string
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+      enabled:
+        type: boolean
+      features:
+        $ref: '#/definitions/v1alpha1PartitionFeatures'
+  v1alpha1PartitionFeatures:
+    type: object
+    properties:
+      createAndEditReports:
+        type: boolean
+        description: If true, the partition supports creating and editing reports.
+    description: All partition features beyond being able to read Vendasta-authored reports are optional. If a feature is not set, it is assumed to be false.
+  v1alpha1PartitionIdentifier:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      internal:
+        type: boolean
+  v1alpha1RefreshContractPartitionRequest:
+    type: object
+    properties:
+      partitionId:
+        $ref: '#/definitions/v1alpha1PartitionIdentifier'
+      dataContractId:
+        type: string
+  v1alpha1RefreshDataContractRequest:
+    type: object
+    properties:
+      dataContractId:
+        type: string
+  v1alpha1RefreshReportRequest:
+    type: object
+    properties:
+      reportId:
+        type: string
+  v1alpha1ReportAccessScope:
+    type: string
+    enum:
+      - REPORT_ACCESS_SCOPE_UNSET
+      - REPORT_ACCESS_SCOPE_NO_ACCESS
+      - REPORT_ACCESS_SCOPE_VIEW
+      - REPORT_ACCESS_SCOPE_EDIT
+    default: REPORT_ACCESS_SCOPE_UNSET
+  v1alpha1ReportAssociation:
+    type: object
+    properties:
+      id:
+        type: string
+        title: The id of a report resource that can have associations
+      idType:
+        $ref: '#/definitions/v1alpha1ReportAssociationIDType'
+        title: The type of the report resource indicated by the ID on the association
+      participantId:
+        type: string
+        title: |-
+          The id of the participant that is associated with the report resource
+          This could be a user id if applying to a specific user, or in the form "<partition_strategy>:<partition_id>" if applying defaults across a partition
+      partitionId:
+        $ref: '#/definitions/v1alpha1PartitionIdentifier'
+        title: The id of the partition of the report resource that is associated with the user
+      scope:
+        $ref: '#/definitions/v1alpha1ReportAssociationScope'
+        title: The scope of the association
+  v1alpha1ReportAssociationIDType:
+    type: string
+    enum:
+      - REPORT_ASSOCIATION_ID_TYPE_UNSET
+      - REPORT_ASSOCIATION_ID_TYPE_REPORT
+      - REPORT_ASSOCIATION_ID_TYPE_REPORT_CATEGORY
+    default: REPORT_ASSOCIATION_ID_TYPE_UNSET
+  v1alpha1ReportAssociationScope:
+    type: string
+    enum:
+      - REPORT_ASSOCIATION_SCOPE_UNSET
+      - REPORT_ASSOCIATION_SCOPE_VIEW
+      - REPORT_ASSOCIATION_SCOPE_EDIT
+    default: REPORT_ASSOCIATION_SCOPE_UNSET
+  v1alpha1ReportCategory:
+    type: object
+    properties:
+      id:
+        type: string
+        title: the id of the category of reports
+      name:
+        type: string
+        title: the name of the category
+      description:
+        type: string
+        title: a description of the category
+  v1alpha1ReportPermission:
+    type: string
+    enum:
+      - REPORT_PERMISSION_UNSET
+      - REPORT_PERMISSION_ALL_CAN_VIEW_ALL_CAN_EDIT
+      - REPORT_PERMISSION_ALL_CAN_VIEW_SOME_CAN_EDIT
+      - REPORT_PERMISSION_SOME_CAN_VIEW_SOME_CAN_EDIT
+    default: REPORT_PERMISSION_UNSET
+  v1alpha1SearchUsersRequest:
+    type: object
+    properties:
+      searchTerm:
+        type: string
+      partitionId:
+        $ref: '#/definitions/v1alpha1PartitionIdentifier'
+      pagingOptions:
+        $ref: '#/definitions/vendastatypesPagedRequestOptions'
+  v1alpha1SearchUsersResponse:
+    type: object
+    properties:
+      users:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1alpha1User'
+      pagingMetadata:
+        $ref: '#/definitions/vendastatypesPagedResponseMetadata'
+  v1alpha1UpdateDataContractRequest:
+    type: object
+    properties:
+      dataContract:
+        $ref: '#/definitions/v1alpha1DataContract'
+      fieldMask:
+        $ref: '#/definitions/vendastatypesFieldMask'
+  v1alpha1UpdatePartitionConfigurationRequest:
+    type: object
+    properties:
+      partitionId:
+        $ref: '#/definitions/v1alpha1PartitionIdentifier'
+      enableWarehouse:
+        type: boolean
+        title: we may want to consider allowing the caller to customize gcp_project_id in a future slice, but we have no use case for it now
+      disableWarehouse:
+        type: boolean
+      featureOperation:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/UpdatePartitionConfigurationRequestFeatureOperation'
+        title: |-
+          Features that should be enabled or disabled for the partition
+          If a feature is not specified, it will not be changed
+  v1alpha1UpdateReportPermissionsRequest:
+    type: object
+    properties:
+      partitionId:
+        $ref: '#/definitions/v1alpha1PartitionIdentifier'
+      reportId:
+        type: string
+      permission:
+        $ref: '#/definitions/v1alpha1ReportPermission'
+      associations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1alpha1UpdateReportPermissionsRequestAssociation'
+  v1alpha1UpdateReportPermissionsRequestAssociation:
+    type: object
+    properties:
+      participantId:
+        type: string
+      scope:
+        $ref: '#/definitions/v1alpha1ReportAssociationScope'
+  v1alpha1UpdateReportRequest:
+    type: object
+    properties:
+      reportId:
+        type: string
+      title:
+        type: string
+      description:
+        type: string
+  v1alpha1UpsertDataContractRequest:
+    type: object
+    properties:
+      dataContract:
+        $ref: '#/definitions/v1alpha1DataContract'
+  v1alpha1UpsertOfficialReportRequest:
+    type: object
+    properties:
+      report:
+        $ref: '#/definitions/data_warehousev1alpha1Report'
+      partitionStrategy:
+        $ref: '#/definitions/data_warehousev1alpha1PartitionStrategy'
+  v1alpha1UpsertReportAssociationRequest:
+    type: object
+    properties:
+      association:
+        $ref: '#/definitions/v1alpha1ReportAssociation'
+  v1alpha1UpsertReportCategoryRequest:
+    type: object
+    properties:
+      category:
+        $ref: '#/definitions/v1alpha1ReportCategory'
+  v1alpha1User:
+    type: object
+    properties:
+      userId:
+        type: string
+        title: IAM unified user id
+      fullName:
+        type: string
+      profilePictureUrl:
+        type: string
+      email:
+        type: string
+      accessScope:
+        $ref: '#/definitions/v1alpha1ReportAccessScope'
+  v1alpha1ValidateDataContractRequest:
+    type: object
+    properties:
+      dataContract:
+        $ref: '#/definitions/v1alpha1DataContract'
+      fieldMask:
+        $ref: '#/definitions/vendastatypesFieldMask'
+  v1alpha1ValidateDataContractResponse:
+    type: object
+    properties:
+      failures:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1alpha1ValidationFailure'
+      fieldNames:
+        type: array
+        items:
+          type: string
+        title: the field names of the schema of the data contract
+  v1alpha1ValidationFailure:
+    type: object
+    properties:
+      severity:
+        $ref: '#/definitions/ValidationFailureSeverity'
+      message:
+        type: string
+      field:
+        type: string
+  vendastatypesFieldMask:
+    type: object
+    properties:
+      paths:
+        type: array
+        items:
+          type: string
+        description: The set of field mask paths.
+    description: |-
+      paths: "f.a"
+          paths: "f.b.d"
+
+      Here `f` represents a field in some root message, `a` and `b`
+      fields in the message found in `f`, and `d` a field found in the
+      message in `f.b`.
+
+      Field masks are used to specify a subset of fields that should be
+      returned by a get operation or modified by an update operation.
+      Field masks also have a custom JSON encoding (see below).
+
+      # Field Masks in Projections
+
+      When used in the context of a projection, a response message or
+      sub-message is filtered by the API to only contain those fields as
+      specified in the mask. For example, if the mask in the previous
+      example is applied to a response message as follows:
+
+          f {
+            a : 22
+            b {
+              d : 1
+              x : 2
+            }
+            y : 13
+          }
+          z: 8
+
+      The result will not contain specific values for fields x,y and z
+      (their value will be set to the default, and omitted in proto text
+      output):
+
+
+          f {
+            a : 22
+            b {
+              d : 1
+            }
+          }
+
+      A repeated field is not allowed except at the last position of a
+      paths string.
+
+      If a FieldMask object is not present in a get operation, the
+      operation applies to all fields (as if a FieldMask of all fields
+      had been specified).
+
+      Note that a field mask does not necessarily apply to the
+      top-level response message. In case of a REST get operation, the
+      field mask applies directly to the response, but in case of a REST
+      list operation, the mask instead applies to each individual message
+      in the returned resource list. In case of a REST custom method,
+      other definitions may be used. Where the mask applies will be
+      clearly documented together with its declaration in the API.  In
+      any case, the effect on the returned resource/resources is required
+      behavior for APIs.
+
+      # Field Masks in Update Operations
+
+      A field mask in update operations specifies which fields of the
+      targeted resource are going to be updated. The API is required
+      to only change the values of the fields as specified in the mask
+      and leave the others untouched. If a resource is passed in to
+      describe the updated values, the API ignores the values of all
+      fields not covered by the mask.
+
+      If a repeated field is specified for an update operation, the existing
+      repeated values in the target resource will be overwritten by the new values.
+      Note that a repeated field is only allowed in the last position of a `paths`
+      string.
+
+      If a sub-message is specified in the last position of the field mask for an
+      update operation, then the existing sub-message in the target resource is
+      overwritten. Given the target message:
+
+          f {
+            b {
+              d : 1
+              x : 2
+            }
+            c : 1
+          }
+
+      And an update message:
+
+          f {
+            b {
+              d : 10
+            }
+          }
+
+      then if the field mask is:
+
+       paths: "f.b"
+
+      then the result will be:
+
+          f {
+            b {
+              d : 10
+            }
+            c : 1
+          }
+
+      However, if the update mask was:
+
+       paths: "f.b.d"
+
+      then the result would be:
+
+          f {
+            b {
+              d : 10
+              x : 2
+            }
+            c : 1
+          }
+
+      In order to reset a field's value to the default, the field must
+      be in the mask and set to the default value in the provided resource.
+      Hence, in order to reset all fields of a resource, provide a default
+      instance of the resource and set all fields in the mask, or do
+      not provide a mask as described below.
+
+      If a field mask is not present on update, the operation applies to
+      all fields (as if a field mask of all fields has been specified).
+      Note that in the presence of schema evolution, this may mean that
+      fields the client does not know and has therefore not filled into
+      the request will be reset to their default. If this is unwanted
+      behavior, a specific service may require a client to always specify
+      a field mask, producing an error if not.
+
+      As with get operations, the location of the resource which
+      describes the updated values in the request message depends on the
+      operation kind. In any case, the effect of the field mask is
+      required to be honored by the API.
+
+      ## Considerations for HTTP REST
+
+      The HTTP kind of an update operation which uses a field mask must
+      be set to PATCH instead of PUT in order to satisfy HTTP semantics
+      (PUT must only be used for full updates).
+
+      # JSON Encoding of Field Masks
+
+      In JSON, a field mask is encoded as a single string where paths are
+      separated by a comma. Fields name in each path are converted
+      to/from lower-camel naming conventions.
+
+      As an example, consider the following message declarations:
+
+          message Profile {
+            User user = 1;
+            Photo photo = 2;
+          }
+          message User {
+            string display_name = 1;
+            string address = 2;
+          }
+
+      In proto a field mask for `Profile` may look as such:
+
+          mask {
+            paths: "user.display_name"
+            paths: "photo"
+          }
+
+      In JSON, the same mask is represented as below:
+
+          {
+            mask: "user.displayName,photo"
+          }
+
+      # Field Masks and Oneof Fields
+
+      Field masks treat fields in oneofs just as regular fields. Consider the
+      following message:
+
+          message SampleMessage {
+            oneof test_oneof {
+              string name = 4;
+              SubMessage sub_message = 9;
+            }
+          }
+
+      The field mask can be:
+
+          mask {
+            paths: "name"
+          }
+
+      Or:
+
+          mask {
+            paths: "sub_message"
+          }
+
+      Note that oneof type names ("test_oneof" in this case) cannot be used in
+      paths.
+    title: '`FieldMask` represents a set of symbolic field paths, for example:'
+  vendastatypesPagedRequestOptions:
+    type: object
+    properties:
+      cursor:
+        type: string
+        title: cursor can be passed to retrieve the next page of results keyed by the cursor
+      pageSize:
+        type: string
+        format: int64
+        title: page_size specifies the number of items to return in the next page
+  vendastatypesPagedResponseMetadata:
+    type: object
+    properties:
+      nextCursor:
+        type: string
+        title: A cursor that can be provided to retrieve the next page of results
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+      totalResults:
+        type: string
+        format: int64
+        title: The total number of results. This is not supported on all paged apis and will be 0 if it is not supported

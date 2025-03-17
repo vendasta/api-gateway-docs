@@ -1,0 +1,153 @@
+swagger: "2.0"
+info:
+  title: wsp_logger/v2/api.proto
+  version: version not set
+tags:
+  - name: Logger
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /wsp_logger.v2.Logger/GetLogByTimestamp:
+    post:
+      operationId: Logger_GetLogByTimestamp
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetLogByTimestampResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetLogByTimestampRequest'
+      tags:
+        - Logger
+  /wsp_logger.v2.Logger/ListLogs:
+    post:
+      operationId: Logger_ListLogs
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ListLogsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ListLogsRequest'
+      tags:
+        - Logger
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v2GetLogByTimestampRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+        title: The site ID of the site to get error logs for
+      timestamp:
+        type: string
+        title: specific timestamp for the log to get (e.g 2022-07-08T19:31:27.247153627Z)
+      staging:
+        type: boolean
+        title: whether to exclusively search for staging logs (false will exclusively return prod logs)
+  v2GetLogByTimestampResponse:
+    type: object
+    properties:
+      logs:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2Log'
+        title: The logs associated with a site
+  v2ListLogsRequest:
+    type: object
+    properties:
+      siteId:
+        type: string
+        title: The site ID of the site to get error logs for
+      pagingOptions:
+        $ref: '#/definitions/v2PagedRequestOptions'
+        title: Paging options for the request
+      searchTerm:
+        type: string
+        title: search term can be used to search for a specific log
+      staging:
+        type: boolean
+        title: whether to exclusively search for staging logs (false will exclusively return prod logs)
+  v2ListLogsResponse:
+    type: object
+    properties:
+      logs:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2Log'
+        title: The logs associated with a site
+      pagingMetadata:
+        $ref: '#/definitions/v2PagedResponseMetadata'
+        title: Paging metadata for the response
+  v2Log:
+    type: object
+    properties:
+      timestamp:
+        type: string
+        format: date-time
+        title: Timestamp of the error log
+      severity:
+        type: string
+        title: Severity of the error
+      log:
+        type: string
+        title: The log text payload
+      timestampString:
+        type: string
+        title: Timestamp of the error log as a string
+  v2PagedRequestOptions:
+    type: object
+    properties:
+      cursor:
+        type: string
+        title: cursor can be passed to retrieve the next page of results
+      pageSize:
+        type: string
+        format: int64
+        title: page_size specifies the number of items to return in the next page
+    title: To provide options for the paged request
+  v2PagedResponseMetadata:
+    type: object
+    properties:
+      nextCursor:
+        type: string
+        title: The next cursor that can be provided to retrieve the next page of results
+    title: Contains paging metadata about the response

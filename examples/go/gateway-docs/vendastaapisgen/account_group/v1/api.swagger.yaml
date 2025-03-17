@@ -1,0 +1,3398 @@
+swagger: "2.0"
+info:
+  title: account_group/v1/api.proto
+  version: version not set
+tags:
+  - name: AccountGroupService
+  - name: AccountValidationService
+  - name: CompetitorService
+  - name: AuxiliaryFieldData
+  - name: AuxiliaryFieldSchema
+  - name: Inference
+  - name: CategoryMigration
+  - name: SearchEngineResult
+  - name: Prospecting
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /accountgroup.v1.AccountGroupService/ListAllPotentialDuplicates:
+    post:
+      summary: |-
+        ListAllPotentialDuplicates attempts to find all of the account groups in a partner or single market that are a
+         potential duplicate.
+      description: |-
+        This endpoint currently cannot be paged since it relies on elasticsearch aggregations.
+
+        Returns a list of keys (either normalized phone number, or normalized address) along with the account group IDs
+        that all share that same key. For a key to be returned, it needs to have at least 2 account group IDs in it.
+      operationId: AccountGroupService_ListAllPotentialDuplicates
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListAllPotentialDuplicatesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          description: |-
+            ListAllPotentialDuplicatesRequest allows listing potential duplicates by key (normalized phone or address) across
+            an entire partner or market.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListAllPotentialDuplicatesRequest'
+      tags:
+        - AccountGroupService
+  /accountgroup.v1.AccountGroupService/ListOptionsForField:
+    post:
+      summary: |-
+        ListOptionsForField attempts to aggregate the account group field passed in the request and returns
+        a list of all possible values for that field stored for all account groups inside a partner ID
+      description: List of supported fields can be checked in the AggregationFieldOptions message
+      operationId: AccountGroupService_ListOptionsForField
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListOptionsForFieldResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListOptionsForFieldRequest'
+      tags:
+        - AccountGroupService
+  /accountgroup.v1.AccountGroupService/ListPotentialDuplicates:
+    post:
+      summary: |-
+        ListPotentialDuplicates attempts to find similar account groups to either a) an existing account group, or b) the
+        location data for a new account group. The difference between this and a lookup/search is that a search is
+        optimized to return anything "like" the search term, whereas the results for this process are tailored specifically
+        to answer the question "does the given data/does the given account group likely already exist". For example: a
+        search would return a fuzzy match on company name regardless of geographic location, whereas a list potential
+        duplicate would not.
+      description: |-
+        The scope is either an entire partner, or a single market.
+
+        Returns a list of account group IDs that are most likely a duplicate, along with a score of how strongly the
+        duplicate data matched.
+      operationId: AccountGroupService_ListPotentialDuplicates
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListPotentialDuplicatesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          description: |-
+            ListPotentialDuplicatesRequest allows listing potential duplicates scoped to a partner by an existing account group,
+            or by location data. For more info, see the ListPotentialDuplicates RPC comment.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListPotentialDuplicatesRequest'
+      tags:
+        - AccountGroupService
+  /accountgroup.v1.AccountValidationService/ValidateAddressMulti:
+    post:
+      summary: Validates one or more businesses addresses with SmartyStreets and returns the results
+      operationId: AccountValidationService_ValidateAddressMulti
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ValidateAddressMultiResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ValidateAddressMultiRequest'
+      tags:
+        - AccountValidationService
+  /accountgroup.v1.AuxiliaryFieldData/ListAuxiliaryData:
+    post:
+      summary: ListObjectData object_id in the ObjectDataID refers to the account_group_id
+      operationId: AuxiliaryFieldData_ListAuxiliaryData
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListAuxiliaryDataResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListAuxiliaryDataRequest'
+      tags:
+        - AuxiliaryFieldData
+  /accountgroup.v1.AuxiliaryFieldData/SearchByAuxiliaryData:
+    post:
+      operationId: AuxiliaryFieldData_SearchByAuxiliaryData
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1SearchByAuxiliaryDataResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SearchByAuxiliaryDataRequest'
+      tags:
+        - AuxiliaryFieldData
+  /accountgroup.v1.AuxiliaryFieldData/UpsertAuxiliaryData:
+    post:
+      summary: UpsertAccountGroupAuxiliaryData object_id in the ObjectDataID refers to the account_group_id
+      operationId: AuxiliaryFieldData_UpsertAuxiliaryData
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpsertAuxiliaryDataRequest'
+      tags:
+        - AuxiliaryFieldData
+  /accountgroup.v1.AuxiliaryFieldSchema/ArchiveAuxiliaryDataFieldSchema:
+    post:
+      operationId: AuxiliaryFieldSchema_ArchiveAuxiliaryDataFieldSchema
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ArchiveAuxiliaryDataFieldSchemaRequest'
+      tags:
+        - AuxiliaryFieldSchema
+  /accountgroup.v1.AuxiliaryFieldSchema/CreateAuxiliaryDataFieldSchema:
+    post:
+      operationId: AuxiliaryFieldSchema_CreateAuxiliaryDataFieldSchema
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateAuxiliaryDataFieldSchemaRequest'
+      tags:
+        - AuxiliaryFieldSchema
+  /accountgroup.v1.AuxiliaryFieldSchema/GetAuxiliaryDataFieldSchema:
+    post:
+      operationId: AuxiliaryFieldSchema_GetAuxiliaryDataFieldSchema
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetAuxiliaryDataFieldSchemaResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetAuxiliaryDataFieldSchemaRequest'
+      tags:
+        - AuxiliaryFieldSchema
+  /accountgroup.v1.AuxiliaryFieldSchema/GetMultiAuxiliaryDataFieldSchema:
+    post:
+      operationId: AuxiliaryFieldSchema_GetMultiAuxiliaryDataFieldSchema
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiAuxiliaryDataFieldSchemaResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiAuxiliaryDataFieldSchemaRequest'
+      tags:
+        - AuxiliaryFieldSchema
+  /accountgroup.v1.AuxiliaryFieldSchema/ListAuxiliaryDataFieldSchema:
+    post:
+      operationId: AuxiliaryFieldSchema_ListAuxiliaryDataFieldSchema
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListAuxiliaryDataFieldSchemaResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListAuxiliaryDataFieldSchemaRequest'
+      tags:
+        - AuxiliaryFieldSchema
+  /accountgroup.v1.AuxiliaryFieldSchema/UnarchiveAuxiliaryDataFieldSchema:
+    post:
+      operationId: AuxiliaryFieldSchema_UnarchiveAuxiliaryDataFieldSchema
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UnarchiveAuxiliaryDataFieldSchemaRequest'
+      tags:
+        - AuxiliaryFieldSchema
+  /accountgroup.v1.AuxiliaryFieldSchema/UpdateAuxiliaryDataFieldSchema:
+    post:
+      operationId: AuxiliaryFieldSchema_UpdateAuxiliaryDataFieldSchema
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateAuxiliaryDataFieldSchemaRequest'
+      tags:
+        - AuxiliaryFieldSchema
+  /accountgroup.v1.CategoryMigration/GetAccountsToReviewByPartnerId:
+    post:
+      operationId: CategoryMigration_GetAccountsToReviewByPartnerId
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetAccountsToReviewByPartnerIdResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetAccountsToReviewByPartnerIdRequest'
+      tags:
+        - CategoryMigration
+  /accountgroup.v1.CategoryMigration/GetPublishedPartner:
+    post:
+      operationId: CategoryMigration_GetPublishedPartner
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetPublishedPartnerResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetPublishedPartnerRequest'
+      tags:
+        - CategoryMigration
+  /accountgroup.v1.CategoryMigration/SearchCategoryMigration:
+    post:
+      operationId: CategoryMigration_SearchCategoryMigration
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1SearchCategoryMigrationResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SearchCategoryMigrationRequest'
+      tags:
+        - CategoryMigration
+  /accountgroup.v1.CategoryMigration/UpdatePreMigrationCategories:
+    post:
+      operationId: CategoryMigration_UpdatePreMigrationCategories
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdatePreMigrationCategoriesRequest'
+      tags:
+        - CategoryMigration
+  /accountgroup.v1.CategoryMigration/UpdatePublishedPartners:
+    post:
+      operationId: CategoryMigration_UpdatePublishedPartners
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdatePublishedPartnersRequest'
+      tags:
+        - CategoryMigration
+  /accountgroup.v1.CategoryMigration/UpdateReviewedStatus:
+    post:
+      operationId: CategoryMigration_UpdateReviewedStatus
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateReviewedStatusRequest'
+      tags:
+        - CategoryMigration
+  /accountgroup.v1.CompetitorService/Create:
+    post:
+      summary: Create competitor
+      operationId: CompetitorService_Create
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateCompetitorResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateCompetitorRequest'
+      tags:
+        - CompetitorService
+  /accountgroup.v1.CompetitorService/Delete:
+    post:
+      summary: Delete competitor
+      operationId: CompetitorService_Delete
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeleteCompetitorRequest'
+      tags:
+        - CompetitorService
+  /accountgroup.v1.CompetitorService/GetCompetitors:
+    post:
+      summary: GetCompetitors the competitors for a business
+      operationId: CompetitorService_GetCompetitors
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetCompetitorsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetCompetitorsRequest'
+      tags:
+        - CompetitorService
+  /accountgroup.v1.CompetitorService/Update:
+    post:
+      summary: Update competitor
+      operationId: CompetitorService_Update
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateCompetitorRequest'
+      tags:
+        - CompetitorService
+  /accountgroup.v1.Inference/GetBusinessDataByNapData:
+    post:
+      operationId: Inference_GetBusinessDataByNapData
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetBusinessDataByNapDataResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetBusinessDataByNapDataRequest'
+      tags:
+        - Inference
+  /accountgroup.v1.Inference/GetBusinessDataFromPlaceId:
+    post:
+      operationId: Inference_GetBusinessDataFromPlaceId
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetBusinessDataFromPlaceIdResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetBusinessDataFromPlaceIdRequest'
+      tags:
+        - Inference
+  /accountgroup.v1.Inference/GetBusinessDataFromTextSearch:
+    post:
+      operationId: Inference_GetBusinessDataFromTextSearch
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetBusinessDataFromTextSearchResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetBusinessDataFromTextSearchRequest'
+      tags:
+        - Inference
+  /accountgroup.v1.Inference/GetMultiBusinessDataFromPlaceId:
+    post:
+      operationId: Inference_GetMultiBusinessDataFromPlaceId
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiBusinessDataFromPlaceIdResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiBusinessDataFromPlaceIdRequest'
+      tags:
+        - Inference
+  /accountgroup.v1.Inference/InferBusinessCategory:
+    post:
+      operationId: Inference_InferBusinessCategory
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1InferBusinessCategoryResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1InferBusinessCategoryRequest'
+      tags:
+        - Inference
+  /accountgroup.v1.Inference/PreMigrateBusinessCategory:
+    post:
+      summary: 'Deprecated: this premigration endpoint is no longer used for the category migration'
+      operationId: Inference_PreMigrateBusinessCategory
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1PreMigrateBusinessCategoryRequest'
+      tags:
+        - Inference
+  /accountgroup.v1.Inference/UpdateAccountWithExternalBusinessData:
+    post:
+      operationId: Inference_UpdateAccountWithExternalBusinessData
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateAccountWithExternalBusinessDataRequest'
+      tags:
+        - Inference
+  /accountgroup.v1.Prospecting/FetchProspectData:
+    post:
+      summary: FetchProspectData kicks off an asynchronous process to fetch prospect data for the given place_ids. The results can be retrieved by calling GetProspectData.
+      operationId: Prospecting_FetchProspectData
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1FetchProspectDataRequest'
+      tags:
+        - Prospecting
+  /accountgroup.v1.Prospecting/GetProspectData:
+    post:
+      summary: GetProspectData returns the prospect data for the given place_id.
+      operationId: Prospecting_GetProspectData
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetProspectDataResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetProspectDataRequest'
+      tags:
+        - Prospecting
+  /accountgroup.v1.SearchEngineResult/GetWebSearchData:
+    post:
+      operationId: SearchEngineResult_GetWebSearchData
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetWebSearchResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetWebSearchRequest'
+      tags:
+        - SearchEngineResult
+  /v1/account-group/bulk-update:
+    post:
+      operationId: AccountGroupService_BulkUpdate
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          description: BulkUpdateRequest allows updating all of the pieces of the account group and runs them in order.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1BulkUpdateRequest'
+      tags:
+        - AccountGroupService
+  /v1/account-group/create:
+    post:
+      operationId: AccountGroupService_Create
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1CreateAccountGroupResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1CreateAccountGroupRequest'
+      tags:
+        - AccountGroupService
+  /v1/account-group/delete:
+    post:
+      operationId: AccountGroupService_Delete
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1DeleteAccountGroupRequest'
+      tags:
+        - AccountGroupService
+  /v1/account-group/get-multi:
+    post:
+      operationId: AccountGroupService_GetMulti
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetMultiResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetMultiRequest'
+      tags:
+        - AccountGroupService
+  /v1/account-group/list:
+    post:
+      operationId: AccountGroupService_List
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1PagedResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListRequest'
+      tags:
+        - AccountGroupService
+  /v1/account-group/lookup:
+    post:
+      operationId: AccountGroupService_Lookup
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1PagedResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1LookupRequest'
+      tags:
+        - AccountGroupService
+definitions:
+  ActionListModifyActions:
+    type: string
+    enum:
+      - APPEND
+      - REMOVE
+    default: APPEND
+  ContactDetailsForListDuplicatesCriteriaMatchType:
+    type: string
+    enum:
+      - CRITERIA_MATCH_TYPE_UNKNOWN
+      - CRITERIA_MATCH_TYPE_PHONE_NUMBER
+      - CRITERIA_MATCH_TYPE_EMAIL
+      - CRITERIA_MATCH_TYPE_PHONE_NUMBER_AND_EMAIL
+      - CRITERIA_MATCH_TYPE_PHONENUMBER_OR_EMAIL
+    default: CRITERIA_MATCH_TYPE_UNKNOWN
+    title: |-
+      - CRITERIA_MATCH_TYPE_UNKNOWN: preserved for error/unknown state
+       - CRITERIA_MATCH_TYPE_PHONE_NUMBER: will match a dupe if contact phone number matches
+       - CRITERIA_MATCH_TYPE_EMAIL: will match a dupe if contact email matches
+       - CRITERIA_MATCH_TYPE_PHONE_NUMBER_AND_EMAIL: will match a dupe if BOTH contact phonenumber AND contact email match
+       - CRITERIA_MATCH_TYPE_PHONENUMBER_OR_EMAIL: will match a dupe if EITHER contact phonenumber OR contact email match
+  GetBusinessDataFromPlaceIdResponseGoogleIdentifiers:
+    type: object
+    properties:
+      googlePlaceId:
+        type: string
+      googleCustomerId:
+        type: string
+  GetMultiResponseAccountGroupContainer:
+    type: object
+    properties:
+      accountGroup:
+        $ref: '#/definitions/v1AccountGroup'
+  HealthCareProfessionalInformationGender:
+    type: string
+    enum:
+      - NotSpecified
+      - Female
+      - Male
+      - Other
+    default: NotSpecified
+  HoursOfOperationSpan:
+    type: object
+    properties:
+      dayOfWeek:
+        type: array
+        items:
+          type: string
+      opens:
+        type: string
+      closes:
+        type: string
+      description:
+        type: string
+  ListAllPotentialDuplicatesResponsePotentialDuplicates:
+    type: object
+    properties:
+      accountGroupIds:
+        type: array
+        items:
+          type: string
+      phoneNumber:
+        type: string
+      address:
+        type: string
+      customerId:
+        type: string
+  ListPotentialDuplicatesResponsePotentialDuplicate:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+      score:
+        type: number
+        format: double
+  ListingDistributionFilterActivationStatus:
+    type: string
+    enum:
+      - ACTIVATION_STATUS_UNSPECIFIED
+      - ACTIVATION_STATUS_ACTIVE
+      - ACTIVATION_STATUS_INACTIVE
+      - ACTIVATION_STATUS_EXPIRED
+    default: ACTIVATION_STATUS_UNSPECIFIED
+    description: ActivationStatus is a status that Listing Distribution can be in.
+  ListingDistributionFilterAutoRenew:
+    type: string
+    enum:
+      - AUTO_RENEW_UNSPECIFIED
+      - AUTO_RENEW_ENABLED
+      - AUTO_RENEW_DISABLED
+    default: AUTO_RENEW_UNSPECIFIED
+    description: AutoRenew are the different values that the auto renew flag for LIsting Distrubution can have.
+  ListingSyncProBillingFrequency:
+    type: string
+    enum:
+      - MONTHLY
+      - YEARLY
+      - ONE_TIME
+    default: MONTHLY
+  ListingSyncProServiceProviders:
+    type: string
+    enum:
+      - UBERALL
+      - YEXT
+    default: UBERALL
+  LookupRequestAccountFilter:
+    type: object
+    properties:
+      marketplaceAppId:
+        type: string
+      accountStatus:
+        $ref: '#/definitions/LookupRequestAccountStatus'
+      editionId:
+        type: string
+        title: |-
+          To preserve backwards compatibility, an edition_id of `""` won't be used in the filter. For apps that have an edition of `""` that you want to filter specifically for
+          you can use the value of `default` and that will be changed to `""` when doing the query. Unfotunately edition_id is not supported when querying for an account status of
+          disabled
+  LookupRequestAccountFilterOperator:
+    type: string
+    enum:
+      - UNSET
+      - OR
+      - AND
+    default: UNSET
+    title: AccountFilterOperator is the type of operation to apply to the AccountFilters
+  LookupRequestAccountStatus:
+    type: string
+    enum:
+      - Enabled
+      - Disabled
+      - Trial
+    default: Enabled
+  LookupRequestCreatedDateFilter:
+    type: object
+    properties:
+      beginRange:
+        type: string
+        format: date-time
+      endRange:
+        type: string
+        format: date-time
+  LookupRequestListingDistributionFilter:
+    type: object
+    properties:
+      active:
+        type: boolean
+        description: Deprecated, use activation_status instead.
+      inactive:
+        type: boolean
+        description: Deprecated, use activation_status instead.
+      expiresInDays:
+        type: string
+        format: int64
+        description: Indicates the result set should include accounts with active LD expiring in the next N days.
+      expiredInDays:
+        type: string
+        format: int64
+        description: Indicates the result set should include accounts with LD that has expired in the last N days.
+      renewsInDays:
+        type: string
+        format: int64
+        description: Indicates the result set should include accounts with active LD that will automatically renew in the next N days.
+      autoRenew:
+        $ref: '#/definitions/ListingDistributionFilterAutoRenew'
+        title: Indicates if the result set should include accounts with LD set to auto renew
+      activationStatus:
+        $ref: '#/definitions/ListingDistributionFilterActivationStatus'
+        description: Indicates which activation status accounts have to be included in the result set.
+  LookupRequestListingSyncProFilter:
+    type: object
+    properties:
+      active:
+        type: boolean
+      autoRenew:
+        type: boolean
+      autoRenewDisabled:
+        type: boolean
+      inactive:
+        type: boolean
+      expired:
+        type: boolean
+      expiresInDays:
+        type: string
+        format: int64
+        description: Indicates the result set should include accounts with active LSP expiring in the next N days.
+      expiredInDays:
+        type: string
+        format: int64
+        description: Indicates the result set should include accounts with LSP that has expired in the past N days.
+  LookupRequestLocationFilter:
+    type: object
+    properties:
+      country:
+        type: string
+      state:
+        type: string
+  LookupRequestPresence:
+    type: string
+    enum:
+      - Any
+      - Present
+      - Absent
+    default: Any
+  LookupRequestPresenceFilter:
+    type: object
+    properties:
+      facebook:
+        $ref: '#/definitions/LookupRequestPresence'
+      foursquare:
+        $ref: '#/definitions/LookupRequestPresence'
+      googleplus:
+        $ref: '#/definitions/LookupRequestPresence'
+      linkedin:
+        $ref: '#/definitions/LookupRequestPresence'
+      twitter:
+        $ref: '#/definitions/LookupRequestPresence'
+      pinterest:
+        $ref: '#/definitions/LookupRequestPresence'
+      instagram:
+        $ref: '#/definitions/LookupRequestPresence'
+      youtube:
+        $ref: '#/definitions/LookupRequestPresence'
+      website:
+        $ref: '#/definitions/LookupRequestPresence'
+  LookupRequestSearchOptions:
+    type: object
+    properties:
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/v1SearchableField'
+        title: Which fields to apply the search to. An empty list will search over all fields (account group ID will only be searched if the search term starts with AG-)
+  LookupRequestSnapshotFilter:
+    type: object
+    properties:
+      active:
+        type: boolean
+        title: Indicates if the result set should include accounts with an active Snapshot Report
+      expired:
+        type: boolean
+        title: Indicates if the result set should include accounts for which the most recent Snapshot Report is expired
+      noSnapshotsCreated:
+        type: boolean
+        title: Indicates if the result set should include accounts without a Snapshot Report
+  LookupRequestStatusFilter:
+    type: object
+    properties:
+      hasAlert:
+        type: boolean
+        title: Indicates if we should only return accounts that have active alerts
+  LookupRequestTrialFilter:
+    type: object
+    properties:
+      isSuspended:
+        type: boolean
+  RichDataPaymentMethods:
+    type: string
+    enum:
+      - AMERICAN_EXPRESS
+      - ANDROID_PAY
+      - APPLE_PAY
+      - CASH
+      - CHECK
+      - DEBIT
+      - DINERS_CLUB
+      - DISCOVER
+      - MASTERCARD
+      - PAYPAL
+      - SAMSUNG_PAY
+      - STORE_CARD
+      - TRAVELERS_CHECK
+      - VISA
+      - CCS
+      - SODEXO
+      - GOPAY
+      - V_PAY
+      - FINANCING
+      - INVOICE
+      - PAYSEC
+      - BITCOIN
+    default: AMERICAN_EXPRESS
+    title: 'DEPRECATED: payment methods should be set using listing_products/v1/listing_profile.proto endpoints'
+  SearchCategoryMigrationRequestReviewStatus:
+    type: string
+    enum:
+      - UNSET
+      - UNDER_REVIEW
+      - REVIEWED
+    default: UNSET
+  SnapshotsSnapshot:
+    type: object
+    properties:
+      snapshotId:
+        type: string
+      created:
+        type: string
+        format: date-time
+      expiry:
+        type: string
+        format: date-time
+  UpdateAccountWithExternalBusinessDataRequestFields:
+    type: string
+    enum:
+      - TAXONOMY
+      - NAPW
+    default: TAXONOMY
+  UpdateOperationAccountGroupHealthUpdate:
+    type: object
+    properties:
+      rating:
+        type: number
+        format: double
+      reason:
+        type: string
+  accountgroupv1Location:
+    type: object
+    properties:
+      name:
+        type: string
+      url:
+        type: string
+      placeId:
+        type: string
+        description: |-
+          The Place ID for a place in the Google Places database and on Google Maps.
+          See https://developers.google.com/places/place-id for more about Place IDs.
+  accountgroupv1Status:
+    type: object
+    properties:
+      suspended:
+        type: boolean
+      hasAlert:
+        type: boolean
+  googlerpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  v1Account:
+    type: object
+    properties:
+      isTrial:
+        type: boolean
+        title: Whether the account is a trial account or not
+      tags:
+        type: array
+        items:
+          type: string
+        title: Tags on the account
+      marketplaceAppId:
+        type: string
+        title: The marketplace app id or the legacy product id the account belongs to
+      accountId:
+        type: string
+        title: Account ID of this account
+      expiry:
+        type: string
+        format: date-time
+        title: The date on which the account expires
+      editionId:
+        type: string
+        description: The id of the edition associated with the marketplace_app_id that was activated on the account group.
+    title: A representation of a single account on an Account Group
+  v1AccountGroup:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+        title: An account group id in the format AG-123
+      accountGroupResourceId:
+        type: string
+        title: A full qualified identifier in the format partner/ABC/accountGroup/AG-123
+      deleted:
+        type: string
+        format: date-time
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+      version:
+        type: string
+        format: int64
+      accounts:
+        $ref: '#/definitions/v1Accounts'
+      listingDistribution:
+        $ref: '#/definitions/v1ListingDistributionDetails'
+      listingSyncPro:
+        $ref: '#/definitions/v1ListingSyncPro'
+      associations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Association'
+      accountGroupExternalIdentifiers:
+        $ref: '#/definitions/v1AccountGroupExternalIdentifiers'
+      socialUrls:
+        $ref: '#/definitions/v1SocialURLs'
+      hoursOfOperation:
+        $ref: '#/definitions/v1HoursOfOperation'
+        title: 'Deprecated: use listing_products/v1/api.proto instead'
+      contactDetails:
+        $ref: '#/definitions/v1ContactDetails'
+      snapshotReports:
+        $ref: '#/definitions/v1Snapshots'
+      legacyProductDetails:
+        $ref: '#/definitions/v1LegacyProductDetails'
+      richData:
+        $ref: '#/definitions/v1RichData'
+      napData:
+        $ref: '#/definitions/v1AccountGroupLocation'
+      status:
+        $ref: '#/definitions/accountgroupv1Status'
+      onBoardingStrategy:
+        $ref: '#/definitions/v1OnBoardingStrategy'
+        title: 'Deprecated: use prospect/v1/onboarding_strategies.proto instead'
+      health:
+        $ref: '#/definitions/v1AccountGroupHealth'
+      constraints:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Constraint'
+      additionalCompanyInfo:
+        $ref: '#/definitions/v1AdditionalCompanyInfo'
+      marketingInfo:
+        $ref: '#/definitions/v1MarketingInfo'
+    title: Represents an Account Group
+  v1AccountGroupExternalIdentifiers:
+    type: object
+    properties:
+      origin:
+        type: string
+      jobId:
+        type: array
+        items:
+          type: string
+      customerIdentifier:
+        type: string
+      tags:
+        type: array
+        items:
+          type: string
+      actionLists:
+        type: array
+        items:
+          type: string
+      socialProfileId:
+        type: string
+      partnerId:
+        type: string
+      marketId:
+        type: string
+      taxIds:
+        type: array
+        items:
+          type: string
+      salesPersonId:
+        type: string
+        title: Primary salesperson id
+      additionalSalesPersonIds:
+        type: array
+        items:
+          type: string
+        title: Additional salesperson ids assigned to an account group which is not the primary salesperson id
+      salesforceId:
+        type: string
+        title: Used to link AccountGroups to a corresponding Salesforce Account Object
+      vCategoryIds:
+        type: array
+        items:
+          type: string
+      platformCrmCompanyId:
+        type: string
+        title: Links to a Company in the Platform CRM
+      updateOrigin:
+        type: string
+        title: Origin of the latest update
+  v1AccountGroupHealth:
+    type: object
+    properties:
+      rating:
+        type: number
+        format: double
+      reason:
+        type: string
+        title: reason is the reason for updating the health
+      updatedBy:
+        type: string
+        title: updated_by is the user id who updated the health rating
+      updatedOn:
+        type: string
+        format: date-time
+    title: AccountGroupHealth is the health of the account group
+  v1AccountGroupLocation:
+    type: object
+    properties:
+      companyName:
+        type: string
+      address:
+        type: string
+      address2:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      zip:
+        type: string
+      country:
+        type: string
+      website:
+        type: string
+      workNumber:
+        type: array
+        items:
+          type: string
+      callTrackingNumber:
+        type: array
+        items:
+          type: string
+      location:
+        $ref: '#/definitions/v1Geo'
+      timezone:
+        type: string
+      serviceAreaBusiness:
+        type: boolean
+      serviceArea:
+        $ref: '#/definitions/v1ServiceArea'
+  v1Accounts:
+    type: object
+    properties:
+      accounts:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Account'
+  v1ActionListAppend:
+    type: object
+    properties:
+      actionListName:
+        type: string
+    title: ActionListAppend is deprecated, use ActionListModify instead
+  v1ActionListModify:
+    type: object
+    properties:
+      actionListName:
+        type: string
+      action:
+        $ref: '#/definitions/ActionListModifyActions'
+  v1ActivateAccounts:
+    type: object
+    properties:
+      appKeys:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AppKey'
+        description: 'DEPRECATED: App keys. Use activations instead. If both are supplied, only activations will be used.'
+      activations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Activation'
+  v1Activation:
+    type: object
+    properties:
+      appKey:
+        $ref: '#/definitions/v1AppKey'
+      isTrial:
+        type: boolean
+    title: The information needed to activate an app
+  v1AdditionalCompanyInfo:
+    type: object
+    properties:
+      numEmployees:
+        type: integer
+        format: int64
+        title: number of employees of the account group business
+      estimatedAnnualRevenue:
+        $ref: '#/definitions/v1EstimatedAnnualRevenue'
+        title: estimated company annual revenue
+    title: AdditionalCompanyInfo about the account group
+  v1AddressInfo:
+    type: object
+    properties:
+      address:
+        type: string
+        title: Address line 1
+      address2:
+        type: string
+        title: Address line 2
+      country:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      zip:
+        type: string
+      footnotes:
+        type: array
+        items:
+          type: string
+        title: List of Human readable changes SmartyStreets made to the address
+  v1AddressValidationResult:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: The id of the business
+      businessName:
+        type: string
+        title: The name of the business
+      currentAddress:
+        $ref: '#/definitions/v1AddressInfo'
+        title: The business's current address info
+      suggestedAddresses:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AddressInfo'
+        title: List of SmartyStreets suggested valid addresses
+      addressErrors:
+        type: array
+        items:
+          type: string
+        title: Problems with the current address in human readable format
+  v1AggregationSupportedFields:
+    type: string
+    enum:
+      - AGGREGATION_UNSPECIFIED
+      - AGGREGATION_TAGS
+      - AGGREGATION_MARKETING_INFO_CONVERSION_POINT
+    default: AGGREGATION_UNSPECIFIED
+    title: |-
+      AggregationSupportedFields contains the supported fields that can be aggregated for account groups for
+      the ListOptionsForField service call
+  v1AppKey:
+    type: object
+    properties:
+      appId:
+        type: string
+      editionId:
+        type: string
+    description: The full identifier for a marketplace app.
+  v1ArchiveAuxiliaryDataFieldSchemaRequest:
+    type: object
+    properties:
+      identifier:
+        $ref: '#/definitions/v1FieldSchemaIdentifier'
+  v1Association:
+    type: object
+    properties:
+      label:
+        type: string
+      productId:
+        type: string
+      productUserId:
+        type: string
+      vbcUserId:
+        type: string
+      defaultLocation:
+        type: boolean
+  v1AuxiliaryDataFieldSchema:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      fieldId:
+        type: string
+      fieldType:
+        $ref: '#/definitions/v1AuxiliaryDataFieldType'
+      fieldName:
+        type: string
+      fieldDescription:
+        type: string
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+      dropdownOptions:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1DropdownOption'
+      currencyCode:
+        type: string
+        title: currency code according to ISO-4217, e.g. 'USD', 'CAD', 'BRL', etc
+      archived:
+        type: string
+        format: date-time
+      externalId:
+        type: string
+  v1AuxiliaryDataFieldType:
+    type: string
+    enum:
+      - AUXILIARY_DATA_FIELD_TYPE_INVALID
+      - AUXILIARY_DATA_FIELD_TYPE_STRING
+      - AUXILIARY_DATA_FIELD_TYPE_INTEGER
+      - AUXILIARY_DATA_FIELD_TYPE_DATE
+      - AUXILIARY_DATA_FIELD_TYPE_DROPDOWN
+      - AUXILIARY_DATA_FIELD_TYPE_CURRENCY
+    default: AUXILIARY_DATA_FIELD_TYPE_INVALID
+  v1AuxiliaryDataFilter:
+    type: object
+    properties:
+      searchFilters:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AuxiliaryDataSearchFilter'
+  v1AuxiliaryDataObjectID:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      objectId:
+        type: string
+  v1AuxiliaryDataRange:
+    type: object
+    properties:
+      beginRange:
+        type: string
+      endRange:
+        type: string
+  v1AuxiliaryDataSearchDateOperation:
+    type: string
+    enum:
+      - DATE_UNDEFINED
+      - DATE_RANGE
+    default: DATE_UNDEFINED
+  v1AuxiliaryDataSearchFilter:
+    type: object
+    properties:
+      fieldId:
+        type: string
+      operation:
+        $ref: '#/definitions/v1AuxiliaryDataSearchOperation'
+      stringFilterValue:
+        type: string
+      filterRange:
+        $ref: '#/definitions/v1AuxiliaryDataRange'
+  v1AuxiliaryDataSearchIntegerOperation:
+    type: string
+    enum:
+      - INT_UNDEFINED
+      - INT_RANGE
+    default: INT_UNDEFINED
+  v1AuxiliaryDataSearchOperation:
+    type: object
+    properties:
+      stringOperation:
+        $ref: '#/definitions/v1AuxiliaryDataSearchStringOperation'
+      dateOperation:
+        $ref: '#/definitions/v1AuxiliaryDataSearchDateOperation'
+      integerOperation:
+        $ref: '#/definitions/v1AuxiliaryDataSearchIntegerOperation'
+      dropdownOperation:
+        $ref: '#/definitions/v1AuxiliaryDataSearchStringOperation'
+      currencyOperation:
+        $ref: '#/definitions/v1AuxiliaryDataSearchIntegerOperation'
+  v1AuxiliaryDataSearchStringOperation:
+    type: string
+    enum:
+      - STRING_UNDEFINED
+      - STRING_EQUALS
+      - STRING_DOES_NOT_EQUAL
+    default: STRING_UNDEFINED
+  v1BulkUpdateRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+      updateOperations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1UpdateOperation'
+      ifUnmodifiedSince:
+        type: string
+        format: date-time
+        title: If unmodified since will fail any update is older than current updated time. Much like https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Unmodified-Since
+    description: BulkUpdateRequest allows updating all of the pieces of the account group and runs them in order.
+  v1Candidate:
+    type: object
+    properties:
+      googlePlaceId:
+        type: string
+  v1CategoryData:
+    type: object
+    properties:
+      name:
+        type: string
+      externalId:
+        type: string
+  v1CategoryMigrationData:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+      partnerId:
+        type: string
+      reviewed:
+        type: boolean
+      currentTaxonomies:
+        type: array
+        items:
+          type: string
+      currentCategories:
+        type: array
+        items:
+          type: string
+      newCategories:
+        type: array
+        items:
+          type: string
+      napData:
+        $ref: '#/definitions/v1NAPData'
+    title: 'Deprecated: this message is not longer used for the migration'
+  v1Circular:
+    type: object
+    properties:
+      center:
+        $ref: '#/definitions/v1LocationPoint'
+      radius:
+        type: string
+  v1ClaimStatus:
+    type: object
+    properties:
+      gbpIsClaimed:
+        type: boolean
+  v1ClosedStatus:
+    type: string
+    enum:
+      - UNSPECIFIED
+      - OPEN
+      - LIMITED
+      - TEMPORARY
+      - PERMANENT
+    default: UNSPECIFIED
+    title: ClosedStatus describes if the business is permanently or temporarily closed, or in a limited state
+  v1Competitor:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: The id of the business
+      competitorId:
+        type: string
+        title: The competitor id of the competitor
+      location:
+        $ref: '#/definitions/accountgroupv1Location'
+  v1Constraint:
+    type: object
+    properties:
+      foreignKey:
+        $ref: '#/definitions/v1ForeignKey'
+  v1ConstraintsModify:
+    type: object
+    properties:
+      addConstraints:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Constraint'
+      removeConstraints:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Constraint'
+  v1ContactDetails:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      phoneNumber:
+        type: string
+  v1ContactDetailsForListDuplicates:
+    type: object
+    properties:
+      contactDetails:
+        $ref: '#/definitions/v1ContactDetails'
+      location:
+        $ref: '#/definitions/v1AccountGroupLocation'
+      accountGroupId:
+        type: string
+      countryCode:
+        type: string
+      criteriaMatchType:
+        $ref: '#/definitions/ContactDetailsForListDuplicatesCriteriaMatchType'
+  v1CreateAccountGroupRequest:
+    type: object
+    properties:
+      accountGroupNap:
+        $ref: '#/definitions/v1AccountGroupLocation'
+      socialProfileGroupId:
+        type: string
+        title: ID of the partner's social profile group which the account will be associated with
+      updateOperations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1UpdateOperation'
+        description: The set of update operations to be done to the extended account group data after the create.
+      createOperations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CreateOperation'
+        title: The set of create operations to be done to the account group on create
+  v1CreateAccountGroupResponse:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+  v1CreateAuxiliaryDataFieldSchemaRequest:
+    type: object
+    properties:
+      fieldSchema:
+        $ref: '#/definitions/v1AuxiliaryDataFieldSchema'
+  v1CreateCompetitorRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+      location:
+        $ref: '#/definitions/accountgroupv1Location'
+  v1CreateCompetitorResponse:
+    type: object
+    properties:
+      businessId:
+        type: string
+      competitorId:
+        type: string
+  v1CreateCompetitors:
+    type: object
+    properties:
+      location:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/accountgroupv1Location'
+  v1CreateOperation:
+    type: object
+    properties:
+      activateAccounts:
+        $ref: '#/definitions/v1ActivateAccounts'
+      createCompetitors:
+        $ref: '#/definitions/v1CreateCompetitors'
+    title: CreateOperation allows asynchronous operations to take place as a side effect of account creation
+  v1CustomField:
+    type: object
+    properties:
+      name:
+        type: string
+      value:
+        type: string
+  v1DeleteAccountGroupRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+  v1DeleteCompetitorRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+      competitorId:
+        type: string
+  v1DropdownOption:
+    type: object
+    properties:
+      label:
+        type: string
+      value:
+        type: string
+  v1EstimatedAnnualRevenue:
+    type: string
+    enum:
+      - ESTIMATED_ANNUAL_REVENUE_UNSPECIFIED
+      - ESTIMATED_ANNUAL_REVENUE_0_1M
+      - ESTIMATED_ANNUAL_REVENUE_1M_10M
+      - ESTIMATED_ANNUAL_REVENUE_10M_50M
+      - ESTIMATED_ANNUAL_REVENUE_50M_100M
+      - ESTIMATED_ANNUAL_REVENUE_100M_250M
+      - ESTIMATED_ANNUAL_REVENUE_250M_500M
+      - ESTIMATED_ANNUAL_REVENUE_500M_1B
+      - ESTIMATED_ANNUAL_REVENUE_1B_10B
+      - ESTIMATED_ANNUAL_REVENUE_10B_OR_MORE
+    default: ESTIMATED_ANNUAL_REVENUE_UNSPECIFIED
+  v1FetchProspectDataRequest:
+    type: object
+    properties:
+      prospects:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ProspectIdentifier'
+      partnerId:
+        type: string
+  v1FieldDataUpsertOperation:
+    type: object
+    properties:
+      fieldDataId:
+        type: string
+      externalId:
+        type: string
+      integer:
+        type: string
+        format: int64
+      string:
+        type: string
+      date:
+        type: string
+        format: date-time
+      dropdownValue:
+        type: string
+      currencyValue:
+        type: string
+        format: int64
+      deleteValue:
+        type: boolean
+        title: deletes the field's current value from the object
+  v1FieldSchemaIdentifier:
+    type: object
+    properties:
+      fieldId:
+        type: string
+      externalId:
+        type: string
+      partnerId:
+        type: string
+  v1ForeignKey:
+    type: object
+    properties:
+      kind:
+        type: string
+        description: If using vstore, the vstore kind of the other model that references the account group. Otherwise identifier to help identify the source.
+      key:
+        type: string
+        description: |-
+          A string representation primary key of the used to identify the row that references the account group.
+          It is up to the client to determine how composite keys are stored as a string.
+    description: |-
+      A Foreign Key Constraint represents a model stored in another service.
+      Existence of a Foreign Key Constraint will prevent deleting an account group.
+      Values of the Foreign Key do not have any meaning to this service, but should be meaningful to a client.
+  v1Geo:
+    type: object
+    properties:
+      latitude:
+        type: number
+        format: double
+      longitude:
+        type: number
+        format: double
+    description: Represents a geo point location.
+  v1GetAccountsToReviewByPartnerIdRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+    title: 'Deprecated: this request is no longer required'
+  v1GetAccountsToReviewByPartnerIdResponse:
+    type: object
+    properties:
+      totalAccountsToReview:
+        type: integer
+        format: int32
+    title: 'Deprecated: this response is not longer required'
+  v1GetAuxiliaryDataFieldSchemaRequest:
+    type: object
+    properties:
+      identifier:
+        $ref: '#/definitions/v1FieldSchemaIdentifier'
+  v1GetAuxiliaryDataFieldSchemaResponse:
+    type: object
+    properties:
+      fieldSchema:
+        $ref: '#/definitions/v1AuxiliaryDataFieldSchema'
+  v1GetBusinessDataByNapDataRequest:
+    type: object
+    properties:
+      napData:
+        $ref: '#/definitions/v1NAPData'
+  v1GetBusinessDataByNapDataResponse:
+    type: object
+    properties:
+      categories:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CategoryData'
+  v1GetBusinessDataFromPlaceIdRequest:
+    type: object
+    properties:
+      placeId:
+        type: string
+      partnerId:
+        type: string
+      marketIds:
+        type: array
+        items:
+          type: string
+    title: Business data
+  v1GetBusinessDataFromPlaceIdResponse:
+    type: object
+    properties:
+      googleIdentifiers:
+        $ref: '#/definitions/GetBusinessDataFromPlaceIdResponseGoogleIdentifiers'
+      napData:
+        $ref: '#/definitions/v1NAPData'
+      taxonomyId:
+        type: array
+        items:
+          type: string
+      hoursOfOperation:
+        $ref: '#/definitions/v1HoursOfOperation'
+  v1GetBusinessDataFromTextSearchRequest:
+    type: object
+    properties:
+      inputQuery:
+        type: string
+      circular:
+        $ref: '#/definitions/v1Circular'
+      point:
+        $ref: '#/definitions/v1Point'
+      rectangular:
+        $ref: '#/definitions/v1Rectangular'
+  v1GetBusinessDataFromTextSearchResponse:
+    type: object
+    properties:
+      candidates:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Candidate'
+  v1GetCompetitorsRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+      pagingOptions:
+        $ref: '#/definitions/vendastatypesPagedRequestOptions'
+  v1GetCompetitorsResponse:
+    type: object
+    properties:
+      competitors:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Competitor'
+      pagingMetadata:
+        $ref: '#/definitions/vendastatypesPagedResponseMetadata'
+  v1GetMultiAuxiliaryDataFieldSchemaRequest:
+    type: object
+    properties:
+      identifiers:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1FieldSchemaIdentifier'
+  v1GetMultiAuxiliaryDataFieldSchemaResponse:
+    type: object
+    properties:
+      fieldSchemas:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AuxiliaryDataFieldSchema'
+  v1GetMultiBusinessDataFromPlaceIdRequest:
+    type: object
+    properties:
+      placeIds:
+        type: array
+        items:
+          type: string
+      partnerId:
+        type: string
+      marketIds:
+        type: array
+        items:
+          type: string
+  v1GetMultiBusinessDataFromPlaceIdResponse:
+    type: object
+    properties:
+      businesses:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/v1GetBusinessDataFromPlaceIdResponse'
+  v1GetMultiRequest:
+    type: object
+    properties:
+      accountGroupIds:
+        type: array
+        items:
+          type: string
+      projectionFilter:
+        $ref: '#/definitions/v1ProjectionFilter'
+      readFilter:
+        $ref: '#/definitions/v1ReadFilter'
+  v1GetMultiResponse:
+    type: object
+    properties:
+      accountGroups:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/GetMultiResponseAccountGroupContainer'
+  v1GetProspectDataRequest:
+    type: object
+    properties:
+      placeId:
+        type: string
+      partnerId:
+        type: string
+  v1GetProspectDataResponse:
+    type: object
+    properties:
+      placeId:
+        type: string
+      prospectData:
+        $ref: '#/definitions/v1ProspectData'
+  v1GetPublishedPartnerRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+    title: 'Deprecated: This response is not longer required'
+  v1GetPublishedPartnerResponse:
+    type: object
+    properties:
+      lastPublishedBy:
+        type: string
+      publishStarted:
+        type: string
+        format: date-time
+    title: 'Deprecated: This response is not longer required'
+  v1GetWebSearchRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+  v1GetWebSearchResponse:
+    type: object
+    properties:
+      title:
+        type: string
+      address:
+        type: string
+      addressInfo:
+        $ref: '#/definitions/v1WebSearchAddressDetails'
+      url:
+        type: string
+      phone:
+        type: string
+      customerId:
+        type: string
+      placeId:
+        type: string
+      checkUrl:
+        type: string
+  v1GooglePlace:
+    type: object
+    properties:
+      placeId:
+        type: string
+        title: The ID of the place
+      placeName:
+        type: string
+        description: The localized name of the place. For example, Scottsdale, AZ.
+      city:
+        type: string
+        title: The city or locality the Google Place is located in
+    title: Based on https://developers.google.com/my-business/reference/businessinformation/rest/v1/accounts.locations#Location.PlaceInfo
+  v1HealthCareProfessionalInformation:
+    type: object
+    properties:
+      dateOfBirth:
+        type: string
+        format: date-time
+      email:
+        type: string
+      fellowship:
+        type: array
+        items:
+          type: string
+      firstName:
+        type: string
+      gender:
+        $ref: '#/definitions/HealthCareProfessionalInformationGender'
+      initials:
+        type: string
+      insurancesAccepted:
+        type: array
+        items:
+          type: string
+      lastName:
+        type: string
+      medicalLicenseNumber:
+        type: string
+      nationalProviderIdentifier:
+        type: string
+      office:
+        type: string
+      professionalCredential:
+        type: array
+        items:
+          type: string
+      residency:
+        type: array
+        items:
+          type: string
+      school:
+        type: array
+        items:
+          type: string
+      specialty:
+        type: array
+        items:
+          type: string
+      standardizedTitle:
+        type: string
+      stateLicense:
+        type: string
+      isTakingPatients:
+        type: boolean
+  v1HoursOfOperation:
+    type: object
+    properties:
+      hoursOfOperation:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/HoursOfOperationSpan'
+  v1InferBusinessCategoryRequest:
+    type: object
+    properties:
+      napData:
+        $ref: '#/definitions/v1NAPData'
+        title: Nap data that business category could be inferred with
+      googlePlaceId:
+        type: string
+        title: Google place id that the business category could be inferred with
+      taskId:
+        type: string
+        title: Task id if the task has been created but the results are not ready yet
+      partnerId:
+        type: string
+        title: Help us to track usages on each partner
+      ownerId:
+        type: string
+        title: account group id, CRM company id, etc
+      origin:
+        type: string
+        title: where the request is from
+      mode:
+        $ref: '#/definitions/v1InferenceRequestMode'
+        title: whether it is a live mode, a priority mode or a standard mode
+      returnBusinessData:
+        type: boolean
+        title: whether the business data needs to be returned together
+  v1InferBusinessCategoryResponse:
+    type: object
+    properties:
+      categories:
+        type: array
+        items:
+          type: string
+        title: the external id of inferred categories
+      taskStatus:
+        $ref: '#/definitions/v1TaskStatus'
+        title: whether the task is completed, in progress or failed. Completed if valid categories is returned
+      taskId:
+        type: string
+        title: Task id if the task is in progress so the results could be polled with it
+      businessData:
+        $ref: '#/definitions/v1NAPData'
+        title: The business data that is fetched with the category
+  v1InferenceRequestMode:
+    type: string
+    enum:
+      - NO_MODE
+      - LIVE
+      - PRIORITY
+      - STANDARD
+    default: NO_MODE
+  v1IsAvailable:
+    type: string
+    enum:
+      - UNSET
+      - "YES"
+      - "NO"
+    default: UNSET
+  v1LegacyProductDetails:
+    type: object
+    properties:
+      keyPerson:
+        type: array
+        items:
+          type: string
+      shareOfVoiceService:
+        type: array
+        items:
+          type: string
+      faxNumber:
+        type: string
+      commonName:
+        type: array
+        items:
+          type: string
+      cellNumber:
+        type: string
+      competitor:
+        type: array
+        items:
+          type: string
+      adminNotes:
+        type: string
+      seoCategory:
+        type: array
+        items:
+          type: string
+      email:
+        type: string
+      place:
+        type: string
+      tagline:
+        type: string
+      subscribedToCampaigns:
+        type: boolean
+  v1LifecycleStage:
+    type: string
+    enum:
+      - LIFECYCLE_STAGE_UNSET
+      - LIFECYCLE_STAGE_LEAD
+      - LIFECYCLE_STAGE_PROSPECT
+      - LIFECYCLE_STAGE_CUSTOMER
+    default: LIFECYCLE_STAGE_UNSET
+    description: |-
+      Where an account is at in the lifecycle stage
+      The sales domain has the same concept of a lifecycle stage. Updating this enum
+      most likely means you need to update the one in sales as well.
+  v1ListAllPotentialDuplicatesRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketId:
+        type: string
+    description: |-
+      ListAllPotentialDuplicatesRequest allows listing potential duplicates by key (normalized phone or address) across
+      an entire partner or market.
+  v1ListAllPotentialDuplicatesResponse:
+    type: object
+    properties:
+      potentialDuplicates:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/ListAllPotentialDuplicatesResponsePotentialDuplicates'
+    description: ListAllPotentialDuplicatesResponse is the list of keys that had at least 2 account groups in them.
+  v1ListAuxiliaryDataFieldSchemaRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      pagingOptions:
+        $ref: '#/definitions/vendastatypesPagedRequestOptions'
+      filters:
+        $ref: '#/definitions/v1ListAuxiliaryDataFieldSchemaRequestFilters'
+  v1ListAuxiliaryDataFieldSchemaRequestFilters:
+    type: object
+    properties:
+      onlyArchived:
+        type: boolean
+  v1ListAuxiliaryDataFieldSchemaResponse:
+    type: object
+    properties:
+      fieldSchemas:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AuxiliaryDataFieldSchema'
+      pagingMetadata:
+        $ref: '#/definitions/vendastatypesPagedResponseMetadata'
+  v1ListAuxiliaryDataRequest:
+    type: object
+    properties:
+      auxiliaryDataObjectId:
+        $ref: '#/definitions/v1AuxiliaryDataObjectID'
+      pagingOptions:
+        $ref: '#/definitions/vendastatypesPagedRequestOptions'
+  v1ListAuxiliaryDataResponse:
+    type: object
+    properties:
+      jsonSchema:
+        type: string
+      jsonData:
+        type: string
+      pagingMetadata:
+        $ref: '#/definitions/vendastatypesPagedResponseMetadata'
+  v1ListOptionsForFieldRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: Required ID to limit aggregation to a specific partner
+      field:
+        $ref: '#/definitions/v1AggregationSupportedFields'
+        title: Field for defining what field we would like to aggregate on
+      marketId:
+        type: string
+        title: Market ID to limit aggregation a specifc market and handle permissions
+    title: ListOptionsForFieldRequest contains the parameters for customizing aggregation for ListOptionsForField
+  v1ListOptionsForFieldResponse:
+    type: object
+    properties:
+      values:
+        type: array
+        items:
+          type: string
+        title: Returning options for account group field aggregation
+    title: ListOptionsForFieldResponse contains the aggregated values outputted as strings
+  v1ListPotentialDuplicatesRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      accountGroupId:
+        type: string
+      location:
+        $ref: '#/definitions/v1AccountGroupLocation'
+      contactDetails:
+        $ref: '#/definitions/v1ContactDetails'
+        title: contact details needs either location data or account group id to exist to get the country code for normalizing phone numbers
+      contactDetailsForListDuplicates:
+        $ref: '#/definitions/v1ContactDetailsForListDuplicates'
+      cursor:
+        type: string
+      pageSize:
+        type: string
+        format: int64
+      marketId:
+        type: string
+    description: |-
+      ListPotentialDuplicatesRequest allows listing potential duplicates scoped to a partner by an existing account group,
+      or by location data. For more info, see the ListPotentialDuplicates RPC comment.
+  v1ListPotentialDuplicatesResponse:
+    type: object
+    properties:
+      potentialDuplicates:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/ListPotentialDuplicatesResponsePotentialDuplicate'
+      nextCursor:
+        type: string
+      hasMore:
+        type: boolean
+      totalResults:
+        type: string
+        format: int64
+    description: |-
+      ListPotentialDuplicatesResponse is the list of account groups that are likely to be a duplicate of the provided
+      account group or location data.
+  v1ListRequest:
+    type: object
+    properties:
+      projectionFilter:
+        $ref: '#/definitions/v1ProjectionFilter'
+      filters:
+        $ref: '#/definitions/v1ListRequestFilters'
+      cursor:
+        type: string
+      pageSize:
+        type: string
+        format: int64
+      readFilter:
+        $ref: '#/definitions/v1ReadFilter'
+  v1ListRequestFilters:
+    type: object
+    properties:
+      partnerId:
+        type: string
+  v1ListingDistributionDetails:
+    type: object
+    properties:
+      orderId:
+        type: string
+      purchaseId:
+        type: string
+      fromDate:
+        type: string
+        format: date-time
+      thruDate:
+        type: string
+        format: date-time
+      autoRenew:
+        type: boolean
+  v1ListingSyncPro:
+    type: object
+    properties:
+      purchaseDate:
+        type: string
+        format: date-time
+      billingFrequency:
+        $ref: '#/definitions/ListingSyncProBillingFrequency'
+      expiryDate:
+        type: string
+        format: date-time
+      country:
+        type: string
+      discountFlag:
+        type: boolean
+      serviceProvider:
+        $ref: '#/definitions/ListingSyncProServiceProviders'
+  v1LocationPoint:
+    type: object
+    properties:
+      latitude:
+        type: string
+      longitude:
+        type: string
+    title: Google Places Query Results
+  v1LookupRequest:
+    type: object
+    properties:
+      projectionFilter:
+        $ref: '#/definitions/v1ProjectionFilter'
+      filters:
+        $ref: '#/definitions/v1LookupRequestFilters'
+      cursor:
+        type: string
+      pageSize:
+        type: string
+        format: int64
+      sortOptions:
+        $ref: '#/definitions/v1SortOptions'
+        description: sort_options defines the primary sort order if there is no search term, or the secondary sort order (after score/relevance order) if there is a search term.
+      searchTerm:
+        type: string
+        title: search_term is an arbitrary string to perform full text search across the account group's location data
+      searchOptions:
+        $ref: '#/definitions/LookupRequestSearchOptions'
+        description: search_options fine tunes the search. If this is unset, the default search behavior occurs, which is an (almost) exact-match query over all of the searchable fields.
+  v1LookupRequestFilters:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      marketIds:
+        type: array
+        items:
+          type: string
+      salesPersonId:
+        type: string
+      customerId:
+        type: string
+      tags:
+        type: array
+        items:
+          type: string
+      accountFilters:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/LookupRequestAccountFilter'
+      listingDistributionFilter:
+        $ref: '#/definitions/LookupRequestListingDistributionFilter'
+      createdDateFilter:
+        $ref: '#/definitions/LookupRequestCreatedDateFilter'
+      listingSyncProFilter:
+        $ref: '#/definitions/LookupRequestListingSyncProFilter'
+      trialFilter:
+        $ref: '#/definitions/LookupRequestTrialFilter'
+      taxonomyIds:
+        type: array
+        items:
+          type: string
+      presenceFilter:
+        $ref: '#/definitions/LookupRequestPresenceFilter'
+      locationFilter:
+        $ref: '#/definitions/LookupRequestLocationFilter'
+      salesforceId:
+        type: string
+      snapshotFilter:
+        $ref: '#/definitions/LookupRequestSnapshotFilter'
+      statusFilter:
+        $ref: '#/definitions/LookupRequestStatusFilter'
+      accountGroupIds:
+        type: array
+        items:
+          type: string
+        description: 'Used to limit the account groups that the search applies over. Useful for searching across a specific set of account groups, for example: only search across the account groups a user is associated to.'
+      includeDeleted:
+        type: boolean
+        title: 'Deprecated: The include deleted flag is no longer respected by the Account Group apis'
+      customFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomField'
+        title: To be used to filter by values in custom field
+      accountFilterOperator:
+        $ref: '#/definitions/LookupRequestAccountFilterOperator'
+        description: Used to specify which operation to perform on AccountFilters. If UNSET the default operator of OR will be applied to the lookup.
+      lifecycleStage:
+        type: array
+        items:
+          $ref: '#/definitions/v1LifecycleStage'
+        description: Used to filter accounts by which lifecycle stages they are set to.
+      platformCrmCompanyId:
+        type: string
+  v1MarketingClassification:
+    type: string
+    enum:
+      - MARKETING_CLASSIFICATION_UNUSED
+      - MARKETING_CLASSIFICATION_SMB
+      - MARKETING_CLASSIFICATION_SPAM
+      - MARKETING_CLASSIFICATION_DUPLICATE
+      - MARKETING_CLASSIFICATION_BLACKLISTED
+      - MARKETING_CLASSIFICATION_OUT_OF_MARKET
+    default: MARKETING_CLASSIFICATION_UNUSED
+  v1MarketingInfo:
+    type: object
+    properties:
+      conversionPoint:
+        type: string
+      marketingClassification:
+        $ref: '#/definitions/v1MarketingClassification'
+      lifecycleStage:
+        $ref: '#/definitions/v1LifecycleStage'
+    title: MarketingInfo store marketing properties for an account group
+  v1NAPData:
+    type: object
+    properties:
+      companyName:
+        type: string
+      address:
+        type: string
+      address2:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      country:
+        type: string
+      zip:
+        type: string
+      workNumber:
+        type: array
+        items:
+          type: string
+      website:
+        type: string
+      location:
+        $ref: '#/definitions/v1Geo'
+  v1NAPWData:
+    type: object
+    properties:
+      address:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      country:
+        type: string
+      zip:
+        type: string
+      phone:
+        type: string
+      website:
+        type: string
+  v1OnBoardingStrategy:
+    type: object
+    properties:
+      goal:
+        type: string
+      earlyWins:
+        type: string
+      priorities:
+        type: array
+        items:
+          type: string
+    title: 'Deprecated: use prospect/v1/onboarding_strategies.proto instead'
+  v1PagedResponse:
+    type: object
+    properties:
+      accountGroups:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AccountGroup'
+      nextCursor:
+        type: string
+        title: A cursor that can be provided to retrieve the next page of results
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+      totalResults:
+        type: string
+        format: int64
+        title: The total number of results for this query across all pages
+  v1Point:
+    type: object
+    properties:
+      dot:
+        $ref: '#/definitions/v1LocationPoint'
+  v1PreMigrateBusinessCategoryRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+    title: 'Deprecated: this request is no longer used'
+  v1ProjectionFilter:
+    type: object
+    properties:
+      accounts:
+        type: boolean
+        title: Controls if accounts is returned on the account group
+      listingDistribution:
+        type: boolean
+        title: Controls if listing_distribution is returned on the account group
+      listingSyncPro:
+        type: boolean
+        title: Controls if listing_sync_pro is returned on the account group
+      associations:
+        type: boolean
+        title: Controls if associations is returned on the account group
+      accountGroupExternalIdentifiers:
+        type: boolean
+        title: Controls if account_group_external_identifiers is returned on the account group
+      socialUrls:
+        type: boolean
+        title: Controls if social_urls is returned on the account group
+      hoursOfOperation:
+        type: boolean
+        title: Controls if hours_of_operation is returned on the account group
+      contactDetails:
+        type: boolean
+        title: Controls if contact_details is returned on the account group
+      snapshotReports:
+        type: boolean
+        title: Controls if snapshot_reports is returned on the account group
+      legacyProductDetails:
+        type: boolean
+        title: Controls if legacy_product_details is returned on the account group
+      richData:
+        type: boolean
+        title: Controls if rich_data is returned on the account group
+      status:
+        type: boolean
+        title: Controls if status is returned on the account group
+      napData:
+        type: boolean
+        title: Controls if nap data is returned on the account group
+      onBoardingStrategy:
+        type: boolean
+        title: 'Deprecated: use prospect/v1/onboarding_strategies.proto instead'
+      health:
+        type: boolean
+        title: Controls if account health is returned on the account group
+      constraints:
+        type: boolean
+        title: Controls if constraints is returned on the account group
+      additionalCompanyInfo:
+        type: boolean
+        title: controls if additional company info is returned on the account group
+      marketingInfo:
+        type: boolean
+        title: Controls if marketing info is returned on the account group
+    description: ProjectionFilter controls which sets of extended account group data is returned for each account group.
+  v1ProspectData:
+    type: object
+    properties:
+      gbpClaimStatus:
+        $ref: '#/definitions/v1ClaimStatus'
+      websiteStatus:
+        $ref: '#/definitions/v1WebsiteStatus'
+      napwData:
+        $ref: '#/definitions/v1NAPWData'
+  v1ProspectIdentifier:
+    type: object
+    properties:
+      placeId:
+        type: string
+      location:
+        $ref: '#/definitions/v1Geo'
+  v1ReadFilter:
+    type: object
+    properties:
+      includeDeleted:
+        type: boolean
+        title: Whether or not to include deleted accounts on the read
+    title: ReadFilter can be used for filtering at the repository layer
+  v1Rectangular:
+    type: object
+    properties:
+      southwest:
+        $ref: '#/definitions/v1LocationPoint'
+      northeast:
+        $ref: '#/definitions/v1LocationPoint'
+  v1RichData:
+    type: object
+    properties:
+      tollFreeNumber:
+        type: string
+      description:
+        type: string
+        title: 'DEPRECATED: Description should be set using listing_products/v1/listing_profile.proto endpoints'
+      shortDescription:
+        type: string
+        title: 'DEPRECATED: Short Description should be set using listing_products/v1/listing_profile.proto endpoints'
+      servicesOffered:
+        type: array
+        items:
+          type: string
+        title: 'DEPRECATED: Services Offered should be set using listing_products/v1/listing_profile.proto endpoints'
+      brandsCarried:
+        type: array
+        items:
+          type: string
+        title: 'DEPRECATED: Brands Carried should be set using listing_products/v1/listing_profile.proto endpoints'
+      landmark:
+        type: string
+      paymentMethods:
+        type: array
+        items:
+          $ref: '#/definitions/RichDataPaymentMethods'
+        title: 'DEPRECATED: PaymentMethods should be set using listing_products/v1/listing_profile.proto endpoints'
+      customFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CustomField'
+      healthCareProfessionalInformation:
+        $ref: '#/definitions/v1HealthCareProfessionalInformation'
+        title: 'DEPRECATED: Healthcare Information should be set using listing_products/v1/listing_profile.proto endpoints'
+      inferredAttributes:
+        type: array
+        items:
+          type: string
+      serviceAvailability:
+        $ref: '#/definitions/v1ServiceAvailability'
+        title: 'DEPRECATED: Service Availability has been replaced by attributes in listing_products/v1/listing_profile.proto'
+      faxNumber:
+        type: string
+      cellNumber:
+        type: string
+  v1SearchByAuxiliaryDataRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      filter:
+        $ref: '#/definitions/v1AuxiliaryDataFilter'
+      pagingOptions:
+        $ref: '#/definitions/vendastatypesPagedRequestOptions'
+  v1SearchByAuxiliaryDataResponse:
+    type: object
+    properties:
+      accountGroupIds:
+        type: array
+        items:
+          type: string
+      pagingMetadata:
+        $ref: '#/definitions/vendastatypesPagedResponseMetadata'
+  v1SearchCategoryMigrationRequest:
+    type: object
+    properties:
+      searchTerm:
+        type: string
+      partnerId:
+        type: string
+      reviewStatus:
+        $ref: '#/definitions/SearchCategoryMigrationRequestReviewStatus'
+      pagingOptions:
+        $ref: '#/definitions/vendastatypesPagedRequestOptions'
+    title: 'Deprecated: this request is not longer required'
+  v1SearchCategoryMigrationResponse:
+    type: object
+    properties:
+      categoryMigrations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1CategoryMigrationData'
+      pagingMetadata:
+        $ref: '#/definitions/vendastatypesPagedResponseMetadata'
+    title: 'Deprecated: This response is not longer required'
+  v1SearchableField:
+    type: string
+    enum:
+      - SEARCHABLE_FIELD_UNSPECIFIED
+      - SEARCHABLE_FIELD_COMPANY_NAME
+      - SEARCHABLE_FIELD_COMMON_NAME
+      - SEARCHABLE_FIELD_ADDRESS
+      - SEARCHABLE_FIELD_ADDRESS_2
+      - SEARCHABLE_FIELD_CITY
+      - SEARCHABLE_FIELD_STATE
+      - SEARCHABLE_FIELD_ZIP
+      - SEARCHABLE_FIELD_COUNTRY
+      - SEARCHABLE_FIELD_WORK_NUMBER
+      - SEARCHABLE_FIELD_SOCIAL_PROFILE_ID
+      - SEARCHABLE_FIELD_CUSTOMER_ID
+      - SEARCHABLE_FIELD_ACCOUNT_GROUP_ID
+    default: SEARCHABLE_FIELD_UNSPECIFIED
+    description: All of the possible fields that can be searched against the search term.
+  v1ServiceArea:
+    type: object
+    properties:
+      businessType:
+        $ref: '#/definitions/v1ServiceAreaBusinessType'
+      places:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1GooglePlace'
+  v1ServiceAreaBusinessType:
+    type: string
+    enum:
+      - SERVICE_AREA_BUSINESS_TYPE_UNSPECIFIED
+      - SERVICE_AREA_BUSINESS_TYPE_CUSTOMER_LOCATION_ONLY
+      - SERVICE_AREA_BUSINESS_TYPE_CUSTOMER_AND_BUSINESS_LOCATION
+    default: SERVICE_AREA_BUSINESS_TYPE_UNSPECIFIED
+    description: |-
+      - SERVICE_AREA_BUSINESS_TYPE_UNSPECIFIED: Not specified.
+       - SERVICE_AREA_BUSINESS_TYPE_CUSTOMER_LOCATION_ONLY: Offers service only in the surrounding area (not at the business address).
+       - SERVICE_AREA_BUSINESS_TYPE_CUSTOMER_AND_BUSINESS_LOCATION: Offers service at the business address and the surrounding area.
+    title: Based on https://developers.google.com/my-business/reference/businessinformation/rest/v1/accounts.locations#Location.BusinessType
+  v1ServiceAvailability:
+    type: object
+    properties:
+      delivery:
+        $ref: '#/definitions/v1IsAvailable'
+      noContactDelivery:
+        $ref: '#/definitions/v1IsAvailable'
+      inStorePickup:
+        $ref: '#/definitions/v1IsAvailable'
+      curbsidePickup:
+        $ref: '#/definitions/v1IsAvailable'
+      appointmentsOnly:
+        $ref: '#/definitions/v1IsAvailable'
+      ecommerceOnly:
+        $ref: '#/definitions/v1IsAvailable'
+      closedStatus:
+        $ref: '#/definitions/v1ClosedStatus'
+      closedStatusDate:
+        type: string
+        format: date-time
+      reopeningDate:
+        type: string
+        format: date-time
+      servesDineIn:
+        $ref: '#/definitions/v1IsAvailable'
+  v1Snapshots:
+    type: object
+    properties:
+      snapshots:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/SnapshotsSnapshot'
+  v1SocialURLs:
+    type: object
+    properties:
+      googleplusUrl:
+        type: string
+      linkedinUrl:
+        type: string
+      foursquareUrl:
+        type: string
+      twitterUrl:
+        type: string
+      facebookUrl:
+        type: string
+      rssUrl:
+        type: string
+      youtubeUrl:
+        type: string
+      instagramUrl:
+        type: string
+      pinterestUrl:
+        type: string
+  v1SortDirection:
+    type: string
+    enum:
+      - Ascending
+      - Descending
+    default: Ascending
+    description: The directions that a result set can be sorted in.
+  v1SortField:
+    type: string
+    enum:
+      - Modified
+      - Created
+      - CompanyName
+    default: Modified
+    description: The field to sort a result set on.
+  v1SortOptions:
+    type: object
+    properties:
+      direction:
+        $ref: '#/definitions/v1SortDirection'
+        title: A direction to sort results in
+      field:
+        $ref: '#/definitions/v1SortField'
+        title: Field to sort on
+    title: Options for controlling the order of query results
+  v1TaskStatus:
+    type: string
+    enum:
+      - INVALID
+      - COMPLETED
+      - IN_PROGRESS
+      - FAILED
+    default: INVALID
+  v1UnarchiveAuxiliaryDataFieldSchemaRequest:
+    type: object
+    properties:
+      identifier:
+        $ref: '#/definitions/v1FieldSchemaIdentifier'
+  v1UpdateAccountWithExternalBusinessDataRequest:
+    type: object
+    properties:
+      accountGroupId:
+        type: string
+      partnerId:
+        type: string
+      marketIds:
+        type: array
+        items:
+          type: string
+      field:
+        type: array
+        items:
+          $ref: '#/definitions/UpdateAccountWithExternalBusinessDataRequestFields'
+  v1UpdateAuxiliaryDataFieldSchemaRequest:
+    type: object
+    properties:
+      fieldSchema:
+        $ref: '#/definitions/v1AuxiliaryDataFieldSchema'
+      fieldMask:
+        $ref: '#/definitions/vendastatypesFieldMask'
+        description: Supported updates for name, and description only at this time.
+  v1UpdateCompetitorRequest:
+    type: object
+    properties:
+      competitor:
+        $ref: '#/definitions/v1Competitor'
+      fieldMask:
+        $ref: '#/definitions/vendastatypesFieldMask'
+  v1UpdateOperation:
+    type: object
+    properties:
+      accountGroupNap:
+        $ref: '#/definitions/v1AccountGroupLocation'
+      listingSyncProto:
+        $ref: '#/definitions/v1ListingSyncPro'
+      accountGroupExternalIdentifiers:
+        $ref: '#/definitions/v1AccountGroupExternalIdentifiers'
+      socialUrls:
+        $ref: '#/definitions/v1SocialURLs'
+      hoursOfOperation:
+        $ref: '#/definitions/v1HoursOfOperation'
+      contactDetails:
+        $ref: '#/definitions/v1ContactDetails'
+      snapshots:
+        $ref: '#/definitions/v1Snapshots'
+      legacyProductDetails:
+        $ref: '#/definitions/v1LegacyProductDetails'
+      richData:
+        $ref: '#/definitions/v1RichData'
+      status:
+        $ref: '#/definitions/accountgroupv1Status'
+      actionListAppend:
+        $ref: '#/definitions/v1ActionListAppend'
+        title: 'Deprecated: use action_list_modify instead'
+      actionListModify:
+        $ref: '#/definitions/v1ActionListModify'
+      health:
+        $ref: '#/definitions/UpdateOperationAccountGroupHealthUpdate'
+      constraintsModify:
+        $ref: '#/definitions/v1ConstraintsModify'
+      additionalCompanyInfo:
+        $ref: '#/definitions/v1AdditionalCompanyInfo'
+      marketingInfo:
+        $ref: '#/definitions/v1MarketingInfo'
+      fieldMask:
+        $ref: '#/definitions/vendastatypesFieldMask'
+    title: Update operation allows updating a specific piece of the account gruop
+  v1UpdatePreMigrationCategoriesRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      accountGroupId:
+        type: string
+      newCategories:
+        type: array
+        items:
+          type: string
+    title: 'Deprecated: This response is not longer required'
+  v1UpdatePublishedPartnersRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+    title: 'Deprecated: This response is not longer required'
+  v1UpdateReviewedStatusRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      accountGroupId:
+        type: string
+      reviewed:
+        type: boolean
+    title: 'Deprecated: This response is not longer required'
+  v1UpsertAuxiliaryDataRequest:
+    type: object
+    properties:
+      auxiliaryDataObjectId:
+        $ref: '#/definitions/v1AuxiliaryDataObjectID'
+      fieldDataUpsertOperations:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1FieldDataUpsertOperation'
+  v1ValidateAddressMultiRequest:
+    type: object
+    properties:
+      businessIds:
+        type: array
+        items:
+          type: string
+  v1ValidateAddressMultiResponse:
+    type: object
+    properties:
+      results:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1AddressValidationResult'
+  v1WebSearchAddressDetails:
+    type: object
+    properties:
+      borough:
+        type: string
+      address:
+        type: string
+      city:
+        type: string
+      zip:
+        type: string
+      region:
+        type: string
+      countryCode:
+        type: string
+  v1WebsiteStatus:
+    type: object
+    properties:
+      hasWebsite:
+        type: boolean
+  vendastatypesFieldMask:
+    type: object
+    properties:
+      paths:
+        type: array
+        items:
+          type: string
+        description: The set of field mask paths.
+    description: |-
+      paths: "f.a"
+          paths: "f.b.d"
+
+      Here `f` represents a field in some root message, `a` and `b`
+      fields in the message found in `f`, and `d` a field found in the
+      message in `f.b`.
+
+      Field masks are used to specify a subset of fields that should be
+      returned by a get operation or modified by an update operation.
+      Field masks also have a custom JSON encoding (see below).
+
+      # Field Masks in Projections
+
+      When used in the context of a projection, a response message or
+      sub-message is filtered by the API to only contain those fields as
+      specified in the mask. For example, if the mask in the previous
+      example is applied to a response message as follows:
+
+          f {
+            a : 22
+            b {
+              d : 1
+              x : 2
+            }
+            y : 13
+          }
+          z: 8
+
+      The result will not contain specific values for fields x,y and z
+      (their value will be set to the default, and omitted in proto text
+      output):
+
+
+          f {
+            a : 22
+            b {
+              d : 1
+            }
+          }
+
+      A repeated field is not allowed except at the last position of a
+      paths string.
+
+      If a FieldMask object is not present in a get operation, the
+      operation applies to all fields (as if a FieldMask of all fields
+      had been specified).
+
+      Note that a field mask does not necessarily apply to the
+      top-level response message. In case of a REST get operation, the
+      field mask applies directly to the response, but in case of a REST
+      list operation, the mask instead applies to each individual message
+      in the returned resource list. In case of a REST custom method,
+      other definitions may be used. Where the mask applies will be
+      clearly documented together with its declaration in the API.  In
+      any case, the effect on the returned resource/resources is required
+      behavior for APIs.
+
+      # Field Masks in Update Operations
+
+      A field mask in update operations specifies which fields of the
+      targeted resource are going to be updated. The API is required
+      to only change the values of the fields as specified in the mask
+      and leave the others untouched. If a resource is passed in to
+      describe the updated values, the API ignores the values of all
+      fields not covered by the mask.
+
+      If a repeated field is specified for an update operation, the existing
+      repeated values in the target resource will be overwritten by the new values.
+      Note that a repeated field is only allowed in the last position of a `paths`
+      string.
+
+      If a sub-message is specified in the last position of the field mask for an
+      update operation, then the existing sub-message in the target resource is
+      overwritten. Given the target message:
+
+          f {
+            b {
+              d : 1
+              x : 2
+            }
+            c : 1
+          }
+
+      And an update message:
+
+          f {
+            b {
+              d : 10
+            }
+          }
+
+      then if the field mask is:
+
+       paths: "f.b"
+
+      then the result will be:
+
+          f {
+            b {
+              d : 10
+            }
+            c : 1
+          }
+
+      However, if the update mask was:
+
+       paths: "f.b.d"
+
+      then the result would be:
+
+          f {
+            b {
+              d : 10
+              x : 2
+            }
+            c : 1
+          }
+
+      In order to reset a field's value to the default, the field must
+      be in the mask and set to the default value in the provided resource.
+      Hence, in order to reset all fields of a resource, provide a default
+      instance of the resource and set all fields in the mask, or do
+      not provide a mask as described below.
+
+      If a field mask is not present on update, the operation applies to
+      all fields (as if a field mask of all fields has been specified).
+      Note that in the presence of schema evolution, this may mean that
+      fields the client does not know and has therefore not filled into
+      the request will be reset to their default. If this is unwanted
+      behavior, a specific service may require a client to always specify
+      a field mask, producing an error if not.
+
+      As with get operations, the location of the resource which
+      describes the updated values in the request message depends on the
+      operation kind. In any case, the effect of the field mask is
+      required to be honored by the API.
+
+      ## Considerations for HTTP REST
+
+      The HTTP kind of an update operation which uses a field mask must
+      be set to PATCH instead of PUT in order to satisfy HTTP semantics
+      (PUT must only be used for full updates).
+
+      # JSON Encoding of Field Masks
+
+      In JSON, a field mask is encoded as a single string where paths are
+      separated by a comma. Fields name in each path are converted
+      to/from lower-camel naming conventions.
+
+      As an example, consider the following message declarations:
+
+          message Profile {
+            User user = 1;
+            Photo photo = 2;
+          }
+          message User {
+            string display_name = 1;
+            string address = 2;
+          }
+
+      In proto a field mask for `Profile` may look as such:
+
+          mask {
+            paths: "user.display_name"
+            paths: "photo"
+          }
+
+      In JSON, the same mask is represented as below:
+
+          {
+            mask: "user.displayName,photo"
+          }
+
+      # Field Masks and Oneof Fields
+
+      Field masks treat fields in oneofs just as regular fields. Consider the
+      following message:
+
+          message SampleMessage {
+            oneof test_oneof {
+              string name = 4;
+              SubMessage sub_message = 9;
+            }
+          }
+
+      The field mask can be:
+
+          mask {
+            paths: "name"
+          }
+
+      Or:
+
+          mask {
+            paths: "sub_message"
+          }
+
+      Note that oneof type names ("test_oneof" in this case) cannot be used in
+      paths.
+    title: '`FieldMask` represents a set of symbolic field paths, for example:'
+  vendastatypesPagedRequestOptions:
+    type: object
+    properties:
+      cursor:
+        type: string
+        title: cursor can be passed to retrieve the next page of results keyed by the cursor
+      pageSize:
+        type: string
+        format: int64
+        title: page_size specifies the number of items to return in the next page
+  vendastatypesPagedResponseMetadata:
+    type: object
+    properties:
+      nextCursor:
+        type: string
+        title: A cursor that can be provided to retrieve the next page of results
+      hasMore:
+        type: boolean
+        title: Whether or not more results exist
+      totalResults:
+        type: string
+        format: int64
+        title: The total number of results. This is not supported on all paged apis and will be 0 if it is not supported

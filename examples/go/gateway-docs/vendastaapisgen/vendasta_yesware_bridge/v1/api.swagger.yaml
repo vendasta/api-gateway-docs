@@ -1,0 +1,86 @@
+swagger: "2.0"
+info:
+  title: vendasta_yesware_bridge/v1/api.proto
+  version: version not set
+tags:
+  - name: YeswareAccountsService
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /vendasta_yesware_bridge.v1.YeswareAccountsService/GetAccount:
+    post:
+      operationId: YeswareAccountsService_GetAccount
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetAccountResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetAccountRequest'
+      tags:
+        - YeswareAccountsService
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1Account:
+    type: object
+    properties:
+      accountId:
+        type: string
+        format: int64
+      currentContract:
+        $ref: '#/definitions/v1Contract'
+      ownerEmail:
+        type: string
+      memberEmails:
+        type: array
+        items:
+          type: string
+  v1Contract:
+    type: object
+    properties:
+      availableSeats:
+        type: string
+        format: int64
+      totalSeats:
+        type: string
+        format: int64
+  v1GetAccountRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+      accountGroupId:
+        type: string
+  v1GetAccountResponse:
+    type: object
+    properties:
+      account:
+        $ref: '#/definitions/v1Account'

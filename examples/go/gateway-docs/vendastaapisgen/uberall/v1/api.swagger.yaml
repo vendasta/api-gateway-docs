@@ -1,0 +1,145 @@
+swagger: "2.0"
+info:
+  title: uberall/v1/api.proto
+  version: version not set
+tags:
+  - name: LocationService
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /uberall.v1.LocationService/Search:
+    post:
+      summary: Search searches for uberall locations matching the given NAP data
+      operationId: LocationService_Search
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1SearchResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SearchRequest'
+      tags:
+        - LocationService
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1Location:
+    type: object
+    properties:
+      id:
+        type: string
+        title: The id that represents the location within the underlying service
+      name:
+        type: string
+        title: The name of the location
+      address:
+        type: string
+        title: The street address name of the location
+      city:
+        type: string
+        title: The city of the location
+      state:
+        type: string
+        title: The state or territory abbreviation
+      country:
+        type: string
+        title: The country code
+      zipCode:
+        type: string
+        title: A string specifying the zip code or postal code
+      website:
+        type: string
+        title: The website of the location
+      phone:
+        type: string
+        title: The primary phone number of the location
+      url:
+        type: string
+        title: The url location of where you can find the location on the internet
+      externalId:
+        type: string
+        title: The external id for the location on that site
+      sourceId:
+        type: string
+        format: int64
+        title: The source id of the location
+      matchName:
+        type: boolean
+        title: If the name is scored high enough to be considered a match
+      matchAddress:
+        type: boolean
+        title: If the address is scored high enough to be considered a match
+      matchCity:
+        type: boolean
+        title: If the city is scored high enough to be considered a match
+      matchZip:
+        type: boolean
+        title: If the zip is scored high enough to be considered a match
+    title: Location represents a single uberall listing
+  v1SearchRequest:
+    type: object
+    properties:
+      name:
+        type: string
+        title: The name of the location
+      address:
+        type: string
+        title: Address of the location
+      city:
+        type: string
+        title: City of location
+      state:
+        type: string
+        title: State of location
+      country:
+        type: string
+        title: Country of location
+      zipCode:
+        type: string
+        title: Zip code or postal of location
+      phone:
+        type: string
+        title: Phone Number of location
+      sourceId:
+        type: array
+        items:
+          type: string
+          format: int64
+        title: The sources to search for locations on
+    title: Request to initiate an uberall search
+  v1SearchResponse:
+    type: object
+    properties:
+      results:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Location'
+        title: The locations found by the search request

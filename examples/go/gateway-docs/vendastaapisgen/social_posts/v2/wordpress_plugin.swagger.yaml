@@ -1,0 +1,524 @@
+swagger: "2.0"
+info:
+  title: social_posts/v2/wordpress_plugin.proto
+  version: version not set
+tags:
+  - name: WordpressPluginService
+  - name: BlogPostsService
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /socialposts.v2.BlogPostsService/DeleteBlogPost:
+    post:
+      summary: This will delete the requested blog post
+      operationId: BlogPostsService_DeleteBlogPost
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2DeleteBlogPostRequest'
+      tags:
+        - BlogPostsService
+  /socialposts.v2.BlogPostsService/GetMultiBlogPosts:
+    post:
+      summary: List the multiple blog posts based on IDs
+      operationId: BlogPostsService_GetMultiBlogPosts
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetMultiBlogPostsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetMultiBlogPostsRequest'
+      tags:
+        - BlogPostsService
+  /socialposts.v2.BlogPostsService/UpdateBlogPost:
+    post:
+      summary: This will update the requested blog post
+      operationId: BlogPostsService_UpdateBlogPost
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2UpdateBlogPostRequest'
+      tags:
+        - BlogPostsService
+  /socialposts.v2.WordpressPluginService/GetAuthors:
+    post:
+      summary: Get the list of authors
+      operationId: WordpressPluginService_GetAuthors
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2AuthorsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2AuthorsRequest'
+      tags:
+        - WordpressPluginService
+  /socialposts.v2.WordpressPluginService/GetCategories:
+    post:
+      summary: Get the Category of the blog
+      operationId: WordpressPluginService_GetCategories
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2CategoryResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2CategoryRequest'
+      tags:
+        - WordpressPluginService
+  /socialposts.v2.WordpressPluginService/PublishPost:
+    post:
+      summary: Publish a post to the wordpress site
+      operationId: WordpressPluginService_PublishPost
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2PublishPostResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2PublishPostRequest'
+      tags:
+        - WordpressPluginService
+  /socialposts.v2.WordpressPluginService/RepostBlogPost:
+    post:
+      operationId: WordpressPluginService_RepostBlogPost
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2RepostBlogPostRequest'
+      tags:
+        - WordpressPluginService
+  /socialposts.v2.WordpressPluginService/Status:
+    post:
+      summary: Check the status of the wordpress plugin
+      operationId: WordpressPluginService_Status
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2StatusResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2StatusRequest'
+      tags:
+        - WordpressPluginService
+definitions:
+  googlerpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  v2Author:
+    type: object
+    properties:
+      id:
+        type: string
+        format: int64
+      name:
+        type: string
+  v2AuthorsRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: The business id of the blog post connection
+      socialServiceId:
+        type: string
+        title: The service if of the connection
+  v2AuthorsResponse:
+    type: object
+    properties:
+      authors:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2Author'
+        title: List of available authors
+  v2BlogImage:
+    type: object
+    properties:
+      path:
+        type: string
+        title: The path of the image
+      publicUrl:
+        type: string
+        title: The public url of the image
+  v2BlogPost:
+    type: object
+    properties:
+      internalPostId:
+        type: string
+        title: Internal post Id of Blog
+      socialServiceId:
+        type: string
+        title: Social service Id for blog
+      businessId:
+        type: string
+        title: Business ID
+      partnerId:
+        type: string
+        title: Partner ID
+      postId:
+        type: string
+        title: Blog Post Id
+      title:
+        type: string
+        title: Blog Title
+      content:
+        type: string
+        title: Blog Content
+      images:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2MediaProperty'
+        title: Image property for Blog
+      video:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2MediaProperty'
+        title: Video property for Blog
+      permalink:
+        type: string
+        title: Permalink for a blog
+      siteType:
+        type: string
+        title: Site Type
+      author:
+        $ref: '#/definitions/v2Author'
+        title: Author for a blog
+      categories:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2Category'
+        title: Category for a blog
+      tags:
+        type: array
+        items:
+          type: string
+        title: Tags for a blog
+      error:
+        type: string
+        title: Holds the error message from blog
+      postDateTime:
+        type: string
+        format: date-time
+        title: Blog post date time
+      postedDateTime:
+        type: string
+        format: date-time
+        title: Blog posted date time
+      userId:
+        type: string
+        title: User Id
+      userName:
+        type: string
+        title: User Name
+      pageViews:
+        type: string
+        format: int64
+        title: Blog post visitor count
+      commentsCount:
+        type: string
+        format: int64
+        title: Blog comment count
+      created:
+        type: string
+        format: date-time
+        title: Created Time
+      updated:
+        type: string
+        format: date-time
+        title: Updated Time
+      deleted:
+        type: string
+        format: date-time
+        title: Deleted Time
+  v2BlogVideo:
+    type: object
+    properties:
+      path:
+        type: string
+        title: The path of the video
+      publicUrl:
+        type: string
+        title: The public url of the video
+  v2Category:
+    type: object
+    properties:
+      id:
+        type: string
+        format: int64
+        title: This is the categoryId
+      name:
+        type: string
+        title: This is the category name
+  v2CategoryRequest:
+    type: object
+    properties:
+      socialServiceId:
+        type: string
+        title: This social_service_id for get the categories
+      businessId:
+        type: string
+        title: This business_id for get the categories
+  v2CategoryResponse:
+    type: object
+    properties:
+      categories:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2Category'
+        title: This Categories is give us the Array of response
+  v2DeleteBlogPostRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+      internalPostId:
+        type: string
+      parentPostId:
+        type: string
+  v2GetMultiBlogPostsRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: A partner ID
+      businessId:
+        type: string
+        title: A business ID
+      socialServiceId:
+        type: string
+        title: A Social service ID
+      blogPostId:
+        type: array
+        items:
+          type: string
+        title: A list of unique internal identifier of blog post that are getting
+    title: Get Multi blog posts for a list ids
+  v2GetMultiBlogPostsResponse:
+    type: object
+    properties:
+      blogPosts:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2BlogPost'
+        title: A list of BlogPost
+  v2MediaProperty:
+    type: object
+    properties:
+      path:
+        type: string
+        title: Path of media
+      publicUrl:
+        type: string
+        title: Public Url for the blog media
+  v2PublishPostRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: The business id of the blog post connection
+      socialServiceId:
+        type: string
+        title: The service id of the connection
+      title:
+        type: string
+        title: The title of the blog post
+      content:
+        type: string
+        title: The content of the blog post
+      images:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2BlogImage'
+        title: The images of the blog post
+      videos:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2BlogVideo'
+        title: The videos of the blog post
+      siteType:
+        type: string
+        title: The site type of the blog post
+      author:
+        $ref: '#/definitions/v2Author'
+        title: The author of the blog post
+      categories:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2Category'
+        title: The categories of the blog post
+      tags:
+        type: array
+        items:
+          type: string
+        title: The tags of the blog post
+      postTags:
+        type: array
+        items:
+          type: string
+        title: The post tags of the blog post
+      postDateTime:
+        type: string
+        format: date-time
+        title: The post date time of the blog post
+      userId:
+        type: string
+        title: The user id of the blog post
+      userName:
+        type: string
+        title: The user name of the blog post
+      partnerId:
+        type: string
+        title: The partner id of the blog post
+      internalPostId:
+        type: string
+        title: The internal post id of the blog post
+  v2PublishPostResponse:
+    type: object
+    properties:
+      internalPostId:
+        type: string
+        title: Internal ID of the post
+  v2RepostBlogPostRequest:
+    type: object
+    properties:
+      blogPostId:
+        type: string
+        title: Blog post id to repost
+      accountGroupId:
+        type: string
+        title: Account group id of the Blog post to repost
+  v2StatusRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: The business id of the blog post connection
+      apiKey:
+        type: string
+        title: The api key of the blog post connection
+      siteUrl:
+        type: string
+        title: The root url of the website
+  v2StatusResponse:
+    type: object
+    properties:
+      status:
+        type: boolean
+        title: The status of the wordpress site
+      version:
+        type: string
+        title: The version of the wordpress plugin
+      logo:
+        type: string
+        title: logo of the wordpress site
+      name:
+        type: string
+        title: The name of the wordpress site
+  v2UpdateBlogPostRequest:
+    type: object
+    properties:
+      blogPost:
+        $ref: '#/definitions/v2BlogPost'

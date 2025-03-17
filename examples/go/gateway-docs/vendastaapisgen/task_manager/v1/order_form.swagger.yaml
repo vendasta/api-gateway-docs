@@ -1,0 +1,110 @@
+swagger: "2.0"
+info:
+  title: task_manager/v1/order_form.proto
+  version: version not set
+tags:
+  - name: OrderForm
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /taskmanager.v1.OrderForm/GetOrderFormForProject:
+    post:
+      operationId: OrderForm_GetOrderFormForProject
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetOrderFormForProjectResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetOrderFormForProjectRequest'
+      tags:
+        - OrderForm
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1GetOrderFormForProjectRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+      orderId:
+        type: string
+      projectIdentity:
+        $ref: '#/definitions/v1TaskIdentity'
+  v1GetOrderFormForProjectResponse:
+    type: object
+    properties:
+      commonFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1OrderFormFieldSubmission'
+      customFields:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1OrderFormFieldSubmission'
+  v1OrderFormFieldSubmission:
+    type: object
+    properties:
+      type:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      label:
+        type: string
+      answer:
+        type: string
+      answerFile:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1OrderFormFileField'
+  v1OrderFormFileField:
+    type: object
+    properties:
+      name:
+        type: string
+      url:
+        type: string
+  v1TaskIdentity:
+    type: object
+    properties:
+      namespace:
+        type: string
+        title: The scope of the task. e.g. "partner/ABC/account-group/AG-123"
+      parentPath:
+        type: string
+        title: The tasks parent(s). e.g. "/TK-1/" if this is a subtask of task TK-1 or "/" if this is a top level task
+      taskId:
+        type: string
+        title: The tasks unique id

@@ -1,0 +1,356 @@
+swagger: "2.0"
+info:
+  title: marketplace_packages/v1/shopping_cart_api.proto
+  version: version not set
+tags:
+  - name: ShoppingCartService
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /marketplace_packages.v1.ShoppingCartService/AddMultiToShoppingCart:
+    post:
+      summary: AddMultiToShoppingCart adds multiple items to the cart and returns the updated contents of the cart, also creates the cart if one does not exist
+      operationId: ShoppingCartService_AddMultiToShoppingCart
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ShoppingCartResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1AddMultiToShoppingCartRequest'
+      tags:
+        - ShoppingCartService
+  /marketplace_packages.v1.ShoppingCartService/AddToShoppingCart:
+    post:
+      summary: AddToShoppingCart adds an item to the cart and returns the updated contents of the cart, also creates the cart if one does not exist
+      operationId: ShoppingCartService_AddToShoppingCart
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ShoppingCartResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1AddToShoppingCartRequest'
+      tags:
+        - ShoppingCartService
+  /marketplace_packages.v1.ShoppingCartService/ClearShoppingCart:
+    post:
+      summary: ClearShoppingCart removes all items currently existing in the cart (if the cart exists) and returns an empty cart
+      operationId: ShoppingCartService_ClearShoppingCart
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ShoppingCartResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ClearShoppingCartRequest'
+      tags:
+        - ShoppingCartService
+  /marketplace_packages.v1.ShoppingCartService/GetShoppingCart:
+    post:
+      summary: GetShoppingCart returns the current contents of the cart, or an empty cart if a cart does not exist
+      operationId: ShoppingCartService_GetShoppingCart
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ShoppingCartResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetShoppingCartRequest'
+      tags:
+        - ShoppingCartService
+  /marketplace_packages.v1.ShoppingCartService/IsShoppingCartEnabled:
+    post:
+      summary: IsShoppingCartEnabled returns whether the shopping cart is enabled
+      operationId: ShoppingCartService_IsShoppingCartEnabled
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1IsShoppingCartEnabledResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1IsShoppingCartEnabledRequest'
+      tags:
+        - ShoppingCartService
+  /marketplace_packages.v1.ShoppingCartService/RemoveFromShoppingCart:
+    post:
+      summary: RemoveFromShoppingCart removes an item from the cart and returns the updated contents of the cart
+      operationId: ShoppingCartService_RemoveFromShoppingCart
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ShoppingCartResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1RemoveFromShoppingCartRequest'
+      tags:
+        - ShoppingCartService
+  /marketplace_packages.v1.ShoppingCartService/RemoveMultiFromShoppingCart:
+    post:
+      summary: RemoveMultiFromShoppingCart removes multiple items from the cart and returns the updated contents of the cart
+      operationId: ShoppingCartService_RemoveMultiFromShoppingCart
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ShoppingCartResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1RemoveMultiFromShoppingCartRequest'
+      tags:
+        - ShoppingCartService
+  /marketplace_packages.v1.ShoppingCartService/UpdateItemQuantity:
+    post:
+      summary: UpdateItemQuantity updates the quantity of an item in the cart and returns the updated contents of the cart
+      operationId: ShoppingCartService_UpdateItemQuantity
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ShoppingCartResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/googlerpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1UpdateItemQuantityRequest'
+      tags:
+        - ShoppingCartService
+definitions:
+  AddMultiToShoppingCartRequestItem:
+    type: object
+    properties:
+      itemId:
+        type: string
+        title: item_id is the id of the marketplace item to be added to the cart
+      itemType:
+        $ref: '#/definitions/v1ShoppingCartItemType'
+        title: the type of the item (package or product)
+      editionId:
+        type: string
+        description: |-
+          The ID of the edition, if the item is an app edition.
+          If not, the edition ID should be empty.
+  ShoppingCartShoppingCartItem:
+    type: object
+    properties:
+      itemId:
+        type: string
+        title: item_id is the id of the marketplace item in the cart
+      quantity:
+        type: string
+        format: int64
+        title: quantity is the number of marketplace items in the cart
+      itemType:
+        $ref: '#/definitions/v1ShoppingCartItemType'
+        title: the type of the item (package or product)
+      editionId:
+        type: string
+        description: |-
+          The ID of the edition, if the item is an app edition.
+          If not, the edition ID should be empty.
+  googlerpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  v1AddMultiToShoppingCartRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: business_id is the id of the business that owns the cart
+      items:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/AddMultiToShoppingCartRequestItem'
+        title: the items to add to the cart
+  v1AddToShoppingCartRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: business_id is the id of the business that owns the cart
+      itemId:
+        type: string
+        title: item_id is the id of the marketplace item to be added to the cart
+      itemType:
+        $ref: '#/definitions/v1ShoppingCartItemType'
+        title: the type of the item (package or product)
+      editionId:
+        type: string
+        description: |-
+          The ID of the edition, if the item is an app edition.
+          If not, the edition ID should be empty.
+  v1ClearShoppingCartRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: business_id is the id of the business that owns the cart
+  v1GetShoppingCartRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+        description: business_id is the id of the business that owns the cart.
+      userId:
+        type: string
+        description: |-
+          [optional] user_id is the id of the user that owns the cart.
+          When not provided, the user id of the context is used.
+          Otherwise, the given user id is used.
+  v1IsShoppingCartEnabledRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: partner_id is the id of the partner that we want to check the shopping cart enabled status for
+      storeId:
+        type: string
+        description: |-
+          store_id is the id of the store that we want to check the shopping cart enabled status for.
+          Currently this matches a partners' market_id.
+  v1IsShoppingCartEnabledResponse:
+    type: object
+    properties:
+      enabled:
+        type: boolean
+        title: enabled indicates whether the cart is enabled
+  v1RemoveFromShoppingCartRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: business_id is the id of the business that owns the cart
+      itemId:
+        type: string
+        title: item_id is the id of the marketplace item to be removed from the cart
+  v1RemoveMultiFromShoppingCartRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: business_id is the id of the business that owns the cart
+      itemIds:
+        type: array
+        items:
+          type: string
+        title: item_id is the id of the marketplace item to be removed from the cart
+  v1ShoppingCart:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: business_id is the id of the business that owns the cart
+      userId:
+        type: string
+        title: user_id is the id of the user who is using the cart for the business
+      items:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/ShoppingCartShoppingCartItem'
+        title: items is the list of ShoppingCartItems the cart is currently containing
+  v1ShoppingCartItemType:
+    type: string
+    enum:
+      - SHOPPING_CART_ITEM_TYPE_INVALID
+      - SHOPPING_CART_ITEM_TYPE_PACKAGE
+      - SHOPPING_CART_ITEM_TYPE_PRODUCT
+    default: SHOPPING_CART_ITEM_TYPE_INVALID
+  v1ShoppingCartResponse:
+    type: object
+    properties:
+      cart:
+        $ref: '#/definitions/v1ShoppingCart'
+        title: cart is a representation of the user's shopping cart
+  v1UpdateItemQuantityRequest:
+    type: object
+    properties:
+      businessId:
+        type: string
+        title: business_id is the id of the business that owns the cart
+      itemId:
+        type: string
+        title: item_id is the id of the marketplace item to be updated in the cart
+      quantity:
+        type: string
+        format: int64
+        title: quantity is the new quantity of the item in the cart

@@ -1,0 +1,468 @@
+swagger: "2.0"
+info:
+  title: adwords_service/v1/api.proto
+  version: version not set
+tags:
+  - name: Keywords
+  - name: Reports
+  - name: Accounts
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /adwords.v1.Accounts/ListAllAccounts:
+    post:
+      summary: Request a list of accounts for a user identified by an oauth_token
+      operationId: Accounts_ListAllAccounts
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListAllAccountsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListAllAccountsRequest'
+      tags:
+        - Accounts
+  /adwords.v1.Accounts/ListAllAccountsUnderManagerAccount:
+    post:
+      summary: Request a list of accounts under a manager account for a user identified by an oauth_token
+      operationId: Accounts_ListAllAccountsUnderManagerAccount
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListAllAccountsUnderManagerAccountResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1ListAllAccountsUnderManagerAccountRequest'
+      tags:
+        - Accounts
+  /adwords.v1.Keywords/GetCampaignPerformanceEstimation:
+    post:
+      summary: Request performance estimations For a Campaign of Keywords
+      operationId: Keywords_GetCampaignPerformanceEstimation
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetCampaignPerformanceEstimationResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetCampaignPerformanceEstimationRequest'
+      tags:
+        - Keywords
+  /adwords.v1.Keywords/GetKeywordSuggestions:
+    post:
+      summary: Request keyword suggestions for a business
+      operationId: Keywords_GetKeywordSuggestions
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetKeywordSuggestionsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          description: A request for keyword suggestions based on provided data.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetKeywordSuggestionsRequest'
+      tags:
+        - Keywords
+  /adwords.v1.Reports/GetAccountPerformance:
+    post:
+      summary: Request a performance report for an Adwords Account; identified by customer ID (CID)
+      operationId: Reports_GetAccountPerformance
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetAccountPerformanceResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetAccountPerformanceRequest'
+      tags:
+        - Reports
+  /adwords.v1.Reports/GetReport:
+    post:
+      operationId: Reports_GetReport
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetReportResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetReportRequest'
+      tags:
+        - Reports
+definitions:
+  KeywordMatchType:
+    type: string
+    enum:
+      - EXACT
+      - BROAD
+      - PHRASE
+    default: EXACT
+    title: Represents different matching strategies for keywords
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1Account:
+    type: object
+    properties:
+      customerId:
+        type: string
+        format: int64
+        title: The Account's ID; i.e. CID
+      name:
+        type: string
+        title: Display name for the account
+      isManager:
+        type: boolean
+        title: Is this a manager account (i.e. MCC)?
+      isTestAccount:
+        type: boolean
+        title: Is this a test account?
+      currencyCode:
+        type: string
+        title: The ISO 4217 currency code of the account
+      timeZone:
+        type: string
+        title: 'List of timezones here: https://developers.google.com/adwords/api/docs/appendix/codes-formats#timezone-ids'
+    title: An Adwords Account description
+  v1AdwordsApiError:
+    type: string
+    enum:
+      - NO_ERROR
+      - RATE_LIMIT_EXCEEDED
+      - INVALID_URL_IN_SEARCH_PARAMETER
+    default: NO_ERROR
+    title: AdWords API error types
+  v1GetAccountPerformanceRequest:
+    type: object
+    properties:
+      oauthRefreshToken:
+        type: string
+        title: An oauth refresh token authorized against an adwords account
+      customerId:
+        type: string
+        format: int64
+        title: The CID of the account to fetch stats for
+    title: Request message for the GetAccountPerformance endpoint
+  v1GetAccountPerformanceResponse:
+    type: object
+    properties:
+      clicks:
+        type: string
+        format: int64
+        title: Sum of all clicks from all campaigns on the account
+      impressions:
+        type: string
+        format: int64
+        title: Sum of all impressions from all campaigns on the account
+      cost:
+        type: string
+        format: int64
+        title: Sum of cost of all clicks and impressions on the account
+      conversions:
+        type: number
+        format: double
+        title: The number of conversions for all conversion actions
+      allConversions:
+        type: number
+        format: double
+        title: The best estimate of total conversions driven by adwords
+    title: Response containing a stats summary for an account
+  v1GetCampaignPerformanceEstimationRequest:
+    type: object
+    properties:
+      keywordRequests:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1KeywordEstimationRequest'
+        title: A List of keywords to estimate on
+      dailyBudget:
+        type: string
+        format: int64
+        title: Maximum daily budget (in Micros)
+      locationId:
+        type: string
+        format: int64
+        title: |-
+          unique location id representing city/zip/state/etc
+          https://fusiontables.google.com/DataSource?docid=1GF8rHWjkeLDLDt1WpqujyCelrgd0hq4bGYobmXAn
+    title: A request for a performance estimation of a group of keywords
+  v1GetCampaignPerformanceEstimationResponse:
+    type: object
+    properties:
+      keywordEstimates:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1KeywordEstimation'
+        title: A list of keywords and their estimates
+      adwordsError:
+        $ref: '#/definitions/v1AdwordsApiError'
+        title: Error from Adwords
+    title: Response containing Campaign/Keyword Performance Estimates
+  v1GetKeywordSuggestionsRequest:
+    type: object
+    properties:
+      searchTerm:
+        type: array
+        items:
+          type: string
+        title: A google search term from which to generate keywords
+      including:
+        type: array
+        items:
+          type: string
+        title: Possible queries must include the following strings
+      excluding:
+        type: array
+        items:
+          type: string
+        title: Possible queries must not include the following strings
+      language:
+        type: array
+        items:
+          type: string
+          format: int64
+        title: List of preferred languages
+      categoryId:
+        type: array
+        items:
+          type: integer
+          format: int32
+        title: 'Category ID according to Google''s list: https://support.google.com/merchants/answer/6324436?hl=en'
+      includeNsfw:
+        type: boolean
+        title: Include adult content in the results
+      competitionLevel:
+        type: integer
+        format: int32
+        title: |-
+          Restrict level of competition on suggestions,
+          0 is off, 1 = low, 2 = med, 3 = high
+      relatedUrl:
+        type: array
+        items:
+          type: string
+        title: 0 or 1 URL strings to which search results should be related
+      locationId:
+        type: string
+        format: int64
+        title: |-
+          unique location id representing city/zip/state/etc
+          https://fusiontables.google.com/DataSource?docid=1GF8rHWjkeLDLDt1WpqujyCelrgd0hq4bGYobmXAn
+    description: A request for keyword suggestions based on provided data.
+  v1GetKeywordSuggestionsResponse:
+    type: object
+    properties:
+      keywords:
+        type: array
+        items:
+          type: string
+        title: A list of suggestions for advertising keywords
+      adwordsError:
+        $ref: '#/definitions/v1AdwordsApiError'
+        title: Error from Adwords
+    title: The response message containing a keyword suggestion
+  v1GetReportRequest:
+    type: object
+    properties:
+      oauthRefreshToken:
+        type: string
+        title: An oauth refresh token authorized against an adwords account
+      customerId:
+        type: string
+        title: The Account's ID; i.e. CID; e.g. 111-222-1234
+      awqlQuery:
+        type: string
+        title: |-
+          AWQL query string: https://developers.google.com/adwords/api/docs/guides/awql
+          e.g.: SELECT Date, Clicks, Impressions, Cost, Conversions FROM ACCOUNT_PERFORMANCE_REPORT DURING LAST_30_DAYS
+      disableZeroImpression:
+        type: boolean
+        title: 'Set to true to exclude rows with zero impressions. Some files doesnot allown zero impression. example: ExternalConversionSource'
+  v1GetReportResponse:
+    type: object
+    properties:
+      reportCsv:
+        type: string
+        description: |-
+          Month,Campaign,Impressions,Clicks,All conv.,Cost
+          2018-02-01,My Campaign Name,5,9,1.02,16
+          2018-03-01,My Campaign Name,2,5,9.12,1
+          2018-02-01,Your Campaign Name,17,1,4.10,6
+          2018-03-01,Your Campaign Name,11,9,15.13,10
+        title: |-
+          A csv string WITH header rows. Headers are provided by google
+          If a breakdown by segment was requested there may be multiple rows for each resource (one for each 'segment')
+          e.g. SELECT Month, CampaignName, Impressions, Clicks, AllConversions, Cost FROM CAMPAIGN_PERFORMANCE_REPORT DURING LAST_7_DAYS
+  v1Keyword:
+    type: object
+    properties:
+      text:
+        type: string
+      matchType:
+        $ref: '#/definitions/KeywordMatchType'
+        title: The type of match to perform
+    title: Represents an adwords keyword
+  v1KeywordEstimation:
+    type: object
+    properties:
+      keyword:
+        $ref: '#/definitions/v1Keyword'
+        title: The keyword this estimate is for
+      range:
+        $ref: '#/definitions/v1PerformanceEstimateRange'
+        title: The upper and lower bounds of the estimate
+    title: A performance estimation for a single keyword
+  v1KeywordEstimationRequest:
+    type: object
+    properties:
+      keyword:
+        $ref: '#/definitions/v1Keyword'
+        title: The keyword or phrase to estimate for
+      isNegative:
+        type: boolean
+        title: If 'negative' then searches containing this keyword will be excluded
+      maxCpc:
+        type: string
+        format: int64
+        title: Bound the estimates by a maximum cost per click (in Micros)
+    title: A request for a performance estimation of a keyword
+  v1ListAllAccountsRequest:
+    type: object
+    properties:
+      oauthRefreshToken:
+        type: string
+        title: An oauth refresh token authorized against an adwords account
+    title: Request message for the ListAccountsAccessibleByToken endpoint
+  v1ListAllAccountsResponse:
+    type: object
+    properties:
+      accounts:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Account'
+    title: Response containing all accounts accessible by the provided token
+  v1ListAllAccountsUnderManagerAccountRequest:
+    type: object
+    properties:
+      oauthRefreshToken:
+        type: string
+        title: An oauth refresh token authorized against an adwords account
+      managerAccountId:
+        type: string
+        format: int64
+        description: The Manager account id, i.e. CID.
+    title: Request message for the ListAllAccountsUnderManagerAccount endpoint
+  v1ListAllAccountsUnderManagerAccountResponse:
+    type: object
+    properties:
+      accounts:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Account'
+    title: Response containing all accounts accessible by the provided token under a manager account
+  v1PerformanceEstimateRange:
+    type: object
+    properties:
+      min:
+        $ref: '#/definitions/v1PerformanceEstimation'
+        title: Minimum bound of the estimate
+      max:
+        $ref: '#/definitions/v1PerformanceEstimation'
+        title: Maximum bound of the estimate
+    title: An upper and lower bounded range of performance estimations
+  v1PerformanceEstimation:
+    type: object
+    properties:
+      averageCpc:
+        type: string
+        format: int64
+        title: Estimate of average cost per click (in Micros)
+      averagePosition:
+        type: number
+        format: double
+        title: Estimate of average position in search results
+      clicksPerDay:
+        type: number
+        format: float
+        title: Estimate of possible clicks per day
+      clickThroughRate:
+        type: number
+        format: double
+        title: Estimate of possible click-throughs per day
+      impressionsPerDay:
+        type: number
+        format: float
+        title: Estimate of possible impressions per day
+      totalCost:
+        type: string
+        format: int64
+        title: Estimate of total cost per day (in Micros)
+    title: Performance Stats which were estimated for a target

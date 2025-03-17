@@ -1,0 +1,69 @@
+swagger: "2.0"
+info:
+  title: instagram/v2/api_v2.proto
+  version: version not set
+tags:
+  - name: InstagramV2
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /instagram.v2.InstagramV2/PublishMedia:
+    post:
+      summary: Publishes an existing Media object to Instagram asynchronously
+      operationId: InstagramV2_PublishMedia
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            type: object
+            properties: {}
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2PublishMediaRequest'
+      tags:
+        - InstagramV2
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v2PublishMediaRequest:
+    type: object
+    properties:
+      partnerId:
+        type: string
+        title: The partner id associated with this media
+      businessId:
+        type: string
+        title: The business id associated with this media
+      userId:
+        type: string
+        title: A unique internal identifier for the user related to this media
+      mediaId:
+        type: string
+        title: A unique internal identifier for the Media object
+    title: PublishMediaRequest publishes a Media object by ID

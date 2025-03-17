@@ -1,0 +1,239 @@
+swagger: "2.0"
+info:
+  title: local_marketing_index/v1/industry_average.proto
+  version: version not set
+tags:
+  - name: IndustryAverageService
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /localmarketingindex.v1.IndustryAverageService/GetIndustryAverage:
+    post:
+      operationId: IndustryAverageService_GetIndustryAverage
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetIndustryAverageResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1GetIndustryAverageRequest'
+      tags:
+        - IndustryAverageService
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1Advertising:
+    type: object
+    properties:
+      costPerClick:
+        $ref: '#/definitions/v1Percentiles'
+  v1Ecommerce:
+    type: object
+    properties:
+      overallScore:
+        $ref: '#/definitions/v1Percentiles'
+      percentagebusinessesecommercesolutionpresent:
+        type: number
+        format: float
+      percentagebusinessesonlinepaymentspresent:
+        type: number
+        format: float
+      percentagebusinessesadretargetingpresent:
+        type: number
+        format: float
+  v1GetIndustryAverageRequest:
+    type: object
+    properties:
+      taxonomy:
+        type: string
+        title: Taxonomy for which to get the industry average. If omitted, will return all taxonomies
+  v1GetIndustryAverageResponse:
+    type: object
+    properties:
+      sections:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Sections'
+  v1Listings:
+    type: object
+    properties:
+      percentageBusinessesWithFacebookpage:
+        type: number
+        format: float
+      percentageBusinessesWithGoogleplus:
+        type: number
+        format: float
+      percentageBusinessesWithTwitter:
+        type: number
+        format: float
+      percentageBusinessesWithFoursquare:
+        type: number
+        format: float
+      percentageBusinessesWithInstagram:
+        type: number
+        format: float
+  v1Percentiles:
+    type: object
+    properties:
+      ninetyFifth:
+        type: number
+        format: float
+      eightieth:
+        type: number
+        format: float
+      fiftieth:
+        type: number
+        format: float
+      twentieth:
+        type: number
+        format: float
+      tenth:
+        type: number
+        format: float
+      ninetieth:
+        type: number
+        format: float
+      seventyFifth:
+        type: number
+        format: float
+      fortieth:
+        type: number
+        format: float
+      thirtieth:
+        type: number
+        format: float
+    title: Relevant percentiles for computing letter grades and industry stats
+  v1Reviews:
+    type: object
+    properties:
+      numberOfReviewSources:
+        $ref: '#/definitions/v1Percentiles'
+      numberOfReviews:
+        $ref: '#/definitions/v1Percentiles'
+      reviewScore:
+        $ref: '#/definitions/v1Percentiles'
+      reviewsPerMonth:
+        $ref: '#/definitions/v1Percentiles'
+  v1SearchEngineOptimization:
+    type: object
+    properties:
+      valuePerClick:
+        $ref: '#/definitions/v1Percentiles'
+      localSeo:
+        $ref: '#/definitions/v1Percentiles'
+  v1Sections:
+    type: object
+    properties:
+      taxonomy:
+        type: string
+      social:
+        $ref: '#/definitions/v1Social'
+      website:
+        $ref: '#/definitions/v1Website'
+      review:
+        $ref: '#/definitions/v1Reviews'
+      listings:
+        $ref: '#/definitions/v1Listings'
+      advertising:
+        $ref: '#/definitions/v1Advertising'
+      seo:
+        $ref: '#/definitions/v1SearchEngineOptimization'
+      ecommerce:
+        $ref: '#/definitions/v1Ecommerce'
+  v1Social:
+    type: object
+    properties:
+      facebook:
+        $ref: '#/definitions/v1SocialFacebook'
+      twitter:
+        $ref: '#/definitions/v1SocialTwitter'
+      instagram:
+        $ref: '#/definitions/v1SocialInstagram'
+  v1SocialFacebook:
+    type: object
+    properties:
+      likesPerPost:
+        $ref: '#/definitions/v1Percentiles'
+      numberOfLikes:
+        $ref: '#/definitions/v1Percentiles'
+      postsPerMonth:
+        $ref: '#/definitions/v1Percentiles'
+      sharesPerPost:
+        $ref: '#/definitions/v1Percentiles'
+  v1SocialInstagram:
+    type: object
+    properties:
+      followers:
+        $ref: '#/definitions/v1Percentiles'
+      posts:
+        $ref: '#/definitions/v1Percentiles'
+  v1SocialTwitter:
+    type: object
+    properties:
+      numberOfFollowers:
+        $ref: '#/definitions/v1Percentiles'
+      numberOffOllowing:
+        $ref: '#/definitions/v1Percentiles'
+      numberOfTweets:
+        $ref: '#/definitions/v1Percentiles'
+  v1Website:
+    type: object
+    properties:
+      mobileScore:
+        $ref: '#/definitions/v1Percentiles'
+      desktopSpeedScore:
+        $ref: '#/definitions/v1Percentiles'
+      mobileInsightsScore:
+        $ref: '#/definitions/v1Percentiles'
+      desktopInsightsScore:
+        $ref: '#/definitions/v1Percentiles'
+      pageSizeBytes:
+        $ref: '#/definitions/v1Percentiles'
+      homepageContentScore:
+        $ref: '#/definitions/v1Percentiles'
+      percentageBusinessesWithAddressOnHomepage:
+        type: number
+        format: float
+      percentageBusinessesWithFacebookOnHomepage:
+        type: number
+        format: float
+      percentageBusinessesWithPhoneOnHomepage:
+        type: number
+        format: float
+      percentageBusinessesWithTwitterOnHomepage:
+        type: number
+        format: float
+      percentageBusinessesWithVideoOnHomepage:
+        type: number
+        format: float
+      percentageBusinessesWithInstagramOnHomepage:
+        type: number
+        format: float

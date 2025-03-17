@@ -1,0 +1,460 @@
+swagger: "2.0"
+info:
+  title: marketplace_apps/v2/items_api.proto
+  version: version not set
+tags:
+  - name: Items
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /marketplaceapps.v2.Items/GetMultiDependentItems:
+    post:
+      summary: GetMultiDependentItems returns the dependencies of the given items
+      operationId: Items_GetMultiDependentItems
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2GetMultiDependentItemsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2GetMultiDependentItemsRequest'
+      tags:
+        - Items
+  /marketplaceapps.v2.Items/ListActivatableItems:
+    post:
+      summary: ListActivatableItems lists the items that can be activated by the given seller.
+      operationId: Items_ListActivatableItems
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ListActivatableItemsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ListActivatableItemsRequest'
+      tags:
+        - Items
+  /marketplaceapps.v2.Items/ListDependencies:
+    post:
+      summary: ListDependencies lists the requirements of the given items.
+      operationId: Items_ListDependencies
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ListDependenciesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ListDependenciesRequest'
+      tags:
+        - Items
+  /marketplaceapps.v2.Items/ListOwnedItems:
+    post:
+      summary: ListOwnedItems lists the items owned by the given owner.
+      operationId: Items_ListOwnedItems
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v2ListOwnedItemsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v2ListOwnedItemsRequest'
+      tags:
+        - Items
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v2ActivatableItemSummary:
+    type: object
+    properties:
+      itemId:
+        type: string
+        title: unique primary identifier of the item
+      defaultName:
+        type: string
+        title: owner set item name
+      sellerWhitelabelName:
+        type: string
+        title: whitelabel item name set by seller
+      tagline:
+        type: string
+        title: short description of item
+      iconUrl:
+        type: string
+        title: url pointing to owner set icon
+      sellerWhitelabelIconUrl:
+        type: string
+        title: url pointing to whitelabel icon set by seller
+      isSuspended:
+        type: boolean
+        title: flag indicating whether the item has been suspended in the marketplace
+      isMultiactivatable:
+        type: boolean
+        title: flag indicating whether or not the item can be activated on a single account more than once
+      requiredCountries:
+        type: array
+        items:
+          type: string
+        title: list of countries the item is available in, if the item can only be purchased for a consumer in certain countries
+      requiredItems:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2RequiredItem'
+        title: list of items required for the purchase of this item
+      ownerName:
+        type: string
+        title: name of the owner
+      itemType:
+        $ref: '#/definitions/v2ItemType'
+        title: type of item (App or Addon)
+      deliveryMethod:
+        $ref: '#/definitions/v2DeliveryMethod'
+        title: method by which the item is delivered (ie SaaS product or service)
+      enabledDate:
+        type: string
+        format: date-time
+        title: date at which the item was enabled by the seller
+      categories:
+        type: array
+        items:
+          type: string
+        title: the categories that the item has been added to
+      usesEditions:
+        type: boolean
+        title: flag indicating if the item uses editions
+  v2DeliveryMethod:
+    type: string
+    enum:
+      - DELIVERY_METHOD_INVALID
+      - DELIVERY_METHOD_PRODUCT
+      - DELIVERY_METHOD_SERVICE
+    default: DELIVERY_METHOD_INVALID
+  v2DependentItems:
+    type: object
+    properties:
+      itemIds:
+        type: array
+        items:
+          type: string
+        title: itemIDs of all the dependent items
+  v2EditionRequirement:
+    type: object
+    properties:
+      editionId:
+        type: string
+        title: The ID of the edition
+      editionRequired:
+        type: boolean
+        title: Indicates if the requirement can be satisfied by the specified edition or any edition
+  v2GetMultiDependentItemsRequest:
+    type: object
+    properties:
+      itemIds:
+        type: array
+        items:
+          type: string
+        title: The IDs of the items for which to retrieve dependencies
+      sellerId:
+        type: string
+        title: Seller ID (pid)
+      storeId:
+        type: string
+        title: ID of the store(market)
+  v2GetMultiDependentItemsResponse:
+    type: object
+    properties:
+      dependentItems:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/v2DependentItems'
+        title: The dependencies for the given items
+  v2Item:
+    type: object
+    properties:
+      id:
+        type: string
+        description: The unique ID of the item.
+      name:
+        type: string
+        description: The name of the item.
+  v2ItemIdentifier:
+    type: object
+    properties:
+      itemId:
+        type: string
+        title: The ID of the item
+      editionId:
+        type: string
+        title: The ID of the edition of the item
+  v2ItemType:
+    type: string
+    enum:
+      - ITEM_TYPE_NOT_SPECIFIED
+      - ITEM_TYPE_APP
+      - ITEM_TYPE_ADDON
+      - ITEM_TYPE_PACKAGE
+    default: ITEM_TYPE_NOT_SPECIFIED
+  v2ListActivatableItemsFilters:
+    type: object
+    properties:
+      searchTerm:
+        type: string
+        description: The search term by which to filter the results.
+      ownerPartnerId:
+        type: string
+        description: The partner ID of the owner.
+      includeSuspended:
+        type: boolean
+        description: |-
+          Whether suspended items should be included.
+          Defaults to false.
+      country:
+        type: string
+        title: |-
+          A country that an ActivatableItem must be available in
+          If not specificed, no country restriction is applied
+      itemType:
+        $ref: '#/definitions/v2ItemType'
+        title: |-
+          The type of items to return
+          If not specified, app and add-on types are returned
+          Deprecated, use item_types instead
+      requiredItemId:
+        type: string
+        title: |-
+          A required item that an ActivatableItem must have
+          If not specified, no required item is applied
+      hasOrderForm:
+        $ref: '#/definitions/v2OrderFormFilter'
+        title: |-
+          The ActivatableItem has a custom order form
+          If not specified, no order form filter is applied
+      itemTypes:
+        type: array
+        items:
+          $ref: '#/definitions/v2ItemType'
+        title: |-
+          The types of items to return
+          If item_types is an empty list, all item types are returned
+  v2ListActivatableItemsRequest:
+    type: object
+    properties:
+      sellerId:
+        type: string
+        title: The unique identifier of the seller
+      cursor:
+        type: string
+        title: The cursor from which to start the list
+      pageSize:
+        type: string
+        format: int64
+        title: The number of items to return
+      sortOptions:
+        $ref: '#/definitions/v2ListActivatableItemsSortOptions'
+        title: The sort options to be applied to the query
+      filters:
+        $ref: '#/definitions/v2ListActivatableItemsFilters'
+        title: The filters to be applied to the query
+      storeId:
+        type: string
+        description: The unique ID of the store (market).
+  v2ListActivatableItemsResponse:
+    type: object
+    properties:
+      activatableItemSummaries:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2ActivatableItemSummary'
+        title: The results returned
+      nextCursor:
+        type: string
+        title: The next cursor from which to fetch the next page of results
+      hasMore:
+        type: boolean
+        title: A flag indicating whether there is another page of results
+      totalResults:
+        type: string
+        format: int64
+        title: The total number of results across all pages
+  v2ListActivatableItemsSortField:
+    type: string
+    enum:
+      - LIST_ACTIVATABLE_ITEMS_SORT_FIELD_NOT_SPECIFIED
+      - LIST_ACTIVATABLE_ITEMS_SORT_FIELD_DEFAULT_NAME
+    default: LIST_ACTIVATABLE_ITEMS_SORT_FIELD_NOT_SPECIFIED
+    title: Enumeration of the possible fields by which to sort
+  v2ListActivatableItemsSortOptions:
+    type: object
+    properties:
+      sortField:
+        $ref: '#/definitions/v2ListActivatableItemsSortField'
+        description: The field by which to sort.
+      sortDirection:
+        $ref: '#/definitions/v2SortDirection'
+        description: The direction by which to sort.
+    title: Manage product's sort options
+  v2ListDependenciesRequest:
+    type: object
+    properties:
+      sellerId:
+        type: string
+        title: Seller ID (pid)
+      items:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2ItemIdentifier'
+        title: The items for which to retrieve requirements
+      storeId:
+        type: string
+        title: Store ID (market ID)
+  v2ListDependenciesRequiredItem:
+    type: object
+    properties:
+      itemId:
+        type: string
+        title: The ID of the required item
+      editionRequirement:
+        $ref: '#/definitions/v2EditionRequirement'
+        title: Indicates which edition can satisfy the requirement
+      enabled:
+        type: boolean
+        title: Whether the required item is enabled
+  v2ListDependenciesRequiredItems:
+    type: object
+    properties:
+      requiredItems:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2ListDependenciesRequiredItem'
+        title: The required items
+  v2ListDependenciesResponse:
+    type: object
+    properties:
+      missingItems:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/v2ListDependenciesRequiredItems'
+        title: The requirements for the given items
+  v2ListOwnedItemsFilterOptions:
+    type: object
+    properties:
+      searchTerm:
+        type: string
+        description: The search term by which to filter the results.
+      appType:
+        $ref: '#/definitions/v2ListOwnedItemsFilterOptionsAppType'
+  v2ListOwnedItemsFilterOptionsAppType:
+    type: string
+    enum:
+      - NOT_SPECIFIED
+      - ALL
+      - APPLICATION
+      - ADDON
+    default: NOT_SPECIFIED
+  v2ListOwnedItemsRequest:
+    type: object
+    properties:
+      ownerId:
+        type: string
+        description: The unique ID of the owner.
+      cursor:
+        type: string
+        description: The cursor at which to start the page.
+      pageSize:
+        type: string
+        format: int64
+        description: The size of the page to fetch.
+      filterOptions:
+        $ref: '#/definitions/v2ListOwnedItemsFilterOptions'
+        description: The filters to apply to the list's query.
+  v2ListOwnedItemsResponse:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v2Item'
+        description: The items owned by the owner.
+      nextCursor:
+        type: string
+        description: The next cursor for which to fetch the next page.
+      hasMore:
+        type: boolean
+        description: The flag indicating whether there is another page.
+  v2OrderFormFilter:
+    type: string
+    enum:
+      - ORDER_FORM_FILTER_UNSPECIFIED
+      - ORDER_FORM_FILTER_HAS_ORDER_FORM
+      - ORDER_FORM_FILTER_NO_ORDER_FORM
+    default: ORDER_FORM_FILTER_UNSPECIFIED
+  v2RequiredItem:
+    type: object
+    properties:
+      itemId:
+        type: string
+        title: unique identifier of the required item
+      name:
+        type: string
+        title: whitelabel name of the required item set by seller
+  v2SortDirection:
+    type: string
+    enum:
+      - DESCENDING
+      - ASCENDING
+    default: DESCENDING
+    description: The directions that a result set can be sorted in.

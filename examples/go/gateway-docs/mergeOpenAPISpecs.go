@@ -10,21 +10,24 @@ import (
 	"path/filepath"
 )
 
-const inputDir1 = "./vendastaapisgen1" // Directory containing Swagger JSON files
+//const inputDir1 = "./vendastaapisgen1" // Directory containing Swagger JSON files
 
-// const outputFile1 = "./openapi/grpc/grpc_api.swagger.json"
-const outputFile1 = "../../../openapi/grpc/grpc_api.swagger.json"
+// const outputFile = "./openapi/grpc/grpc_api.swagger.json"
+const outputFile = "../../../openapi/grpc/grpc_api.swagger.json"
 
 func main() {
+
+	// input directory will be dynamic from the build process , the branch of generated files will be passed as input
+	// Example: go run main.go --input ./vendastaapisgen1
 	inputDir := flag.String("input", "", "Directory containing Swagger JSON files")
 	// Validate required arguments
 	if *inputDir == "" {
-		//log.Fatal("Usage: go run main.go --input <input_dir> ")
+		log.Fatal("Usage: go run mergeOpenAPISpecs.go --input <input_dir> ")
 	}
 	fmt.Println("Starting Swagger JSON Merge Process...")
 
 	// Collect all Swagger JSON files
-	swaggerFiles, err := getSwaggerFiles1(inputDir1)
+	swaggerFiles, err := getSwaggerFiles1(*inputDir)
 	if err != nil {
 		log.Fatalf("Failed to collect Swagger files: %v", err)
 	}
@@ -38,11 +41,11 @@ func main() {
 	}
 
 	// Write the merged file
-	if err := ioutil.WriteFile(outputFile1, mergedSwagger, 0644); err != nil {
+	if err := ioutil.WriteFile(outputFile, mergedSwagger, 0644); err != nil {
 		log.Fatalf("Error writing merged Swagger file: %v", err)
 	}
 
-	fmt.Println("Successfully merged Swagger files into:", outputFile1)
+	fmt.Println("Successfully merged Swagger files into:", outputFile)
 }
 
 // getSwaggerFiles scans the input directory for all `api.swagger.json` files

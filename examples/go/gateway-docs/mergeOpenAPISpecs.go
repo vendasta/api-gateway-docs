@@ -20,6 +20,7 @@ func main() {
 	// input directory will be dynamic from the build process , the branch of generated files will be passed as input
 	// Example: go run main.go --input ./vendastaapisgen1
 	inputDir := flag.String("input", "", "Directory containing Swagger JSON files")
+	flag.Parse()
 	// Validate required arguments
 	if *inputDir == "" {
 		log.Fatal("Usage: go run mergeOpenAPISpecs.go --input <input_dir> ")
@@ -73,7 +74,8 @@ func mergeSwaggerFiles(files []string) ([]byte, error) {
 	for _, file := range files {
 		fmt.Println("Processing:", file)
 
-		data, err := ioutil.ReadFile(file)
+		//data, err := ioutil.ReadFile(file)
+		data, err := os.ReadFile(file)
 		if err != nil {
 			log.Printf("Skipping %s (failed to read): %v\n", file, err)
 			continue

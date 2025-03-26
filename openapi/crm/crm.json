@@ -508,80 +508,42 @@
       }
     },
     "/{namespace}/{resourceTypeCode}": {
-      "parameters": [
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "namespace",
-          "in": "path",
-          "required": true,
-          "description": "The namespace, PID/AGID"
-        },
-        {
-          "name": "resourceTypeCode",
-          "in": "path",
-          "required": true,
-          "description": "The resourceTypeCode, here contacts, companies or activities.",
-          "schema": {
-            "type": "string",
-            "enum": [
-              "activities",
-              "companies",
-              "contacts",
-              "callActivities",
-              "communicationActivities",
-              "emailActivities",
-              "meetingActivities",
-              "noteActivities",
-              "opportunityChangeActivities",
-              "recordChangeActivities",
-              "taskActivities"
-            ]
-          }
-        }
-      ],
       "patch": {
         "summary": "Upsert CRM Record",
-        "x-stoplight": {
-          "id": "1de3f0654bc17"
-        },
-        "tags": [
-          "Resource Operations"
-        ],
         "operationId": "UpsertCrmRecord",
-        "responses": {
-          "200": {
-            "description": "This API follows [Open API schema](https://spec.openapis.org/oas/v3.1.0#schema-object) of structure for response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                },
-                "examples": {
-                  "Response Body": {
-                    "value": {
-                      "fields": [
-                        {
-                          "id": "standard__first_name",
-                          "value": "Bob"
-                        },
-                        {
-                          "id": "standard__email",
-                          "value": "crm@example.com"
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            }
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "namespace",
+            "in": "path",
+            "required": true,
+            "description": "The namespace, PID/AGID"
           },
-          "400": {
-            "description": "Bad Request"
+          {
+            "name": "resourceTypeCode",
+            "in": "path",
+            "required": true,
+            "description": "The resourceTypeCode, here contacts, companies or activities.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "activities",
+                "companies",
+                "contacts",
+                "callActivities",
+                "communicationActivities",
+                "emailActivities",
+                "meetingActivities",
+                "noteActivities",
+                "opportunityChangeActivities",
+                "recordChangeActivities",
+                "taskActivities"
+              ]
+            }
           }
-        },
-        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): \n\nv1: `Trusted Tester`\n\nv2: `Proposed`\n\n**v1 Description:**\n\nCreate/update CRM contacts, companies or activities records.\n\nDefault rules will be used to match existing records. You may specificy your own fields that contain unique values in `searchExisting`.\n\nIf a match is found the records will be merged using the always_overwrite, overwrite_if_empty, overwrite_if_newer & combine stratagy",
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -777,14 +739,83 @@
           },
           "description": ""
         },
+        "responses": {
+          "200": {
+            "description": "This API follows [Open API schema](https://spec.openapis.org/oas/v3.1.0#schema-object) of structure for response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "Response Body": {
+                    "value": {
+                      "fields": [
+                        {
+                          "id": "standard__first_name",
+                          "value": "Bob"
+                        },
+                        {
+                          "id": "standard__email",
+                          "value": "crm@example.com"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "tags": [
+          "Resource Operations"
+        ],
+        "x-stoplight": {
+          "id": "1de3f0654bc17"
+        },
         "x-lifecycle": {
           "status": "Trusted Tester"
-        }
+        },
+        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): \n\nv1: `Trusted Tester`\n\nv2: `Proposed`\n\n**v1 Description:**\n\nCreate/update CRM contacts, companies or activities records.\n\nDefault rules will be used to match existing records. You may specificy your own fields that contain unique values in `searchExisting`.\n\nIf a match is found the records will be merged using the always_overwrite, overwrite_if_empty, overwrite_if_newer & combine stratagy"
       },
       "post": {
         "summary": "Create CRM Record",
-        "tags": [
-          "Resource Operations"
+        "operationId": "CreateCrmRecord",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "namespace",
+            "in": "path",
+            "required": true,
+            "description": "The namespace, PID/AGID"
+          },
+          {
+            "name": "resourceTypeCode",
+            "in": "path",
+            "required": true,
+            "description": "The resourceTypeCode, here contacts, companies or activities.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "activities",
+                "companies",
+                "contacts",
+                "callActivities",
+                "communicationActivities",
+                "emailActivities",
+                "meetingActivities",
+                "noteActivities",
+                "opportunityChangeActivities",
+                "recordChangeActivities",
+                "taskActivities"
+              ]
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -794,7 +825,9 @@
             "description": "Bad Request"
           }
         },
-        "operationId": "CreateCrmRecord",
+        "tags": [
+          "Resource Operations"
+        ],
         "x-stoplight": {
           "id": "j1bhs5sbm6rw4"
         },
@@ -802,51 +835,49 @@
       }
     },
     "/{namespace}/{resourceTypeCode}/{id}": {
-      "parameters": [
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "namespace",
-          "in": "path",
-          "required": true,
-          "description": "The account or partner ID"
-        },
-        {
-          "name": "resourceTypeCode",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string",
-            "enum": [
-              "activities",
-              "callActivities",
-              "communicationActivities",
-              "companies",
-              "contacts",
-              "emailActivities",
-              "meetingActivities",
-              "noteActivities",
-              "opportunityChangeActivities",
-              "recordChangeActivities",
-              "taskActivities"
-            ]
-          },
-          "description": "The type of object being worked on"
-        },
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "id",
-          "in": "path",
-          "required": true
-        }
-      ],
       "get": {
         "summary": "Get CRM Record",
-        "tags": [
-          "Resource Operations"
+        "operationId": "GetCrmRecord",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "namespace",
+            "in": "path",
+            "required": true,
+            "description": "The account or partner ID"
+          },
+          {
+            "name": "resourceTypeCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "activities",
+                "callActivities",
+                "communicationActivities",
+                "companies",
+                "contacts",
+                "emailActivities",
+                "meetingActivities",
+                "noteActivities",
+                "opportunityChangeActivities",
+                "recordChangeActivities",
+                "taskActivities"
+              ]
+            },
+            "description": "The type of object being worked on"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
         ],
         "responses": {
           "200": {
@@ -871,13 +902,54 @@
             }
           }
         },
-        "operationId": "GetCrmRecord",
+        "tags": [
+          "Resource Operations"
+        ],
         "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`"
       },
       "delete": {
         "summary": "Delete CRM Record",
-        "tags": [
-          "Resource Operations"
+        "operationId": "DeleteCrmRecord",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "namespace",
+            "in": "path",
+            "required": true,
+            "description": "The account or partner ID"
+          },
+          {
+            "name": "resourceTypeCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "activities",
+                "callActivities",
+                "communicationActivities",
+                "companies",
+                "contacts",
+                "emailActivities",
+                "meetingActivities",
+                "noteActivities",
+                "opportunityChangeActivities",
+                "recordChangeActivities",
+                "taskActivities"
+              ]
+            },
+            "description": "The type of object being worked on"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
         ],
         "responses": {
           "200": {
@@ -887,23 +959,55 @@
             "description": "Bad Request"
           }
         },
-        "operationId": "DeleteCrmRecord",
+        "tags": [
+          "Resource Operations"
+        ],
         "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`"
       },
       "patch": {
         "summary": "Update CRM Record",
-        "tags": [
-          "Resource Operations"
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful"
+        "operationId": "UpdateCrmRecord",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "namespace",
+            "in": "path",
+            "required": true,
+            "description": "The account or partner ID"
           },
-          "400": {
-            "description": "Bad Request"
+          {
+            "name": "resourceTypeCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "activities",
+                "callActivities",
+                "communicationActivities",
+                "companies",
+                "contacts",
+                "emailActivities",
+                "meetingActivities",
+                "noteActivities",
+                "opportunityChangeActivities",
+                "recordChangeActivities",
+                "taskActivities"
+              ]
+            },
+            "description": "The type of object being worked on"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "id",
+            "in": "path",
+            "required": true
           }
-        },
-        "operationId": "UpdateCRMRecord",
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -918,37 +1022,45 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {}
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "tags": [
+          "Resource Operations"
+        ],
         "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`"
       }
     },
 
     "/list/{namespace}/{resourceTypeCode}": {
-      "parameters": [
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "namespace",
-          "in": "path",
-          "required": true,
-          "description": "The namespace, PID/AGID"
-        },
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "resourceTypeCode",
-          "in": "path",
-          "required": true,
-          "description": "The resourceTypeCode, here contacts, companies or activities."
-        }
-      ],
       "post": {
         "operationId": "ListCrmRecords",
         "summary": "List CRM Records",
-        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Early Access`\n\nList CRM contacts, companies or activities records.",
-        "tags": [
-          "Resource Operations"
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "namespace",
+            "in": "path",
+            "required": true,
+            "description": "The namespace, PID/AGID"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "name": "resourceTypeCode",
+            "in": "path",
+            "required": true,
+            "description": "The resourceTypeCode, here contacts, companies or activities."
+          }
         ],
         "requestBody": {
           "description": "",
@@ -1255,9 +1367,13 @@
             "description": "Bad Request"
           }
         },
+        "tags": [
+          "Resource Operations"
+        ],
         "x-lifecycle": {
           "status": "earlyAccess"
-        }
+        },
+        "description": "[Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Early Access`\n\nList CRM contacts, companies or activities records."
       }
     }
   },

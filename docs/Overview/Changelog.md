@@ -1,6 +1,9 @@
 # Changelog
 
-The platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
+The Vendasta Platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
+
+## 2024-10-03
+Deprecation of the Customer List API. Current integrations are supported for deprecation period. No new development should occur against the Customer API. The Vendasta Platform CRM API currently in `Trusted Testor` status replaces the Customer List API.
 
 ## 2024-02-27
 Mark `seoKeywords` field as deprecated in `SalesAccount` resource.

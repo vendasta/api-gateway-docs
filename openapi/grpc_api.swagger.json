@@ -27356,6 +27356,19 @@
       "default": "PROPERTY_PII_TAG_CLEAN",
       "description": "PIITag defines potential PII tags.\n\n - PROPERTY_PII_TAG_CLEAN: clean means the data is not PII or PD.\n - PROPERTY_PII_TAG_PII: PII means Personally Identifiable Information. It is information that can be used to retrieve personal data, such as IAM user ID.\n - PROPERTY_PII_TAG_PD: PD means personal data, such as name, email and address. They are sensitive data we need to protect in our system."
     },
+    "PropertyType": {
+      "type": "string",
+      "enum": [
+        "STRING",
+        "INT64",
+        "DOUBLE",
+        "BOOL",
+        "TIMESTAMP",
+        "GEOPOINT",
+        "STRUCT"
+      ],
+      "default": "STRING"
+    },
     "SecondaryIndexPropertyConfigCloudSQL": {
       "type": "object",
       "properties": {
@@ -27620,40 +27633,8 @@
         "maxNgramDiff": {
           "type": "string",
           "format": "int64"
-        },
-        "indexLevelShardAllocation": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/vstorepbElasticsearch7IndexLevelShardAllocation"
-          }
         }
       }
-    },
-    "vstorepbElasticsearch7IndexLevelShardAllocation": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/vstorepbElasticsearch7IndexLevelShardAllocationType"
-        },
-        "attribute": {
-          "type": "string"
-        },
-        "attributeValue": {
-          "type": "string"
-        }
-      },
-      "title": "Elasticsearch7IndexLevelShardAllocation allows for indices to specify where elasticsearch allocates shards.\nThe attributes/values specified here are based on attributes on ES's node sets.\nFor more information see https://www.elastic.co/docs/reference/elasticsearch/index-settings/shard-allocation"
-    },
-    "vstorepbElasticsearch7IndexLevelShardAllocationType": {
-      "type": "string",
-      "enum": [
-        "ES7_INDEX_LEVEL_SHARD_ALLOCATION_TYPE_UNSET",
-        "ES7_INDEX_LEVEL_SHARD_ALLOCATION_TYPE_REQUIRE",
-        "ES7_INDEX_LEVEL_SHARD_ALLOCATION_TYPE_EXCLUDE",
-        "ES7_INDEX_LEVEL_SHARD_ALLOCATION_TYPE_INCLUDE"
-      ],
-      "default": "ES7_INDEX_LEVEL_SHARD_ALLOCATION_TYPE_UNSET"
     },
     "vstorepbElasticsearchAnalysis": {
       "type": "object",
@@ -28041,7 +28022,7 @@
           "title": "Unique identifier for this property. Must be in snake case format.\nExample(s): account_group_id, listing_id, company_name"
         },
         "type": {
-          "$ref": "#/definitions/vstorepbPropertyType",
+          "$ref": "#/definitions/PropertyType",
           "title": "Type for this property"
         },
         "repeated": {
@@ -28073,20 +28054,6 @@
           "type": "string"
         }
       }
-    },
-    "vstorepbPropertyType": {
-      "type": "string",
-      "enum": [
-        "STRING",
-        "INT64",
-        "DOUBLE",
-        "BOOL",
-        "TIMESTAMP",
-        "GEOPOINT",
-        "STRUCT",
-        "BYTES"
-      ],
-      "default": "STRING"
     },
     "vstorepbPubSubConfig": {
       "type": "object",
@@ -34383,19 +34350,6 @@
           "title": "Which location they have subscribed to"
         }
       }
-    },
-    "PropertyType": {
-      "type": "string",
-      "enum": [
-        "STRING",
-        "INT64",
-        "DOUBLE",
-        "BOOL",
-        "TIMESTAMP",
-        "GEOPOINT",
-        "STRUCT"
-      ],
-      "default": "STRING"
     },
     "ScopeConfigDenyAll": {
       "type": "object",

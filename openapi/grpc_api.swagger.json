@@ -5,10 +5,10 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/v1beta/ListWidgets": {
+    "/conversation.v1.ConversationService/ListWidgets": {
       "post": {
         "summary": "List widgets",
-        "operationId": "ConversationService_ListWidgets2",
+        "operationId": "ConversationService_ListWidgets2_conversation_v1",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -25,48 +25,12 @@
         },
         "parameters": [
           {
-            "name": "namespace",
-            "description": "The namespace of the widget e.g. \"ABC\", \"AG-123\"\nUse either namespace or options.namespaces",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "pagingOptions.cursor",
-            "description": "cursor can be passed to retrieve the next page of results keyed by the cursor",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "pagingOptions.pageSize",
-            "description": "page_size specifies the number of items to return in the next page",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "options.namespaces",
-            "description": "The namespaces of the widgets e.g. \"ABC\", \"AG-123\"\nUse either namespace or options.namespaces",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "options.widgetTypes",
-            "description": "The types of the widget e.g. \"inbox-pro\", \"my-listings\"",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListWidgetsRequest"
+            }
           }
         ],
         "tags": [
@@ -49126,6 +49090,22 @@
         "pagingMetadata": {
           "$ref": "#/definitions/v1PagedResponseMetadata",
           "title": "Paging metadata for the request"
+        }
+      }
+    },
+    "v1ListWidgetsRequest": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "title": "The namespace of the widget e.g. \"ABC\", \"AG-123\"\nUse either namespace or options.namespaces"
+        },
+        "pagingOptions": {
+          "$ref": "#/definitions/v1PagedRequestOptions",
+          "title": "paging options"
+        },
+        "options": {
+          "$ref": "#/definitions/ListWidgetsRequestListWidgetsFilters"
         }
       }
     },

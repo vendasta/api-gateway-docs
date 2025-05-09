@@ -5,6 +5,40 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/conversation.v1.ConversationService/ListWidgets": {
+      "post": {
+        "summary": "List widgets",
+        "operationId": "ConversationService_ListWidgets2_conversation_v1",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListWidgetsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "List Widgets Request description",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListWidgetsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConversationService"
+        ]
+      }
+    },
     "/v1beta/widgets": {
       "get": {
         "summary": "List widgets",
@@ -26,7 +60,7 @@
         "parameters": [
           {
             "name": "namespace",
-            "description": "The namespace of the widget e.g. \"ABC\", \"AG-123\"\nUse either namespace or options.namespaces",
+            "description": "The namespace of the widget e.g. 'ABC', 'AG-123'\nUse either namespace or options.namespaces",
             "in": "query",
             "required": false,
             "type": "string"
@@ -71,6 +105,74 @@
         ],
         "tags": [
           "ConversationService"
+        ]
+      }
+    },
+    "/platform_integrations_v1.VendorConnectionService/Get": {
+      "post": {
+        "operationId": "VendorConnectionService_Get2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetVendorConnectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetVendorConnectionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VendorConnectionService"
+        ]
+      }
+    },
+    "/v1/vendor/connections/{connectionId}": {
+      "get": {
+        "operationId": "VendorConnectionService_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetVendorConnectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "connectionId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "options.includeDeleted",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "tags": [
+          "VendorConnectionService"
         ]
       }
     }
@@ -49069,6 +49171,24 @@
         }
       }
     },
+    "v1ListWidgetsRequest": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "description": "The namespace of the widget e.g. 'ABC', 'AG-123'\nUse either namespace or options.namespaces"
+        },
+        "pagingOptions": {
+          "$ref": "#/definitions/v1PagedRequestOptions",
+          "title": "paging options"
+        },
+        "options": {
+          "$ref": "#/definitions/ListWidgetsRequestListWidgetsFilters"
+        }
+      },
+      "description": "List Widgets Request description",
+      "title": "List Widgets Request"
+    },
     "v1ListWidgetsResponse": {
       "type": "object",
       "properties": {
@@ -63378,9 +63498,6 @@
       ],
       "default": "PHONE_NUMBER_TYPE_INVALID"
     },
-    "v2RequestShortOTPCodeResponse": {
-      "type": "object"
-    },
     "v2Resource": {
       "type": "object",
       "properties": {
@@ -75600,11 +75717,11 @@
         },
         "regionCode": {
           "type": "string",
-          "title": "The code for the top level subdivision within the country (state/province). \nExamples: CA-SK, US-FL, AG-08, AU-NSW"
+          "title": "The code for the top level subdivision within the country (state/province).\nExamples: CA-SK, US-FL, AG-08, AU-NSW"
         },
         "stateCode": {
           "type": "string",
-          "title": "The 1-3 letter subdivision code used for mail addresses within the country. \nExamples: SK, FL, 8, NSW"
+          "title": "The 1-3 letter subdivision code used for mail addresses within the country.\nExamples: SK, FL, 8, NSW"
         },
         "city": {
           "type": "string",
@@ -75844,6 +75961,17 @@
             "type": "object",
             "$ref": "#/definitions/v1VendorConnection"
           }
+        }
+      }
+    },
+    "v1GetVendorConnectionRequest": {
+      "type": "object",
+      "properties": {
+        "connectionId": {
+          "type": "string"
+        },
+        "options": {
+          "$ref": "#/definitions/GetVendorConnectionRequestOptions"
         }
       }
     },

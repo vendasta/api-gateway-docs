@@ -1,0 +1,178 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "wsp_accounts/v1/activation_state.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Accounts"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/wsp_accounts.v1.Accounts/GetActivationState": {
+      "post": {
+        "operationId": "Accounts_GetActivationState",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ActivationStateResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ActivationStateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Accounts"
+        ]
+      }
+    },
+    "/wsp_accounts.v1.Accounts/SetEditionID": {
+      "post": {
+        "operationId": "Accounts_SetEditionID",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SetEditionIDRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Accounts"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1ActivationState": {
+      "type": "object",
+      "properties": {
+        "accountId": {
+          "type": "string",
+          "title": "Account ID (AGID) of the activation state"
+        },
+        "partnerId": {
+          "type": "string",
+          "title": "Partner ID of the activation state"
+        },
+        "marketId": {
+          "type": "string",
+          "title": "Market ID of the activation state"
+        },
+        "activationId": {
+          "type": "string",
+          "title": "Activation ID of the activation state"
+        },
+        "editionId": {
+          "type": "string",
+          "title": "Edition ID of the activation state"
+        },
+        "status": {
+          "type": "string",
+          "title": "Status of the activation state"
+        }
+      }
+    },
+    "v1ActivationStateRequest": {
+      "type": "object",
+      "properties": {
+        "accountId": {
+          "type": "string",
+          "title": "the account_id (AGID) of the site to get the state for"
+        },
+        "siteId": {
+          "type": "string",
+          "title": "the siteID of the site to get the state for"
+        }
+      }
+    },
+    "v1ActivationStateResponse": {
+      "type": "object",
+      "properties": {
+        "activationState": {
+          "$ref": "#/definitions/v1ActivationState"
+        }
+      }
+    },
+    "v1SetEditionIDRequest": {
+      "type": "object",
+      "properties": {
+        "siteId": {
+          "type": "string",
+          "title": "the site ID of the site to be updated"
+        },
+        "accountId": {
+          "type": "string",
+          "title": "the account_id (AGID) of the site"
+        }
+      }
+    }
+  }
+}

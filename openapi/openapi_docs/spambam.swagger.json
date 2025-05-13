@@ -1,0 +1,240 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "spambam/v1/api.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "SpamDetectionService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/spambam.v1.SpamDetectionService/BulkGetSpamScore": {
+      "post": {
+        "operationId": "SpamDetectionService_BulkGetSpamScore",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1BulkGetSpamScoreResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1BulkGetSpamScoreRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SpamDetectionService"
+        ]
+      }
+    },
+    "/spambam.v1.SpamDetectionService/GetSpamScore": {
+      "post": {
+        "operationId": "SpamDetectionService_GetSpamScore",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetSpamScoreResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetSpamScoreRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SpamDetectionService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1BulkGetSpamScoreRequest": {
+      "type": "object",
+      "properties": {
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Message"
+          }
+        }
+      }
+    },
+    "v1BulkGetSpamScoreResponse": {
+      "type": "object",
+      "properties": {
+        "scores": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1SpamScore"
+          }
+        }
+      }
+    },
+    "v1GetSpamScoreRequest": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "type": "string",
+          "title": "subject of the message"
+        },
+        "content": {
+          "type": "string",
+          "title": "content of the message"
+        },
+        "fromAddress": {
+          "type": "string",
+          "title": "recipient's address"
+        },
+        "toAddress": {
+          "type": "string",
+          "title": "sender's address"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "title": "time at which the message was sent (if available)"
+        },
+        "messageId": {
+          "type": "string",
+          "title": "ID of the message"
+        }
+      }
+    },
+    "v1GetSpamScoreResponse": {
+      "type": "object",
+      "properties": {
+        "isSpam": {
+          "type": "boolean",
+          "description": "is_spam reports if this message is considered spam."
+        },
+        "score": {
+          "type": "number",
+          "format": "float",
+          "description": "score is the spam score of this message."
+        },
+        "baseScore": {
+          "type": "number",
+          "format": "float",
+          "title": "base_score is the threshold that defines what is or is not spam"
+        }
+      }
+    },
+    "v1Message": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "type": "string",
+          "title": "subject of the message"
+        },
+        "content": {
+          "type": "string",
+          "title": "content of the message"
+        },
+        "fromAddress": {
+          "type": "string",
+          "title": "recipient's address"
+        },
+        "toAddress": {
+          "type": "string",
+          "title": "sender's address"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "title": "time at which the message was sent (if available)"
+        },
+        "messageId": {
+          "type": "string",
+          "title": "ID of the message"
+        }
+      }
+    },
+    "v1SpamScore": {
+      "type": "object",
+      "properties": {
+        "isSpam": {
+          "type": "boolean",
+          "description": "is_spam reports if this message is considered spam."
+        },
+        "score": {
+          "type": "number",
+          "format": "float",
+          "description": "score is the spam score of this message."
+        },
+        "baseScore": {
+          "type": "number",
+          "format": "float",
+          "title": "base_score is the threshold that defines what is or is not spam"
+        },
+        "messageId": {
+          "type": "string",
+          "title": "ID of the message the score relates to"
+        }
+      }
+    }
+  }
+}

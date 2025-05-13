@@ -1,0 +1,94 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "factual_data_transfer/v1/api.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "FactualDataFileService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/factualdatatransfer.v1.FactualDataFileService/StartProcessingGCSFile": {
+      "post": {
+        "operationId": "FactualDataFileService_StartProcessingGCSFile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "StartProcessingGCSFileRequest takes in the name of a Factual data file in google cloud storage to start processing.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1StartProcessingGCSFileRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FactualDataFileService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1StartProcessingGCSFileRequest": {
+      "type": "object",
+      "properties": {
+        "fileName": {
+          "type": "string",
+          "description": "The name of the file to start processing."
+        }
+      },
+      "description": "StartProcessingGCSFileRequest takes in the name of a Factual data file in google cloud storage to start processing."
+    }
+  }
+}

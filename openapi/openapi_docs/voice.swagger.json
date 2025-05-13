@@ -1,0 +1,476 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "voice/v1alpha1/api.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "VoiceService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/voice.v1alpha1.VoiceService/DeleteCallRecord": {
+      "post": {
+        "operationId": "VoiceService_DeleteCallRecord",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1DeleteCallRecordRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VoiceService"
+        ]
+      }
+    },
+    "/voice.v1alpha1.VoiceService/GetCallRecord": {
+      "post": {
+        "operationId": "VoiceService_GetCallRecord",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetCallRecordResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetCallRecordRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VoiceService"
+        ]
+      }
+    },
+    "/voice.v1alpha1.VoiceService/GetCallUsage": {
+      "post": {
+        "operationId": "VoiceService_GetCallUsage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetCallUsageResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetCallUsageRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VoiceService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "NamespaceAccountGroupNamespace": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string"
+        }
+      }
+    },
+    "NamespacePartnerNamespace": {
+      "type": "object",
+      "properties": {
+        "partnerId": {
+          "type": "string"
+        }
+      }
+    },
+    "NamespaceSystemNamespace": {
+      "type": "object"
+    },
+    "OpenAIRealtimeConfigTurnDetection": {
+      "type": "object",
+      "properties": {
+        "threshold": {
+          "type": "number",
+          "format": "double",
+          "description": "How loud the human must speak to trigger the assistant. Valid values are between 0.0 and 1.0. Higher values indicate the human must speak louder."
+        },
+        "prefixPadding": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of milliseconds prior to the human party speaking which are included in the audio passed to the assistant."
+        },
+        "silenceDuration": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of milliseconds of silence which indicates the end of the human party speaking."
+        }
+      },
+      "title": "TurnDetection contains settings for fine tuning VAD (Turn Detection) when using OpenAI's realtime model"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1alpha1CallRecord": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the goal"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace that the goal belongs to"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestamp of the creation of the call record"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestamp of the last update to the call record"
+        },
+        "deleted": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestamp of the deletion of the call record"
+        },
+        "transcript": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1TranscriptMessage"
+          },
+          "title": "The transcript of the call"
+        },
+        "audioRecordingUrl": {
+          "type": "string",
+          "title": "A URL to an audio recording of the call"
+        },
+        "callType": {
+          "$ref": "#/definitions/v1alpha1CallType",
+          "title": "The type of the call"
+        },
+        "fromPhoneNumber": {
+          "type": "string",
+          "title": "The phone number of the participant who placed the phone call"
+        },
+        "toPhoneNumber": {
+          "type": "string",
+          "title": "The phone number of the participant who received the phone call"
+        },
+        "callDuration": {
+          "type": "string",
+          "format": "int64",
+          "title": "The duration of the call in nanoseconds"
+        },
+        "metadata": {
+          "$ref": "#/definitions/v1alpha1Metadata",
+          "title": "Metadata associated with the call"
+        }
+      }
+    },
+    "v1alpha1CallType": {
+      "type": "string",
+      "enum": [
+        "CALL_TYPE_INVALID",
+        "CALL_TYPE_INBOUND",
+        "CALL_TYPE_OUTBOUND"
+      ],
+      "default": "CALL_TYPE_INVALID"
+    },
+    "v1alpha1DeepgramConfig": {
+      "type": "object",
+      "properties": {
+        "voice": {
+          "type": "string"
+        }
+      }
+    },
+    "v1alpha1DeleteCallRecordRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the call record to delete"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace of the call record"
+        }
+      }
+    },
+    "v1alpha1FunctionCall": {
+      "type": "object",
+      "properties": {
+        "functionId": {
+          "type": "string",
+          "title": "The ID of the function which was called"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace that the called function belongs to"
+        },
+        "name": {
+          "type": "string",
+          "title": "The name of the function which was called"
+        },
+        "arguments": {
+          "type": "string",
+          "title": "The arguments which were passed to the function, as stringified JSON"
+        },
+        "metadata": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1KeyValuePair"
+          },
+          "title": "The metadata response by the model provider"
+        },
+        "calledAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestamp of when the function was called"
+        }
+      },
+      "title": "A record of a function called by an AI"
+    },
+    "v1alpha1GetCallRecordRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the call record to get"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace of the call record"
+        }
+      }
+    },
+    "v1alpha1GetCallRecordResponse": {
+      "type": "object",
+      "properties": {
+        "callRecord": {
+          "$ref": "#/definitions/v1alpha1CallRecord",
+          "title": "The call record that matches the supplied ID"
+        }
+      }
+    },
+    "v1alpha1GetCallUsageRequest": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace of the calls"
+        }
+      }
+    },
+    "v1alpha1GetCallUsageResponse": {
+      "type": "object",
+      "properties": {
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The starting time of the range of the usage"
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The ending time of the range of the usage"
+        },
+        "totalDuration": {
+          "type": "string",
+          "format": "int64",
+          "title": "The duration of all calls within the response range in nanoseconds"
+        }
+      }
+    },
+    "v1alpha1KeyValuePair": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "v1alpha1Metadata": {
+      "type": "object",
+      "properties": {
+        "voiceConfig": {
+          "$ref": "#/definitions/v1alpha1VoiceConfig",
+          "title": "The configuration used by the ai-assistant that handled the call (if any)"
+        },
+        "assistantId": {
+          "type": "string",
+          "title": "The ID of the ai-assistant that handled the call (if any)"
+        },
+        "functionCalls": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1FunctionCall"
+          },
+          "title": "A record of the functions that were called during the call"
+        }
+      }
+    },
+    "v1alpha1Namespace": {
+      "type": "object",
+      "properties": {
+        "accountGroupNamespace": {
+          "$ref": "#/definitions/NamespaceAccountGroupNamespace"
+        },
+        "partnerNamespace": {
+          "$ref": "#/definitions/NamespacePartnerNamespace"
+        },
+        "systemNamespace": {
+          "$ref": "#/definitions/NamespaceSystemNamespace"
+        }
+      }
+    },
+    "v1alpha1OpenAIRealtimeConfig": {
+      "type": "object",
+      "properties": {
+        "voice": {
+          "type": "string",
+          "description": "The voice ID to use for OpenAI text-to-speech."
+        },
+        "turnDetection": {
+          "$ref": "#/definitions/OpenAIRealtimeConfigTurnDetection"
+        }
+      }
+    },
+    "v1alpha1Participant": {
+      "type": "string",
+      "enum": [
+        "PARTICIPANT_INVALID",
+        "PARTICIPANT_FROM",
+        "PARTICIPANT_TO"
+      ],
+      "default": "PARTICIPANT_INVALID"
+    },
+    "v1alpha1TranscriptMessage": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "description": "The content of the transcript message. Note: This may include the full text response of an AI response even if it was actually interrupted during the call."
+        },
+        "itemId": {
+          "type": "string",
+          "description": "The ID of the OpenAI conversation message item that the transcript message is associated with."
+        },
+        "participant": {
+          "$ref": "#/definitions/v1alpha1Participant",
+          "description": "The participant that the transcript message is associated with."
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time that the transcript of the message was created."
+        }
+      }
+    },
+    "v1alpha1VendorModel": {
+      "type": "string",
+      "enum": [
+        "VENDOR_MODEL_UNSPECIFIED",
+        "VENDOR_MODEL_OPEN_AI_REALTIME",
+        "VENDOR_MODEL_DEEPGRAM"
+      ],
+      "default": "VENDOR_MODEL_UNSPECIFIED"
+    },
+    "v1alpha1VoiceConfig": {
+      "type": "object",
+      "properties": {
+        "vendorModel": {
+          "$ref": "#/definitions/v1alpha1VendorModel"
+        },
+        "openaiRealtimeConfig": {
+          "$ref": "#/definitions/v1alpha1OpenAIRealtimeConfig"
+        },
+        "deepgramConfig": {
+          "$ref": "#/definitions/v1alpha1DeepgramConfig"
+        }
+      }
+    }
+  }
+}

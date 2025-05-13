@@ -1,0 +1,114 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "data_transfer/v1/api.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "DataTransferService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/datatransfer.v1.DataTransferService/StartTransfer": {
+      "post": {
+        "summary": "StartTransfer begins a data transfer from the provided source_url to the destination bucket",
+        "operationId": "DataTransferService_StartTransfer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1StartTransferResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1StartTransferRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DataTransferService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1StartTransferRequest": {
+      "type": "object",
+      "properties": {
+        "sourceUrl": {
+          "type": "string",
+          "title": "The URL of the file to be transferred (beginning with http or https)"
+        },
+        "destinationBucketName": {
+          "type": "string",
+          "title": "The name of the cloud storage bucket to place the transferred file in"
+        },
+        "destinationFilename": {
+          "type": "string",
+          "title": "The destination filename to be saved in cloud storage"
+        },
+        "label": {
+          "type": "string",
+          "title": "An arbitrary label for the transfer"
+        }
+      },
+      "title": "A request to start a data transfer"
+    },
+    "v1StartTransferResponse": {
+      "type": "object",
+      "properties": {
+        "dataTransferId": {
+          "type": "string",
+          "title": "Unique identifier for the data transfer"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,3924 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ai_assistants/v1alpha1/answer.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "AssistantService"
+    },
+    {
+      "name": "ConnectionService"
+    },
+    {
+      "name": "PromptService"
+    },
+    {
+      "name": "PromptModuleService"
+    },
+    {
+      "name": "GoalService"
+    },
+    {
+      "name": "FunctionService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/ai_assistants.v1alpha1.AssistantService/BuildDefaultAssistant": {
+      "post": {
+        "summary": "Build a default assistant.\nUse case: Get the default values for an assistant to use when building a new assistant on the frontend.",
+        "operationId": "AssistantService_BuildDefaultAssistant",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1BuildDefaultAssistantResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1BuildDefaultAssistantRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AssistantService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.AssistantService/CreateAssistant": {
+      "post": {
+        "summary": "Create an assistant.",
+        "operationId": "AssistantService_CreateAssistant",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1CreateAssistantResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1CreateAssistantRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AssistantService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.AssistantService/DeleteAssistant": {
+      "post": {
+        "summary": "Delete an assistant.\nUse case: When a business no longer wants to use an assistant, delete it.",
+        "operationId": "AssistantService_DeleteAssistant",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1DeleteAssistantRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AssistantService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.AssistantService/ExecuteFunction": {
+      "post": {
+        "summary": "ExecuteFunction executes an AI Function for the Assistant with the provided arguments",
+        "operationId": "AssistantService_ExecuteFunction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ExecuteFunctionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ExecuteFunctionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AssistantService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.AssistantService/GenerateChatAnswer": {
+      "post": {
+        "summary": "GenerateChatAnswer will generate an answer to the latest message in a given chat conversation",
+        "operationId": "AssistantService_GenerateChatAnswer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GenerateChatAnswerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GenerateChatAnswerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AssistantService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.AssistantService/GetAssistant": {
+      "post": {
+        "summary": "Get a specific assistant.",
+        "operationId": "AssistantService_GetAssistant",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetAssistantResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetAssistantRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AssistantService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.AssistantService/GetChatAnswerFunctionExecutionJob": {
+      "post": {
+        "summary": "GetChatAnswerFunctionExecutionJob will return the status and results of an async function job. This allows updates to be given in a chat while the AI is still working on a final answer.",
+        "operationId": "AssistantService_GetChatAnswerFunctionExecutionJob",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetChatAnswerFunctionExecutionJobResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetChatAnswerFunctionExecutionJobRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AssistantService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.AssistantService/ListAllAssistantsAssociatedToConnection": {
+      "post": {
+        "summary": "List all assistants associated to connection.\nUse case: List all assistants that are associated with a specific connection to show them in a UI.",
+        "operationId": "AssistantService_ListAllAssistantsAssociatedToConnection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListAllAssistantsAssociatedToConnectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListAllAssistantsAssociatedToConnectionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AssistantService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.AssistantService/ListAssistant": {
+      "post": {
+        "summary": "List assistants.\nUse case: List all assistants that are associated with a specific namespace to show them in a UI.",
+        "operationId": "AssistantService_ListAssistant",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListAssistantResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListAssistantRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AssistantService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.AssistantService/SetAssistantConnections": {
+      "post": {
+        "summary": "SetAssistantConnections will associate or disassociate an assistant with a connection",
+        "operationId": "AssistantService_SetAssistantConnections",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1SetAssistantConnectionsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AssistantService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.AssistantService/UpdateAssistant": {
+      "post": {
+        "summary": "Update an assistant.",
+        "operationId": "AssistantService_UpdateAssistant",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1UpdateAssistantRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AssistantService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.AssistantService/UpsertAssistant": {
+      "post": {
+        "summary": "Create or update an assistant.\nIf the assistant already exists, it will be updated.\nUse case: Create a new assistant for a business.",
+        "operationId": "AssistantService_UpsertAssistant",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1UpsertAssistantResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1UpsertAssistantRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AssistantService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.ConnectionService/DeleteConnection": {
+      "post": {
+        "summary": "Delete a connection.\nUse case: When a Social Marketing account is deleted, remove the connection so that it can no longer be associated with assistants.",
+        "operationId": "ConnectionService_DeleteConnection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1DeleteConnectionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.ConnectionService/GetConnection": {
+      "post": {
+        "summary": "Get a specific connection.",
+        "operationId": "ConnectionService_GetConnection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetConnectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetConnectionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.ConnectionService/ListConnections": {
+      "post": {
+        "summary": "List connections.\nUse case: List all connections that are associated with a specific namespace to show them in a UI.",
+        "operationId": "ConnectionService_ListConnections",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListConnectionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListConnectionsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.ConnectionService/UpsertConnection": {
+      "post": {
+        "summary": "Create or update a connection.\nIf the connection already exists, it will be updated.\nUse case: Register an instance of a Social Marketing account as a connection.",
+        "operationId": "ConnectionService_UpsertConnection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1UpsertConnectionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.FunctionService/Delete": {
+      "post": {
+        "operationId": "FunctionService_Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1DeleteFunctionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FunctionService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.FunctionService/Get": {
+      "post": {
+        "operationId": "FunctionService_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetFunctionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetFunctionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FunctionService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.FunctionService/GetMulti": {
+      "post": {
+        "operationId": "FunctionService_GetMulti",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetMultiFunctionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetMultiFunctionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FunctionService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.FunctionService/List": {
+      "post": {
+        "operationId": "FunctionService_List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListFunctionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListFunctionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FunctionService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.FunctionService/Upsert": {
+      "post": {
+        "operationId": "FunctionService_Upsert",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1UpsertFunctionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FunctionService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.GoalService/Create": {
+      "post": {
+        "summary": "Create a goal",
+        "operationId": "GoalService_Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1CreateGoalResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1CreateGoalRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GoalService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.GoalService/Delete": {
+      "post": {
+        "summary": "Delete a goal",
+        "operationId": "GoalService_Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1DeleteGoalRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GoalService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.GoalService/Get": {
+      "post": {
+        "summary": "Get a goal",
+        "operationId": "GoalService_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetGoalResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetGoalRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GoalService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.GoalService/GetMulti": {
+      "post": {
+        "operationId": "GoalService_GetMulti",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetMultiGoalResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetMultiGoalRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GoalService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.GoalService/GoalsDisabledForAccountGroup": {
+      "post": {
+        "summary": "Returns true if the account group ID in the request belongs to a group that is excluded from using goals",
+        "operationId": "GoalService_GoalsDisabledForAccountGroup",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GoalsDisabledForAccountGroupResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GoalsDisabledForAccountGroupRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GoalService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.GoalService/List": {
+      "post": {
+        "summary": "List goals",
+        "operationId": "GoalService_List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListGoalsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListGoalsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GoalService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.GoalService/Update": {
+      "post": {
+        "summary": "Update a goal",
+        "operationId": "GoalService_Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1UpdateGoalRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GoalService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.GoalService/Upsert": {
+      "post": {
+        "summary": "Deprecated: Use the Create or Update instead.",
+        "operationId": "GoalService_Upsert",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1UpsertGoalRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GoalService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptModuleService/Create": {
+      "post": {
+        "summary": "Creates a new prompt module and its first version",
+        "operationId": "PromptModuleService_Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1CreatePromptModuleResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1CreatePromptModuleRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptModuleService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptModuleService/CreateVersion": {
+      "post": {
+        "summary": "Creates a new version of a prompt module",
+        "operationId": "PromptModuleService_CreateVersion",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1CreatePromptModuleVersionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptModuleService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptModuleService/Delete": {
+      "post": {
+        "summary": "Deletes a prompt module",
+        "operationId": "PromptModuleService_Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1DeletePromptModuleRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptModuleService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptModuleService/Deploy": {
+      "post": {
+        "summary": "Deploys a prompt module version",
+        "operationId": "PromptModuleService_Deploy",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1DeployPromptModuleRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptModuleService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptModuleService/Get": {
+      "post": {
+        "summary": "Gets a prompt module by ID and namespace",
+        "operationId": "PromptModuleService_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetPromptModuleResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetPromptModuleRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptModuleService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptModuleService/GetDeployedVersion": {
+      "post": {
+        "summary": "Gets the deployed version of a prompt module",
+        "operationId": "PromptModuleService_GetDeployedVersion",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetDeployedPromptModuleVersionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetDeployedPromptModuleVersionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptModuleService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptModuleService/GetHydratedDeployedVersion": {
+      "post": {
+        "summary": "Gets the hydrated content of a deployed version of a prompt module",
+        "operationId": "PromptModuleService_GetHydratedDeployedVersion",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetHydratedDeployedPromptModuleVersionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetHydratedDeployedPromptModuleVersionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptModuleService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptModuleService/GetMultiHydratedDeployedVersion": {
+      "post": {
+        "summary": "Gets multiple hydrated deployed versions of prompt modules",
+        "operationId": "PromptModuleService_GetMultiHydratedDeployedVersion",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetMultiHydratedDeployedPromptModuleVersionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetMultiHydratedDeployedPromptModuleVersionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptModuleService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptModuleService/GetVersion": {
+      "post": {
+        "summary": "Gets a specific PromptModuleVersion",
+        "operationId": "PromptModuleService_GetVersion",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetPromptModuleVersionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetPromptModuleVersionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptModuleService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptModuleService/List": {
+      "post": {
+        "summary": "Lists all prompt modules with the deployed versions",
+        "operationId": "PromptModuleService_List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListPromptModuleResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListPromptModuleRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptModuleService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptModuleService/ListVersions": {
+      "post": {
+        "summary": "Lists all versions of a prompt module",
+        "operationId": "PromptModuleService_ListVersions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListPromptModuleVersionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListPromptModuleVersionsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptModuleService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptModuleService/Update": {
+      "post": {
+        "summary": "Updates the prompt module name and/or description",
+        "operationId": "PromptModuleService_Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1UpdatePromptModuleRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptModuleService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptService/Create": {
+      "post": {
+        "summary": "Creates a new prompt and its first version",
+        "operationId": "PromptService_Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1CreatePromptRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptService/Delete": {
+      "post": {
+        "summary": "Deletes a prompt",
+        "operationId": "PromptService_Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1DeletePromptRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptService/Deploy": {
+      "post": {
+        "summary": "Deploys a prompt version",
+        "operationId": "PromptService_Deploy",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1DeployPromptRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptService/Get": {
+      "post": {
+        "summary": "Gets a prompt by ID",
+        "operationId": "PromptService_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetPromptResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetPromptRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptService/GetDeployedVersion": {
+      "post": {
+        "summary": "Gets the deployed version of a prompt",
+        "operationId": "PromptService_GetDeployedVersion",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetDeployedPromptVersionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetDeployedPromptVersionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptService/GetMultiDeployedVersion": {
+      "post": {
+        "summary": "Gets multiple deployed versions of prompts",
+        "operationId": "PromptService_GetMultiDeployedVersion",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetMultiDeployedPromptVersionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetMultiDeployedPromptVersionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptService/GetVersion": {
+      "post": {
+        "summary": "Gets a specific PromptVersion",
+        "operationId": "PromptService_GetVersion",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetPromptVersionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1GetPromptVersionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptService/List": {
+      "post": {
+        "summary": "Lists all prompts with the deployed versions",
+        "operationId": "PromptService_List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListPromptResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListPromptRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptService/ListVersions": {
+      "post": {
+        "summary": "Lists all versions of a prompt",
+        "operationId": "PromptService_ListVersions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListPromptVersionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1ListPromptVersionsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptService"
+        ]
+      }
+    },
+    "/ai_assistants.v1alpha1.PromptService/Update": {
+      "post": {
+        "summary": "Creates a new version of a prompt",
+        "operationId": "PromptService_Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1alpha1UpdatePromptRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PromptService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ConfigInboxConfig": {
+      "type": "object",
+      "properties": {
+        "leadCaptureEnabled": {
+          "type": "boolean",
+          "description": "The lead_capture_enabled is a boolean that indicates if the assistant is able to capture leads."
+        },
+        "additionalInstructions": {
+          "type": "string",
+          "description": "Additional instructions for the assistant."
+        }
+      }
+    },
+    "ConfigVoiceConfig": {
+      "type": "object",
+      "properties": {
+        "vendorModel": {
+          "$ref": "#/definitions/v1alpha1VendorModel"
+        },
+        "modelConfig": {
+          "$ref": "#/definitions/v1alpha1ModelConfig"
+        }
+      }
+    },
+    "FunctionAuthStrategyPlatformManagedFunctionAuthStrategy": {
+      "type": "object",
+      "properties": {
+        "requiredScopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The scopes required to use the function"
+        }
+      }
+    },
+    "FunctionAuthStrategyUnspecifiedFunctionAuthStrategy": {
+      "type": "object"
+    },
+    "FunctionParameterParameterLocation": {
+      "type": "string",
+      "enum": [
+        "LOCATION_BODY",
+        "LOCATION_QUERY_PARAM"
+      ],
+      "default": "LOCATION_BODY",
+      "description": "The location of the parameter in the function call.\n\n - LOCATION_BODY: Parameter is set on the request body\n - LOCATION_QUERY_PARAM: Parameter is set in the URL as a query parameter"
+    },
+    "NamespaceAccountGroupNamespace": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string"
+        }
+      },
+      "title": "AccountGroupNamespace is a namespace used to set the resource as belonging only to an account group (can't be overridden)"
+    },
+    "NamespaceAccountGroupsForGroupNamespace": {
+      "type": "object",
+      "properties": {
+        "groupPath": {
+          "type": "string",
+          "description": "The group_path is the concatenation of group ids, separated by '|', that form the path to a group."
+        }
+      },
+      "title": "AccountGroupsForGroupNamespace is a namespace used to set the resource as default for account groups that belong to a group, unless overridden by a child (account group)"
+    },
+    "NamespaceAccountGroupsForPartnerNamespace": {
+      "type": "object",
+      "properties": {
+        "partnerId": {
+          "type": "string",
+          "title": "The partner_id is the ID of the partner that the account groups belong to"
+        }
+      },
+      "title": "AccountGroupsForPartnerNamespace is a namespace used to set the resource as default for account groups that belong to a partner, unless overridden by a child (group or account group)"
+    },
+    "NamespaceGlobalNamespace": {
+      "type": "object",
+      "title": "GlobalNamespace is a namespace used to set the resource as default for the entire system, unless overridden by a child (partner, group or account group)"
+    },
+    "NamespacePartnerNamespace": {
+      "type": "object",
+      "properties": {
+        "partnerId": {
+          "type": "string"
+        }
+      },
+      "title": "PartnerNamespace is a namespace used to set the resource as belonging only to a partner (can't be overridden)"
+    },
+    "NamespaceSystemNamespace": {
+      "type": "object",
+      "title": "SystemNamespace is a namespace used to set the resource as belonging to the system (can't be overridden)\nonly Vendasta admins can create and modify assistants/connections in this namespace"
+    },
+    "OpenAIRealtimeConfigTurnDetection": {
+      "type": "object",
+      "properties": {
+        "threshold": {
+          "type": "number",
+          "format": "double",
+          "description": "How loud the human must speak to trigger the assistant. Valid values are between 0.0 and 1.0. Higher values indicate the human must speak louder."
+        },
+        "prefixPadding": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of milliseconds prior to the human party speaking which are included in the audio passed to the assistant."
+        },
+        "silenceDuration": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of milliseconds of silence which indicates the end of the human party speaking."
+        }
+      },
+      "title": "TurnDetection contains settings for fine tuning VAD (Turn Detection) when using OpenAI's realtime model"
+    },
+    "SetAssistantConnectionsRequestConnectionState": {
+      "type": "object",
+      "properties": {
+        "connectionKey": {
+          "$ref": "#/definitions/v1alpha1ConnectionKey",
+          "title": "The key of the Connection that is being associated/disassociated with the Assistant"
+        },
+        "isAssociated": {
+          "type": "boolean",
+          "title": "Whether the Assistant should be associated or disassociated with the Connection"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1alpha1Assistant": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID of the assistant.\nMust be unique within the namespace."
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "description": "Namespace that the assistant belongs to. Can be set only on create."
+        },
+        "name": {
+          "type": "string",
+          "title": "Name is the name of the assistant.\nThis is the name that will show in the ui whenever the assistant is interacting with something and must be identified.\nFor example: \"Aurora\", \"Jamie\", \"Siri\""
+        },
+        "type": {
+          "$ref": "#/definitions/v1alpha1AssistantType",
+          "description": "The type of the assistant."
+        },
+        "avatarUrl": {
+          "type": "string",
+          "description": "The avatar url for the assistant. Rendered in UIs and shown to users.\nIf not provided, a default one will be chosen. Can be modified later."
+        },
+        "config": {
+          "$ref": "#/definitions/v1alpha1Config",
+          "description": "The configuration for the assistant."
+        },
+        "configurableGoals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1ConfigurableGoal"
+          },
+          "title": "The goals that the assistant is associated with and their configuration"
+        },
+        "userId": {
+          "type": "string",
+          "description": "The IAM user ID of the service account that is associated with the assistant. Used to authenticate platform requests made by the assistant."
+        }
+      }
+    },
+    "v1alpha1AssistantKey": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "ID of the assistant"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "Namespace that the assistant belongs to"
+        }
+      }
+    },
+    "v1alpha1AssistantType": {
+      "type": "string",
+      "enum": [
+        "ASSISTANT_TYPE_UNSPECIFIED",
+        "ASSISTANT_TYPE_SYSTEM",
+        "ASSISTANT_TYPE_INBOX",
+        "ASSISTANT_TYPE_SOCIAL_MARKETING",
+        "ASSISTANT_TYPE_VOICE_RECEPTIONIST",
+        "ASSISTANT_TYPE_CUSTOM",
+        "ASSISTANT_TYPE_SALES_COACH"
+      ],
+      "default": "ASSISTANT_TYPE_UNSPECIFIED",
+      "title": "- ASSISTANT_TYPE_SYSTEM: Admin assistant. Eg. the current Aurora\n - ASSISTANT_TYPE_INBOX: Inbox assistant. Eg. Jamie\n - ASSISTANT_TYPE_SOCIAL_MARKETING: Social marketing assistant. Eg. Simone\n - ASSISTANT_TYPE_VOICE_RECEPTIONIST: Voice receptionist assistant.\n - ASSISTANT_TYPE_CUSTOM: Custom assistant\n - ASSISTANT_TYPE_SALES_COACH: Sales Coach/Assistant"
+    },
+    "v1alpha1BuildDefaultAssistantRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace"
+        },
+        "type": {
+          "$ref": "#/definitions/v1alpha1AssistantType"
+        }
+      }
+    },
+    "v1alpha1BuildDefaultAssistantResponse": {
+      "type": "object",
+      "properties": {
+        "assistant": {
+          "$ref": "#/definitions/v1alpha1Assistant"
+        }
+      }
+    },
+    "v1alpha1ChatAnswerFunctionExecutionJob": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the function execution job"
+        },
+        "status": {
+          "$ref": "#/definitions/v1alpha1ChatAnswerFunctionExecutionJobStatus",
+          "title": "The status of the function execution job"
+        },
+        "result": {
+          "$ref": "#/definitions/v1alpha1ChatAnswerFunctionExecutionJobResult",
+          "title": "The result of the function execution job"
+        },
+        "nextJobId": {
+          "type": "string",
+          "title": "The ID of the next job in the sequence"
+        }
+      }
+    },
+    "v1alpha1ChatAnswerFunctionExecutionJobResult": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "title": "The content is a progress update message or final answer from a chat answer function execution job"
+        },
+        "metadata": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1KeyValuePair"
+          },
+          "title": "The metadata associated with the progress update message or final answer"
+        }
+      }
+    },
+    "v1alpha1ChatAnswerFunctionExecutionJobStatus": {
+      "type": "string",
+      "enum": [
+        "FUNCTION_EXECUTION_JOB_STATUS_INVALID",
+        "FUNCTION_EXECUTION_JOB_STATUS_QUEUED",
+        "FUNCTION_EXECUTION_JOB_STATUS_RUNNING",
+        "FUNCTION_EXECUTION_JOB_STATUS_COMPLETE"
+      ],
+      "default": "FUNCTION_EXECUTION_JOB_STATUS_INVALID",
+      "title": "- FUNCTION_EXECUTION_JOB_STATUS_QUEUED: FUNCTION_EXECUTION_JOB_STATUS_QUEUED indicates that the job is queued to run\n - FUNCTION_EXECUTION_JOB_STATUS_RUNNING: FUNCTION_EXECUTION_JOB_STATUS_QUEUED indicates a currently running job\n - FUNCTION_EXECUTION_JOB_STATUS_COMPLETE: FUNCTION_EXECUTION_JOB_STATUS_COMPLETE indicates that the job is complete"
+    },
+    "v1alpha1ChatChannel": {
+      "type": "string",
+      "enum": [
+        "CHAT_CHANNEL_INVALID",
+        "CHAT_CHANNEL_UNSPECIFIED",
+        "CHAT_CHANNEL_WEB",
+        "CHAT_CHANNEL_SMS",
+        "CHAT_CHANNEL_WHATSAPP",
+        "CHAT_CHANNEL_FACEBOOK",
+        "CHAT_CHANNEL_INSTAGRAM",
+        "CHAT_CHANNEL_AUTOMATION",
+        "CHAT_CHANNEL_PLATFORM"
+      ],
+      "default": "CHAT_CHANNEL_INVALID",
+      "description": " - CHAT_CHANNEL_UNSPECIFIED: CHAT_CHANNEL_UNSPECIFIED indicates that no special considerations need to be taken for the method in which this chat has been conducted\n - CHAT_CHANNEL_WEB: CHAT_CHANNEL_WEB indicates that the chat is being conducted in a browser or mobile app. This allows for certain formatting, such as markdown.\n - CHAT_CHANNEL_SMS: CHAT_CHANNEL_SMS indicates that the chat is being conducted over SMS text messages. This will enforce shorter messages and not allow markdown.\n - CHAT_CHANNEL_WHATSAPP: CHAT_CHANNEL_WHATSAPP indicates that the chat is being conducted over WhatsApp. This allows for certain formatting, such as a subset of markdown.\n - CHAT_CHANNEL_FACEBOOK: CHAT_CHANNEL_FACEBOOK indicates that the chat is being conducted over Facebook Messenger. This allows for certain formatting, such as a subset of markdown.\n - CHAT_CHANNEL_INSTAGRAM: CHAT_CHANNEL_INSTAGRAM indicates that the chat is being conducted over Instagram. This allows for certain formatting, such as a subset of markdown.\n - CHAT_CHANNEL_AUTOMATION: CHAT_CHANNEL_AUTOMATION indicates that the chat request is being made by an Automation. This does not allow for a back and forth chat.\n - CHAT_CHANNEL_PLATFORM: CHAT_CHANNEL_PLATFORM_CHAT indicates that the chat is being conducted over the platform chat."
+    },
+    "v1alpha1ChatMessage": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "$ref": "#/definitions/v1alpha1ChatMessageRole",
+          "title": "The role of the chat message sender"
+        },
+        "content": {
+          "type": "string",
+          "title": "The content of the chat message"
+        }
+      }
+    },
+    "v1alpha1ChatMessageRole": {
+      "type": "string",
+      "enum": [
+        "CHAT_MESSAGE_ROLE_INVALID",
+        "CHAT_MESSAGE_ROLE_USER",
+        "CHAT_MESSAGE_ROLE_ASSISTANT"
+      ],
+      "default": "CHAT_MESSAGE_ROLE_INVALID"
+    },
+    "v1alpha1ChatUserInfo": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "The name of the user"
+        },
+        "email": {
+          "type": "string",
+          "title": "The email of the user"
+        },
+        "phone": {
+          "type": "string",
+          "title": "The phone number of the user"
+        },
+        "address1": {
+          "type": "string",
+          "title": "The address of the user"
+        },
+        "address2": {
+          "type": "string",
+          "title": "The additional address line of the user (i.e. Suite or Apt number)"
+        },
+        "city": {
+          "type": "string",
+          "title": "The city of the user"
+        },
+        "state": {
+          "type": "string",
+          "title": "The state of the user"
+        },
+        "country": {
+          "type": "string",
+          "title": "The country of the user"
+        },
+        "zipCode": {
+          "type": "string",
+          "title": "The zip/postal code of the user"
+        },
+        "timezone": {
+          "type": "string",
+          "title": "The timezone of the user"
+        }
+      }
+    },
+    "v1alpha1Config": {
+      "type": "object",
+      "properties": {
+        "inboxConfig": {
+          "$ref": "#/definitions/ConfigInboxConfig"
+        },
+        "voiceConfig": {
+          "$ref": "#/definitions/ConfigVoiceConfig"
+        }
+      },
+      "description": "The configuration for the assistant.\nThis is a object that can be used to store any configuration that the assistant uses when interacting with the user of a determined service."
+    },
+    "v1alpha1ConfigurableGoal": {
+      "type": "object",
+      "properties": {
+        "goal": {
+          "$ref": "#/definitions/v1alpha1Goal",
+          "title": "The goal that is configurable\nOnly the goal key needs to be set on writes and the entire goal will be returned on fetches"
+        },
+        "configuration": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1KeyValuePair"
+          },
+          "title": "The configuration is a list of key-value pairs that are used to configure the goal\nConfiguring the goal means injecting variables to the prompt(s) associated with the goal on runtime"
+        }
+      }
+    },
+    "v1alpha1Connection": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID of the connection.\nMust be unique within the namespace and connection_type.\nClients choose their own IDs, but are encouraged to use UUIDs,\nparticularly if its possible to have more than one Connection for a namespace+connection_type."
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "description": "Namespace that the connection belongs to. Can be set only on create."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name is the human-readable name of the connection. Shown to users.\nThis is different from connection type name in that you may have multiple connections of the same type and need to differentiate them.\nFor example: \"Twilio 3065556666\" vs \"Twilio 4155557777\" which are both of the \"Inbox Voice\" connection type."
+        },
+        "configurationUrl": {
+          "type": "string",
+          "title": "ConfigurationURL is the url for where this connection can be configured\nContinuing with the Inbox Voice example, this would be the configuration screen for that Twilio number in Business App.\nFor example: \"https://colin-gooding-inc-dot-vbc-demo.appspot.com/account/location/AG-ZVTV5THTQK/settings/inbox\""
+        },
+        "assistantKeys": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1AssistantKey"
+          },
+          "title": "the assistants that the connection is associated with"
+        },
+        "connectionType": {
+          "type": "string",
+          "description": "Connection Type is the type of connection. This is not shown to user but can be used for filtering or display purposes.\nThis is often a product identifier like \"sm\" for social marketing or \"webchat\" for inbox webchat."
+        },
+        "connectionTypeName": {
+          "type": "string",
+          "description": "ConnectionTypeName is the human-readable name of the connection type - eg \"Inbox\" or \"Twilio\" or \"Social Marketing\". Shown to users.\nRead-only. Set based on the connection type. If you add a connection type, also add a corresponding connection type name in the `ai-assistants` microservice."
+        },
+        "iconUrl": {
+          "type": "string",
+          "description": "The url to an icon for the connection. Rendered in UIs and shown to users.\nIf not provided, the product will choose a default icon.\nRead-only. Set based on the connection type. If you add a connection type, also add a corresponding icon url in the `ai-assistants` microservice."
+        },
+        "isConnectionLocked": {
+          "type": "boolean",
+          "description": "IsConnectionLocked is a boolean that indicates if the connection with assistants is locked from being modified by the user.\nIf true, the connection with the participant is locked and cannot be modified by the user."
+        },
+        "supportedAssistantTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1alpha1AssistantType"
+          },
+          "description": "SupportedAssistantTypes is a list of assistant types that this connection supports."
+        }
+      }
+    },
+    "v1alpha1ConnectionKey": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "ID of the connection"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "Namespace that the connection belongs to"
+        },
+        "connectionType": {
+          "type": "string",
+          "title": "The type of connection"
+        }
+      }
+    },
+    "v1alpha1CreateAssistantRequest": {
+      "type": "object",
+      "properties": {
+        "assistant": {
+          "$ref": "#/definitions/v1alpha1Assistant",
+          "description": "The assistant to create."
+        },
+        "options": {
+          "$ref": "#/definitions/v1alpha1CreateAssistantRequestOptions",
+          "description": "The options for creating the assistant."
+        }
+      }
+    },
+    "v1alpha1CreateAssistantRequestOptions": {
+      "type": "object",
+      "properties": {
+        "applyDefaults": {
+          "type": "boolean",
+          "description": "Automatically apply default configurations for the assistant."
+        }
+      }
+    },
+    "v1alpha1CreateAssistantResponse": {
+      "type": "object",
+      "properties": {
+        "assistant": {
+          "$ref": "#/definitions/v1alpha1Assistant"
+        }
+      }
+    },
+    "v1alpha1CreateGoalRequest": {
+      "type": "object",
+      "properties": {
+        "goal": {
+          "$ref": "#/definitions/v1alpha1Goal",
+          "title": "The goal to create"
+        }
+      }
+    },
+    "v1alpha1CreateGoalResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the created goal"
+        }
+      }
+    },
+    "v1alpha1CreatePromptModuleRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the new prompt module"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace of the prompt module"
+        },
+        "name": {
+          "type": "string",
+          "title": "The name of the new prompt module that will be displayed on the UI"
+        },
+        "description": {
+          "type": "string",
+          "title": "The description of the new prompt module that will be displayed on the UI"
+        },
+        "content": {
+          "type": "string",
+          "title": "The content of the new prompt module"
+        },
+        "managed": {
+          "type": "boolean",
+          "title": "Whether the prompt module is managed outside of its namespace\nA managed prompt module cannot be edited, it is only updated by the managed configuration"
+        }
+      }
+    },
+    "v1alpha1CreatePromptModuleResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The id of the prompt module that was created"
+        }
+      }
+    },
+    "v1alpha1CreatePromptModuleVersionRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt module"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace of the prompt module"
+        },
+        "content": {
+          "type": "string",
+          "title": "The content of the new prompt module version"
+        },
+        "options": {
+          "$ref": "#/definitions/v1alpha1CreatePromptModuleVersionRequestOptions",
+          "title": "The options for creating the prompt module version"
+        }
+      }
+    },
+    "v1alpha1CreatePromptModuleVersionRequestOptions": {
+      "type": "object",
+      "properties": {
+        "shouldDeploy": {
+          "type": "boolean",
+          "title": "Whether to deploy the prompt module version after it is created"
+        }
+      }
+    },
+    "v1alpha1CreatePromptRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the new prompt"
+        },
+        "content": {
+          "type": "string",
+          "title": "The content of the new prompt"
+        },
+        "description": {
+          "type": "string",
+          "title": "A human-readable description of the purpose or use of the prompt"
+        }
+      }
+    },
+    "v1alpha1DeepgramConfig": {
+      "type": "object",
+      "properties": {
+        "voice": {
+          "type": "string"
+        }
+      }
+    },
+    "v1alpha1DeleteAssistantRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace"
+        }
+      }
+    },
+    "v1alpha1DeleteConnectionRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "connectionType": {
+          "type": "string"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace"
+        }
+      }
+    },
+    "v1alpha1DeleteFunctionRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the function to delete"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace of the function"
+        }
+      }
+    },
+    "v1alpha1DeleteGoalRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the goal to delete"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace of the goal"
+        }
+      }
+    },
+    "v1alpha1DeletePromptModuleRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt module to delete"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace of the prompt module"
+        }
+      }
+    },
+    "v1alpha1DeletePromptRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt to delete"
+        }
+      }
+    },
+    "v1alpha1DeployPromptModuleRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt module to deploy"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace of the prompt module"
+        },
+        "version": {
+          "type": "string",
+          "title": "The version of the prompt module to deploy"
+        }
+      }
+    },
+    "v1alpha1DeployPromptRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt to deploy"
+        },
+        "version": {
+          "type": "string",
+          "title": "The version of the prompt to deploy"
+        }
+      }
+    },
+    "v1alpha1ExecuteFunctionRequest": {
+      "type": "object",
+      "properties": {
+        "assistantKey": {
+          "$ref": "#/definitions/v1alpha1AssistantKey",
+          "title": "The key of the assistant that is executing the function"
+        },
+        "functionKey": {
+          "$ref": "#/definitions/v1alpha1FunctionKey",
+          "title": "The key of the function to execute"
+        },
+        "arguments": {
+          "type": "string",
+          "title": "The json arguments to pass to the function"
+        }
+      }
+    },
+    "v1alpha1ExecuteFunctionResponse": {
+      "type": "object",
+      "properties": {
+        "output": {
+          "type": "string",
+          "description": "The generated output of the function\nFor functions that generate answers, this will be a full answer. For other functions, this may be a status update message."
+        },
+        "metadata": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1KeyValuePair"
+          },
+          "title": "Metadata can include any additional information that a function builds\nThere can also be an entry for `result` which is the data that should be given as a toolCall response to open ai"
+        }
+      }
+    },
+    "v1alpha1Function": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the function"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace that the function belongs to"
+        },
+        "description": {
+          "type": "string",
+          "title": "The description of the function"
+        },
+        "url": {
+          "type": "string",
+          "title": "The URL that the function will call"
+        },
+        "methodType": {
+          "type": "string",
+          "title": "The method type that the function call will use to call the URL"
+        },
+        "functionParameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1FunctionParameter"
+          },
+          "title": "The parameters that the function accepts"
+        },
+        "generatesAnswer": {
+          "type": "boolean",
+          "title": "Functions that generate an answer are not actually executed, instead the request parameters are used as the generated answer"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time the function was last updated"
+        },
+        "headers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1FunctionHeader"
+          },
+          "title": "The headers that the function call will use to call the URL"
+        },
+        "managed": {
+          "type": "boolean",
+          "title": "Whether the function is managed outside of its namespace\nA managed function cannot be edited, it is only updated by the managed configuration"
+        },
+        "authStrategy": {
+          "$ref": "#/definitions/v1alpha1FunctionAuthStrategy",
+          "title": "The auth strategy to use when calling this function"
+        }
+      }
+    },
+    "v1alpha1FunctionAuthStrategy": {
+      "type": "object",
+      "properties": {
+        "unspecified": {
+          "$ref": "#/definitions/FunctionAuthStrategyUnspecifiedFunctionAuthStrategy",
+          "title": "The function does not use a defined auth strategy (may be unauthed, or may provide an api key via parameters, headers, etc)"
+        },
+        "platformManaged": {
+          "$ref": "#/definitions/FunctionAuthStrategyPlatformManagedFunctionAuthStrategy",
+          "title": "The function uses the platform managed auth strategy"
+        }
+      }
+    },
+    "v1alpha1FunctionHeader": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "v1alpha1FunctionKey": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the function"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace that the function belongs to"
+        }
+      }
+    },
+    "v1alpha1FunctionParameter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "The name of the parameter"
+        },
+        "description": {
+          "type": "string",
+          "title": "The description of the parameter"
+        },
+        "type": {
+          "type": "string",
+          "title": "The type of the parameter"
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1FunctionParameter"
+          },
+          "title": "The properties that the parameter contains (if the type is an object)"
+        },
+        "items": {
+          "$ref": "#/definitions/v1alpha1FunctionParameter",
+          "title": "The definition of the items that the array contains (only used if type is array)"
+        },
+        "value": {
+          "type": "string",
+          "title": "The value of the parameter - used only when the parameters is filled automatically by the system"
+        },
+        "location": {
+          "$ref": "#/definitions/FunctionParameterParameterLocation"
+        }
+      }
+    },
+    "v1alpha1GenerateChatAnswerRequest": {
+      "type": "object",
+      "properties": {
+        "connectionKey": {
+          "$ref": "#/definitions/v1alpha1ConnectionKey",
+          "description": "The key of the Connection that is being used to ask the question. The Assistant associated with this Connection will be used to determine an answer."
+        },
+        "chatHistory": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1ChatMessage"
+          },
+          "description": "The history of chat messages in order from oldest to latest. The answer will be generated for the latest message. The latest message MUST have the role of User."
+        },
+        "chatUserInfo": {
+          "$ref": "#/definitions/v1alpha1ChatUserInfo",
+          "description": "The known information about the user asking the question in the chat. This allows the Assistant to communicate with the user using this terms and may affect the Assistants goals."
+        },
+        "chatChannel": {
+          "$ref": "#/definitions/v1alpha1ChatChannel",
+          "description": "The channel on which the chat is taking place. This may affect the behaviour of the Assistant and/or formatting of the answer."
+        },
+        "options": {
+          "$ref": "#/definitions/v1alpha1GenerateChatAnswerRequestOptions",
+          "title": "The options for generating the chat answer"
+        },
+        "assistantKey": {
+          "$ref": "#/definitions/v1alpha1AssistantKey",
+          "description": "The assistant that should be used to generate the chat answer."
+        }
+      }
+    },
+    "v1alpha1GenerateChatAnswerRequestOptions": {
+      "type": "object",
+      "properties": {
+        "includeAllCitations": {
+          "type": "boolean",
+          "description": "When this option is true, all possible citations for knowledge given to the AI will be given. When false, only citations deemed relevant by the AI will be included."
+        },
+        "enableAsyncFunctions": {
+          "type": "boolean",
+          "title": "When this option is true, the request may return with a pending_job_id that can be used to poll GetChatAnswerFunctionExecutionJob for progress results of functions being called until the final answer is given.\nWhen this option is false, the response will wait until all functions have been completed before returning a response"
+        },
+        "maxTokens": {
+          "type": "string",
+          "format": "int64",
+          "description": "the max tokens to generate in the answer. If zero, the default will be used instead."
+        }
+      }
+    },
+    "v1alpha1GenerateChatAnswerResponse": {
+      "type": "object",
+      "properties": {
+        "answer": {
+          "type": "string",
+          "title": "The generated answer"
+        },
+        "metadata": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1KeyValuePair"
+          },
+          "title": "The metadata associated with the answer"
+        },
+        "pendingJobId": {
+          "type": "string",
+          "title": "If pending_job_id is empty, the answer can just be used directly\nIf enable_async_functions is true, a pending_job_id will be returned if an answer is not yet ready\nIt should be used to poll GetChatAnswerFunctionExecutionJob for progress updates through to the final answer"
+        }
+      }
+    },
+    "v1alpha1GetAssistantRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace"
+        }
+      }
+    },
+    "v1alpha1GetAssistantResponse": {
+      "type": "object",
+      "properties": {
+        "assistant": {
+          "$ref": "#/definitions/v1alpha1Assistant"
+        }
+      }
+    },
+    "v1alpha1GetChatAnswerFunctionExecutionJobRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the function execution job"
+        }
+      }
+    },
+    "v1alpha1GetChatAnswerFunctionExecutionJobResponse": {
+      "type": "object",
+      "properties": {
+        "job": {
+          "$ref": "#/definitions/v1alpha1ChatAnswerFunctionExecutionJob",
+          "title": "The function execution job"
+        }
+      }
+    },
+    "v1alpha1GetConnectionRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "connectionType": {
+          "type": "string"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace"
+        },
+        "includeAssistantKeys": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1alpha1GetConnectionResponse": {
+      "type": "object",
+      "properties": {
+        "connection": {
+          "$ref": "#/definitions/v1alpha1Connection"
+        }
+      }
+    },
+    "v1alpha1GetDeployedPromptModuleVersionRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt module to get the deployed version for"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace of the prompt module"
+        }
+      }
+    },
+    "v1alpha1GetDeployedPromptModuleVersionResponse": {
+      "type": "object",
+      "properties": {
+        "promptModule": {
+          "$ref": "#/definitions/v1alpha1PromptModule",
+          "title": "The requested prompt module"
+        },
+        "deployedPromptModuleVersion": {
+          "$ref": "#/definitions/v1alpha1PromptModuleVersion",
+          "title": "The deployed version of the requested prompt module"
+        }
+      }
+    },
+    "v1alpha1GetDeployedPromptVersionRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt to get the deployed version for"
+        }
+      }
+    },
+    "v1alpha1GetDeployedPromptVersionResponse": {
+      "type": "object",
+      "properties": {
+        "prompt": {
+          "$ref": "#/definitions/v1alpha1Prompt",
+          "title": "The requested prompt"
+        },
+        "deployedPromptVersion": {
+          "$ref": "#/definitions/v1alpha1PromptVersion",
+          "title": "The deployed version of the requested prompt"
+        }
+      }
+    },
+    "v1alpha1GetFunctionRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the function to get"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace of the function"
+        }
+      }
+    },
+    "v1alpha1GetFunctionResponse": {
+      "type": "object",
+      "properties": {
+        "function": {
+          "$ref": "#/definitions/v1alpha1Function",
+          "title": "The function that matches the supplied ID"
+        }
+      }
+    },
+    "v1alpha1GetGoalRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the goal to get"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace of the goal"
+        }
+      }
+    },
+    "v1alpha1GetGoalResponse": {
+      "type": "object",
+      "properties": {
+        "goal": {
+          "$ref": "#/definitions/v1alpha1Goal",
+          "title": "The goal that matches the supplied ID"
+        }
+      }
+    },
+    "v1alpha1GetHydratedDeployedPromptModuleVersionRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt module to get the deployed version for"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace of the prompt module"
+        },
+        "variables": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1KeyValuePair"
+          },
+          "title": "The variables that will be used to hydrate the prompt module"
+        }
+      }
+    },
+    "v1alpha1GetHydratedDeployedPromptModuleVersionResponse": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "title": "The requested hydrated content from the deployed prompt module version"
+        }
+      }
+    },
+    "v1alpha1GetMultiDeployedPromptVersionRequest": {
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The IDs of the prompts to get the deployed versions for"
+        }
+      }
+    },
+    "v1alpha1GetMultiDeployedPromptVersionResponse": {
+      "type": "object",
+      "properties": {
+        "prompts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1Prompt"
+          },
+          "title": "The requested prompts"
+        },
+        "deployedPromptVersions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1PromptVersion"
+          },
+          "title": "The deployed versions of the requested prompts"
+        }
+      }
+    },
+    "v1alpha1GetMultiFunctionRequest": {
+      "type": "object",
+      "properties": {
+        "keys": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1FunctionKey"
+          },
+          "title": "The keys of the functions to get"
+        }
+      }
+    },
+    "v1alpha1GetMultiFunctionResponse": {
+      "type": "object",
+      "properties": {
+        "functions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1Function"
+          },
+          "title": "The functions that match the supplied keys"
+        }
+      }
+    },
+    "v1alpha1GetMultiGoalRequest": {
+      "type": "object",
+      "properties": {
+        "keys": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1GoalKey"
+          },
+          "title": "The keys of the goals to get"
+        }
+      }
+    },
+    "v1alpha1GetMultiGoalResponse": {
+      "type": "object",
+      "properties": {
+        "goals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1Goal"
+          },
+          "title": "The goals that match the supplied keys"
+        }
+      }
+    },
+    "v1alpha1GetMultiHydratedDeployedPromptModuleVersionRequest": {
+      "type": "object",
+      "properties": {
+        "keys": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1PromptModuleKey"
+          },
+          "title": "The keys of the prompt modules to get the deployed version for"
+        },
+        "variables": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1KeyValuePair"
+          },
+          "title": "The variables that will be used to hydrate the prompt modules"
+        }
+      }
+    },
+    "v1alpha1GetMultiHydratedDeployedPromptModuleVersionResponse": {
+      "type": "object",
+      "properties": {
+        "contents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The requested hydrated content from the deployed prompt module versions"
+        }
+      }
+    },
+    "v1alpha1GetPromptModuleRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt module to get"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace of the prompt module"
+        }
+      }
+    },
+    "v1alpha1GetPromptModuleResponse": {
+      "type": "object",
+      "properties": {
+        "promptModule": {
+          "$ref": "#/definitions/v1alpha1PromptModule",
+          "title": "The prompt module that matches the supplied ID"
+        }
+      }
+    },
+    "v1alpha1GetPromptModuleVersionRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt module to get"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace of the prompt module"
+        },
+        "version": {
+          "type": "string",
+          "title": "The version of the prompt module version to get"
+        }
+      }
+    },
+    "v1alpha1GetPromptModuleVersionResponse": {
+      "type": "object",
+      "properties": {
+        "promptModuleVersion": {
+          "$ref": "#/definitions/v1alpha1PromptModuleVersion",
+          "title": "The prompt version that matches the supplied ID and version"
+        }
+      }
+    },
+    "v1alpha1GetPromptRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt to get"
+        }
+      }
+    },
+    "v1alpha1GetPromptResponse": {
+      "type": "object",
+      "properties": {
+        "prompt": {
+          "$ref": "#/definitions/v1alpha1Prompt",
+          "title": "The prompt that matches the supplied ID"
+        }
+      }
+    },
+    "v1alpha1GetPromptVersionRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt to get"
+        },
+        "version": {
+          "type": "string",
+          "title": "The version of the prompt version to get"
+        }
+      }
+    },
+    "v1alpha1GetPromptVersionResponse": {
+      "type": "object",
+      "properties": {
+        "promptVersion": {
+          "$ref": "#/definitions/v1alpha1PromptVersion",
+          "title": "The prompt version that matches the supplied ID and version"
+        }
+      }
+    },
+    "v1alpha1Goal": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the goal"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace that the goal belongs to"
+        },
+        "name": {
+          "type": "string",
+          "title": "The name of the goal"
+        },
+        "description": {
+          "type": "string",
+          "title": "The description of the goal"
+        },
+        "type": {
+          "$ref": "#/definitions/v1alpha1GoalType",
+          "title": "The type of the goal"
+        },
+        "promptModules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1PromptModule"
+          },
+          "title": "The prompt modules associated with the goal"
+        },
+        "functions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1Function"
+          },
+          "title": "The functions associated with the goal"
+        },
+        "updatedBy": {
+          "type": "string",
+          "title": "The IAM user ID who last updated the goal"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestamp of the last goal update"
+        },
+        "supportedChannels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1alpha1GoalChannel"
+          },
+          "title": "The supported channels for the goal, if empty, the goal is supported on all channels"
+        },
+        "managed": {
+          "type": "boolean",
+          "title": "Whether the goal is managed outside of its namespace\nA managed goal cannot be edited, it is only updated by the managed configuration"
+        }
+      }
+    },
+    "v1alpha1GoalChannel": {
+      "type": "string",
+      "enum": [
+        "GOAL_CHANNEL_INVALID",
+        "GOAL_CHANNEL_SMS",
+        "GOAL_CHANNEL_EMAIL",
+        "GOAL_CHANNEL_PLATFORM",
+        "GOAL_CHANNEL_WEBCHAT",
+        "GOAL_CHANNEL_VOICE",
+        "GOAL_CHANNEL_WHATSAPP",
+        "GOAL_CHANNEL_INSTAGRAM",
+        "GOAL_CHANNEL_FACEBOOK",
+        "GOAL_CHANNEL_AUTOMATION"
+      ],
+      "default": "GOAL_CHANNEL_INVALID",
+      "title": "- GOAL_CHANNEL_INVALID: GOAL_CHANNEL_INVALID is an invalid channel\n - GOAL_CHANNEL_SMS: GOAL_CHANNEL_SMS is a channel that supports SMS\n - GOAL_CHANNEL_EMAIL: GOAL_CHANNEL_EMAIL is a channel that supports email\n - GOAL_CHANNEL_PLATFORM: GOAL_CHANNEL_PLATFORM is a channel that supports platform\n - GOAL_CHANNEL_WEBCHAT: GOAL_CHANNEL_WEBCHAT is a channel that supports webchat\n - GOAL_CHANNEL_VOICE: GOAL_CHANNEL_VOICE is a channel that supports voice\n - GOAL_CHANNEL_WHATSAPP: GOAL_CHANNEL_WHATSAPP is a channel that supports whatsapp\n - GOAL_CHANNEL_INSTAGRAM: GOAL_CHANNEL_INSTAGRAM is a channel that supports instagram\n - GOAL_CHANNEL_FACEBOOK: GOAL_CHANNEL_FACEBOOK is a channel that supports facebook\n - GOAL_CHANNEL_AUTOMATION: GOAL_CHANNEL_AUTOMATION is a channel that supports automations"
+    },
+    "v1alpha1GoalKey": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the goal"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace that the goal belongs to"
+        }
+      }
+    },
+    "v1alpha1GoalType": {
+      "type": "string",
+      "enum": [
+        "GOAL_TYPE_INVALID",
+        "GOAL_TYPE_GOAL",
+        "GOAL_TYPE_KNOWLEDGE",
+        "GOAL_TYPE_PERSONALITY",
+        "GOAL_TYPE_CUSTOM"
+      ],
+      "default": "GOAL_TYPE_INVALID",
+      "title": "- GOAL_TYPE_INVALID: GOAL_TYPE_INVALID is an invalid goal type\n - GOAL_TYPE_GOAL: GOAL_TYPE_GOAL is a goal that contains the assistant goal\n - GOAL_TYPE_KNOWLEDGE: GOAL_TYPE_KNOWLEDGE is a goal that contains the assistant knowledge\n - GOAL_TYPE_PERSONALITY: GOAL_TYPE_PERSONALITY is a goal that describes the assistant personality\n - GOAL_TYPE_CUSTOM: GOAL_TYPE_CUSTOM is a goal that is customized for a specific use case"
+    },
+    "v1alpha1GoalsDisabledForAccountGroupRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1alpha1GoalsDisabledForAccountGroupResponse": {
+      "type": "object",
+      "properties": {
+        "goalsDisabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1alpha1KeyValuePair": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "v1alpha1ListAllAssistantsAssociatedToConnectionRequest": {
+      "type": "object",
+      "properties": {
+        "connectionKey": {
+          "$ref": "#/definitions/v1alpha1ConnectionKey"
+        },
+        "filters": {
+          "$ref": "#/definitions/v1alpha1ListAllAssistantsAssociatedToConnectionRequestFilters"
+        }
+      }
+    },
+    "v1alpha1ListAllAssistantsAssociatedToConnectionRequestFilters": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/v1alpha1AssistantType"
+        }
+      }
+    },
+    "v1alpha1ListAllAssistantsAssociatedToConnectionResponse": {
+      "type": "object",
+      "properties": {
+        "assistants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1Assistant"
+          }
+        }
+      }
+    },
+    "v1alpha1ListAssistantRequest": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "$ref": "#/definitions/v1alpha1ListAssistantRequestFilters"
+        },
+        "pagingOptions": {
+          "$ref": "#/definitions/vendastatypesPagedRequestOptions"
+        }
+      }
+    },
+    "v1alpha1ListAssistantRequestFilters": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace"
+        },
+        "type": {
+          "$ref": "#/definitions/v1alpha1AssistantType"
+        }
+      }
+    },
+    "v1alpha1ListAssistantResponse": {
+      "type": "object",
+      "properties": {
+        "assistants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1Assistant"
+          }
+        },
+        "metadata": {
+          "$ref": "#/definitions/vendastatypesPagedResponseMetadata"
+        }
+      }
+    },
+    "v1alpha1ListConnectionsRequest": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "$ref": "#/definitions/v1alpha1ListConnectionsRequestFilters"
+        },
+        "pagingOptions": {
+          "$ref": "#/definitions/vendastatypesPagedRequestOptions"
+        },
+        "includeAssistantKeys": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1alpha1ListConnectionsRequestFilters": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace"
+        },
+        "assistantType": {
+          "$ref": "#/definitions/v1alpha1AssistantType"
+        }
+      }
+    },
+    "v1alpha1ListConnectionsResponse": {
+      "type": "object",
+      "properties": {
+        "connections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1Connection"
+          }
+        },
+        "metadata": {
+          "$ref": "#/definitions/vendastatypesPagedResponseMetadata"
+        }
+      }
+    },
+    "v1alpha1ListFunctionRequest": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "$ref": "#/definitions/v1alpha1ListFunctionRequestFilters",
+          "title": "Filtering options for the list of functions"
+        },
+        "pagingOptions": {
+          "$ref": "#/definitions/vendastatypesPagedRequestOptions",
+          "title": "The options for paging through the list of functions"
+        }
+      }
+    },
+    "v1alpha1ListFunctionRequestFilters": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace"
+        }
+      }
+    },
+    "v1alpha1ListFunctionResponse": {
+      "type": "object",
+      "properties": {
+        "functions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1Function"
+          },
+          "title": "The list of functions"
+        },
+        "metadata": {
+          "$ref": "#/definitions/vendastatypesPagedResponseMetadata",
+          "title": "The metadata for paging through the list of functions"
+        }
+      }
+    },
+    "v1alpha1ListGoalsRequest": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "$ref": "#/definitions/v1alpha1ListGoalsRequestFilters",
+          "title": "Filtering options for the list of goals"
+        },
+        "pagingOptions": {
+          "$ref": "#/definitions/vendastatypesPagedRequestOptions",
+          "title": "The options for paging through the list of goals"
+        }
+      }
+    },
+    "v1alpha1ListGoalsRequestFilters": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace"
+        },
+        "type": {
+          "$ref": "#/definitions/v1alpha1GoalType"
+        },
+        "supportedChannels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1alpha1GoalChannel"
+          }
+        }
+      }
+    },
+    "v1alpha1ListGoalsResponse": {
+      "type": "object",
+      "properties": {
+        "goals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1Goal"
+          },
+          "title": "The list of goals"
+        },
+        "metadata": {
+          "$ref": "#/definitions/vendastatypesPagedResponseMetadata",
+          "title": "The metadata for paging through the list of goals"
+        }
+      }
+    },
+    "v1alpha1ListPromptModuleRequest": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "$ref": "#/definitions/v1alpha1ListPromptModuleRequestFilters",
+          "title": "Filtering options for the list of prompt modules"
+        },
+        "pagingOptions": {
+          "$ref": "#/definitions/vendastatypesPagedRequestOptions",
+          "title": "The options for paging through the list of prompt modules"
+        }
+      }
+    },
+    "v1alpha1ListPromptModuleRequestFilters": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace"
+        }
+      }
+    },
+    "v1alpha1ListPromptModuleResponse": {
+      "type": "object",
+      "properties": {
+        "promptModules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1PromptModule"
+          },
+          "title": "The list of prompt modules"
+        },
+        "deployedPromptModuleVersions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1PromptModuleVersion"
+          },
+          "title": "The deployed version of each prompt module"
+        },
+        "metadata": {
+          "$ref": "#/definitions/vendastatypesPagedResponseMetadata",
+          "title": "The metadata for paging through the list of prompt module"
+        }
+      }
+    },
+    "v1alpha1ListPromptModuleVersionsRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt module to list versions for"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace of the prompt module"
+        },
+        "pagingOptions": {
+          "$ref": "#/definitions/vendastatypesPagedRequestOptions",
+          "title": "The options for paging through the list of prompt module versions"
+        }
+      }
+    },
+    "v1alpha1ListPromptModuleVersionsResponse": {
+      "type": "object",
+      "properties": {
+        "promptModuleVersions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1PromptModuleVersion"
+          },
+          "title": "The list of prompt module versions"
+        },
+        "metadata": {
+          "$ref": "#/definitions/vendastatypesPagedResponseMetadata",
+          "title": "The metadata for paging through the list of prompt module versions"
+        }
+      }
+    },
+    "v1alpha1ListPromptRequest": {
+      "type": "object",
+      "properties": {
+        "pagingOptions": {
+          "$ref": "#/definitions/vendastatypesPagedRequestOptions",
+          "title": "The options for paging through the list of prompts"
+        }
+      }
+    },
+    "v1alpha1ListPromptResponse": {
+      "type": "object",
+      "properties": {
+        "prompts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1Prompt"
+          },
+          "title": "The list of prompts"
+        },
+        "deployedPromptVersions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1PromptVersion"
+          },
+          "title": "The deployed version of each prompt"
+        },
+        "metadata": {
+          "$ref": "#/definitions/vendastatypesPagedResponseMetadata",
+          "title": "The metadata for paging through the list of prompts"
+        }
+      }
+    },
+    "v1alpha1ListPromptVersionsRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt to list versions for"
+        },
+        "pagingOptions": {
+          "$ref": "#/definitions/vendastatypesPagedRequestOptions",
+          "title": "The options for paging through the list of prompt versions"
+        }
+      }
+    },
+    "v1alpha1ListPromptVersionsResponse": {
+      "type": "object",
+      "properties": {
+        "promptVersions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1PromptVersion"
+          },
+          "title": "The list of prompt versions"
+        },
+        "metadata": {
+          "$ref": "#/definitions/vendastatypesPagedResponseMetadata",
+          "title": "The metadata for paging through the list of prompt versions"
+        }
+      }
+    },
+    "v1alpha1ModelConfig": {
+      "type": "object",
+      "properties": {
+        "openaiRealtimeConfig": {
+          "$ref": "#/definitions/v1alpha1OpenAIRealtimeConfig"
+        },
+        "deepgramConfig": {
+          "$ref": "#/definitions/v1alpha1DeepgramConfig"
+        }
+      }
+    },
+    "v1alpha1Namespace": {
+      "type": "object",
+      "properties": {
+        "accountGroupNamespace": {
+          "$ref": "#/definitions/NamespaceAccountGroupNamespace"
+        },
+        "partnerNamespace": {
+          "$ref": "#/definitions/NamespacePartnerNamespace"
+        },
+        "systemNamespace": {
+          "$ref": "#/definitions/NamespaceSystemNamespace"
+        },
+        "accountGroupsForPartnerNamespace": {
+          "$ref": "#/definitions/NamespaceAccountGroupsForPartnerNamespace"
+        },
+        "accountGroupsForGroupNamespace": {
+          "$ref": "#/definitions/NamespaceAccountGroupsForGroupNamespace"
+        },
+        "globalNamespace": {
+          "$ref": "#/definitions/NamespaceGlobalNamespace"
+        }
+      }
+    },
+    "v1alpha1OpenAIRealtimeConfig": {
+      "type": "object",
+      "properties": {
+        "voice": {
+          "type": "string",
+          "description": "The voice ID to use for OpenAI text-to-speech."
+        },
+        "turnDetection": {
+          "$ref": "#/definitions/OpenAIRealtimeConfigTurnDetection"
+        }
+      }
+    },
+    "v1alpha1Prompt": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt"
+        },
+        "deployedVersion": {
+          "type": "string",
+          "title": "The version of the prompt that is currently deployed"
+        },
+        "deployedBy": {
+          "type": "string",
+          "title": "The IAM user ID who last deployed the prompt"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestamp of the last update to the prompt data, either description or a deployment"
+        },
+        "description": {
+          "type": "string",
+          "title": "A human-readable description of the purpose or use of the prompt"
+        },
+        "deployed": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestamp of the last prompt deployment"
+        }
+      }
+    },
+    "v1alpha1PromptModule": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt module"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "description": "Namespace that the prompt module belongs to. Can be set only on create."
+        },
+        "name": {
+          "type": "string",
+          "title": "The name of the prompt module that will be displayed on the UI"
+        },
+        "description": {
+          "type": "string",
+          "title": "The description of the prompt module"
+        },
+        "deployedVersion": {
+          "type": "string",
+          "title": "The version of the prompt module that is currently deployed"
+        },
+        "deployedBy": {
+          "type": "string",
+          "title": "The IAM user ID who last deployed the prompt module"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestamp of the last prompt module update"
+        },
+        "deployed": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestamp of the last prompt module deployment"
+        },
+        "managed": {
+          "type": "boolean",
+          "title": "Whether the prompt module is managed outside of its namespace\nA managed prompt module cannot be edited, it is only updated by the managed configuration"
+        }
+      }
+    },
+    "v1alpha1PromptModuleKey": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt module"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace that the prompt module belongs to"
+        }
+      }
+    },
+    "v1alpha1PromptModuleVersion": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt module associated with this version"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "description": "Namespace that the prompt module belongs to. Can be set only on create."
+        },
+        "version": {
+          "type": "string",
+          "title": "The version of the prompt module - a unix epoch timestamp"
+        },
+        "content": {
+          "type": "string",
+          "title": "The content of the prompt module version"
+        },
+        "createdBy": {
+          "type": "string",
+          "title": "The IAM user ID who created the prompt module version"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestamp of the prompt module version creation"
+        }
+      }
+    },
+    "v1alpha1PromptVersion": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt associated with this version"
+        },
+        "version": {
+          "type": "string",
+          "title": "The version of the prompt - a unix epoch timestamp"
+        },
+        "content": {
+          "type": "string",
+          "title": "The content of the prompt version"
+        },
+        "createdBy": {
+          "type": "string",
+          "title": "The IAM user ID who created the prompt version"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestamp of the prompt version creation"
+        }
+      }
+    },
+    "v1alpha1SetAssistantConnectionsRequest": {
+      "type": "object",
+      "properties": {
+        "associationStates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/SetAssistantConnectionsRequestConnectionState"
+          },
+          "title": "The list of ConnectionStates to associate/disassociate with the Assistant"
+        },
+        "assistantKey": {
+          "$ref": "#/definitions/v1alpha1AssistantKey",
+          "title": "The Assistant to associate/disassociate the Connections with"
+        }
+      }
+    },
+    "v1alpha1UpdateAssistantRequest": {
+      "type": "object",
+      "properties": {
+        "assistant": {
+          "$ref": "#/definitions/v1alpha1Assistant",
+          "description": "The assistant to update."
+        },
+        "fieldMask": {
+          "$ref": "#/definitions/vendastatypesFieldMask",
+          "title": "The fields to update on the assistant"
+        }
+      }
+    },
+    "v1alpha1UpdateGoalRequest": {
+      "type": "object",
+      "properties": {
+        "goal": {
+          "$ref": "#/definitions/v1alpha1Goal",
+          "title": "The goal to update"
+        }
+      }
+    },
+    "v1alpha1UpdatePromptModuleRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt module to update"
+        },
+        "namespace": {
+          "$ref": "#/definitions/v1alpha1Namespace",
+          "title": "The namespace of the prompt module"
+        },
+        "name": {
+          "type": "string",
+          "title": "The name of the prompt module that will be displayed on the UI"
+        },
+        "description": {
+          "type": "string",
+          "title": "The description of the prompt module that will be displayed on the UI"
+        }
+      }
+    },
+    "v1alpha1UpdatePromptRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The ID of the prompt to update"
+        },
+        "content": {
+          "type": "string",
+          "title": "The content of the new prompt version"
+        },
+        "description": {
+          "type": "string",
+          "title": "A human-readable description of the purpose or use of the prompt"
+        }
+      }
+    },
+    "v1alpha1UpsertAssistantRequest": {
+      "type": "object",
+      "properties": {
+        "assistant": {
+          "$ref": "#/definitions/v1alpha1Assistant",
+          "description": "The assistant to upsert."
+        },
+        "options": {
+          "$ref": "#/definitions/v1alpha1UpsertAssistantRequestOptions",
+          "description": "The options for upserting the assistant."
+        }
+      }
+    },
+    "v1alpha1UpsertAssistantRequestOptions": {
+      "type": "object",
+      "properties": {
+        "applyDefaults": {
+          "type": "boolean",
+          "description": "Automatically apply default configurations for the assistant."
+        }
+      }
+    },
+    "v1alpha1UpsertAssistantResponse": {
+      "type": "object",
+      "properties": {
+        "assistant": {
+          "$ref": "#/definitions/v1alpha1Assistant"
+        }
+      }
+    },
+    "v1alpha1UpsertConnectionRequest": {
+      "type": "object",
+      "properties": {
+        "connection": {
+          "$ref": "#/definitions/v1alpha1Connection"
+        }
+      }
+    },
+    "v1alpha1UpsertFunctionRequest": {
+      "type": "object",
+      "properties": {
+        "function": {
+          "$ref": "#/definitions/v1alpha1Function",
+          "title": "The function to upsert"
+        }
+      }
+    },
+    "v1alpha1UpsertGoalRequest": {
+      "type": "object",
+      "properties": {
+        "goal": {
+          "$ref": "#/definitions/v1alpha1Goal",
+          "title": "The goal to upsert"
+        }
+      },
+      "title": "DEPRECATED: Upsert RPC is deprecated, use create or update instead"
+    },
+    "v1alpha1VendorModel": {
+      "type": "string",
+      "enum": [
+        "VENDOR_MODEL_UNSPECIFIED",
+        "VENDOR_MODEL_OPEN_AI_REALTIME",
+        "VENDOR_MODEL_DEEPGRAM"
+      ],
+      "default": "VENDOR_MODEL_UNSPECIFIED"
+    },
+    "vendastatypesFieldMask": {
+      "type": "object",
+      "properties": {
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The set of field mask paths."
+        }
+      },
+      "description": "paths: \"f.a\"\n    paths: \"f.b.d\"\n\nHere `f` represents a field in some root message, `a` and `b`\nfields in the message found in `f`, and `d` a field found in the\nmessage in `f.b`.\n\nField masks are used to specify a subset of fields that should be\nreturned by a get operation or modified by an update operation.\nField masks also have a custom JSON encoding (see below).\n\n# Field Masks in Projections\n\nWhen used in the context of a projection, a response message or\nsub-message is filtered by the API to only contain those fields as\nspecified in the mask. For example, if the mask in the previous\nexample is applied to a response message as follows:\n\n    f {\n      a : 22\n      b {\n        d : 1\n        x : 2\n      }\n      y : 13\n    }\n    z: 8\n\nThe result will not contain specific values for fields x,y and z\n(their value will be set to the default, and omitted in proto text\noutput):\n\n\n    f {\n      a : 22\n      b {\n        d : 1\n      }\n    }\n\nA repeated field is not allowed except at the last position of a\npaths string.\n\nIf a FieldMask object is not present in a get operation, the\noperation applies to all fields (as if a FieldMask of all fields\nhad been specified).\n\nNote that a field mask does not necessarily apply to the\ntop-level response message. In case of a REST get operation, the\nfield mask applies directly to the response, but in case of a REST\nlist operation, the mask instead applies to each individual message\nin the returned resource list. In case of a REST custom method,\nother definitions may be used. Where the mask applies will be\nclearly documented together with its declaration in the API.  In\nany case, the effect on the returned resource/resources is required\nbehavior for APIs.\n\n# Field Masks in Update Operations\n\nA field mask in update operations specifies which fields of the\ntargeted resource are going to be updated. The API is required\nto only change the values of the fields as specified in the mask\nand leave the others untouched. If a resource is passed in to\ndescribe the updated values, the API ignores the values of all\nfields not covered by the mask.\n\nIf a repeated field is specified for an update operation, the existing\nrepeated values in the target resource will be overwritten by the new values.\nNote that a repeated field is only allowed in the last position of a `paths`\nstring.\n\nIf a sub-message is specified in the last position of the field mask for an\nupdate operation, then the existing sub-message in the target resource is\noverwritten. Given the target message:\n\n    f {\n      b {\n        d : 1\n        x : 2\n      }\n      c : 1\n    }\n\nAnd an update message:\n\n    f {\n      b {\n        d : 10\n      }\n    }\n\nthen if the field mask is:\n\n paths: \"f.b\"\n\nthen the result will be:\n\n    f {\n      b {\n        d : 10\n      }\n      c : 1\n    }\n\nHowever, if the update mask was:\n\n paths: \"f.b.d\"\n\nthen the result would be:\n\n    f {\n      b {\n        d : 10\n        x : 2\n      }\n      c : 1\n    }\n\nIn order to reset a field's value to the default, the field must\nbe in the mask and set to the default value in the provided resource.\nHence, in order to reset all fields of a resource, provide a default\ninstance of the resource and set all fields in the mask, or do\nnot provide a mask as described below.\n\nIf a field mask is not present on update, the operation applies to\nall fields (as if a field mask of all fields has been specified).\nNote that in the presence of schema evolution, this may mean that\nfields the client does not know and has therefore not filled into\nthe request will be reset to their default. If this is unwanted\nbehavior, a specific service may require a client to always specify\na field mask, producing an error if not.\n\nAs with get operations, the location of the resource which\ndescribes the updated values in the request message depends on the\noperation kind. In any case, the effect of the field mask is\nrequired to be honored by the API.\n\n## Considerations for HTTP REST\n\nThe HTTP kind of an update operation which uses a field mask must\nbe set to PATCH instead of PUT in order to satisfy HTTP semantics\n(PUT must only be used for full updates).\n\n# JSON Encoding of Field Masks\n\nIn JSON, a field mask is encoded as a single string where paths are\nseparated by a comma. Fields name in each path are converted\nto/from lower-camel naming conventions.\n\nAs an example, consider the following message declarations:\n\n    message Profile {\n      User user = 1;\n      Photo photo = 2;\n    }\n    message User {\n      string display_name = 1;\n      string address = 2;\n    }\n\nIn proto a field mask for `Profile` may look as such:\n\n    mask {\n      paths: \"user.display_name\"\n      paths: \"photo\"\n    }\n\nIn JSON, the same mask is represented as below:\n\n    {\n      mask: \"user.displayName,photo\"\n    }\n\n# Field Masks and Oneof Fields\n\nField masks treat fields in oneofs just as regular fields. Consider the\nfollowing message:\n\n    message SampleMessage {\n      oneof test_oneof {\n        string name = 4;\n        SubMessage sub_message = 9;\n      }\n    }\n\nThe field mask can be:\n\n    mask {\n      paths: \"name\"\n    }\n\nOr:\n\n    mask {\n      paths: \"sub_message\"\n    }\n\nNote that oneof type names (\"test_oneof\" in this case) cannot be used in\npaths.",
+      "title": "`FieldMask` represents a set of symbolic field paths, for example:"
+    },
+    "vendastatypesPagedRequestOptions": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "type": "string",
+          "title": "cursor can be passed to retrieve the next page of results keyed by the cursor"
+        },
+        "pageSize": {
+          "type": "string",
+          "format": "int64",
+          "title": "page_size specifies the number of items to return in the next page"
+        }
+      }
+    },
+    "vendastatypesPagedResponseMetadata": {
+      "type": "object",
+      "properties": {
+        "nextCursor": {
+          "type": "string",
+          "title": "A cursor that can be provided to retrieve the next page of results"
+        },
+        "hasMore": {
+          "type": "boolean",
+          "title": "Whether or not more results exist"
+        },
+        "totalResults": {
+          "type": "string",
+          "format": "int64",
+          "title": "The total number of results. This is not supported on all paged apis and will be 0 if it is not supported"
+        }
+      }
+    }
+  }
+}

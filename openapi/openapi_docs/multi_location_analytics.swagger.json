@@ -1,0 +1,940 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "multi_location_analytics/v1/api.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "AnalyticsService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/multilocationanalytics.v1.AnalyticsService/GetMetrics": {
+      "post": {
+        "summary": "Get multiple metrics for multiple resources (location(s) and/or group(s) of locations)",
+        "operationId": "AnalyticsService_GetMetrics",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetMetricsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetMetricsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AnalyticsService"
+        ]
+      }
+    },
+    "/multilocationanalytics.v1.AnalyticsService/QueryMetrics": {
+      "post": {
+        "summary": "Query metrics for multiple measures and multiple resources (location(s) and/or group(s) of locations)",
+        "operationId": "AnalyticsService_QueryMetrics",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1QueryMetricsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1QueryMetricsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AnalyticsService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AlignmentPeriodCalendar": {
+      "type": "string",
+      "enum": [
+        "UNSPECIFIED",
+        "CALENDAR_MINUTE",
+        "CALENDAR_HOUR",
+        "CALENDAR_DAY",
+        "CALENDAR_WEEK",
+        "CALENDAR_MONTH",
+        "CALENDAR_QUARTER",
+        "CALENDAR_YEAR"
+      ],
+      "default": "UNSPECIFIED",
+      "title": "- UNSPECIFIED: No value has been specified.\n - CALENDAR_MINUTE: Align at minute boundaries\n - CALENDAR_HOUR: Align at hour boundaries\n - CALENDAR_DAY: Align at day boundaries\n - CALENDAR_WEEK: Align at week boundaries (where beginning of the week is monday)\n - CALENDAR_MONTH: Align at month boundaries\n - CALENDAR_QUARTER: Align at quarter boundaries\n - CALENDAR_YEAR: Align at year boundaries"
+    },
+    "FieldFilterOperatorFunction": {
+      "type": "string",
+      "enum": [
+        "NONE",
+        "ANY",
+        "ALL"
+      ],
+      "default": "NONE",
+      "title": "- NONE: No function will be applied to the values\n - ANY: Any value in the list must pass the filter\n - ALL: All values in the list must pass the filter"
+    },
+    "GroupByDimension": {
+      "type": "object",
+      "properties": {
+        "dimension": {
+          "type": "string"
+        },
+        "limitDimension": {
+          "$ref": "#/definitions/GroupByLimit"
+        }
+      },
+      "title": "Dimension specifies which column to group by"
+    },
+    "GroupByExcludeCombination": {
+      "type": "object",
+      "properties": {
+        "dimensions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "ExcludeCombination allows a user using ROLLUP OR CUBE to exclude a combination from the result\nExample: CUBE (pid, agid) returns the combinations ((pid, agid), (pid), (agid), ()). Providing\nExcludeCombination{dimensions=[pid, agid]} would return the combinations ((pid), (agid), ())"
+    },
+    "GroupByLimit": {
+      "type": "object",
+      "properties": {
+        "dimension": {
+          "type": "string"
+        },
+        "order": {
+          "$ref": "#/definitions/v1Order"
+        },
+        "limit": {
+          "type": "string",
+          "format": "int64"
+        }
+      },
+      "title": "Limit reduces the number of dimensions to the specified amount"
+    },
+    "MeasureAggregate": {
+      "type": "object",
+      "properties": {
+        "measure": {
+          "type": "string"
+        },
+        "aggOp": {
+          "$ref": "#/definitions/MeasureAggregateOperator"
+        },
+        "filter": {
+          "$ref": "#/definitions/v1Filter",
+          "description": "Filter allows narrowing a measure down by its dimensions. This is useful when your response size is large\nand you have a known number of dimensions that can be turned into measures. Measures compared to dimensions,\nare smaller in size."
+        },
+        "alias": {
+          "type": "string"
+        }
+      }
+    },
+    "MeasureAggregateOperator": {
+      "type": "string",
+      "enum": [
+        "AVG",
+        "COUNT",
+        "SUM",
+        "MIN",
+        "MAX",
+        "COUNT_DISTINCT",
+        "ARRAY_AGG"
+      ],
+      "default": "AVG"
+    },
+    "OrderByOrderColumn": {
+      "type": "object",
+      "properties": {
+        "column": {
+          "type": "string",
+          "title": "Either a dimension or a measure to order by"
+        },
+        "order": {
+          "$ref": "#/definitions/v1Order"
+        }
+      }
+    },
+    "PropertyPIITag": {
+      "type": "string",
+      "enum": [
+        "PROPERTY_PII_TAG_CLEAN",
+        "PROPERTY_PII_TAG_PII",
+        "PROPERTY_PII_TAG_PD"
+      ],
+      "default": "PROPERTY_PII_TAG_CLEAN",
+      "description": "PIITag defines potential PII tags.\n\n - PROPERTY_PII_TAG_CLEAN: clean means the data is not PII or PD.\n - PROPERTY_PII_TAG_PII: PII means Personally Identifiable Information. It is information that can be used to retrieve personal data, such as IAM user ID.\n - PROPERTY_PII_TAG_PD: PD means personal data, such as name, email and address. They are sensitive data we need to protect in our system."
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "protobufNullValue": {
+      "type": "string",
+      "enum": [
+        "NULL_VALUE"
+      ],
+      "default": "NULL_VALUE",
+      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\nThe JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1Alignment": {
+      "type": "string",
+      "enum": [
+        "ALIGN_NONE",
+        "ALIGN_DELTA",
+        "ALIGN_INTERPOLATE",
+        "ALIGN_NEXT_OLDER",
+        "ALIGN_EXACT",
+        "ALIGN_CUSTOM"
+      ],
+      "default": "ALIGN_NONE",
+      "description": " - ALIGN_NONE: No alignment.\n - ALIGN_DELTA: Align and convert to delta metric type. This alignment is valid\nfor delta metrics. Aligning an existing delta metric to a delta metric\nrequires that the alignment period be increased. The value type of the\nresult is the same as the value type of the input.\n\nOne can think of this aligner as a rate but without time units; that\nis, the output is conceptually (second_point - first_point).\n - ALIGN_INTERPOLATE: Align by interpolating between adjacent points around the\nperiod boundary. This alignment is valid for gauge\nmetrics with numeric values. The value type of the result is the same\nas the value type of the input.\n - ALIGN_NEXT_OLDER: Align by shifting the oldest data point before the period\nboundary to the boundary. This alignment is valid for gauge\nmetrics. The value type of the result is the same as the\nvalue type of the input.\n - ALIGN_EXACT: Align by using data points that fall on the same UTC day of the period boundary.\nThis alignment is valid for daily gauge metrics.\nThe value type of the result is the same as the value type of the input.\n - ALIGN_CUSTOM: Allows the user to specify custom alignment logic, allowing the query to make more complex decisions on which\ntime/date bucket(s) a row should be placed in.\nThis is useful when your table has multiple columns that need to be considered when bucketing rows into time\nbuckets, such as a created and deleted date.\nThe custom aligner allows you to bucket these rows based on their status at one of the bucket boundaries or\nwithin the bucket."
+    },
+    "v1AlignmentPeriod": {
+      "type": "object",
+      "properties": {
+        "duration": {
+          "type": "string"
+        },
+        "calendar": {
+          "$ref": "#/definitions/AlignmentPeriodCalendar"
+        }
+      }
+    },
+    "v1BusinessResourceId": {
+      "type": "object",
+      "properties": {
+        "businessId": {
+          "type": "string"
+        }
+      },
+      "description": "Four types of resources in the system -- a single business, a group of businesses, a list of markets, or a JWT that\nencodes a specific user/business combination."
+    },
+    "v1CompositeFilter": {
+      "type": "object",
+      "properties": {
+        "op": {
+          "$ref": "#/definitions/v1CompositeFilterOperator",
+          "description": "The operator for combining multiple filters."
+        },
+        "filters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Filter"
+          },
+          "description": "The list of filters to combine.\nMust contain at least one filter."
+        }
+      },
+      "description": "A filter that merges multiple other filters using the given operator."
+    },
+    "v1CompositeFilterOperator": {
+      "type": "string",
+      "enum": [
+        "OPERATOR_UNSPECIFIED",
+        "AND",
+        "OR"
+      ],
+      "default": "OPERATOR_UNSPECIFIED",
+      "description": "A composite filter operator.\n\n - OPERATOR_UNSPECIFIED: Unspecified. This value must not be used.\n - AND: The results are required to satisfy each of the combined filters.\n - OR: The results are required to satisfy at least one of the combined filters."
+    },
+    "v1CustomAlignerConfig": {
+      "type": "object",
+      "properties": {
+        "alignmentBucketFilter": {
+          "$ref": "#/definitions/v1Filter",
+          "title": "The logic for the ON clause of the aligner.\nFields that are available for use include:\n   a) aligner__start_time - the start time of the time bucket\n   b) aligner__end_time - the end time of the time bucket"
+        },
+        "skipFilteringEntitiesToDateRange": {
+          "type": "boolean",
+          "title": "Whether to skip filtering entities by the time column on the table to the provided date_range.\nUsage: date_range is used for both filtering entities and defining the time period to aggregate over.\nIf true, date_range will only be used to define the aggregation time range (i.e. the last year)\nIf false, date_range will be used for BOTH filtering entities AND the aggregation time range"
+        }
+      }
+    },
+    "v1DateRange": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date-time",
+          "title": "`start` is implicitly inclusive"
+        },
+        "startExclusive": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time",
+          "title": "`end` is implicitly inclusive"
+        },
+        "endExclusive": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "title": "Specifies a range of time"
+    },
+    "v1FieldFilter": {
+      "type": "object",
+      "properties": {
+        "dimension": {
+          "type": "string",
+          "description": "The field to filter by."
+        },
+        "operator": {
+          "$ref": "#/definitions/v1FieldFilterOperator",
+          "description": "The operator to filter by."
+        },
+        "value": {
+          "$ref": "#/definitions/v1TypedValue",
+          "title": "A value to compare the dimension to\ni.e. a string or timestamp"
+        },
+        "comparisonField": {
+          "type": "string",
+          "title": "A field to compare the dimension to"
+        },
+        "operatorFunction": {
+          "$ref": "#/definitions/FieldFilterOperatorFunction",
+          "title": "Function to apply to the values. (ex, ANY)"
+        },
+        "operatorFunctionOnField": {
+          "type": "boolean",
+          "title": "Whether to apply the specified operator function to the field, or the value involved in the filter"
+        }
+      },
+      "title": "A filter on a specific field"
+    },
+    "v1FieldFilterOperator": {
+      "type": "string",
+      "enum": [
+        "OPERATOR_UNSPECIFIED",
+        "LESS_THAN",
+        "LESS_THAN_OR_EQUAL",
+        "GREATER_THAN",
+        "GREATER_THAN_OR_EQUAL",
+        "EQUAL",
+        "OVERLAP",
+        "NOT_EQUAL"
+      ],
+      "default": "OPERATOR_UNSPECIFIED",
+      "description": " - OPERATOR_UNSPECIFIED: Unspecified. This value must not be used.\n - LESS_THAN: Less than. Requires that the field come first in `order_by`.\n - LESS_THAN_OR_EQUAL: Less than or equal. Requires that the field come first in `order_by`.\n - GREATER_THAN: Greater than. Requires that the field come first in `order_by`.\n - GREATER_THAN_OR_EQUAL: Greater than or equal. Requires that the field come first in\n`order_by`.\n - EQUAL: Equal.\n - OVERLAP: Overlap (have elements in common). Field and values must be lists.\n - NOT_EQUAL: Not Equal."
+    },
+    "v1Filter": {
+      "type": "object",
+      "properties": {
+        "compositeFilter": {
+          "$ref": "#/definitions/v1CompositeFilter",
+          "description": "A composite filter."
+        },
+        "fieldFilter": {
+          "$ref": "#/definitions/v1FieldFilter",
+          "description": "A filter on a document field."
+        },
+        "unaryFilter": {
+          "$ref": "#/definitions/v1UnaryFilter",
+          "description": "A filter that takes exactly one argument."
+        }
+      },
+      "title": "A filter"
+    },
+    "v1Filters": {
+      "type": "object",
+      "properties": {
+        "sourceFilters": {
+          "$ref": "#/definitions/v1SourceFilters",
+          "title": "Filters related to listing and review sources"
+        }
+      }
+    },
+    "v1GetMetricsRequest": {
+      "type": "object",
+      "properties": {
+        "metrics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Metric"
+          }
+        },
+        "resourceIds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ResourceId"
+          }
+        },
+        "partnerId": {
+          "type": "string",
+          "title": "The partner id which the resources above belong to, necessary for scoping the query"
+        },
+        "dateRange": {
+          "$ref": "#/definitions/v1DateRange"
+        },
+        "includeTimeBuckets": {
+          "type": "boolean",
+          "title": "If true, values for all metrics throughout the period will be provided in timeBuckets (with their start times specified at timeBucketStarts), at a resolution chosen by the server"
+        },
+        "includeGroupsBusinesses": {
+          "type": "boolean",
+          "title": "If true, the response will include results for group's businesses"
+        },
+        "businessLimit": {
+          "type": "string",
+          "format": "int64",
+          "title": "If including groups businesses, this will limit the number of businesses returned, subject to ordering by the metric"
+        },
+        "filters": {
+          "$ref": "#/definitions/v1Filters"
+        }
+      },
+      "title": "Request multiple metrics for multiple resources within a consistent time range"
+    },
+    "v1GetMetricsResponse": {
+      "type": "object",
+      "properties": {
+        "resourceIds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ResourceId"
+          }
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Metric"
+          }
+        },
+        "resourceResponses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ResourceMetricsResponse"
+          },
+          "title": "Interpreted in order of the resources in the request"
+        },
+        "timeBucketStarts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "v1GroupBy": {
+      "type": "object",
+      "properties": {
+        "dimension": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/GroupByDimension"
+          },
+          "title": "A list of dimensions to group by"
+        },
+        "groupByOperator": {
+          "$ref": "#/definitions/v1GroupByOperator",
+          "title": "The operator to group by"
+        },
+        "excludeCombination": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/GroupByExcludeCombination"
+          },
+          "title": "Supports excluding a list of combinations"
+        }
+      },
+      "title": "Group By is a reducer for aggregating rows into the given dimensions"
+    },
+    "v1GroupByOperator": {
+      "type": "string",
+      "enum": [
+        "OPERATOR_GROUP_BY",
+        "OPERATOR_ROLLUP",
+        "OPERATOR_CUBE"
+      ],
+      "default": "OPERATOR_GROUP_BY",
+      "title": "A Group By Operator"
+    },
+    "v1GroupResourceId": {
+      "type": "object",
+      "properties": {
+        "groupPathNodes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1JWTResourceId": {
+      "type": "object",
+      "properties": {
+        "jwt": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MarketId": {
+      "type": "object",
+      "properties": {
+        "marketIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1Measure": {
+      "type": "object",
+      "properties": {
+        "measure": {
+          "type": "string",
+          "title": "SELECT business_id"
+        },
+        "aggregate": {
+          "$ref": "#/definitions/MeasureAggregate",
+          "title": "SELECT AVG(scaled_stars)"
+        }
+      },
+      "description": "Aggregate chooses how to aggregate the specified measure",
+      "title": "Measure either selects or aggregates a specified measure"
+    },
+    "v1Metric": {
+      "type": "string",
+      "enum": [
+        "CONNECTED_GMB_ACCOUNTS",
+        "QUERIES_DIRECT",
+        "QUERIES_INDIRECT",
+        "VIEWS_MAPS",
+        "VIEWS_SEARCH",
+        "ACTIONS_WEBSITE",
+        "ACTIONS_PHONE",
+        "ACTIONS_DRIVING_DIRECTIONS",
+        "TOTAL_LISTINGS",
+        "TOTAL_INACCURATE_LISTINGS",
+        "TOTAL_CITATIONS",
+        "TOTAL_REVIEWS",
+        "NEW_REVIEWS",
+        "NEW_POSITIVE_REVIEWS",
+        "NEW_POSITIVE_UNRESPONDED_REVIEWS",
+        "NEW_NEGATIVE_REVIEWS",
+        "NEW_NEGATIVE_UNRESPONDED_REVIEWS",
+        "NEW_POSITIVE_RESPONDED_REVIEWS",
+        "AVERAGE_REVIEW_RATING",
+        "LMI_GRADE_LISTINGS",
+        "LMI_GRADE_REPUTATION",
+        "LMI_GRADE_SOCIAL",
+        "LMI_GRADE_SEO",
+        "LISTING_SYNC_SITES_CURRENTLY_SYNCING",
+        "LISTING_SYNC_SITES_TOTAL"
+      ],
+      "default": "CONNECTED_GMB_ACCOUNTS",
+      "description": "- CONNECTED_GMB_ACCOUNTS: GMB Metrics\n - QUERIES_DIRECT: The number of times the listing was shown when searching for it directly.\n - QUERIES_INDIRECT: The number of times the listing was shown as a result of a categorical search (for example, restaurant \"restaurant\").\n - VIEWS_MAPS: The number of times the listing was viewed on Google Maps.\n - VIEWS_SEARCH: The number of times the listing was viewed on Google Search.\n - ACTIONS_WEBSITE: The number of times the website was clicked on the listing.\n - ACTIONS_PHONE: The number of times the phone number was clicked on the listing.\n - ACTIONS_DRIVING_DIRECTIONS: The number of times driving directions were requested for the listing.\n - TOTAL_LISTINGS: Metrics from our listings/citations data\n - TOTAL_REVIEWS: Reviews-related Metrics\n - LMI_GRADE_LISTINGS: LMI Grades\n - LISTING_SYNC_SITES_CURRENTLY_SYNCING: Listing Sync",
+      "title": "Listings-Related Metrics"
+    },
+    "v1MetricResult": {
+      "type": "object",
+      "properties": {
+        "dimension": {
+          "title": "The dimension of the metric"
+        },
+        "measures": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "title": "The requested measures"
+        },
+        "results": {
+          "$ref": "#/definitions/v1Metrics",
+          "title": "Nested metric results"
+        }
+      }
+    },
+    "v1Metrics": {
+      "type": "object",
+      "properties": {
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1MetricResult"
+          }
+        }
+      }
+    },
+    "v1Order": {
+      "type": "string",
+      "enum": [
+        "ORDER_ASC",
+        "ORDER_DESC"
+      ],
+      "default": "ORDER_ASC"
+    },
+    "v1OrderBy": {
+      "type": "object",
+      "properties": {
+        "orderBy": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/OrderByOrderColumn"
+          }
+        }
+      }
+    },
+    "v1QueryMetricsRequest": {
+      "type": "object",
+      "properties": {
+        "partnerId": {
+          "type": "string",
+          "title": "PartnerID to scope the query to"
+        },
+        "metricName": {
+          "type": "string",
+          "title": "The name of the metric to query"
+        },
+        "resourceIds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ResourceId"
+          },
+          "title": "The resource IDs to scope the query to"
+        },
+        "filter": {
+          "$ref": "#/definitions/v1Filter",
+          "title": "The filters to narrow down the query (by source ID, GMB metric type)"
+        },
+        "measures": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Measure"
+          },
+          "title": "The measures to select from the metric (review rating)"
+        },
+        "alignmentPeriod": {
+          "$ref": "#/definitions/v1AlignmentPeriod",
+          "description": "The alignment period for per-[time series] alignment. If present,\n`alignmentPeriod` must be at least 60 seconds.  After per-time series\nalignment, each time series will contain data points only on the\nperiod boundaries."
+        },
+        "alignment": {
+          "$ref": "#/definitions/v1Alignment",
+          "description": "The approach to be used to align individual time series. Not all\nalignment functions may be applied to all time series, depending\non the metric type and value type of the original time\nseries. Alignment may change the metric type or the value type of\nthe time series."
+        },
+        "groupBy": {
+          "$ref": "#/definitions/v1GroupBy",
+          "title": "The dimensions to group by (source ID,"
+        },
+        "dateRange": {
+          "$ref": "#/definitions/v1DateRange",
+          "title": "The existing legacy logic is currently:\n- end has a little over an one hour added to it\n- start and end are converted to the number of days, rounded down, from the current moment\n- rows are returned where (start of today - start day offsets) \u003c= rowTime \u003c (start of today - end day offsets)"
+        },
+        "timeRange": {
+          "$ref": "#/definitions/v1DateRange",
+          "description": "When date points are generated from the passed in date range, such when using the exact or custom aligners,\nexclusiveness is implemented as offsetting the boundary by a date period after truncating it to that date period\nie. period of day, end_exclusive 2019-09-03T17:35:42 will truncate to 2019-09-03T00:00:00\nand then offset to 2019-09-02T00:00:00, so the last data point to be returned would be 2019-09-02T00:00:00",
+          "title": "Your boundaries will not be altered or aligned to day starts respecting the inclusiveness/exclusiveness\nof the boundary\nie. start \u003c= rowTime \u003c= end, start \u003c= rowTime \u003c end_exclusive"
+        },
+        "orderBy": {
+          "$ref": "#/definitions/v1OrderBy",
+          "title": "The dimension to order by"
+        },
+        "limit": {
+          "type": "string",
+          "format": "int64",
+          "title": "Limit controls how many results are returned (0 indicates no limit)"
+        },
+        "cursor": {
+          "type": "string",
+          "title": "Cursor controls where we start paging from (\"\" indicates to start from the beginning)"
+        },
+        "customAligner": {
+          "$ref": "#/definitions/v1CustomAlignerConfig",
+          "title": "The configuration for the custom aligner. Only applicable when alignment is set to ALIGN_CUSTOM"
+        }
+      },
+      "title": "Request message for QueryMetrics"
+    },
+    "v1QueryMetricsResponse": {
+      "type": "object",
+      "properties": {
+        "metricResults": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ResourceMetricResult"
+          },
+          "title": "A list of Metric results where each item responds to the Nth index of the requested resources"
+        }
+      }
+    },
+    "v1ResourceId": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "$ref": "#/definitions/v1GroupResourceId"
+        },
+        "businessId": {
+          "$ref": "#/definitions/v1BusinessResourceId"
+        },
+        "marketId": {
+          "$ref": "#/definitions/v1MarketId"
+        },
+        "jwtId": {
+          "$ref": "#/definitions/v1JWTResourceId"
+        },
+        "salesTeam": {
+          "$ref": "#/definitions/v1SalesTeam"
+        }
+      }
+    },
+    "v1ResourceMetricResult": {
+      "type": "object",
+      "properties": {
+        "resourceId": {
+          "$ref": "#/definitions/v1ResourceId",
+          "title": "The resource id that has been requested"
+        },
+        "measuresSchema": {
+          "$ref": "#/definitions/vendastatypesSchema",
+          "title": "The schema for the measure (nth index of a measure corresponds to the ith index of the measure_schema.properties)"
+        },
+        "dimensionsSchema": {
+          "$ref": "#/definitions/vendastatypesSchema",
+          "title": "The schema for the dimensions"
+        },
+        "metrics": {
+          "$ref": "#/definitions/v1Metrics"
+        },
+        "explodedMetrics": {
+          "$ref": "#/definitions/v1QueryMetricsResponse"
+        },
+        "cursor": {
+          "type": "string",
+          "title": "If a limit was set, a cursor will be returned for the caller to pass to the next query"
+        }
+      }
+    },
+    "v1ResourceMetricsResponse": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "title": "All fields in this message are interpreted in order of the metrics on root message"
+        },
+        "timeBuckets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1TimeBucketMetrics"
+          }
+        }
+      }
+    },
+    "v1SalesTeam": {
+      "type": "object",
+      "properties": {
+        "salesTeamIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1SourceFilters": {
+      "type": "object",
+      "properties": {
+        "sourceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          },
+          "title": "A list of listing source ids to limit the metrics to. This is only applicable to general metrics such as\ntotal reviews or listings. It does not apply to source specific metrics such as GMB insights"
+        }
+      },
+      "title": "Filters related to listing and review sources"
+    },
+    "v1TimeBucketMetrics": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "title": "Interpreted in order of timeBucketStarts on root message"
+        }
+      }
+    },
+    "v1TypedValue": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "title": "the value of the field"
+        },
+        "valueType": {
+          "$ref": "#/definitions/vendastatypesPropertyType",
+          "title": "The type of the field"
+        }
+      },
+      "description": "A message that can hold any of the supported value types."
+    },
+    "v1UnaryFilter": {
+      "type": "object",
+      "properties": {
+        "op": {
+          "$ref": "#/definitions/v1UnaryFilterOperator",
+          "description": "The unary operator to apply."
+        },
+        "dimension": {
+          "type": "string",
+          "description": "The field to which to apply the operator."
+        }
+      },
+      "title": "A filter with a single operand"
+    },
+    "v1UnaryFilterOperator": {
+      "type": "string",
+      "enum": [
+        "OPERATOR_UNSPECIFIED",
+        "IS_NAN",
+        "IS_NULL",
+        "IS_NOT_NULL"
+      ],
+      "default": "OPERATOR_UNSPECIFIED",
+      "description": "A unary operator.\n\n - OPERATOR_UNSPECIFIED: Unspecified. This value must not be used.\n - IS_NAN: Test if a field is equal to NaN.\n - IS_NULL: Test if an expression evaluates to Null.\n - IS_NOT_NULL: Test if an expression evaluates to Not Null."
+    },
+    "vendastatypesProperty": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Unique identifier for this property. Must be in snake case format.\nExample(s): account_group_id, listing_id, company_name"
+        },
+        "type": {
+          "$ref": "#/definitions/vendastatypesPropertyType",
+          "title": "Type for this property"
+        },
+        "repeated": {
+          "type": "boolean",
+          "description": "Indicates if the field is repeated."
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/vendastatypesProperty"
+          },
+          "description": "Can only be specified if the Type supplied is a STRUCT.\nIs the schema of the structured property."
+        },
+        "piiTag": {
+          "$ref": "#/definitions/PropertyPIITag"
+        },
+        "description": {
+          "type": "string",
+          "title": "Description of this property"
+        }
+      },
+      "title": "Property defines a single property for a schema"
+    },
+    "vendastatypesPropertyType": {
+      "type": "string",
+      "enum": [
+        "PROPERTY_TYPE_STRING",
+        "PROPERTY_TYPE_INT64",
+        "PROPERTY_TYPE_DOUBLE",
+        "PROPERTY_TYPE_BOOL",
+        "PROPERTY_TYPE_TIMESTAMP",
+        "PROPERTY_TYPE_GEOPOINT",
+        "PROPERTY_TYPE_STRUCT",
+        "PROPERTY_TYPE_BYTES"
+      ],
+      "default": "PROPERTY_TYPE_STRING"
+    },
+    "vendastatypesSchema": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/vendastatypesProperty"
+          }
+        }
+      },
+      "title": "Schema describes the structure of data in a storage-agnostic way"
+    }
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "healthgrades_api/v1/api.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ApiService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/healthgrades_api.v1.ApiService/SearchListing": {
+      "post": {
+        "operationId": "ApiService_SearchListing",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1SearchListingResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SearchListingRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ApiService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1PostalAddress": {
+      "type": "object",
+      "properties": {
+        "streetAddress": {
+          "type": "string"
+        },
+        "locality": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SearchListingRequest": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "description": "Source-specific identifier for the listing that you want to fetch.\nFor Healthgrades this will be the NPI number for the provider."
+        },
+        "searchTerms": {
+          "$ref": "#/definitions/v1SearchTerms"
+        }
+      }
+    },
+    "v1SearchListingResponse": {
+      "type": "object",
+      "properties": {
+        "apiResponse": {
+          "type": "string",
+          "description": "Json string of the exact response from the Healthgrades API."
+        }
+      }
+    },
+    "v1SearchTerms": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The provider name (most likely) of the listing you want to find."
+        },
+        "address": {
+          "$ref": "#/definitions/v1PostalAddress"
+        }
+      }
+    }
+  }
+}

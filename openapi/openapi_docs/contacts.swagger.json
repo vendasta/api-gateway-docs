@@ -1,0 +1,3413 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "contacts/v1/api.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Contacts"
+    },
+    {
+      "name": "UserList"
+    },
+    {
+      "name": "ContactEmailService"
+    },
+    {
+      "name": "CustomerService"
+    },
+    {
+      "name": "VendorCustomerService"
+    },
+    {
+      "name": "CustomerIdMappingService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/contacts.v1.ContactEmailService/CreateContactMessage": {
+      "post": {
+        "summary": "Create contact messages for email",
+        "operationId": "ContactEmailService_CreateContactMessage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ContactMessageResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ContactMessageRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ContactEmailService"
+        ]
+      }
+    },
+    "/contacts.v1.Contacts/AssociateID": {
+      "post": {
+        "summary": "Creates a mapping in contacts between the vendasta Contact ID and the vendor's ID\nDEPRECATED: Use VendorCustomerService.VendorAssociateCustomerID",
+        "operationId": "Contacts_AssociateID",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1AssociateIDRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Contacts"
+        ]
+      }
+    },
+    "/contacts.v1.Contacts/BulkCreate": {
+      "post": {
+        "summary": "Bulk create contacts from a file in Google Cloud Storage\nDEPRECATED: Use CustomerService.BulkCreate",
+        "operationId": "Contacts_BulkCreate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1BulkCreateContactRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Contacts"
+        ]
+      }
+    },
+    "/contacts.v1.Contacts/BulkUpdate": {
+      "post": {
+        "summary": "Bulk update contacts\nDEPRECATED: Use CustomerService.BulkUpdate",
+        "operationId": "Contacts_BulkUpdate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1BulkUpdateContactRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Contacts"
+        ]
+      }
+    },
+    "/contacts.v1.Contacts/Create": {
+      "post": {
+        "summary": "Creates a contact\nDEPRECATED: Use CustomerService.Create",
+        "operationId": "Contacts_Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateContactResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateContactRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Contacts"
+        ]
+      }
+    },
+    "/contacts.v1.Contacts/Delete": {
+      "post": {
+        "summary": "Marks a contact as deleted\nDEPRECATED: Use CustomerService.Delete",
+        "operationId": "Contacts_Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1DeleteContactRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Contacts"
+        ]
+      }
+    },
+    "/contacts.v1.Contacts/List": {
+      "post": {
+        "summary": "Returns a list of contacts for an account group\nDEPRECATED: Use CustomerService.List",
+        "operationId": "Contacts_List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListContactsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListContactsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Contacts"
+        ]
+      }
+    },
+    "/contacts.v1.Contacts/ListOrigins": {
+      "post": {
+        "summary": "Returns the app id and the whitelabeled name for all contacts origins for an account group\nDEPRECATED: Use CustomerService.ListCustomerOrigins",
+        "operationId": "Contacts_ListOrigins",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListOriginsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListOriginsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Contacts"
+        ]
+      }
+    },
+    "/contacts.v1.Contacts/TriggerSync": {
+      "post": {
+        "summary": "TriggerSync triggers syncing of all contacts for a business to a vendor app\nDEPRECATED: Use VendorCustomerService.SyncAllCustomers",
+        "operationId": "Contacts_TriggerSync",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1TriggerSyncRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Contacts"
+        ]
+      }
+    },
+    "/contacts.v1.Contacts/Update": {
+      "post": {
+        "summary": "Update a contact\nDEPRECATED: Use CustomerService.Update",
+        "operationId": "Contacts_Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateContactResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateContactRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Contacts"
+        ]
+      }
+    },
+    "/contacts.v1.CustomerIdMappingService/Get": {
+      "post": {
+        "summary": "Get a customer id mapping using the internal customer id and vendor app id",
+        "operationId": "CustomerIdMappingService_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetCustomerIdMappingResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetCustomerIdMappingRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CustomerIdMappingService"
+        ]
+      }
+    },
+    "/contacts.v1.CustomerService/BulkCreate": {
+      "post": {
+        "summary": "Bulk create customers from a file in Google Cloud Storage",
+        "operationId": "CustomerService_BulkCreate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1BulkCreateCustomerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1BulkCreateCustomerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.CustomerService/BulkUpdate": {
+      "post": {
+        "summary": "Updates a list of customers",
+        "operationId": "CustomerService_BulkUpdate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1BulkUpdateCustomersResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1BulkUpdateCustomersRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.CustomerService/Create": {
+      "post": {
+        "summary": "Creates a customer or conflict record",
+        "operationId": "CustomerService_Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateCustomerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateCustomerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.CustomerService/CreateWithoutConflict": {
+      "post": {
+        "summary": "Creates a customer or returns conflicting field information",
+        "operationId": "CustomerService_CreateWithoutConflict",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateWithoutConflictResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateWithoutConflictRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.CustomerService/Delete": {
+      "post": {
+        "summary": "Deletes a customer",
+        "operationId": "CustomerService_Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1DeleteCustomerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.CustomerService/DesyncCustomers": {
+      "post": {
+        "summary": "Triggers the customer delete webhook and removes the external customer mapping",
+        "operationId": "CustomerService_DesyncCustomers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1DesyncCustomersRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.CustomerService/Get": {
+      "post": {
+        "summary": "Get a customer",
+        "operationId": "CustomerService_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetCustomerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetCustomerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.CustomerService/GetMultiCustomers": {
+      "post": {
+        "summary": "Get multiple customers",
+        "operationId": "CustomerService_GetMultiCustomers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetMultiCustomersResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetMultiCustomersRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.CustomerService/List": {
+      "post": {
+        "summary": "List customers",
+        "operationId": "CustomerService_List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListCustomersResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListCustomersRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.CustomerService/ListCustomerOrigins": {
+      "post": {
+        "summary": "Lists all of the origins for an account group's customers with a total count of customers with that origin",
+        "operationId": "CustomerService_ListCustomerOrigins",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListCustomerOriginsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListCustomerOriginsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.CustomerService/SyncCustomers": {
+      "post": {
+        "summary": "Triggers the customer create webhook",
+        "operationId": "CustomerService_SyncCustomers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SyncCustomersRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.CustomerService/Update": {
+      "post": {
+        "summary": "Updates an existing customer",
+        "operationId": "CustomerService_Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateCustomerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateCustomerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.UserList/AddUsersToList": {
+      "post": {
+        "summary": "Add users to a group that represents a User List",
+        "operationId": "UserList_AddUsersToList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1AddUsersToListRequest"
+            }
+          }
+        ],
+        "tags": [
+          "UserList"
+        ]
+      }
+    },
+    "/contacts.v1.UserList/CreateUserList": {
+      "post": {
+        "summary": "Creates a group that represents User List",
+        "operationId": "UserList_CreateUserList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateUserListRequest"
+            }
+          }
+        ],
+        "tags": [
+          "UserList"
+        ]
+      }
+    },
+    "/contacts.v1.UserList/DeleteUserFromList": {
+      "post": {
+        "summary": "Delete a user inside a User List held within a group",
+        "operationId": "UserList_DeleteUserFromList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1DeleteUserFromListRequest"
+            }
+          }
+        ],
+        "tags": [
+          "UserList"
+        ]
+      }
+    },
+    "/contacts.v1.UserList/GetUserList": {
+      "post": {
+        "summary": "Gets the user list details",
+        "operationId": "UserList_GetUserList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetUserListResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetUserListRequest"
+            }
+          }
+        ],
+        "tags": [
+          "UserList"
+        ]
+      }
+    },
+    "/contacts.v1.UserList/ListUserLists": {
+      "post": {
+        "summary": "List the user lists for a foriegn key defined by a group",
+        "operationId": "UserList_ListUserLists",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListUserListsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListUserListsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "UserList"
+        ]
+      }
+    },
+    "/contacts.v1.UserList/ListUsersFromList": {
+      "post": {
+        "summary": "List the users inside a User List held within a group",
+        "operationId": "UserList_ListUsersFromList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListUsersFromListResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListUsersFromListRequest"
+            }
+          }
+        ],
+        "tags": [
+          "UserList"
+        ]
+      }
+    },
+    "/contacts.v1.VendorCustomerService/VendorAssociateCustomerID": {
+      "post": {
+        "summary": "Vendor associate Vendasta's internal customer ID to vendor's customer ID",
+        "operationId": "VendorCustomerService_VendorAssociateCustomerID",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1VendorAssociateCustomerIDRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VendorCustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.VendorCustomerService/VendorCreate": {
+      "post": {
+        "summary": "Vendor Creates a customer, and an idMapping",
+        "operationId": "VendorCustomerService_VendorCreate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1VendorCreateCustomerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1VendorCreateCustomerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VendorCustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.VendorCustomerService/VendorDelete": {
+      "post": {
+        "summary": "Vendor delete a customer",
+        "operationId": "VendorCustomerService_VendorDelete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1VendorDeleteCustomerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VendorCustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.VendorCustomerService/VendorGet": {
+      "post": {
+        "summary": "Vendor get a customer",
+        "operationId": "VendorCustomerService_VendorGet",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1VendorGetCustomerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1VendorGetCustomerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VendorCustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.VendorCustomerService/VendorList": {
+      "post": {
+        "summary": "Vendor list customers",
+        "operationId": "VendorCustomerService_VendorList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1VendorListCustomersResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1VendorListCustomersRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VendorCustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.VendorCustomerService/VendorListCustomerOrigins": {
+      "post": {
+        "summary": "lists all of the origins for an account group's customers with a total count of customers with that origin",
+        "operationId": "VendorCustomerService_VendorListCustomerOrigins",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1VendorListCustomerOriginsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1VendorListCustomerOriginsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VendorCustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.VendorCustomerService/VendorSyncAllCustomers": {
+      "post": {
+        "summary": "Sends a customer create webhook for all customers in an account",
+        "operationId": "VendorCustomerService_VendorSyncAllCustomers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1VendorSyncAllCustomersRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VendorCustomerService"
+        ]
+      }
+    },
+    "/contacts.v1.VendorCustomerService/VendorUpdate": {
+      "post": {
+        "summary": "Vendor update a customer",
+        "operationId": "VendorCustomerService_VendorUpdate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1VendorUpdateCustomerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1VendorUpdateCustomerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VendorCustomerService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "GetMultiCustomersRequestCustomerIdentifiers": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group the requested customer belongs to"
+        },
+        "customerId": {
+          "type": "string",
+          "title": "The ID of the customer that is being requested"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1AddUsersToListRequest": {
+      "type": "object",
+      "properties": {
+        "listId": {
+          "type": "string",
+          "title": "The unique ID for the list"
+        },
+        "userIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The list of IAM user IDs"
+        }
+      }
+    },
+    "v1AssociateIDRequest": {
+      "type": "object",
+      "properties": {
+        "contactId": {
+          "type": "string",
+          "title": "The Contact ID to add an external mapping for"
+        },
+        "vendorContactId": {
+          "type": "string",
+          "title": "The Contact ID on the external source to map to"
+        },
+        "appId": {
+          "type": "string",
+          "title": "The Application ID for the mapping"
+        }
+      },
+      "title": "A request type to associate a vendor's contact id to the contact id in our system"
+    },
+    "v1BulkCreateContactRequest": {
+      "type": "object",
+      "properties": {
+        "filePath": {
+          "type": "string",
+          "title": "The path of the csv file for bulk creating contacts in Google Cloud Storage"
+        },
+        "mapping": {
+          "$ref": "#/definitions/v1HeaderMapping",
+          "title": "The header mapping in the csv file"
+        },
+        "syncedAppIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The list of appIDs that all contacts in the csv can be synced with"
+        },
+        "permissionToContact": {
+          "type": "boolean",
+          "title": "This flag is true if all contacts in the csv have explicitly opted-in to receive communication from the Business"
+        }
+      }
+    },
+    "v1BulkCreateCustomerRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group to add customers to"
+        },
+        "partnerId": {
+          "type": "string",
+          "title": "The partner to add customers to"
+        },
+        "filePath": {
+          "type": "string",
+          "title": "The path of the csv file for bulk creating customers in Google Cloud Storage"
+        },
+        "mapping": {
+          "$ref": "#/definitions/v1CustomerHeaderMapping",
+          "title": "The header mapping in the csv file"
+        }
+      }
+    },
+    "v1BulkCreateCustomerResponse": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1BulkCreateCustomerValidationError"
+          },
+          "title": "Validation errors"
+        }
+      }
+    },
+    "v1BulkCreateCustomerValidationError": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "string",
+          "format": "int64",
+          "title": "Index of the customer that has errors"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1CustomerValidationError"
+          },
+          "title": "Errors for that specific customer"
+        }
+      }
+    },
+    "v1BulkUpdateContactRequest": {
+      "type": "object",
+      "properties": {
+        "contactIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Contact ids to update"
+        },
+        "syncedAppIdsToAdd": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Additions to the list of appIDs that the contacts in contact_ids can be synced with"
+        },
+        "syncedAppIdsToRemove": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Removals from the list of appIDs that the contacts in contact_ids can be synced with"
+        },
+        "permissionToContact": {
+          "type": "boolean",
+          "title": "This flag is true if all contacts in contact_ids have explicitly opted-in to receive communication from the Business"
+        },
+        "accountGroupId": {
+          "type": "string",
+          "title": "Account group the contacts are in"
+        }
+      }
+    },
+    "v1BulkUpdateCustomersRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group the customers exists in"
+        },
+        "customerIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The ids of customers to update"
+        },
+        "permissionToContact": {
+          "type": "boolean",
+          "title": "This flag is true if the customer has explicitly opted-in to receive communication from the Business"
+        }
+      }
+    },
+    "v1BulkUpdateCustomersResponse": {
+      "type": "object",
+      "properties": {
+        "customers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Customer"
+          },
+          "title": "The customers updated in the bulk update request"
+        }
+      }
+    },
+    "v1Conflict": {
+      "type": "object",
+      "properties": {
+        "conflictId": {
+          "type": "string",
+          "title": "A unique id for the conflict"
+        },
+        "customerId": {
+          "type": "string",
+          "title": "A unique id for the customer"
+        },
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group to add this customer to"
+        },
+        "partnerId": {
+          "type": "string",
+          "title": "The partner to add this customer to"
+        },
+        "firstName": {
+          "type": "string",
+          "title": "The first name of the customer"
+        },
+        "lastName": {
+          "type": "string",
+          "title": "The last name of the customer"
+        },
+        "address": {
+          "type": "string",
+          "title": "The street address of where the customer is"
+        },
+        "city": {
+          "type": "string",
+          "title": "The city where the customer is"
+        },
+        "state": {
+          "type": "string",
+          "title": "The state where the customer is"
+        },
+        "country": {
+          "type": "string",
+          "title": "The country where the customer is"
+        },
+        "phoneNumbers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The phone number of the customer"
+        },
+        "emailAddresses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The email address of the customer"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The tags of the customer"
+        },
+        "origins": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The application ID that created the customer"
+        },
+        "permissionToContact": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time the customer has explicitly opted-in to receive communication from the Business"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time the customer was created"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time the customer was last modified"
+        },
+        "deleted": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time the customer was deleted. Will be nil if the contact has not been deleted"
+        },
+        "assignedRepFirstName": {
+          "type": "string",
+          "title": "The first name of the rep assigned to the customer"
+        },
+        "assignedRepLastName": {
+          "type": "string",
+          "title": "The last name of the rep assigned to the customer"
+        }
+      }
+    },
+    "v1ConflictingField": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string",
+          "title": "The id of the customer you are conflicting with"
+        },
+        "fieldType": {
+          "$ref": "#/definitions/v1CustomerFieldType",
+          "title": "The field you are conflicting with ex. email"
+        },
+        "fieldValue": {
+          "type": "string",
+          "title": "The existing matching value"
+        }
+      }
+    },
+    "v1Contact": {
+      "type": "object",
+      "properties": {
+        "contactId": {
+          "type": "string",
+          "title": "A unique id for the contact"
+        },
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group this contact belongs to"
+        },
+        "firstName": {
+          "type": "string",
+          "title": "The first name of the contact"
+        },
+        "lastName": {
+          "type": "string",
+          "title": "The last name of the contact"
+        },
+        "address": {
+          "type": "string",
+          "title": "The street address of where the contact is"
+        },
+        "city": {
+          "type": "string",
+          "title": "The city where the contact is"
+        },
+        "state": {
+          "type": "string",
+          "title": "The state where the contact is"
+        },
+        "country": {
+          "type": "string",
+          "title": "The country where the contact is"
+        },
+        "phone": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The phone number of the contact"
+        },
+        "email": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The email address of the contact"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time the contact was created"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time the contact was last modified"
+        },
+        "deleted": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time the contact was deleted. Will be nil if the contact has not been deleted"
+        },
+        "origin": {
+          "type": "string",
+          "title": "The ID of the application that created the contact"
+        },
+        "originalId": {
+          "type": "string",
+          "title": "The customer specified ID from the origin system"
+        },
+        "syncedAppIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The list of appIDs that the contact can be synced with"
+        },
+        "permissionToContact": {
+          "type": "boolean",
+          "title": "This flag is true if the contact has explicitly opted-in to receive communication from the Business"
+        }
+      }
+    },
+    "v1ContactMessageRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group id"
+        },
+        "contactIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The list of contact ids"
+        },
+        "subject": {
+          "type": "string",
+          "title": "Subject"
+        },
+        "template": {
+          "type": "string",
+          "title": "Email template"
+        },
+        "ccAddress": {
+          "type": "string",
+          "title": "Cc address"
+        },
+        "bccAddress": {
+          "type": "string",
+          "title": "Bcc address"
+        },
+        "replyAddress": {
+          "type": "string",
+          "title": "Reply"
+        }
+      }
+    },
+    "v1ContactMessageResponse": {
+      "type": "object",
+      "properties": {
+        "responseMessage": {
+          "type": "string",
+          "title": "Response message"
+        }
+      }
+    },
+    "v1CreateContactRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group to add this contact to"
+        },
+        "firstName": {
+          "type": "string",
+          "title": "The first name of the contact"
+        },
+        "lastName": {
+          "type": "string",
+          "title": "The last name of the contact"
+        },
+        "address": {
+          "type": "string",
+          "title": "The street address of where the contact is"
+        },
+        "city": {
+          "type": "string",
+          "title": "The city where the contact is"
+        },
+        "state": {
+          "type": "string",
+          "title": "The state where the contact is"
+        },
+        "country": {
+          "type": "string",
+          "title": "The country where the contact is"
+        },
+        "phone": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The phone number of the contact"
+        },
+        "email": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The email address of the contact"
+        },
+        "origin": {
+          "type": "string",
+          "title": "The application ID that created the contact"
+        },
+        "originalId": {
+          "type": "string",
+          "title": "The customer specified ID from the origin system"
+        },
+        "syncedAppIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The list of appIDs that the contact can be synced with"
+        },
+        "permissionToContact": {
+          "type": "boolean",
+          "title": "This flag is true if the contact has explicitly opted-in to receive communication from the Business"
+        }
+      },
+      "title": "Creating a contact requires [account_group_id] and at least one of [first_name, last_nam, email, phone]"
+    },
+    "v1CreateContactResponse": {
+      "type": "object",
+      "properties": {
+        "contact": {
+          "$ref": "#/definitions/v1Contact",
+          "title": "The new contact that's been created"
+        }
+      }
+    },
+    "v1CreateCustomerRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group to add this customer to"
+        },
+        "partnerId": {
+          "type": "string",
+          "title": "The partner to add this customer to"
+        },
+        "firstName": {
+          "type": "string",
+          "title": "The first name of the customer"
+        },
+        "lastName": {
+          "type": "string",
+          "title": "The last name of the customer"
+        },
+        "address": {
+          "type": "string",
+          "title": "The street address of where the customer is"
+        },
+        "city": {
+          "type": "string",
+          "title": "The city where the customer is"
+        },
+        "state": {
+          "type": "string",
+          "title": "The state where the customer is"
+        },
+        "country": {
+          "type": "string",
+          "title": "The country where the customer is"
+        },
+        "phoneNumbers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The phone number of the customer"
+        },
+        "emailAddresses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The email address of the customer"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The tags of the customer"
+        },
+        "origins": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The application ID that created the customer"
+        },
+        "permissionToContact": {
+          "type": "boolean",
+          "title": "This flag is true if the customer has explicitly opted-in to receive communication from the Business"
+        },
+        "assignedRepFirstName": {
+          "type": "string",
+          "title": "The first name of the rep assigned to the customer"
+        },
+        "assignedRepLastName": {
+          "type": "string",
+          "title": "The last name of the rep assigned to the customer"
+        }
+      }
+    },
+    "v1CreateCustomerResponse": {
+      "type": "object",
+      "properties": {
+        "customer": {
+          "$ref": "#/definitions/v1Customer"
+        },
+        "conflict": {
+          "$ref": "#/definitions/v1Conflict"
+        },
+        "entityType": {
+          "$ref": "#/definitions/v1EntityType",
+          "title": "The entity's type (e.g. customer)"
+        }
+      }
+    },
+    "v1CreateUserListRequest": {
+      "type": "object",
+      "properties": {
+        "partnerId": {
+          "type": "string",
+          "title": "The unique partner ID"
+        },
+        "listId": {
+          "type": "string",
+          "title": "The unique ID for the list"
+        },
+        "listName": {
+          "type": "string",
+          "title": "The name of the list for the users"
+        }
+      }
+    },
+    "v1CreateWithoutConflictRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group for this customer"
+        },
+        "partnerId": {
+          "type": "string",
+          "title": "The account group's partner"
+        },
+        "firstName": {
+          "type": "string",
+          "title": "The given name of the customer"
+        },
+        "lastName": {
+          "type": "string",
+          "title": "The surname of the customer"
+        },
+        "address": {
+          "type": "string",
+          "title": "The street address of the customer"
+        },
+        "city": {
+          "type": "string",
+          "title": "The city of the customer"
+        },
+        "state": {
+          "type": "string",
+          "title": "The region of the customer"
+        },
+        "country": {
+          "type": "string",
+          "title": "The country of the customer"
+        },
+        "phoneNumbers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "A list of phone numbers for the customer"
+        },
+        "emailAddresses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "A list of emails for the customer"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "A list of business identifiers for a customer"
+        },
+        "origins": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The application ID where the customer originated"
+        },
+        "permissionToContact": {
+          "type": "boolean",
+          "title": "This flag is true if the customer has explicitly opted-in to receive communication from the Business"
+        },
+        "assignedRepFirstName": {
+          "type": "string",
+          "title": "The first name of the rep assigned to the customer"
+        },
+        "assignedRepLastName": {
+          "type": "string",
+          "title": "The last name of the rep assigned to the customer"
+        }
+      }
+    },
+    "v1CreateWithoutConflictResponse": {
+      "type": "object",
+      "properties": {
+        "customer": {
+          "$ref": "#/definitions/v1Customer",
+          "title": "The newly created customer"
+        },
+        "conflictingFields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ConflictingField"
+          },
+          "title": "The existing values you are conflicting with in the case of a failed create"
+        }
+      }
+    },
+    "v1Customer": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string",
+          "title": "A unique id for the customer"
+        },
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group to add this customer to"
+        },
+        "partnerId": {
+          "type": "string",
+          "title": "The partner to add this customer to"
+        },
+        "firstName": {
+          "type": "string",
+          "title": "The first name of the customer"
+        },
+        "lastName": {
+          "type": "string",
+          "title": "The last name of the customer"
+        },
+        "address": {
+          "type": "string",
+          "title": "The street address of where the customer is"
+        },
+        "city": {
+          "type": "string",
+          "title": "The city where the customer is"
+        },
+        "state": {
+          "type": "string",
+          "title": "The state where the customer is"
+        },
+        "country": {
+          "type": "string",
+          "title": "The country where the customer is"
+        },
+        "phoneNumbers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The phone number of the customer"
+        },
+        "emailAddresses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The email address of the customer"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The tags of the customer"
+        },
+        "origins": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The application ID that created the customer"
+        },
+        "permissionToContact": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time the customer has explicitly opted-in to receive communication from the Business"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time the customer was created"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time the customer was last modified"
+        },
+        "deleted": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time the customer was deleted. Will be nil if the contact has not been deleted"
+        },
+        "vendorCustomerId": {
+          "type": "string",
+          "title": "Vendor Customer ID if it is created by vendors"
+        },
+        "assignedRepFirstName": {
+          "type": "string",
+          "title": "The first name of the rep assigned to the customer"
+        },
+        "assignedRepLastName": {
+          "type": "string",
+          "title": "The last name of the rep assigned to the customer"
+        }
+      }
+    },
+    "v1CustomerFieldType": {
+      "type": "string",
+      "enum": [
+        "CUSTOMER_FIELD_TYPE_NONE",
+        "CUSTOMER_FIELD_TYPE_EMAIL",
+        "CUSTOMER_FIELD_TYPE_PHONE"
+      ],
+      "default": "CUSTOMER_FIELD_TYPE_NONE"
+    },
+    "v1CustomerFilters": {
+      "type": "object",
+      "properties": {
+        "created": {
+          "$ref": "#/definitions/v1DateRangeFilter",
+          "title": "Filter by created"
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Filter by Tag"
+        },
+        "origin": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Filter by Origin"
+        },
+        "negateTags": {
+          "type": "boolean",
+          "title": "Negate the tag filter"
+        }
+      }
+    },
+    "v1CustomerHeaderMapping": {
+      "type": "object",
+      "properties": {
+        "emails": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "phones": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "permissionToContact": {
+          "type": "string"
+        }
+      },
+      "title": "Mapping headers in the csv file to match each field to whatever it's named"
+    },
+    "v1CustomerIdMapping": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string",
+          "title": "Vendasta's internal customer id"
+        },
+        "vendorAppId": {
+          "type": "string",
+          "title": "The app id for the vendor product this customer is mapped to"
+        },
+        "vendorCustomerId": {
+          "type": "string",
+          "title": "The customer reference id generated by the vendor app"
+        },
+        "customerType": {
+          "$ref": "#/definitions/v1CustomerType",
+          "title": "The customer's type (eg. \"conflict\")"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time the customer mapping was created"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time the customer mapping was last modified"
+        }
+      }
+    },
+    "v1CustomerOrigin": {
+      "type": "object",
+      "properties": {
+        "origin": {
+          "type": "string",
+          "title": "The vendor ID of the application that originally created the customer record"
+        },
+        "name": {
+          "type": "string",
+          "title": "The white labeled name of the customer origin"
+        },
+        "count": {
+          "type": "string",
+          "format": "int64",
+          "title": "The total number of customers with this origin"
+        }
+      }
+    },
+    "v1CustomerSortDirection": {
+      "type": "string",
+      "enum": [
+        "CUSTOMER_SORT_DIRECTION_ASCENDING",
+        "CUSTOMER_SORT_DIRECTION_DESCENDING"
+      ],
+      "default": "CUSTOMER_SORT_DIRECTION_ASCENDING",
+      "description": "The directions that a result set can be sorted in."
+    },
+    "v1CustomerSortField": {
+      "type": "string",
+      "enum": [
+        "CUSTOMER_SORT_FIELD_FIRST_NAME",
+        "CUSTOMER_SORT_FIELD_LAST_NAME",
+        "CUSTOMER_SORT_FIELD_CREATED"
+      ],
+      "default": "CUSTOMER_SORT_FIELD_FIRST_NAME",
+      "description": "The field to sort a result set on."
+    },
+    "v1CustomerSortOptions": {
+      "type": "object",
+      "properties": {
+        "direction": {
+          "$ref": "#/definitions/v1CustomerSortDirection",
+          "title": "A direction to sort results in"
+        },
+        "field": {
+          "$ref": "#/definitions/v1CustomerSortField",
+          "title": "Field to sort on"
+        }
+      },
+      "title": "Options for controlling the order of query results"
+    },
+    "v1CustomerType": {
+      "type": "string",
+      "enum": [
+        "CUSTOMER_TYPE_UNKNOWN",
+        "CUSTOMER_TYPE_CUSTOMER",
+        "CUSTOMER_TYPE_CONFLICT"
+      ],
+      "default": "CUSTOMER_TYPE_UNKNOWN"
+    },
+    "v1CustomerValidationError": {
+      "type": "string",
+      "enum": [
+        "CUSTOMER_VALIDATION_ERROR_NO_ERRORS",
+        "CUSTOMER_VALIDATION_ERROR_EMAIL_OR_PHONE_REQUIRED",
+        "CUSTOMER_VALIDATION_ERROR_INVALID_EMAIL",
+        "CUSTOMER_VALIDATION_ERROR_INVALID_PHONE",
+        "CUSTOMER_VALIDATION_ERROR_INVALID_FIRST_NAME",
+        "CUSTOMER_VALIDATION_ERROR_INVALID_LAST_NAME"
+      ],
+      "default": "CUSTOMER_VALIDATION_ERROR_NO_ERRORS",
+      "title": "- CUSTOMER_VALIDATION_ERROR_NO_ERRORS: Possible validation errors"
+    },
+    "v1DateRangeFilter": {
+      "type": "object",
+      "properties": {
+        "beginRange": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Start date of range"
+        },
+        "endRange": {
+          "type": "string",
+          "format": "date-time",
+          "title": "End date of range"
+        }
+      },
+      "title": "The start and end of date range (inclusive)"
+    },
+    "v1DeleteContactRequest": {
+      "type": "object",
+      "properties": {
+        "contactId": {
+          "type": "string",
+          "title": "The contact ID to delete"
+        },
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group to delete contact for"
+        },
+        "author": {
+          "type": "string",
+          "title": "The author(app_id) that perform the delete"
+        }
+      }
+    },
+    "v1DeleteCustomerRequest": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string",
+          "title": "The customer ID to delete"
+        },
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group to delete customer for"
+        }
+      }
+    },
+    "v1DeleteUserFromListRequest": {
+      "type": "object",
+      "properties": {
+        "listId": {
+          "type": "string",
+          "title": "The unique ID for the list"
+        },
+        "userId": {
+          "type": "string",
+          "title": "An IAM user ID"
+        }
+      }
+    },
+    "v1DesyncCustomersRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group the customers exists in"
+        },
+        "customerIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The ids of customers to desync from another product"
+        },
+        "appId": {
+          "type": "string",
+          "title": "The app id of the product to desync from"
+        }
+      }
+    },
+    "v1EntityType": {
+      "type": "string",
+      "enum": [
+        "ENTITY_TYPE_UNKNOWN",
+        "ENTITY_TYPE_CUSTOMER",
+        "ENTITY_TYPE_CONFLICT"
+      ],
+      "default": "ENTITY_TYPE_UNKNOWN"
+    },
+    "v1Filters": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The source of the contacts the user want to filter for"
+        },
+        "syncedAppIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Filter with the appIDs that the contacts are synced with"
+        }
+      },
+      "title": "Option for controlling the filter of the contacts list"
+    },
+    "v1GetCustomerIdMappingRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group this customer mapping exists in"
+        },
+        "customerId": {
+          "type": "string",
+          "title": "Vendasta's internal customer id"
+        },
+        "vendorAppId": {
+          "type": "string",
+          "title": "The app id for the vendor product this customer is mapped to"
+        }
+      }
+    },
+    "v1GetCustomerIdMappingResponse": {
+      "type": "object",
+      "properties": {
+        "customerIdMapping": {
+          "$ref": "#/definitions/v1CustomerIdMapping",
+          "title": "The requested customer id mapping"
+        }
+      }
+    },
+    "v1GetCustomerRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group the requested customer belongs to"
+        },
+        "customerId": {
+          "type": "string",
+          "title": "The ID of the customer that is being requested"
+        }
+      }
+    },
+    "v1GetCustomerResponse": {
+      "type": "object",
+      "properties": {
+        "customer": {
+          "$ref": "#/definitions/v1Customer",
+          "title": "The requested customer"
+        }
+      }
+    },
+    "v1GetMultiCustomersRequest": {
+      "type": "object",
+      "properties": {
+        "customerIdentifiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/GetMultiCustomersRequestCustomerIdentifiers"
+          },
+          "title": "List of account group id - customer id pairs for the requested customers"
+        }
+      },
+      "title": "Gets multiple customers"
+    },
+    "v1GetMultiCustomersResponse": {
+      "type": "object",
+      "properties": {
+        "customers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Customer"
+          },
+          "title": "List of the requested customers"
+        }
+      },
+      "title": "Returns multiple requested customers"
+    },
+    "v1GetUserListRequest": {
+      "type": "object",
+      "properties": {
+        "listId": {
+          "type": "string",
+          "title": "The unique ID for the list"
+        }
+      }
+    },
+    "v1GetUserListResponse": {
+      "type": "object",
+      "properties": {
+        "userList": {
+          "$ref": "#/definitions/v1UserListItem",
+          "title": "The user list details"
+        }
+      }
+    },
+    "v1HeaderMapping": {
+      "type": "object",
+      "properties": {
+        "emails": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "phones": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        }
+      },
+      "title": "Mapping headers in the csv file to match each field to whatever it's named"
+    },
+    "v1ListContactsRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group to retrieve the contacts for"
+        },
+        "cursor": {
+          "type": "string",
+          "title": "Cursor should be supplied from the last response or \"\""
+        },
+        "pageSize": {
+          "type": "string",
+          "format": "int64",
+          "description": "The number of results to retrieve."
+        },
+        "searchTerm": {
+          "type": "string",
+          "title": "search_term is an arbitrary string to perform full text search across all the contacts information"
+        },
+        "sortOptions": {
+          "$ref": "#/definitions/v1SortOptions",
+          "title": "sort_options control what fileds it can sort on and the sorting direction"
+        },
+        "filters": {
+          "$ref": "#/definitions/v1Filters",
+          "title": "filters control what fileds it can filte for"
+        },
+        "appId": {
+          "type": "string",
+          "title": "app_id indicates what application's associations we should use to translate the contact id"
+        }
+      }
+    },
+    "v1ListContactsResponse": {
+      "type": "object",
+      "properties": {
+        "contacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Contact"
+          },
+          "title": "List of the contacts"
+        },
+        "nextCursor": {
+          "type": "string",
+          "title": "A cursor that can be provided to retrieve the next page of results"
+        },
+        "hasMore": {
+          "type": "boolean",
+          "title": "Whether or not more results exist"
+        },
+        "totalResults": {
+          "type": "string",
+          "format": "int64",
+          "title": "Total number of contacts for account group"
+        }
+      }
+    },
+    "v1ListCustomerOriginsRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The identifier of the account group for which to list customer origins"
+        }
+      }
+    },
+    "v1ListCustomerOriginsResponse": {
+      "type": "object",
+      "properties": {
+        "origins": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1CustomerOrigin"
+          },
+          "title": "A list of all of the origins for an account group's customers"
+        }
+      }
+    },
+    "v1ListCustomersRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The identifier of the account group for which to list customers"
+        },
+        "cursor": {
+          "type": "string",
+          "title": "The cursor at which to begin the list"
+        },
+        "pageSize": {
+          "type": "string",
+          "format": "int64",
+          "title": "The page size of the results to be listed"
+        },
+        "searchTerm": {
+          "type": "string",
+          "title": "The search term by which to filter the list"
+        },
+        "sortOptions": {
+          "$ref": "#/definitions/v1CustomerSortOptions",
+          "title": "sort_options control what fields it can sort on and the sorting direction"
+        },
+        "filters": {
+          "$ref": "#/definitions/v1CustomerFilters",
+          "title": "The filters that can be applied"
+        }
+      }
+    },
+    "v1ListCustomersResponse": {
+      "type": "object",
+      "properties": {
+        "customers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Customer"
+          },
+          "title": "The customers matching the list request"
+        },
+        "nextCursor": {
+          "type": "string",
+          "title": "The cursor to list the next page of customers"
+        },
+        "hasMore": {
+          "type": "boolean",
+          "title": "Indicates whether there are more customers to list"
+        },
+        "totalResults": {
+          "type": "string",
+          "format": "int64",
+          "title": "Total number of customers for account group"
+        }
+      }
+    },
+    "v1ListOriginsRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group id to retrieve contacts origins for"
+        }
+      }
+    },
+    "v1ListOriginsResponse": {
+      "type": "object",
+      "properties": {
+        "whiteLabeledOrigins": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1WhiteLabeledOrigin"
+          },
+          "title": "Mapping between an origin and the whitelabeled name"
+        }
+      }
+    },
+    "v1ListUserListsRequest": {
+      "type": "object",
+      "properties": {
+        "partnerId": {
+          "type": "string",
+          "title": "The unique partner ID"
+        },
+        "pagingOptions": {
+          "$ref": "#/definitions/v1PagedRequestOptions",
+          "title": "Options for how to page the response for this request"
+        }
+      }
+    },
+    "v1ListUserListsResponse": {
+      "type": "object",
+      "properties": {
+        "userLists": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1UserListItem"
+          },
+          "title": "The list of userlist items"
+        },
+        "pagingMetadata": {
+          "$ref": "#/definitions/v1PagedResponseMetadata",
+          "title": "Metadata about the paging"
+        }
+      }
+    },
+    "v1ListUsersFromListRequest": {
+      "type": "object",
+      "properties": {
+        "listId": {
+          "type": "string",
+          "title": "The unique ID for the list"
+        },
+        "pagingOptions": {
+          "$ref": "#/definitions/v1PagedRequestOptions",
+          "title": "Options for how to page the response for this request"
+        }
+      }
+    },
+    "v1ListUsersFromListResponse": {
+      "type": "object",
+      "properties": {
+        "userIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The list of IAM user IDs"
+        },
+        "pagingMetadata": {
+          "$ref": "#/definitions/v1PagedResponseMetadata",
+          "title": "Metadata about the paging"
+        }
+      }
+    },
+    "v1PagedRequestOptions": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "type": "string",
+          "title": "cursor can be passed to retrieve the next page of results keyed by the cursor"
+        },
+        "pageSize": {
+          "type": "string",
+          "format": "int64",
+          "title": "page_size specifies the number of items to return in the next page"
+        }
+      },
+      "title": "Cursor and page size for paging request"
+    },
+    "v1PagedResponseMetadata": {
+      "type": "object",
+      "properties": {
+        "nextCursor": {
+          "type": "string",
+          "title": "A cursor that can be provided to retrieve the next page of results"
+        },
+        "hasMore": {
+          "type": "boolean",
+          "title": "Whether or not more results exist"
+        },
+        "totalResults": {
+          "type": "string",
+          "format": "int64",
+          "title": "Total number of results"
+        }
+      },
+      "title": "Metadata related to the paged response from a List request"
+    },
+    "v1SortDirection": {
+      "type": "string",
+      "enum": [
+        "Ascending",
+        "Descending"
+      ],
+      "default": "Ascending",
+      "description": "The directions that a result set can be sorted in."
+    },
+    "v1SortField": {
+      "type": "string",
+      "enum": [
+        "Name",
+        "Created"
+      ],
+      "default": "Name",
+      "description": "The field to sort a result set on."
+    },
+    "v1SortOptions": {
+      "type": "object",
+      "properties": {
+        "direction": {
+          "$ref": "#/definitions/v1SortDirection",
+          "title": "A direction to sort results in"
+        },
+        "field": {
+          "$ref": "#/definitions/v1SortField",
+          "title": "Field to sort on"
+        }
+      },
+      "title": "Options for controlling the order of query results"
+    },
+    "v1SyncCustomersRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group the customers exists in"
+        },
+        "customerIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The ids of customers to sync to another product"
+        },
+        "appId": {
+          "type": "string",
+          "title": "The app id of the product to sync to"
+        }
+      }
+    },
+    "v1TriggerSyncRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The business account requesting contacts to be synced"
+        },
+        "appId": {
+          "type": "string",
+          "title": "The vendor app that contacts will be synced to"
+        }
+      }
+    },
+    "v1UpdateContactRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group to update this contact"
+        },
+        "firstName": {
+          "type": "string",
+          "title": "The first name of the contact"
+        },
+        "lastName": {
+          "type": "string",
+          "title": "The last name of the contact"
+        },
+        "address": {
+          "type": "string",
+          "title": "The street address of where the contact is"
+        },
+        "city": {
+          "type": "string",
+          "title": "The city where the contact is"
+        },
+        "state": {
+          "type": "string",
+          "title": "The state where the contact is"
+        },
+        "country": {
+          "type": "string",
+          "title": "The country where the contact is"
+        },
+        "phone": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The phone number of the contact"
+        },
+        "email": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The email address of the contact"
+        },
+        "contactId": {
+          "type": "string",
+          "title": "The contact ID to update"
+        },
+        "author": {
+          "type": "string",
+          "title": "The author(app_id) that perform the update"
+        },
+        "syncedAppIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The list of appIDs that the contact can be synced with"
+        },
+        "permissionToContact": {
+          "type": "boolean",
+          "title": "This flag is true if the contact has explicitly opted-in to receive communication from the Business"
+        },
+        "fieldMask": {
+          "$ref": "#/definitions/vendastatypesFieldMask",
+          "title": "Mask for what fields should be updated"
+        }
+      }
+    },
+    "v1UpdateContactResponse": {
+      "type": "object",
+      "properties": {
+        "contact": {
+          "$ref": "#/definitions/v1Contact",
+          "title": "The new contact that's been updated"
+        }
+      }
+    },
+    "v1UpdateCustomerRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group this customer belongs to"
+        },
+        "customerId": {
+          "type": "string",
+          "title": "The unique id of the customer"
+        },
+        "firstName": {
+          "type": "string",
+          "title": "The first name of the customer"
+        },
+        "lastName": {
+          "type": "string",
+          "title": "The last name of the customer"
+        },
+        "address": {
+          "type": "string",
+          "title": "The street address of where the customer is"
+        },
+        "city": {
+          "type": "string",
+          "title": "The city where the customer is"
+        },
+        "state": {
+          "type": "string",
+          "title": "The state where the customer is"
+        },
+        "country": {
+          "type": "string",
+          "title": "The country where the customer is"
+        },
+        "phoneNumbers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The phone number of the customer"
+        },
+        "emailAddresses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The email address of the customer"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The tags of the customer"
+        },
+        "origin": {
+          "type": "string",
+          "title": "The application ID that edited the customer"
+        },
+        "permissionToContact": {
+          "type": "boolean",
+          "title": "This flag is true if the customer has explicitly opted-in to receive communication from the Business"
+        },
+        "fieldMask": {
+          "$ref": "#/definitions/vendastatypesFieldMask",
+          "title": "Mask for what fields should be updated"
+        },
+        "assignedRepFirstName": {
+          "type": "string",
+          "title": "The first name of the rep assigned to the customer"
+        },
+        "assignedRepLastName": {
+          "type": "string",
+          "title": "The last name of the rep assigned to the customer"
+        }
+      }
+    },
+    "v1UpdateCustomerResponse": {
+      "type": "object",
+      "properties": {
+        "customer": {
+          "$ref": "#/definitions/v1Customer",
+          "title": "The updated customer"
+        }
+      }
+    },
+    "v1UserListItem": {
+      "type": "object",
+      "properties": {
+        "listId": {
+          "type": "string",
+          "title": "The unique ID for the list"
+        },
+        "listName": {
+          "type": "string",
+          "title": "The name of the list for the users"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The list's created or updated time (group)"
+        },
+        "itemCount": {
+          "type": "string",
+          "format": "int64",
+          "title": "The list's member count"
+        }
+      }
+    },
+    "v1VendorAssociateCustomerIDRequest": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string",
+          "title": "Customer List's internal customer ID"
+        },
+        "vendorCustomerId": {
+          "type": "string",
+          "title": "The vendor's customer ID"
+        },
+        "vendorAppId": {
+          "type": "string",
+          "title": "The vendor's app ID"
+        }
+      }
+    },
+    "v1VendorCreateCustomerRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group to add this customer to"
+        },
+        "vendorCustomerId": {
+          "type": "string",
+          "title": "The customer id on the external source to map to"
+        },
+        "appId": {
+          "type": "string",
+          "title": "The app id that the customer is synced with"
+        },
+        "firstName": {
+          "type": "string",
+          "title": "The first name of the customer"
+        },
+        "lastName": {
+          "type": "string",
+          "title": "The last name of the customer"
+        },
+        "address": {
+          "type": "string",
+          "title": "The street address of where the customer is"
+        },
+        "city": {
+          "type": "string",
+          "title": "The city where the customer is"
+        },
+        "state": {
+          "type": "string",
+          "title": "The state where the customer is"
+        },
+        "country": {
+          "type": "string",
+          "title": "The country where the customer is"
+        },
+        "phoneNumbers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The phone number of the customer"
+        },
+        "emailAddresses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The email address of the customer"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The tags of the customer"
+        },
+        "origin": {
+          "type": "string",
+          "title": "The application ID that created the customer"
+        },
+        "permissionToContact": {
+          "type": "boolean",
+          "title": "This flag is true if the customer has explicitly opted-in to receive communication from the Business"
+        },
+        "assignedRepFirstName": {
+          "type": "string",
+          "title": "The first name of the rep assigned to the customer"
+        },
+        "assignedRepLastName": {
+          "type": "string",
+          "title": "The last name of the rep assigned to the customer"
+        }
+      }
+    },
+    "v1VendorCreateCustomerResponse": {
+      "type": "object",
+      "properties": {
+        "customer": {
+          "$ref": "#/definitions/v1Customer",
+          "title": "The new customer that's been created"
+        },
+        "conflictingCustomerId": {
+          "type": "string",
+          "title": "The customer id that conflict with"
+        }
+      }
+    },
+    "v1VendorDeleteCustomerRequest": {
+      "type": "object",
+      "properties": {
+        "vendorCustomerId": {
+          "type": "string",
+          "title": "The vendor customer ID to delete"
+        },
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group to delete customer for"
+        },
+        "vendorAppId": {
+          "type": "string",
+          "title": "The vendor app id where the request is from"
+        }
+      }
+    },
+    "v1VendorGetCustomerRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group this customer exists in"
+        },
+        "vendorCustomerId": {
+          "type": "string",
+          "title": "The vendor's customer ID"
+        },
+        "vendorAppId": {
+          "type": "string",
+          "title": "The vendor app id where the request is from"
+        }
+      }
+    },
+    "v1VendorGetCustomerResponse": {
+      "type": "object",
+      "properties": {
+        "customer": {
+          "$ref": "#/definitions/v1Customer",
+          "title": "The customer that's been updated or the representation of the conflict that's been updated"
+        },
+        "conflictingCustomerId": {
+          "type": "string",
+          "title": "The ID of the customer that the conflict is conflicting with, if any"
+        }
+      }
+    },
+    "v1VendorListCustomerOriginsRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The identifier of the account group for which to list customer origins"
+        }
+      }
+    },
+    "v1VendorListCustomerOriginsResponse": {
+      "type": "object",
+      "properties": {
+        "origins": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1CustomerOrigin"
+          },
+          "title": "A list of all of the origins for an account group's customers"
+        }
+      }
+    },
+    "v1VendorListCustomersRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The identifier of the account group for which to list customers"
+        },
+        "vendorAppId": {
+          "type": "string",
+          "title": "The vendor app id where the request is from"
+        },
+        "cursor": {
+          "type": "string",
+          "title": "The cursor at which to begin the list"
+        },
+        "pageSize": {
+          "type": "string",
+          "format": "int64",
+          "title": "The page size of the results to be listed"
+        },
+        "searchTerm": {
+          "type": "string",
+          "title": "The search term by which to filter the list"
+        },
+        "sortOptions": {
+          "$ref": "#/definitions/v1CustomerSortOptions",
+          "title": "sort_options control what fields it can sort on and the sorting direction"
+        },
+        "filters": {
+          "$ref": "#/definitions/v1CustomerFilters",
+          "title": "The filters that can be applied"
+        }
+      }
+    },
+    "v1VendorListCustomersResponse": {
+      "type": "object",
+      "properties": {
+        "customers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Customer"
+          },
+          "title": "The customers matching the list request"
+        },
+        "nextCursor": {
+          "type": "string",
+          "title": "The cursor to list the next page of customers"
+        },
+        "hasMore": {
+          "type": "boolean",
+          "title": "Indicates whether there are more customers to list"
+        },
+        "totalResults": {
+          "type": "string",
+          "format": "int64",
+          "title": "Total number of customers for account group"
+        }
+      }
+    },
+    "v1VendorSyncAllCustomersRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The identifier of the account group for which to sync customers"
+        },
+        "vendorAppId": {
+          "type": "string",
+          "title": "The vendor app id where the request is from"
+        }
+      }
+    },
+    "v1VendorUpdateCustomerRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "The account group this customer exists in"
+        },
+        "vendorCustomerId": {
+          "type": "string",
+          "title": "The vendor's customer ID"
+        },
+        "vendorAppId": {
+          "type": "string",
+          "title": "The vendor's app ID"
+        },
+        "firstName": {
+          "type": "string",
+          "title": "The customer's first name"
+        },
+        "lastName": {
+          "type": "string",
+          "title": "The customer's last name"
+        },
+        "address": {
+          "type": "string",
+          "title": "The customer's address"
+        },
+        "city": {
+          "type": "string",
+          "title": "The customer's city"
+        },
+        "state": {
+          "type": "string",
+          "title": "The customer's state"
+        },
+        "country": {
+          "type": "string",
+          "title": "The customer's country"
+        },
+        "phoneNumbers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The customer's phone numbers"
+        },
+        "emailAddresses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The the customers email addresses"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The business's tags for the customer"
+        },
+        "origin": {
+          "type": "string",
+          "title": "The origin of this update"
+        },
+        "permissionToContact": {
+          "type": "boolean",
+          "title": "This flag is true if the customer has explicitly opted-in to receive communication from the Business"
+        },
+        "fieldMask": {
+          "$ref": "#/definitions/vendastatypesFieldMask",
+          "title": "Mask for what fields should be updated"
+        },
+        "assignedRepFirstName": {
+          "type": "string",
+          "title": "The first name of the rep assigned to the customer"
+        },
+        "assignedRepLastName": {
+          "type": "string",
+          "title": "The last name of the rep assigned to the customer"
+        }
+      }
+    },
+    "v1VendorUpdateCustomerResponse": {
+      "type": "object",
+      "properties": {
+        "customer": {
+          "$ref": "#/definitions/v1Customer",
+          "title": "The customer that's been updated or the representation of the conflict that's been updated"
+        },
+        "conflictingCustomerId": {
+          "type": "string",
+          "title": "The ID of the customer that the conflict is conflicting with, if any"
+        }
+      }
+    },
+    "v1WhiteLabeledOrigin": {
+      "type": "object",
+      "properties": {
+        "origin": {
+          "type": "string",
+          "title": "The origin of contact"
+        },
+        "whiteLabeledName": {
+          "type": "string",
+          "title": "The white labeled name of the contact origin"
+        }
+      }
+    },
+    "vendastatypesFieldMask": {
+      "type": "object",
+      "properties": {
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The set of field mask paths."
+        }
+      },
+      "description": "paths: \"f.a\"\n    paths: \"f.b.d\"\n\nHere `f` represents a field in some root message, `a` and `b`\nfields in the message found in `f`, and `d` a field found in the\nmessage in `f.b`.\n\nField masks are used to specify a subset of fields that should be\nreturned by a get operation or modified by an update operation.\nField masks also have a custom JSON encoding (see below).\n\n# Field Masks in Projections\n\nWhen used in the context of a projection, a response message or\nsub-message is filtered by the API to only contain those fields as\nspecified in the mask. For example, if the mask in the previous\nexample is applied to a response message as follows:\n\n    f {\n      a : 22\n      b {\n        d : 1\n        x : 2\n      }\n      y : 13\n    }\n    z: 8\n\nThe result will not contain specific values for fields x,y and z\n(their value will be set to the default, and omitted in proto text\noutput):\n\n\n    f {\n      a : 22\n      b {\n        d : 1\n      }\n    }\n\nA repeated field is not allowed except at the last position of a\npaths string.\n\nIf a FieldMask object is not present in a get operation, the\noperation applies to all fields (as if a FieldMask of all fields\nhad been specified).\n\nNote that a field mask does not necessarily apply to the\ntop-level response message. In case of a REST get operation, the\nfield mask applies directly to the response, but in case of a REST\nlist operation, the mask instead applies to each individual message\nin the returned resource list. In case of a REST custom method,\nother definitions may be used. Where the mask applies will be\nclearly documented together with its declaration in the API.  In\nany case, the effect on the returned resource/resources is required\nbehavior for APIs.\n\n# Field Masks in Update Operations\n\nA field mask in update operations specifies which fields of the\ntargeted resource are going to be updated. The API is required\nto only change the values of the fields as specified in the mask\nand leave the others untouched. If a resource is passed in to\ndescribe the updated values, the API ignores the values of all\nfields not covered by the mask.\n\nIf a repeated field is specified for an update operation, the existing\nrepeated values in the target resource will be overwritten by the new values.\nNote that a repeated field is only allowed in the last position of a `paths`\nstring.\n\nIf a sub-message is specified in the last position of the field mask for an\nupdate operation, then the existing sub-message in the target resource is\noverwritten. Given the target message:\n\n    f {\n      b {\n        d : 1\n        x : 2\n      }\n      c : 1\n    }\n\nAnd an update message:\n\n    f {\n      b {\n        d : 10\n      }\n    }\n\nthen if the field mask is:\n\n paths: \"f.b\"\n\nthen the result will be:\n\n    f {\n      b {\n        d : 10\n      }\n      c : 1\n    }\n\nHowever, if the update mask was:\n\n paths: \"f.b.d\"\n\nthen the result would be:\n\n    f {\n      b {\n        d : 10\n        x : 2\n      }\n      c : 1\n    }\n\nIn order to reset a field's value to the default, the field must\nbe in the mask and set to the default value in the provided resource.\nHence, in order to reset all fields of a resource, provide a default\ninstance of the resource and set all fields in the mask, or do\nnot provide a mask as described below.\n\nIf a field mask is not present on update, the operation applies to\nall fields (as if a field mask of all fields has been specified).\nNote that in the presence of schema evolution, this may mean that\nfields the client does not know and has therefore not filled into\nthe request will be reset to their default. If this is unwanted\nbehavior, a specific service may require a client to always specify\na field mask, producing an error if not.\n\nAs with get operations, the location of the resource which\ndescribes the updated values in the request message depends on the\noperation kind. In any case, the effect of the field mask is\nrequired to be honored by the API.\n\n## Considerations for HTTP REST\n\nThe HTTP kind of an update operation which uses a field mask must\nbe set to PATCH instead of PUT in order to satisfy HTTP semantics\n(PUT must only be used for full updates).\n\n# JSON Encoding of Field Masks\n\nIn JSON, a field mask is encoded as a single string where paths are\nseparated by a comma. Fields name in each path are converted\nto/from lower-camel naming conventions.\n\nAs an example, consider the following message declarations:\n\n    message Profile {\n      User user = 1;\n      Photo photo = 2;\n    }\n    message User {\n      string display_name = 1;\n      string address = 2;\n    }\n\nIn proto a field mask for `Profile` may look as such:\n\n    mask {\n      paths: \"user.display_name\"\n      paths: \"photo\"\n    }\n\nIn JSON, the same mask is represented as below:\n\n    {\n      mask: \"user.displayName,photo\"\n    }\n\n# Field Masks and Oneof Fields\n\nField masks treat fields in oneofs just as regular fields. Consider the\nfollowing message:\n\n    message SampleMessage {\n      oneof test_oneof {\n        string name = 4;\n        SubMessage sub_message = 9;\n      }\n    }\n\nThe field mask can be:\n\n    mask {\n      paths: \"name\"\n    }\n\nOr:\n\n    mask {\n      paths: \"sub_message\"\n    }\n\nNote that oneof type names (\"test_oneof\" in this case) cannot be used in\npaths.",
+      "title": "`FieldMask` represents a set of symbolic field paths, for example:"
+    }
+  }
+}

@@ -1,0 +1,574 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "configuration_management/v1/api.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ConfigurationManagement"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/configuration_management.v1.ConfigurationManagement/ApplyConfiguration": {
+      "post": {
+        "summary": "ApplyConfiguration applies a configuration to a target container namespace, applying to the member namespaces of that container",
+        "operationId": "ConfigurationManagement_ApplyConfiguration",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ApplyConfigurationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ApplyConfigurationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConfigurationManagement"
+        ]
+      }
+    },
+    "/configuration_management.v1.ConfigurationManagement/CreateConfigurationFromSource": {
+      "post": {
+        "summary": "CreateConfigurationFromSource creates a configuration from a source namespace",
+        "operationId": "ConfigurationManagement_CreateConfigurationFromSource",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateConfigurationFromSourceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateConfigurationFromSourceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConfigurationManagement"
+        ]
+      }
+    },
+    "/configuration_management.v1.ConfigurationManagement/DeleteConfiguration": {
+      "post": {
+        "summary": "DeleteConfiguration deletes a configuration wih given configuration_id",
+        "operationId": "ConfigurationManagement_DeleteConfiguration",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1DeleteConfigurationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConfigurationManagement"
+        ]
+      }
+    },
+    "/configuration_management.v1.ConfigurationManagement/GetConfigurationPreviewDataForSource": {
+      "post": {
+        "summary": "GetConfigurationPreviewDataForSource returns the a preview of the configuration for a source namespace",
+        "operationId": "ConfigurationManagement_GetConfigurationPreviewDataForSource",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetConfigurationPreviewDataForSourceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetConfigurationPreviewDataForSourceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConfigurationManagement"
+        ]
+      }
+    },
+    "/configuration_management.v1.ConfigurationManagement/ListConfigurations": {
+      "post": {
+        "summary": "ListConfigurations returns a list of configurations for a given owner namespace",
+        "operationId": "ConfigurationManagement_ListConfigurations",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListConfigurationsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListConfigurationsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConfigurationManagement"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1ApplyConfigurationRequest": {
+      "type": "object",
+      "properties": {
+        "configurationId": {
+          "type": "string"
+        },
+        "configurationTargetContainers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ConfigurationTargetContainer"
+          }
+        },
+        "objectApplicationSelections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ObjectApplicationSelection"
+          }
+        },
+        "autoApplyNewVersions": {
+          "type": "boolean"
+        },
+        "runUsingServiceAccountUserId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ApplyConfigurationResponse": {
+      "type": "object"
+    },
+    "v1Configuration": {
+      "type": "object",
+      "properties": {
+        "configurationId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "configurationOwner": {
+          "$ref": "#/definitions/v1ConfigurationOwner"
+        },
+        "sourceNamespaceType": {
+          "$ref": "#/definitions/v1SourceNamespaceType"
+        },
+        "configurationVersion": {
+          "$ref": "#/definitions/v1ConfigurationVersion",
+          "title": "configuration_version is the current version of this configuration"
+        },
+        "deployedVersion": {
+          "type": "string",
+          "title": "deployed_version is a version identifier of the currently deployed configuration"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deletedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "title": "Configuration represents a collection of configurable objects that can be deployed together\nIt maintains versions of these objects and tracks their deployment status"
+    },
+    "v1ConfigurationOwner": {
+      "type": "object",
+      "properties": {
+        "ownerNamespace": {
+          "type": "string"
+        },
+        "ownerNamespaceType": {
+          "$ref": "#/definitions/v1OwnerNamespaceType"
+        }
+      }
+    },
+    "v1ConfigurationSource": {
+      "type": "object",
+      "properties": {
+        "sourceNamespace": {
+          "type": "string"
+        },
+        "sourceNamespaceType": {
+          "$ref": "#/definitions/v1SourceNamespaceType"
+        }
+      }
+    },
+    "v1ConfigurationTargetContainer": {
+      "type": "object",
+      "properties": {
+        "targetContainerNamespace": {
+          "type": "string"
+        },
+        "targetContainerNamespaceType": {
+          "$ref": "#/definitions/v1TargetContainerNamespaceType"
+        }
+      }
+    },
+    "v1ConfigurationVersion": {
+      "type": "object",
+      "properties": {
+        "configurationId": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "sourceNamespace": {
+          "type": "string"
+        },
+        "objectTypes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1TypedObjectContainer"
+          },
+          "title": "object_types is a list of containers of same type of objects included in this version of the configuration"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deletedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastDeployedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "title": "ConfigurationVersion represents a specific version of a configuration\nEach version contains the state of configuration at a particular point in time"
+    },
+    "v1CreateConfigurationFromSourceRequest": {
+      "type": "object",
+      "properties": {
+        "configurationSource": {
+          "$ref": "#/definitions/v1ConfigurationSource"
+        },
+        "name": {
+          "type": "string"
+        },
+        "selectedTypedObjectIds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1TypedObjectIds"
+          },
+          "title": "selected_typed_object_ids is a list of object ids that the user has selected to be included in the configuration"
+        },
+        "configurationOwner": {
+          "$ref": "#/definitions/v1ConfigurationOwner"
+        }
+      }
+    },
+    "v1CreateConfigurationFromSourceResponse": {
+      "type": "object",
+      "properties": {
+        "configurationId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1DeleteConfigurationRequest": {
+      "type": "object",
+      "properties": {
+        "configurationId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1GetConfigurationPreviewDataForSourceRequest": {
+      "type": "object",
+      "properties": {
+        "configurationSource": {
+          "$ref": "#/definitions/v1ConfigurationSource"
+        }
+      }
+    },
+    "v1GetConfigurationPreviewDataForSourceResponse": {
+      "type": "object",
+      "properties": {
+        "objectTypes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1TypedObjectContainer"
+          }
+        }
+      }
+    },
+    "v1ListConfigurationsRequest": {
+      "type": "object",
+      "properties": {
+        "configurationOwner": {
+          "$ref": "#/definitions/v1ConfigurationOwner"
+        },
+        "pagingOptions": {
+          "$ref": "#/definitions/vendastatypesPagedRequestOptions"
+        }
+      }
+    },
+    "v1ListConfigurationsResponse": {
+      "type": "object",
+      "properties": {
+        "configuration": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Configuration"
+          }
+        },
+        "pagingMetadata": {
+          "$ref": "#/definitions/vendastatypesPagedResponseMetadata"
+        }
+      }
+    },
+    "v1ObjectApplicationSelection": {
+      "type": "object",
+      "properties": {
+        "configurationObjectId": {
+          "type": "string"
+        },
+        "strategy": {
+          "$ref": "#/definitions/v1ObjectApplicationStrategy"
+        }
+      }
+    },
+    "v1ObjectApplicationStrategy": {
+      "type": "string",
+      "enum": [
+        "OBJECT_APPLICATION_STRATEGY_UNSPECIFIED",
+        "OBJECT_APPLICATION_STRATEGY_SKIP_EXISTING",
+        "OBJECT_APPLICATION_STRATEGY_OVERWRITE_EXISTING"
+      ],
+      "default": "OBJECT_APPLICATION_STRATEGY_UNSPECIFIED"
+    },
+    "v1OwnerNamespaceType": {
+      "type": "string",
+      "enum": [
+        "OWNER_NAMESPACE_UNSPECIFIED",
+        "OWNER_NAMESPACE_PARTNER"
+      ],
+      "default": "OWNER_NAMESPACE_UNSPECIFIED",
+      "title": "The type of namespace that owns the configuration\nOnly has OWNER_NAMESPACE_PARTNER indicating that the configuration is owned by a specific partner\nbut could have our org as owner of configurations in future"
+    },
+    "v1SourceNamespaceType": {
+      "type": "string",
+      "enum": [
+        "SOURCE_NAMESPACE_UNSPECIFIED",
+        "SOURCE_NAMESPACE_PARTNER",
+        "SOURCE_NAMESPACE_ACCOUNT_GROUP"
+      ],
+      "default": "SOURCE_NAMESPACE_UNSPECIFIED"
+    },
+    "v1TargetContainerNamespaceType": {
+      "type": "string",
+      "enum": [
+        "TARGET_CONTAINER_NAMESPACE_UNSPECIFIED",
+        "TARGET_CONTAINER_NAMESPACE_ACCOUNT_GROUP",
+        "TARGET_CONTAINER_NAMESPACE_GROUP"
+      ],
+      "default": "TARGET_CONTAINER_NAMESPACE_UNSPECIFIED"
+    },
+    "v1TypedObject": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "id of the object in their own system"
+        },
+        "name": {
+          "type": "string",
+          "title": "name of the object derived from the object's owner service"
+        },
+        "description": {
+          "type": "string",
+          "title": "description of the object derived from the object's owner service"
+        },
+        "link": {
+          "type": "string",
+          "title": "link to view the object as it is in the source namespace"
+        }
+      },
+      "title": "TypedObject is a single configurable object\nExample : A single automation entity"
+    },
+    "v1TypedObjectContainer": {
+      "type": "object",
+      "properties": {
+        "typeId": {
+          "type": "string"
+        },
+        "typeName": {
+          "type": "string"
+        },
+        "objects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1TypedObject"
+          }
+        }
+      },
+      "title": "TypedObjectContainer is a container of same type of objects that are being returned"
+    },
+    "v1TypedObjectIds": {
+      "type": "object",
+      "properties": {
+        "typeId": {
+          "type": "string"
+        },
+        "typedObjectIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "vendastatypesPagedRequestOptions": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "type": "string",
+          "title": "cursor can be passed to retrieve the next page of results keyed by the cursor"
+        },
+        "pageSize": {
+          "type": "string",
+          "format": "int64",
+          "title": "page_size specifies the number of items to return in the next page"
+        }
+      }
+    },
+    "vendastatypesPagedResponseMetadata": {
+      "type": "object",
+      "properties": {
+        "nextCursor": {
+          "type": "string",
+          "title": "A cursor that can be provided to retrieve the next page of results"
+        },
+        "hasMore": {
+          "type": "boolean",
+          "title": "Whether or not more results exist"
+        },
+        "totalResults": {
+          "type": "string",
+          "format": "int64",
+          "title": "The total number of results. This is not supported on all paged apis and will be 0 if it is not supported"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,507 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "astbe/v1/api.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Asterisk"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/astbe.v1.Asterisk/Call": {
+      "post": {
+        "summary": "Creates a contact (this was my original idea for setting up a websocket, might come back to it.\nrpc Connect(ConnectRequest) returns (ConnectResponse);\nCall Forces a phone to Call to happen",
+        "operationId": "Asterisk_Call",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CallResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CallRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Asterisk"
+        ]
+      }
+    },
+    "/astbe.v1.Asterisk/CreateConfig": {
+      "post": {
+        "summary": "CreateConfig creates the asterisk intergration config settings, (superadmin only)",
+        "operationId": "Asterisk_CreateConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateConfigResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateConfigRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Asterisk"
+        ]
+      }
+    },
+    "/astbe.v1.Asterisk/GetConfig": {
+      "post": {
+        "summary": "GetConfig is to retrive the config for a given partner's asterisk integration (superadmin only)",
+        "operationId": "Asterisk_GetConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetConfigResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetConfigRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Asterisk"
+        ]
+      }
+    },
+    "/astbe.v1.Asterisk/GetRecordingUrl": {
+      "post": {
+        "summary": "GetRecording accesses the google file store and returns the file found there.",
+        "operationId": "Asterisk_GetRecordingUrl",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetRecordingUrlResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetRecordingUrlRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Asterisk"
+        ]
+      }
+    },
+    "/astbe.v1.Asterisk/LineStatus": {
+      "post": {
+        "summary": "Queue info\nrcp Queues(QueuesRequest) returns (QueuesResponse);\nQueueInfo\nrpc QueueInfo(QueueInfoRequest) returns (QueueInfoResponse);\nQueueLogin\nrcp QueueLogin(QueueLoginRequest) returns (QueueLoginResponse);\nQueueLogout\nrcp QueueLogout(QueueLogoutRequest) returns (QueueLogoutResponse);\nLineStatus",
+        "operationId": "Asterisk_LineStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1LineStatusResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1LineStatusRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Asterisk"
+        ]
+      }
+    },
+    "/astbe.v1.Asterisk/LiveStatus": {
+      "post": {
+        "summary": "LiveStatus is for push based status communication to the client (to be used for opening correct support page)",
+        "operationId": "Asterisk_LiveStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1LiveStatusResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1LiveStatusRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Asterisk"
+        ]
+      }
+    },
+    "/astbe.v1.Asterisk/UpdateConfig": {
+      "post": {
+        "summary": "UpdateConfig creates the asterisk intergration config settings, (superadmin only)",
+        "operationId": "Asterisk_UpdateConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateConfigResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateConfigRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Asterisk"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "astbev1LineStatus": {
+      "type": "string",
+      "enum": [
+        "LINE_STATUS_UNDEFINED",
+        "LINE_STATUS_IDLE",
+        "LINE_STATUS_INUSE",
+        "LINE_STATUS_BUSY",
+        "LINE_STATUS_UNAVAILABLE",
+        "LINE_STATUS_RINGING",
+        "LINE_STATUS_INUSE_RINGING",
+        "LINE_STATUS_HOLD",
+        "LINE_STATUS_INUSE_HOLD"
+      ],
+      "default": "LINE_STATUS_UNDEFINED",
+      "title": "Values are from the AMI definitions + 1 as a workaround for omitonempty"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1CallRequest": {
+      "type": "object",
+      "properties": {
+        "number": {
+          "type": "string"
+        },
+        "extension": {
+          "type": "string"
+        },
+        "ring": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1CallResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "v1CreateConfigRequest": {
+      "type": "object",
+      "properties": {
+        "pid": {
+          "type": "string"
+        },
+        "config": {
+          "$ref": "#/definitions/v1PrivateConfig"
+        }
+      }
+    },
+    "v1CreateConfigResponse": {
+      "type": "object",
+      "properties": {
+        "pid": {
+          "type": "string"
+        },
+        "config": {
+          "$ref": "#/definitions/v1PublicConfig"
+        }
+      }
+    },
+    "v1Extension": {
+      "type": "object",
+      "properties": {
+        "extension": {
+          "type": "string",
+          "format": "int64"
+        },
+        "user": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/astbev1LineStatus"
+        }
+      }
+    },
+    "v1GetConfigRequest": {
+      "type": "object",
+      "properties": {
+        "pid": {
+          "type": "string",
+          "title": "pid is the only identifier for a config"
+        }
+      }
+    },
+    "v1GetConfigResponse": {
+      "type": "object",
+      "properties": {
+        "pid": {
+          "type": "string"
+        },
+        "config": {
+          "$ref": "#/definitions/v1PublicConfig"
+        }
+      }
+    },
+    "v1GetRecordingUrlRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "v1GetRecordingUrlResponse": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "expires": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1LineStatusRequest": {
+      "type": "object",
+      "properties": {
+        "extension": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "v1LineStatusResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "extension": {
+          "$ref": "#/definitions/v1Extension"
+        },
+        "queuestatus": {
+          "$ref": "#/definitions/v1MemberStatus"
+        }
+      }
+    },
+    "v1LiveStatusRequest": {
+      "type": "object",
+      "properties": {
+        "extension": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "v1LiveStatusResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MemberStatus": {
+      "type": "string",
+      "enum": [
+        "MEMBER_STATUS_UNKNOWN",
+        "MEMBER_STATUS_OFFLINE",
+        "MEMBER_STATUS_ONLINE",
+        "MEMBER_STATUS_PAUSED"
+      ],
+      "default": "MEMBER_STATUS_UNKNOWN"
+    },
+    "v1PrivateConfig": {
+      "type": "object",
+      "properties": {
+        "public": {
+          "$ref": "#/definitions/v1PublicConfig"
+        },
+        "amikey": {
+          "type": "string"
+        }
+      }
+    },
+    "v1PublicConfig": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "createddate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "asteriskip": {
+          "type": "string"
+        },
+        "amiuser": {
+          "type": "string"
+        },
+        "zendeskintegration": {
+          "type": "boolean"
+        },
+        "activequeues": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1UpdateConfigRequest": {
+      "type": "object",
+      "properties": {
+        "partnerId": {
+          "type": "string"
+        },
+        "config": {
+          "$ref": "#/definitions/v1PrivateConfig"
+        }
+      }
+    },
+    "v1UpdateConfigResponse": {
+      "type": "object",
+      "properties": {
+        "partnerId": {
+          "type": "string"
+        },
+        "config": {
+          "$ref": "#/definitions/v1PublicConfig"
+        }
+      }
+    }
+  }
+}

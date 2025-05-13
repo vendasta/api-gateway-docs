@@ -1,0 +1,359 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "site_cost_calculator/v1/api.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "SiteBuildCost"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/site_cost_calculator.v1.SiteBuildCost/Get": {
+      "post": {
+        "summary": "Get returns an itemized billing estimate based on the kind of sites requested by a user",
+        "operationId": "SiteBuildCost_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1SiteBuildCostResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SiteBuildCostRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SiteBuildCost"
+        ]
+      }
+    },
+    "/site_cost_calculator.v1.SiteBuildCost/GetSiteBuildDefault": {
+      "post": {
+        "summary": "GetSiteBuildDefault returns a collection of default information representing the standard price card information",
+        "operationId": "SiteBuildCost_GetSiteBuildDefault",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1SiteBuildDefaultsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SiteBuildDefaultsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SiteBuildCost"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1Currency": {
+      "type": "string",
+      "enum": [
+        "CURRENCY_USD",
+        "CURRENCY_CAD",
+        "CURRENCY_EUR",
+        "CURRENCY_AUD",
+        "CURRENCY_GBP",
+        "CURRENCY_NZD"
+      ],
+      "default": "CURRENCY_USD"
+    },
+    "v1RecurringCostUnit": {
+      "type": "object",
+      "properties": {
+        "managementPrice": {
+          "type": "string",
+          "format": "int64"
+        },
+        "hostingPrice": {
+          "type": "string",
+          "format": "int64"
+        },
+        "multiples": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "RecurringCostUnit is used to represent the hosting and management prices"
+    },
+    "v1SiteBuildCostRequest": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "$ref": "#/definitions/v1Currency"
+        },
+        "sites": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1SiteBuildUnit"
+          },
+          "title": "sites is a list site configurations, allowing the caller to specify different configs of multiple sites (ie ten 1 page sites and three 12 page sites)"
+        }
+      },
+      "title": "SiteBuildCostRequest get the costs for a set of site build configurations"
+    },
+    "v1SiteBuildCostResponse": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "$ref": "#/definitions/v1Currency"
+        },
+        "oneTimeCost": {
+          "type": "string",
+          "format": "int64"
+        },
+        "recurringCost": {
+          "type": "string",
+          "format": "int64"
+        },
+        "oneTimeLineItems": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1SiteBuildCostUnit"
+          }
+        },
+        "recurringLineItems": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1RecurringCostUnit"
+          }
+        }
+      },
+      "title": "CostResponse returns the total one time and recurring costs. It also includes the itemized lists"
+    },
+    "v1SiteBuildCostUnit": {
+      "type": "object",
+      "properties": {
+        "basePrice": {
+          "type": "string",
+          "format": "int64"
+        },
+        "additionalPages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pricePerAdditionalPage": {
+          "type": "string",
+          "format": "int64"
+        },
+        "additionalImages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pricePerAdditionalImage": {
+          "type": "string",
+          "format": "int64"
+        },
+        "additionalEcommerceProducts": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pricePerAdditionalEcommerceProduct": {
+          "type": "string",
+          "format": "int64"
+        },
+        "multiples": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "SiteBuildCostUnit is used to represent the initial cost of building a single site in an itemized list of costs"
+    },
+    "v1SiteBuildDefaults": {
+      "type": "object",
+      "properties": {
+        "pages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "ecommerceProducts": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "images": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "buildOverview": {
+          "$ref": "#/definitions/v1SiteBuildOverview"
+        }
+      },
+      "title": "SiteBuildDefaults returns the defaults for a standard page number"
+    },
+    "v1SiteBuildDefaultsRequest": {
+      "type": "object",
+      "properties": {
+        "pages": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "title": "SiteBuildDefaultsRequest requests the defaults and description for standard pricing tiers"
+    },
+    "v1SiteBuildDefaultsResponse": {
+      "type": "object",
+      "properties": {
+        "siteBuildDefaults": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1SiteBuildDefaults"
+          }
+        }
+      },
+      "title": "SiteBuildDefaultsResponse returns the defaults for standard page numbers"
+    },
+    "v1SiteBuildDetails": {
+      "type": "object",
+      "properties": {
+        "includes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "excludes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "includesHighlights": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "excludesHighlights": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "SiteBuildDetails contains lists of information encoding the pricing marketing"
+    },
+    "v1SiteBuildOverview": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "buildDetails": {
+          "$ref": "#/definitions/v1SiteBuildDetails"
+        },
+        "managementDetails": {
+          "$ref": "#/definitions/v1SiteBuildDetails"
+        },
+        "hostingDetails": {
+          "$ref": "#/definitions/v1SiteBuildDetails"
+        }
+      },
+      "title": "SiteBuildOverview encodes the information used to describe a standard site build"
+    },
+    "v1SiteBuildUnit": {
+      "type": "object",
+      "properties": {
+        "pages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "images": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "ecommerceSite": {
+          "type": "boolean"
+        },
+        "ecommerceProducts": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "multiples": {
+          "type": "integer",
+          "format": "int32",
+          "title": "multiples represents the number of sites with this configuration"
+        }
+      },
+      "title": "SiteBuildUnit represents how a user would think about a site they want built for them"
+    }
+  }
+}

@@ -1,0 +1,1813 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "vstore/v1/admin.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "VStoreAdmin"
+    },
+    {
+      "name": "VStore"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/vstore.v1.VStore/BeginTransaction": {
+      "post": {
+        "operationId": "VStore_BeginTransaction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1BeginTransactionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1BeginTransactionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VStore"
+        ]
+      }
+    },
+    "/vstore.v1.VStore/CreateSession": {
+      "post": {
+        "operationId": "VStore_CreateSession",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateSessionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateSessionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VStore"
+        ]
+      }
+    },
+    "/vstore.v1.VStore/DeleteSession": {
+      "post": {
+        "operationId": "VStore_DeleteSession",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1DeleteSessionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VStore"
+        ]
+      }
+    },
+    "/vstore.v1.VStore/GetMulti": {
+      "post": {
+        "operationId": "VStore_GetMulti",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetMultiResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetMultiRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VStore"
+        ]
+      }
+    },
+    "/vstore.v1.VStore/Mutate": {
+      "post": {
+        "operationId": "VStore_Mutate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1MutateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VStore"
+        ]
+      }
+    },
+    "/vstore.v1.VStore/Rollback": {
+      "post": {
+        "operationId": "VStore_Rollback",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1RollbackRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VStore"
+        ]
+      }
+    },
+    "/vstore.v1.VStore/StreamingQuery": {
+      "post": {
+        "operationId": "VStore_StreamingQuery",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/v1StreamedEntity"
+                },
+                "error": {
+                  "$ref": "#/definitions/rpcStatus"
+                }
+              },
+              "title": "Stream result of v1StreamedEntity"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1StreamingQueryRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VStore"
+        ]
+      }
+    },
+    "/vstore.v1.VStoreAdmin/CreateKind": {
+      "post": {
+        "operationId": "VStoreAdmin_CreateKind",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateKindRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VStoreAdmin"
+        ]
+      }
+    },
+    "/vstore.v1.VStoreAdmin/CreateNamespace": {
+      "post": {
+        "operationId": "VStoreAdmin_CreateNamespace",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateNamespaceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VStoreAdmin"
+        ]
+      }
+    },
+    "/vstore.v1.VStoreAdmin/DeleteKind": {
+      "post": {
+        "operationId": "VStoreAdmin_DeleteKind",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1DeleteKindRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VStoreAdmin"
+        ]
+      }
+    },
+    "/vstore.v1.VStoreAdmin/DeleteNamespace": {
+      "post": {
+        "operationId": "VStoreAdmin_DeleteNamespace",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1DeleteNamespaceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VStoreAdmin"
+        ]
+      }
+    },
+    "/vstore.v1.VStoreAdmin/GetKind": {
+      "post": {
+        "operationId": "VStoreAdmin_GetKind",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetKindResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetKindRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VStoreAdmin"
+        ]
+      }
+    },
+    "/vstore.v1.VStoreAdmin/UpdateKind": {
+      "post": {
+        "operationId": "VStoreAdmin_UpdateKind",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateKindRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VStoreAdmin"
+        ]
+      }
+    },
+    "/vstore.v1.VStoreAdmin/UpdateNamespace": {
+      "post": {
+        "operationId": "VStoreAdmin_UpdateNamespace",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateNamespaceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VStoreAdmin"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "BackupConfigBackupFrequency": {
+      "type": "string",
+      "enum": [
+        "BACKUP_CONFIG_BACKUP_FREQUENCY_WEEKLY",
+        "BACKUP_CONFIG_BACKUP_FREQUENCY_DAILY",
+        "BACKUP_CONFIG_BACKUP_FREQUENCY_MONTHLY"
+      ],
+      "default": "BACKUP_CONFIG_BACKUP_FREQUENCY_WEEKLY"
+    },
+    "Elasticsearch7AnalysisCustomAnalyzer": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the analyzer. This must be unique per index."
+        },
+        "analyzerJson": {
+          "type": "string",
+          "title": "The serialized JSON containing the configuration of the analyzer.\nSee https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-custom-analyzer.html\nExample value:\n{\n  \"type\": \"custom\",\n  \"tokenizer\": \"standard\",\n  \"char_filter\": [\n    \"html_strip\"\n  ],\n  \"filter\": [\n    \"lowercase\",\n    \"asciifolding\"\n  ]\n}"
+        }
+      },
+      "title": "CustomAnalyzer lets you set a custom analyzer on an index"
+    },
+    "Elasticsearch7AnalysisCustomCharFilter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the charFilter. This must be unique per index."
+        },
+        "charFilterJson": {
+          "type": "string",
+          "title": "The serialized JSON containing the configuration of the charFilter.\nSee https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-charfilters.html\nExample value:\n{\n  \"type\": \"mapping\",\n  \"mappings\": [\n    \":) =\u003e _happy_\",\n    \":( =\u003e _sad_\"\n  ]\n}"
+        }
+      },
+      "title": "CustomCharFilter lets you set a custom charFilter on an index"
+    },
+    "Elasticsearch7AnalysisCustomFilter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the filter. This must be unique per index."
+        },
+        "filterJson": {
+          "type": "string",
+          "title": "The serialized JSON containing the configuration of the filter.\nSee https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-tokenfilters.html\nExample value:\n{\n  \"type\": \"stop\",\n  \"stopwords\": \"_english_\"\n}"
+        }
+      },
+      "title": "CustomFilter lets you set a custom filter on an index"
+    },
+    "Elasticsearch7AnalysisCustomNormalizer": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the normalizer. This must be unique per index."
+        },
+        "normalizerJson": {
+          "type": "string",
+          "title": "The serialized JSON containing the configuration of the normalizer.\nSee https://www.elastic.co/guide/en/elasticsearch/reference/7.17/normalizer.html\nExample value:\n{\n  \"type\": \"custom\",\n  \"char_filter\": [],\n  \"filter\": [\"lowercase\", \"asciifolding\"]\n}"
+        }
+      },
+      "title": "CustomNormalizer lets you set a normalizer on an index"
+    },
+    "Elasticsearch7AnalysisCustomTokenizer": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the tokenizer. This must be unique per index."
+        },
+        "tokenizerJson": {
+          "type": "string",
+          "title": "The serialized JSON containing the configuration of the tokenizer.\nSee https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-tokenizers.html\nExample value:\n{\n  \"type\": \"pattern\",\n  \"pattern\": \"[ .,!?]\"\n}"
+        }
+      },
+      "title": "CustomTokenizer lets you set a custom tokenizer on an index"
+    },
+    "GetMultiResponseEntityContainer": {
+      "type": "object",
+      "properties": {
+        "entity": {
+          "$ref": "#/definitions/v1Entity"
+        }
+      },
+      "title": "EntityContainer provides a container for Entity to have nullable results"
+    },
+    "MutationInsert": {
+      "type": "object",
+      "properties": {
+        "entity": {
+          "$ref": "#/definitions/v1Entity"
+        }
+      },
+      "description": "Insert a new entity in vStore. If any of the rows already exist, the mutation fails with an already exists error."
+    },
+    "MutationReplace": {
+      "type": "object",
+      "properties": {
+        "entity": {
+          "$ref": "#/definitions/v1Entity"
+        }
+      },
+      "description": "Replaces will overwrite or insert an entity into vStore."
+    },
+    "MutationUpdate": {
+      "type": "object",
+      "properties": {
+        "entity": {
+          "$ref": "#/definitions/v1Entity"
+        }
+      },
+      "description": "Updates an existing entity in vStore. If the entity does not exist, the mutation fails with a not found error."
+    },
+    "PropertyPIITag": {
+      "type": "string",
+      "enum": [
+        "PROPERTY_PII_TAG_CLEAN",
+        "PROPERTY_PII_TAG_PII",
+        "PROPERTY_PII_TAG_PD"
+      ],
+      "default": "PROPERTY_PII_TAG_CLEAN",
+      "description": "PIITag defines potential PII tags.\n\n - PROPERTY_PII_TAG_CLEAN: clean means the data is not PII or PD.\n - PROPERTY_PII_TAG_PII: PII means Personally Identifiable Information. It is information that can be used to retrieve personal data, such as IAM user ID.\n - PROPERTY_PII_TAG_PD: PD means personal data, such as name, email and address. They are sensitive data we need to protect in our system."
+    },
+    "PropertyType": {
+      "type": "string",
+      "enum": [
+        "PROPERTY_TYPE_STRING",
+        "PROPERTY_TYPE_INT64",
+        "PROPERTY_TYPE_DOUBLE",
+        "PROPERTY_TYPE_BOOL",
+        "PROPERTY_TYPE_TIMESTAMP",
+        "PROPERTY_TYPE_GEOPOINT",
+        "PROPERTY_TYPE_STRUCT",
+        "PROPERTY_TYPE_BYTES"
+      ],
+      "default": "PROPERTY_TYPE_STRING"
+    },
+    "SecondaryIndexPropertyConfigCloudSQL": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "exclude": {
+          "type": "boolean"
+        }
+      }
+    },
+    "SecondaryIndexPropertyConfigElasticsearch": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "index": {
+          "type": "string"
+        },
+        "exclude": {
+          "type": "boolean"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/SecondaryIndexPropertyConfigElasticsearchField"
+          },
+          "title": "Allows fields to be stored multiple times with different analyzers"
+        }
+      },
+      "title": "Elasticsearch Property Config"
+    },
+    "SecondaryIndexPropertyConfigElasticsearch7": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "title": "Name of the property being stored"
+        },
+        "index": {
+          "type": "boolean",
+          "description": "Index controls whether field values are indexed. It accepts true or false and defaults to true. Fields that are not indexed are not queryable."
+        },
+        "exclude": {
+          "type": "boolean",
+          "title": "Exclude keeps field from being synced to elasticsearch"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/SecondaryIndexPropertyConfigElasticsearch7Field"
+          },
+          "title": "Allows fields to be stored multiple times with different analyzers"
+        },
+        "ignoreAbove": {
+          "type": "string",
+          "format": "int64",
+          "title": "Ignore_above specifies that strings longer than the ignore_above setting will not be indexed or stored.\nSee https://www.elastic.co/guide/en/elasticsearch/reference/current/ignore-above.html"
+        }
+      },
+      "title": "Elasticsearch7 Property Config"
+    },
+    "SecondaryIndexPropertyConfigElasticsearch7Field": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Name of the property being stored"
+        },
+        "type": {
+          "type": "string",
+          "title": "Type is what kind of data the field contains, for more https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html"
+        },
+        "index": {
+          "type": "boolean",
+          "description": "Index controls whether field values are indexed. It accepts true or false and defaults to true. Fields that are not indexed are not queryable."
+        },
+        "analyzer": {
+          "type": "string",
+          "title": "Analyzer lets you specify how you want to process text fields for searching at index time, see https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis.html\nfor more about the built in analyzers or specifying custom analyzers"
+        },
+        "searchAnalyzer": {
+          "type": "string",
+          "title": "Search Analyzer lets you specify the analyzer you want to use for processing a text field for searching at query time, see https://www.elastic.co/guide/en/elasticsearch/reference/current/search-analyzer.html\nfor more about available search analyzer"
+        },
+        "normalizer": {
+          "type": "string",
+          "title": "Normalizer specifies which normalizer the field should use, see https://www.elastic.co/guide/en/elasticsearch/reference/7.17/normalizer.html"
+        },
+        "ignoreAbove": {
+          "type": "string",
+          "format": "int64",
+          "title": "Ignore_above specifies that strings longer than the ignore_above setting will not be indexed or stored.\nSee https://www.elastic.co/guide/en/elasticsearch/reference/current/ignore-above.html"
+        }
+      }
+    },
+    "SecondaryIndexPropertyConfigElasticsearchField": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "index": {
+          "type": "string"
+        },
+        "analyzer": {
+          "type": "string"
+        }
+      }
+    },
+    "SecondaryIndexPropertyConfigPostgreSQL": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "exclude": {
+          "type": "boolean"
+        }
+      }
+    },
+    "StreamingQueryRequestFilter": {
+      "type": "object",
+      "properties": {
+        "keyFilter": {
+          "$ref": "#/definitions/v1KeyFilter"
+        },
+        "rangeFilter": {
+          "$ref": "#/definitions/v1RangeFilter"
+        },
+        "columnFilter": {
+          "$ref": "#/definitions/v1ColumnFilter"
+        },
+        "columnInListFilter": {
+          "$ref": "#/definitions/v1ColumnFilter"
+        }
+      },
+      "title": "Filter provides the option to filter out results from the response"
+    },
+    "StreamingQueryRequestLimit": {
+      "type": "object",
+      "properties": {
+        "pageSize": {
+          "type": "string",
+          "format": "int64"
+        }
+      },
+      "title": "Limit provides the option to limit the number of results that are returned"
+    },
+    "StreamingQueryRequestOffset": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "type": "string"
+        },
+        "startingKeySet": {
+          "$ref": "#/definitions/v1KeySet"
+        }
+      },
+      "description": "Offset provides the option to skip results and start at either the provided cursor or the provided key set."
+    },
+    "StreamingQueryRequestOrderBy": {
+      "type": "object",
+      "properties": {
+        "column": {
+          "type": "string"
+        },
+        "order": {
+          "$ref": "#/definitions/v1Order"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "protobufNullValue": {
+      "type": "string",
+      "enum": [
+        "NULL_VALUE"
+      ],
+      "default": "NULL_VALUE",
+      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\nThe JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1BackupConfig": {
+      "type": "object",
+      "properties": {
+        "frequency": {
+          "$ref": "#/definitions/BackupConfigBackupFrequency"
+        }
+      }
+    },
+    "v1BeginTransactionRequest": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string"
+        },
+        "sessionId": {
+          "type": "string",
+          "format": "byte"
+        }
+      },
+      "title": "BeginTransactionRequest is the request message for VStore.BeginTransaction"
+    },
+    "v1BeginTransactionResponse": {
+      "type": "object",
+      "properties": {
+        "transactionId": {
+          "type": "string",
+          "format": "byte"
+        }
+      },
+      "title": "BeginTransactionResponse is the response message for VStore.BeginTransaction"
+    },
+    "v1BigQueryConfig": {
+      "type": "object",
+      "properties": {
+        "indexName": {
+          "type": "string"
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "The key and value pairs of labels that will be added to the BigQuery table and view\nKeys and values can have a maximum length of 63 characters.\nKeys must begin with a lowercase letter, and contain only lowercase letters, numeric characters, underscores, and dashes."
+        }
+      }
+    },
+    "v1CloudSQLConfig": {
+      "type": "object",
+      "properties": {
+        "indexName": {
+          "type": "string"
+        },
+        "instanceIp": {
+          "type": "string"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "clientKey": {
+          "type": "string",
+          "format": "byte"
+        },
+        "clientCert": {
+          "type": "string",
+          "format": "byte"
+        },
+        "serverCertificateAuthority": {
+          "type": "string",
+          "format": "byte"
+        },
+        "projectId": {
+          "type": "string"
+        },
+        "instanceName": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ColumnFilter": {
+      "type": "object",
+      "properties": {
+        "columns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "description": "ColumnFilter bounds the results to the provided column-value pair(s). The provided columns must have an existing index."
+    },
+    "v1CreateKindRequest": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "title": "Id of an existing namespace"
+        },
+        "kind": {
+          "type": "string",
+          "description": "Unique name of the kind that are creating. Must be in capital camel case format.\nExample(s): AccountGroup, Partner, Review, Listing."
+        },
+        "primaryKey": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of fields that compose of the primary key. The order is important as it is used for building keysets,\nas well as lookups can be done by the leading pieces of a keyset."
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Property"
+          },
+          "description": "Schema for the kind. Indexing of any entities into this namespace/kind requires that a type has been set\nfor every field being indexed.  No inference is done and explicit types are required. Fields also are not\nable to have their types changed or deleted, and only additive changes are allowed once a kind has been created."
+        },
+        "secondaryIndexes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1SecondaryIndex"
+          },
+          "description": "Configured set of secondary indexes that you would like vStore to replicate to."
+        },
+        "backupConfig": {
+          "$ref": "#/definitions/v1BackupConfig",
+          "title": "Backup configuration"
+        },
+        "extendedKeyLength": {
+          "type": "boolean",
+          "title": "Allows longer keys, but restricts Secondary Index options (CloudSQL)"
+        },
+        "parentKind": {
+          "type": "string",
+          "description": "Parent kind creates a parent-child relationship between the current kind being created (child) and the provided parent_kind (parent).\nThe parent-child relationship allows for multirow tx's between a parent and any child or grandchildren rows. This also\nenables referential integrity between a child and its parents (parents must exist in order for a child to be inserted).\nA child's primary key must extend its parent primary key. If the primary key of a parent is [partner_id, account_group_id],\nthan a child must begin with [partner_id, account_group_id] and have the same types."
+        },
+        "indexes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Index"
+          },
+          "description": "Indexes allow for a column(s) on a kind to be filtered / ordered by. It also allows optionally to specify\na column as unique."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description for the kind."
+        }
+      }
+    },
+    "v1CreateNamespaceRequest": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "description": "Unique namespace id unique to your project/microservice. Must be in lower snake case format.\nExample(s): repcore, partner-central, central-identity-service, marketing-automation."
+        },
+        "authorizedServiceAccounts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of service account ids that are authorized to access the data in this namespace."
+        }
+      }
+    },
+    "v1CreateSessionRequest": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string"
+        }
+      },
+      "title": "CreateSessionRequest is the request message for VStore.CreateSession"
+    },
+    "v1CreateSessionResponse": {
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string",
+          "format": "byte"
+        }
+      },
+      "title": "CreateSessionResponse is the response message for VStore.CreateSession"
+    },
+    "v1DeleteKindRequest": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "title": "Id of an existing namespace"
+        },
+        "kind": {
+          "type": "string",
+          "title": "Id of an existing kind"
+        }
+      }
+    },
+    "v1DeleteNamespaceRequest": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "description": "Id of an existing namespace."
+        }
+      }
+    },
+    "v1DeleteSessionRequest": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string"
+        },
+        "sessionId": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "v1Elasticsearch7Analysis": {
+      "type": "object",
+      "properties": {
+        "analyzers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Elasticsearch7AnalysisCustomAnalyzer"
+          }
+        },
+        "tokenizers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Elasticsearch7AnalysisCustomTokenizer"
+          }
+        },
+        "charFilters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Elasticsearch7AnalysisCustomCharFilter"
+          }
+        },
+        "filters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Elasticsearch7AnalysisCustomFilter"
+          }
+        },
+        "normalizers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Elasticsearch7AnalysisCustomNormalizer"
+          }
+        }
+      }
+    },
+    "v1Elasticsearch7Cluster": {
+      "type": "object",
+      "properties": {
+        "host": {
+          "type": "string"
+        },
+        "kibanaHost": {
+          "type": "string"
+        }
+      },
+      "title": "Elasticsearch7Cluster contains information necessary for VStore to communicate with an arbitrary ES Cluster\nVStore needs to be authed as a user with full CRUD permissions to this cluster"
+    },
+    "v1Elasticsearch7Config": {
+      "type": "object",
+      "properties": {
+        "numberOfShards": {
+          "type": "string",
+          "format": "int64"
+        },
+        "numberOfReplicas": {
+          "type": "string",
+          "format": "int64"
+        },
+        "refreshInterval": {
+          "type": "string"
+        },
+        "indexName": {
+          "type": "string"
+        },
+        "cluster": {
+          "$ref": "#/definitions/v1Elasticsearch7Cluster"
+        },
+        "analysis": {
+          "$ref": "#/definitions/v1Elasticsearch7Analysis",
+          "description": "Analysis lets you configure custom analyzers, tokenizer, character filters, and token filters on an index.\nAdding a new analyzer/tokenizer/charfilter/filter to an existing index is possible, but referencing the analyzer from fields with existing values or from analyzers who are configured on fields with existing values is not - you need to reindex your data to do that.\nWhenever you are writing a custom analyzer, you should use the Elastic API/Sense to test your analyzer with example values before registering it with VStore. If you do not provide valid JSON configuration, VStore will not be able to update your index."
+        },
+        "maxNgramDiff": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "v1ElasticsearchAnalysis": {
+      "type": "object",
+      "properties": {
+        "analyzers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ElasticsearchAnalyzer"
+          }
+        },
+        "filters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ElasticsearchFilter"
+          }
+        },
+        "charFilters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ElasticsearchCharFilter"
+          }
+        },
+        "tokenizers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ElasticsearchTokenizer"
+          }
+        }
+      },
+      "title": "https://www.elastic.co/guide/en/elasticsearch/guide/current/custom-analyzers.html"
+    },
+    "v1ElasticsearchAnalyzer": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "stemExclusion": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "stopWords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "charFilter": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tokenizer": {
+          "type": "string"
+        },
+        "filter": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "ElasticsearchAnalyzer configures a custom analyzer that can be built to transform your data into a\nconfiguration that suites your particular needs."
+    },
+    "v1ElasticsearchCharFilter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "pattern": {
+          "type": "string"
+        },
+        "replacement": {
+          "type": "string"
+        }
+      },
+      "description": "Character filters are used to “tidy up” a string before it is tokenized."
+    },
+    "v1ElasticsearchCluster": {
+      "type": "object",
+      "properties": {
+        "hostName": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "ElasticsearchCluster contains information necessary for VStore to communicate with an arbitrary ES Cluster\nVStore needs to be authed as a user with full CRUD permissions"
+    },
+    "v1ElasticsearchConfig": {
+      "type": "object",
+      "properties": {
+        "numberOfShards": {
+          "type": "string",
+          "format": "int64"
+        },
+        "numberOfReplicas": {
+          "type": "string",
+          "format": "int64"
+        },
+        "refreshInterval": {
+          "type": "string"
+        },
+        "analysis": {
+          "$ref": "#/definitions/v1ElasticsearchAnalysis"
+        },
+        "indexName": {
+          "type": "string"
+        },
+        "cluster": {
+          "$ref": "#/definitions/v1ElasticsearchCluster"
+        }
+      },
+      "description": "ElasticsearchConfig uses our proprietary clusters as a destination for your indices.\nIf you specify an ElasticsearchCluster, VStore will instead use that cluster as a destination."
+    },
+    "v1ElasticsearchFilter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "pattern": {
+          "type": "string"
+        },
+        "replacement": {
+          "type": "string"
+        },
+        "synonyms": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Token filters may change, add, or remove tokens."
+    },
+    "v1ElasticsearchTokenizer": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "delimiter": {
+          "type": "string"
+        },
+        "pattern": {
+          "type": "string"
+        }
+      },
+      "description": "The tokenizer breaks up the string into individual terms or tokens."
+    },
+    "v1Entity": {
+      "type": "object",
+      "properties": {
+        "kindId": {
+          "type": "string"
+        },
+        "values": {
+          "type": "object"
+        },
+        "version": {
+          "type": "string",
+          "format": "int64"
+        }
+      },
+      "title": "Entity represents a storable row in vStore"
+    },
+    "v1GetKindRequest": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "title": "Id of an existing namespace"
+        },
+        "kind": {
+          "type": "string",
+          "title": "Id of an existing kind"
+        }
+      }
+    },
+    "v1GetKindResponse": {
+      "type": "object",
+      "properties": {
+        "primaryKey": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of fields that compose of the primary key. The order is important as it is used for building keysets,\nas well as lookups can be done by the leading pieces of a keyset."
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Property"
+          },
+          "description": "Schema for the kind. Indexing of any entities into this namespace/kind requires that a type has been set\nfor every field being indexed.  No inference is done and explicit types are required. Fields also are not\nable to have their types changed or deleted, and only additive changes are allowed once a kind has been created."
+        },
+        "secondaryIndexes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1SecondaryIndex"
+          },
+          "description": "Configured set of secondary indexes VStore is replicating to."
+        },
+        "backupConfig": {
+          "$ref": "#/definitions/v1BackupConfig",
+          "title": "Backup configuration"
+        },
+        "extendedKeyLength": {
+          "type": "boolean",
+          "title": "Allows longer keys, but restricts Secondary Index options (CloudSQL)"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description for the kind."
+        }
+      }
+    },
+    "v1GetMultiRequest": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string"
+        },
+        "sessionId": {
+          "type": "string",
+          "format": "byte"
+        },
+        "transactionId": {
+          "type": "string",
+          "format": "byte",
+          "title": "If provided will do the GetMulti in the given transaction, otherwise will be done in a read only transaction"
+        },
+        "keySets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1KeySet"
+          }
+        },
+        "projection": {
+          "$ref": "#/definitions/v1Projection"
+        }
+      },
+      "title": "GetMultiRequest is the request message for VStore.GetMulti"
+    },
+    "v1GetMultiResponse": {
+      "type": "object",
+      "properties": {
+        "entities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/GetMultiResponseEntityContainer"
+          }
+        }
+      },
+      "title": "GetResponse is the response message for VStore.GetMulti"
+    },
+    "v1Index": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "The unique name of an index"
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1IndexedProperty"
+          },
+          "title": "The properies to be included in the index"
+        },
+        "unique": {
+          "type": "boolean",
+          "description": "Adds a constraint to the data being indexed that prohibits duplicate rows for this index."
+        },
+        "serving": {
+          "type": "boolean",
+          "description": "Output only: Indicates if the index is ready to serve traffic."
+        }
+      }
+    },
+    "v1IndexedProperty": {
+      "type": "object",
+      "properties": {
+        "column": {
+          "type": "string"
+        },
+        "order": {
+          "$ref": "#/definitions/v1Order"
+        }
+      }
+    },
+    "v1KeyFilter": {
+      "type": "object",
+      "properties": {
+        "keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Keys to filter by. You must always provide parent key components if you provide any children.\neg: keys = [PID, AG-123], rows PID:AG-123:* are matches, but if keys = [AG-123] or [\"\", AG-123], you will not get any matches."
+        },
+        "prefix": {
+          "type": "boolean",
+          "title": "if prefix is set to True, the filter will match an incomplete prefix on the last specified key\neg: keys = [PID, AG-4], row PID:AG-456 is a match with partial == true, not a match otherwise"
+        }
+      },
+      "title": "KeyFilter provides key set filters"
+    },
+    "v1KeySet": {
+      "type": "object",
+      "properties": {
+        "kindId": {
+          "type": "string"
+        },
+        "keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "KeySet uniquely identifies a single Entity in vStore"
+    },
+    "v1MutateRequest": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string"
+        },
+        "sessionId": {
+          "type": "string",
+          "format": "byte"
+        },
+        "transactionId": {
+          "type": "string",
+          "format": "byte"
+        },
+        "mutations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Mutation"
+          },
+          "title": "The list of mutations to be written in the transaction"
+        }
+      },
+      "title": "MutateRequest is the request message for VStore.Mutate"
+    },
+    "v1Mutation": {
+      "type": "object",
+      "properties": {
+        "insert": {
+          "$ref": "#/definitions/MutationInsert"
+        },
+        "update": {
+          "$ref": "#/definitions/MutationUpdate"
+        },
+        "replace": {
+          "$ref": "#/definitions/MutationReplace"
+        }
+      },
+      "description": "Mutation provides the options to mutate data in vStore."
+    },
+    "v1Order": {
+      "type": "string",
+      "enum": [
+        "ORDER_ASC",
+        "ORDER_DESC"
+      ],
+      "default": "ORDER_ASC"
+    },
+    "v1Projection": {
+      "type": "object",
+      "properties": {
+        "columns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "Projection provides the option to select the columns that are returned"
+    },
+    "v1Property": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Unique identifier for this property. Must be in snake case format.\nExample(s): account_group_id, listing_id, company_name"
+        },
+        "type": {
+          "$ref": "#/definitions/PropertyType",
+          "title": "Type for this property"
+        },
+        "repeated": {
+          "type": "boolean",
+          "description": "Indicates if the field is repeated."
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Indicates if the field is required. Only validates that the field has been supplied in create/update requests,\nand not the actual value.\nExample(s):\n1) A required string field would allow an empty string if the field was passed, but would fail if the field\nwas not present in the request.\n2) A required int property would allow 0 as a value, but would fail if the field was not supplied in the request."
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Property"
+          },
+          "description": "Can only be specified if the Type supplied is a STRUCT.\nIs the schema of the structured property."
+        },
+        "secondaryIndexConfigs": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1SecondaryIndexPropertyConfig"
+          }
+        },
+        "piiTag": {
+          "$ref": "#/definitions/PropertyPIITag"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "v1PubSubConfig": {
+      "type": "object",
+      "properties": {
+        "indexName": {
+          "type": "string"
+        }
+      }
+    },
+    "v1RangeFilter": {
+      "type": "object",
+      "properties": {
+        "begin": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Key set to start filtering from."
+        },
+        "end": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Key set to stop filtering at."
+        }
+      },
+      "title": "RangeFilter will bound results by [begin, end)"
+    },
+    "v1RollbackRequest": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string"
+        },
+        "sessionId": {
+          "type": "string",
+          "format": "byte"
+        },
+        "transactionId": {
+          "type": "string",
+          "format": "byte"
+        }
+      },
+      "title": "RollbackRequest is the request message for VStore.Rollback"
+    },
+    "v1SecondaryIndex": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Name of the secondary index, this name must be unique from other secondary indexes"
+        },
+        "esConfig": {
+          "$ref": "#/definitions/v1ElasticsearchConfig"
+        },
+        "cloudSqlConfig": {
+          "$ref": "#/definitions/v1CloudSQLConfig",
+          "title": "mysql"
+        },
+        "pubsubConfig": {
+          "$ref": "#/definitions/v1PubSubConfig"
+        },
+        "bigQueryConfig": {
+          "$ref": "#/definitions/v1BigQueryConfig"
+        },
+        "postgresqlConfig": {
+          "$ref": "#/definitions/v1CloudSQLConfig"
+        },
+        "es7Config": {
+          "$ref": "#/definitions/v1Elasticsearch7Config"
+        }
+      }
+    },
+    "v1SecondaryIndexPropertyConfig": {
+      "type": "object",
+      "properties": {
+        "elasticsearchPropertyConfig": {
+          "$ref": "#/definitions/SecondaryIndexPropertyConfigElasticsearch"
+        },
+        "cloudsqlPropertyConfig": {
+          "$ref": "#/definitions/SecondaryIndexPropertyConfigCloudSQL"
+        },
+        "postgresqlPropertyConfig": {
+          "$ref": "#/definitions/SecondaryIndexPropertyConfigPostgreSQL"
+        },
+        "elasticsearch7PropertyConfig": {
+          "$ref": "#/definitions/SecondaryIndexPropertyConfigElasticsearch7"
+        }
+      }
+    },
+    "v1StreamedEntity": {
+      "type": "object",
+      "properties": {
+        "entity": {
+          "$ref": "#/definitions/v1Entity"
+        },
+        "cursor": {
+          "type": "string"
+        }
+      }
+    },
+    "v1StreamingQueryRequest": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string"
+        },
+        "sessionId": {
+          "type": "string",
+          "format": "byte"
+        },
+        "select": {
+          "$ref": "#/definitions/v1Projection"
+        },
+        "from": {
+          "type": "string"
+        },
+        "where": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/StreamingQueryRequestFilter"
+          }
+        },
+        "limit": {
+          "$ref": "#/definitions/StreamingQueryRequestLimit"
+        },
+        "offset": {
+          "$ref": "#/definitions/StreamingQueryRequestOffset"
+        },
+        "index": {
+          "type": "string",
+          "description": "Chooses which index to query against, if left empty, it will use the default primary key index."
+        },
+        "orderBy": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/StreamingQueryRequestOrderBy"
+          },
+          "title": "Order By of the query -- the columns used here should be covered, in order, by an index for sorting effeciency\nFor example, given an index of: colA ASC colB DESC colC DESC\nFast: colA=valueA; orderBy colB DESC colC DESC\nFast: orderBy colA ASC colB DESC colC DESC\nFast: orderBy colA ASC colB DESC"
+        }
+      },
+      "title": "StreamingQueryRequest is the request message for VStore.StreamingQuery"
+    },
+    "v1UpdateKindRequest": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "title": "Id of an existing namespace"
+        },
+        "kind": {
+          "type": "string",
+          "title": "Id of an existing kind"
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Property"
+          },
+          "description": "Schema for the kind with any new fields included in the request. Changes to any existing fields will cause\nthe request to fail."
+        },
+        "secondaryIndexes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1SecondaryIndex"
+          },
+          "description": "Configured set of secondary indexes that you would like vStore to replicate to."
+        },
+        "extendedKeyLength": {
+          "type": "boolean",
+          "title": "Allows longer keys, but restricts Secondary Index options (CloudSQL)"
+        },
+        "indexes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Index"
+          },
+          "description": "Indexes allow for a column(s) on a kind to be filtered / ordered by. It also allows optionally to specify\na column as unique."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description for the kind."
+        }
+      }
+    },
+    "v1UpdateNamespaceRequest": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "description": "Id of an existing namespace."
+        },
+        "authorizedServiceAccounts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of service account ids that are authorized to access the data in this namespace.\nReplaces the list of authorized service accounts that are currently on the namespace."
+        }
+      }
+    }
+  }
+}

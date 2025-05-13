@@ -1,0 +1,994 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "executive_report/v1/api.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ExecutiveReport"
+    },
+    {
+      "name": "Configuration"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/executivereport.v1.Configuration/ListActiveApps": {
+      "post": {
+        "summary": "ListActiveApps Get the active apps to lookup data for",
+        "operationId": "Configuration_ListActiveApps",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListActiveAppsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListActiveAppsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Configuration"
+        ]
+      }
+    },
+    "/executivereport.v1.Configuration/ListActiveAppsMetadata": {
+      "post": {
+        "summary": "ListActiveAppsMetadata gets the app id, account id, and edition id for each of the apps an account has active.",
+        "operationId": "Configuration_ListActiveAppsMetadata",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListActiveAppsMetadataResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListActiveAppsMetadataRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Configuration"
+        ]
+      }
+    },
+    "/executivereport.v1.ExecutiveReport/GetReportConfig": {
+      "post": {
+        "summary": "Get the config for a partner or market",
+        "operationId": "ExecutiveReport_GetReportConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetReportConfigResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetReportConfigRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ExecutiveReport"
+        ]
+      }
+    },
+    "/executivereport.v1.ExecutiveReport/GetReportSummary": {
+      "post": {
+        "summary": "Get a summary of highlights for a report",
+        "operationId": "ExecutiveReport_GetReportSummary",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetReportSummaryResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetReportSummaryRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ExecutiveReport"
+        ]
+      }
+    },
+    "/executivereport.v1.ExecutiveReport/SaveReportConfig": {
+      "post": {
+        "summary": "Save the config for a partner or market",
+        "operationId": "ExecutiveReport_SaveReportConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SaveReportConfigRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ExecutiveReport"
+        ]
+      }
+    },
+    "/v1/report-data/create": {
+      "post": {
+        "summary": "Accept data for a report.",
+        "operationId": "ExecutiveReport_CreateReportData",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ReportDataRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ExecutiveReport"
+        ]
+      }
+    },
+    "/v1/report-data/list": {
+      "post": {
+        "summary": "List data for a report category.",
+        "operationId": "ExecutiveReport_ListReportData",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListReportDataPagedResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListReportDataRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ExecutiveReport"
+        ]
+      }
+    },
+    "/v1/report-date/list": {
+      "post": {
+        "summary": "List all dates (weekly/monthly) for a time period",
+        "operationId": "ExecutiveReport_ListReportDates",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListReportDatesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListReportDatesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ExecutiveReport"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ListActiveAppsMetadataResponseAppMetadatum": {
+      "type": "object",
+      "properties": {
+        "appId": {
+          "type": "string"
+        },
+        "accountId": {
+          "type": "string"
+        },
+        "editionId": {
+          "type": "string"
+        }
+      }
+    },
+    "ReportDataFormat": {
+      "type": "string",
+      "enum": [
+        "NUMBER",
+        "PERCENT",
+        "TIME",
+        "FRACTION"
+      ],
+      "default": "NUMBER",
+      "title": "The accepted formats for a value"
+    },
+    "ReportDataGrade": {
+      "type": "string",
+      "enum": [
+        "NONE_SPECIFIED",
+        "A",
+        "B",
+        "C",
+        "D",
+        "F"
+      ],
+      "default": "NONE_SPECIFIED",
+      "title": "Calculated grade"
+    },
+    "ReportDataTemplateType": {
+      "type": "string",
+      "enum": [
+        "NOT_SPECIFIED",
+        "NUMBER_WITH_CHANGE",
+        "CALL_TO_ACTION",
+        "BASIC_LIST",
+        "INFO_LIST",
+        "BAR_CHART",
+        "BASIC_NUMBER",
+        "THERMOMETER_WITH_GRADE",
+        "LINE_GRAPH",
+        "WORD_CLOUD"
+      ],
+      "default": "NOT_SPECIFIED",
+      "description": "- NOT_SPECIFIED: Results in an error when creating report data (to avoid defaulting to number_with_change)\n - NUMBER_WITH_CHANGE: A template type to display a number value with an optional change value.\n - CALL_TO_ACTION: A template type to display a call to action for a marketplace app\n - BASIC_LIST: A basic list has a header, body and footer for each element in the list. A header or body is the minimum requirement,\n - INFO_LIST: An info list has the same as the BASIC_LIST, plus info text, color, and icon to be displayed in the top right-most column of the template;\nas well as an icon url for the left-most column of the template\n - BAR_CHART: A template type to display horizontal bar graphs with a specified fill percentage, a label on the left side, and a value on the right. The\nfill percentage and label are the minimum requirement.\n - BASIC_NUMBER: A number template to display just a number with a title and description.\n - THERMOMETER_WITH_GRADE: A template type to display the letter grade and the specific score with change. Also a thermometer graph is shown that can display\nmultiple data points (starting score, industry average and 95th percentile) for comparison reasons, the graph is split up into\n5 sections depending on the percentile scores representing the grade values A, B, C, D and F\n - LINE_GRAPH: A template type to display a line graph of progress over time.\n - WORD_CLOUD: A template type for word cloud",
+      "title": "Executive Report template types"
+    },
+    "ReportDataWidth": {
+      "type": "string",
+      "enum": [
+        "HALF",
+        "FULL",
+        "QUARTER"
+      ],
+      "default": "HALF",
+      "description": "How much space (width) a template card will take up."
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1BarChart": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "title": "The label on the left of the bar"
+        },
+        "value": {
+          "type": "string",
+          "title": "The value displayed on the right of the bar"
+        },
+        "fillPercent": {
+          "type": "string",
+          "format": "int64",
+          "title": "The percentage of the bar that will be filled with color"
+        },
+        "fillColor": {
+          "$ref": "#/definitions/v1Color",
+          "title": "The color of the bar"
+        }
+      },
+      "title": "An item in a bar chart"
+    },
+    "v1Category": {
+      "type": "string",
+      "enum": [
+        "NOT_SPECIFIED",
+        "LISTINGS",
+        "REPUTATION",
+        "SOCIAL",
+        "WEBSITE",
+        "SEO",
+        "ADVERTISING",
+        "CONTENT_AND_EXPERIENCE",
+        "ACCOUNTING",
+        "ECOMMERCE",
+        "OTHER",
+        "CUSTOMER_RELATIONS",
+        "BING_INSIGHTS"
+      ],
+      "default": "NOT_SPECIFIED",
+      "description": "LMI categories to push data to for the Executive Report. Categories have their own heading in the report."
+    },
+    "v1Color": {
+      "type": "string",
+      "enum": [
+        "COLOR_NOT_SPECIFIED",
+        "BLACK",
+        "WHITE",
+        "GRAY",
+        "RED",
+        "GREEN",
+        "BLUE",
+        "YELLOW",
+        "PURPLE",
+        "ORANGE"
+      ],
+      "default": "COLOR_NOT_SPECIFIED",
+      "title": "Available colors to choose from for certain fields, eg right_info_text_color in an INFO_LIST template"
+    },
+    "v1GetReportConfigRequest": {
+      "type": "object",
+      "properties": {
+        "partnerId": {
+          "type": "string",
+          "title": "partner ID of the partner to save the config for"
+        },
+        "marketId": {
+          "type": "string",
+          "title": "market ID of the market to save the config for"
+        }
+      },
+      "title": "Request to get report config for a partner/market"
+    },
+    "v1GetReportConfigResponse": {
+      "type": "object",
+      "properties": {
+        "config": {
+          "$ref": "#/definitions/v1ReportConfig",
+          "title": "config entity for report"
+        }
+      },
+      "title": "Response to get report config for a partner/market"
+    },
+    "v1GetReportSummaryRequest": {
+      "type": "object",
+      "properties": {
+        "frequency": {
+          "$ref": "#/definitions/v1ReportFrequency",
+          "title": "The frequency of the report, e.g. monthly or weekly"
+        },
+        "accountGroupId": {
+          "type": "string",
+          "description": "The unique identifier of the account group."
+        },
+        "reportDate": {
+          "type": "string",
+          "format": "date-time",
+          "title": "A date equal to the first day of the month if frequency is MONTHLY\nor last day of the week (Sunday) if frequency is WEEKLY\nie: MONTHLY would be: 2017-04-01.\nWEEKLY would be 2017-04-23 (the Sunday)"
+        }
+      },
+      "title": "Request for the email data for the executive report email for an account group"
+    },
+    "v1GetReportSummaryResponse": {
+      "type": "object",
+      "properties": {
+        "positive": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1HighlightItem"
+          },
+          "title": "The positive highlights for an executive report"
+        },
+        "negative": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1HighlightItem"
+          },
+          "title": "The negative highlights for an executive report"
+        }
+      },
+      "title": "Response of the summary for an executive report"
+    },
+    "v1GraphMarker": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "score": {
+          "type": "number",
+          "format": "float"
+        },
+        "percentile": {
+          "type": "string",
+          "format": "int64"
+        }
+      },
+      "title": "GraphMarker to highlight a significant value on a graph"
+    },
+    "v1HighlightItem": {
+      "type": "object",
+      "properties": {
+        "highlight": {
+          "type": "string",
+          "title": "The highlight to be shown in the summary"
+        },
+        "anchorLink": {
+          "type": "string",
+          "title": "The anchor link used to link to this highlight"
+        },
+        "i18n": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "The optional translations for this item's highlight field.\nMaps IETF Language Tags to the translated highlight item string\nEx: 'en-US': 'Hello World!', 'cs-CZ': 'Ahoj světe!'\nhttp://en.wikipedia.org/wiki/IETF_language_tag"
+        }
+      },
+      "title": "A highlight item in a report summary"
+    },
+    "v1LineGraph": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "title": "The label of the line on the graph"
+        },
+        "point": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Point2D"
+          },
+          "title": "The points on the line"
+        },
+        "fillColor": {
+          "$ref": "#/definitions/v1Color",
+          "title": "The color of the line"
+        }
+      },
+      "title": "An item in a line graph"
+    },
+    "v1ListActiveAppsMetadataRequest": {
+      "type": "object",
+      "properties": {
+        "businessId": {
+          "type": "string",
+          "title": "The identifier for the business"
+        },
+        "jwtId": {
+          "type": "string",
+          "title": "A jwt to be validated that includes the business ID"
+        }
+      }
+    },
+    "v1ListActiveAppsMetadataResponse": {
+      "type": "object",
+      "properties": {
+        "appMetadata": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ListActiveAppsMetadataResponseAppMetadatum"
+          }
+        }
+      }
+    },
+    "v1ListActiveAppsRequest": {
+      "type": "object",
+      "properties": {
+        "businessId": {
+          "type": "string",
+          "title": "The identifier for the business"
+        },
+        "jwtId": {
+          "type": "string",
+          "title": "A jwt to be validated that includes the business ID"
+        }
+      }
+    },
+    "v1ListActiveAppsResponse": {
+      "type": "object",
+      "properties": {
+        "appIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1ListItem": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "string",
+          "title": "A header of a list item, optional if a body exists"
+        },
+        "body": {
+          "type": "string",
+          "title": "The body of a list item. optional if the header exists"
+        },
+        "footer": {
+          "type": "string",
+          "title": "The footer of a list item. always optional"
+        },
+        "infoText": {
+          "type": "string",
+          "title": "The informational text displayed in the top right-most column of the list item"
+        },
+        "infoTextColor": {
+          "$ref": "#/definitions/v1Color",
+          "title": "The color of the info_text"
+        },
+        "infoTextIcon": {
+          "type": "string",
+          "title": "The icon to be displayed inline after the info_text"
+        },
+        "imageUrl": {
+          "type": "string",
+          "title": "The url of the icon image displayed in the left most column of the list item"
+        }
+      },
+      "title": "An item in a list"
+    },
+    "v1ListReportDataPagedResponse": {
+      "type": "object",
+      "properties": {
+        "reportData": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ProductReportEntity"
+          },
+          "title": "The report data for a category"
+        },
+        "nextCursor": {
+          "type": "string",
+          "title": "A cursor that can be provided to retrieve the next page of results"
+        },
+        "hasMore": {
+          "type": "boolean",
+          "title": "Whether or not more results exist"
+        }
+      },
+      "title": "Response of the requested report data for a category"
+    },
+    "v1ListReportDataRequest": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "$ref": "#/definitions/v1Category",
+          "description": "The LMI category to submit the report data to."
+        },
+        "frequency": {
+          "$ref": "#/definitions/v1ReportFrequency",
+          "title": "The frequency of the report, e.g. monthly or weekly"
+        },
+        "cursor": {
+          "type": "string",
+          "title": "current cursor position"
+        },
+        "pageSize": {
+          "type": "string",
+          "format": "int64",
+          "title": "size of the page to list\n0 assumes the default page size"
+        },
+        "accountGroupId": {
+          "type": "string",
+          "description": "The unique identifier of the account group."
+        },
+        "reportDate": {
+          "type": "string",
+          "format": "date-time",
+          "title": "A date equal to the first day of the month if frequency is MONTHLY\nor last day of the week (Sunday) if frequency is WEEKLY\nie: MONTHLY would be: 2017-04-01.\nWEEKLY would be 2017-04-23 (the Sunday)"
+        }
+      },
+      "title": "A request for listing all report data in a category"
+    },
+    "v1ListReportDatesRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "description": "The unique identifier of the account group."
+        },
+        "frequency": {
+          "$ref": "#/definitions/v1ReportFrequency",
+          "description": "Frequency allows for choosing Which report frequency to get report dates for."
+        },
+        "cursor": {
+          "type": "string",
+          "title": "next cursor position"
+        },
+        "pageSize": {
+          "type": "string",
+          "format": "int64",
+          "title": "size of the page to list\n0 assumes the default page size"
+        }
+      },
+      "title": "Request for reports for a certain timeframe for an account group"
+    },
+    "v1ListReportDatesResponse": {
+      "type": "object",
+      "properties": {
+        "reportDates": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "title": "All weekly/monthly reports for an account group"
+        },
+        "hasNext": {
+          "type": "boolean",
+          "title": "Whether there is data in the next year"
+        },
+        "hasPrev": {
+          "type": "boolean",
+          "title": "Whether there is data in the previous year"
+        },
+        "nextCursor": {
+          "type": "string",
+          "title": "The cursor to get the next set of report data dates"
+        },
+        "prevCursor": {
+          "type": "string",
+          "title": "The cursor to get the previous set of report data dates"
+        }
+      },
+      "title": "Response of the requested reports for the year"
+    },
+    "v1Point2D": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "format": "float",
+          "title": "The value of the horizontal axis"
+        },
+        "y": {
+          "type": "number",
+          "format": "float",
+          "title": "The value of the vertical axis"
+        }
+      },
+      "title": "A point on the line graph"
+    },
+    "v1ProductReportEntity": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ReportData"
+          },
+          "title": "The data for a product"
+        },
+        "marketplaceAppId": {
+          "type": "string",
+          "description": "The unique identifier of the app."
+        }
+      },
+      "title": "The report data and meta data for a product"
+    },
+    "v1ReportConfig": {
+      "type": "object",
+      "properties": {
+        "enabledCategories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Category"
+          },
+          "title": "The categories enabled and the order to display them in"
+        }
+      },
+      "title": "ReportConfig is the config for an executive report on a given partner/market"
+    },
+    "v1ReportData": {
+      "type": "object",
+      "properties": {
+        "templateType": {
+          "$ref": "#/definitions/ReportDataTemplateType",
+          "title": "The type of template, e.g. BigNumber"
+        },
+        "uniqueId": {
+          "type": "string",
+          "title": "A unique identifier of the report"
+        },
+        "title": {
+          "type": "string",
+          "title": "The title of the data"
+        },
+        "description": {
+          "type": "string",
+          "title": "A description of the data"
+        },
+        "value": {
+          "type": "string",
+          "title": "The value of the data"
+        },
+        "change": {
+          "type": "string",
+          "description": "How much the value has changed from the last report, A negative value is a decrease in the performance of\nthe stat (bad), and a positive value is an increase in the performance (good)."
+        },
+        "format": {
+          "$ref": "#/definitions/ReportDataFormat",
+          "description": "How the data is formatted, such as percent or number."
+        },
+        "precision": {
+          "type": "string",
+          "format": "int64",
+          "title": "How precise the value is"
+        },
+        "width": {
+          "$ref": "#/definitions/ReportDataWidth",
+          "title": "How wide the display of the template card is"
+        },
+        "nextUrl": {
+          "type": "string",
+          "title": "The relative link path used when linking out of the executive report"
+        },
+        "nextUrlLabel": {
+          "type": "string",
+          "title": "The text label used for the next_url button"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ListItem"
+          },
+          "title": "Data for a list template type"
+        },
+        "barChart": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1BarChart"
+          },
+          "title": "Data for a bar graph template type"
+        },
+        "marker": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1GraphMarker"
+          },
+          "title": "Markers for a graph template type"
+        },
+        "grade": {
+          "$ref": "#/definitions/ReportDataGrade",
+          "title": "The calculated grade"
+        },
+        "lineGraph": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1LineGraph"
+          },
+          "title": "Lines for a line graph template type"
+        },
+        "createdOn": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The date of the first data we have on the account"
+        },
+        "initialValue": {
+          "type": "string",
+          "title": "The value of the first data we have on the account"
+        },
+        "wordCloudList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1WordCloudItem"
+          },
+          "title": "Data for a word cloud template type"
+        }
+      },
+      "description": "This is a single piece for an app for their report for a week or month."
+    },
+    "v1ReportDataRequest": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "$ref": "#/definitions/v1Category",
+          "description": "The LMI category to submit the report data to."
+        },
+        "frequency": {
+          "$ref": "#/definitions/v1ReportFrequency",
+          "title": "The frequency of the report, e.g. monthly or weekly"
+        },
+        "reportData": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ReportData"
+          },
+          "description": "This is a set of data for an app for their report for a week or month."
+        },
+        "reportDate": {
+          "type": "string",
+          "format": "date-time",
+          "title": "A date equal to the first day of the month if frequency is MONTHLY\nor last day of the week (Sunday) if frequency is WEEKLY\nie: MONTHLY would be: 2017-04-01.\nWEEKLY would be 2017-04-23 (the Sunday)"
+        },
+        "marketplaceAppId": {
+          "type": "string",
+          "description": "The unique identifier of the app."
+        },
+        "accountGroupId": {
+          "type": "string",
+          "description": "The unique identifier of the account group."
+        }
+      },
+      "title": "A request for submitting data for a report"
+    },
+    "v1ReportFrequency": {
+      "type": "string",
+      "enum": [
+        "FREQUENCY_NOT_SPECIFIED",
+        "WEEKLY",
+        "MONTHLY"
+      ],
+      "default": "FREQUENCY_NOT_SPECIFIED",
+      "description": "The frequency type of a report (types for whether the report is a weekly or monthly report)\nNOT_SPECIFIED is the default, and will error in the microservice."
+    },
+    "v1SaveReportConfigRequest": {
+      "type": "object",
+      "properties": {
+        "partnerId": {
+          "type": "string",
+          "title": "partner ID of the partner to save the config for"
+        },
+        "marketId": {
+          "type": "string",
+          "title": "market ID of the market to save the config for"
+        },
+        "config": {
+          "$ref": "#/definitions/v1ReportConfig",
+          "title": "config entity to update"
+        }
+      },
+      "title": "Request for saving the configuration for a partner/market"
+    },
+    "v1WordCloudItem": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "title": "The text of the word cloud item"
+        },
+        "sentiment": {
+          "type": "number",
+          "format": "float",
+          "title": "The sentiment of the word cloud item. It is used to tell the word is from a good or bad or neutral review"
+        },
+        "weight": {
+          "type": "integer",
+          "format": "int32",
+          "title": "The weight of the word cloud item"
+        }
+      },
+      "title": "An item in a word cloud"
+    }
+  }
+}

@@ -1,0 +1,2602 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "notifications/v1/admin.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "NotificationsAdmin"
+    },
+    {
+      "name": "Notifications"
+    },
+    {
+      "name": "Unsubscribe"
+    },
+    {
+      "name": "LegacyNotificationPreference"
+    },
+    {
+      "name": "NotificationsProvider"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/notifications.v1.Notifications/GetNotificationSettings": {
+      "post": {
+        "summary": "Get a users notification settings\nThis must be called with the user's authorization header, or with a specific user_id that the caller has access to.",
+        "operationId": "Notifications_GetNotificationSettings",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetNotificationSettingsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetNotificationSettingsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/notifications.v1.Notifications/GetNotificationTypeSettings": {
+      "post": {
+        "summary": "Get notification type configuration for users in a specific context",
+        "operationId": "Notifications_GetNotificationTypeSettings",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetNotificationTypeSettingsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetNotificationTypeSettingsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/notifications.v1.Notifications/ListNotificationTypes": {
+      "post": {
+        "summary": "List all notification types that the caller has access to",
+        "operationId": "Notifications_ListNotificationTypes",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListNotificationTypesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListNotificationTypesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/notifications.v1.Notifications/ListNotifications": {
+      "post": {
+        "summary": "Lists a users notifications\nThis must be called with the user's authorization header.",
+        "operationId": "Notifications_ListNotifications",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListNotificationsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListNotificationsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/notifications.v1.Notifications/RegisterAppToken": {
+      "post": {
+        "summary": "RegisterAppToken registers the mobile app token for a user to receive push notifications",
+        "operationId": "Notifications_RegisterAppToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1RegisterAppTokenResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1RegisterAppTokenRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/notifications.v1.Notifications/Subscribe": {
+      "post": {
+        "summary": "Subscribe a user to a notification.\nThis can be called by any service on behalf of a user, or with the user's authorization header directly, or with a specific user_id that the caller has access to.\nThis operation is idempotent - if a user has explicitly unsubscribed from a notification, this will have no effect.\nCreating a subscription with a narrow context (account-level) and then executing another Subscribe RPC with a wider scope will not necessarily create a new subscription, but it will update the notification settings for the user so that they now receive notifications for the wider context if possible.",
+        "description": "Use this endpoint to subscribe a user to a relevant notification type when they use your feature.",
+        "operationId": "Notifications_Subscribe",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SubscribeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/notifications.v1.Notifications/UpdateNotificationSettings": {
+      "post": {
+        "summary": "Update a users notification settings\nThis must be called with the user's authorization header, or with a specific user_id that the caller has access to.",
+        "operationId": "Notifications_UpdateNotificationSettings",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateNotificationSettingsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/notifications.v1.Notifications/UpdateNotificationTypeSettings": {
+      "post": {
+        "summary": "Updates the notification types which are available for a specific user context",
+        "operationId": "Notifications_UpdateNotificationTypeSettings",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateNotificationTypeSettingsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/notifications.v1.Notifications/UpdateNotifications": {
+      "post": {
+        "summary": "Marks notifications as followed/viewed\nThis must be called with the user's authorization header.",
+        "operationId": "Notifications_UpdateNotifications",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateNotificationsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/notifications.v1.NotificationsAdmin/CreateType": {
+      "post": {
+        "operationId": "NotificationsAdmin_CreateType",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateTypeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotificationsAdmin"
+        ]
+      }
+    },
+    "/notifications.v1.NotificationsAdmin/DeleteType": {
+      "post": {
+        "operationId": "NotificationsAdmin_DeleteType",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1DeleteTypeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotificationsAdmin"
+        ]
+      }
+    },
+    "/notifications.v1.NotificationsAdmin/GetType": {
+      "post": {
+        "operationId": "NotificationsAdmin_GetType",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetTypeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetTypeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotificationsAdmin"
+        ]
+      }
+    },
+    "/notifications.v1.NotificationsAdmin/ListTypes": {
+      "post": {
+        "operationId": "NotificationsAdmin_ListTypes",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListTypesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListTypesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotificationsAdmin"
+        ]
+      }
+    },
+    "/notifications.v1.NotificationsAdmin/Preview": {
+      "post": {
+        "summary": "Preview inserts a notification into the caller's stream",
+        "operationId": "NotificationsAdmin_Preview",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1PreviewRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotificationsAdmin"
+        ]
+      }
+    },
+    "/notifications.v1.NotificationsAdmin/Release": {
+      "post": {
+        "operationId": "NotificationsAdmin_Release",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ReleaseRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotificationsAdmin"
+        ]
+      }
+    },
+    "/notifications.v1.NotificationsAdmin/UpdateType": {
+      "post": {
+        "operationId": "NotificationsAdmin_UpdateType",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateTypeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotificationsAdmin"
+        ]
+      }
+    },
+    "/notifications.v1.NotificationsProvider/SaveNotification": {
+      "post": {
+        "summary": "SaveNotification from the provider\nNOTE: You DO NOT USE this if you are publishing events to event-broker that deliver notifications, if you ARE using this then you don't need to publish events",
+        "operationId": "NotificationsProvider_SaveNotification",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SaveNotificationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotificationsProvider"
+        ]
+      }
+    },
+    "/notifications.v1.Unsubscribe/GetOverview": {
+      "post": {
+        "summary": "GetOverview returns the data for the unsubscribe overview page",
+        "operationId": "Unsubscribe_GetOverview",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetOverviewResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetOverviewRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Unsubscribe"
+        ]
+      }
+    },
+    "/notifications.v1.Unsubscribe/Unsubscribe": {
+      "post": {
+        "summary": "Unsubscribe a user from a notification",
+        "operationId": "Unsubscribe_Unsubscribe",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UnsubscribeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Unsubscribe"
+        ]
+      }
+    },
+    "/notifications.v1.legacy.LegacyNotificationPreference/BulkUpdate": {
+      "post": {
+        "operationId": "LegacyNotificationPreference_BulkUpdate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/legacyBulkUpdateResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/legacyBulkUpdateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "LegacyNotificationPreference"
+        ]
+      }
+    },
+    "/notifications.v1.legacy.LegacyNotificationPreference/Delete": {
+      "post": {
+        "operationId": "LegacyNotificationPreference_Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/legacyDeleteResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/legacyDeleteRequest"
+            }
+          }
+        ],
+        "tags": [
+          "LegacyNotificationPreference"
+        ]
+      }
+    },
+    "/notifications.v1.legacy.LegacyNotificationPreference/Get": {
+      "post": {
+        "operationId": "LegacyNotificationPreference_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/legacyGetResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/legacyGetRequest"
+            }
+          }
+        ],
+        "tags": [
+          "LegacyNotificationPreference"
+        ]
+      }
+    },
+    "/notifications.v1.legacy.LegacyNotificationPreference/GetAvailableSections": {
+      "post": {
+        "summary": "proxy to /nsInternalApi/v3/notificationSettings/getAvailableSections/",
+        "operationId": "LegacyNotificationPreference_GetAvailableSections",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/legacyGetAvailableSectionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/legacyGetAvailableSectionsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "LegacyNotificationPreference"
+        ]
+      }
+    },
+    "/notifications.v1.legacy.LegacyNotificationPreference/List": {
+      "post": {
+        "operationId": "LegacyNotificationPreference_List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/legacyListResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/legacyListRequest"
+            }
+          }
+        ],
+        "tags": [
+          "LegacyNotificationPreference"
+        ]
+      }
+    },
+    "/notifications.v1.legacy.LegacyNotificationPreference/Update": {
+      "post": {
+        "operationId": "LegacyNotificationPreference_Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/legacyUpdateResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/legacyUpdateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "LegacyNotificationPreference"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "BulkUpdateRequestByIdentifier": {
+      "type": "object",
+      "properties": {
+        "identifiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/legacyIdentifier"
+          }
+        }
+      },
+      "title": "A list of explicit identifiers for use in selection.preference_by_identifiers"
+    },
+    "BulkUpdateRequestByPartner": {
+      "type": "object",
+      "properties": {
+        "partnerId": {
+          "type": "string"
+        }
+      },
+      "title": "A partner id for actions across an entire pid"
+    },
+    "BulkUpdateRequestByUser": {
+      "type": "object",
+      "properties": {
+        "partnerId": {
+          "type": "string"
+        },
+        "userIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "A list of users for use in selection.business_by_user"
+    },
+    "EmailParticipantTemplateOperation": {
+      "type": "object",
+      "properties": {
+        "nameTemplate": {
+          "$ref": "#/definitions/v1Template"
+        },
+        "addressTemplate": {
+          "$ref": "#/definitions/v1Template"
+        }
+      }
+    },
+    "ListNotificationsRequestFilter": {
+      "type": "object",
+      "properties": {
+        "medium": {
+          "$ref": "#/definitions/v1NotificationMedium",
+          "title": "Controls which notification medium is returned"
+        },
+        "context": {
+          "$ref": "#/definitions/v1NotificationContext",
+          "description": "All notifications will fall underneath this contextual scope except for global notifications."
+        }
+      }
+    },
+    "MediumConfigurationBundleConfiguration": {
+      "type": "object",
+      "properties": {
+        "window": {
+          "type": "string",
+          "title": "The amount of time similar notifications should be bundled together before a new bundle is created"
+        },
+        "contentTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The template that should be used when showing bundled notifications"
+        },
+        "linkTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The template id for building the link for bundled notifications"
+        }
+      }
+    },
+    "MediumConfigurationEmailConfiguration": {
+      "type": "object",
+      "properties": {
+        "contentTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The template id for building the email content of this notification type"
+        },
+        "linkTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The template id for building the link for a notification"
+        },
+        "subjectTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The subject line for the email, this determines threading in many email systems"
+        },
+        "from": {
+          "$ref": "#/definitions/MediumConfigurationEmailConfigurationParticipantTemplate"
+        },
+        "contentType": {
+          "$ref": "#/definitions/v1ContentType",
+          "title": "The content type of the email body"
+        },
+        "espId": {
+          "type": "string",
+          "description": "An identifier that has been preconfigured for use by the `email` microservice."
+        },
+        "sampleData": {
+          "type": "object",
+          "description": "Sample data used for previewing email notifications."
+        }
+      }
+    },
+    "MediumConfigurationEmailConfigurationParticipantTemplate": {
+      "type": "object",
+      "properties": {
+        "nameTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The template id that calculates the name of the email participant"
+        },
+        "addressTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The template id that calculates the address of the email participant"
+        }
+      }
+    },
+    "MediumConfigurationWebConfiguration": {
+      "type": "object",
+      "properties": {
+        "contentTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The template for building the content of the notification"
+        },
+        "linkTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The template for building the link for a notification"
+        },
+        "sampleData": {
+          "type": "object",
+          "description": "Sample data used for previewing web notifications."
+        }
+      }
+    },
+    "NotificationContextAccountGroup": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string"
+        }
+      },
+      "description": "Account Group refers to any notification within a specific account group."
+    },
+    "NotificationContextPartner": {
+      "type": "object",
+      "properties": {
+        "partnerId": {
+          "type": "string"
+        }
+      },
+      "description": "Partner refers to any notification within a specific partner."
+    },
+    "NotificationContextUser": {
+      "type": "object",
+      "properties": {
+        "iamSubjectId": {
+          "type": "string",
+          "description": "An IAM subject ID. user_id should be used instead."
+        },
+        "userId": {
+          "type": "string",
+          "description": "A unified IAM user id."
+        }
+      },
+      "description": "User refers to any notification for a specific user id."
+    },
+    "NotificationTypeEmailParticipantTemplate": {
+      "type": "object",
+      "properties": {
+        "nameTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The template id that calculates the name of the email participant"
+        },
+        "addressTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The template id that calculates the address of the email participant"
+        }
+      }
+    },
+    "NotificationTypeSettingContextNotificationTypeSettingContextPartner": {
+      "type": "object",
+      "properties": {
+        "partnerId": {
+          "type": "string"
+        },
+        "marketId": {
+          "type": "string"
+        }
+      },
+      "title": "A partner context will affect what notifications can bee seen by a user in a specific partner and market"
+    },
+    "NotificationTypeSettingNotificationTypeSettingMediumConfiguration": {
+      "type": "object",
+      "properties": {
+        "medium": {
+          "$ref": "#/definitions/v1NotificationMedium",
+          "description": "The medium that this configuration is for. A medium should have at most a single configuration."
+        },
+        "enabled": {
+          "type": "boolean",
+          "title": "If this notification is enabled for the requested context"
+        }
+      }
+    },
+    "NotificationWebNotification": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "string"
+        }
+      }
+    },
+    "PreviewRequestEvent": {
+      "type": "object",
+      "properties": {
+        "eventTypeId": {
+          "type": "string",
+          "title": "The event type id that has been registered with Event Broker"
+        },
+        "emittedAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time that the event was emitted at"
+        },
+        "data": {
+          "type": "object",
+          "title": "The data of the event"
+        }
+      }
+    },
+    "TemplateInlineTemplate": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateNotificationSettingsRequestUpdateNotificationSettingsOperation": {
+      "type": "object",
+      "properties": {
+        "notificationTypeId": {
+          "type": "string",
+          "title": "The ID of the notification type"
+        },
+        "notificationMedium": {
+          "$ref": "#/definitions/v1NotificationMedium",
+          "title": "The location where the notification will be sent"
+        },
+        "context": {
+          "$ref": "#/definitions/v1NotificationContext",
+          "description": "The context controls the scope of the notification setting. When a setting has been set, notifications will\nalways use the most specific setting. For example, a user may have a setting enabled for the Partner context,\nbut may have an Account Group context disabled within that partner. If there is a notification for that\nPartner and Account Group, they will not receive it because the Account Group context is more specific\nthan the Partner context."
+        },
+        "status": {
+          "$ref": "#/definitions/v1NotificationStatus",
+          "title": "The status of the notification (enabled/disabled)"
+        },
+        "propagate": {
+          "type": "boolean",
+          "description": "This indicates that this setting mutation will mutate any setting with a more specific context as well.\nFor example, if the context was Partner: ABC and Market: market-1, and the mutation was to disable the\nnotification, turning this flag on would cause a setting with the context ABC, market-1, AG-123 to be disabled\nas well."
+        }
+      }
+    },
+    "UpdateNotificationTypeOperationMediumConfigurationOperation": {
+      "type": "object"
+    },
+    "UpdateNotificationTypeOperationReplaceMediumConfiguration": {
+      "type": "object",
+      "properties": {
+        "configuration": {
+          "$ref": "#/definitions/v1MediumConfiguration"
+        }
+      }
+    },
+    "UpdateNotificationTypeOperationSetAccessRequirements": {
+      "type": "object",
+      "properties": {
+        "accessRequirements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1AccessRequirement"
+          }
+        }
+      }
+    },
+    "UpdateNotificationTypeOperationSetCategory": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "UpdateNotificationTypeOperationSetHydrators": {
+      "type": "object",
+      "properties": {
+        "hydrators": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Hydrator"
+          }
+        }
+      }
+    },
+    "UpdateNotificationTypeOperationSetLocales": {
+      "type": "object",
+      "properties": {
+        "locales": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "UpdateNotificationTypeOperationSetPersonaAccessRequirements": {
+      "type": "object",
+      "properties": {
+        "personaAccessRequirements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1PersonaType"
+          }
+        }
+      }
+    },
+    "UpdateNotificationTypeSettingsRequestUpdateNotificationTypeSettingOperation": {
+      "type": "object",
+      "properties": {
+        "notificationTypeId": {
+          "type": "string",
+          "title": "The notification type id of the setting being updated"
+        },
+        "context": {
+          "$ref": "#/definitions/v1NotificationTypeSettingContext",
+          "description": "The context indicates the group of users which will have their notifications affected by the update."
+        },
+        "medium": {
+          "$ref": "#/definitions/v1NotificationMedium",
+          "title": "Medium of the notification type being updated"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables a notification type for users in the given context."
+        }
+      }
+    },
+    "UpdateNotificationsRequestOperation": {
+      "type": "object",
+      "properties": {
+        "notificationId": {
+          "type": "string",
+          "title": "The unique identifier of the notification"
+        },
+        "followed": {
+          "type": "boolean",
+          "title": "Mark the notification as followed/unfollowed"
+        },
+        "viewed": {
+          "type": "boolean",
+          "title": "Mark the notification as viewed/unviewed"
+        }
+      }
+    },
+    "UpdateTypeRequestUpdateNotificationTypeOperation": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "$ref": "#/definitions/UpdateNotificationTypeOperationSetCategory",
+          "title": "Change the notification type's category"
+        },
+        "description": {
+          "type": "string",
+          "title": "Change the notification type's description"
+        },
+        "replaceMediumConfiguration": {
+          "$ref": "#/definitions/UpdateNotificationTypeOperationReplaceMediumConfiguration",
+          "description": "Replace a medium configuration. This will create the configuration if it does not yet exist."
+        },
+        "mediumConfiguration": {
+          "$ref": "#/definitions/UpdateNotificationTypeOperationMediumConfigurationOperation",
+          "title": "Update a specific property in the medium configuration"
+        },
+        "domainId": {
+          "type": "string",
+          "title": "Change the notification type's domainID"
+        },
+        "hydrators": {
+          "$ref": "#/definitions/UpdateNotificationTypeOperationSetHydrators",
+          "title": "Change the hydrators that the notification relies on"
+        },
+        "name": {
+          "type": "string",
+          "description": "Change the name of the notification type."
+        },
+        "accessRequirements": {
+          "$ref": "#/definitions/UpdateNotificationTypeOperationSetAccessRequirements",
+          "description": "Change the access requirements for a notification type.\nThis could mean that users currently subscribed to the notification will no longer have access."
+        },
+        "web": {
+          "$ref": "#/definitions/UpdateTypeRequestUpdateNotificationTypeOperationWeb",
+          "title": "Update the web medium configuration"
+        },
+        "webBundle": {
+          "$ref": "#/definitions/UpdateTypeRequestUpdateNotificationTypeOperationWebBundle",
+          "title": "Update the web bundle configuration"
+        },
+        "email": {
+          "$ref": "#/definitions/UpdateTypeRequestUpdateNotificationTypeOperationEmail",
+          "title": "Update the email configuration"
+        },
+        "personaAccessRequirements": {
+          "$ref": "#/definitions/UpdateNotificationTypeOperationSetPersonaAccessRequirements",
+          "title": "Updates the persona access requirements"
+        },
+        "featureFlagId": {
+          "type": "string",
+          "title": "Update the feature flag id"
+        },
+        "locales": {
+          "$ref": "#/definitions/UpdateNotificationTypeOperationSetLocales",
+          "title": "Update the notification type's locales"
+        },
+        "eventTypeId": {
+          "type": "string",
+          "title": "Update the unique identifier of the event this notification type is based on"
+        }
+      }
+    },
+    "UpdateTypeRequestUpdateNotificationTypeOperationEmail": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "contentTemplate": {
+          "$ref": "#/definitions/v1Template"
+        },
+        "linkTemplate": {
+          "$ref": "#/definitions/v1Template"
+        },
+        "subjectTemplate": {
+          "$ref": "#/definitions/v1Template"
+        },
+        "from": {
+          "$ref": "#/definitions/EmailParticipantTemplateOperation"
+        },
+        "contentType": {
+          "$ref": "#/definitions/v1ContentType"
+        },
+        "espId": {
+          "type": "string"
+        },
+        "sampleData": {
+          "type": "object"
+        }
+      }
+    },
+    "UpdateTypeRequestUpdateNotificationTypeOperationWeb": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "contentTemplate": {
+          "$ref": "#/definitions/v1Template"
+        },
+        "linkTemplate": {
+          "$ref": "#/definitions/v1Template"
+        },
+        "sampleData": {
+          "type": "object"
+        }
+      }
+    },
+    "UpdateTypeRequestUpdateNotificationTypeOperationWebBundle": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "window": {
+          "type": "string"
+        },
+        "contentTemplate": {
+          "$ref": "#/definitions/v1Template"
+        },
+        "linkTemplate": {
+          "$ref": "#/definitions/v1Template"
+        },
+        "sampleData": {
+          "type": "object"
+        }
+      }
+    },
+    "googlerpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "legacyBulkUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "changes": {
+          "$ref": "#/definitions/legacyPreference",
+          "description": "changes represents all of the changes that wish to be applied. The identifier on the preference is ignored."
+        },
+        "preferenceByIdentifiers": {
+          "$ref": "#/definitions/BulkUpdateRequestByIdentifier",
+          "title": "Updates the specified preferences by exact reference"
+        },
+        "businessByUser": {
+          "$ref": "#/definitions/BulkUpdateRequestByUser",
+          "title": "business_by_user updates all business associated with each user"
+        },
+        "businessByPartner": {
+          "$ref": "#/definitions/BulkUpdateRequestByPartner",
+          "title": "business_by_partner updates all businesses on a partner"
+        },
+        "userByPartner": {
+          "$ref": "#/definitions/BulkUpdateRequestByPartner",
+          "title": "user_by_partner updates all smb users on a partner"
+        },
+        "identifiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/legacyIdentifier"
+          },
+          "title": "Deprecated: use selection preference_by_identifiers"
+        },
+        "partialIdentifiers": {
+          "type": "boolean",
+          "description": "Deprecated: use selection business_by_user\npartial_identifiers indicates that the included identifiers are incomplete and the operation should be applied to those underneath them in the hierarchy.\ne.g. the provided identifiers are for a user, but the update should be applied to every account group that the user is associated with."
+        }
+      }
+    },
+    "legacyBulkUpdateResponse": {
+      "type": "object",
+      "properties": {
+        "progressToken": {
+          "type": "string",
+          "description": "Progress token is a string that can be used to track the progress of any asynchronous work, likely a workflow ID.\nThe absence of a returned token should indicate that the work has completed synchronously."
+        }
+      }
+    },
+    "legacyDeleteRequest": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "$ref": "#/definitions/legacyIdentifier"
+        }
+      }
+    },
+    "legacyDeleteResponse": {
+      "type": "object"
+    },
+    "legacyGetAvailableSectionsRequest": {
+      "type": "object",
+      "properties": {
+        "partialIdentifier": {
+          "$ref": "#/definitions/legacyIdentifier",
+          "title": "partial_identifier must contain a partner_id and optionally business_id or market_id"
+        },
+        "appIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "locale": {
+          "type": "string"
+        }
+      }
+    },
+    "legacyGetAvailableSectionsResponse": {
+      "type": "object",
+      "properties": {
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/legacySectionSettings"
+          }
+        }
+      }
+    },
+    "legacyGetRequest": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "$ref": "#/definitions/legacyIdentifier"
+        }
+      }
+    },
+    "legacyGetResponse": {
+      "type": "object",
+      "properties": {
+        "computed": {
+          "$ref": "#/definitions/legacyPreference",
+          "title": "computed is a full set of preferences, with default values inheriting values from their \"parent\" LegacyNotificationPreference.\nThe inheritance chain from parent to child by what fields are included on the key is as follows:\n   partner_id\n   partner_id \u0026 market_id\n   partner_id \u0026 user_id\n   partner_id \u0026 user_id \u0026 business_id (market_id optional)"
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/legacyPreference"
+          },
+          "description": "components are the individual LegacyNotificationPreference entries that are used in the inheritance."
+        },
+        "defaults": {
+          "$ref": "#/definitions/legacyPreference",
+          "title": "defaults represents the default value for each setting and is the equivalent to computed of the nearest parent"
+        },
+        "userNotificationsDisabled": {
+          "type": "boolean",
+          "description": "user_notifications_disabled is false if the the master notification toggle for the SMB persona is disabled.\nIf the identifier does not inlude a user_id this field is unset."
+        }
+      }
+    },
+    "legacyIdentifier": {
+      "type": "object",
+      "properties": {
+        "partnerId": {
+          "type": "string",
+          "description": "partner_id is always required."
+        },
+        "marketId": {
+          "type": "string",
+          "description": "market_id is required on create but optional on other operations to entries with a business_id."
+        },
+        "userId": {
+          "type": "string",
+          "description": "user_id is a universal user id, required if business_id is set."
+        },
+        "businessId": {
+          "type": "string",
+          "description": "business_id refers to an account_group_id."
+        }
+      },
+      "description": "Identifier is a reference to a LegacyNotificationPreference."
+    },
+    "legacyListRequest": {
+      "type": "object",
+      "properties": {
+        "partialIdentifier": {
+          "$ref": "#/definitions/legacyIdentifier",
+          "description": "partial_identifier can contain just a a partner_id and a user_id to list by account groups, or a partner_id and account_group to list by user."
+        },
+        "cursor": {
+          "type": "string",
+          "title": "cursor should be supplied from the last response or \"\""
+        },
+        "pageSize": {
+          "type": "string",
+          "format": "int64",
+          "description": "the number of results to retrieve, pages are not guaranteed to be full length as there may be results removed by access checks."
+        }
+      }
+    },
+    "legacyListResponse": {
+      "type": "object",
+      "properties": {
+        "computed": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/legacyPreference"
+          },
+          "title": "computed is a full set of preferences, with default values inheriting values from their \"parent\" LegacyNotificationPreference.\nSee GetResponse for details on inheritance"
+        },
+        "cursor": {
+          "type": "string"
+        },
+        "hasMore": {
+          "type": "boolean"
+        }
+      }
+    },
+    "legacyNotificationActivity": {
+      "type": "object",
+      "properties": {
+        "notificationId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "localizedTitle": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1legacyNotificationSetting"
+          }
+        }
+      }
+    },
+    "legacyPreference": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "$ref": "#/definitions/legacyIdentifier"
+        },
+        "instantSettings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1legacyNotificationSetting"
+          },
+          "description": "instant_settings is a list of NS notification IDs (usually of the form 'appId:notifcationName') for which a notification should be sent immediately.\nIDs for which a corresponding entry are not found are considered to be equivalent to STATUS_DEFAULT."
+        },
+        "digestSettings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1legacyNotificationSetting"
+          },
+          "description": "digest_settings is a list of NS notification IDs (usually of the form 'appId:notifcationName') which should be included in the daily digest.\nIDs for which a corresponding entry are not found are considered to be equivalent to STATUS_DEFAULT."
+        },
+        "executiveReportSettings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1legacyNotificationSetting"
+          },
+          "description": "executive_report_settings is a list of executive report frequencies that a user may receive an executive report.\nIDs for which a corresponding entry are not found are considered to be equivalent to STATUS_DEFAULT."
+        },
+        "instant": {
+          "$ref": "#/definitions/v1legacyStatus",
+          "description": "Instant refers to if immediate emails should be sent when the event happens."
+        },
+        "digest": {
+          "$ref": "#/definitions/v1legacyStatus",
+          "description": "Digest refers to if emails should be sent when ."
+        },
+        "monthlyTaskReport": {
+          "$ref": "#/definitions/v1legacyStatus",
+          "description": "MonthlyTaskReport refers to a specific notification type from concierge. This is maintained to keep compatibility with NS's model."
+        }
+      }
+    },
+    "legacyProduct": {
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "activities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/legacyNotificationActivity"
+          }
+        }
+      }
+    },
+    "legacySectionSettings": {
+      "type": "object",
+      "properties": {
+        "section": {
+          "$ref": "#/definitions/v1legacyNotificationSetting",
+          "title": "defined https://github.com/vendasta/NS/blob/854d893026892179744208046db9f7fe06dadea3/src/app/notification_settings/_notification_settings.py#L74-L128"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/legacyProduct"
+          },
+          "title": "defined https://github.com/vendasta/NS/blob/854d893026892179744208046db9f7fe06dadea3/src/app/domain/settings.py#L146-L196"
+        }
+      }
+    },
+    "legacyUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "$ref": "#/definitions/legacyIdentifier"
+        },
+        "changes": {
+          "$ref": "#/definitions/legacyPreference"
+        }
+      }
+    },
+    "legacyUpdateResponse": {
+      "type": "object"
+    },
+    "notificationsv1NotificationSetting": {
+      "type": "object",
+      "properties": {
+        "notificationTypeId": {
+          "type": "string",
+          "title": "The ID of the notification"
+        },
+        "category": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The notification hierarchical category with the leaf being the Display Name\nExample: [Business, Product Activations, Rejections]"
+        },
+        "description": {
+          "type": "string",
+          "title": "Description of the notification"
+        },
+        "notificationMedium": {
+          "$ref": "#/definitions/v1NotificationMedium",
+          "title": "The location where the notification will be sent"
+        },
+        "status": {
+          "$ref": "#/definitions/v1NotificationStatus",
+          "title": "The status of the notification (enabled/disabled)"
+        },
+        "context": {
+          "$ref": "#/definitions/v1NotificationContext",
+          "description": "The context controls the scope of the notification setting. When a setting has been set, notifications will\nalways use the most specific setting. For example, a user may have a setting enabled for the Partner context,\nbut may have an Account Group context disabled within that partner. If there is a notification for that Partner\nand Account Group, they will not receive it because the Account Group context is more specific than the Partner\ncontext."
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "protobufNullValue": {
+      "type": "string",
+      "enum": [
+        "NULL_VALUE"
+      ],
+      "default": "NULL_VALUE",
+      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\nThe JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
+    },
+    "v1AccessRequirement": {
+      "type": "object",
+      "properties": {
+        "resource": {
+          "$ref": "#/definitions/v1Resource"
+        },
+        "scopeIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "See the resource service for more detailed information"
+    },
+    "v1ContentType": {
+      "type": "string",
+      "enum": [
+        "CONTENT_TYPE_HTML",
+        "CONTENT_TYPE_TEXT"
+      ],
+      "default": "CONTENT_TYPE_HTML"
+    },
+    "v1CreateTypeRequest": {
+      "type": "object",
+      "properties": {
+        "notificationTypeId": {
+          "type": "string",
+          "title": "The unique identifier of the notification type"
+        },
+        "category": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The notification hierarchical category with the leaf being the Display Name\nExample: [Business, Product Activations, Rejections]"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the notification. Displayed to users."
+        },
+        "name": {
+          "type": "string",
+          "description": "The user-facing name of the notification. Should describe the notification in as few words as possible."
+        },
+        "eventTypeId": {
+          "type": "string",
+          "title": "The unique identifier of the event this notification type is based on"
+        },
+        "configurations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1MediumConfiguration"
+          },
+          "title": "Separate configurations for each kind of delivery medium\nDeprecated: use the individual medium configurations on this message"
+        },
+        "domainId": {
+          "type": "string",
+          "title": "Identifier for the domain that this notification type's links will be built relative to"
+        },
+        "hydrators": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Hydrator"
+          },
+          "title": "Hydrators required for this notification type"
+        },
+        "accessRequirements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1AccessRequirement"
+          },
+          "title": "The access checks that the user needs to pass in order to receive or subscribe to this notification"
+        },
+        "web": {
+          "$ref": "#/definitions/v1NotificationTypeWeb"
+        },
+        "webBundle": {
+          "$ref": "#/definitions/v1NotificationTypeWebBundle"
+        },
+        "email": {
+          "$ref": "#/definitions/v1NotificationTypeEmail"
+        },
+        "personaAccessRequirements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1PersonaType"
+          },
+          "description": "In addition to the access_requirements, you can set general persona types that have access to this\nnotification type."
+        },
+        "featureFlagId": {
+          "type": "string",
+          "description": "The feature flag identifier which controls who will receive notifications when in development.\n\nIf a the feature flag is set, notifications will only be sent if the context of the notification,\ni.e. partner and market, have the feature enabled.\n\nThis type will also be hidden if the partner and market does not have the feature enabled when\nlooking up the types to display settings.\n\nThis can be empty."
+        },
+        "locales": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The locales supported by this notification type"
+        }
+      }
+    },
+    "v1DeleteTypeRequest": {
+      "type": "object",
+      "properties": {
+        "notificationTypeId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1GetNotificationSettingsRequest": {
+      "type": "object",
+      "properties": {
+        "context": {
+          "$ref": "#/definitions/v1NotificationContext",
+          "description": "If context is provided, all of the settings returned will be applicable to that context.\nIf the context is not provided, all of the user's settings will be returned across all contexts."
+        },
+        "userId": {
+          "type": "string",
+          "description": "A user_id to target. If no user_id is provided, the callers' authorization header is used to determine the targeted user. This may be a subject/persona id or a user id."
+        },
+        "partnerId": {
+          "type": "string",
+          "title": "Required only if user_id is not set"
+        }
+      }
+    },
+    "v1GetNotificationSettingsResponse": {
+      "type": "object",
+      "properties": {
+        "notificationSettings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/notificationsv1NotificationSetting"
+          }
+        }
+      }
+    },
+    "v1GetNotificationTypeSettingsRequest": {
+      "type": "object",
+      "properties": {
+        "context": {
+          "$ref": "#/definitions/v1NotificationTypeSettingContext"
+        }
+      }
+    },
+    "v1GetNotificationTypeSettingsResponse": {
+      "type": "object",
+      "properties": {
+        "settings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1NotificationTypeSetting"
+          }
+        }
+      }
+    },
+    "v1GetOverviewRequest": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "title": "unsubscribe token"
+        }
+      }
+    },
+    "v1GetOverviewResponse": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "title": "The email of the user who is unsubscribing from a notification"
+        },
+        "type": {
+          "$ref": "#/definitions/v1NotificationType",
+          "title": "The notification type information"
+        },
+        "partnerId": {
+          "type": "string",
+          "title": "partner id"
+        },
+        "marketId": {
+          "type": "string",
+          "title": "market id"
+        }
+      }
+    },
+    "v1GetTypeRequest": {
+      "type": "object",
+      "properties": {
+        "notificationTypeId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1GetTypeResponse": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/v1NotificationType"
+        }
+      }
+    },
+    "v1Hydrator": {
+      "type": "object",
+      "properties": {
+        "accountGroup": {
+          "type": "boolean",
+          "title": "New properties: `_account_group_name`, `_account_group_address`\nRequired on the event schema: `account_group_id`"
+        },
+        "salesperson": {
+          "type": "boolean",
+          "title": "New properties: `_salesperson_name`\nRequired on the event schema: `salesperson_id`, (`partner_id` OR `account_group_id`)"
+        },
+        "product": {
+          "type": "boolean",
+          "title": "New properties: `_product_name`\nRequired on the event schema: `account_group_id` OR (`partner_id` AND `market_id`), `app_id`\nOptional on the event schema: `addon_id`"
+        },
+        "partnerBranding": {
+          "type": "boolean",
+          "title": "New properties: `_branding.name`, `_branding.primary_color`, `_branding.assets`, `_branding.apps`\nRequired on the event schema: (`partner_id` AND `market_id`) OR `account_group_id`"
+        },
+        "digitalAgent": {
+          "type": "boolean",
+          "title": "New properties: `_digital_agent_name`\nRequired on the event schema: `digital_agent_id`"
+        },
+        "user": {
+          "type": "boolean",
+          "description": "New properties: `_user.first_name`, `_user.last_name`\nRequired on the event schema: `user_id`\nThis hydrator supports multiples, meaning if the event schema has a repeated string property `user_ids`, the hydrator will inflate a list of `_users`, in the same order that the `user_ids` were provided."
+        }
+      },
+      "description": "Hydrators allow a notification to have access to additional attributes that are not necessarily part of the schema\nof the event they are based on. This is useful for templating business names and other human-readable data that is\nunlikely to be part of the event.\n\nHydrated data is calculated at the time that the notification is saved and is not updated.\n\nEach hydrator requires a different set of properties to be present on the event schema in order to perform hydration."
+    },
+    "v1ListNotificationTypesRequest": {
+      "type": "object",
+      "properties": {
+        "context": {
+          "$ref": "#/definitions/v1NotificationContext",
+          "description": "The contextual scope of the request. A User may have access to different types of notifications in the context of different partners/accounts."
+        },
+        "partnerId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ListNotificationTypesResponse": {
+      "type": "object",
+      "properties": {
+        "types": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1NotificationType"
+          }
+        }
+      }
+    },
+    "v1ListNotificationsRequest": {
+      "type": "object",
+      "properties": {
+        "pageSize": {
+          "type": "string",
+          "format": "int64"
+        },
+        "cursor": {
+          "type": "string"
+        },
+        "filter": {
+          "$ref": "#/definitions/ListNotificationsRequestFilter"
+        },
+        "flatten": {
+          "type": "boolean",
+          "description": "By default, notifications are returned in a bundled format when appropriate.\nSetting flatten to true forces them to be returned in an expanded, unbundled format."
+        },
+        "partnerId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ListNotificationsResponse": {
+      "type": "object",
+      "properties": {
+        "notifications": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Notification"
+          }
+        },
+        "nextCursor": {
+          "type": "string"
+        },
+        "hasMore": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1ListTypesRequest": {
+      "type": "object",
+      "properties": {
+        "pageSize": {
+          "type": "string",
+          "format": "int64"
+        },
+        "cursor": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ListTypesResponse": {
+      "type": "object",
+      "properties": {
+        "types": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1NotificationType"
+          }
+        },
+        "hasMore": {
+          "type": "boolean"
+        },
+        "nextCursor": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MediumConfiguration": {
+      "type": "object",
+      "properties": {
+        "medium": {
+          "$ref": "#/definitions/v1NotificationMedium",
+          "title": "deprecated: The medium that this configuration is for. A medium should have at most a single configuration - use WebConfiguration or EmailConfiguration"
+        },
+        "templateId": {
+          "type": "string",
+          "title": "deprecated: The template id for building the content of this notification type on this delivery medium - use WebConfiguration"
+        },
+        "linkTemplateId": {
+          "type": "string",
+          "title": "deprecated: The template id for building the link for this delivery medium and notification type - use WebConfiguration"
+        },
+        "disabled": {
+          "type": "boolean",
+          "title": "A disabled medium configuration will not have notifications delivered for it"
+        },
+        "bundleConfiguration": {
+          "$ref": "#/definitions/MediumConfigurationBundleConfiguration"
+        },
+        "emailConfiguration": {
+          "$ref": "#/definitions/MediumConfigurationEmailConfiguration"
+        },
+        "webConfiguration": {
+          "$ref": "#/definitions/MediumConfigurationWebConfiguration"
+        }
+      }
+    },
+    "v1Notification": {
+      "type": "object",
+      "properties": {
+        "notificationId": {
+          "type": "string",
+          "title": "The unique identifier of the notification"
+        },
+        "notificationTypeId": {
+          "type": "string",
+          "title": "The type of notification"
+        },
+        "link": {
+          "type": "string",
+          "title": "An absolute URL to where the user will be directed when clicking on the notification"
+        },
+        "followed": {
+          "type": "boolean",
+          "title": "Indicates whether the notification's link has been followed by the user"
+        },
+        "viewed": {
+          "type": "boolean",
+          "title": "Indicates whether the notification has been viewed by the user"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The date that the notification was created"
+        },
+        "web": {
+          "$ref": "#/definitions/NotificationWebNotification"
+        },
+        "partnerId": {
+          "type": "string"
+        },
+        "marketId": {
+          "type": "string"
+        },
+        "accountGroupId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1NotificationContext": {
+      "type": "object",
+      "properties": {
+        "partner": {
+          "$ref": "#/definitions/NotificationContextPartner"
+        },
+        "accountGroup": {
+          "$ref": "#/definitions/NotificationContextAccountGroup"
+        },
+        "user": {
+          "$ref": "#/definitions/NotificationContextUser"
+        }
+      },
+      "description": "Notification Context defines the scope in which notifications should be interacted with."
+    },
+    "v1NotificationMedium": {
+      "type": "string",
+      "enum": [
+        "NOTIFICATION_MEDIUM_WEB",
+        "NOTIFICATION_MEDIUM_EMAIL"
+      ],
+      "default": "NOTIFICATION_MEDIUM_WEB",
+      "title": "The Medium that the notification will be sent to"
+    },
+    "v1NotificationStatus": {
+      "type": "string",
+      "enum": [
+        "NOTIFICATION_STATUS_ENABLED",
+        "NOTIFICATION_STATUS_DISABLED"
+      ],
+      "default": "NOTIFICATION_STATUS_ENABLED",
+      "title": "The status of the notification setting"
+    },
+    "v1NotificationType": {
+      "type": "object",
+      "properties": {
+        "notificationTypeId": {
+          "type": "string",
+          "title": "The unique identifier of the notification type"
+        },
+        "category": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The notification hierarchical category with the leaf being the Display Name\nExample: [Business, Product Activations, Rejections]"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the notification. Displayed to users."
+        },
+        "name": {
+          "type": "string",
+          "description": "The user-facing name of the notification. Should describe the notification in as few words as possible."
+        },
+        "eventTypeId": {
+          "type": "string",
+          "title": "The unique identifier of the event this notification type is based on"
+        },
+        "configurations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1MediumConfiguration"
+          },
+          "title": "Deprecated: Use the web, web_bundle and email configurations on the base message\nSeparate configurations for each kind of delivery medium"
+        },
+        "domainId": {
+          "type": "string",
+          "title": "Identifier for the domain that this notification type's links will be built relative to"
+        },
+        "hydrators": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Hydrator"
+          },
+          "title": "Hydrators required for this notification type"
+        },
+        "accessRequirements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1AccessRequirement"
+          },
+          "title": "Access requirements needed to subscribe to or receive notifications of this type"
+        },
+        "web": {
+          "$ref": "#/definitions/v1NotificationTypeWeb",
+          "title": "Web medium configuration"
+        },
+        "webBundle": {
+          "$ref": "#/definitions/v1NotificationTypeWebBundle",
+          "title": "Web bundle medium configuration"
+        },
+        "email": {
+          "$ref": "#/definitions/v1NotificationTypeEmail",
+          "title": "Email configuration"
+        },
+        "personaAccessRequirements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1PersonaType"
+          },
+          "description": "In addition to the access_requirements, you can set general persona types that have access to this\nnotification type."
+        },
+        "featureFlagId": {
+          "type": "string",
+          "description": "The feature flag identifier which controls who will receive notifications when in development.\n\nIf a the feature flag is set, notifications will only be sent if the context of the notification,\ni.e. partner and market, have the feature enabled.\n\nThis type will also be hidden if the partner and market does not have the feature enabled when\nlooking up the types to display settings.\n\nThis can be empty."
+        },
+        "locales": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The locales supported by this notification type"
+        }
+      }
+    },
+    "v1NotificationTypeEmail": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "title": "Enable email"
+        },
+        "contentTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The template id for building the email content of this notification type"
+        },
+        "linkTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The template id for building the link for a notification"
+        },
+        "subjectTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The subject line for the email, this determines threading in many email systems"
+        },
+        "from": {
+          "$ref": "#/definitions/NotificationTypeEmailParticipantTemplate"
+        },
+        "contentType": {
+          "$ref": "#/definitions/v1ContentType",
+          "title": "The content type of the email body"
+        },
+        "espId": {
+          "type": "string",
+          "description": "An identifier that has been preconfigured for use by the `email` microservice."
+        },
+        "sampleData": {
+          "type": "object",
+          "description": "Sample data used for previewing email notifications."
+        }
+      }
+    },
+    "v1NotificationTypeSetting": {
+      "type": "object",
+      "properties": {
+        "notificationTypeId": {
+          "type": "string"
+        },
+        "configurations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/NotificationTypeSettingNotificationTypeSettingMediumConfiguration"
+          }
+        }
+      }
+    },
+    "v1NotificationTypeSettingContext": {
+      "type": "object",
+      "properties": {
+        "partner": {
+          "$ref": "#/definitions/NotificationTypeSettingContextNotificationTypeSettingContextPartner"
+        }
+      }
+    },
+    "v1NotificationTypeWeb": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "title": "Enable the web configuration"
+        },
+        "contentTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The template for building the content of the notification"
+        },
+        "linkTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The template for building the link for a notification"
+        },
+        "sampleData": {
+          "type": "object",
+          "description": "Sample data used for previewing web notifications."
+        }
+      }
+    },
+    "v1NotificationTypeWebBundle": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "title": "Enable the web bundle"
+        },
+        "window": {
+          "type": "string",
+          "title": "Bundle window size"
+        },
+        "contentTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The template for building the content of the notification"
+        },
+        "linkTemplate": {
+          "$ref": "#/definitions/v1Template",
+          "title": "The template for building the link for a notification"
+        },
+        "sampleData": {
+          "type": "object",
+          "description": "Sample data used for previewing web notifications."
+        }
+      }
+    },
+    "v1PersonaType": {
+      "type": "string",
+      "enum": [
+        "PERSONA_TYPE_PARTNER",
+        "PERSONA_TYPE_SALES_PERSON",
+        "PERSONA_TYPE_DIGITAL_AGENT",
+        "PERSONA_TYPE_SMB"
+      ],
+      "default": "PERSONA_TYPE_PARTNER"
+    },
+    "v1PreviewRequest": {
+      "type": "object",
+      "properties": {
+        "notificationTypeId": {
+          "type": "string",
+          "description": "The ID of the notification type being previewed."
+        },
+        "medium": {
+          "$ref": "#/definitions/v1NotificationMedium",
+          "title": "The medium to send the notification for"
+        },
+        "event": {
+          "$ref": "#/definitions/PreviewRequestEvent",
+          "title": "A fake event"
+        }
+      }
+    },
+    "v1RegisterAppTokenRequest": {
+      "type": "object",
+      "properties": {
+        "registrationToken": {
+          "type": "string",
+          "title": "The registration token to register the mobile app"
+        },
+        "userId": {
+          "type": "string",
+          "title": "The user id to register the token for"
+        },
+        "partnerId": {
+          "type": "string",
+          "title": "The partner id the user is namespaced in"
+        },
+        "deviceId": {
+          "type": "string",
+          "title": "The device id the device the app is downloaded on"
+        }
+      }
+    },
+    "v1RegisterAppTokenResponse": {
+      "type": "object"
+    },
+    "v1ReleaseRequest": {
+      "type": "object",
+      "properties": {
+        "notificationTypeId": {
+          "type": "string",
+          "description": "The notification type id to release."
+        },
+        "userId": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of users to create subscriptions for."
+        },
+        "medium": {
+          "$ref": "#/definitions/v1NotificationMedium",
+          "title": "The medium to create subscriptions for"
+        }
+      }
+    },
+    "v1Resource": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SaveNotificationRequest": {
+      "type": "object",
+      "properties": {
+        "notificationTypeId": {
+          "type": "string",
+          "description": "The ID of the notification type being provided."
+        },
+        "notificationId": {
+          "type": "string",
+          "title": "The ID of the notification, notifications which already exist will not be updated"
+        },
+        "userId": {
+          "type": "string",
+          "title": "The user the notification is for -- this is a unified user id"
+        },
+        "medium": {
+          "$ref": "#/definitions/v1NotificationMedium",
+          "title": "The medium to send the notification for"
+        },
+        "notificationTime": {
+          "type": "string",
+          "format": "date-time",
+          "title": "This is the time that the notification will appear as in the stream"
+        },
+        "data": {
+          "type": "object",
+          "title": "The data for the notification, contains contextual identifiers like account group id,\nand other data useable by the notification template"
+        }
+      }
+    },
+    "v1SubscribeRequest": {
+      "type": "object",
+      "properties": {
+        "notificationTypeId": {
+          "type": "string",
+          "description": "The notification type id to subscribe the user to. This is required."
+        },
+        "context": {
+          "$ref": "#/definitions/v1NotificationContext",
+          "description": "The contextual scope of the subscription. You can start by subscribing the user to a specific account or an entire pid. They will be able to adjust the scope according to their preferences at any time. Note that if they do not have access to the specific context, the request will be rejected."
+        },
+        "userId": {
+          "type": "string",
+          "description": "A user_id to target. This may be a subject/persona id or a user id."
+        },
+        "notificationMedium": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1NotificationMedium"
+          },
+          "description": "The mediums to subscribe the user to. If a medium is specified that does not exist for the given notification type, subscribing to that medium will be treated as a no-op."
+        }
+      }
+    },
+    "v1Template": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "the template_id of an existing template stored in the templates microservice"
+        },
+        "inline": {
+          "$ref": "#/definitions/TemplateInlineTemplate",
+          "title": "an template whose content is defined in-line with this request"
+        }
+      }
+    },
+    "v1UnsubscribeRequest": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "title": "unsubscribe token"
+        }
+      }
+    },
+    "v1UpdateNotificationSettingsRequest": {
+      "type": "object",
+      "properties": {
+        "notificationSettings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/UpdateNotificationSettingsRequestUpdateNotificationSettingsOperation"
+          }
+        },
+        "userId": {
+          "type": "string",
+          "description": "A user_id to target. If no user_id is provided, the callers' authorization header is used to determine the targeted user. This may be a subject/persona id or a user id."
+        },
+        "partnerId": {
+          "type": "string",
+          "title": "Required only if user_id is not set"
+        }
+      }
+    },
+    "v1UpdateNotificationTypeSettingsRequest": {
+      "type": "object",
+      "properties": {
+        "operations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/UpdateNotificationTypeSettingsRequestUpdateNotificationTypeSettingOperation"
+          }
+        }
+      }
+    },
+    "v1UpdateNotificationsRequest": {
+      "type": "object",
+      "properties": {
+        "operations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/UpdateNotificationsRequestOperation"
+          }
+        },
+        "partnerId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1UpdateTypeRequest": {
+      "type": "object",
+      "properties": {
+        "notificationTypeId": {
+          "type": "string",
+          "title": "The unique identifier of the notification type"
+        },
+        "operations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/UpdateTypeRequestUpdateNotificationTypeOperation"
+          }
+        }
+      }
+    },
+    "v1legacyNotificationSetting": {
+      "type": "object",
+      "properties": {
+        "notificationId": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/v1legacyStatus"
+        },
+        "title": {
+          "type": "string"
+        },
+        "localizedTitle": {
+          "type": "string"
+        }
+      },
+      "description": "NotificationSetting is an individual setting. It is intended to be used as a repeated field, to allow key value pairs of IDs to Status values. One acception is a section, which is a special case where NotificationSetting is not repeated."
+    },
+    "v1legacyStatus": {
+      "type": "string",
+      "enum": [
+        "STATUS_UNSET",
+        "STATUS_DEFAULT",
+        "STATUS_ENABLED",
+        "STATUS_DISABLED"
+      ],
+      "default": "STATUS_UNSET"
+    }
+  }
+}

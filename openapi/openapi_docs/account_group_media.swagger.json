@@ -1,0 +1,335 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "account_group_media/v1/api.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "MediaService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/accountgroupmedia.v1.MediaService/AssociateImage": {
+      "post": {
+        "operationId": "MediaService_AssociateImage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "AssociateImageRequest associates an image id in the media service to an account group.\nAlso specifies if an image is of a specific type.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1AssociateImageRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MediaService"
+        ]
+      }
+    },
+    "/accountgroupmedia.v1.MediaService/DeleteImage": {
+      "post": {
+        "operationId": "MediaService_DeleteImage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1DeleteImageRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MediaService"
+        ]
+      }
+    },
+    "/accountgroupmedia.v1.MediaService/GetLogoImage": {
+      "post": {
+        "operationId": "MediaService_GetLogoImage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetLogoImageResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetLogoImageRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MediaService"
+        ]
+      }
+    },
+    "/accountgroupmedia.v1.MediaService/ListImages": {
+      "post": {
+        "operationId": "MediaService_ListImages",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListImagesPagedResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListImagesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MediaService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ListImagesRequestFilters": {
+      "type": "object",
+      "properties": {
+        "imageType": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ImageType"
+          }
+        },
+        "includeDeleted": {
+          "type": "boolean"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1AssociateImageRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "Account group ID of the account with which to associate the image"
+        },
+        "imageId": {
+          "type": "string",
+          "title": "The unique image id to associate with the account group id"
+        },
+        "imageType": {
+          "$ref": "#/definitions/v1ImageType",
+          "description": "The type to associate with the image."
+        }
+      },
+      "description": "AssociateImageRequest associates an image id in the media service to an account group.\nAlso specifies if an image is of a specific type."
+    },
+    "v1DeleteImageRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "Account group ID of the account with which the image to be deleted is associated"
+        },
+        "imageId": {
+          "type": "string",
+          "title": "The unique image id to of the image to delete"
+        }
+      },
+      "title": "DeleteImageRequest deletes an image association"
+    },
+    "v1GetLogoImageRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "Account group ID of the account with which the desired images are associated"
+        }
+      },
+      "title": "GetLogoImageRequest is used to retrieve logo-type image associations related to account group ID"
+    },
+    "v1GetLogoImageResponse": {
+      "type": "object",
+      "properties": {
+        "image": {
+          "$ref": "#/definitions/v1ImageAssociation",
+          "title": "ImageAssociation is the pairing of an image id to an account group id"
+        }
+      },
+      "title": "GetLogoImageResponse contains the image association for the logo associated with an account group"
+    },
+    "v1ImageAssociation": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "Account group ID of the account with which the image is associated"
+        },
+        "imageId": {
+          "type": "string",
+          "title": "The unique image id of the image associated with the account group"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestap for when the image association was created"
+        },
+        "imageType": {
+          "$ref": "#/definitions/v1ImageType",
+          "title": "What type of image"
+        },
+        "deleted": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestamp for when the image association was deleted"
+        }
+      },
+      "title": "ImageAssociation is the pairing of an image id to an account group id"
+    },
+    "v1ImageType": {
+      "type": "string",
+      "enum": [
+        "NOT_SPECIFIED",
+        "PRIMARY",
+        "LOGO",
+        "SECONDARY_LOGO"
+      ],
+      "default": "NOT_SPECIFIED",
+      "title": "The possible image types, that can be associated with an image"
+    },
+    "v1ListImagesPagedResponse": {
+      "type": "object",
+      "properties": {
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ImageAssociation"
+          }
+        },
+        "nextCursor": {
+          "type": "string",
+          "title": "A cursor that can be provided to retrieve the next page of results"
+        },
+        "hasMore": {
+          "type": "boolean",
+          "title": "Whether or not more results exist"
+        },
+        "totalResults": {
+          "type": "string",
+          "format": "int64",
+          "title": "The total number of results for this query across all pages"
+        }
+      },
+      "title": "ListImagesPagedResponse is the list of image association models that are associated to an account group"
+    },
+    "v1ListImagesRequest": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string",
+          "title": "Account group ID of the account with which the desired images are associated"
+        },
+        "cursor": {
+          "type": "string",
+          "title": "The cursor from the previous response, or \"\""
+        },
+        "pageSize": {
+          "type": "string",
+          "format": "int64",
+          "title": "The number of results to return"
+        },
+        "filters": {
+          "$ref": "#/definitions/ListImagesRequestFilters",
+          "description": "Filters for images that meet specific criteria, instead of just getting all non-deleted images back."
+        }
+      },
+      "title": "ListImagesRequest is a request to get a list of image association models associated with an account group id"
+    }
+  }
+}

@@ -16299,7 +16299,7 @@
         "ASSISTANT_TYPE_SALES_COACH"
       ],
       "default": "ASSISTANT_TYPE_UNSPECIFIED",
-      "title": "- ASSISTANT_TYPE_SYSTEM: Admin assistant. Eg. the current Aurora\n - ASSISTANT_TYPE_INBOX: Inbox assistant. Eg. Jamie\n - ASSISTANT_TYPE_SOCIAL_MARKETING: Social marketing assistant. Eg. Simone\n - ASSISTANT_TYPE_VOICE_RECEPTIONIST: Voice receptionist assistant.\n - ASSISTANT_TYPE_CUSTOM: Custom assistant\n - ASSISTANT_TYPE_SALES_COACH: Sales Coach"
+      "title": "- ASSISTANT_TYPE_SYSTEM: Admin assistant. Eg. the current Aurora\n - ASSISTANT_TYPE_INBOX: Inbox assistant. Eg. Jamie\n - ASSISTANT_TYPE_SOCIAL_MARKETING: Social marketing assistant. Eg. Simone\n - ASSISTANT_TYPE_VOICE_RECEPTIONIST: Voice receptionist assistant.\n - ASSISTANT_TYPE_CUSTOM: Custom assistant\n - ASSISTANT_TYPE_SALES_COACH: Sales Coach/Assistant"
     },
     "v1alpha1BuildDefaultAssistantResponse": {
       "type": "object",
@@ -38524,6 +38524,11 @@
         "paymentFacilitatorType": {
           "$ref": "#/definitions/v1PaymentFacilitatorType",
           "title": "the type of payment facilitator account"
+        },
+        "settledAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The date the payment was settled"
         }
       }
     },
@@ -50327,6 +50332,39 @@
             "type": "object",
             "$ref": "#/definitions/v1ProviderDetails"
           }
+        }
+      }
+    },
+    "v1GetReviewManagerAgentResponse": {
+      "type": "object",
+      "properties": {
+        "accountGroupId": {
+          "type": "string"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "autoResponseEnabled": {
+          "type": "boolean"
+        },
+        "minimumStarRating": {
+          "type": "string",
+          "format": "int64"
+        },
+        "responseDelayMinutes": {
+          "type": "string",
+          "format": "int64"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
         }
       }
     },
@@ -84615,6 +84653,10 @@
         "canChargeSmbOnOrderSubmission": {
           "type": "boolean",
           "title": "Whether or not the salesperson can charge an SMB's saved payment method when they submit an order"
+        },
+        "canAdminSkipApprovalWorkflow": {
+          "type": "boolean",
+          "title": "Whether or not admin can skip the approval workflow and activate orders instantly"
         }
       }
     },

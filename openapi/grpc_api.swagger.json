@@ -13346,113 +13346,19 @@
     "v1Task": {
       "type": "object",
       "properties": {
-        "version": {
-          "type": "string",
-          "format": "int64",
-          "title": "The task's current version"
+        "taskId": {
+          "type": "integer",
+          "format": "int32"
         },
-        "identity": {
-          "$ref": "#/definitions/v1TaskIdentity",
-          "title": "The namespace, parent path, and task id of the task"
+        "taskTitle": {
+          "type": "string"
         },
-        "title": {
-          "type": "string",
-          "title": "The name of the task"
-        },
-        "status": {
-          "type": "string",
-          "title": "The state of the task"
+        "taskDesc": {
+          "type": "string"
         },
         "dueDate": {
           "type": "string",
-          "format": "date-time",
-          "title": "When the task is due"
-        },
-        "assignees": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "title": "Who is working on the task"
-        },
-        "notes": {
-          "type": "string",
-          "title": "User added details about the task"
-        },
-        "description": {
-          "type": "string",
-          "title": "Task details"
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "title": "Labels given to the task"
-        },
-        "history": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1History"
-          },
-          "title": "The events that have happened on this task"
-        },
-        "created": {
-          "type": "string",
           "format": "date-time"
-        },
-        "modified": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "completionDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "subtasks": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1TaskIdentity"
-          },
-          "title": "Namespace, parent path, and task id of all the task's subtasks"
-        },
-        "taskType": {
-          "type": "string"
-        },
-        "data": {
-          "$ref": "#/definitions/v1KeyValues",
-          "title": "Arbitrary data stored on the task"
-        },
-        "metadata": {
-          "$ref": "#/definitions/v1KeyValues",
-          "title": "Data about the task. Includes each part of task's namespace"
-        },
-        "conversations": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1Conversation"
-          }
-        },
-        "deleted": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "attachment": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1Attachment"
-          },
-          "title": "Information about an uploaded files associated with this task"
-        },
-        "customTags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
         }
       }
     },
@@ -50335,39 +50241,6 @@
         }
       }
     },
-    "v1GetReviewManagerAgentResponse": {
-      "type": "object",
-      "properties": {
-        "accountGroupId": {
-          "type": "string"
-        },
-        "sources": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "autoResponseEnabled": {
-          "type": "boolean"
-        },
-        "minimumStarRating": {
-          "type": "string",
-          "format": "int64"
-        },
-        "responseDelayMinutes": {
-          "type": "string",
-          "format": "int64"
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "updated": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
     "v1GetReviewRequestEmailTemplateResponse": {
       "type": "object",
       "properties": {
@@ -77225,6 +77098,18 @@
         }
       }
     },
+    "v1CreateTaskResponse": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "task": {
+          "$ref": "#/definitions/v1Task"
+        }
+      }
+    },
     "v1DeleteAdminLibraryUserResponse": {
       "type": "object",
       "properties": {
@@ -77816,6 +77701,18 @@
           "items": {
             "type": "object",
             "$ref": "#/definitions/v1Pageaccess"
+          }
+        }
+      }
+    },
+    "v1ListTasksResponse": {
+      "type": "object",
+      "properties": {
+        "taskList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Task"
           }
         }
       }

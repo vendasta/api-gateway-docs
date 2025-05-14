@@ -1,0 +1,257 @@
+openapi: 3.0.1
+info:
+  title: account_group_media/v1/api.proto
+  version: version not set
+servers:
+  - url: 'https://prod.apigateway.co/platform'
+    description: Production
+  - description: Demo
+    url: 'https://demo.apigateway.co/platform'
+  - description: Local
+    url: '{local}/platform'
+  - url: 'http://localhost:11001/platform'
+    description: Localhost
+tags:
+  - name: MediaService
+paths:
+  /accountgroupmedia.v1.MediaService/AssociateImage:
+    post:
+      tags:
+        - MediaService
+      operationId: MediaService_AssociateImage
+      requestBody:
+        description: |-
+          AssociateImageRequest associates an image id in the media service to an account group.
+          Also specifies if an image is of a specific type.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1AssociateImageRequest'
+        required: true
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      x-codegen-request-body-name: body
+  /accountgroupmedia.v1.MediaService/DeleteImage:
+    post:
+      tags:
+        - MediaService
+      operationId: MediaService_DeleteImage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1DeleteImageRequest'
+        required: true
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      x-codegen-request-body-name: body
+  /accountgroupmedia.v1.MediaService/GetLogoImage:
+    post:
+      tags:
+        - MediaService
+      operationId: MediaService_GetLogoImage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1GetLogoImageRequest'
+        required: true
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1GetLogoImageResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      x-codegen-request-body-name: body
+  /accountgroupmedia.v1.MediaService/ListImages:
+    post:
+      tags:
+        - MediaService
+      operationId: MediaService_ListImages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1ListImagesRequest'
+        required: true
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1ListImagesPagedResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    ListImagesRequestFilters:
+      type: object
+      properties:
+        imageType:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1ImageType'
+        includeDeleted:
+          type: boolean
+    protobufAny:
+      type: object
+      properties:
+        '@type':
+          type: string
+      additionalProperties:
+        type: object
+    rpcStatus:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/protobufAny'
+    v1AssociateImageRequest:
+      type: object
+      properties:
+        accountGroupId:
+          title: Account group ID of the account with which to associate the image
+          type: string
+        imageId:
+          title: The unique image id to associate with the account group id
+          type: string
+        imageType:
+          $ref: '#/components/schemas/v1ImageType'
+      description: |-
+        AssociateImageRequest associates an image id in the media service to an account group.
+        Also specifies if an image is of a specific type.
+    v1DeleteImageRequest:
+      title: DeleteImageRequest deletes an image association
+      type: object
+      properties:
+        accountGroupId:
+          title: Account group ID of the account with which the image to be deleted
+            is associated
+          type: string
+        imageId:
+          title: The unique image id to of the image to delete
+          type: string
+    v1GetLogoImageRequest:
+      title: GetLogoImageRequest is used to retrieve logo-type image associations
+        related to account group ID
+      type: object
+      properties:
+        accountGroupId:
+          title: Account group ID of the account with which the desired images are
+            associated
+          type: string
+    v1GetLogoImageResponse:
+      title: GetLogoImageResponse contains the image association for the logo associated
+        with an account group
+      type: object
+      properties:
+        image:
+          $ref: '#/components/schemas/v1ImageAssociation'
+    v1ImageAssociation:
+      title: ImageAssociation is the pairing of an image id to an account group id
+      type: object
+      properties:
+        accountGroupId:
+          title: Account group ID of the account with which the image is associated
+          type: string
+        imageId:
+          title: The unique image id of the image associated with the account group
+          type: string
+        created:
+          title: The timestap for when the image association was created
+          type: string
+          format: date-time
+        imageType:
+          $ref: '#/components/schemas/v1ImageType'
+        deleted:
+          title: The timestamp for when the image association was deleted
+          type: string
+          format: date-time
+    v1ImageType:
+      title: "The possible image types, that can be associated with an image"
+      type: string
+      default: NOT_SPECIFIED
+      enum:
+        - NOT_SPECIFIED
+        - PRIMARY
+        - LOGO
+        - SECONDARY_LOGO
+    v1ListImagesPagedResponse:
+      title: ListImagesPagedResponse is the list of image association models that
+        are associated to an account group
+      type: object
+      properties:
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1ImageAssociation'
+        nextCursor:
+          title: A cursor that can be provided to retrieve the next page of results
+          type: string
+        hasMore:
+          title: Whether or not more results exist
+          type: boolean
+        totalResults:
+          title: The total number of results for this query across all pages
+          type: string
+          format: int64
+    v1ListImagesRequest:
+      title: ListImagesRequest is a request to get a list of image association models
+        associated with an account group id
+      type: object
+      properties:
+        accountGroupId:
+          title: Account group ID of the account with which the desired images are
+            associated
+          type: string
+        cursor:
+          title: "The cursor from the previous response, or \"\""
+          type: string
+        pageSize:
+          title: The number of results to return
+          type: string
+          format: int64
+        filters:
+          $ref: '#/components/schemas/ListImagesRequestFilters'
+x-original-swagger-version: "2.0"

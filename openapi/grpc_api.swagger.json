@@ -9106,14 +9106,6 @@
         "multilocationId": {
           "type": "string",
           "title": "Multilocation ID is the key for bulk upload post in multilocation"
-        },
-        "locations": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/socialpostsv1Location"
-          },
-          "title": "Locations for each uploaded post"
         }
       },
       "title": "This message for create BulkUpload in Multilocation"
@@ -9176,10 +9168,6 @@
     "v1Error": {
       "type": "object",
       "properties": {
-        "code": {
-          "type": "string",
-          "format": "int64"
-        },
         "message": {
           "type": "string"
         }
@@ -50343,39 +50331,6 @@
         }
       }
     },
-    "v1GetReviewManagerAgentResponse": {
-      "type": "object",
-      "properties": {
-        "accountGroupId": {
-          "type": "string"
-        },
-        "sources": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "autoResponseEnabled": {
-          "type": "boolean"
-        },
-        "minimumStarRating": {
-          "type": "string",
-          "format": "int64"
-        },
-        "responseDelayMinutes": {
-          "type": "string",
-          "format": "int64"
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "updated": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
     "v1GetReviewRequestEmailTemplateResponse": {
       "type": "object",
       "properties": {
@@ -77828,6 +77783,97 @@
         }
       }
     },
+    "v1NChaudharyCreateItemResponse": {
+      "type": "object",
+      "properties": {
+        "err": {
+          "$ref": "#/definitions/v1Error"
+        }
+      }
+    },
+    "v1NChaudharyDeleteItemRequest": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string"
+        }
+      },
+      "title": "DELETE"
+    },
+    "v1NChaudharyGetItemResponse": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "$ref": "#/definitions/v1NChaudharyToDoItem"
+        },
+        "err": {
+          "$ref": "#/definitions/v1Error"
+        }
+      }
+    },
+    "v1NChaudharyListAllResponse": {
+      "type": "object",
+      "properties": {
+        "tasks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1NChaudharyToDoItem"
+          }
+        },
+        "cursorIn": {
+          "type": "string"
+        },
+        "hasMore": {
+          "type": "boolean"
+        },
+        "err": {
+          "$ref": "#/definitions/v1Error"
+        }
+      }
+    },
+    "v1NChaudharyToDoItem": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "dueDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "boolean"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deleted": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "title": "ToDo item model"
+    },
+    "v1NChaudharyUpsertItemResponse": {
+      "type": "object",
+      "properties": {
+        "err": {
+          "$ref": "#/definitions/v1Error"
+        }
+      }
+    },
     "v1NTamrazyanCreateToDoItemResponse": {
       "type": "object",
       "properties": {
@@ -84648,10 +84694,6 @@
         "canChargeSmbOnOrderSubmission": {
           "type": "boolean",
           "title": "Whether or not the salesperson can charge an SMB's saved payment method when they submit an order"
-        },
-        "useApprovalWorkflowForAdmins": {
-          "type": "boolean",
-          "title": "Whether or not admin will have to go through the approval workflow(similar to salespeople) for created orders, instead of activating immediately"
         }
       }
     },

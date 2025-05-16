@@ -9106,6 +9106,14 @@
         "multilocationId": {
           "type": "string",
           "title": "Multilocation ID is the key for bulk upload post in multilocation"
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/socialpostsv1Location"
+          },
+          "title": "Locations for each uploaded post"
         }
       },
       "title": "This message for create BulkUpload in Multilocation"
@@ -16296,10 +16304,11 @@
         "ASSISTANT_TYPE_SOCIAL_MARKETING",
         "ASSISTANT_TYPE_VOICE_RECEPTIONIST",
         "ASSISTANT_TYPE_CUSTOM",
-        "ASSISTANT_TYPE_SALES_COACH"
+        "ASSISTANT_TYPE_SALES_COACH",
+        "ASSISTANT_TYPE_REPUTATION_MANAGEMENT_REVIEW_AGENT"
       ],
       "default": "ASSISTANT_TYPE_UNSPECIFIED",
-      "title": "- ASSISTANT_TYPE_SYSTEM: Admin assistant. Eg. the current Aurora\n - ASSISTANT_TYPE_INBOX: Inbox assistant. Eg. Jamie\n - ASSISTANT_TYPE_SOCIAL_MARKETING: Social marketing assistant. Eg. Simone\n - ASSISTANT_TYPE_VOICE_RECEPTIONIST: Voice receptionist assistant.\n - ASSISTANT_TYPE_CUSTOM: Custom assistant\n - ASSISTANT_TYPE_SALES_COACH: Sales Coach/Assistant"
+      "title": "- ASSISTANT_TYPE_SYSTEM: Admin assistant. Eg. the current Aurora\n - ASSISTANT_TYPE_INBOX: Inbox assistant. Eg. Jamie\n - ASSISTANT_TYPE_SOCIAL_MARKETING: Social marketing assistant. Eg. Simone\n - ASSISTANT_TYPE_VOICE_RECEPTIONIST: Voice receptionist assistant.\n - ASSISTANT_TYPE_CUSTOM: Custom assistant\n - ASSISTANT_TYPE_SALES_COACH: Sales Coach/Assistant\n - ASSISTANT_TYPE_REPUTATION_MANAGEMENT_REVIEW_AGENT: Reputation management Review assistant"
     },
     "v1alpha1BuildDefaultAssistantResponse": {
       "type": "object",
@@ -63681,6 +63690,9 @@
         }
       }
     },
+    "v2VerifyShortOTPCodeResponse": {
+      "type": "object"
+    },
     "supportv1Status": {
       "type": "string",
       "enum": [
@@ -84685,9 +84697,9 @@
           "type": "boolean",
           "title": "Whether or not the salesperson can charge an SMB's saved payment method when they submit an order"
         },
-        "canAdminSkipApprovalWorkflow": {
+        "useApprovalWorkflowForAdmins": {
           "type": "boolean",
-          "title": "Whether or not admin can skip the approval workflow and activate orders instantly"
+          "title": "Whether or not admin will have to go through the approval workflow(similar to salespeople) for created orders, instead of activating immediately"
         }
       }
     },

@@ -16548,6 +16548,20 @@
         }
       }
     },
+    "v1alpha1ContextInfo": {
+      "type": "object",
+      "properties": {
+        "variables": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1KeyValuePair"
+          },
+          "title": "Variables can include any additional context information that will be used in building the Context Goal"
+        }
+      },
+      "title": "ContextInfo holds additional context information for the AI assistant"
+    },
     "v1alpha1CreateAssistantRequestOptions": {
       "type": "object",
       "properties": {
@@ -17476,14 +17490,6 @@
         }
       }
     },
-    "v1alpha1UpdateMcpServerRequest": {
-      "type": "object",
-      "properties": {
-        "mcpServer": {
-          "$ref": "#/definitions/v1alpha1McpServer"
-        }
-      }
-    },
     "v1alpha1UpsertAssistantRequestOptions": {
       "type": "object",
       "properties": {
@@ -17500,6 +17506,9 @@
           "$ref": "#/definitions/v1alpha1Assistant"
         }
       }
+    },
+    "v1alpha1UpsertMcpServerResponse": {
+      "type": "object"
     },
     "CurrenciesCurrency": {
       "type": "string",
@@ -77873,6 +77882,87 @@
             "type": "object",
             "$ref": "#/definitions/v1Pageaccess"
           }
+        }
+      }
+    },
+    "v1NChaudharyCreateItemResponse": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1NChaudharyDeleteItemResponse": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1NChaudharyGetItemResponse": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "$ref": "#/definitions/v1NChaudharyToDoItem"
+        }
+      }
+    },
+    "v1NChaudharyListAllResponse": {
+      "type": "object",
+      "properties": {
+        "tasks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1NChaudharyToDoItem"
+          }
+        },
+        "pagingMetadata": {
+          "$ref": "#/definitions/vendastatypesPagedResponseMetadata"
+        }
+      }
+    },
+    "v1NChaudharyToDoItem": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "dueDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "boolean"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deleted": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "title": "ToDo item model"
+    },
+    "v1NChaudharyUpdateItemResponse": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string"
         }
       }
     },

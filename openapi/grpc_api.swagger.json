@@ -9106,14 +9106,6 @@
         "multilocationId": {
           "type": "string",
           "title": "Multilocation ID is the key for bulk upload post in multilocation"
-        },
-        "locations": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/socialpostsv1Location"
-          },
-          "title": "Locations for each uploaded post"
         }
       },
       "title": "This message for create BulkUpload in Multilocation"
@@ -16304,11 +16296,10 @@
         "ASSISTANT_TYPE_SOCIAL_MARKETING",
         "ASSISTANT_TYPE_VOICE_RECEPTIONIST",
         "ASSISTANT_TYPE_CUSTOM",
-        "ASSISTANT_TYPE_SALES_COACH",
-        "ASSISTANT_TYPE_REPUTATION_MANAGEMENT_REVIEW_AGENT"
+        "ASSISTANT_TYPE_SALES_COACH"
       ],
       "default": "ASSISTANT_TYPE_UNSPECIFIED",
-      "title": "- ASSISTANT_TYPE_SYSTEM: Admin assistant. Eg. the current Aurora\n - ASSISTANT_TYPE_INBOX: Inbox assistant. Eg. Jamie\n - ASSISTANT_TYPE_SOCIAL_MARKETING: Social marketing assistant. Eg. Simone\n - ASSISTANT_TYPE_VOICE_RECEPTIONIST: Voice receptionist assistant.\n - ASSISTANT_TYPE_CUSTOM: Custom assistant\n - ASSISTANT_TYPE_SALES_COACH: Sales Coach/Assistant\n - ASSISTANT_TYPE_REPUTATION_MANAGEMENT_REVIEW_AGENT: Reputation management Review assistant"
+      "title": "- ASSISTANT_TYPE_SYSTEM: Admin assistant. Eg. the current Aurora\n - ASSISTANT_TYPE_INBOX: Inbox assistant. Eg. Jamie\n - ASSISTANT_TYPE_SOCIAL_MARKETING: Social marketing assistant. Eg. Simone\n - ASSISTANT_TYPE_VOICE_RECEPTIONIST: Voice receptionist assistant.\n - ASSISTANT_TYPE_CUSTOM: Custom assistant\n - ASSISTANT_TYPE_SALES_COACH: Sales Coach/Assistant"
     },
     "v1alpha1BuildDefaultAssistantResponse": {
       "type": "object",
@@ -16574,6 +16565,9 @@
         }
       }
     },
+    "v1alpha1CreateMcpServerResponse": {
+      "type": "object"
+    },
     "v1alpha1CreatePromptModuleResponse": {
       "type": "object",
       "properties": {
@@ -16589,6 +16583,14 @@
         "shouldDeploy": {
           "type": "boolean",
           "title": "Whether to deploy the prompt module version after it is created"
+        }
+      }
+    },
+    "v1alpha1DeleteMcpServerRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
         }
       }
     },
@@ -16854,6 +16856,14 @@
         "content": {
           "type": "string",
           "title": "The requested hydrated content from the deployed prompt module version"
+        }
+      }
+    },
+    "v1alpha1GetMcpServerResponse": {
+      "type": "object",
+      "properties": {
+        "mcpServer": {
+          "$ref": "#/definitions/v1alpha1McpServer"
         }
       }
     },
@@ -17286,6 +17296,23 @@
         }
       }
     },
+    "v1alpha1McpServer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
     "v1alpha1ModelConfig": {
       "type": "object",
       "properties": {
@@ -17437,6 +17464,14 @@
           "type": "string",
           "format": "date-time",
           "title": "The timestamp of the prompt version creation"
+        }
+      }
+    },
+    "v1alpha1UpdateMcpServerRequest": {
+      "type": "object",
+      "properties": {
+        "mcpServer": {
+          "$ref": "#/definitions/v1alpha1McpServer"
         }
       }
     },
@@ -63646,9 +63681,6 @@
         }
       }
     },
-    "v2VerifyShortOTPCodeResponse": {
-      "type": "object"
-    },
     "supportv1Status": {
       "type": "string",
       "enum": [
@@ -84653,9 +84685,9 @@
           "type": "boolean",
           "title": "Whether or not the salesperson can charge an SMB's saved payment method when they submit an order"
         },
-        "useApprovalWorkflowForAdmins": {
+        "canAdminSkipApprovalWorkflow": {
           "type": "boolean",
-          "title": "Whether or not admin will have to go through the approval workflow(similar to salespeople) for created orders, instead of activating immediately"
+          "title": "Whether or not admin can skip the approval workflow and activate orders instantly"
         }
       }
     },

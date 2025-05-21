@@ -13354,113 +13354,36 @@
     "v1Task": {
       "type": "object",
       "properties": {
-        "version": {
-          "type": "string",
-          "format": "int64",
-          "title": "The task's current version"
+        "taskId": {
+          "type": "string"
         },
-        "identity": {
-          "$ref": "#/definitions/v1TaskIdentity",
-          "title": "The namespace, parent path, and task id of the task"
+        "taskTitle": {
+          "type": "string"
         },
-        "title": {
-          "type": "string",
-          "title": "The name of the task"
-        },
-        "status": {
-          "type": "string",
-          "title": "The state of the task"
+        "taskDesc": {
+          "type": "string"
         },
         "dueDate": {
           "type": "string",
-          "format": "date-time",
-          "title": "When the task is due"
-        },
-        "assignees": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "title": "Who is working on the task"
-        },
-        "notes": {
-          "type": "string",
-          "title": "User added details about the task"
-        },
-        "description": {
-          "type": "string",
-          "title": "Task details"
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "title": "Labels given to the task"
-        },
-        "history": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1History"
-          },
-          "title": "The events that have happened on this task"
-        },
-        "created": {
-          "type": "string",
           "format": "date-time"
         },
-        "modified": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "completionDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "subtasks": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1TaskIdentity"
-          },
-          "title": "Namespace, parent path, and task id of all the task's subtasks"
-        },
-        "taskType": {
-          "type": "string"
-        },
-        "data": {
-          "$ref": "#/definitions/v1KeyValues",
-          "title": "Arbitrary data stored on the task"
-        },
-        "metadata": {
-          "$ref": "#/definitions/v1KeyValues",
-          "title": "Data about the task. Includes each part of task's namespace"
-        },
-        "conversations": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1Conversation"
-          }
+        "completed": {
+          "type": "boolean"
         },
         "deleted": {
+          "type": "boolean"
+        },
+        "createdAt": {
           "type": "string",
           "format": "date-time"
         },
-        "attachment": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1Attachment"
-          },
-          "title": "Information about an uploaded files associated with this task"
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
         },
-        "customTags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+        "deletedAt": {
+          "type": "string",
+          "format": "date-time"
         }
       }
     },
@@ -16203,26 +16126,6 @@
       ],
       "default": "LOCATION_BODY",
       "description": "The location of the parameter in the function call.\n\n - LOCATION_BODY: Parameter is set on the request body\n - LOCATION_QUERY_PARAM: Parameter is set in the URL as a query parameter"
-    },
-    "NamespaceAccountGroupsForGroupNamespace": {
-      "type": "object",
-      "properties": {
-        "groupPath": {
-          "type": "string",
-          "description": "The group_path is the concatenation of group ids, separated by '|', that form the path to a group."
-        }
-      },
-      "title": "AccountGroupsForGroupNamespace is a namespace used to set the resource as default for account groups that belong to a group, unless overridden by a child (account group)"
-    },
-    "NamespaceAccountGroupsForPartnerNamespace": {
-      "type": "object",
-      "properties": {
-        "partnerId": {
-          "type": "string",
-          "title": "The partner_id is the ID of the partner that the account groups belong to"
-        }
-      },
-      "title": "AccountGroupsForPartnerNamespace is a namespace used to set the resource as default for account groups that belong to a partner, unless overridden by a child (group or account group)"
     },
     "NamespaceGlobalNamespace": {
       "type": "object",
@@ -78149,6 +78052,42 @@
       "properties": {
         "todo": {
           "$ref": "#/definitions/v1SPrajapatiToDo"
+        }
+      }
+    },
+    "v1SRCreateTaskResponse": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SRDeleteTaskResponse": {
+      "type": "object",
+      "properties": {
+        "deletedValue": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SRListTasksResponse": {
+      "type": "object",
+      "properties": {
+        "taskList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Task"
+          }
+        }
+      }
+    },
+    "v1SRUpdateTaskResponse": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string"
         }
       }
     },

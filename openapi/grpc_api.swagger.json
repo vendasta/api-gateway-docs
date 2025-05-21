@@ -15129,6 +15129,55 @@
       },
       "title": "SetScoreResponse defines the response for calling the SetScore API. The response contains a success flag, which\nindicates whether the call to SetScore was executed successfully"
     },
+    "v1ImportRecord": {
+      "type": "object",
+      "properties": {
+        "importId": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "fileName": {
+          "type": "string"
+        },
+        "mapping": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1CSVHeaderMapping"
+          }
+        },
+        "status": {
+          "$ref": "#/definitions/v1ImportRecordStatus"
+        },
+        "itemsProcessed": {
+          "type": "string",
+          "format": "int64"
+        },
+        "itemsError": {
+          "type": "string",
+          "format": "int64"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1ImportRecordStatus": {
+      "type": "string",
+      "enum": [
+        "IMPORT_RECORD_STATUS_STARTED",
+        "IMPORT_RECORD_STATUS_COMPLETED",
+        "IMPORT_RECORD_STATUS_ERROR"
+      ],
+      "default": "IMPORT_RECORD_STATUS_STARTED"
+    },
     "v1ListActivitiesResponse": {
       "type": "object",
       "properties": {
@@ -15311,6 +15360,21 @@
             "type": "object",
             "$ref": "#/definitions/v1FilterDefinition"
           }
+        }
+      }
+    },
+    "v1ListImportRecordsResponse": {
+      "type": "object",
+      "properties": {
+        "importRecord": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ImportRecord"
+          }
+        },
+        "pagingMetadata": {
+          "$ref": "#/definitions/vendastatypesPagedResponseMetadata"
         }
       }
     },

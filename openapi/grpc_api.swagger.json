@@ -23650,6 +23650,18 @@
         }
       }
     },
+    "v1Context": {
+      "type": "object",
+      "properties": {
+        "namespaced": {
+          "$ref": "#/definitions/v1NamespacedContext"
+        },
+        "typed": {
+          "$ref": "#/definitions/v1TypedContext"
+        }
+      },
+      "description": "Context scopes a request to a specific persona.  A persona can either be a typed or a typed/namespace unique pair.\nA typed context scopes a persona to a specific type, such as a partner user.\nA namespaced context scopes a persona to a specific type and a given namespace, such as an SMB that belongs to a\nspecific partner."
+    },
     "v1CreateAvailabilityResponse": {
       "type": "object"
     },
@@ -23964,6 +23976,14 @@
             "type": "object",
             "$ref": "#/definitions/v1HostUser"
           }
+        }
+      }
+    },
+    "v1GetMeetingBotConfigResponse": {
+      "type": "object",
+      "properties": {
+        "meetingBotConfig": {
+          "$ref": "#/definitions/v1MeetingBotConfig"
         }
       }
     },
@@ -24663,6 +24683,31 @@
         }
       }
     },
+    "v1MeetingBotConfig": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "context": {
+          "$ref": "#/definitions/v1Context"
+        },
+        "joinMeetings": {
+          "type": "boolean"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
     "v1MeetingLocationType": {
       "type": "string",
       "enum": [
@@ -24918,6 +24963,14 @@
         "TIME_RANGE_UNSPECIFIED"
       ],
       "default": "TIME_RANGE_SEVEN_DAYS"
+    },
+    "v1UpsertMeetingBotConfigResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
     },
     "v1WeekdayAvailability": {
       "type": "object",
@@ -52908,18 +52961,6 @@
           "type": "string"
         }
       }
-    },
-    "v1Context": {
-      "type": "object",
-      "properties": {
-        "namespaced": {
-          "$ref": "#/definitions/v1NamespacedContext"
-        },
-        "typed": {
-          "$ref": "#/definitions/v1TypedContext"
-        }
-      },
-      "description": "Context scopes a request to a specific persona.  A persona can either be a typed or a typed/namespace unique pair.\nA typed context scopes a persona to a specific type, such as a partner user.\nA namespaced context scopes a persona to a specific type and a given namespace, such as an SMB that belongs to a\nspecific partner."
     },
     "v1CopyAutomationResponse": {
       "type": "object",

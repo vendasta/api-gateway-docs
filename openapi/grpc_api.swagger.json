@@ -32477,6 +32477,18 @@
         }
       }
     },
+    "v1Context": {
+      "type": "object",
+      "properties": {
+        "namespaced": {
+          "$ref": "#/definitions/v1NamespacedContext"
+        },
+        "typed": {
+          "$ref": "#/definitions/v1TypedContext"
+        }
+      },
+      "description": "Context scopes a request to a specific persona.  A persona can either be a typed or a typed/namespace unique pair.\nA typed context scopes a persona to a specific type, such as a partner user.\nA namespaced context scopes a persona to a specific type and a given namespace, such as an SMB that belongs to a\nspecific partner."
+    },
     "v1ConversationSortField": {
       "type": "string",
       "enum": [
@@ -32512,6 +32524,14 @@
             "type": "object",
             "$ref": "#/definitions/v1Participant"
           }
+        }
+      }
+    },
+    "v1CreateSalesConfigResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
         }
       }
     },
@@ -32570,6 +32590,14 @@
         }
       }
     },
+    "v1GetSalesCoachConfigResponse": {
+      "type": "object",
+      "properties": {
+        "salesCoachConfig": {
+          "$ref": "#/definitions/v1SalesCoachConfig"
+        }
+      }
+    },
     "v1ListConversationsResponse": {
       "type": "object",
       "properties": {
@@ -32591,6 +32619,35 @@
         }
       },
       "title": "Response to a request to get a list of conversations"
+    },
+    "v1SalesCoachConfig": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "context": {
+          "$ref": "#/definitions/v1Context"
+        },
+        "joinMeetings": {
+          "type": "boolean"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deleted": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
     },
     "v1TranscriptEntry": {
       "type": "object",
@@ -52976,18 +53033,6 @@
           "type": "string"
         }
       }
-    },
-    "v1Context": {
-      "type": "object",
-      "properties": {
-        "namespaced": {
-          "$ref": "#/definitions/v1NamespacedContext"
-        },
-        "typed": {
-          "$ref": "#/definitions/v1TypedContext"
-        }
-      },
-      "description": "Context scopes a request to a specific persona.  A persona can either be a typed or a typed/namespace unique pair.\nA typed context scopes a persona to a specific type, such as a partner user.\nA namespaced context scopes a persona to a specific type and a given namespace, such as an SMB that belongs to a\nspecific partner."
     },
     "v1CopyAutomationResponse": {
       "type": "object",

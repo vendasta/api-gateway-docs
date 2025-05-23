@@ -15129,6 +15129,55 @@
       },
       "title": "SetScoreResponse defines the response for calling the SetScore API. The response contains a success flag, which\nindicates whether the call to SetScore was executed successfully"
     },
+    "v1ImportRecord": {
+      "type": "object",
+      "properties": {
+        "importId": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "fileName": {
+          "type": "string"
+        },
+        "mapping": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1CSVHeaderMapping"
+          }
+        },
+        "status": {
+          "$ref": "#/definitions/v1ImportRecordStatus"
+        },
+        "itemsProcessed": {
+          "type": "string",
+          "format": "int64"
+        },
+        "itemsError": {
+          "type": "string",
+          "format": "int64"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1ImportRecordStatus": {
+      "type": "string",
+      "enum": [
+        "IMPORT_RECORD_STATUS_STARTED",
+        "IMPORT_RECORD_STATUS_COMPLETED",
+        "IMPORT_RECORD_STATUS_ERROR"
+      ],
+      "default": "IMPORT_RECORD_STATUS_STARTED"
+    },
     "v1ListActivitiesResponse": {
       "type": "object",
       "properties": {
@@ -15311,6 +15360,21 @@
             "type": "object",
             "$ref": "#/definitions/v1FilterDefinition"
           }
+        }
+      }
+    },
+    "v1ListImportRecordsResponse": {
+      "type": "object",
+      "properties": {
+        "importRecord": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ImportRecord"
+          }
+        },
+        "pagingMetadata": {
+          "$ref": "#/definitions/vendastatypesPagedResponseMetadata"
         }
       }
     },
@@ -17217,6 +17281,23 @@
         }
       }
     },
+    "v1alpha1ListTestCasesByConnectionResponse": {
+      "type": "object",
+      "properties": {
+        "testCases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1TestCase"
+          },
+          "title": "The test cases for the connection"
+        },
+        "pagingMetadata": {
+          "$ref": "#/definitions/vendastatypesPagedResponseMetadata",
+          "title": "The next page token to use for pagination"
+        }
+      }
+    },
     "v1alpha1McpServer": {
       "type": "object",
       "properties": {
@@ -17385,6 +17466,40 @@
           "type": "string",
           "format": "date-time",
           "title": "The timestamp of the prompt version creation"
+        }
+      }
+    },
+    "v1alpha1RunTestsResponse": {
+      "type": "object",
+      "properties": {
+        "buildUrl": {
+          "type": "string",
+          "title": "URL of the Cloud Build running the tests"
+        }
+      }
+    },
+    "v1alpha1TestCase": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "The unique ID of the test case. Set on creation"
+        },
+        "name": {
+          "type": "string",
+          "title": "The name of the test case"
+        },
+        "chatHistory": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1alpha1ChatMessage"
+          },
+          "title": "The chat history of the test case"
+        },
+        "expectation": {
+          "type": "string",
+          "title": "A description of what the LLM response should include"
         }
       }
     },
@@ -23616,6 +23731,15 @@
         }
       }
     },
+    "v1CalendarSource": {
+      "type": "string",
+      "enum": [
+        "CALENDAR_SOURCE_GOOGLE",
+        "CALENDAR_SOURCE_MICROSOFT",
+        "CALENDAR_SOURCE_INVALID"
+      ],
+      "default": "CALENDAR_SOURCE_GOOGLE"
+    },
     "v1CalendarType": {
       "type": "string",
       "enum": [
@@ -24678,6 +24802,10 @@
         "connectDisconnectUrl": {
           "type": "string",
           "description": "It will be a connect URL if the user is not connected yet. Otherwise, it will be a disconnected URL."
+        },
+        "connectionLabel": {
+          "type": "string",
+          "title": "This is the unique identifier, where it holds emailID / username of zoom, google meet, teams etc"
         }
       }
     },
@@ -24866,6 +24994,9 @@
         "bufferDurationBeforeMeeting": {
           "type": "string",
           "format": "int64"
+        },
+        "calendarIntegration": {
+          "$ref": "#/definitions/v1CalendarSource"
         }
       }
     },
@@ -38984,7 +39115,7 @@
         },
         "paymentIntentId": {
           "type": "string",
-          "description": "the Stripe PaymentIntent ID that was used to collect payment for the subscription.\nIndicates whether a new subscription has collected payment, allowing us to generate a paid invoice."
+          "description": "the Stripe PaymentIntent ID that was used to collect payment for the subscription.\nIndicates whether a new subscription has collected payment, allowing us to generate a paid invoice.\nDeprecated: Invoices are now charged directly, therefore a paid invoice is no longer generated. Pass the invoice_id instead."
         },
         "merchantId": {
           "type": "string",

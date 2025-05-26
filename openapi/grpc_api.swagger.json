@@ -23833,6 +23833,14 @@
       },
       "description": "The response body for creating a zoom meeting.\nPlease check https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingcreate for more details."
     },
+    "v1DateRangeType": {
+      "type": "string",
+      "enum": [
+        "RELATIVE",
+        "CUSTOM"
+      ],
+      "default": "RELATIVE"
+    },
     "v1DoesCalendarExistResponse": {
       "type": "object",
       "properties": {
@@ -23899,6 +23907,20 @@
         },
         "bookingUrl": {
           "type": "string"
+        }
+      }
+    },
+    "v1EventTypeDateRange": {
+      "type": "object",
+      "properties": {
+        "dateRangeType": {
+          "$ref": "#/definitions/v1DateRangeType"
+        },
+        "customDateRange": {
+          "$ref": "#/definitions/vendastatypesDateRange"
+        },
+        "relativeDateRange": {
+          "$ref": "#/definitions/v1RelativeDateRange"
         }
       }
     },
@@ -24913,6 +24935,9 @@
         "bufferDurationBeforeMeeting": {
           "type": "string",
           "format": "int64"
+        },
+        "dateRange": {
+          "$ref": "#/definitions/v1EventTypeDateRange"
         }
       }
     },
@@ -24965,6 +24990,27 @@
           "$ref": "#/definitions/v1CalendarSource"
         }
       }
+    },
+    "v1RelativeDateRange": {
+      "type": "object",
+      "properties": {
+        "unit": {
+          "$ref": "#/definitions/v1RelativeTimeUnit"
+        },
+        "value": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "v1RelativeTimeUnit": {
+      "type": "string",
+      "enum": [
+        "DAYS",
+        "WEEKS",
+        "MONTHS"
+      ],
+      "default": "DAYS"
     },
     "v1Service": {
       "type": "object",

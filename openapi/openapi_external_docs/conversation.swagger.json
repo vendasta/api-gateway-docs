@@ -117,6 +117,19 @@
         }
       }
     },
+    "GetMultiConversationDetailsV2RequestOptions": {
+      "type": "object",
+      "properties": {
+        "includeSummary": {
+          "type": "boolean",
+          "title": "Whether to include a summary of the conversation"
+        },
+        "excludeMessageMetadata": {
+          "type": "boolean",
+          "title": "Whether to exclude metadata from messages in the response"
+        }
+      }
+    },
     "HydrationEntityEntityType": {
       "type": "string",
       "enum": [
@@ -911,6 +924,42 @@
         "latestMessage": {
           "$ref": "#/definitions/v1Message",
           "title": "Deprecated: use latest_relevant_activity instead"
+        },
+        "participants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Participant"
+          }
+        },
+        "summary": {
+          "type": "string"
+        },
+        "event": {
+          "$ref": "#/definitions/v1Event"
+        },
+        "message": {
+          "$ref": "#/definitions/v1Message"
+        }
+      }
+    },
+    "v1GetMultiConversationDetailsV2Response": {
+      "type": "object",
+      "properties": {
+        "conversations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1GetMultiConversationDetailsV2ResponseDetailedConversation"
+          }
+        }
+      }
+    },
+    "v1GetMultiConversationDetailsV2ResponseDetailedConversation": {
+      "type": "object",
+      "properties": {
+        "conversation": {
+          "$ref": "#/definitions/v1Conversation"
         },
         "participants": {
           "type": "array",

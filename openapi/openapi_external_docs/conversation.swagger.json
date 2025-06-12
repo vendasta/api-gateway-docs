@@ -1,0 +1,2139 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Conversation OpenAPI Documentation"
+  },
+  "tags": [
+    {
+      "name": "ConversationService"
+    },
+    {
+      "name": "InboxService"
+    },
+    {
+      "name": "EmailService"
+    },
+    {
+      "name": "AISystemMessageService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1beta/widgets": {
+      "get": {
+        "summary": "List widgets",
+        "operationId": "ConversationService_ListWidgets",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListWidgetsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "namespace",
+            "description": "The namespace of the widget e.g. \"ABC\", \"AG-123\"\nUse either namespace or options.namespaces",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pagingOptions.cursor",
+            "description": "cursor can be passed to retrieve the next page of results keyed by the cursor",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pagingOptions.pageSize",
+            "description": "page_size specifies the number of items to return in the next page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "options.namespaces",
+            "description": "The namespaces of the widgets e.g. \"ABC\", \"AG-123\"\nUse either namespace or options.namespaces",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "options.widgetTypes",
+            "description": "The types of the widget e.g. \"inbox-pro\", \"my-listings\"",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "ConversationService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "GetMessageTemplateRequestHydrationOptions": {
+      "type": "object",
+      "properties": {
+        "hydrationEntities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/HydrationOptionsHydrationEntity"
+          }
+        }
+      }
+    },
+    "GetMessageTemplateResponseHydrationInformation": {
+      "type": "object",
+      "properties": {
+        "allFieldsHydrated": {
+          "type": "boolean",
+          "title": "If all dynamic fields in message template are hydrated"
+        }
+      }
+    },
+    "HydrationEntityEntityType": {
+      "type": "string",
+      "enum": [
+        "ENTITY_TYPE_UNDEFINED",
+        "ENTITY_TYPE_PARTNER",
+        "ENTITY_TYPE_ACCOUNT_GROUP",
+        "ENTITY_TYPE_CONTACT"
+      ],
+      "default": "ENTITY_TYPE_UNDEFINED"
+    },
+    "HydrationOptionsHydrationEntity": {
+      "type": "object",
+      "properties": {
+        "entityType": {
+          "$ref": "#/definitions/HydrationEntityEntityType",
+          "title": "The entity type used to specify the type of entity id"
+        },
+        "entityId": {
+          "type": "string",
+          "title": "The id used to get hydration information\nSuch as, partner id used to get partner information to hydrate partner related dynamic fields in message template"
+        }
+      }
+    },
+    "ListMessagesRequestListMessagesFilters": {
+      "type": "object",
+      "properties": {
+        "conversationId": {
+          "type": "string"
+        }
+      }
+    },
+    "ListResponseEvaluationsResponseSummary": {
+      "type": "object",
+      "properties": {
+        "feedbackThemes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/SummaryTheme"
+          },
+          "title": "Feedback themes that are used to categorize the response evaluations"
+        }
+      },
+      "title": "The summary of the response evaluations, only returned if `summarize` is true in the request\nThe summary is cached based on the `subject_participant` and `created_after` and `created_before` filters for 12 hours\nThe summary is not specific to the `paging_options`, it considers as many evaluations as possible within the time range"
+    },
+    "ListWidgetsRequestListWidgetsFilters": {
+      "type": "object",
+      "properties": {
+        "namespaces": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The namespaces of the widgets e.g. \"ABC\", \"AG-123\"\nUse either namespace or options.namespaces"
+        },
+        "widgetTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The types of the widget e.g. \"inbox-pro\", \"my-listings\""
+        }
+      }
+    },
+    "LookupConversationsRequestLookupConversationsFilters": {
+      "type": "object",
+      "properties": {
+        "internalParticipantId": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "the internal participant id (IAM or Contact)"
+        },
+        "location": {
+          "$ref": "#/definitions/v1PlatformLocation",
+          "title": "Deprecated: use origin_location instead"
+        },
+        "channel": {
+          "$ref": "#/definitions/v1ConversationChannel"
+        },
+        "accountGroupId": {
+          "type": "string",
+          "title": "Deprecated"
+        },
+        "externalConversationId": {
+          "type": "string"
+        },
+        "originLocation": {
+          "$ref": "#/definitions/v1PlatformLocation"
+        },
+        "originLocationExternalId": {
+          "type": "string"
+        }
+      }
+    },
+    "LookupConversationsResponseConversations": {
+      "type": "object",
+      "properties": {
+        "conversation": {
+          "$ref": "#/definitions/v1Conversation"
+        },
+        "participants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Participant"
+          }
+        }
+      }
+    },
+    "MetadataIdentifier": {
+      "type": "string",
+      "enum": [
+        "METADATA_IDENTIFIER_UNDEFINED",
+        "METADATA_IDENTIFIER_RECIPIENT",
+        "METADATA_IDENTIFIER_SENDER",
+        "METADATA_IDENTIFIER_CONVERSATION",
+        "METADATA_IDENTIFIER_WHATSAPP_TEMPLATE"
+      ],
+      "default": "METADATA_IDENTIFIER_UNDEFINED"
+    },
+    "SummaryTheme": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "The name of the theme"
+        },
+        "description": {
+          "type": "string",
+          "title": "The description of the theme"
+        },
+        "examples": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Examples of the theme, these are real examples of responses that are categorized under the theme"
+        }
+      }
+    },
+    "conversationv1AIConfiguration": {
+      "type": "object",
+      "properties": {
+        "aiResponseEnabled": {
+          "type": "boolean"
+        },
+        "willRespondAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "conversationv1Status": {
+      "type": "string",
+      "enum": [
+        "ERROR",
+        "WARNING",
+        "INFO",
+        "RESTRICTED"
+      ],
+      "default": "ERROR"
+    },
+    "googlerpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "v1AISystemMessage": {
+      "type": "object",
+      "properties": {
+        "systemMessageId": {
+          "type": "string",
+          "title": "The id of the AI System Message"
+        },
+        "systemMessageBody": {
+          "type": "string",
+          "title": "The body of the AI System Message"
+        },
+        "iamUserId": {
+          "type": "string",
+          "title": "The IAM User ID of the user who last updated the AI System Message"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestamp when the AI System Message was updated"
+        }
+      }
+    },
+    "v1AddMultiParticipantsResponse": {
+      "type": "object",
+      "properties": {
+        "participants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Participant"
+          }
+        }
+      }
+    },
+    "v1Address": {
+      "type": "object",
+      "properties": {
+        "firstLineAddress": {
+          "type": "string",
+          "title": "Address first line of the participant"
+        },
+        "secondLineAddress": {
+          "type": "string",
+          "title": "Address second line of the participant"
+        },
+        "city": {
+          "type": "string",
+          "title": "City of the participant"
+        },
+        "state": {
+          "type": "string",
+          "title": "State of the participant"
+        },
+        "country": {
+          "type": "string",
+          "title": "Country of the participant"
+        },
+        "zipCode": {
+          "type": "string",
+          "title": "Zip code of the participant"
+        }
+      }
+    },
+    "v1CapturedLead": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "The name of the lead"
+        },
+        "email": {
+          "type": "string",
+          "title": "The email address of the lead"
+        },
+        "phone": {
+          "type": "string",
+          "title": "The phone number of the lead"
+        },
+        "contactId": {
+          "type": "string",
+          "title": "The id of the CRM contact"
+        }
+      },
+      "title": "The captured lead"
+    },
+    "v1ChannelAvailability": {
+      "type": "object",
+      "properties": {
+        "channel": {
+          "$ref": "#/definitions/v1ConversationChannel"
+        },
+        "isAvailable": {
+          "type": "boolean"
+        },
+        "statuses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ChannelStatus"
+          }
+        }
+      }
+    },
+    "v1ChannelStatus": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/conversationv1Status"
+        },
+        "i18nKey": {
+          "type": "string"
+        }
+      }
+    },
+    "v1Configuration": {
+      "type": "object",
+      "properties": {
+        "subjectParticipant": {
+          "$ref": "#/definitions/v1SubjectParticipant",
+          "description": "The subject participant that this configuration is for."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time that the configuration was created at"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The last time the configuration was updated"
+        },
+        "availabilityMessage": {
+          "type": "string",
+          "title": "Availability Message is a message displayed at the top of inbox for your organization"
+        },
+        "showAvailabilityMessage": {
+          "type": "boolean",
+          "title": "Determines if a availability message is displayed"
+        },
+        "googleBusinessMessagesEnabled": {
+          "type": "boolean",
+          "title": "Determines if google business messages is available for the organization referred to by subject_participant"
+        },
+        "smsEnabled": {
+          "type": "boolean",
+          "title": "Determines if sms is available for the organization referred to by subject_participant"
+        },
+        "inboxProEnabled": {
+          "type": "boolean",
+          "title": "Deprecated"
+        },
+        "webChatEnabled": {
+          "type": "boolean",
+          "title": "Determines if web chat is available for the organization referred to by subject_participant"
+        },
+        "facebookMessengerEnabled": {
+          "type": "boolean",
+          "title": "Determines if facebook messenger is available for the organization referred to by subject_participant"
+        },
+        "multiLocationEnabled": {
+          "type": "boolean",
+          "title": "Determine if Multi location is available for the organization referred to by subject_participant"
+        },
+        "instagramMessagingEnabled": {
+          "type": "boolean",
+          "title": "Determines if instagram messaging is available for the organization referred to by subject_participant"
+        },
+        "aiConfiguration": {
+          "$ref": "#/definitions/v1ConfigurationAIConfiguration",
+          "title": "AI Configuration"
+        },
+        "whatsappEnabled": {
+          "type": "boolean",
+          "title": "Determines if whats app is available for the organization referred to by subject_participant"
+        }
+      },
+      "title": "Configuration for Inbox"
+    },
+    "v1ConfigurationAIConfiguration": {
+      "type": "object",
+      "properties": {
+        "smsResponderEnabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1Conversation": {
+      "type": "object",
+      "properties": {
+        "conversationId": {
+          "type": "string"
+        },
+        "channel": {
+          "$ref": "#/definitions/v1ConversationChannel"
+        },
+        "externalConversationId": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deleted": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "participantIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "latestMsgSentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "originLocation": {
+          "$ref": "#/definitions/v1PlatformLocation"
+        },
+        "originLocationExternalId": {
+          "type": "string"
+        },
+        "lastSeenByParticipant": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1LastSeenByParticipant"
+          }
+        },
+        "conversationViewIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "subjectParticipantsKey": {
+          "type": "string"
+        },
+        "subjectParticipants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1SubjectParticipant"
+          }
+        },
+        "isOpen": {
+          "type": "boolean"
+        },
+        "aiConfiguration": {
+          "$ref": "#/definitions/conversationv1AIConfiguration"
+        },
+        "latestMsgSentTimeBySubjectParticipant": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1LatestMessageSentTimeBySubjectParticipant"
+          }
+        },
+        "subjectParticipantKey": {
+          "$ref": "#/definitions/v1SubjectParticipantKey"
+        },
+        "latestRelevantActivityTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "metadata": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1KeyValuePair"
+          },
+          "title": "metadata can represent any kind of value"
+        },
+        "instanceId": {
+          "type": "string",
+          "title": "A uuid that is used to uniquely identify the conversation among a set of conversations between the same subject participants\nIf only one conversation is expected between a set of subject participants, this field should be \"\""
+        }
+      }
+    },
+    "v1ConversationChannel": {
+      "type": "string",
+      "enum": [
+        "CONVERSATION_CHANNEL_UNDEFINED",
+        "CONVERSATION_CHANNEL_INTERNAL",
+        "CONVERSATION_CHANNEL_SMS",
+        "CONVERSATION_CHANNEL_FACEBOOK",
+        "CONVERSATION_CHANNEL_GOOGLE_MESSAGES",
+        "CONVERSATION_CHANNEL_OPENAI",
+        "CONVERSATION_CHANNEL_EMAIL",
+        "CONVERSATION_CHANNEL_GOOGLE_BUSINESS_COMMUNICATIONS",
+        "CONVERSATION_CHANNEL_WEB_CHAT",
+        "CONVERSATION_CHANNEL_INSTAGRAM",
+        "CONVERSATION_CHANNEL_WHATSAPP",
+        "CONVERSATION_CHANNEL_AI_ASSISTANT"
+      ],
+      "default": "CONVERSATION_CHANNEL_UNDEFINED"
+    },
+    "v1ConversationKey": {
+      "type": "object",
+      "properties": {
+        "subjectParticipants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1SubjectParticipant"
+          }
+        },
+        "channel": {
+          "$ref": "#/definitions/v1ConversationChannel",
+          "title": "Deprecated: Usage of this field will be ignored"
+        },
+        "originLocationExternalId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ConversationMessageCount": {
+      "type": "object",
+      "properties": {
+        "conversationId": {
+          "type": "string"
+        },
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      },
+      "title": "Deprecated"
+    },
+    "v1CreateConversationResponse": {
+      "type": "object",
+      "properties": {
+        "conversation": {
+          "$ref": "#/definitions/v1Conversation"
+        },
+        "participants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Participant"
+          }
+        }
+      }
+    },
+    "v1CreateMessageTemplateResponse": {
+      "type": "object",
+      "properties": {
+        "template": {
+          "$ref": "#/definitions/v1MessageTemplate"
+        }
+      }
+    },
+    "v1CreateWidgetConversationResponse": {
+      "type": "object",
+      "properties": {
+        "widgetParticipantToken": {
+          "type": "string",
+          "title": "The widget_participant_token containing data about the widget user"
+        },
+        "conversation": {
+          "$ref": "#/definitions/v1Conversation",
+          "title": "Conversation details"
+        },
+        "greetingMessageId": {
+          "type": "string",
+          "title": "The message id for the greeting message"
+        }
+      }
+    },
+    "v1CreateWidgetResponse": {
+      "type": "object",
+      "properties": {
+        "widget": {
+          "$ref": "#/definitions/v1Widget",
+          "title": "The created widget"
+        }
+      }
+    },
+    "v1DataSources": {
+      "type": "object",
+      "properties": {
+        "businessProfile": {
+          "type": "boolean",
+          "title": "Will be used to determine if a business profile data source should be associated"
+        },
+        "businessWebsite": {
+          "type": "boolean",
+          "title": "Will be used to determine if a business website data source should be associated\nThis will also depend on the business having their website field filled"
+        }
+      }
+    },
+    "v1EvaluateResponseType": {
+      "type": "string",
+      "enum": [
+        "EVALUATION_RESPONSE_TYPE_UNSPECIFIED",
+        "EVALUATION_RESPONSE_TYPE_EVENT",
+        "EVALUATION_RESPONSE_TYPE_MESSAGE"
+      ],
+      "default": "EVALUATION_RESPONSE_TYPE_UNSPECIFIED"
+    },
+    "v1EvaluationSentiment": {
+      "type": "string",
+      "enum": [
+        "EVALUATION_SENTIMENT_UNDEFINED",
+        "EVALUATION_SENTIMENT_POSITIVE",
+        "EVALUATION_SENTIMENT_NEGATIVE"
+      ],
+      "default": "EVALUATION_SENTIMENT_UNDEFINED"
+    },
+    "v1Event": {
+      "type": "object",
+      "properties": {
+        "conversationId": {
+          "type": "string"
+        },
+        "eventId": {
+          "type": "string"
+        },
+        "happenedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "labelKey": {
+          "type": "string"
+        },
+        "initiatorId": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deleted": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "message": {
+          "type": "string"
+        },
+        "channel": {
+          "$ref": "#/definitions/v1ConversationChannel"
+        },
+        "originatedAt": {
+          "$ref": "#/definitions/v1PlatformLocation"
+        },
+        "type": {
+          "$ref": "#/definitions/v1EventType"
+        },
+        "metadata": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1KeyValuePair"
+          }
+        }
+      }
+    },
+    "v1EventType": {
+      "type": "string",
+      "enum": [
+        "EVENT_TYPE_UNDEFINED",
+        "EVENT_TYPE_SMS_UNSUBSCRIBED",
+        "EVENT_TYPE_CAMPAIGN",
+        "EVENT_TYPE_REVIEW_REQUEST",
+        "EVENT_TYPE_FORM_SUBMISSION",
+        "EVENT_TYPE_PHONE_CALL",
+        "EVENT_TYPE_SMS_SUBSCRIBED"
+      ],
+      "default": "EVENT_TYPE_UNDEFINED"
+    },
+    "v1GetAISystemMessageResponse": {
+      "type": "object",
+      "properties": {
+        "systemMessage": {
+          "$ref": "#/definitions/v1AISystemMessage",
+          "title": "The AI System Message"
+        }
+      }
+    },
+    "v1GetAvailableChannelsForConversationResponse": {
+      "type": "object",
+      "properties": {
+        "channels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ConversationChannel"
+          },
+          "title": "Deprecated: The list of channels messages can be sent on"
+        },
+        "preferredChannel": {
+          "$ref": "#/definitions/v1ConversationChannel"
+        },
+        "channelAvailabilities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ChannelAvailability"
+          }
+        }
+      }
+    },
+    "v1GetConfigurationResponse": {
+      "type": "object",
+      "properties": {
+        "configuration": {
+          "$ref": "#/definitions/v1Configuration",
+          "title": "The configuration for a subject participant"
+        }
+      },
+      "title": "GetConfigurationResponse will return a configuration for a given subject participant"
+    },
+    "v1GetConversationByKeyResponse": {
+      "type": "object",
+      "properties": {
+        "conversation": {
+          "$ref": "#/definitions/v1Conversation"
+        }
+      }
+    },
+    "v1GetConversationSummaryResponse": {
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "string"
+        }
+      }
+    },
+    "v1GetConversationViewsResponse": {
+      "type": "object",
+      "properties": {
+        "views": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1View"
+          }
+        }
+      },
+      "title": "GetConversationViewsResponse will return participant conversation views"
+    },
+    "v1GetMessageOptions": {
+      "type": "object",
+      "properties": {
+        "includeOriginalContent": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1GetMessageTemplateResponse": {
+      "type": "object",
+      "properties": {
+        "template": {
+          "$ref": "#/definitions/v1MessageTemplate"
+        },
+        "hydrationInformation": {
+          "$ref": "#/definitions/GetMessageTemplateResponseHydrationInformation"
+        }
+      }
+    },
+    "v1GetMultiConfigurationResponse": {
+      "type": "object",
+      "properties": {
+        "configurations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Configuration"
+          },
+          "title": "The configurations for a list of subject participants"
+        }
+      },
+      "title": "GetMultiConfigurationResponse will return multiple configurations for a given subject participants"
+    },
+    "v1GetMultiConversationDetailsResponse": {
+      "type": "object",
+      "properties": {
+        "conversations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1GetMultiConversationDetailsResponseDetailedConversation"
+          }
+        }
+      }
+    },
+    "v1GetMultiConversationDetailsResponseDetailedConversation": {
+      "type": "object",
+      "properties": {
+        "conversation": {
+          "$ref": "#/definitions/v1Conversation"
+        },
+        "latestMessage": {
+          "$ref": "#/definitions/v1Message",
+          "title": "Deprecated: use latest_relevant_activity instead"
+        },
+        "participants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Participant"
+          }
+        },
+        "summary": {
+          "type": "string"
+        },
+        "event": {
+          "$ref": "#/definitions/v1Event"
+        },
+        "message": {
+          "$ref": "#/definitions/v1Message"
+        }
+      }
+    },
+    "v1GetMultiConversationDetailsV2Response": {
+      "type": "object",
+      "properties": {
+        "conversations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1GetMultiConversationDetailsV2ResponseDetailedConversation"
+          }
+        }
+      }
+    },
+    "v1GetMultiConversationDetailsV2ResponseDetailedConversation": {
+      "type": "object",
+      "properties": {
+        "conversation": {
+          "$ref": "#/definitions/v1Conversation"
+        },
+        "participants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Participant"
+          }
+        },
+        "summary": {
+          "type": "string"
+        },
+        "event": {
+          "$ref": "#/definitions/v1Event"
+        },
+        "message": {
+          "$ref": "#/definitions/v1Message"
+        }
+      }
+    },
+    "v1GetMultiConversationMessageCountResponse": {
+      "type": "object",
+      "properties": {
+        "messageCounts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ConversationMessageCount"
+          },
+          "title": "Deprecated: use counts instead"
+        },
+        "counts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "format": "int64"
+          }
+        }
+      }
+    },
+    "v1GetMultiEventsResponse": {
+      "type": "object",
+      "properties": {
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Event"
+          },
+          "title": "The list of events"
+        }
+      }
+    },
+    "v1GetMultiMessagesResponse": {
+      "type": "object",
+      "properties": {
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Message"
+          },
+          "title": "list of messages"
+        }
+      }
+    },
+    "v1GetMultiParticipantsResponse": {
+      "type": "object",
+      "properties": {
+        "participants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Participant"
+          },
+          "title": "list of participants"
+        }
+      }
+    },
+    "v1GetMultiWidgetMessagesResponse": {
+      "type": "object",
+      "properties": {
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Message"
+          },
+          "title": "The list of messages"
+        }
+      }
+    },
+    "v1GetMultiWidgetResponse": {
+      "type": "object",
+      "properties": {
+        "widgets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Widget"
+          }
+        }
+      }
+    },
+    "v1GetOwnerEmailResponse": {
+      "type": "object",
+      "properties": {
+        "forwardingEmail": {
+          "type": "string"
+        }
+      }
+    },
+    "v1GetParticipantsByKeyResponse": {
+      "type": "object",
+      "properties": {
+        "participants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Participant"
+          },
+          "title": "list of participants\nDeprecated: use participant instead"
+        },
+        "participant": {
+          "$ref": "#/definitions/v1Participant"
+        }
+      }
+    },
+    "v1GetWidgetConfigResponse": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Name of the widget, e.g. \"Mountain Media Support\""
+        },
+        "color": {
+          "type": "string",
+          "title": "A hex color code for the widget, e.g. \"#FF0000\""
+        },
+        "isEnabled": {
+          "type": "boolean",
+          "title": "Whether the webchat for the widget config is enabled"
+        },
+        "welcomeMessage": {
+          "type": "string",
+          "title": "The welcome message for the webchat for the widget config"
+        },
+        "textColor": {
+          "type": "string",
+          "title": "The text color for the widget"
+        },
+        "accentColor": {
+          "type": "string",
+          "title": "Accent color for the widget secondary elements"
+        },
+        "accentTextColor": {
+          "type": "string",
+          "title": "Accent text color for the widget secondary elements"
+        },
+        "skipContactCapture": {
+          "type": "boolean",
+          "title": "Deprecated: not meant to be used in the Web Chat client"
+        },
+        "widgetTopSpace": {
+          "type": "string",
+          "format": "int64",
+          "title": "Height between the widget top and the screen in pixels"
+        },
+        "assistantName": {
+          "type": "string",
+          "title": "assistant_name is the name of the AI assistant"
+        },
+        "assistantAvatarUrl": {
+          "type": "string",
+          "title": "assistant_avatar_url is the url of the AI assistant avatar"
+        },
+        "position": {
+          "$ref": "#/definitions/v1WidgetPosition",
+          "title": "The position of the widget on the page"
+        },
+        "hideMobileCta": {
+          "type": "boolean",
+          "title": "Hide the popup CTA on mobile screens"
+        },
+        "customGreetingMessage": {
+          "type": "string",
+          "title": "The custom greeting message that shows up as first message"
+        },
+        "enableGreetingMessage": {
+          "type": "boolean",
+          "title": "Enable the greeting message from AI assistant"
+        },
+        "namespace": {
+          "type": "string",
+          "title": "The namespace of the widget e.g. \"ABC\", \"AG-123\""
+        },
+        "poweredByName": {
+          "type": "string",
+          "title": "The company name for the widget footer (either current namespace or parent namespace)"
+        },
+        "poweredByWebsite": {
+          "type": "string",
+          "title": "The company website for the widget footer (either current namespace or parent namespace)"
+        },
+        "showFooterContent": {
+          "type": "boolean",
+          "title": "Show the footer content on the widget (configured on the partner business app configuration)"
+        }
+      }
+    },
+    "v1GetWidgetConversationResponse": {
+      "type": "object",
+      "properties": {
+        "conversation": {
+          "$ref": "#/definitions/v1Conversation",
+          "title": "Conversation details"
+        }
+      }
+    },
+    "v1GetWidgetResponse": {
+      "type": "object",
+      "properties": {
+        "widget": {
+          "$ref": "#/definitions/v1Widget",
+          "title": "The retrieved widget"
+        }
+      }
+    },
+    "v1GlobalParticipantType": {
+      "type": "string",
+      "enum": [
+        "GLOBAL_PARTICIPANT_TYPE_UNDEFINED",
+        "GLOBAL_PARTICIPANT_TYPE_CUSTOMER",
+        "GLOBAL_PARTICIPANT_TYPE_IAM_USER",
+        "GLOBAL_PARTICIPANT_TYPE_ACCOUNT_GROUP",
+        "GLOBAL_PARTICIPANT_TYPE_PARTNER",
+        "GLOBAL_PARTICIPANT_TYPE_IAM_TEMPORARY_SUBJECT",
+        "GLOBAL_PARTICIPANT_TYPE_DIGITAL_AGENT",
+        "GLOBAL_PARTICIPANT_TYPE_VENDOR",
+        "GLOBAL_PARTICIPANT_TYPE_OPENAI_BOT",
+        "GLOBAL_PARTICIPANT_TYPE_ANONYMOUS",
+        "GLOBAL_PARTICIPANT_TYPE_GROUP",
+        "GLOBAL_PARTICIPANT_TYPE_AI_ASSISTANT"
+      ],
+      "default": "GLOBAL_PARTICIPANT_TYPE_UNDEFINED",
+      "title": "Participant Type that replaces Type the Type enum in Participant message"
+    },
+    "v1KeyValuePair": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "v1LastSeenByParticipant": {
+      "type": "object",
+      "properties": {
+        "participantId": {
+          "type": "string"
+        },
+        "lastSeenTime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1LatestMessageSentTimeBySubjectParticipant": {
+      "type": "object",
+      "properties": {
+        "subjectParticipant": {
+          "$ref": "#/definitions/v1SubjectParticipant"
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1ListAISystemMessagesResponse": {
+      "type": "object",
+      "properties": {
+        "aiSystemMessages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1AISystemMessage"
+          },
+          "title": "The list of AI System Messages"
+        },
+        "nextCursor": {
+          "type": "string",
+          "title": "The cursor to fetch the next page of AI System Messages"
+        },
+        "hasMore": {
+          "type": "boolean",
+          "title": "Whether there are more AI System Messages to fetch"
+        }
+      }
+    },
+    "v1ListMessageTemplateResponse": {
+      "type": "object",
+      "properties": {
+        "templates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1MessageTemplate"
+          },
+          "title": "All message templates for a given SubjectParticipant"
+        },
+        "pagingMetadata": {
+          "$ref": "#/definitions/v1PagedResponseMetadata",
+          "title": "paging metadata"
+        }
+      }
+    },
+    "v1ListMessagesResponse": {
+      "type": "object",
+      "properties": {
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Message"
+          }
+        },
+        "pagingMetadata": {
+          "$ref": "#/definitions/v1PagedResponseMetadata",
+          "title": "Metadata about the paging"
+        }
+      },
+      "title": "*******************\nResponses\n*******************"
+    },
+    "v1ListResponseEvaluationsResponse": {
+      "type": "object",
+      "properties": {
+        "evaluations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ResponseEvaluation"
+          },
+          "title": "The list of response evaluations"
+        },
+        "summary": {
+          "$ref": "#/definitions/ListResponseEvaluationsResponseSummary",
+          "title": "The summary of the response evaluations generated by AI"
+        },
+        "pagingMetadata": {
+          "$ref": "#/definitions/v1PagedResponseMetadata",
+          "title": "Paging metadata for the request"
+        }
+      }
+    },
+    "v1ListWidgetsResponse": {
+      "type": "object",
+      "properties": {
+        "widgets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Widget"
+          },
+          "title": "The list of widgets"
+        },
+        "pagingMetadata": {
+          "$ref": "#/definitions/v1PagedResponseMetadata",
+          "title": "paging metadata"
+        }
+      }
+    },
+    "v1LookupConversationsResponse": {
+      "type": "object",
+      "properties": {
+        "conversations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/LookupConversationsResponseConversations"
+          }
+        },
+        "pagingMetadata": {
+          "$ref": "#/definitions/v1PagedResponseMetadata"
+        }
+      }
+    },
+    "v1Media": {
+      "type": "object",
+      "properties": {
+        "mediaContentType": {
+          "type": "string",
+          "title": "media content type is a two part identifier for file types (e.g. image/jpeg)"
+        },
+        "mediaLocationPath": {
+          "type": "string",
+          "title": "media location path on a GCP bucket"
+        },
+        "mediaFileName": {
+          "type": "string",
+          "title": "media file name"
+        },
+        "fileSize": {
+          "type": "string",
+          "format": "int64",
+          "title": "size of file in bytes"
+        },
+        "mediaUrl": {
+          "type": "string",
+          "title": "media url is the url of the media content"
+        }
+      }
+    },
+    "v1Message": {
+      "type": "object",
+      "properties": {
+        "messageId": {
+          "type": "string"
+        },
+        "externalMessageId": {
+          "type": "string"
+        },
+        "conversationId": {
+          "type": "string"
+        },
+        "participantId": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/v1MessageType"
+        },
+        "body": {
+          "type": "string"
+        },
+        "error": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deleted": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "media": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "media is the media content of the message"
+        },
+        "sendStatus": {
+          "$ref": "#/definitions/v1SendStatus"
+        },
+        "channel": {
+          "$ref": "#/definitions/v1ConversationChannel"
+        },
+        "metadata": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1KeyValuePair"
+          },
+          "title": "metadata can represent any kind of value"
+        },
+        "originalContent": {
+          "type": "string",
+          "title": "original_content is the original content of the message"
+        },
+        "uiComponents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1UIComponent"
+          }
+        }
+      },
+      "title": "Message represents a message of a conversation"
+    },
+    "v1MessageStatus": {
+      "type": "string",
+      "enum": [
+        "MESSAGE_STATUS_NOT_READ",
+        "MESSAGE_STATUS_READ",
+        "MESSAGE_STATUS_SENT",
+        "MESSAGE_STATUS_DELIVERED",
+        "MESSAGE_STATUS_FAILED",
+        "MESSAGE_STATUS_UNDELIVERED",
+        "MESSAGE_STATUS_SENDING"
+      ],
+      "default": "MESSAGE_STATUS_NOT_READ",
+      "title": "MessageStatus represents the status a message is"
+    },
+    "v1MessageTemplate": {
+      "type": "object",
+      "properties": {
+        "templateId": {
+          "type": "string",
+          "title": "A unique RESTful identifier. The format will be used for providing template\ndiscoverability and categorizing them.\nExample: /business-id/AG-123/template-id/TEMPLATE-123"
+        },
+        "name": {
+          "type": "string",
+          "title": "Template friendly name"
+        },
+        "content": {
+          "type": "string",
+          "title": "Template content"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Creation time"
+        }
+      }
+    },
+    "v1MessageType": {
+      "type": "string",
+      "enum": [
+        "MESSAGE_TYPE_MESSAGE",
+        "MESSAGE_TYPE_MEDIA",
+        "MESSAGE_TYPE_SYSTEM",
+        "MESSAGE_TYPE_FORM_SUBMISSION",
+        "MESSAGE_TYPE_BOOKING_AVAILABILITY",
+        "MESSAGE_TYPE_TEMPLATE"
+      ],
+      "default": "MESSAGE_TYPE_MESSAGE",
+      "description": "- MESSAGE_TYPE_FORM_SUBMISSION: Form Submission messages have been moved to events",
+      "title": "MessageType represents the type of a message"
+    },
+    "v1Metadata": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "$ref": "#/definitions/MetadataIdentifier"
+        },
+        "data": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1NamespaceDetail": {
+      "type": "object",
+      "properties": {
+        "participantType": {
+          "$ref": "#/definitions/v1GlobalParticipantType"
+        },
+        "internalParticipantId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1NewInboxLeadCapturedResponse": {
+      "type": "object"
+    },
+    "v1PagedRequestOptions": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "type": "string",
+          "title": "cursor can be passed to retrieve the next page of results keyed by the cursor"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32",
+          "title": "page_size specifies the number of items to return in the next page"
+        }
+      }
+    },
+    "v1PagedResponseMetadata": {
+      "type": "object",
+      "properties": {
+        "nextCursor": {
+          "type": "string",
+          "title": "A cursor that can be provided to retrieve the next page of results"
+        },
+        "hasMore": {
+          "type": "boolean",
+          "title": "Whether or not more results exist"
+        },
+        "totalResults": {
+          "type": "string",
+          "format": "int64",
+          "title": "Total number of results"
+        }
+      }
+    },
+    "v1Participant": {
+      "type": "object",
+      "properties": {
+        "participantId": {
+          "type": "string",
+          "title": "the participant id"
+        },
+        "internalParticipantId": {
+          "type": "string",
+          "title": "the internal participant id (IAM or Contact)"
+        },
+        "partnerId": {
+          "type": "string",
+          "title": "partner ID"
+        },
+        "accountGroupId": {
+          "type": "string",
+          "title": "account group ID"
+        },
+        "location": {
+          "$ref": "#/definitions/v1PlatformLocation",
+          "title": "Deprecated use location from the message instead"
+        },
+        "channel": {
+          "$ref": "#/definitions/v1ConversationChannel",
+          "title": "Deprecated use channel from the conversation instead"
+        },
+        "externalParticipantId": {
+          "type": "string",
+          "title": "the external participant id from 3rd party integrations"
+        },
+        "name": {
+          "type": "string",
+          "title": "the name of the participant"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deleted": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "participantType": {
+          "$ref": "#/definitions/v1ParticipantType"
+        },
+        "email": {
+          "type": "string",
+          "title": "the email address of the participant"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "title": "the phone number of the participant"
+        },
+        "address": {
+          "$ref": "#/definitions/v1Address",
+          "title": "Address of the participant"
+        },
+        "isSubjectParticipant": {
+          "type": "boolean",
+          "description": "Participant is a \"subject participant\"\nIf a message is sent by an SMB to a Partner,\nthen `is_subject_participant` is true for both SMB and Partner\nNOTE: we might add a new field in the future to indicate if a\nsubject participant is in the `subject_participant_key`\nthis will be a different boolean from `is_subject_participant`."
+        },
+        "isParticipantInternalInfoDeleted": {
+          "type": "boolean",
+          "title": "If an accountGroup or Customer is deleted the internal\ninfo will be missing and will not be shown in the conversation"
+        },
+        "profileImageUrl": {
+          "type": "string",
+          "title": "the profile image url of the participant"
+        },
+        "namespaceHierarchy": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1NamespaceDetail"
+          },
+          "title": "the namespace hierarchy of the participant\nthis field is used to determine the organization hierarchy that the participant belongs to"
+        }
+      }
+    },
+    "v1ParticipantKey": {
+      "type": "object",
+      "properties": {
+        "internalParticipantId": {
+          "type": "string",
+          "title": "the internal participant id (IAM or Contact)"
+        },
+        "partnerId": {
+          "type": "string",
+          "title": "partner ID"
+        },
+        "accountGroupId": {
+          "type": "string",
+          "title": "account group ID"
+        },
+        "location": {
+          "$ref": "#/definitions/v1PlatformLocation",
+          "title": "Deprecated"
+        },
+        "channels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ConversationChannel"
+          },
+          "title": "Deprecated"
+        },
+        "participantType": {
+          "$ref": "#/definitions/v1GlobalParticipantType"
+        },
+        "namespaceHierarchy": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1NamespaceDetail"
+          },
+          "title": "the namespace hierarchy of the participant\nthis field is used to determine the organization hierarchy that the participant belongs to"
+        }
+      }
+    },
+    "v1ParticipantType": {
+      "type": "string",
+      "enum": [
+        "PARTICIPANT_TYPE_UNDEFINED",
+        "PARTICIPANT_TYPE_CUSTOMER",
+        "PARTICIPANT_TYPE_IAM_USER",
+        "PARTICIPANT_TYPE_ACCOUNT_GROUP",
+        "PARTICIPANT_TYPE_PARTNER",
+        "PARTICIPANT_TYPE_IAM_TEMPORARY_SUBJECT",
+        "PARTICIPANT_TYPE_DIGITAL_AGENT",
+        "PARTICIPANT_TYPE_VENDOR",
+        "PARTICIPANT_TYPE_OPENAI_BOT",
+        "PARTICIPANT_TYPE_ANONYMOUS",
+        "PARTICIPANT_TYPE_GROUP",
+        "PARTICIPANT_TYPE_AI_ASSISTANT"
+      ],
+      "default": "PARTICIPANT_TYPE_UNDEFINED",
+      "title": "the participant type determines the type of a participant in a conversation"
+    },
+    "v1PlatformLocation": {
+      "type": "string",
+      "enum": [
+        "PLATFORM_LOCATION_UNDEFINED",
+        "PLATFORM_LOCATION_BUSINESS_APP",
+        "PLATFORM_LOCATION_PARTNER_CENTER",
+        "PLATFORM_LOCATION_VENDOR_CENTER",
+        "PLATFORM_LOCATION_TASK_MANAGER",
+        "PLATFORM_LOCATION_PROPOSAL_BUILDER",
+        "PLATFORM_LOCATION_SALES_CENTER"
+      ],
+      "default": "PLATFORM_LOCATION_UNDEFINED"
+    },
+    "v1ProductFeature": {
+      "type": "object",
+      "properties": {
+        "googleBusinessMessagesEnabled": {
+          "type": "boolean",
+          "title": "Determines if google business messages is available for the organization referred to by subject_participant"
+        },
+        "smsEnabled": {
+          "type": "boolean",
+          "title": "Determines if sms is available for the organization referred to by subject_participant"
+        },
+        "multiLocationEnabled": {
+          "type": "boolean",
+          "title": "Determine if Multi location is available for the organization referred to by subject_participant"
+        },
+        "webChatEnabled": {
+          "type": "boolean",
+          "title": "Determines if web chat is available for the organization referred to by subject_participant"
+        },
+        "facebookMessengerEnabled": {
+          "type": "boolean",
+          "title": "Determines if facebook messenger is available for the organization referred to by subject_participant"
+        },
+        "instagramMessagingEnabled": {
+          "type": "boolean",
+          "title": "Determines if instagram messaging is available for the organization referred to by subject_participant"
+        },
+        "aiSmsResponderEnabled": {
+          "type": "boolean",
+          "title": "Determines if ai sms responder is available for the organization referred to by subject_participant"
+        },
+        "whatsappEnabled": {
+          "type": "boolean",
+          "title": "Determines if whats app is available for the organization referred to by subject_participant"
+        }
+      }
+    },
+    "v1ResponseEvaluation": {
+      "type": "object",
+      "properties": {
+        "messageId": {
+          "type": "string",
+          "title": "The message id of the response evaluation"
+        },
+        "conversationId": {
+          "type": "string",
+          "title": "The conversation id of the response evaluation"
+        },
+        "sentiment": {
+          "$ref": "#/definitions/v1EvaluationSentiment",
+          "title": "The sentiment of the response evaluation"
+        },
+        "comment": {
+          "type": "string",
+          "title": "The comment of the response evaluation"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time the response evaluation was created"
+        },
+        "subjectParticipants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1SubjectParticipant"
+          },
+          "title": "The subject participants associated the response evaluation's conversation"
+        },
+        "eventId": {
+          "type": "string",
+          "description": "The event id of the response evaluation; this will be empty if there is a message id."
+        }
+      }
+    },
+    "v1SearchConversationsResponse": {
+      "type": "object",
+      "properties": {
+        "conversations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1SearchConversationsResponseDetailedConversation"
+          }
+        },
+        "pagingMetadata": {
+          "$ref": "#/definitions/v1PagedResponseMetadata"
+        }
+      }
+    },
+    "v1SearchConversationsResponseDetailedConversation": {
+      "type": "object",
+      "properties": {
+        "conversation": {
+          "$ref": "#/definitions/v1Conversation"
+        },
+        "latestMessage": {
+          "$ref": "#/definitions/v1Message"
+        },
+        "participants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Participant"
+          }
+        }
+      }
+    },
+    "v1SendMessageOptions": {
+      "type": "object",
+      "properties": {
+        "runSync": {
+          "type": "boolean",
+          "title": "option to run sendMessage synchronously"
+        }
+      }
+    },
+    "v1SendMessageResponse": {
+      "type": "object",
+      "properties": {
+        "workflowId": {
+          "type": "string",
+          "title": "Deprecated: use message_id instead"
+        },
+        "messageId": {
+          "type": "string",
+          "title": "The unique identifier of the message"
+        }
+      }
+    },
+    "v1SendStatus": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/v1MessageStatus"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1SendWidgetMessageResponse": {
+      "type": "object",
+      "properties": {
+        "messageId": {
+          "type": "string",
+          "title": "The unique identifier of the message"
+        }
+      }
+    },
+    "v1SetLastSeenRequestStatus": {
+      "type": "string",
+      "enum": [
+        "SET_LAST_SEEN_REQUEST_STATUS_READ",
+        "SET_LAST_SEEN_REQUEST_STATUS_UNREAD"
+      ],
+      "default": "SET_LAST_SEEN_REQUEST_STATUS_READ",
+      "title": "LastSeenStatus"
+    },
+    "v1SetLastSeenResponse": {
+      "type": "object",
+      "properties": {
+        "participant": {
+          "$ref": "#/definitions/v1Participant"
+        }
+      }
+    },
+    "v1SubjectParticipant": {
+      "type": "object",
+      "properties": {
+        "participantType": {
+          "$ref": "#/definitions/v1GlobalParticipantType"
+        },
+        "internalParticipantId": {
+          "type": "string",
+          "title": "the internal participant id"
+        }
+      }
+    },
+    "v1SubjectParticipantKey": {
+      "type": "object",
+      "properties": {
+        "subjectParticipantsKey": {
+          "type": "string"
+        },
+        "subjectParticipants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1SubjectParticipant"
+          },
+          "title": "parsed from subject_participants_key"
+        }
+      }
+    },
+    "v1UIButton": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "payload": {
+          "type": "string"
+        }
+      }
+    },
+    "v1UIComponent": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/v1UIComponentType"
+        },
+        "button": {
+          "$ref": "#/definitions/v1UIButton"
+        }
+      }
+    },
+    "v1UIComponentType": {
+      "type": "string",
+      "enum": [
+        "UI_COMPONENT_TYPE_UNDEFINED",
+        "UI_COMPONENT_TYPE_BUTTON"
+      ],
+      "default": "UI_COMPONENT_TYPE_UNDEFINED"
+    },
+    "v1UpdateConversationResponse": {
+      "type": "object",
+      "properties": {
+        "conversation": {
+          "$ref": "#/definitions/v1Conversation"
+        }
+      }
+    },
+    "v1UpdateMessageTemplateResponse": {
+      "type": "object",
+      "properties": {
+        "template": {
+          "$ref": "#/definitions/v1MessageTemplate"
+        }
+      }
+    },
+    "v1UpdateWidgetResponse": {
+      "type": "object",
+      "properties": {
+        "widget": {
+          "$ref": "#/definitions/v1Widget",
+          "title": "The updated widget"
+        }
+      }
+    },
+    "v1UpsertConfigurationResponse": {
+      "type": "object",
+      "properties": {
+        "configuration": {
+          "$ref": "#/definitions/v1Configuration",
+          "title": "The updated configuration"
+        }
+      },
+      "title": "UpsertConfigurationResponse is the response from creating or updating a a configuration"
+    },
+    "v1UpsertProductFeatureResponse": {
+      "type": "object",
+      "properties": {
+        "productFeature": {
+          "$ref": "#/definitions/v1ProductFeature",
+          "title": "The product feature availability"
+        }
+      },
+      "title": "UpsertProductFeatureResponse is the response from updating or creating product feature availability"
+    },
+    "v1View": {
+      "type": "object",
+      "properties": {
+        "viewId": {
+          "type": "string",
+          "title": "The view id"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time that the view was created at"
+        }
+      },
+      "title": "View"
+    },
+    "v1Widget": {
+      "type": "object",
+      "properties": {
+        "widgetId": {
+          "type": "string",
+          "description": "TODO(WARP-1442): replace above with openapiv2 annotations for generated docs",
+          "title": "The id of the widget"
+        },
+        "name": {
+          "type": "string",
+          "title": "Name of the widget, e.g. \"Mountain Media Support\""
+        },
+        "namespace": {
+          "type": "string",
+          "title": "The id of the namespace, e.g. \"ABC\", \"AG-123\""
+        },
+        "color": {
+          "type": "string",
+          "title": "A hex color code for the widget, e.g. \"#FF0000\""
+        },
+        "allowedUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "A list of urls that the widget is allowed to be embedded on"
+        },
+        "position": {
+          "$ref": "#/definitions/v1WidgetPosition",
+          "title": "The position of the widget on the page"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestamp when the widget was created"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestamp when the widget was updated"
+        },
+        "isEnabled": {
+          "type": "boolean",
+          "title": "Whether the webchat for the widget config is enabled"
+        },
+        "welcomeMessage": {
+          "type": "string",
+          "title": "The welcome message for the webchat for the widget config"
+        },
+        "textColor": {
+          "type": "string",
+          "title": "The primary text color for the widget"
+        },
+        "accentColor": {
+          "type": "string",
+          "title": "Accent color for the widget secondary elements"
+        },
+        "accentTextColor": {
+          "type": "string",
+          "title": "Accent text color for the widget secondary elements"
+        },
+        "skipContactCapture": {
+          "type": "boolean",
+          "title": "Whether the widget has contact capturing enabled"
+        },
+        "additionalPromptInstructions": {
+          "type": "string",
+          "title": "The prompt provided by a user to be used as additional instructions for the web chat AI assistant"
+        },
+        "assistantName": {
+          "type": "string",
+          "title": "The name of the AI assistant"
+        },
+        "assistantAvatarUrl": {
+          "type": "string",
+          "title": "The avatar URL of the AI assistant"
+        },
+        "embedHistory": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "The history of widget installations (typically the domain/hostname of the referer URL the widget is embedded on)"
+        },
+        "hideMobileCta": {
+          "type": "boolean",
+          "title": "Hide the popup CTA on mobile screens"
+        },
+        "customGreetingMessage": {
+          "type": "string",
+          "title": "The custom greeting message that shows up as first message"
+        },
+        "enableGreetingMessage": {
+          "type": "boolean",
+          "title": "Enable the greeting message from AI assistant"
+        }
+      },
+      "title": "TODO(WARP-1442): add openapiv2 annotations for generated docs"
+    },
+    "v1WidgetPosition": {
+      "type": "string",
+      "enum": [
+        "WIDGET_POSITION_UNSPECIFIED",
+        "WIDGET_POSITION_RIGHT",
+        "WIDGET_POSITION_LEFT"
+      ],
+      "default": "WIDGET_POSITION_UNSPECIFIED",
+      "title": "- WIDGET_POSITION_UNSPECIFIED: Unspecified widget position\n - WIDGET_POSITION_RIGHT: Widget position on the right side of the page\n - WIDGET_POSITION_LEFT: Widget position on the left side of the page"
+    },
+    "v1WidgetVisit": {
+      "type": "object",
+      "properties": {
+        "visitorId": {
+          "type": "string",
+          "title": "The id of the visitor for tracking (long-lived user id of a visitor to a website hosting the widget)"
+        },
+        "visitId": {
+          "type": "string",
+          "title": "The id of the visit for tracking (short-lived \"session\" id of a visitor to a website hosting the widget)"
+        }
+      },
+      "title": "Cookie \"session\" data for tracking a visitor to a website hosting the widget"
+    },
+    "vendastatypesFieldMask": {
+      "type": "object",
+      "properties": {
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The set of field mask paths."
+        }
+      },
+      "description": "paths: \"f.a\"\n    paths: \"f.b.d\"\n\nHere `f` represents a field in some root message, `a` and `b`\nfields in the message found in `f`, and `d` a field found in the\nmessage in `f.b`.\n\nField masks are used to specify a subset of fields that should be\nreturned by a get operation or modified by an update operation.\nField masks also have a custom JSON encoding (see below).\n\n# Field Masks in Projections\n\nWhen used in the context of a projection, a response message or\nsub-message is filtered by the API to only contain those fields as\nspecified in the mask. For example, if the mask in the previous\nexample is applied to a response message as follows:\n\n    f {\n      a : 22\n      b {\n        d : 1\n        x : 2\n      }\n      y : 13\n    }\n    z: 8\n\nThe result will not contain specific values for fields x,y and z\n(their value will be set to the default, and omitted in proto text\noutput):\n\n\n    f {\n      a : 22\n      b {\n        d : 1\n      }\n    }\n\nA repeated field is not allowed except at the last position of a\npaths string.\n\nIf a FieldMask object is not present in a get operation, the\noperation applies to all fields (as if a FieldMask of all fields\nhad been specified).\n\nNote that a field mask does not necessarily apply to the\ntop-level response message. In case of a REST get operation, the\nfield mask applies directly to the response, but in case of a REST\nlist operation, the mask instead applies to each individual message\nin the returned resource list. In case of a REST custom method,\nother definitions may be used. Where the mask applies will be\nclearly documented together with its declaration in the API.  In\nany case, the effect on the returned resource/resources is required\nbehavior for APIs.\n\n# Field Masks in Update Operations\n\nA field mask in update operations specifies which fields of the\ntargeted resource are going to be updated. The API is required\nto only change the values of the fields as specified in the mask\nand leave the others untouched. If a resource is passed in to\ndescribe the updated values, the API ignores the values of all\nfields not covered by the mask.\n\nIf a repeated field is specified for an update operation, the existing\nrepeated values in the target resource will be overwritten by the new values.\nNote that a repeated field is only allowed in the last position of a `paths`\nstring.\n\nIf a sub-message is specified in the last position of the field mask for an\nupdate operation, then the existing sub-message in the target resource is\noverwritten. Given the target message:\n\n    f {\n      b {\n        d : 1\n        x : 2\n      }\n      c : 1\n    }\n\nAnd an update message:\n\n    f {\n      b {\n        d : 10\n      }\n    }\n\nthen if the field mask is:\n\n paths: \"f.b\"\n\nthen the result will be:\n\n    f {\n      b {\n        d : 10\n      }\n      c : 1\n    }\n\nHowever, if the update mask was:\n\n paths: \"f.b.d\"\n\nthen the result would be:\n\n    f {\n      b {\n        d : 10\n        x : 2\n      }\n      c : 1\n    }\n\nIn order to reset a field's value to the default, the field must\nbe in the mask and set to the default value in the provided resource.\nHence, in order to reset all fields of a resource, provide a default\ninstance of the resource and set all fields in the mask, or do\nnot provide a mask as described below.\n\nIf a field mask is not present on update, the operation applies to\nall fields (as if a field mask of all fields has been specified).\nNote that in the presence of schema evolution, this may mean that\nfields the client does not know and has therefore not filled into\nthe request will be reset to their default. If this is unwanted\nbehavior, a specific service may require a client to always specify\na field mask, producing an error if not.\n\nAs with get operations, the location of the resource which\ndescribes the updated values in the request message depends on the\noperation kind. In any case, the effect of the field mask is\nrequired to be honored by the API.\n\n## Considerations for HTTP REST\n\nThe HTTP kind of an update operation which uses a field mask must\nbe set to PATCH instead of PUT in order to satisfy HTTP semantics\n(PUT must only be used for full updates).\n\n# JSON Encoding of Field Masks\n\nIn JSON, a field mask is encoded as a single string where paths are\nseparated by a comma. Fields name in each path are converted\nto/from lower-camel naming conventions.\n\nAs an example, consider the following message declarations:\n\n    message Profile {\n      User user = 1;\n      Photo photo = 2;\n    }\n    message User {\n      string display_name = 1;\n      string address = 2;\n    }\n\nIn proto a field mask for `Profile` may look as such:\n\n    mask {\n      paths: \"user.display_name\"\n      paths: \"photo\"\n    }\n\nIn JSON, the same mask is represented as below:\n\n    {\n      mask: \"user.displayName,photo\"\n    }\n\n# Field Masks and Oneof Fields\n\nField masks treat fields in oneofs just as regular fields. Consider the\nfollowing message:\n\n    message SampleMessage {\n      oneof test_oneof {\n        string name = 4;\n        SubMessage sub_message = 9;\n      }\n    }\n\nThe field mask can be:\n\n    mask {\n      paths: \"name\"\n    }\n\nOr:\n\n    mask {\n      paths: \"sub_message\"\n    }\n\nNote that oneof type names (\"test_oneof\" in this case) cannot be used in\npaths.",
+      "title": "`FieldMask` represents a set of symbolic field paths, for example:"
+    }
+  },
+  "host": "prod.apigateway.co",
+  "basePath": "/grpc",
+  "schemes": [
+    "https"
+  ]
+}

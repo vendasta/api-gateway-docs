@@ -91,6 +91,14 @@
         ],
         "tags": [
           "ConversationService"
+        ],
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
         ]
       }
     }
@@ -2056,5 +2064,19 @@
   "basePath": "/grpc",
   "schemes": [
     "https"
-  ]
+  ],
+  "securityDefinitions": {
+    "OAuth2Demo": {
+      "type": "oauth2",
+      "flow": "accessCode",
+      "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
+      "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token"
+    },
+    "OAuth2Prod": {
+      "type": "oauth2",
+      "flow": "accessCode",
+      "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+      "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+    }
+  }
 }

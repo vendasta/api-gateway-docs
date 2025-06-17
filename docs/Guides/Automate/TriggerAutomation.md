@@ -4,7 +4,7 @@ Automations are a powerful tool within the Vendasta platform, they can be used t
 
 If you have setup automations in the Vendasta platform you can trigger them for a business. This enables you to set up a complex chain of actions but only need one api call. 
 
-[Learn more about automations](https://support.vendasta.com/hc/en-us/sections/4406950706583-Automations)
+[Learn more about automations](https://support.vendasta.com/hc/en-us/articles/32080353019159-Automate-Follow-Up-Actions-When-a-Contact-Requests-a-Callback)
 
 ## Setup:
 

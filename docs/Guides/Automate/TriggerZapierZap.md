@@ -8,7 +8,7 @@ This guide will show you how to set up a Vendasta Automation that causes Zapier 
 
 ## Prerequisites
 1. You will need a paid Zapier account to follow this guide.
-2. This guide assumes you are familiar with creating automations within the platform. If you are not familiar you should [learn more about automations](https://support.vendasta.com/hc/en-us/sections/4406950706583-Automations) first.
+2. This guide assumes you are familiar with creating automations within the platform. If you are not familiar you should [learn more about automations](https://support.vendasta.com/hc/en-us/articles/32080353019159-Automate-Follow-Up-Actions-When-a-Contact-Requests-a-Callback) first.
 
 > Need ideas? Check out [this video](https://www.youtube.com/watch?v=8ejJ-52Lows)
 

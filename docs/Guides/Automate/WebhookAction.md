@@ -8,7 +8,7 @@ In this guide we will create an automation, listen for the event and retrieve de
 
 ## Prerequisites
 
-This guide assumes you are familiar with creating automations within the platform. If you are not familiar you should [learn more about automations](https://support.vendasta.com/hc/en-us/articles/32080353019159-Automate-Follow-Up-Actions-When-a-Contact-Requests-a-Callback) first.
+This guide assumes you are familiar with creating automations within the platform. If you are not familiar you should [learn more about automations](https://support.vendasta.com/hc/en-us/categories/24285550627223-Automations) first.
 
 
 ## Step 1: Automation setup

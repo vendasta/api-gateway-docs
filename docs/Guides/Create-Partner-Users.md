@@ -6,7 +6,7 @@ When you hire a new employee they are going to need access to some of the platfo
 
 ## Create a new user
 
-When creating a new user you will need their email address and the IDs of the platform features that you would like to give them access to. 
+When creating a new partner user you will need their email address and the IDs of the platform features that you would like to give them access to. 
 
 The most common platform features are:
 
@@ -79,7 +79,9 @@ The most common platform features are:
 
 For full details on the available fields see the [API specification](../../openapi/platform/platform.yaml/components/schemas/users).
 
-Creating a user by API does **not** send out a welcome email. You may build your own message or send ours in a later step of your process.
+Creating a user by API does **not** send out a welcome email. You may build your own message or send the default welcome email in a later step of your process.
+
+> The number of partner users you can have before needing to pay for extra seats depends on your subscription, so be aware of your limits prior to adding new seats over API. 
 
 
 ## Check for an existing user
@@ -98,6 +100,3 @@ If another user already exists within your platform with the same email address 
   }
 }
 ```
-
-# Comming Soon
-Soon you will be able to manage your users via SCIM. Check out the [proposed APIs](../../openapi/scim/scim.yaml).

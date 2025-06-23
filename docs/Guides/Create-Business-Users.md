@@ -4,15 +4,21 @@
 >
 > For info on creating an access token see the [Authorization guide](../Authorization/Authorization.md)
 
-After creating an Account you most likely want to add some users to it, allowing them to access Business App and any of the active products.
+After creating an Account you most likely want to add some users to it, allowing them to access Business App and/or any of the Account's active products that support SSO.
 
 
 ## Create a new user
-When creating a new user you will need their email address and the IDs of the business locations that you would like to give them access to. For full details on the available fields see the [API specification](../../openapi/platform/platform.yaml/components/schemas/users).
+When creating a new business user you will need their email address, and the IDs of the business locations that you would like to give them access to. For full details on the available fields see the [API specification](../../openapi/platform/platform.yaml/components/schemas/users). 
+
+Creating a user by API does **not** send out a welcome email. You may build your own message or send out the default welcome email in a later step of your process.
 
 **Adding Roles**
 
-A role **must** be applied at time of user creation. A role can be applied by adding a supported object to the User's `relationships`. Provide the `businessLocations` object to add the `smb` role to the user, the `platformAccess` to add the `partner`(Partner Center Admin) role, or both. The `sales-person` and `digital-agent` roles must be added via the Partner Center dashboard at this time.
+A role **must** be applied at time of user creation. A role can be applied by adding a supported object to the User's `relationships`. Provide either the `businessLocations` object to add the `smb` role to the user, or the `platformAccess` to add the `partner`(Partner Center Admin) role, or both. The `sales-person` and `digital-agent` roles must be added via the Partner Center dashboard at this time(Administration-->My Teams).
+
+See the [Create a Partner User](Create-Partner-Users.md) Guide for details on creating users for your staff.
+
+*Test Creating a User*
 
 
 ```json http
@@ -83,9 +89,6 @@ A role **must** be applied at time of user creation. A role can be applied by ad
 ```
 
 
-Creating a user by API does **not** send out a welcome email. You may build your own message or send ours in a later step of your process.
-
-
 ## Check for an existing user
 If another user already exists within your platform with the same email address you will get an error when trying to create a new user. You can search for an existing user by email with the following request.
 
@@ -105,7 +108,7 @@ If another user already exists within your platform with the same email address 
 ```
 
 
-## Update and list business locations for an existing user
+## Manage business location associations for a user with the SMB role
 
 You may list or modify a user's accessible business locations by making requests to the `businessLocations` relationship of that user.
 

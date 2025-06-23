@@ -3,7 +3,8 @@ tags: [Customers]
 ---
 # Sync Contact Information From Your System to Vendasta Business App
 
-> This guide relies on "Trusted Tester" endpoints and is likely to change until all features have been made generally available.
+<!-- theme: warning -->
+> This Guide is deprecated. The SSC customer records have been replaced by the Vendasta CRM.
 
 Vendasta allows you to sync contact information from your CRM or POS system onto our platform. Doing so will allow you to use features in our platform like SMS messaging through Vendasta's Inbox or [requesting business review through Customer Voice](./CustomerVoice/SendReviewRequest.md).
 

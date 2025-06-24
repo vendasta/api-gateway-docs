@@ -2,17 +2,16 @@
 
 Users within your platform will generally fall into one of the following categories. 
 
-**Partner Users:** Are generally your employees. They have access to apps that were provided for the partner's use. You can manually manage them in the [My Team](https://partners.vendasta.com/my-team) area of Partner Center.
+**Partner Users:** Are generally your employees. They have access to apps that were provided for the partner's use. This includes the Adminsitrative and Sales sections of Partner Center, Task Manager, and Vendor Center. You can manually manage them in the [My Team](https://partners.vendasta.com/my-team) area of Partner Center.
 
 **Business Users:** Are generally the managers of the small businesses that your team sells to.  
 
 **Guest Users:** Are people who are part of a different platform instance from yourself. You are most likely to come across them if you are using the fulfilment services of another partner or communicating with a vendor.
 
-**Bot Users:** To allow auditing of background tasks completed by your service accounts they have users accounts as well. 
+**Bot Users:** To allow auditing of background tasks completed by your service accounts they have user accounts as well. 
 
 
 ## Quick start guides
-- [Get the profile data of a user](./Display-Users.md)
 - [Create a new business user](Create-Business-Users.md)
 - [Create a new partner user](Create-Partner-Users.md)
 
@@ -20,14 +19,14 @@ Users within your platform will generally fall into one of the following categor
 ## Personal Data Protection
 User records contain sensitive data that we need to work together to protect, such as the name and contact info of a person. There are a few things we can do to achieve that.  
 
-1. You can use the `fields` and `filter*` query parameters to request only the info that you need. 
+1. You can use the `filter*` query parameters to request only the info that you need. 
 2. We will apply security checks to individual fields. If you or the app does not have sufficient access the fields will be left blank, nil or omitted in responses. 
 3. Request the smallest possible scope of access when creating an access token for your bot. 
 
 
 ## OAuth2 Scopes
 
-Note: Scopes are normally defined for much larger categories of data which include multiple resource types. Due to the sensitive nature of data provided in the `users` resource it has been given scopes for categories of fields and filters.
+Note: Scopes are normally defined for much larger categories of data which include multiple resource types. Due to the sensitive nature of data provided in the `users` resource it has been given scopes for categories of filters.
 
 
 ### Full access scopes

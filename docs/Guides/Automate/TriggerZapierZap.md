@@ -1,4 +1,4 @@
-# Trigger Zapier Zap using an Automations
+# Trigger Zapier Zap using an Automation
 
 Vendasta Automations are a powerful tool for building custom processes within the Vendasta platform. To take action in 3rd party systems you will need to integrate with them directly or use a tool like [Zapier](https://zapier.com).
 
@@ -26,17 +26,15 @@ Expand the "Test trigger" section and copy your webhook URL.
 
 In a new tab, go to the Vendasta Partner Center and create an Automation workflow based on the triggers and filters that are unique to your business process.
 
-Add a "Trigger a webhook" step at the point you would like to call the 3rd party system. Paste the URL that you copied from Zapier in step one. The verifier token can be left blank as Zapier uses hard-to-guess URLs and HTTPS. 
-
-![](zapier4.png)
+Add a "Send a webhook" step at the point you would like to call the 3rd party system. Paste the URL that you copied from Zapier in step one. 
 
 Configure the webhook body to contain any of the fields that you want to send to the 3rd party. 
+![](zap_webhook.png)
 
-![](zapier5.png)
 
 ## Step 3: Test
 
-Click the "Send test webhook" button in Vendasta. Then go back to Zapier editor and click "Test trigger". Zapier should display your test request.
+Copy the example curl request, adjust any values, and send via your terminal, or import to Postman. Then go back to Zapier editor and click "Test trigger". Zapier should display your test request.
 
 ![](zapier6.png)
 

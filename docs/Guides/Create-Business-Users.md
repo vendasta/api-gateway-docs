@@ -14,11 +14,16 @@ Creating a user by API does **not** send out a welcome email. You may build your
 
 **Adding Roles**
 
-A role **must** be applied at time of user creation. A role can be applied by adding a supported object to the User's `relationships`. Provide either the `businessLocations` object to add the `smb` role to the user, or the `platformAccess` to add the `partner`(Partner Center Admin) role, or both. The `sales-person` and `digital-agent` roles must be added via the Partner Center dashboard at this time(Administration-->My Teams).
+A role **must** be applied at time of user creation. A role can be applied by adding a supported object to the User's `relationships`. 
+
+* Include the `businessLocations` object to add the `smb` role to the user
+* Include the `platformAccess` object to add the `partner`(Partner Center Admin) role
+* Include both. 
+The `sales-person` and `digital-agent` roles must be added via the Partner Center dashboard at this time(Administration-->My Teams).
 
 See the [Create a Partner User](Create-Partner-Users.md) Guide for details on creating users for your staff.
 
-*Test Creating a User*
+*Test Creating a User:*
 
 
 ```json http

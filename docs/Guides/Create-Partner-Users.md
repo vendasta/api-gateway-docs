@@ -2,7 +2,6 @@
 
 When you hire a new employee they are going to need access to some of the platform features so they can start selling or fulfilling orders.
 
-> The ability to manage parter users is comming soon
 
 ## Create a new user
 
@@ -13,8 +12,7 @@ The most common platform features are:
 |ID|Description|
 |--|-----------|
 |pc:access|Allows the user to access the admin tools in partner center|
-|ssc:access|Provides access to Sales & Success Center|
-|ssc:manage|Allows access to the management tools in Sales & Success Center|
+|pc:canManageSales|Access to manage salespeople, pipelines, and sales settings|
 |tm:access|Provides access to Task Manager|
 |tm:manage|Allows access to the management tools in Task Manager|
 
@@ -63,11 +61,11 @@ The most common platform features are:
           "data": [
             {
               "type": "appFeatures",
-              "id": "ssc:access"
+              "id": "pc:access"
             },
             {
               "type": "appFeatures",
-              "id": "ssc:manage"
+              "id": "tm:manage"
             }
           ]
         }

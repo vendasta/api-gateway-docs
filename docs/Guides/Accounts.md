@@ -1,24 +1,23 @@
 ---
-tags: [businesses, businessLocations, contacts]
+tags: [accounts, businesses, businessLocations, contacts]
 ---
 # Businesses
 
-A `Business Location` is the basic record for storing information about an organization that is generally part of their 
-public profile. More sensitive data can be found in related resources. Collectively your sales team may refer to this as an "Account".
-The location may be a retail store, the business' headquarters or identify an area they serve.
+An `Account` typically represents a single business location.
+The location may be a retail store, the business' headquarters, or identify an area they serve. Sometimes an `Account` may represent a professional such as a Realtor, Dr., or Lawyer, etc.
 
 ## Common Actions
 
-> For info on creating an access token see the [Authorization guide](../Authorization/Authorization.md)
+> For info on creating an access token see the [Authorization guide](../Authorization/Authorization.md). *For quick tests use the 'Generate Token' button at the top of the Developer Center, and send test requests directly from the documentation.*
 
-### Creating a Business Location
+### Creating an Account
 
-To create a new Business Location make the following call, replacing values as appropriate.
+To create a new `Account` using the standard API Gateway make the following call, replacing values as appropriate:
 
 ```json http
 {
   "method": "post",
-  "url": "https://prod.apigateway.co/platform/businessLocations",
+  "url": "https://prod.apigateway.co/platform/salesAccounts",
   "query": {},
   "headers": {
     "Authorization": "Bearer <Access Token with 'business' scope>",
@@ -26,24 +25,42 @@ To create a new Business Location make the following call, replacing values as a
   },
   "body": {
     "data": {
-      "type": "businessLocations",
+      "type": "salesAccounts",
       "attributes": {
-        "name": "Fred's Fish on Young",
+        "tags": [
+          "tag1",
+          "tag2"
+        ],
+        "customerIdentifier": "User-defined-id-123123",
+        "name": "Company Example",
         "address": {
-          "line1": "123 Young St",
-          "line2": "",
-          "city": "Toronto",
-          "regionCode": "CA-ON",
-          "postalCode": "O2C 4W9",
+          "line1": "109 8th Street E.",
+          "line2": "Suite 23",
+          "city": "Saskatoon",
+          "stateCode": "CA",
+          "zip": "S7M 1R3",
+          "postalCode": "S7M 1R3",
+          "regionCode": "CA-SK",
           "countryCode": "CA"
         },
-        "phoneNumbers": [ 
-           "1 (555) 323-1234",
-           "1 800 Go Green"
+        "phoneNumbers": [
+          "+13068800001"
         ],
-        "serviceAreaBusiness": false
+        "serviceAreaBusiness": true,
+        "geoCoordinate": {
+          "latitude": -90,
+          "longitude": -180
+        }
       },
       "relationships": {
+        "salesPeople": {
+          "data": [
+            {
+              "id": "U-123123-123123",
+              "type": "users"
+            }
+          ]
+        },
         "businessPartner": {
           "data": {
             "type": "partners",
@@ -54,11 +71,7 @@ To create a new Business Location make the following call, replacing values as a
           "data": [
             {
               "type": "businessCategories",
-              "id": "restaurants:buffets"
-            },
-            {
-              "type": "businessCategories",
-              "id": "restaurants:fishnchips"
+              "id": "active:diving:freediving"
             }
           ]
         }
@@ -73,65 +86,67 @@ It will return the newly created record including any server populated values. B
 ```json
 {
   "data": {
-    "type": "businessLocations",
-    "id": "AG-123",
+    "id": "AG-1234567",
+    "type": "salesAccounts",
     "attributes": {
-      "customerIdentifier": "",
-      "name": "Fred's Fish on Young",
+      "tags": [
+        "tag1",
+        "tag2"
+      ],
+      "customerIdentifier": "User-defined-id-123123",
+      "name": "Company Example",
       "address": {
-        "line1": "123 Young St",
-        "line2": "",
-        "city": "Toronto",
-        "regionCode": "CA-ON",
-        "postalCode": "O2C 4W9",
+        "line1": "109 8th Street E.",
+        "line2": "Suite 23",
+        "city": "Saskatoon",
+        "stateCode": "CA",
+        "zip": "S7M 1R3",
+        "postalCode": "S7M 1R3",
+        "regionCode": "CA-SK",
         "countryCode": "CA"
       },
-      "geoCoordinate": {
-        "latitude": 0,
-        "longitude": 0
-      },
-      "serviceAreaBusiness": false,
       "phoneNumbers": [
-        "1 (555) 323-1234",
-        "1 800 Go Green"
-      ]
+        "+13068800001"
+      ],
+      "serviceAreaBusiness": true,
+      "geoCoordinate": {
+        "latitude": -90,
+        "longitude": -180
+      }
     },
     "relationships": {
-      "businessCategories": {
-        "links": {
-          "related": "https://prod.apigateway.co/platform/businessLocations/AG-123/businessCategories",
-          "self": "https://prod.apigateway.co/platform/businessLocations/AG-123/relationships/businessCategories"
-        },
+      "salesPeople": {
         "data": [
           {
-            "type": "businessCategories",
-            "id": "restaurants:buffets"
-          },
-          {
-            "type": "businessCategories",
-            "id": "restaurants:fishnchips"
+            "id": "U-123123-123123",
+            "type": "users"
           }
         ]
       },
       "businessPartner": {
-        "links": {
-          "related": "https://prod.apigateway.co/platform/businessLocations/AG-123/businessPartner",
-          "self": "https://prod.apigateway.co/platform/businessLocations/AG-123/relationships/businessPartner"
-        },
         "data": {
           "type": "partners",
           "id": "ABC"
         }
-      }
+      },
+      "businessCategories": {
+        "data": [
+          {
+            "type": "businessCategories",
+            "id": "active:diving:freediving"
+          }
+        ]
+      },
+      "type": "salesAccounts"
     }
   }
 }
 ```
 
-For more details on this endpoint see [Create Business Locations](../../openapi/platform/platform.yaml/paths/~1businessLocations/post)
+For more details on this endpoint see [Create salesAccounts](../../openapi/platform/platform.yaml/paths/~1salesAccounts/post)
 
 ### List valid Business Categories
-When creating a business location you will likely want to know what ids you can use for the businessCategories field. 
+When creating an `Account` you will likely want to know what ids you can use for the businessCategories field. 
 
 This example will return the first 3 in Canadian French. Change the `Accept-Language` header to pick a different supported language or omit it to default to English. 
 
@@ -153,29 +168,29 @@ Response
 ```json
 {
   "links": {
-    "last": "https://prod.apigateway.co/platform/businessCategories?page[cursor]=eyJsYXN0UGFnZVN0YXJ0IjowLCJsYXN0UGFnZUVuZCI6MywiZm9yUGFnZVR5cGUiOiJsYXN0IiwibGltaXQiOjN9&page[limit]=3",
-    "next": "https://prod.apigateway.co/platform/businessCategories?page[cursor]=eyJsYXN0UGFnZVN0YXJ0IjowLCJsYXN0UGFnZUVuZCI6MywiZm9yUGFnZVR5cGUiOiJuZXh0IiwibGltaXQiOjN9&page[limit]=3"
+    "first": "https://prod.apigateway.co/platform/businessCategories?page[cursor]=&page[limit]=3",
+    "next": "https://prod.apigateway.co/platform/businessCategories?page[cursor]=3&page[limit]=3"
   },
   "data": [
     {
       "type": "businessCategories",
-      "id": "active",
+      "id": "acrobatic_diving_pool",
       "attributes": {
-        "name": "Vie active"
+        "name": "Acrobatic diving pool"
       }
     },
     {
       "type": "businessCategories",
-      "id": "active:amateursportsteams",
+      "id": "disabled_sports_center",
       "attributes": {
-        "name": "Vie active > Équipe sportive amateur "
+        "name": "Adaptive sports center"
       }
     },
     {
       "type": "businessCategories",
-      "id": "active:amusementparks",
+      "id": "adventure_sports",
       "attributes": {
-        "name": "Vie active > Parcs d’attractions"
+        "name": "Adventure sports"
       }
     }
   ]
@@ -192,7 +207,7 @@ There are over 700 categories to pick from currently. To view them all you have 
   "url": "https://prod.apigateway.co/platform/businessCategories",
   "query": {
     "page[limit]": "3",
-    "page[cursor]": "eyJsYXN0UGFnZVN0YXJ0IjowLCJsYXN0UGFnZUVuZCI6MywiZm9yUGFnZVR5cGUiOiJuZXh0IiwibGltaXQiOjN9"
+    "page[cursor]": 3
   },
   "headers": {
     "Authorization": "Bearer <Access Token with 'business' scope>",
@@ -204,122 +219,45 @@ There are over 700 categories to pick from currently. To view them all you have 
 Response
 ```json
 {
-  "links": {
-    "first": "https://prod.apigateway.co/platform/businessCategories?page[cursor]=eyJsYXN0UGFnZVN0YXJ0IjozLCJsYXN0UGFnZUVuZCI6NiwiZm9yUGFnZVR5cGUiOiJmaXJzdCIsImxpbWl0IjozfQ==&page[limit]=3",
-    "last": "https://prod.apigateway.co/platform/businessCategories?page[cursor]=eyJsYXN0UGFnZVN0YXJ0IjozLCJsYXN0UGFnZUVuZCI6NiwiZm9yUGFnZVR5cGUiOiJsYXN0IiwibGltaXQiOjN9&page[limit]=3",
-    "next": "https://prod.apigateway.co/platform/businessCategories?page[cursor]=eyJsYXN0UGFnZVN0YXJ0IjozLCJsYXN0UGFnZUVuZCI6NiwiZm9yUGFnZVR5cGUiOiJuZXh0IiwibGltaXQiOjN9&page[limit]=3",
-    "prev": "https://prod.apigateway.co/platform/businessCategories?page[cursor]=eyJsYXN0UGFnZVN0YXJ0IjozLCJsYXN0UGFnZUVuZCI6NiwiZm9yUGFnZVR5cGUiOiJwcmV2IiwibGltaXQiOjN9&page[limit]=3"
-  },
-  "data": [
-    {
-      "type": "businessCategories",
-      "id": "active:aquariums",
-      "attributes": {
-        "name": "Vie active > Aquariums"
-      }
+    "links": {
+        "first": "https://prod.apigateway.co/platform/businessCategories?page[cursor]=&page[limit]=3",
+        "next": "https://prod.apigateway.co/platform/businessCategories?page[cursor]=6&page[limit]=3"
     },
-    {
-      "type": "businessCategories",
-      "id": "active:archery",
-      "attributes": {
-        "name": "Vie active > Archerie"
-      }
-    },
-    {
-      "type": "businessCategories",
-      "id": "active:badminton",
-      "attributes": {
-        "name": "Vie active > Badminton"
-      }
-    }
-  ]
+    "data": [
+        {
+            "type": "businessCategories",
+            "id": "adventure_sports_center",
+            "attributes": {
+                "name": "Adventure sports center"
+            }
+        },
+        {
+            "type": "businessCategories",
+            "id": "aerial_sports_center",
+            "attributes": {
+                "name": "Aerial sports center"
+            }
+        },
+        {
+            "type": "businessCategories",
+            "id": "aero_dance_class",
+            "attributes": {
+                "name": "Aero dance class"
+            }
+        }
+    ]
 }
 ```
 For more details on this endpoint see [List Business Categories](../../openapi/platform/platform.yaml/paths/~1businessCategories/get)
 
 
-### Creating a Sales Contact 
-
-When creating a Contact for a Business you may also link that Contact to a Location in the same API call.
-
-```json http
-{
-  "method": "post",
-  "url": "https://prod.apigateway.co/platform/salesContacts",
-  "query": {},
-  "headers": {
-    "Authorization": "Bearer <Token with 'sales.contact' scope>",
-    "Content-Type": "application/vnd.api+json"
-  },
-  "body": {
-    "data": {
-      "type": "salesContacts",
-      "attributes": {
-        "givenName": "Samantha",
-        "familyName": "Green",
-        "phone": "+1 306-555-1234 ext. 89",
-        "phoneCountryCode": "CA",
-        "email": "user@example.com"
-      },
-      "relationships": {
-        "businessLocations": {
-          "data": [
-            {
-              "id": "AG-1234",
-              "type": "businessLocations"
-            }
-          ]
-        }
-      }
-    }
-  }
-}
-```
-
-It will return the newly created record including any server populated values. Be sure to save the ID for later.
-
-```json
-{
-  "data": {
-    "type": "salesContacts",
-    "id": "CO-0739c46cc4794157bf962bd73ce897a7",
-    "attributes": {
-      "givenName": "Samantha",
-      "familyName": "Green",
-      "phone": "+1 306-555-1234 ext. 89",
-      "phoneCountryCode": "CA",
-      "email": "user@example.com"
-    },
-    "relationships": {
-      "businessLocations": {
-        "links": {
-          "related": "https://prod.apigateway.co/platform/salesContacts/CO-0739c46cc4794157bf962bd73ce897a7/businessLocations",
-          "self": "https://prod.apigateway.co/platform/salesContacts/CO-0739c46cc4794157bf962bd73ce897a7/relationships/businessLocations"
-        },
-        "data": [
-          {
-            "type": "businessLocations",
-            "id": "AG-1234"
-          }
-        ]
-      }
-    }
-  }
-}
-```
-
-For more details on this endpoint see [Create Sales Contacts](../../openapi/platform/platform.yaml/paths/~1salesContacts/post)
-
-### Update attribute on a business location
-When updating the values for a business location you only need to send the fields that have changed. In this example we are updating the `customerIdentifier` on the business location with ID `AG-3VDRVLBNJG`. Note that the ID gets set in both the path and body. 
+### Update attribute on an Account
+When updating the values for an Account you only need to send the fields that have changed. In this example we are updating the `customerIdentifier` on the Account with ID `AG-3VDRVLBNJG`. Note that the Account ID gets set in both the path and body. 
 
 ```json http
 {
   "method": "patch",
-  "url": "https://prod.apigateway.co/platform/businessLocations/AG-3VDRVLBNJG",
-  "query": {
-    "fields[businessLocations]": "customerIdentifier"
-  },
+  "url": "https://prod.apigateway.co/platform/salesAccounts/AG-3VDRVLBNJG",
   "headers": {
     "Authorization": "Bearer <Access Token with 'business' scope>",
     "Content-Type": "application/vnd.api+json"
@@ -327,7 +265,7 @@ When updating the values for a business location you only need to send the field
   "body": {
     "data": {
       "id": "AG-3VDRVLBNJG",
-      "type": "businessLocations",
+      "type": "salesAccounts",
       "attributes": {
         "customerIdentifier": "CUST-5"
       }
@@ -335,52 +273,4 @@ When updating the values for a business location you only need to send the field
   }
 }
 ```
-For more details on this endpoint see [Update Business Locations](../../openapi/platform/platform.yaml/paths/~1businessLocations~1%7Bid%7D/patch)
-
-### Get a list of your business locations
-
-```json http
-{
-  "method": "get",
-  "url": "https://prod.apigateway.co/platform/businessLocations",
-  "query": {
-    "filter[businessPartner.id]": "ABC",
-    "fields[businessLocations]": "name",
-    "page[limit]": "2"
-  },
-  "headers": {
-    "Authorization": "Bearer <Access Token with 'business' scope>",
-    "Content-Type": "application/vnd.api+json",
-    "Accept-Encoding": "application/vnd.api+json"
-  }
-}
-```
-
-Will return a list of business location:
-
-```json
-{
-  "data": [
-    {
-      "type": "businessLocations",
-      "id": "AG-1234",
-      "attributes": {
-        "name": "Bill's Bakery"
-      }
-    },
-    {
-      "type": "businessLocations",
-      "id": "AG-5642",
-      "attributes": {
-        "name": "Shane's Snack Hut"
-      }
-    }
-  ],
-  "links": {
-    "first": "https://prod.apigateway.co/platform/businessLocations?page[cursor]=abc",
-    "next": "https://prod.apigateway.co/platform/businessLocations?page[cursor]=nop"
-  }
-}
-```
-
-For more details on this endpoint see [List Business Locations](../../openapi/platform/platform.yaml/paths/~1businessLocations~1%7Bid%7D/get)
+For more details on this endpoint see [Update salesAccount](../../openapi/platform/platform.yaml/paths/~1salesAccounts~1%7Bid%7D/patch)

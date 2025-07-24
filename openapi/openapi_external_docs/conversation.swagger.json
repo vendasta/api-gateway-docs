@@ -125,6 +125,17 @@
         }
       }
     },
+    "GetWidgetConfigResponseGreetingMessageType": {
+      "type": "string",
+      "enum": [
+        "GREETING_MESSAGE_UNDEFINED",
+        "GREETING_MESSAGE_NONE",
+        "GREETING_MESSAGE_CUSTOM",
+        "GREETING_MESSAGE_DEFAULT",
+        "GREETING_MESSAGE_AI"
+      ],
+      "default": "GREETING_MESSAGE_UNDEFINED"
+    },
     "HydrationEntityEntityType": {
       "type": "string",
       "enum": [
@@ -508,6 +519,10 @@
         "whatsappEnabled": {
           "type": "boolean",
           "title": "Determines if whats app is available for the organization referred to by subject_participant"
+        },
+        "aiVoiceEnabled": {
+          "type": "boolean",
+          "title": "Determines if ai voice capabilities are available for the organization referred to by subject_participant"
         }
       },
       "title": "Configuration for Inbox"
@@ -808,7 +823,8 @@
         "EVENT_TYPE_REVIEW_REQUEST",
         "EVENT_TYPE_FORM_SUBMISSION",
         "EVENT_TYPE_PHONE_CALL",
-        "EVENT_TYPE_SMS_SUBSCRIBED"
+        "EVENT_TYPE_SMS_SUBSCRIBED",
+        "EVENT_TYPE_DUPLICATE_CONVERSATION"
       ],
       "default": "EVENT_TYPE_UNDEFINED"
     },
@@ -1178,6 +1194,9 @@
         "showFooterContent": {
           "type": "boolean",
           "title": "Show the footer content on the widget (configured on the partner business app configuration)"
+        },
+        "greetingMessageType": {
+          "$ref": "#/definitions/GetWidgetConfigResponseGreetingMessageType"
         }
       }
     },
@@ -1760,6 +1779,10 @@
         "whatsappEnabled": {
           "type": "boolean",
           "title": "Determines if whats app is available for the organization referred to by subject_participant"
+        },
+        "aiVoiceEnabled": {
+          "type": "boolean",
+          "title": "Determines if ai voice capabilities are available for the organization referred to by subject_participant"
         }
       }
     },
@@ -1840,6 +1863,10 @@
         "runSync": {
           "type": "boolean",
           "title": "option to run sendMessage synchronously"
+        },
+        "skipMessageDelivery": {
+          "type": "boolean",
+          "title": "option to skip message delivery if the message channel is a external provider"
         }
       }
     },
@@ -1868,6 +1895,9 @@
         "created": {
           "type": "string",
           "format": "date-time"
+        },
+        "errorCode": {
+          "type": "string"
         }
       }
     },
@@ -2118,7 +2148,7 @@
         },
         "enableGreetingMessage": {
           "type": "boolean",
-          "title": "Enable the greeting message from AI assistant"
+          "title": "Enable the greeting message from AI assistant using the custom greeting message"
         },
         "widgetType": {
           "type": "string",

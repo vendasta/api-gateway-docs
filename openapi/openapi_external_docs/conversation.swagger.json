@@ -104,6 +104,25 @@
     }
   },
   "definitions": {
+    "ExportConversationsRequestFilterOptions": {
+      "type": "object",
+      "properties": {
+        "subjectParticipant": {
+          "$ref": "#/definitions/v1SubjectParticipant",
+          "title": "The subject participant whose conversations are being exported"
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Start of the export period. Includes messages created after this timestamp"
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "title": "End of the export period. Includes messages created before this timestamp"
+        }
+      }
+    },
     "GetMessageTemplateRequestHydrationOptions": {
       "type": "object",
       "properties": {
@@ -827,6 +846,15 @@
         "EVENT_TYPE_DUPLICATE_CONVERSATION"
       ],
       "default": "EVENT_TYPE_UNDEFINED"
+    },
+    "v1ExportConversationsResponse": {
+      "type": "object",
+      "properties": {
+        "workflowId": {
+          "type": "string",
+          "title": "The workflow ID of the export conversation process"
+        }
+      }
     },
     "v1GetAIQuickReplySuggestionsResponse": {
       "type": "object",

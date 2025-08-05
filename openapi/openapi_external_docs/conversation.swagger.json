@@ -104,25 +104,6 @@
     }
   },
   "definitions": {
-    "ExportConversationsRequestFilterOptions": {
-      "type": "object",
-      "properties": {
-        "subjectParticipant": {
-          "$ref": "#/definitions/v1SubjectParticipant",
-          "title": "The subject participant whose conversations are being exported"
-        },
-        "startTime": {
-          "type": "string",
-          "format": "date-time",
-          "title": "Start of the export period. Includes messages created after this timestamp"
-        },
-        "endTime": {
-          "type": "string",
-          "format": "date-time",
-          "title": "End of the export period. Includes messages created before this timestamp"
-        }
-      }
-    },
     "GetMessageTemplateRequestHydrationOptions": {
       "type": "object",
       "properties": {
@@ -847,6 +828,25 @@
       ],
       "default": "EVENT_TYPE_UNDEFINED"
     },
+    "v1ExportConversationsRequestFilterOptions": {
+      "type": "object",
+      "properties": {
+        "subjectParticipant": {
+          "$ref": "#/definitions/v1SubjectParticipant",
+          "title": "The subject participant whose conversations are being exported"
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Start of the export period. Includes messages created after this timestamp"
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "title": "End of the export period. Includes messages created before this timestamp"
+        }
+      }
+    },
     "v1ExportConversationsResponse": {
       "type": "object",
       "properties": {
@@ -855,6 +855,71 @@
           "title": "The workflow ID of the export conversation process"
         }
       }
+    },
+    "v1ExportStatus": {
+      "type": "string",
+      "enum": [
+        "EXPORT_STATUS_UNDEFINED",
+        "EXPORT_STATUS_IN_PROGRESS",
+        "EXPORT_STATUS_COMPLETED",
+        "EXPORT_STATUS_FAILED"
+      ],
+      "default": "EXPORT_STATUS_UNDEFINED",
+      "title": "Enum representing the status of the export process"
+    },
+    "v1ExportedConversationRecord": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "title": "The unique identifier of the export conversation process"
+        },
+        "userId": {
+          "type": "string",
+          "title": "The user ID of the user who requested the export"
+        },
+        "subjectParticipant": {
+          "$ref": "#/definitions/v1SubjectParticipant",
+          "title": "The subject participant whose conversations are being exported"
+        },
+        "status": {
+          "$ref": "#/definitions/v1ExportStatus",
+          "title": "The status of the export process"
+        },
+        "recipientEmail": {
+          "type": "string",
+          "title": "The email address to which the export will be sent"
+        },
+        "filters": {
+          "$ref": "#/definitions/v1Filters"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time when the export was created"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time when the export was last updated"
+        }
+      }
+    },
+    "v1Filters": {
+      "type": "object",
+      "properties": {
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The start time of the export period"
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The end time of the export period"
+        }
+      },
+      "title": "Message representing the filters applied to the export"
     },
     "v1GetAISystemMessageResponse": {
       "type": "object",
@@ -1321,6 +1386,32 @@
         }
       }
     },
+    "v1ListExportedConversationsRecordRequestFilterOptions": {
+      "type": "object",
+      "properties": {
+        "platformLocation": {
+          "$ref": "#/definitions/v1PlatformLocation",
+          "title": "The platform location from which the export process was initiated"
+        }
+      }
+    },
+    "v1ListExportedConversationsRecordResponse": {
+      "type": "object",
+      "properties": {
+        "record": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ExportedConversationRecord"
+          },
+          "title": "The list of exported conversations"
+        },
+        "pagingMetadata": {
+          "$ref": "#/definitions/v1PagedResponseMetadata",
+          "title": "Paging metadata for the request"
+        }
+      }
+    },
     "v1ListMessageTemplateResponse": {
       "type": "object",
       "properties": {
@@ -1769,7 +1860,8 @@
         "PLATFORM_LOCATION_VENDOR_CENTER",
         "PLATFORM_LOCATION_TASK_MANAGER",
         "PLATFORM_LOCATION_PROPOSAL_BUILDER",
-        "PLATFORM_LOCATION_SALES_CENTER"
+        "PLATFORM_LOCATION_SALES_CENTER",
+        "PLATFORM_LOCATION_ADMIN_CENTER"
       ],
       "default": "PLATFORM_LOCATION_UNDEFINED"
     },

@@ -650,6 +650,44 @@
       ],
       "default": "CONVERSATION_CHANNEL_UNDEFINED"
     },
+    "v1ConversationExportRecord": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "title": "The unique identifier of the export conversation process"
+        },
+        "userId": {
+          "type": "string",
+          "title": "The user ID of the user who requested the export"
+        },
+        "subjectParticipant": {
+          "$ref": "#/definitions/v1SubjectParticipant",
+          "title": "The subject participant whose conversations are being exported"
+        },
+        "status": {
+          "$ref": "#/definitions/v1ExportStatus",
+          "title": "The status of the export process"
+        },
+        "recipientEmail": {
+          "type": "string",
+          "title": "The email address to which the export will be sent"
+        },
+        "filters": {
+          "$ref": "#/definitions/v1Filters"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time when the export was created"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The time when the export was last updated"
+        }
+      }
+    },
     "v1ConversationKey": {
       "type": "object",
       "properties": {
@@ -866,44 +904,6 @@
       ],
       "default": "EXPORT_STATUS_UNDEFINED",
       "title": "Enum representing the status of the export process"
-    },
-    "v1ExportedConversationRecord": {
-      "type": "object",
-      "properties": {
-        "requestId": {
-          "type": "string",
-          "title": "The unique identifier of the export conversation process"
-        },
-        "userId": {
-          "type": "string",
-          "title": "The user ID of the user who requested the export"
-        },
-        "subjectParticipant": {
-          "$ref": "#/definitions/v1SubjectParticipant",
-          "title": "The subject participant whose conversations are being exported"
-        },
-        "status": {
-          "$ref": "#/definitions/v1ExportStatus",
-          "title": "The status of the export process"
-        },
-        "recipientEmail": {
-          "type": "string",
-          "title": "The email address to which the export will be sent"
-        },
-        "filters": {
-          "$ref": "#/definitions/v1Filters"
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time",
-          "title": "The time when the export was created"
-        },
-        "updated": {
-          "type": "string",
-          "format": "date-time",
-          "title": "The time when the export was last updated"
-        }
-      }
     },
     "v1Filters": {
       "type": "object",
@@ -1386,7 +1386,7 @@
         }
       }
     },
-    "v1ListExportedConversationsRecordRequestFilterOptions": {
+    "v1ListConversationExportsRequestFilterOptions": {
       "type": "object",
       "properties": {
         "platformLocation": {
@@ -1395,16 +1395,16 @@
         }
       }
     },
-    "v1ListExportedConversationsRecordResponse": {
+    "v1ListConversationExportsResponse": {
       "type": "object",
       "properties": {
-        "record": {
+        "export": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v1ExportedConversationRecord"
+            "$ref": "#/definitions/v1ConversationExportRecord"
           },
-          "title": "The list of exported conversations"
+          "title": "The list of conversation exports"
         },
         "pagingMetadata": {
           "$ref": "#/definitions/v1PagedResponseMetadata",

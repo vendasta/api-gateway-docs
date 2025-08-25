@@ -650,49 +650,6 @@
       ],
       "default": "CONVERSATION_CHANNEL_UNDEFINED"
     },
-    "v1ConversationExportRecord": {
-      "type": "object",
-      "properties": {
-        "requestId": {
-          "type": "string",
-          "title": "The unique identifier of the export conversation process"
-        },
-        "userId": {
-          "type": "string",
-          "title": "The user ID of the user who requested the export"
-        },
-        "subjectParticipant": {
-          "$ref": "#/definitions/v1SubjectParticipant",
-          "title": "The subject participant whose conversations are being exported"
-        },
-        "status": {
-          "$ref": "#/definitions/v1ExportStatus",
-          "title": "The status of the export process"
-        },
-        "recipientEmail": {
-          "type": "string",
-          "title": "The email address to which the export will be sent"
-        },
-        "filters": {
-          "$ref": "#/definitions/v1Filters",
-          "title": "The filters applied to the export, such as date range"
-        },
-        "errorCode": {
-          "type": "string",
-          "title": "Error code indicating what went wrong (e.g., \"notFound\", \"sendNotificationFailed\")"
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time",
-          "title": "The time when the export was created"
-        },
-        "updated": {
-          "type": "string",
-          "format": "date-time",
-          "title": "The time when the export was last updated"
-        }
-      }
-    },
     "v1ConversationKey": {
       "type": "object",
       "properties": {
@@ -871,61 +828,6 @@
       ],
       "default": "EVENT_TYPE_UNDEFINED"
     },
-    "v1ExportConversationsRequestFilterOptions": {
-      "type": "object",
-      "properties": {
-        "subjectParticipant": {
-          "$ref": "#/definitions/v1SubjectParticipant",
-          "title": "The subject participant whose conversations are being exported"
-        },
-        "startTime": {
-          "type": "string",
-          "format": "date-time",
-          "title": "Start of the export period. Includes messages created after this timestamp"
-        },
-        "endTime": {
-          "type": "string",
-          "format": "date-time",
-          "title": "End of the export period. Includes messages created before this timestamp"
-        }
-      }
-    },
-    "v1ExportConversationsResponse": {
-      "type": "object",
-      "properties": {
-        "workflowId": {
-          "type": "string",
-          "title": "The workflow ID of the export conversation process"
-        }
-      }
-    },
-    "v1ExportStatus": {
-      "type": "string",
-      "enum": [
-        "EXPORT_STATUS_UNDEFINED",
-        "EXPORT_STATUS_IN_PROGRESS",
-        "EXPORT_STATUS_COMPLETED",
-        "EXPORT_STATUS_FAILED"
-      ],
-      "default": "EXPORT_STATUS_UNDEFINED",
-      "title": "Enum representing the status of the export process"
-    },
-    "v1Filters": {
-      "type": "object",
-      "properties": {
-        "startTime": {
-          "type": "string",
-          "format": "date-time",
-          "title": "The start time of the export period"
-        },
-        "endTime": {
-          "type": "string",
-          "format": "date-time",
-          "title": "The end time of the export period"
-        }
-      },
-      "title": "Message representing the filters applied to the export"
-    },
     "v1GetAISystemMessageResponse": {
       "type": "object",
       "properties": {
@@ -1028,19 +930,6 @@
         }
       },
       "title": "GetMultiConfigurationResponse will return multiple configurations for a given subject participants"
-    },
-    "v1GetMultiConversationDetailsOptions": {
-      "type": "object",
-      "properties": {
-        "disableParticipantBranding": {
-          "type": "boolean",
-          "title": "Options the requester wants to hydrate participants on the response"
-        },
-        "exclusions": {
-          "$ref": "#/definitions/vendastatypesFieldMask",
-          "description": "The fields to exclude from the response. The entire response will be filled if this is empty."
-        }
-      }
     },
     "v1GetMultiConversationDetailsResponse": {
       "type": "object",
@@ -1401,32 +1290,6 @@
         "hasMore": {
           "type": "boolean",
           "title": "Whether there are more AI System Messages to fetch"
-        }
-      }
-    },
-    "v1ListConversationExportsRequestFilterOptions": {
-      "type": "object",
-      "properties": {
-        "platformLocation": {
-          "$ref": "#/definitions/v1PlatformLocation",
-          "title": "The platform location from which the export process was initiated"
-        }
-      }
-    },
-    "v1ListConversationExportsResponse": {
-      "type": "object",
-      "properties": {
-        "record": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1ConversationExportRecord"
-          },
-          "title": "The list of conversation exports"
-        },
-        "pagingMetadata": {
-          "$ref": "#/definitions/v1PagedResponseMetadata",
-          "title": "Paging metadata for the request"
         }
       }
     },
@@ -1878,8 +1741,7 @@
         "PLATFORM_LOCATION_VENDOR_CENTER",
         "PLATFORM_LOCATION_TASK_MANAGER",
         "PLATFORM_LOCATION_PROPOSAL_BUILDER",
-        "PLATFORM_LOCATION_SALES_CENTER",
-        "PLATFORM_LOCATION_ADMIN_CENTER"
+        "PLATFORM_LOCATION_SALES_CENTER"
       ],
       "default": "PLATFORM_LOCATION_UNDEFINED"
     },

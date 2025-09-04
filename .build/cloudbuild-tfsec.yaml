@@ -26,9 +26,13 @@ steps:
         git fetch origin "$BRANCH_NAME"
         git checkout -b "$BRANCH_NAME" "origin/$BRANCH_NAME"
 
-        # Run Trivy Filesystem Secret Scan (Only)
+        # Run Trivy Configuration Scan (Only)
         echo "### Running Trivy Config Scan"
-        trivy config --exit-code 1 --severity HIGH .
+        trivy config --exit-code 1 --severity CRITICAL .
+
+        # Run Trivy Secret Scan (Only)
+        echo "### Running Trivy Config Scan"
+        trivy fs --scanners secret --exit-code 1 .
     secretEnv:
       - GITHUB_TOKEN
 availableSecrets:

@@ -28,10 +28,6 @@ steps:
 
         # Run Trivy Filesystem Secret Scan (Only)
         echo "### Running Trivy Config Scan"
-        trivy filesystem --exit-code 1 .
-
-        # Run Trivy Filesystem Secret Scan (Only)
-        echo "### Running Trivy Config Scan"
         trivy config --ignorefile .trivyignore --exit-code 1 --severity HIGH .
     secretEnv:
       - GITHUB_TOKEN

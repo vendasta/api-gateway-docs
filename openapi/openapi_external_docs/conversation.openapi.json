@@ -258,6 +258,40 @@
         },
         "type": "object"
       },
+      "v1AIThinkingChunk": {
+        "description": "Represents a single streamed reasoning or progress chunk from the AI assistant.",
+        "properties": {
+          "chunkType": {
+            "$ref": "#/components/schemas/v1AIThinkingChunkType"
+          },
+          "content": {
+            "description": "Serialized JSON content of the chunk.",
+            "type": "string"
+          },
+          "sequenceNumber": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "v1AIThinkingChunkType": {
+        "default": "AI_THINKING_CHUNK_TYPE_UNSPECIFIED",
+        "enum": [
+          "AI_THINKING_CHUNK_TYPE_UNSPECIFIED",
+          "AI_THINKING_CHUNK_TYPE_START",
+          "AI_THINKING_CHUNK_TYPE_CONTENT",
+          "AI_THINKING_CHUNK_TYPE_METADATA",
+          "AI_THINKING_CHUNK_TYPE_FUNCTION_START",
+          "AI_THINKING_CHUNK_TYPE_FUNCTION_PROGRESS",
+          "AI_THINKING_CHUNK_TYPE_FUNCTION_COMPLETE",
+          "AI_THINKING_CHUNK_TYPE_FINAL",
+          "AI_THINKING_CHUNK_TYPE_ERROR",
+          "AI_THINKING_CHUNK_TYPE_INPUT_VALIDATION"
+        ],
+        "title": "Types of streamed AI thinking chunks",
+        "type": "string"
+      },
       "v1AddMultiParticipantsResponse": {
         "properties": {
           "participants": {
@@ -1400,6 +1434,17 @@
       },
       "v1Message": {
         "properties": {
+          "aiThinkingChunks": {
+            "description": "AI reasoning or thinking chunks generated during response creation.",
+            "items": {
+              "$ref": "#/components/schemas/v1AIThinkingChunk"
+            },
+            "type": "array"
+          },
+          "aiThinkingDuration": {
+            "description": "Duration of AI thinking before final response.",
+            "type": "string"
+          },
           "body": {
             "type": "string"
           },

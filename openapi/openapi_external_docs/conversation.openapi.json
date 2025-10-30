@@ -258,39 +258,22 @@
         },
         "type": "object"
       },
-      "v1AIThinkingChunk": {
-        "description": "Represents a single streamed reasoning or progress chunk from the AI assistant.",
+      "v1AIThought": {
+        "description": "Represents a single streamed reasoning or progress thought from the AI assistant.",
         "properties": {
-          "chunkType": {
-            "$ref": "#/components/schemas/v1AIThinkingChunkType"
-          },
           "content": {
-            "description": "Serialized JSON content of the chunk.",
+            "description": "Serialized JSON content of the thought.",
             "type": "string"
           },
           "sequenceNumber": {
             "format": "int32",
             "type": "integer"
+          },
+          "thoughtType": {
+            "type": "string"
           }
         },
         "type": "object"
-      },
-      "v1AIThinkingChunkType": {
-        "default": "CHUNK_TYPE_UNSPECIFIED",
-        "enum": [
-          "CHUNK_TYPE_UNSPECIFIED",
-          "CHUNK_TYPE_START",
-          "CHUNK_TYPE_CONTENT",
-          "CHUNK_TYPE_METADATA",
-          "CHUNK_TYPE_FUNCTION_START",
-          "CHUNK_TYPE_FUNCTION_PROGRESS",
-          "CHUNK_TYPE_FUNCTION_COMPLETE",
-          "CHUNK_TYPE_FINAL",
-          "CHUNK_TYPE_ERROR",
-          "CHUNK_TYPE_INPUT_VALIDATION"
-        ],
-        "title": "Types of streamed AI thinking chunks",
-        "type": "string"
       },
       "v1AddMultiParticipantsResponse": {
         "properties": {
@@ -1434,13 +1417,6 @@
       },
       "v1Message": {
         "properties": {
-          "aiThinkingChunks": {
-            "description": "AI reasoning or thinking chunks generated during response creation.",
-            "items": {
-              "$ref": "#/components/schemas/v1AIThinkingChunk"
-            },
-            "type": "array"
-          },
           "aiThinkingDuration": {
             "description": "Duration of AI thinking before final response.",
             "type": "string"
@@ -1494,6 +1470,13 @@
           },
           "sendStatus": {
             "$ref": "#/components/schemas/v1SendStatus"
+          },
+          "thoughts": {
+            "description": "AI reasoning or thinking generated during response creation.",
+            "items": {
+              "$ref": "#/components/schemas/v1AIThought"
+            },
+            "type": "array"
           },
           "type": {
             "$ref": "#/components/schemas/v1MessageType"

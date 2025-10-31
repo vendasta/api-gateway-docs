@@ -262,7 +262,6 @@
         "description": "Represents a single streamed reasoning or progress thought from the AI assistant.",
         "properties": {
           "content": {
-            "description": "Serialized JSON content of the thought.",
             "type": "string"
           },
           "sequenceNumber": {
@@ -270,10 +269,19 @@
             "type": "integer"
           },
           "thoughtType": {
-            "type": "string"
+            "$ref": "#/components/schemas/v1AIThoughtType"
           }
         },
         "type": "object"
+      },
+      "v1AIThoughtType": {
+        "default": "UNSPECIFIED",
+        "enum": [
+          "UNSPECIFIED",
+          "MARKDOWN"
+        ],
+        "title": "- UNSPECIFIED: Default/fallback\n - MARKDOWN: Thought rendered as markdown text",
+        "type": "string"
       },
       "v1AddMultiParticipantsResponse": {
         "properties": {

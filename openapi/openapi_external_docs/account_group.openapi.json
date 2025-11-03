@@ -1,0 +1,2849 @@
+{
+  "components": {
+    "schemas": {
+      "ContactDetailsForListDuplicatesCriteriaMatchType": {
+        "default": "CRITERIA_MATCH_TYPE_UNKNOWN",
+        "enum": [
+          "CRITERIA_MATCH_TYPE_UNKNOWN",
+          "CRITERIA_MATCH_TYPE_PHONE_NUMBER",
+          "CRITERIA_MATCH_TYPE_EMAIL",
+          "CRITERIA_MATCH_TYPE_PHONE_NUMBER_AND_EMAIL",
+          "CRITERIA_MATCH_TYPE_PHONENUMBER_OR_EMAIL"
+        ],
+        "title": "- CRITERIA_MATCH_TYPE_UNKNOWN: preserved for error/unknown state\n - CRITERIA_MATCH_TYPE_PHONE_NUMBER: will match a dupe if contact phone number matches\n - CRITERIA_MATCH_TYPE_EMAIL: will match a dupe if contact email matches\n - CRITERIA_MATCH_TYPE_PHONE_NUMBER_AND_EMAIL: will match a dupe if BOTH contact phonenumber AND contact email match\n - CRITERIA_MATCH_TYPE_PHONENUMBER_OR_EMAIL: will match a dupe if EITHER contact phonenumber OR contact email match",
+        "type": "string"
+      },
+      "GetBusinessDataFromPlaceIdResponseGoogleIdentifiers": {
+        "properties": {
+          "googleCustomerId": {
+            "type": "string"
+          },
+          "googlePlaceId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "GetMultiResponseAccountGroupContainer": {
+        "properties": {
+          "accountGroup": {
+            "$ref": "#/components/schemas/v1AccountGroup"
+          }
+        },
+        "type": "object"
+      },
+      "HealthCareProfessionalInformationGender": {
+        "default": "NotSpecified",
+        "enum": [
+          "NotSpecified",
+          "Female",
+          "Male",
+          "Other"
+        ],
+        "type": "string"
+      },
+      "HoursOfOperationSpan": {
+        "properties": {
+          "closes": {
+            "type": "string"
+          },
+          "dayOfWeek": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "description": {
+            "type": "string"
+          },
+          "opens": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ListAllPotentialDuplicatesResponsePotentialDuplicates": {
+        "properties": {
+          "accountGroupIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "address": {
+            "type": "string"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ListPotentialDuplicatesResponsePotentialDuplicate": {
+        "properties": {
+          "accountGroupId": {
+            "type": "string"
+          },
+          "score": {
+            "format": "double",
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
+      "ListingDistributionFilterActivationStatus": {
+        "default": "ACTIVATION_STATUS_UNSPECIFIED",
+        "description": "ActivationStatus is a status that Listing Distribution can be in.",
+        "enum": [
+          "ACTIVATION_STATUS_UNSPECIFIED",
+          "ACTIVATION_STATUS_ACTIVE",
+          "ACTIVATION_STATUS_INACTIVE",
+          "ACTIVATION_STATUS_EXPIRED"
+        ],
+        "type": "string"
+      },
+      "ListingDistributionFilterAutoRenew": {
+        "default": "AUTO_RENEW_UNSPECIFIED",
+        "description": "AutoRenew are the different values that the auto renew flag for LIsting Distrubution can have.",
+        "enum": [
+          "AUTO_RENEW_UNSPECIFIED",
+          "AUTO_RENEW_ENABLED",
+          "AUTO_RENEW_DISABLED"
+        ],
+        "type": "string"
+      },
+      "ListingSyncProBillingFrequency": {
+        "default": "MONTHLY",
+        "enum": [
+          "MONTHLY",
+          "YEARLY",
+          "ONE_TIME"
+        ],
+        "type": "string"
+      },
+      "ListingSyncProServiceProviders": {
+        "default": "UBERALL",
+        "enum": [
+          "UBERALL",
+          "YEXT"
+        ],
+        "type": "string"
+      },
+      "LookupRequestAccountFilter": {
+        "properties": {
+          "accountStatus": {
+            "$ref": "#/components/schemas/LookupRequestAccountStatus"
+          },
+          "editionId": {
+            "title": "To preserve backwards compatibility, an edition_id of `\"\"` won't be used in the filter. For apps that have an edition of `\"\"` that you want to filter specifically for\nyou can use the value of `default` and that will be changed to `\"\"` when doing the query. Unfotunately edition_id is not supported when querying for an account status of\ndisabled",
+            "type": "string"
+          },
+          "marketplaceAppId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "LookupRequestAccountFilterOperator": {
+        "default": "UNSET",
+        "enum": [
+          "UNSET",
+          "OR",
+          "AND"
+        ],
+        "title": "AccountFilterOperator is the type of operation to apply to the AccountFilters",
+        "type": "string"
+      },
+      "LookupRequestAccountStatus": {
+        "default": "Enabled",
+        "enum": [
+          "Enabled",
+          "Disabled",
+          "Trial"
+        ],
+        "type": "string"
+      },
+      "LookupRequestCreatedDateFilter": {
+        "properties": {
+          "beginRange": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "endRange": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "LookupRequestListingDistributionFilter": {
+        "properties": {
+          "activationStatus": {
+            "$ref": "#/components/schemas/ListingDistributionFilterActivationStatus"
+          },
+          "active": {
+            "description": "Deprecated, use activation_status instead.",
+            "type": "boolean"
+          },
+          "autoRenew": {
+            "$ref": "#/components/schemas/ListingDistributionFilterAutoRenew"
+          },
+          "expiredInDays": {
+            "description": "Indicates the result set should include accounts with LD that has expired in the last N days.",
+            "format": "int64",
+            "type": "string"
+          },
+          "expiresInDays": {
+            "description": "Indicates the result set should include accounts with active LD expiring in the next N days.",
+            "format": "int64",
+            "type": "string"
+          },
+          "inactive": {
+            "description": "Deprecated, use activation_status instead.",
+            "type": "boolean"
+          },
+          "renewsInDays": {
+            "description": "Indicates the result set should include accounts with active LD that will automatically renew in the next N days.",
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "LookupRequestListingSyncProFilter": {
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "autoRenew": {
+            "type": "boolean"
+          },
+          "autoRenewDisabled": {
+            "type": "boolean"
+          },
+          "expired": {
+            "type": "boolean"
+          },
+          "expiredInDays": {
+            "description": "Indicates the result set should include accounts with LSP that has expired in the past N days.",
+            "format": "int64",
+            "type": "string"
+          },
+          "expiresInDays": {
+            "description": "Indicates the result set should include accounts with active LSP expiring in the next N days.",
+            "format": "int64",
+            "type": "string"
+          },
+          "inactive": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "LookupRequestLocationFilter": {
+        "properties": {
+          "country": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "LookupRequestPresence": {
+        "default": "Any",
+        "enum": [
+          "Any",
+          "Present",
+          "Absent"
+        ],
+        "type": "string"
+      },
+      "LookupRequestPresenceFilter": {
+        "properties": {
+          "facebook": {
+            "$ref": "#/components/schemas/LookupRequestPresence"
+          },
+          "foursquare": {
+            "$ref": "#/components/schemas/LookupRequestPresence"
+          },
+          "googleplus": {
+            "$ref": "#/components/schemas/LookupRequestPresence"
+          },
+          "instagram": {
+            "$ref": "#/components/schemas/LookupRequestPresence"
+          },
+          "linkedin": {
+            "$ref": "#/components/schemas/LookupRequestPresence"
+          },
+          "pinterest": {
+            "$ref": "#/components/schemas/LookupRequestPresence"
+          },
+          "twitter": {
+            "$ref": "#/components/schemas/LookupRequestPresence"
+          },
+          "website": {
+            "$ref": "#/components/schemas/LookupRequestPresence"
+          },
+          "youtube": {
+            "$ref": "#/components/schemas/LookupRequestPresence"
+          }
+        },
+        "type": "object"
+      },
+      "LookupRequestSearchOptions": {
+        "properties": {
+          "fields": {
+            "items": {
+              "$ref": "#/components/schemas/v1SearchableField"
+            },
+            "title": "Which fields to apply the search to. An empty list will search over all fields (account group ID will only be searched if the search term starts with AG-)",
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "LookupRequestSnapshotFilter": {
+        "properties": {
+          "active": {
+            "title": "Indicates if the result set should include accounts with an active Snapshot Report",
+            "type": "boolean"
+          },
+          "expired": {
+            "title": "Indicates if the result set should include accounts for which the most recent Snapshot Report is expired",
+            "type": "boolean"
+          },
+          "noSnapshotsCreated": {
+            "title": "Indicates if the result set should include accounts without a Snapshot Report",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "LookupRequestStatusFilter": {
+        "properties": {
+          "hasAlert": {
+            "title": "Indicates if we should only return accounts that have active alerts",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "LookupRequestTrialFilter": {
+        "properties": {
+          "isSuspended": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "RichDataPaymentMethods": {
+        "default": "AMERICAN_EXPRESS",
+        "enum": [
+          "AMERICAN_EXPRESS",
+          "ANDROID_PAY",
+          "APPLE_PAY",
+          "CASH",
+          "CHECK",
+          "DEBIT",
+          "DINERS_CLUB",
+          "DISCOVER",
+          "MASTERCARD",
+          "PAYPAL",
+          "SAMSUNG_PAY",
+          "STORE_CARD",
+          "TRAVELERS_CHECK",
+          "VISA",
+          "CCS",
+          "SODEXO",
+          "GOPAY",
+          "V_PAY",
+          "FINANCING",
+          "INVOICE",
+          "PAYSEC",
+          "BITCOIN"
+        ],
+        "title": "DEPRECATED: payment methods should be set using listing_products/v1/listing_profile.proto endpoints",
+        "type": "string"
+      },
+      "SearchCategoryMigrationRequestReviewStatus": {
+        "default": "UNSET",
+        "enum": [
+          "UNSET",
+          "UNDER_REVIEW",
+          "REVIEWED"
+        ],
+        "type": "string"
+      },
+      "SnapshotsSnapshot": {
+        "properties": {
+          "created": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "expiry": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "snapshotId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "UpdateAccountWithExternalBusinessDataRequestFields": {
+        "default": "TAXONOMY",
+        "enum": [
+          "TAXONOMY",
+          "NAPW"
+        ],
+        "type": "string"
+      },
+      "accountgroupv1Location": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "placeId": {
+            "description": "The Place ID for a place in the Google Places database and on Google Maps.\nSee https://developers.google.com/places/place-id for more about Place IDs.",
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "accountgroupv1Status": {
+        "properties": {
+          "hasAlert": {
+            "type": "boolean"
+          },
+          "suspended": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "googlerpcStatus": {
+        "properties": {
+          "code": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            },
+            "type": "array"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Account": {
+        "properties": {
+          "accountId": {
+            "title": "Account ID of this account",
+            "type": "string"
+          },
+          "editionId": {
+            "description": "The id of the edition associated with the marketplace_app_id that was activated on the account group.",
+            "type": "string"
+          },
+          "expiry": {
+            "format": "date-time",
+            "title": "The date on which the account expires",
+            "type": "string"
+          },
+          "isTrial": {
+            "title": "Whether the account is a trial account or not",
+            "type": "boolean"
+          },
+          "marketplaceAppId": {
+            "title": "The marketplace app id or the legacy product id the account belongs to",
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Tags on the account",
+            "type": "array"
+          }
+        },
+        "title": "A representation of a single account on an Account Group",
+        "type": "object"
+      },
+      "v1AccountGroup": {
+        "properties": {
+          "accountGroupExternalIdentifiers": {
+            "$ref": "#/components/schemas/v1AccountGroupExternalIdentifiers"
+          },
+          "accountGroupId": {
+            "title": "An account group id in the format AG-123",
+            "type": "string"
+          },
+          "accountGroupResourceId": {
+            "title": "A full qualified identifier in the format partner/ABC/accountGroup/AG-123",
+            "type": "string"
+          },
+          "accounts": {
+            "$ref": "#/components/schemas/v1Accounts"
+          },
+          "additionalCompanyInfo": {
+            "$ref": "#/components/schemas/v1AdditionalCompanyInfo"
+          },
+          "associations": {
+            "items": {
+              "$ref": "#/components/schemas/v1Association"
+            },
+            "type": "array"
+          },
+          "constraints": {
+            "items": {
+              "$ref": "#/components/schemas/v1Constraint"
+            },
+            "type": "array"
+          },
+          "contactDetails": {
+            "$ref": "#/components/schemas/v1ContactDetails"
+          },
+          "created": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "health": {
+            "$ref": "#/components/schemas/v1AccountGroupHealth"
+          },
+          "hoursOfOperation": {
+            "$ref": "#/components/schemas/v1HoursOfOperation"
+          },
+          "legacyProductDetails": {
+            "$ref": "#/components/schemas/v1LegacyProductDetails"
+          },
+          "listingDistribution": {
+            "$ref": "#/components/schemas/v1ListingDistributionDetails"
+          },
+          "listingSyncPro": {
+            "$ref": "#/components/schemas/v1ListingSyncPro"
+          },
+          "marketingInfo": {
+            "$ref": "#/components/schemas/v1MarketingInfo"
+          },
+          "napData": {
+            "$ref": "#/components/schemas/v1AccountGroupLocation"
+          },
+          "onBoardingStrategy": {
+            "$ref": "#/components/schemas/v1OnBoardingStrategy"
+          },
+          "richData": {
+            "$ref": "#/components/schemas/v1RichData"
+          },
+          "snapshotReports": {
+            "$ref": "#/components/schemas/v1Snapshots"
+          },
+          "socialUrls": {
+            "$ref": "#/components/schemas/v1SocialURLs"
+          },
+          "status": {
+            "$ref": "#/components/schemas/accountgroupv1Status"
+          },
+          "updated": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "version": {
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "title": "Represents an Account Group",
+        "type": "object"
+      },
+      "v1AccountGroupExternalIdentifiers": {
+        "properties": {
+          "actionLists": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "additionalSalesPersonIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Additional salesperson ids assigned to an account group which is not the primary salesperson id",
+            "type": "array"
+          },
+          "customerIdentifier": {
+            "type": "string"
+          },
+          "jobId": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "marketId": {
+            "type": "string"
+          },
+          "origin": {
+            "type": "string"
+          },
+          "partnerId": {
+            "type": "string"
+          },
+          "platformCrmCompanyId": {
+            "title": "Links to a Company in the Platform CRM",
+            "type": "string"
+          },
+          "salesPersonId": {
+            "title": "Primary salesperson id",
+            "type": "string"
+          },
+          "salesforceId": {
+            "title": "Used to link AccountGroups to a corresponding Salesforce Account Object",
+            "type": "string"
+          },
+          "socialProfileId": {
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "taxIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "updateOrigin": {
+            "title": "Origin of the latest update",
+            "type": "string"
+          },
+          "vCategoryIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1AccountGroupHealth": {
+        "properties": {
+          "rating": {
+            "format": "double",
+            "type": "number"
+          },
+          "reason": {
+            "title": "reason is the reason for updating the health",
+            "type": "string"
+          },
+          "updatedBy": {
+            "title": "updated_by is the user id who updated the health rating",
+            "type": "string"
+          },
+          "updatedOn": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "title": "AccountGroupHealth is the health of the account group",
+        "type": "object"
+      },
+      "v1AccountGroupLocation": {
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "address2": {
+            "type": "string"
+          },
+          "callTrackingNumber": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "city": {
+            "type": "string"
+          },
+          "companyName": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/v1Geo"
+          },
+          "serviceArea": {
+            "$ref": "#/components/schemas/v1ServiceArea"
+          },
+          "serviceAreaBusiness": {
+            "type": "boolean"
+          },
+          "state": {
+            "type": "string"
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "website": {
+            "type": "string"
+          },
+          "workNumber": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "zip": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Accounts": {
+        "properties": {
+          "accounts": {
+            "items": {
+              "$ref": "#/components/schemas/v1Account"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1AdditionalCompanyInfo": {
+        "properties": {
+          "estimatedAnnualRevenue": {
+            "$ref": "#/components/schemas/v1EstimatedAnnualRevenue"
+          },
+          "numEmployees": {
+            "format": "int64",
+            "title": "number of employees of the account group business",
+            "type": "integer"
+          }
+        },
+        "title": "AdditionalCompanyInfo about the account group",
+        "type": "object"
+      },
+      "v1AddressInfo": {
+        "properties": {
+          "address": {
+            "title": "Address line 1",
+            "type": "string"
+          },
+          "address2": {
+            "title": "Address line 2",
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "footnotes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "List of Human readable changes SmartyStreets made to the address",
+            "type": "array"
+          },
+          "state": {
+            "type": "string"
+          },
+          "zip": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1AddressValidationResult": {
+        "properties": {
+          "addressErrors": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Problems with the current address in human readable format",
+            "type": "array"
+          },
+          "businessId": {
+            "title": "The id of the business",
+            "type": "string"
+          },
+          "businessName": {
+            "title": "The name of the business",
+            "type": "string"
+          },
+          "currentAddress": {
+            "$ref": "#/components/schemas/v1AddressInfo"
+          },
+          "suggestedAddresses": {
+            "items": {
+              "$ref": "#/components/schemas/v1AddressInfo"
+            },
+            "title": "List of SmartyStreets suggested valid addresses",
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1AggregationSupportedFields": {
+        "default": "AGGREGATION_UNSPECIFIED",
+        "enum": [
+          "AGGREGATION_UNSPECIFIED",
+          "AGGREGATION_TAGS",
+          "AGGREGATION_MARKETING_INFO_CONVERSION_POINT"
+        ],
+        "title": "AggregationSupportedFields contains the supported fields that can be aggregated for account groups for\nthe ListOptionsForField service call",
+        "type": "string"
+      },
+      "v1Association": {
+        "properties": {
+          "defaultLocation": {
+            "type": "boolean"
+          },
+          "label": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "productUserId": {
+            "type": "string"
+          },
+          "vbcUserId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1AuxiliaryDataFieldSchema": {
+        "properties": {
+          "archived": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "created": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "currencyCode": {
+            "title": "currency code according to ISO-4217, e.g. 'USD', 'CAD', 'BRL', etc",
+            "type": "string"
+          },
+          "dropdownOptions": {
+            "items": {
+              "$ref": "#/components/schemas/v1DropdownOption"
+            },
+            "type": "array"
+          },
+          "externalId": {
+            "type": "string"
+          },
+          "fieldDescription": {
+            "type": "string"
+          },
+          "fieldId": {
+            "type": "string"
+          },
+          "fieldName": {
+            "type": "string"
+          },
+          "fieldType": {
+            "$ref": "#/components/schemas/v1AuxiliaryDataFieldType"
+          },
+          "partnerId": {
+            "type": "string"
+          },
+          "updated": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1AuxiliaryDataFieldType": {
+        "default": "AUXILIARY_DATA_FIELD_TYPE_INVALID",
+        "enum": [
+          "AUXILIARY_DATA_FIELD_TYPE_INVALID",
+          "AUXILIARY_DATA_FIELD_TYPE_STRING",
+          "AUXILIARY_DATA_FIELD_TYPE_INTEGER",
+          "AUXILIARY_DATA_FIELD_TYPE_DATE",
+          "AUXILIARY_DATA_FIELD_TYPE_DROPDOWN",
+          "AUXILIARY_DATA_FIELD_TYPE_CURRENCY"
+        ],
+        "type": "string"
+      },
+      "v1AuxiliaryDataFilter": {
+        "properties": {
+          "searchFilters": {
+            "items": {
+              "$ref": "#/components/schemas/v1AuxiliaryDataSearchFilter"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1AuxiliaryDataObjectID": {
+        "properties": {
+          "objectId": {
+            "type": "string"
+          },
+          "partnerId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1AuxiliaryDataRange": {
+        "properties": {
+          "beginRange": {
+            "type": "string"
+          },
+          "endRange": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1AuxiliaryDataSearchDateOperation": {
+        "default": "DATE_UNDEFINED",
+        "enum": [
+          "DATE_UNDEFINED",
+          "DATE_RANGE"
+        ],
+        "type": "string"
+      },
+      "v1AuxiliaryDataSearchFilter": {
+        "properties": {
+          "fieldId": {
+            "type": "string"
+          },
+          "filterRange": {
+            "$ref": "#/components/schemas/v1AuxiliaryDataRange"
+          },
+          "operation": {
+            "$ref": "#/components/schemas/v1AuxiliaryDataSearchOperation"
+          },
+          "stringFilterValue": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1AuxiliaryDataSearchIntegerOperation": {
+        "default": "INT_UNDEFINED",
+        "enum": [
+          "INT_UNDEFINED",
+          "INT_RANGE"
+        ],
+        "type": "string"
+      },
+      "v1AuxiliaryDataSearchOperation": {
+        "properties": {
+          "currencyOperation": {
+            "$ref": "#/components/schemas/v1AuxiliaryDataSearchIntegerOperation"
+          },
+          "dateOperation": {
+            "$ref": "#/components/schemas/v1AuxiliaryDataSearchDateOperation"
+          },
+          "dropdownOperation": {
+            "$ref": "#/components/schemas/v1AuxiliaryDataSearchStringOperation"
+          },
+          "integerOperation": {
+            "$ref": "#/components/schemas/v1AuxiliaryDataSearchIntegerOperation"
+          },
+          "stringOperation": {
+            "$ref": "#/components/schemas/v1AuxiliaryDataSearchStringOperation"
+          }
+        },
+        "type": "object"
+      },
+      "v1AuxiliaryDataSearchStringOperation": {
+        "default": "STRING_UNDEFINED",
+        "enum": [
+          "STRING_UNDEFINED",
+          "STRING_EQUALS",
+          "STRING_DOES_NOT_EQUAL"
+        ],
+        "type": "string"
+      },
+      "v1Candidate": {
+        "properties": {
+          "googlePlaceId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1CategoryData": {
+        "properties": {
+          "externalId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1CategoryMigrationData": {
+        "properties": {
+          "accountGroupId": {
+            "type": "string"
+          },
+          "currentCategories": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "currentTaxonomies": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "napData": {
+            "$ref": "#/components/schemas/v1NAPData"
+          },
+          "newCategories": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "partnerId": {
+            "type": "string"
+          },
+          "reviewed": {
+            "type": "boolean"
+          }
+        },
+        "title": "Deprecated: this message is not longer used for the migration",
+        "type": "object"
+      },
+      "v1Circular": {
+        "properties": {
+          "center": {
+            "$ref": "#/components/schemas/v1LocationPoint"
+          },
+          "radius": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ClaimStatus": {
+        "properties": {
+          "gbpIsClaimed": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "v1ClosedStatus": {
+        "default": "UNSPECIFIED",
+        "enum": [
+          "UNSPECIFIED",
+          "OPEN",
+          "LIMITED",
+          "TEMPORARY",
+          "PERMANENT"
+        ],
+        "title": "ClosedStatus describes if the business is permanently or temporarily closed, or in a limited state",
+        "type": "string"
+      },
+      "v1Competitor": {
+        "properties": {
+          "businessId": {
+            "title": "The id of the business",
+            "type": "string"
+          },
+          "competitorId": {
+            "title": "The competitor id of the competitor",
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/accountgroupv1Location"
+          }
+        },
+        "type": "object"
+      },
+      "v1Constraint": {
+        "properties": {
+          "foreignKey": {
+            "$ref": "#/components/schemas/v1ForeignKey"
+          }
+        },
+        "type": "object"
+      },
+      "v1ContactDetails": {
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ContactDetailsForListDuplicates": {
+        "properties": {
+          "accountGroupId": {
+            "type": "string"
+          },
+          "contactDetails": {
+            "$ref": "#/components/schemas/v1ContactDetails"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "criteriaMatchType": {
+            "$ref": "#/components/schemas/ContactDetailsForListDuplicatesCriteriaMatchType"
+          },
+          "location": {
+            "$ref": "#/components/schemas/v1AccountGroupLocation"
+          }
+        },
+        "type": "object"
+      },
+      "v1CreateCompetitorResponse": {
+        "properties": {
+          "businessId": {
+            "type": "string"
+          },
+          "competitorId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1CustomField": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1DayOfWeek": {
+        "default": "DAY_OF_WEEK_UNSPECIFIED",
+        "enum": [
+          "DAY_OF_WEEK_UNSPECIFIED",
+          "MONDAY",
+          "TUESDAY",
+          "WEDNESDAY",
+          "THURSDAY",
+          "FRIDAY",
+          "SATURDAY",
+          "SUNDAY"
+        ],
+        "type": "string"
+      },
+      "v1DropdownOption": {
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1EstimatedAnnualRevenue": {
+        "default": "ESTIMATED_ANNUAL_REVENUE_UNSPECIFIED",
+        "enum": [
+          "ESTIMATED_ANNUAL_REVENUE_UNSPECIFIED",
+          "ESTIMATED_ANNUAL_REVENUE_0_1M",
+          "ESTIMATED_ANNUAL_REVENUE_1M_10M",
+          "ESTIMATED_ANNUAL_REVENUE_10M_50M",
+          "ESTIMATED_ANNUAL_REVENUE_50M_100M",
+          "ESTIMATED_ANNUAL_REVENUE_100M_250M",
+          "ESTIMATED_ANNUAL_REVENUE_250M_500M",
+          "ESTIMATED_ANNUAL_REVENUE_500M_1B",
+          "ESTIMATED_ANNUAL_REVENUE_1B_10B",
+          "ESTIMATED_ANNUAL_REVENUE_10B_OR_MORE"
+        ],
+        "type": "string"
+      },
+      "v1FieldDataUpsertOperation": {
+        "properties": {
+          "currencyValue": {
+            "format": "int64",
+            "type": "string"
+          },
+          "date": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleteValue": {
+            "title": "deletes the field's current value from the object",
+            "type": "boolean"
+          },
+          "dropdownValue": {
+            "type": "string"
+          },
+          "externalId": {
+            "type": "string"
+          },
+          "fieldDataId": {
+            "type": "string"
+          },
+          "integer": {
+            "format": "int64",
+            "type": "string"
+          },
+          "string": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1FieldSchemaIdentifier": {
+        "properties": {
+          "externalId": {
+            "type": "string"
+          },
+          "fieldId": {
+            "type": "string"
+          },
+          "partnerId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ForeignKey": {
+        "description": "A Foreign Key Constraint represents a model stored in another service.\nExistence of a Foreign Key Constraint will prevent deleting an account group.\nValues of the Foreign Key do not have any meaning to this service, but should be meaningful to a client.",
+        "properties": {
+          "key": {
+            "description": "A string representation primary key of the used to identify the row that references the account group.\nIt is up to the client to determine how composite keys are stored as a string.",
+            "type": "string"
+          },
+          "kind": {
+            "description": "If using vstore, the vstore kind of the other model that references the account group. Otherwise identifier to help identify the source.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Geo": {
+        "description": "Represents a geo point location.",
+        "properties": {
+          "latitude": {
+            "format": "double",
+            "type": "number"
+          },
+          "longitude": {
+            "format": "double",
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetAccountsToReviewByPartnerIdResponse": {
+        "properties": {
+          "totalAccountsToReview": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "title": "Deprecated: this response is not longer required",
+        "type": "object"
+      },
+      "v1GetAuxiliaryDataFieldSchemaResponse": {
+        "properties": {
+          "fieldSchema": {
+            "$ref": "#/components/schemas/v1AuxiliaryDataFieldSchema"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetBusinessDataByNapDataResponse": {
+        "properties": {
+          "categories": {
+            "items": {
+              "$ref": "#/components/schemas/v1CategoryData"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetBusinessDataFromPlaceIdResponse": {
+        "properties": {
+          "googleIdentifiers": {
+            "$ref": "#/components/schemas/GetBusinessDataFromPlaceIdResponseGoogleIdentifiers"
+          },
+          "hoursOfOperation": {
+            "$ref": "#/components/schemas/v1HoursOfOperation"
+          },
+          "napData": {
+            "$ref": "#/components/schemas/v1NAPData"
+          },
+          "taxonomyId": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetBusinessDataFromTextSearchResponse": {
+        "properties": {
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/v1Candidate"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetCompetitorsResponse": {
+        "properties": {
+          "competitors": {
+            "items": {
+              "$ref": "#/components/schemas/v1Competitor"
+            },
+            "type": "array"
+          },
+          "pagingMetadata": {
+            "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetMultiAuxiliaryDataFieldSchemaResponse": {
+        "properties": {
+          "fieldSchemas": {
+            "items": {
+              "$ref": "#/components/schemas/v1AuxiliaryDataFieldSchema"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetMultiBusinessDataFromPlaceIdResponse": {
+        "properties": {
+          "businesses": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/v1GetBusinessDataFromPlaceIdResponse"
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetMultiRequest": {
+        "properties": {
+          "accountGroupIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "projectionFilter": {
+            "$ref": "#/components/schemas/v1ProjectionFilter"
+          },
+          "readFilter": {
+            "$ref": "#/components/schemas/v1ReadFilter"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetMultiResponse": {
+        "properties": {
+          "accountGroups": {
+            "items": {
+              "$ref": "#/components/schemas/GetMultiResponseAccountGroupContainer"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetProspectDataResponse": {
+        "properties": {
+          "placeId": {
+            "type": "string"
+          },
+          "prospectData": {
+            "$ref": "#/components/schemas/v1ProspectData"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetPublishedPartnerResponse": {
+        "properties": {
+          "lastPublishedBy": {
+            "type": "string"
+          },
+          "publishStarted": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "title": "Deprecated: This response is not longer required",
+        "type": "object"
+      },
+      "v1GetWebSearchResponse": {
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "addressInfo": {
+            "$ref": "#/components/schemas/v1WebSearchAddressDetails"
+          },
+          "checkUrl": {
+            "type": "string"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "placeId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GooglePlace": {
+        "properties": {
+          "city": {
+            "title": "The city or locality the Google Place is located in",
+            "type": "string"
+          },
+          "placeId": {
+            "title": "The ID of the place",
+            "type": "string"
+          },
+          "placeName": {
+            "description": "The localized name of the place. For example, Scottsdale, AZ.",
+            "type": "string"
+          }
+        },
+        "title": "Based on https://developers.google.com/my-business/reference/businessinformation/rest/v1/accounts.locations#Location.PlaceInfo",
+        "type": "object"
+      },
+      "v1HealthCareProfessionalInformation": {
+        "properties": {
+          "dateOfBirth": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "fellowship": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "gender": {
+            "$ref": "#/components/schemas/HealthCareProfessionalInformationGender"
+          },
+          "initials": {
+            "type": "string"
+          },
+          "insurancesAccepted": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "isTakingPatients": {
+            "type": "boolean"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "medicalLicenseNumber": {
+            "type": "string"
+          },
+          "nationalProviderIdentifier": {
+            "type": "string"
+          },
+          "office": {
+            "type": "string"
+          },
+          "professionalCredential": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "residency": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "school": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "specialty": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "standardizedTitle": {
+            "type": "string"
+          },
+          "stateLicense": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1HoursOfOperation": {
+        "properties": {
+          "hoursOfOperation": {
+            "items": {
+              "$ref": "#/components/schemas/HoursOfOperationSpan"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1InferBusinessCategoryResponse": {
+        "properties": {
+          "businessData": {
+            "$ref": "#/components/schemas/v1NAPData"
+          },
+          "businessHours": {
+            "items": {
+              "$ref": "#/components/schemas/v1RegularHoursPeriod"
+            },
+            "title": "The regular working hours of the business",
+            "type": "array"
+          },
+          "categories": {
+            "items": {
+              "type": "string"
+            },
+            "title": "the external id of inferred categories",
+            "type": "array"
+          },
+          "taskId": {
+            "title": "Task id if the task is in progress so the results could be polled with it",
+            "type": "string"
+          },
+          "taskStatus": {
+            "$ref": "#/components/schemas/v1TaskStatus"
+          }
+        },
+        "type": "object"
+      },
+      "v1InferenceRequestMode": {
+        "default": "NO_MODE",
+        "enum": [
+          "NO_MODE",
+          "LIVE",
+          "PRIORITY",
+          "STANDARD"
+        ],
+        "type": "string"
+      },
+      "v1IsAvailable": {
+        "default": "UNSET",
+        "enum": [
+          "UNSET",
+          "YES",
+          "NO"
+        ],
+        "type": "string"
+      },
+      "v1LegacyProductDetails": {
+        "properties": {
+          "adminNotes": {
+            "type": "string"
+          },
+          "cellNumber": {
+            "type": "string"
+          },
+          "commonName": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "competitor": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "email": {
+            "type": "string"
+          },
+          "faxNumber": {
+            "type": "string"
+          },
+          "keyPerson": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "place": {
+            "type": "string"
+          },
+          "seoCategory": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "shareOfVoiceService": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "subscribedToCampaigns": {
+            "type": "boolean"
+          },
+          "tagline": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1LifecycleStage": {
+        "default": "LIFECYCLE_STAGE_UNSET",
+        "description": "Where an account is at in the lifecycle stage\nThe sales domain has the same concept of a lifecycle stage. Updating this enum\nmost likely means you need to update the one in sales as well.",
+        "enum": [
+          "LIFECYCLE_STAGE_UNSET",
+          "LIFECYCLE_STAGE_LEAD",
+          "LIFECYCLE_STAGE_PROSPECT",
+          "LIFECYCLE_STAGE_CUSTOMER"
+        ],
+        "type": "string"
+      },
+      "v1ListAllPotentialDuplicatesResponse": {
+        "description": "ListAllPotentialDuplicatesResponse is the list of keys that had at least 2 account groups in them.",
+        "properties": {
+          "potentialDuplicates": {
+            "items": {
+              "$ref": "#/components/schemas/ListAllPotentialDuplicatesResponsePotentialDuplicates"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListAuxiliaryDataFieldSchemaRequestFilters": {
+        "properties": {
+          "onlyArchived": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListAuxiliaryDataFieldSchemaResponse": {
+        "properties": {
+          "fieldSchemas": {
+            "items": {
+              "$ref": "#/components/schemas/v1AuxiliaryDataFieldSchema"
+            },
+            "type": "array"
+          },
+          "pagingMetadata": {
+            "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListAuxiliaryDataResponse": {
+        "properties": {
+          "jsonData": {
+            "type": "string"
+          },
+          "jsonSchema": {
+            "type": "string"
+          },
+          "pagingMetadata": {
+            "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListOptionsForFieldResponse": {
+        "properties": {
+          "values": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Returning options for account group field aggregation",
+            "type": "array"
+          }
+        },
+        "title": "ListOptionsForFieldResponse contains the aggregated values outputted as strings",
+        "type": "object"
+      },
+      "v1ListPotentialDuplicatesResponse": {
+        "description": "ListPotentialDuplicatesResponse is the list of account groups that are likely to be a duplicate of the provided\naccount group or location data.",
+        "properties": {
+          "hasMore": {
+            "type": "boolean"
+          },
+          "nextCursor": {
+            "type": "string"
+          },
+          "potentialDuplicates": {
+            "items": {
+              "$ref": "#/components/schemas/ListPotentialDuplicatesResponsePotentialDuplicate"
+            },
+            "type": "array"
+          },
+          "totalResults": {
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListRequest": {
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "filters": {
+            "$ref": "#/components/schemas/v1ListRequestFilters"
+          },
+          "pageSize": {
+            "format": "int64",
+            "type": "string"
+          },
+          "projectionFilter": {
+            "$ref": "#/components/schemas/v1ProjectionFilter"
+          },
+          "readFilter": {
+            "$ref": "#/components/schemas/v1ReadFilter"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListRequestFilters": {
+        "properties": {
+          "partnerId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListingDistributionDetails": {
+        "properties": {
+          "autoRenew": {
+            "type": "boolean"
+          },
+          "fromDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "orderId": {
+            "type": "string"
+          },
+          "purchaseId": {
+            "type": "string"
+          },
+          "thruDate": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListingSyncPro": {
+        "properties": {
+          "billingFrequency": {
+            "$ref": "#/components/schemas/ListingSyncProBillingFrequency"
+          },
+          "country": {
+            "type": "string"
+          },
+          "discountFlag": {
+            "type": "boolean"
+          },
+          "expiryDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "purchaseDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "serviceProvider": {
+            "$ref": "#/components/schemas/ListingSyncProServiceProviders"
+          }
+        },
+        "type": "object"
+      },
+      "v1LocationPoint": {
+        "properties": {
+          "latitude": {
+            "type": "string"
+          },
+          "longitude": {
+            "type": "string"
+          }
+        },
+        "title": "Google Places Query Results",
+        "type": "object"
+      },
+      "v1LookupRequest": {
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "filters": {
+            "$ref": "#/components/schemas/v1LookupRequestFilters"
+          },
+          "pageSize": {
+            "format": "int64",
+            "type": "string"
+          },
+          "projectionFilter": {
+            "$ref": "#/components/schemas/v1ProjectionFilter"
+          },
+          "searchOptions": {
+            "$ref": "#/components/schemas/LookupRequestSearchOptions"
+          },
+          "searchTerm": {
+            "title": "search_term is an arbitrary string to perform full text search across the account group's location data",
+            "type": "string"
+          },
+          "sortOptions": {
+            "$ref": "#/components/schemas/v1SortOptions"
+          }
+        },
+        "type": "object"
+      },
+      "v1LookupRequestFilters": {
+        "properties": {
+          "accountFilterOperator": {
+            "$ref": "#/components/schemas/LookupRequestAccountFilterOperator"
+          },
+          "accountFilters": {
+            "items": {
+              "$ref": "#/components/schemas/LookupRequestAccountFilter"
+            },
+            "type": "array"
+          },
+          "accountGroupIds": {
+            "description": "Used to limit the account groups that the search applies over. Useful for searching across a specific set of account groups, for example: only search across the account groups a user is associated to.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "createdDateFilter": {
+            "$ref": "#/components/schemas/LookupRequestCreatedDateFilter"
+          },
+          "customFields": {
+            "items": {
+              "$ref": "#/components/schemas/v1CustomField"
+            },
+            "title": "To be used to filter by values in custom field",
+            "type": "array"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "includeDeleted": {
+            "title": "Deprecated: The include deleted flag is no longer respected by the Account Group apis",
+            "type": "boolean"
+          },
+          "lifecycleStage": {
+            "description": "Used to filter accounts by which lifecycle stages they are set to.",
+            "items": {
+              "$ref": "#/components/schemas/v1LifecycleStage"
+            },
+            "type": "array"
+          },
+          "listingDistributionFilter": {
+            "$ref": "#/components/schemas/LookupRequestListingDistributionFilter"
+          },
+          "listingSyncProFilter": {
+            "$ref": "#/components/schemas/LookupRequestListingSyncProFilter"
+          },
+          "locationFilter": {
+            "$ref": "#/components/schemas/LookupRequestLocationFilter"
+          },
+          "marketIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "partnerId": {
+            "type": "string"
+          },
+          "platformCrmCompanyId": {
+            "type": "string"
+          },
+          "presenceFilter": {
+            "$ref": "#/components/schemas/LookupRequestPresenceFilter"
+          },
+          "salesPersonId": {
+            "type": "string"
+          },
+          "salesforceId": {
+            "type": "string"
+          },
+          "snapshotFilter": {
+            "$ref": "#/components/schemas/LookupRequestSnapshotFilter"
+          },
+          "statusFilter": {
+            "$ref": "#/components/schemas/LookupRequestStatusFilter"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "taxonomyIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "trialFilter": {
+            "$ref": "#/components/schemas/LookupRequestTrialFilter"
+          }
+        },
+        "type": "object"
+      },
+      "v1MarketingClassification": {
+        "default": "MARKETING_CLASSIFICATION_UNUSED",
+        "enum": [
+          "MARKETING_CLASSIFICATION_UNUSED",
+          "MARKETING_CLASSIFICATION_SMB",
+          "MARKETING_CLASSIFICATION_SPAM",
+          "MARKETING_CLASSIFICATION_DUPLICATE",
+          "MARKETING_CLASSIFICATION_BLACKLISTED",
+          "MARKETING_CLASSIFICATION_OUT_OF_MARKET"
+        ],
+        "type": "string"
+      },
+      "v1MarketingInfo": {
+        "properties": {
+          "conversionPoint": {
+            "type": "string"
+          },
+          "lifecycleStage": {
+            "$ref": "#/components/schemas/v1LifecycleStage"
+          },
+          "marketingClassification": {
+            "$ref": "#/components/schemas/v1MarketingClassification"
+          }
+        },
+        "title": "MarketingInfo store marketing properties for an account group",
+        "type": "object"
+      },
+      "v1NAPData": {
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "address2": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "companyName": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/v1Geo"
+          },
+          "state": {
+            "type": "string"
+          },
+          "website": {
+            "type": "string"
+          },
+          "workNumber": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "zip": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1NAPWData": {
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "website": {
+            "type": "string"
+          },
+          "zip": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1OnBoardingStrategy": {
+        "properties": {
+          "earlyWins": {
+            "type": "string"
+          },
+          "goal": {
+            "type": "string"
+          },
+          "priorities": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "title": "Deprecated: use prospect/v1/onboarding_strategies.proto instead",
+        "type": "object"
+      },
+      "v1PagedResponse": {
+        "properties": {
+          "accountGroups": {
+            "items": {
+              "$ref": "#/components/schemas/v1AccountGroup"
+            },
+            "type": "array"
+          },
+          "hasMore": {
+            "title": "Whether or not more results exist",
+            "type": "boolean"
+          },
+          "nextCursor": {
+            "title": "A cursor that can be provided to retrieve the next page of results",
+            "type": "string"
+          },
+          "totalResults": {
+            "format": "int64",
+            "title": "The total number of results for this query across all pages",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Point": {
+        "properties": {
+          "dot": {
+            "$ref": "#/components/schemas/v1LocationPoint"
+          }
+        },
+        "type": "object"
+      },
+      "v1ProjectionFilter": {
+        "description": "ProjectionFilter controls which sets of extended account group data is returned for each account group.",
+        "properties": {
+          "accountGroupExternalIdentifiers": {
+            "title": "Controls if account_group_external_identifiers is returned on the account group",
+            "type": "boolean"
+          },
+          "accounts": {
+            "title": "Controls if accounts is returned on the account group",
+            "type": "boolean"
+          },
+          "additionalCompanyInfo": {
+            "title": "controls if additional company info is returned on the account group",
+            "type": "boolean"
+          },
+          "associations": {
+            "title": "Controls if associations is returned on the account group",
+            "type": "boolean"
+          },
+          "constraints": {
+            "title": "Controls if constraints is returned on the account group",
+            "type": "boolean"
+          },
+          "contactDetails": {
+            "title": "Controls if contact_details is returned on the account group",
+            "type": "boolean"
+          },
+          "health": {
+            "title": "Controls if account health is returned on the account group",
+            "type": "boolean"
+          },
+          "hoursOfOperation": {
+            "title": "Controls if hours_of_operation is returned on the account group",
+            "type": "boolean"
+          },
+          "legacyProductDetails": {
+            "title": "Controls if legacy_product_details is returned on the account group",
+            "type": "boolean"
+          },
+          "listingDistribution": {
+            "title": "Controls if listing_distribution is returned on the account group",
+            "type": "boolean"
+          },
+          "listingSyncPro": {
+            "title": "Controls if listing_sync_pro is returned on the account group",
+            "type": "boolean"
+          },
+          "marketingInfo": {
+            "title": "Controls if marketing info is returned on the account group",
+            "type": "boolean"
+          },
+          "napData": {
+            "title": "Controls if nap data is returned on the account group",
+            "type": "boolean"
+          },
+          "onBoardingStrategy": {
+            "title": "Deprecated: use prospect/v1/onboarding_strategies.proto instead",
+            "type": "boolean"
+          },
+          "richData": {
+            "title": "Controls if rich_data is returned on the account group",
+            "type": "boolean"
+          },
+          "snapshotReports": {
+            "title": "Controls if snapshot_reports is returned on the account group",
+            "type": "boolean"
+          },
+          "socialUrls": {
+            "title": "Controls if social_urls is returned on the account group",
+            "type": "boolean"
+          },
+          "status": {
+            "title": "Controls if status is returned on the account group",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "v1ProspectData": {
+        "properties": {
+          "gbpClaimStatus": {
+            "$ref": "#/components/schemas/v1ClaimStatus"
+          },
+          "napwData": {
+            "$ref": "#/components/schemas/v1NAPWData"
+          },
+          "websiteStatus": {
+            "$ref": "#/components/schemas/v1WebsiteStatus"
+          }
+        },
+        "type": "object"
+      },
+      "v1ProspectIdentifier": {
+        "properties": {
+          "location": {
+            "$ref": "#/components/schemas/v1Geo"
+          },
+          "placeId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ReadFilter": {
+        "properties": {
+          "includeDeleted": {
+            "title": "Whether or not to include deleted accounts on the read",
+            "type": "boolean"
+          }
+        },
+        "title": "ReadFilter can be used for filtering at the repository layer",
+        "type": "object"
+      },
+      "v1Rectangular": {
+        "properties": {
+          "northeast": {
+            "$ref": "#/components/schemas/v1LocationPoint"
+          },
+          "southwest": {
+            "$ref": "#/components/schemas/v1LocationPoint"
+          }
+        },
+        "type": "object"
+      },
+      "v1RegularHoursPeriod": {
+        "properties": {
+          "closeDay": {
+            "$ref": "#/components/schemas/v1DayOfWeek"
+          },
+          "closeTime": {
+            "$ref": "#/components/schemas/v1TimeOfDay"
+          },
+          "openDay": {
+            "$ref": "#/components/schemas/v1DayOfWeek"
+          },
+          "openTime": {
+            "$ref": "#/components/schemas/v1TimeOfDay"
+          }
+        },
+        "type": "object"
+      },
+      "v1RichData": {
+        "properties": {
+          "brandsCarried": {
+            "items": {
+              "type": "string"
+            },
+            "title": "DEPRECATED: Brands Carried should be set using listing_products/v1/listing_profile.proto endpoints",
+            "type": "array"
+          },
+          "cellNumber": {
+            "type": "string"
+          },
+          "customFields": {
+            "items": {
+              "$ref": "#/components/schemas/v1CustomField"
+            },
+            "type": "array"
+          },
+          "description": {
+            "title": "DEPRECATED: Description should be set using listing_products/v1/listing_profile.proto endpoints",
+            "type": "string"
+          },
+          "faxNumber": {
+            "type": "string"
+          },
+          "healthCareProfessionalInformation": {
+            "$ref": "#/components/schemas/v1HealthCareProfessionalInformation"
+          },
+          "inferredAttributes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "landmark": {
+            "type": "string"
+          },
+          "paymentMethods": {
+            "items": {
+              "$ref": "#/components/schemas/RichDataPaymentMethods"
+            },
+            "title": "DEPRECATED: PaymentMethods should be set using listing_products/v1/listing_profile.proto endpoints",
+            "type": "array"
+          },
+          "serviceAvailability": {
+            "$ref": "#/components/schemas/v1ServiceAvailability"
+          },
+          "servicesOffered": {
+            "items": {
+              "type": "string"
+            },
+            "title": "DEPRECATED: Services Offered should be set using listing_products/v1/listing_profile.proto endpoints",
+            "type": "array"
+          },
+          "shortDescription": {
+            "title": "DEPRECATED: Short Description should be set using listing_products/v1/listing_profile.proto endpoints",
+            "type": "string"
+          },
+          "tollFreeNumber": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1SearchByAuxiliaryDataResponse": {
+        "properties": {
+          "accountGroupIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "pagingMetadata": {
+            "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
+          }
+        },
+        "type": "object"
+      },
+      "v1SearchCategoryMigrationResponse": {
+        "properties": {
+          "categoryMigrations": {
+            "items": {
+              "$ref": "#/components/schemas/v1CategoryMigrationData"
+            },
+            "type": "array"
+          },
+          "pagingMetadata": {
+            "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
+          }
+        },
+        "title": "Deprecated: This response is not longer required",
+        "type": "object"
+      },
+      "v1SearchableField": {
+        "default": "SEARCHABLE_FIELD_UNSPECIFIED",
+        "description": "All of the possible fields that can be searched against the search term.",
+        "enum": [
+          "SEARCHABLE_FIELD_UNSPECIFIED",
+          "SEARCHABLE_FIELD_COMPANY_NAME",
+          "SEARCHABLE_FIELD_COMMON_NAME",
+          "SEARCHABLE_FIELD_ADDRESS",
+          "SEARCHABLE_FIELD_ADDRESS_2",
+          "SEARCHABLE_FIELD_CITY",
+          "SEARCHABLE_FIELD_STATE",
+          "SEARCHABLE_FIELD_ZIP",
+          "SEARCHABLE_FIELD_COUNTRY",
+          "SEARCHABLE_FIELD_WORK_NUMBER",
+          "SEARCHABLE_FIELD_SOCIAL_PROFILE_ID",
+          "SEARCHABLE_FIELD_CUSTOMER_ID",
+          "SEARCHABLE_FIELD_ACCOUNT_GROUP_ID"
+        ],
+        "type": "string"
+      },
+      "v1ServiceArea": {
+        "properties": {
+          "businessType": {
+            "$ref": "#/components/schemas/v1ServiceAreaBusinessType"
+          },
+          "places": {
+            "items": {
+              "$ref": "#/components/schemas/v1GooglePlace"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1ServiceAreaBusinessType": {
+        "default": "SERVICE_AREA_BUSINESS_TYPE_UNSPECIFIED",
+        "description": "- SERVICE_AREA_BUSINESS_TYPE_UNSPECIFIED: Not specified.\n - SERVICE_AREA_BUSINESS_TYPE_CUSTOMER_LOCATION_ONLY: Offers service only in the surrounding area (not at the business address).\n - SERVICE_AREA_BUSINESS_TYPE_CUSTOMER_AND_BUSINESS_LOCATION: Offers service at the business address and the surrounding area.",
+        "enum": [
+          "SERVICE_AREA_BUSINESS_TYPE_UNSPECIFIED",
+          "SERVICE_AREA_BUSINESS_TYPE_CUSTOMER_LOCATION_ONLY",
+          "SERVICE_AREA_BUSINESS_TYPE_CUSTOMER_AND_BUSINESS_LOCATION"
+        ],
+        "title": "Based on https://developers.google.com/my-business/reference/businessinformation/rest/v1/accounts.locations#Location.BusinessType",
+        "type": "string"
+      },
+      "v1ServiceAvailability": {
+        "properties": {
+          "appointmentsOnly": {
+            "$ref": "#/components/schemas/v1IsAvailable"
+          },
+          "closedStatus": {
+            "$ref": "#/components/schemas/v1ClosedStatus"
+          },
+          "closedStatusDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "curbsidePickup": {
+            "$ref": "#/components/schemas/v1IsAvailable"
+          },
+          "delivery": {
+            "$ref": "#/components/schemas/v1IsAvailable"
+          },
+          "ecommerceOnly": {
+            "$ref": "#/components/schemas/v1IsAvailable"
+          },
+          "inStorePickup": {
+            "$ref": "#/components/schemas/v1IsAvailable"
+          },
+          "noContactDelivery": {
+            "$ref": "#/components/schemas/v1IsAvailable"
+          },
+          "reopeningDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "servesDineIn": {
+            "$ref": "#/components/schemas/v1IsAvailable"
+          }
+        },
+        "type": "object"
+      },
+      "v1Snapshots": {
+        "properties": {
+          "snapshots": {
+            "items": {
+              "$ref": "#/components/schemas/SnapshotsSnapshot"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1SocialURLs": {
+        "properties": {
+          "facebookUrl": {
+            "type": "string"
+          },
+          "foursquareUrl": {
+            "type": "string"
+          },
+          "googleplusUrl": {
+            "type": "string"
+          },
+          "instagramUrl": {
+            "type": "string"
+          },
+          "linkedinUrl": {
+            "type": "string"
+          },
+          "pinterestUrl": {
+            "type": "string"
+          },
+          "rssUrl": {
+            "type": "string"
+          },
+          "twitterUrl": {
+            "type": "string"
+          },
+          "youtubeUrl": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1SortDirection": {
+        "default": "Ascending",
+        "description": "The directions that a result set can be sorted in.",
+        "enum": [
+          "Ascending",
+          "Descending"
+        ],
+        "type": "string"
+      },
+      "v1SortField": {
+        "default": "Modified",
+        "description": "The field to sort a result set on.",
+        "enum": [
+          "Modified",
+          "Created",
+          "CompanyName"
+        ],
+        "type": "string"
+      },
+      "v1SortOptions": {
+        "properties": {
+          "direction": {
+            "$ref": "#/components/schemas/v1SortDirection"
+          },
+          "field": {
+            "$ref": "#/components/schemas/v1SortField"
+          }
+        },
+        "title": "Options for controlling the order of query results",
+        "type": "object"
+      },
+      "v1TaskStatus": {
+        "default": "INVALID",
+        "enum": [
+          "INVALID",
+          "COMPLETED",
+          "IN_PROGRESS",
+          "FAILED"
+        ],
+        "type": "string"
+      },
+      "v1TimeOfDay": {
+        "properties": {
+          "hours": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "minutes": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "nanos": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "seconds": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "v1ValidateAddressMultiResponse": {
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/v1AddressValidationResult"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1WebSearchAddressDetails": {
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "borough": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "zip": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1WebsiteStatus": {
+        "properties": {
+          "hasWebsite": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "vendastatypesFieldMask": {
+        "description": "paths: \"f.a\"\n    paths: \"f.b.d\"\n\nHere `f` represents a field in some root message, `a` and `b`\nfields in the message found in `f`, and `d` a field found in the\nmessage in `f.b`.\n\nField masks are used to specify a subset of fields that should be\nreturned by a get operation or modified by an update operation.\nField masks also have a custom JSON encoding (see below).\n\n# Field Masks in Projections\n\nWhen used in the context of a projection, a response message or\nsub-message is filtered by the API to only contain those fields as\nspecified in the mask. For example, if the mask in the previous\nexample is applied to a response message as follows:\n\n    f {\n      a : 22\n      b {\n        d : 1\n        x : 2\n      }\n      y : 13\n    }\n    z: 8\n\nThe result will not contain specific values for fields x,y and z\n(their value will be set to the default, and omitted in proto text\noutput):\n\n\n    f {\n      a : 22\n      b {\n        d : 1\n      }\n    }\n\nA repeated field is not allowed except at the last position of a\npaths string.\n\nIf a FieldMask object is not present in a get operation, the\noperation applies to all fields (as if a FieldMask of all fields\nhad been specified).\n\nNote that a field mask does not necessarily apply to the\ntop-level response message. In case of a REST get operation, the\nfield mask applies directly to the response, but in case of a REST\nlist operation, the mask instead applies to each individual message\nin the returned resource list. In case of a REST custom method,\nother definitions may be used. Where the mask applies will be\nclearly documented together with its declaration in the API.  In\nany case, the effect on the returned resource/resources is required\nbehavior for APIs.\n\n# Field Masks in Update Operations\n\nA field mask in update operations specifies which fields of the\ntargeted resource are going to be updated. The API is required\nto only change the values of the fields as specified in the mask\nand leave the others untouched. If a resource is passed in to\ndescribe the updated values, the API ignores the values of all\nfields not covered by the mask.\n\nIf a repeated field is specified for an update operation, the existing\nrepeated values in the target resource will be overwritten by the new values.\nNote that a repeated field is only allowed in the last position of a `paths`\nstring.\n\nIf a sub-message is specified in the last position of the field mask for an\nupdate operation, then the existing sub-message in the target resource is\noverwritten. Given the target message:\n\n    f {\n      b {\n        d : 1\n        x : 2\n      }\n      c : 1\n    }\n\nAnd an update message:\n\n    f {\n      b {\n        d : 10\n      }\n    }\n\nthen if the field mask is:\n\n paths: \"f.b\"\n\nthen the result will be:\n\n    f {\n      b {\n        d : 10\n      }\n      c : 1\n    }\n\nHowever, if the update mask was:\n\n paths: \"f.b.d\"\n\nthen the result would be:\n\n    f {\n      b {\n        d : 10\n        x : 2\n      }\n      c : 1\n    }\n\nIn order to reset a field's value to the default, the field must\nbe in the mask and set to the default value in the provided resource.\nHence, in order to reset all fields of a resource, provide a default\ninstance of the resource and set all fields in the mask, or do\nnot provide a mask as described below.\n\nIf a field mask is not present on update, the operation applies to\nall fields (as if a field mask of all fields has been specified).\nNote that in the presence of schema evolution, this may mean that\nfields the client does not know and has therefore not filled into\nthe request will be reset to their default. If this is unwanted\nbehavior, a specific service may require a client to always specify\na field mask, producing an error if not.\n\nAs with get operations, the location of the resource which\ndescribes the updated values in the request message depends on the\noperation kind. In any case, the effect of the field mask is\nrequired to be honored by the API.\n\n## Considerations for HTTP REST\n\nThe HTTP kind of an update operation which uses a field mask must\nbe set to PATCH instead of PUT in order to satisfy HTTP semantics\n(PUT must only be used for full updates).\n\n# JSON Encoding of Field Masks\n\nIn JSON, a field mask is encoded as a single string where paths are\nseparated by a comma. Fields name in each path are converted\nto/from lower-camel naming conventions.\n\nAs an example, consider the following message declarations:\n\n    message Profile {\n      User user = 1;\n      Photo photo = 2;\n    }\n    message User {\n      string display_name = 1;\n      string address = 2;\n    }\n\nIn proto a field mask for `Profile` may look as such:\n\n    mask {\n      paths: \"user.display_name\"\n      paths: \"photo\"\n    }\n\nIn JSON, the same mask is represented as below:\n\n    {\n      mask: \"user.displayName,photo\"\n    }\n\n# Field Masks and Oneof Fields\n\nField masks treat fields in oneofs just as regular fields. Consider the\nfollowing message:\n\n    message SampleMessage {\n      oneof test_oneof {\n        string name = 4;\n        SubMessage sub_message = 9;\n      }\n    }\n\nThe field mask can be:\n\n    mask {\n      paths: \"name\"\n    }\n\nOr:\n\n    mask {\n      paths: \"sub_message\"\n    }\n\nNote that oneof type names (\"test_oneof\" in this case) cannot be used in\npaths.",
+        "properties": {
+          "paths": {
+            "description": "The set of field mask paths.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "title": "`FieldMask` represents a set of symbolic field paths, for example:",
+        "type": "object"
+      },
+      "vendastatypesPagedRequestOptions": {
+        "properties": {
+          "cursor": {
+            "title": "cursor can be passed to retrieve the next page of results keyed by the cursor",
+            "type": "string"
+          },
+          "pageSize": {
+            "format": "int64",
+            "title": "page_size specifies the number of items to return in the next page",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "vendastatypesPagedResponseMetadata": {
+        "properties": {
+          "hasMore": {
+            "title": "Whether or not more results exist",
+            "type": "boolean"
+          },
+          "nextCursor": {
+            "title": "A cursor that can be provided to retrieve the next page of results",
+            "type": "string"
+          },
+          "totalResults": {
+            "format": "int64",
+            "title": "The total number of results. This is not supported on all paged apis and will be 0 if it is not supported",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2Demo": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
+            "scopes": {
+              "read": "Read access to the API",
+              "write": "Write access to the API"
+            },
+            "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      },
+      "OAuth2Prod": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "scopes": {
+              "read": "Read access to the API",
+              "write": "Write access to the API"
+            },
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "title": "Account Group OpenAPI Documentation",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/account-group/get-multi": {
+      "post": {
+        "operationId": "AccountGroupService_GetMulti",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetMultiRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetMultiResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/googlerpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "tags": [
+          "AccountGroupService"
+        ]
+      }
+    },
+    "/v1/account-group/list": {
+      "post": {
+        "operationId": "AccountGroupService_List",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ListRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1PagedResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/googlerpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "tags": [
+          "AccountGroupService"
+        ]
+      }
+    },
+    "/v1/account-group/lookup": {
+      "post": {
+        "operationId": "AccountGroupService_Lookup",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1LookupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1PagedResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/googlerpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "tags": [
+          "AccountGroupService"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://prod.apigateway.co/grpc"
+    },
+    {
+      "description": "Demo",
+      "url": "https://demo.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "name": "AccountGroupService"
+    },
+    {
+      "name": "AccountValidationService"
+    },
+    {
+      "name": "CompetitorService"
+    },
+    {
+      "name": "AuxiliaryFieldData"
+    },
+    {
+      "name": "AuxiliaryFieldSchema"
+    },
+    {
+      "name": "Inference"
+    },
+    {
+      "name": "CategoryMigration"
+    },
+    {
+      "name": "SearchEngineResult"
+    },
+    {
+      "name": "Prospecting"
+    }
+  ]
+}

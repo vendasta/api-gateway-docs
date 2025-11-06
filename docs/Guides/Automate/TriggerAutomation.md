@@ -1,80 +1,90 @@
 # Trigger a prebuilt automation
 
-Automations are a powerful tool within the Vendasta platform, they can be used to set up unique workflows and create efficienciencies. 
+Automations are a powerful tool within the Vendasta platform. They can be used to set up unique workflows and create efficiencies.
 
-If you have setup automations in the Vendasta platform you can trigger them for a business. This enables you to set up a complex chain of actions from a single request. 
+If you have Automations configured in the Vendasta platform, you can trigger them in a variety of ways. This enables you to set up a complex chain of actions from a single request. 
+>You can trigger Automations built in **Partner Center**, or on behalf of your clients in their **Business App.** The triggers are configured in the same manner for both systems.
+>
+>* [Learn more about automations](https://docs.vendasta.com/automations/automations-my-automations/getting-started-with-automations)
+>* [Create a new automation](https://docs.vendasta.com/automations/my-automations/create-new-automation)
+>* [Automation Templates in Business App](https://docs.vendasta.com/business-app/automations/automation-templates-in-business-app)
 
-[Learn more about automations](https://support.vendasta.com/hc/en-us/categories/24285550627223-Automations)
+**Automation external triggers**
 
-There are **two options** for triggering an Automation depending on the level of security needed based on the operations contained in the target Automation.
+There are **three primary types** of external triggers for an Automation: ***Webhook***, ***API***, and ***Zapier***. The choice depends primarily on the level of security required for the operations involved, and also on the technologies the partner is already using and familiar with.
 
-1) Webhook Trigger - Use for non sensitive Automations. *You can still add an expected key(which could be rotated) as a filter when editing the trigger if desired*
-2) API Trigger - Use for Automations that contain sensitive operations, or that can affect billing such as product activations
+1) ***Webhook Trigger:*** No Authentication option; best for non-sensitive Automations.
+2) ***Zapier Trigger:*** Used for easy, no-code integrations with thousands of external services.
+3) ***API Triggers:*** Requires authentication; use for Automations that contain sensitive operations or that affect billing (e.g., product activations).
 
-These options are found under the *Advanced* section within the Automations trigger list:
-![trigger options](../../../assets/images/automation_triggers.png)
 
+The first two options are found under the *Advanced* section within the Automations trigger list:
+
+* [Webhook Trigger (Advanced)](#webhook-trigger)
+* [Zapier Trigger (Advanced)](https://docs.vendasta.com/business-app/automations/trigger-automation-using-zapier)
+
+
+*API Triggers (Object-Specific):*
+* Triggered via API for an order (Advanced section)
+* Triggered via API for an account (Advanced section)
+* Triggered manually for a company (Manual section)
+* Triggered manually for a contact (Manual section)
+
+>API Triggers are **object specific**. In the rare case you need to trigger an ad-hoc Automation that does not involve one of these core objects, the Webhook or Zapier triggers should be used.
+
+# Webhook Trigger
+The **webhook trigger** accepts a JSON payload consisting of top-level key-value pairs. One of these values may be an object ID, which will unlock [Automation Actions](https://docs.vendasta.com/automations/my-automations/available-automation-steps) related to that object(including [custom objects](https://docs.vendasta.com/administration/data-management/crm-objects)). 
+
+For example, if a payload value of type Account ID is provided, it will enable actions like 'Add an Account to a list'.
+![Account ID Passed](webhook_object_id.png)
+
+See *Data Passing* ([Why is the step I want to use greyed out?](https://docs.vendasta.com/automations/my-automations/automations-data-passing#:~:text=Why%20is%20the%20step%20I%20want%20to%20use%20greyed%20out%3F)) for more information.
+
+
+
+# API Triggers
+
+**Authentication** 
+
+Create an access token with at least the `business` scope following the [Authorization guide](../../Authorization/Authorization.md).
+
+**Setup** 
+
+Create an automation in Partner Center, or Business App with one of the API Triggers listed above.
+
+**Trigger Data Passing**
 <!-- theme: warning -->
-> The API trigger is only available for Partner automations. The Webhook trigger is available for both Partner and Business App automations.
+>Data passing into the Automation is only available for the ***Advanced*** **API Triggers** associated with `Account` and `Order` objects.
 
-# Webhook Trigger - Setup
+In the [Create Automation Run request](platform.yaml/paths/~1automationRuns/post) this data must be provided within the `data.attributes.data` JSON object.
 
+When designing an Automation to be called via API, the expected data structure **must be preconfigured** on the Automation Trigger with keys matching those in the API request. By selecting the correct data types during configuration, the Automation can automatically use this data as input for subsequent steps.
 
-# API Trigger - Setup
+>If needing to pass data for other objects, the Webhook Trigger should be used **OR** you can leverage **Object Reference Actions** (such as 'Get the associated company' or 'Find contact') to pull in the necessary object data within the Automation flow.
 
-Create an access token with at least `business` scopes following the [Authorization guide](../../Authorization/Authorization.md).
+**Request**
 
-Create an automation in the Vendasta platform with the "It's triggered via API" [trigger](https://support.vendasta.com/hc/en-us/articles/4406952880919-Automation-triggers).
+The API triggers utilize the [Create Automation Run](platform.yaml/paths/~1automationRuns/post) endpoint.
 
-If you would like to pass custom data to this automation, you will need to configure the return values to be the keys of the data payload that you are passing in the request body. This can be done by adding the keys of your data dictionary to the return values in the side panel of the trigger. By selecting the correct data types when configuring these return values, the automation will be able to automatically use this data for requirements of subsequent steps.
+To trigger an automation run two data points are **required**. The ID of the Automation (found in the URL as `Automation-***`) and the object ID, which is provided as `attributes.enttityId` as follows:
 
-## Trigger the automation
-
-<!--
-type: tab
-title: Request
--->
-
-You will need the ID of the automation you previously created as well as the [business ID](../Accounts.md) of the business location you would like to trigger that automation for. Add the access token to the headers and send it off. 
-
-This api call has an empty response.
-
-
-
-```json http
+```json
 {
-  "method": "POST",
-  "url": "https://prod.apigateway.co/platform/automationRuns",
-  "query": {},
-  "headers": {
-    "Authorization": "Bearer <Token with 'business' scope>",
-    "Content-Type": "application/vnd.api+json"
-  },
-  "body": {
-     "data": {
-        "type": "automationRuns",
-        "relationships": {
-            "businessLocation": {
-                "data": {
-                    "id": "AG-6TRBKMP2BQ",
-                    "type": "businessLocations"
-                }
-            },
-            "automation": {
-                "data": {
-                    "id": "Automation-254551a2-ab4c-41fa-b7c2-1c53d448e258",
-                    "type": "automations"
-                }
-            }
+  "data": {
+    "type": "automationRuns",
+    "relationships": {
+      "automation": {
+        "data": {
+          "type": "automations",
+          "id": "Automation-91cb048c-c498-43ba-ab99-2ca2d27d2c46"
         }
+      }
+    },
+    "attributes": {
+      "entityId": "string",
+      "data": {
+        "optional_key": "optional_value"
+      }
     }
   }
 }
-
-```
-For more details on this endpoint see [Create Automation Runs](b3A6MjA0OTU3MTQ-create-automation-run).
-
-
-<!--
-type: tab-end
--->

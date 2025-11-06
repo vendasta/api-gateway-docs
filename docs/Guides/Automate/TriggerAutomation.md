@@ -66,7 +66,7 @@ When designing an Automation to be called via API, the expected data structure *
 
 The API triggers utilize the [Create Automation Run](platform.yaml/paths/~1automationRuns/post) endpoint.
 
-To trigger an automation run two data points are **required**. The ID of the Automation (found in the URL as `Automation-***`) and the object ID, which is provided as `attributes.enttityId` as follows:
+To trigger an automation run two data points are **required**. The ID of the Automation (found in the URL as `Automation-***`) and the object ID, which is provided as `attributes.entityId` as follows:
 
 ```json
 {

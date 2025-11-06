@@ -4,7 +4,7 @@ Automations are a powerful tool within the Vendasta platform, they can be used t
 
 If you have setup automations in the Vendasta platform you can trigger them for a business. This enables you to set up a complex chain of actions from a single request. 
 
-[Learn more about automations](https://support.vendasta.com/hc/en-us/sections/4406950706583-Automations)
+[Learn more about automations](https://support.vendasta.com/hc/en-us/categories/24285550627223-Automations)
 
 There are **two options** for triggering an Automation depending on the level of security needed based on the operations contained in the target Automation.
 

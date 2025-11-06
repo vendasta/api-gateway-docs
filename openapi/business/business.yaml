@@ -2,7 +2,10 @@ openapi: 3.0.0
 info:
   title: Business REST APIs
   version: '1.0'
-  description: APIs for managing data for a single business location.
+  description: |-
+    APIs for managing data for a single business location.
+
+    [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Deprecated` - Will be replaced by a new CRM API - Current Trusted Tester [Endpoint](../crm/crm.json/paths/~1{namespace}~1{resourceTypeCode}/post).
 servers:
   - url: 'https://prod.apigateway.co/business'
     description: Production
@@ -134,7 +137,7 @@ paths:
                     readOnly: true
                 readOnly: true
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Deprecated` - Will be replaced by a new CRM API - Current Trusted Tester [Endpoint](../crm/crm.json/paths/~1{namespace}~1{resourceTypeCode}/post).
 
         Used to create a new customer record within Business App.
 
@@ -200,6 +203,7 @@ paths:
                           id: AG-123
       tags:
         - Customers
+      deprecated: true
     get:
       summary: List Customers
       operationId: get-customers
@@ -230,7 +234,7 @@ paths:
                         description: The URI at which the next batch of customers can be gotten from
                         format: uri
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Deprecated` - Will be replaced by a new CRM API - *coming soon*
 
         Produces a list of customers
       parameters:
@@ -286,6 +290,7 @@ paths:
         - Customers
       x-lifecycle:
         status: trustedTester
+      deprecated: true
     options:
       summary: List valid HTTP verbs for /customers
       operationId: options-customers
@@ -296,6 +301,7 @@ paths:
       tags:
         - Options
         - Customers
+      deprecated: true
   '/customers/{id}':
     parameters:
       - schema:
@@ -326,7 +332,7 @@ paths:
       x-lifecycle:
         status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Deprecated` - Will be replaced by a new CRM API - Current Trusted Tester [Endpoint](../crm/crm.json/paths/~1{namespace}~1{resourceTypeCode}/post)
 
         Fetch the current values for the specified customer.
       parameters:
@@ -343,6 +349,7 @@ paths:
             - customers
         - OAuth2Prod:
             - customers
+      deprecated: true
     delete:
       summary: Delete Customer
       tags:
@@ -354,7 +361,7 @@ paths:
       x-lifecycle:
         status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Deprecated` - Will be replaced by a new CRM API - *coming soon*
 
         Delete the specified customer.
       parameters:
@@ -371,13 +378,14 @@ paths:
             - customers
         - OAuth2Prod:
             - customers
+      deprecated: true
     patch:
       summary: Update Customer
       operationId: patch-customers-id
       tags:
         - Customers
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Deprecated` - Will be replaced by a new CRM API - Current Trusted Tester [Endpoint](../crm/crm.json/paths/~1{namespace}~1{resourceTypeCode}/post).
 
         Update the existing customer.
         Only the root ID and type fields are required. All others are optional and will keep their original value if omitted.
@@ -432,6 +440,7 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/customers'
+      deprecated: true
     options:
       summary: 'List valid HTTP verbs for /customers/{id}'
       operationId: options-customers-id
@@ -442,6 +451,7 @@ paths:
       tags:
         - Options
         - Customers
+      deprecated: true
 components:
   securitySchemes:
     JWT:

@@ -1,6 +1,6 @@
 # Purchases
 
-Purchases are used to track whole sales transactions for products that have been provided. 
+Purchases are used to track wholesale transactions for products. 
 
 For advanced usage see the [full details](../../openapi/platform/platform.yaml/paths/~1purchases/get).
 
@@ -8,7 +8,7 @@ For advanced usage see the [full details](../../openapi/platform/platform.yaml/p
 
 ### View your purchases
 
-To view the purchases that have been sent to you make the following request filling in your partner ID and an [access token](../Authorization/2-legged-oauth/UsingAServiceAccount.md). This example filters the list to the first 10 purchases created between Dec 10th and 20th. 
+To view the past purchases for your Partner you may make the following request, filling in your partner ID and [access token](../Authorization/2-legged-oauth/UsingAServiceAccount.md). This example filters the list to the first 10 purchases created between Dec 10th and 20th. 
 
 ```json http
 {
@@ -16,8 +16,8 @@ To view the purchases that have been sent to you make the following request fill
   "url": "https://prod.apigateway.co/platform/purchases",
   "query": {
     "filter[partner.id]": "<Your partner ID>",
-    "filter[createdAt][>]": "2020-12-10T00:00:00Z",
-    "filter[createdAt][<]": "2020-12-20T00:00:00Z",
+    "filter[createdAt][>]": "2024-12-10T00:00:00Z",
+    "filter[createdAt][<]": "2024-12-20T00:00:00Z",
     "page[limit]": "10"
   },
   "headers": {
@@ -39,7 +39,7 @@ That will give you a response similar to
       "type": "purchases",
       "id": "3114ee2969c2f4ec",
       "attributes": {
-        "createdAt": "2020-12-18T17:16:24Z",
+        "createdAt": "2024-12-18T17:16:24Z",
         "statusCode": "paid",
         "currencyCode": "CAD",
         "discountAmount": 0,
@@ -74,7 +74,7 @@ That will give you a response similar to
       "type": "purchases",
       "id": "6771d24790d2c0a9",
       "attributes": {
-        "createdAt": "2020-12-18T17:12:30Z",
+        "createdAt": "2024-12-18T17:12:30Z",
         "statusCode": "paid",
         "currencyCode": "CAD",
         "discountAmount": 0,

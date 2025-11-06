@@ -2,7 +2,7 @@
 stoplight-id: 1ljuzmi2uboim
 ---
 
-# Addresses
+# Country & Region Management
 
 Vendasta maintains a list of countries and subregions within them that is based on an early version of the [ISO 3166 standard](https://en.wikipedia.org/wiki/ISO_3166). 
 

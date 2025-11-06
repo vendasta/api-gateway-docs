@@ -1,0 +1,42 @@
+steps:
+  # Run Trivy Config Scan (TFSec compatibility)
+  - id: 'tfsec-check'
+    name: 'gcr.io/repcore-prod/vendasta-terraform-trivy:1.0.0'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - |
+        # Documentation
+        echo "################################################"
+        echo "######### tfsec/Trivy Filesystem Scan ##########"
+        echo "################################################"
+        echo "Performs static analysis for security misconfigurations."
+        echo "Official Documentation: https://github.com/aquasecurity/trivy"
+        echo "Guide: https://trivy.dev/latest/docs/"
+        
+        # Git setup
+        echo "### Git setup"
+        apk add --no-cache git
+        git remote set-url origin https://$$GITHUB_TOKEN@github.com/vendasta/api-gateway-docs.git
+        
+        # Current working branch setup
+        echo "### Current working branch setup"
+        git fetch --unshallow || true
+        git fetch origin master
+        git fetch origin "$BRANCH_NAME"
+        git checkout -b "$BRANCH_NAME" "origin/$BRANCH_NAME"
+
+        # Run Trivy Configuration Scan (Only)
+        echo "### Running Trivy Config Scan"
+        trivy config --exit-code 1 --severity CRITICAL .
+
+        # Run Trivy Secret Scan (Only)
+        echo "### Running Trivy Config Scan"
+        trivy fs --scanners secret --exit-code 1 .
+    secretEnv:
+      - GITHUB_TOKEN
+availableSecrets:
+  secretManager:
+    - versionName: projects/repcore-prod/secrets/cloudbuild-github-token/versions/latest
+      env: GITHUB_TOKEN
+timeout: 900s

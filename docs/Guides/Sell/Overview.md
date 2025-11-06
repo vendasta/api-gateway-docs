@@ -339,8 +339,98 @@ Create a new order with the SKU for the desired product edition. The prior activ
 For products that can have multiple units purchased creating a new order
 will add the number of units specified by the `quantity` attribute to any existing subscriptions. The per unit `amount` will only apply to the new units. 
 
-## Coming soon
- Apply default pricing to the order items
-Coming soon
+### Apply default pricing to the order items
 
 If the product has been configured with a Retail Price at Partner Center -> Marketplace -> Manage Products -> Product Settings, you may leave off the `amount` and `intervalCode` to have the configured price be used.
+
+
+## Cancel Products
+
+Canceling products is a two step process: 
+1. [List Subscription Assignments](../../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments/get) for a business location to find the id corresponding to the SKU that you wish to cancel. 
+2. [Cancel Subscription Assignment](../../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments~1{id}~1actions~1requestCancellation/post) by id
+
+
+
+
+### Step1: List Subscription Assignments
+
+
+```json http
+{
+  "method": "get",
+  "url": "https://prod.apigateway.co/platform/subscriptionAssignments",
+  "query": {
+    "filter[businessLocationId]": "AG-1234567"
+  },
+  "headers": {
+    "Authorization": "Bearer <Token with 'sales.account' scope>"
+  }
+
+}
+```
+For full details see [List Subscription Assignments](../../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments/get)
+
+#### Example Response
+
+```json
+{
+  "data": [
+    {
+      "type": "subscriptionAssignments",
+      "id": "AG-1234567:MP-ee4ea04e553a4b1780caf7aad7be07cd:5644336a-acce-4eb7-898c-7178ca97480b",
+      "attributes": {
+        "sku": "MP-ee4ea04e553a4b1780caf7aad7be07cd",
+        "productId": "MP-ee4ea04e553a4b1780caf7aad7be07cd",
+        "editionId": "",
+        "status": "assigned"
+      }
+    },
+    {
+      "type": "subscriptionAssignments",
+      "id": "AG-1234567:RM:e8939ab9-1216-4ddf-9fab-dbe344e36869",
+      "attributes": {
+        "sku": "RM:EDITION-F7JZ5TV8",
+        "productId": "RM",
+        "editionId": "EDITION-F7JZ5TV8",
+        "status": "assigned"
+      }
+    }
+  ]
+}
+```
+
+### Step 2: Cancel by id
+
+Following the above example to cancel the `RM:EDITION-F7JZ5TV8` product you would use  `AG-1234567:RM:e8939ab9-1216-4ddf-9fab-dbe344e36869` as the id in the cancel request.
+
+By default the product will remain in a `pendingUnassignment` status until the item's anniversary date, or commitment date, whichever is later. You may force the product to be deactivated immediately by setting the `deactivationType` to `immediate`.
+
+
+```json http
+{
+  "method": "post",
+  "url": "https://prod.apigateway.co/platform/subscriptionAssignments/{id}/actions/requestCancellation",
+  "query": {
+    "id": "AG-1234567:RM:e8939ab9-1216-4ddf-9fab-dbe344e36869"
+  },
+  "headers": {
+    "Authorization": "Bearer <Token with 'sales.account' scope>",
+    "Content-Type": "application/vnd.api+json"
+  },
+  "body": {
+  "reason": [
+    "crisisShiftInPriorities"
+  ],
+  "comments": "Due to crisis",
+  "deactivationType": "cancel"
+}
+
+}
+```
+
+It should return a `204 No Content` status.
+
+For full details see [Cancel Subscription Assignment](../../../openapi/platform/platform.yaml/paths/~1subscriptionAssignments~1{id}~1actions~1requestCancellation/post)
+
+

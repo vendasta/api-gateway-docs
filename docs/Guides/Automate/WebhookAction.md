@@ -1,6 +1,8 @@
-# Use the trigger a webhook action
+# Use the send a webhook action
 
-You can take action in your systems based on events in the Vendasta platform by using automations. With any automation you can add the `Trigger a webhook` step to be notified when something happens. 
+You can take action in your systems based on events in the Vendasta platform by using automations. With any automation you can add the `Send a webhook` step to be notified when something happens. 
+
+> The Send a webhook step replaces the Trigger a webhook step, providing more flexible request definition. 
 
 ## Overview
 
@@ -8,28 +10,30 @@ In this guide we will create an automation, listen for the event and retrieve de
 
 ## Prerequisites
 
-This guide assumes you are familiar with creating automations within the platform. If you are not familiar you should [learn more about automations](https://support.vendasta.com/hc/en-us/sections/4406950706583-Automations) first.
+This guide assumes you are familiar with creating automations within the platform. If you are not familiar you should [learn more about automations](https://support.vendasta.com/hc/en-us/categories/24285550627223-Automations) first.
 
 
 ## Step 1: Automation setup
 
 Navigate to Partner Center &rarr; Automations &rarr; Chose existing or Create new automation.
 
-Add the `Trigger a webhook` step.
+Add the `Send a webhook` step.
 
-![](webhookAddPart1.png)
+![](automation_webhook.png)
 
-The **webhook URL** will be an endpoint that you have built in [step 2](#step-2-setup-your-handler). It will likely be one of your web servers but could also be a 3rd party system like Zapier. 
+The **Webhook URL** will be an endpoint that you have built in [step 2](#step-2-setup-your-handler). It will likely be one of your web servers but could also be a 3rd party system like Zapier. 
 
 For testing purposes [webhook.site](https://webhook.site/) is a great tool for viewing what is sent. You may also use a tool like [ngrok](https://ngrok.com/) to route requests to your local development computer.
 
-The **Verifier Token** is designated by you and is sent along with the webhook to help you verify that the request originated from this automation.
+You may customize the Query parameters, Headers, Cookies, and JSON Body. At this time, the request body, and expected response body is a single json object, and doesn't support nested json unless manually contructed.
 
-Custom **Additional Fields** may be added to the request body. Be careful when including sensitive data. The requests are sent using https however we do not have a way to confirm the destination is under your team's control. Instead it is recommended to only send ids and then fetch up to date info using an API request. 
+>Be careful when including sensitive data. The requests are sent using https however we do not have a way to confirm the destination is under your team's control. Instead it is recommended to only send ids and then fetch up to date info using an API request. 
 
-Additional fields that share the same **field** or **key** with the original body will take precedence over the provided body. In the example below, `automationId` will have a value of `some-id`
+**Response Body**
 
-![](webhookAddPart2.png)
+Similar to many automation steps, the Send a Webhook step supports data passing. This means that you can provide data in your webhook response, and pass it on to the next Automation Step! Ensure you configure the expected response body structure in the Response body section, or the data will not be made available to later steps.
+
+![](webhook_response_body.png)
 
 ## Step 2: Setup your handler
 
@@ -37,7 +41,7 @@ On a webserver that you control you will want to set up an HTTP request handler 
 
 ### Step 2.1: Verify the request
 
-The first thing that your handler function should do is check the value of the `Verifier-Token` request header. It should match what you specified in the automation configuration. If it does not you should assume someone random on the internet sent you the request and it should be thrown out. 
+It is suggested that you utilize a Signature in your header, and throw out any requests that you are unable to validate.
 
 ### Step 2.2: Parse the body
 
@@ -47,7 +51,6 @@ Next you can parse the request body as a JSON object.
 ```json
 {
   "accountId": "AG-1234567",
-  "automationId": "Automation-7a416085-5668-467c-98ad-f903ad1c4187",
   "entityId": "AG-1234567:ORD-1234567",
   "marketId": "default",
   "orderId": "AG-1234567:ORD-1234567",
@@ -82,7 +85,7 @@ If you require more than 60 seconds to process the webhook you should start a ba
 
 ## Optional: Fetch up to date info
 
-Using the resource ids found in the request body you can fetch up to date info. Here are a few examples.
+Various resource ids could be passed in the request body, which you can utilize to fetch up to date info via API. Here are a few examples.
 
 The first step for all of them is to [create an access token](../../Authorization/CallingAPIs.md) with the needed scope(s).
 

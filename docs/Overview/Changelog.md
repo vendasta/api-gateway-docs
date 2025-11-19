@@ -2,6 +2,10 @@
 
 The Vendasta Platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2025-11-18
+Removed get and create sales contacts (/platform/salesContacts). They have been replaced with CRM contacts.
+Removed proposal builder APIs. The product is no longer supported.
+
 ## 2024-10-03
 Deprecation of the Customer List API. Current integrations are supported for deprecation period. No new development should occur against the Customer API. The Vendasta Platform CRM API currently in `Trusted Testor` status replaces the Customer List API.
 

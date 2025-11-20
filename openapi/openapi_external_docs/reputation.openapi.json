@@ -886,6 +886,7 @@
       "v1ListNetPromoterScoresRequest": {
         "properties": {
           "accountGroupId": {
+            "title": "The account group ID to filter NPS scores by",
             "type": "string"
           },
           "cursor": {
@@ -911,25 +912,26 @@
         "properties": {
           "fromDate": {
             "format": "date-time",
-            "title": "from and to date wise filter",
+            "title": "Filter NPS scores from this date onwards",
             "type": "string"
           },
           "providerIds": {
             "items": {
               "type": "string"
             },
-            "title": "Provider IDs to filter by",
+            "title": "Filter by specific provider IDs",
             "type": "array"
           },
           "scoreCategory": {
             "items": {
               "$ref": "#/components/schemas/v1ScoreCategory"
             },
-            "title": "NPS Score wise filters",
+            "title": "Filter by NPS score categories (DETRACTORS, PASSIVES, PROMOTERS)",
             "type": "array"
           },
           "toDate": {
             "format": "date-time",
+            "title": "Filter NPS scores up to this date",
             "type": "string"
           }
         },
@@ -949,6 +951,7 @@
             "items": {
               "$ref": "#/components/schemas/v1NetPromoterScore"
             },
+            "title": "List of Net Promoter Score records matching the request criteria",
             "type": "array"
           },
           "totalResults": {
@@ -1202,44 +1205,54 @@
       "v1NetPromoterScore": {
         "properties": {
           "accountGroupId": {
+            "title": "The account group ID associated with this NPS score",
             "type": "string"
           },
           "attributes": {
             "items": {
               "$ref": "#/components/schemas/v1NetPromoterScoreAttribute"
             },
+            "title": "Additional attributes associated with the NPS score",
             "type": "array"
           },
           "comment": {
+            "title": "Optional comment associated with the score",
             "type": "string"
           },
           "created": {
             "format": "date-time",
+            "title": "The timestamp when the record was created",
             "type": "string"
           },
           "deleted": {
             "format": "date-time",
+            "title": "The timestamp when the record was deleted (if applicable)",
             "type": "string"
           },
           "netPromoterScoreId": {
+            "title": "Unique identifier for the Net Promoter Score record",
             "type": "string"
           },
           "providerIds": {
             "items": {
               "type": "string"
             },
+            "title": "List of provider IDs associated with this NPS score",
             "type": "array"
           },
           "score": {
             "format": "int64",
+            "title": "The NPS score value (0-10 scale)",
             "type": "string"
           },
           "scoreLeftTime": {
             "format": "date-time",
+            "title": "The timestamp when the score was left",
             "type": "string"
           },
           "updated": {
             "format": "date-time",
+            "title": "The timestamp when the record was last updated",
             "type": "string"
           }
         },
@@ -1248,9 +1261,11 @@
       "v1NetPromoterScoreAttribute": {
         "properties": {
           "key": {
+            "title": "The attribute key",
             "type": "string"
           },
           "value": {
+            "title": "The attribute value",
             "type": "string"
           }
         },

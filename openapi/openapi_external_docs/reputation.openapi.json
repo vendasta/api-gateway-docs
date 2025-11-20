@@ -886,23 +886,23 @@
       "v1ListNetPromoterScoresRequest": {
         "properties": {
           "accountGroupId": {
-            "title": "The account group ID to filter NPS scores by",
+            "description": "Required. Business account ID (starts with \"AG-\") to filter NPS scores by.",
             "type": "string"
           },
           "cursor": {
-            "title": "cursor can be passed to retrieve the next page of results keyed by the cursor",
+            "description": "Optional. Pagination cursor from previous response. Empty for first request.",
             "type": "string"
           },
           "filters": {
             "$ref": "#/components/schemas/v1ListNetPromoterScoresRequestFilters"
           },
           "hideParent": {
-            "title": "hide_parent specifies whether to hide the parent feedbacks in the response",
+            "description": "Optional. Whether to hide parent feedbacks in the response. Default: false.",
             "type": "boolean"
           },
           "pageSize": {
+            "description": "Optional. Number of items to return per page.",
             "format": "int64",
-            "title": "page_size specifies the number of items to return in the next page",
             "type": "string"
           }
         },
@@ -911,27 +911,27 @@
       "v1ListNetPromoterScoresRequestFilters": {
         "properties": {
           "fromDate": {
+            "description": "Optional. Filter NPS scores from this date onwards (RFC3339 UTC, inclusive).",
             "format": "date-time",
-            "title": "Filter NPS scores from this date onwards",
             "type": "string"
           },
           "providerIds": {
+            "description": "Optional. Filter by specific provider IDs.",
             "items": {
               "type": "string"
             },
-            "title": "Filter by specific provider IDs",
             "type": "array"
           },
           "scoreCategory": {
+            "description": "Optional. Filter by NPS score categories: DETRACTORS (0-6), PASSIVES (7-8), PROMOTERS (9-10).",
             "items": {
               "$ref": "#/components/schemas/v1ScoreCategory"
             },
-            "title": "Filter by NPS score categories (DETRACTORS, PASSIVES, PROMOTERS)",
             "type": "array"
           },
           "toDate": {
+            "description": "Optional. Filter NPS scores up to this date (RFC3339 UTC, inclusive).",
             "format": "date-time",
-            "title": "Filter NPS scores up to this date",
             "type": "string"
           }
         },
@@ -940,23 +940,23 @@
       "v1ListNetPromoterScoresResponse": {
         "properties": {
           "cursor": {
-            "title": "cursor can be passed to retrieve the next page of results keyed by the cursor",
+            "description": "Cursor for next page. Pass to ListNetPromoterScoresRequest.cursor. Empty string means no more pages.",
             "type": "string"
           },
           "hasMore": {
-            "title": "Whether there are more results",
+            "description": "Whether there are more results available.",
             "type": "boolean"
           },
           "netPromoterScore": {
+            "description": "NPS score records matching the search criteria for the current page. Empty list if no matches.",
             "items": {
               "$ref": "#/components/schemas/v1NetPromoterScore"
             },
-            "title": "List of Net Promoter Score records matching the request criteria",
             "type": "array"
           },
           "totalResults": {
+            "description": "Total count of NPS scores matching criteria across all pages.",
             "format": "int64",
-            "title": "Approximate total results for an unbounded page size",
             "type": "string"
           }
         },
@@ -1205,54 +1205,54 @@
       "v1NetPromoterScore": {
         "properties": {
           "accountGroupId": {
-            "title": "The account group ID associated with this NPS score",
+            "description": "Business account ID (starts with \"AG-\") associated with this NPS score.",
             "type": "string"
           },
           "attributes": {
+            "description": "Additional attributes associated with the NPS score (key-value pairs).",
             "items": {
               "$ref": "#/components/schemas/v1NetPromoterScoreAttribute"
             },
-            "title": "Additional attributes associated with the NPS score",
             "type": "array"
           },
           "comment": {
-            "title": "Optional comment associated with the score",
+            "description": "Optional comment associated with the score.",
             "type": "string"
           },
           "created": {
+            "description": "Timestamp when the record was created (RFC3339 UTC).",
             "format": "date-time",
-            "title": "The timestamp when the record was created",
             "type": "string"
           },
           "deleted": {
+            "description": "Timestamp when the record was deleted, if applicable (RFC3339 UTC).",
             "format": "date-time",
-            "title": "The timestamp when the record was deleted (if applicable)",
             "type": "string"
           },
           "netPromoterScoreId": {
-            "title": "Unique identifier for the Net Promoter Score record",
+            "description": "Unique identifier for the Net Promoter Score record.",
             "type": "string"
           },
           "providerIds": {
+            "description": "List of provider IDs associated with this NPS score.",
             "items": {
               "type": "string"
             },
-            "title": "List of provider IDs associated with this NPS score",
             "type": "array"
           },
           "score": {
+            "description": "The NPS score value on a scale of 0-10.",
             "format": "int64",
-            "title": "The NPS score value (0-10 scale)",
             "type": "string"
           },
           "scoreLeftTime": {
+            "description": "Timestamp when the score was left (RFC3339 UTC).",
             "format": "date-time",
-            "title": "The timestamp when the score was left",
             "type": "string"
           },
           "updated": {
+            "description": "Timestamp when the record was last updated (RFC3339 UTC).",
             "format": "date-time",
-            "title": "The timestamp when the record was last updated",
             "type": "string"
           }
         },
@@ -1261,11 +1261,11 @@
       "v1NetPromoterScoreAttribute": {
         "properties": {
           "key": {
-            "title": "The attribute key",
+            "description": "The attribute key (e.g., \"source_system_id\", \"service_type\", \"external_review_id\").",
             "type": "string"
           },
           "value": {
-            "title": "The attribute value",
+            "description": "The attribute value corresponding to the key.",
             "type": "string"
           }
         },

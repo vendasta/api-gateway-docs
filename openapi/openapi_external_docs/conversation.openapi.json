@@ -156,6 +156,17 @@
         "title": "Tool calls can be suggested by AI in a message, this field contains the message and options selected by the user",
         "type": "object"
       },
+      "MetadataIdentifier": {
+        "default": "METADATA_IDENTIFIER_UNDEFINED",
+        "enum": [
+          "METADATA_IDENTIFIER_UNDEFINED",
+          "METADATA_IDENTIFIER_RECIPIENT",
+          "METADATA_IDENTIFIER_SENDER",
+          "METADATA_IDENTIFIER_CONVERSATION",
+          "METADATA_IDENTIFIER_WHATSAPP_TEMPLATE"
+        ],
+        "type": "string"
+      },
       "SummaryTheme": {
         "properties": {
           "description": {
@@ -223,9 +234,6 @@
             "type": "string"
           }
         },
-        "type": "object"
-      },
-      "v1AIMode": {
         "type": "object"
       },
       "v1AISystemMessage": {
@@ -1545,21 +1553,10 @@
             "type": "object"
           },
           "identifier": {
-            "$ref": "#/components/schemas/v1MetadataIdentifier"
+            "$ref": "#/components/schemas/MetadataIdentifier"
           }
         },
         "type": "object"
-      },
-      "v1MetadataIdentifier": {
-        "default": "METADATA_IDENTIFIER_UNDEFINED",
-        "enum": [
-          "METADATA_IDENTIFIER_UNDEFINED",
-          "METADATA_IDENTIFIER_RECIPIENT",
-          "METADATA_IDENTIFIER_SENDER",
-          "METADATA_IDENTIFIER_CONVERSATION",
-          "METADATA_IDENTIFIER_WHATSAPP_TEMPLATE"
-        ],
-        "type": "string"
       },
       "v1NamespaceDetail": {
         "properties": {
@@ -1868,7 +1865,8 @@
       "v1SendMessageOptions": {
         "properties": {
           "aiMode": {
-            "$ref": "#/components/schemas/v1AIMode"
+            "title": "option to pass in the ai mode",
+            "type": "string"
           },
           "runSync": {
             "title": "option to run sendMessage synchronously",

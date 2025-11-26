@@ -884,6 +884,7 @@
         "type": "object"
       },
       "v1ListNetPromoterScoresRequest": {
+        "description": "Request message for listing Net Promoter Score records with optional filtering and pagination.",
         "properties": {
           "accountGroupId": {
             "description": "Required. Business account ID (starts with \"AG-\") to list NPS scores for.",
@@ -897,7 +898,8 @@
             "$ref": "#/components/schemas/v1ListNetPromoterScoresRequestFilters"
           },
           "hideParent": {
-            "description": "Optional. Whether to hide parent feedbacks in the response. Default: false.",
+            "default": "false",
+            "description": "When set to true, excludes NPS scores from parent account groups in the response. Only NPS scores directly associated with the specified account_group_id are returned. When false (default), NPS scores from both the account group and its parent account groups are included.",
             "type": "boolean"
           },
           "pageSize": {
@@ -906,6 +908,10 @@
             "type": "string"
           }
         },
+        "required": [
+          "accountGroupId"
+        ],
+        "title": "List Net Promoter Scores Request",
         "type": "object"
       },
       "v1ListNetPromoterScoresRequestFilters": {
@@ -2255,6 +2261,7 @@
               }
             }
           },
+          "description": "Request message for listing Net Promoter Score records with optional filtering and pagination.",
           "required": true
         },
         "responses": {

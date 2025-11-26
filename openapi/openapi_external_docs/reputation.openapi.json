@@ -1240,7 +1240,7 @@
             "type": "string"
           },
           "providerIds": {
-            "description": "List of provider IDs associated with this NPS score.",
+            "description": "List of provider IDs associated with this NPS scores.",
             "items": {
               "type": "string"
             },
@@ -1936,6 +1936,63 @@
         },
         "type": "object"
       },
+      "v1SearchReviewsRequest": {
+        "description": "Search for reviews with filtering and pagination.",
+        "properties": {
+          "accountGroupId": {
+            "description": "Required. Business account ID (starts with \"AG-\").",
+            "type": "string"
+          },
+          "cursor": {
+            "description": "Optional. Pagination cursor from previous response. Empty for first request.",
+            "type": "string"
+          },
+          "includeComments": {
+            "description": "Optional. Include business response comments in results. Default: false.\nSupported platforms: Google (one comment), Facebook, My Listing, Apartments.com, ApartmentRatings.",
+            "type": "boolean"
+          },
+          "listingName": {
+            "description": "Optional. Listing name to filter reviews for a specific location.",
+            "type": "string"
+          },
+          "maxDateTime": {
+            "description": "Optional. Filter reviews published on or before this date (RFC3339 UTC, inclusive).",
+            "format": "date-time",
+            "type": "string"
+          },
+          "minDateTime": {
+            "description": "Optional. Filter reviews published on or after this date (RFC3339 UTC, inclusive).",
+            "format": "date-time",
+            "type": "string"
+          },
+          "orderByCreatedDateDescending": {
+            "description": "Optional. Sort by system creation date descending (newest first).\nCannot be true if order_by_published_date_descending is true.",
+            "type": "boolean"
+          },
+          "orderByPublishedDateDescending": {
+            "description": "Optional. Sort by published date descending (newest first).\nCannot be true if order_by_created_date_descending is true.",
+            "type": "boolean"
+          },
+          "pageSize": {
+            "format": "int32",
+            "title": "Optional. An integer representing the number of reviews returned per page. This value must not exceed 500",
+            "type": "integer"
+          },
+          "phrase": {
+            "description": "Optional. Search for reviews containing this text (case-insensitive).",
+            "type": "string"
+          },
+          "rating": {
+            "description": "Optional. Filter by rating: \"1\"-\"5\" (exact), \"L\" (1-2 stars), \"H\" (4-5 stars), \"N\" (no rating).",
+            "type": "string"
+          },
+          "sourceName": {
+            "description": "Optional. Filter by source platform (e.g., \"Google\", \"Yelp\", \"Facebook\").",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "v1SearchReviewsResponse": {
         "description": "Search results with pagination metadata.",
         "properties": {
@@ -2297,6 +2354,57 @@
         "summary": "List NPS scores",
         "tags": [
           "NetPromoterScoreService"
+        ]
+      }
+    },
+    "/v1/reputation/reviews/search": {
+      "post": {
+        "description": "Search reviews by their IDs.\n\nRequired OAuth2 scopes: `business-app`, `reputation`, `reputation.review:read`",
+        "operationId": "ReviewService_SearchReviews",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1SearchReviewsRequest"
+              }
+            }
+          },
+          "description": "Search for reviews with filtering and pagination.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1SearchReviewsResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Search reviews",
+        "tags": [
+          "ReviewService"
         ]
       }
     }

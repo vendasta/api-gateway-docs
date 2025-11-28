@@ -258,6 +258,22 @@
         },
         "type": "object"
       },
+      "v1AIThought": {
+        "description": "Represents a single streamed reasoning or progress thought from the AI assistant.",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "sequenceNumber": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "thoughtType": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "v1AddMultiParticipantsResponse": {
         "properties": {
           "participants": {
@@ -1400,6 +1416,17 @@
       },
       "v1Message": {
         "properties": {
+          "aiThinkingDuration": {
+            "description": "Duration of AI thinking before final response.",
+            "type": "string"
+          },
+          "aiThoughts": {
+            "description": "AI reasoning or thinking generated during response creation.",
+            "items": {
+              "$ref": "#/components/schemas/v1AIThought"
+            },
+            "type": "array"
+          },
           "body": {
             "type": "string"
           },

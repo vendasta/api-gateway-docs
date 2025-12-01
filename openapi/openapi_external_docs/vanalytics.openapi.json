@@ -1,0 +1,565 @@
+{
+  "components": {
+    "schemas": {
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "rpcStatus": {
+        "properties": {
+          "code": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            },
+            "type": "array"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1BusinessMetric": {
+        "description": "BusinessMetric contains a business identifier, label, and one or more data points.\nPoints are aggregated by aggregation_key to build report cards.",
+        "properties": {
+          "businessId": {
+            "title": "Business ID (Account ID). Format: AG-XXXXXXXX",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label identifying the metric type. Example: \"click\", \"NetSyncGoogleMapViews\"",
+            "type": "string"
+          },
+          "points": {
+            "description": "Data points to be collected and aggregated.",
+            "items": {
+              "$ref": "#/components/schemas/v1Point"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1DateRange": {
+        "description": "DateRange filters points by occurrence time. Both dates inclusive.",
+        "properties": {
+          "endDate": {
+            "format": "date-time",
+            "title": "End date. Format: YYYY-MM-DDTHH:MM:SSZ",
+            "type": "string"
+          },
+          "startDate": {
+            "format": "date-time",
+            "title": "Start date. Format: YYYY-MM-DDTHH:MM:SSZ",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1DeleteBusinessMetricRequest": {
+        "description": "DeleteBusinessMetricRequest soft deletes a metric point by ID.",
+        "properties": {
+          "id": {
+            "description": "Unique identifier (UUID) of the metric point to delete.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1DeleteBusinessMetricResponse": {
+        "description": "DeleteBusinessMetricResponse indicates success or failure of a deletion.",
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/v1Error"
+          },
+          "id": {
+            "description": "UUID of the processed metric point.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1DeleteMultiBusinessMetricsRequest": {
+        "description": "DeleteMultiBusinessMetricsRequest soft deletes multiple metric points.",
+        "properties": {
+          "businessMetrics": {
+            "description": "List of metric point IDs to delete.",
+            "items": {
+              "$ref": "#/components/schemas/v1DeleteBusinessMetricRequest"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1DeleteMultiBusinessMetricsResponse": {
+        "description": "DeleteMultiBusinessMetricsResponse contains results for each deletion attempt.",
+        "properties": {
+          "businessMetrics": {
+            "description": "Deletion results. Successfully deleted points have no error field.",
+            "items": {
+              "$ref": "#/components/schemas/v1DeleteBusinessMetricResponse"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1Error": {
+        "description": "Error details for failed operations.",
+        "properties": {
+          "code": {
+            "description": "Error code. Code 1: point does not exist or is already deleted.",
+            "format": "int64",
+            "type": "string"
+          },
+          "message": {
+            "description": "Human-readable error message.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetBusinessMetricPointRequest": {
+        "description": "GetBusinessMetricPointRequest retrieves a metric point by ID.",
+        "properties": {
+          "id": {
+            "description": "Unique identifier (UUID) of the metric point to retrieve.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetBusinessMetricPointResponse": {
+        "description": "GetBusinessMetricPointResponse contains complete details for a single metric point.",
+        "properties": {
+          "aggregationKey": {
+            "description": "Aggregation key used to group this point with others.",
+            "type": "string"
+          },
+          "businessId": {
+            "title": "Business ID (Account ID). Format: AG-XXXXXXXX",
+            "type": "string"
+          },
+          "created": {
+            "format": "date-time",
+            "title": "When this point was created. Format: YYYY-MM-DDTHH:MM:SSZ",
+            "type": "string"
+          },
+          "dateHappened": {
+            "format": "date-time",
+            "title": "When the measurement occurred. Format: YYYY-MM-DDTHH:MM:SSZ",
+            "type": "string"
+          },
+          "dateHappenedKey": {
+            "description": "Internal date key for indexing (Unix timestamp in nanoseconds).",
+            "type": "string"
+          },
+          "deleted": {
+            "description": "Whether this point has been soft-deleted.",
+            "type": "boolean"
+          },
+          "id": {
+            "description": "Unique identifier (UUID).",
+            "type": "string"
+          },
+          "label": {
+            "title": "Metric label. Example: \"NetSyncGoogleMapViews\", \"click\"",
+            "type": "string"
+          },
+          "source": {
+            "description": "Source identifier (typically the user identifier or service account) that submitted the point.",
+            "type": "string"
+          },
+          "value": {
+            "description": "Integer value of the metric point.",
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetBusinessMetricRequest": {
+        "description": "GetBusinessMetricRequest filters metric points by business, label, and optional date range.",
+        "properties": {
+          "businessId": {
+            "title": "Business ID (Account ID). Format: AG-XXXXXXXX",
+            "type": "string"
+          },
+          "cursor": {
+            "description": "Pagination cursor from previous response. Leave empty for initial request.",
+            "type": "string"
+          },
+          "dateRange": {
+            "$ref": "#/components/schemas/v1DateRange"
+          },
+          "label": {
+            "description": "Label identifying the metric type. Must match the label used when pushing data.",
+            "type": "string"
+          },
+          "pageSize": {
+            "description": "Maximum number of points to return per page.",
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetBusinessMetricResponse": {
+        "description": "GetBusinessMetricResponse contains paginated metric points.",
+        "properties": {
+          "cursor": {
+            "description": "Pagination cursor for next page. Empty if no more results.",
+            "type": "string"
+          },
+          "metric": {
+            "$ref": "#/components/schemas/v1BusinessMetric"
+          }
+        },
+        "type": "object"
+      },
+      "v1Point": {
+        "description": "Point represents a single measurement or event at a specific time.\nPoints with the same aggregation_key are grouped together for aggregation.",
+        "properties": {
+          "aggregationKey": {
+            "title": "Tag used to group points for aggregation. Example: \"web\", \"mobile\", \"organic\"",
+            "type": "string"
+          },
+          "dateHappened": {
+            "format": "date-time",
+            "title": "When the measurement occurred. Format: YYYY-MM-DDTHH:MM:SSZ",
+            "type": "string"
+          },
+          "id": {
+            "description": "Unique identifier assigned by the system. Leave empty when creating new points.",
+            "type": "string"
+          },
+          "intval": {
+            "format": "int64",
+            "title": "Integer value (counts, metrics, etc.)",
+            "type": "string"
+          },
+          "strval": {
+            "title": "String value (coming soon)",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2Demo": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
+            "scopes": {
+              "read": "Read access to the API",
+              "write": "Write access to the API"
+            },
+            "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      },
+      "OAuth2Prod": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "scopes": {
+              "read": "Read access to the API",
+              "write": "Write access to the API"
+            },
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "title": "Vanalytics OpenAPI Documentation",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/business-metrics": {
+      "post": {
+        "description": "Store data points for a business metric. Points are aggregated by aggregation_key to build Executive Report cards.\n\n**Limitations:**\n- Only integer values (intval) supported; strval coming soon\n- Fractions: submit numerator/denominator as separate points with different aggregation keys\n- Decimals: submit as integers (multiply by 10 or 100)\n\n**Date Format:** YYYY-MM-DDTHH:MM:SSZ",
+        "operationId": "VAnalytics_PushBusinessMetric",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1BusinessMetric"
+              }
+            }
+          },
+          "description": "BusinessMetric contains a business identifier, label, and one or more data points.\nPoints are aggregated by aggregation_key to build report cards.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Push Business Metric",
+        "tags": [
+          "VAnalytics"
+        ]
+      }
+    },
+    "/v1/business-metrics/delete": {
+      "post": {
+        "description": "Soft delete a metric point by its ID. The point is marked as deleted but not permanently removed. Returns 404 if already deleted or does not exist.",
+        "operationId": "VAnalytics_DeleteBusinessMetric",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1DeleteBusinessMetricRequest"
+              }
+            }
+          },
+          "description": "DeleteBusinessMetricRequest soft deletes a metric point by ID.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Delete Business Metric",
+        "tags": [
+          "VAnalytics"
+        ]
+      }
+    },
+    "/v1/business-metrics/delete-multi": {
+      "post": {
+        "description": "Soft delete multiple metric points in a single request. Each point is processed individually. Successfully deleted points have no error field; failed deletions include error details. Error code 1 indicates the point does not exist or is already deleted.",
+        "operationId": "VAnalytics_DeleteMultiBusinessMetrics",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1DeleteMultiBusinessMetricsRequest"
+              }
+            }
+          },
+          "description": "DeleteMultiBusinessMetricsRequest soft deletes multiple metric points.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1DeleteMultiBusinessMetricsResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Delete Multiple Business Metrics",
+        "tags": [
+          "VAnalytics"
+        ]
+      }
+    },
+    "/v1/business-metrics/get": {
+      "post": {
+        "description": "Retrieve metric points for a business, label, and optional date range. Returns paginated results. Use the cursor from the response for subsequent pages.",
+        "operationId": "VAnalytics_GetBusinessMetric",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetBusinessMetricRequest"
+              }
+            }
+          },
+          "description": "GetBusinessMetricRequest filters metric points by business, label, and optional date range.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetBusinessMetricResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Get Business Metric",
+        "tags": [
+          "VAnalytics"
+        ]
+      }
+    },
+    "/v1/business-metrics/point/get": {
+      "post": {
+        "description": "Retrieve a single metric point by its ID. Returns complete details including source, business_id, label, value, timestamps, aggregation_key, and deletion status.",
+        "operationId": "VAnalytics_GetBusinessMetricPoint",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetBusinessMetricPointRequest"
+              }
+            }
+          },
+          "description": "GetBusinessMetricPointRequest retrieves a metric point by ID.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetBusinessMetricPointResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Get Business Metric Point",
+        "tags": [
+          "VAnalytics"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://prod.apigateway.co/grpc"
+    },
+    {
+      "description": "Demo",
+      "url": "https://demo.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "name": "VAnalytics"
+    }
+  ]
+}

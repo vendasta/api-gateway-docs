@@ -25,70 +25,76 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 
 ## Understanding Namespaces
 
-The same CRM infrastructure serves both Partners and the SMB/SME clients that they serve.
 
-There are some schema differences between the Partner CRM, and the Business App CRM
+The same CRM infrastructure serves both **Partners** (agencies) and the **SMB/SME clients** they serve.
 
-To determine where your data is stored and accessed the namespace must be appended to the base url for all operations: `env.apigateway.co/org/{namespace}`
+* **Partner Center CRM:** Use this system to manage your agency's **full client life cycle**.
+* **Business App CRM:** This system is for enabling your clients to manage their own **customer relationships and sales pipelines**.
+
+
+>To determine where your data is stored and accessed the namespace must be appended to the base url for all operations: `env.apigateway.co/org/{namespace}`
+
+
+
 
 ### Partner Namespace (Partner Center)
 
-**Format:** Partner ID (Alpha-numeric 2-4 character ID: e.g., `ABC1` - find this in the top left when in the Partner Center)
+**ID Format:** Partner ID (Alpha-numeric 2-4 character ID, e.g., `ABC1` - find this in the top left when in the Partner Center)
 
-**Use Cases:**
-- Data accessible across the partner organization
-- Partner-level contacts and companies
-- Partner administrative records
-- Data shared across all account groups under the partner
+**When to Use (Agency/Partner Focus):**
 
-**When to Use:**
-- Storing partner sales team contacts
-- Managing partner-level company information
-- Creating shared resources accessible to all partner users
-- Administrative and operational data
+* **Agency Client Management:** Managing prospects and clients across your agency's entire book of business.
+* **Agency Sales Operations:** Tracking leads, managing agency sales pipelines, and building proposals.
+* **Administrative & Operational Data:**
+    * Storing partner sales team contacts.
+    * Managing partner-level company information and shared resources.
+    * Handling all administrative and operational data for your agency.
+* **Scope:** Best for overseeing multiple clients and managing the overall sales process at the agency level.
 
-### SMB Namespace (Business App)
+---
 
-**Format:** Account Group ID (e.g., `AG-XYZ789`)
+#### SMB Namespace (Business App)
 
-**Use Cases:**
-- Data specific to individual small/medium business accounts
-- End-customer business information
-- Account-specific contacts and relationships
-- Business application data
+**ID Format:** Account Group ID (e.g., `AG-XYZ789` - can be found in Partner Center Account Details page url, and most product urls)
 
-**When to Use:**
-- Storing end-customer contacts for a specific business
-- Managing business-specific company relationships
-- Creating records tied to individual business accounts
-- Customer-facing application data
+**When to Use (Client/SMB Focus):**
+
+* **Client Customer Management:** Used by your individual clients (local businesses) to manage their own customer relationships.
+* **Client Sales Operations:** Helping clients track their own contacts, sales opportunities, and pipeline within their business.
+* **Customer-Facing Data:**
+    * Storing end-customer contacts for a specific business.
+    * Managing business-specific company relationships.
+    * Creating records tied to individual business accounts (e.g., leads, follow-ups).
+* **Scope:** Enables SMBs to automate opportunity management and manage data specific to their own customer base.
 
 ### Schema Differences
 
 While the core field structure is similar across namespaces, there are some differences:
 
-1. **Custom Fields:** Each namespace can have its own custom field definitions
+1. **Custom Objects & Fields:** Each namespace can have its own custom objects, and custom field definitions.
 2. **Dropdown Options:** Dropdown field values may differ between namespaces
 3. **Permissions:** Access control varies based on namespace type
 4. **Data Isolation:** Partner namespace data is separate from SMB namespace data
 
-### Determining the Correct Namespace
-
-```javascript
-// Partner-level operation (accessible across organization)
-const partnerNamespace = "ABC0";
-
-// Business-specific operation (isolated to single account group)
-const smbNamespace = "AG-XYZ789";
-```
-
-**Decision Tree:**
-- Is this data for your sales team or partner operations? → Use Partner Namespace
-- Is this data for a specific end-customer business? → Use SMB Namespace
-- Should this be shared across all businesses? → Use Partner Namespace
-- Is this customer-facing data? → Use SMB Namespace
+>Utilize the 'Get field schema' CRM API endpoint to retreive the most up to date definitions for the namespace.
 
 ---
+
+## Account Management
+
+Understanding when to represent your clients using CRM companies vs Platform Accounts is an important concept in the Vendasta platform.
+
+**Accounts** are essential and are used for two primary purposes:
+
+1.  **Invoicing & Billing**
+2.  **User Association & Access to the Business App**
+
+### Account Creation Timing
+
+An Account must exist as soon as either of the above purposes is required.
+
+* **UI Ordering:** When managing ordering through the User Interface (UI), Account creation occurs **automatically**.
+* **API Ordering:** When managing orders through the API, Accounts **must be deliberately created** via API *prior* to using the Orders API.
 
 ## Core Endpoints
 

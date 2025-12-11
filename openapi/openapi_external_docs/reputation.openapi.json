@@ -1349,12 +1349,19 @@
           "actionStatus": {
             "$ref": "#/components/schemas/v1ReviewActionStatus"
           },
+          "classifiedAs": {
+            "$ref": "#/components/schemas/v1ReviewRatingCategory"
+          },
           "comments": {
             "description": "Business responses to this review.",
             "items": {
               "$ref": "#/components/schemas/v1ReviewComment"
             },
             "type": "array"
+          },
+          "contactId": {
+            "title": "Contact id of the user who gave the review. (Eg: ContactID-731b80b1-1aae-49ff-8c21-d43aa01e1bf8)",
+            "type": "string"
           },
           "content": {
             "description": "Full review text. May be empty for star-only reviews.",
@@ -1697,6 +1704,17 @@
         },
         "type": "object"
       },
+      "v1ReviewRatingCategory": {
+        "default": "UNSPECIFIED",
+        "enum": [
+          "UNSPECIFIED",
+          "DETRACTOR",
+          "PASSIVE",
+          "PROMOTER"
+        ],
+        "title": "enum for review rating classification",
+        "type": "string"
+      },
       "v1ReviewRequestTemplate": {
         "properties": {
           "accountGroupId": {
@@ -2027,6 +2045,10 @@
           "cursor": {
             "description": "Cursor for next page. Pass to SearchReviewsRequest.cursor. Empty string means no more pages.",
             "type": "string"
+          },
+          "hasMore": {
+            "title": "Whether or not more results exist",
+            "type": "boolean"
           },
           "reviews": {
             "description": "Reviews matching the search criteria for the current page. Empty list if no matches.",
@@ -2501,6 +2523,9 @@
     },
     {
       "name": "ReviewRequestRecordService"
+    },
+    {
+      "name": "BrandAssetMigrationService"
     }
   ]
 }

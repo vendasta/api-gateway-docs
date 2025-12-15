@@ -1230,10 +1230,6 @@
             "format": "date-time",
             "type": "string"
           },
-          "crmObjectId": {
-            "title": "CRM contact ID",
-            "type": "string"
-          },
           "deleted": {
             "description": "Timestamp when the record was deleted, if applicable (RFC3339 UTC).",
             "format": "date-time",
@@ -1242,9 +1238,6 @@
           "netPromoterScoreId": {
             "description": "Unique identifier for the Net Promoter Score record.",
             "type": "string"
-          },
-          "npsClassification": {
-            "$ref": "#/components/schemas/v1ScoreCategory"
           },
           "providerIds": {
             "description": "List of provider IDs associated with this NPS scores.",
@@ -1349,19 +1342,12 @@
           "actionStatus": {
             "$ref": "#/components/schemas/v1ReviewActionStatus"
           },
-          "classifiedAs": {
-            "$ref": "#/components/schemas/v1ReviewRatingCategory"
-          },
           "comments": {
             "description": "Business responses to this review.",
             "items": {
               "$ref": "#/components/schemas/v1ReviewComment"
             },
             "type": "array"
-          },
-          "contactId": {
-            "title": "Contact id of the user who gave the review. (Eg: ContactID-731b80b1-1aae-49ff-8c21-d43aa01e1bf8)",
-            "type": "string"
           },
           "content": {
             "description": "Full review text. May be empty for star-only reviews.",
@@ -1704,17 +1690,6 @@
         },
         "type": "object"
       },
-      "v1ReviewRatingCategory": {
-        "default": "UNSPECIFIED",
-        "enum": [
-          "UNSPECIFIED",
-          "DETRACTOR",
-          "PASSIVE",
-          "PROMOTER"
-        ],
-        "title": "enum for review rating classification",
-        "type": "string"
-      },
       "v1ReviewRequestTemplate": {
         "properties": {
           "accountGroupId": {
@@ -2011,30 +1986,9 @@
             "description": "Optional. Filter by rating: \"1\"-\"5\" (exact), \"L\" (1-2 stars), \"H\" (4-5 stars), \"N\" (no rating).\nCan accept single value or comma-separated list (e.g., \"1,3,5\" or \"L,H\").",
             "type": "string"
           },
-          "ratingValues": {
-            "description": "Optional. Filter by rating values: \"1\"-\"5\" (exact), \"L\" (1-2 stars), \"H\" (4-5 stars), \"N\" (no rating).\nEach entry in this repeated field must be one rating token. (e.g., [\"1\",\"3\",\"5\"] or [\"L\",\"H\"]).",
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "sourceIds": {
-            "description": "Optional. Filter by internal source platform IDs. Common: 10010 (Google), 10000 (Yelp), 10050 (Facebook).\nEach entry in this repeated field must be a single ID string.(e.g., [\"10010\", \"10000\", \"10050\"]).",
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
           "sourceName": {
             "description": "Optional. Filter by source platform (e.g., \"Google\", \"Yelp\", \"Facebook\").\nCan accept single value or comma-separated list. (e.g., \"Google,Yelp\").",
             "type": "string"
-          },
-          "sourceNames": {
-            "description": "Optional. Filter by source platform. To filter multiple platforms, provide multiple elements in the array\nEach entry in this repeated field must be a single source name Example: [\"Google\", \"Yelp\", \"Facebook\"].",
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
           }
         },
         "type": "object"
@@ -2045,10 +1999,6 @@
           "cursor": {
             "description": "Cursor for next page. Pass to SearchReviewsRequest.cursor. Empty string means no more pages.",
             "type": "string"
-          },
-          "hasMore": {
-            "title": "Whether or not more results exist",
-            "type": "boolean"
           },
           "reviews": {
             "description": "Reviews matching the search criteria for the current page. Empty list if no matches.",
@@ -2523,9 +2473,6 @@
     },
     {
       "name": "ReviewRequestRecordService"
-    },
-    {
-      "name": "BrandAssetMigrationService"
     }
   ]
 }

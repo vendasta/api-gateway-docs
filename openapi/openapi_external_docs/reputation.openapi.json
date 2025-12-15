@@ -333,15 +333,6 @@
         },
         "type": "object"
       },
-      "v1CommunicationChannel": {
-        "default": "EMAIL",
-        "description": "Communication channel used by the customer to submit NPS feedback.\n\n - EMAIL: Submitted via email.\n - SMS: Submitted via SMS",
-        "enum": [
-          "EMAIL",
-          "SMS"
-        ],
-        "type": "string"
-      },
       "v1ConciergeReviewResponse": {
         "properties": {
           "agentName": {
@@ -930,8 +921,8 @@
             "type": "boolean"
           },
           "pageSize": {
+            "description": "Optional. Number of items to return per page. This value must not exceed 500.",
             "format": "int64",
-            "title": "Optional. Number of items to return per page. This value must not exceed 500",
             "type": "string"
           }
         },
@@ -944,45 +935,16 @@
       "v1ListNetPromoterScoresRequestFilters": {
         "description": "Optional filtering criteria for narrowing NPS results.",
         "properties": {
-          "channel": {
-            "$ref": "#/components/schemas/v1CommunicationChannel"
-          },
-          "contactName": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Optional. Filter by customer (contact) names who gave the NPS Score.\nExample: [\"Sam\", \"Peter\", \"Nick\"]",
-            "type": "array"
-          },
           "fromDate": {
             "description": "Optional. Include NPS scores submitted on or after this timestamp (RFC3339 UTC, inclusive).",
             "format": "date-time",
             "type": "string"
           },
-          "hasProviderAssociation": {
-            "description": "// Optional. When true, return only NPS records that include provider associations.",
-            "type": "boolean"
-          },
           "providerIds": {
-            "description": "Optional. Filter by provider (employee) IDs associated with the NPS record (e.g., \"U-123\").",
             "items": {
               "type": "string"
             },
-            "type": "array"
-          },
-          "providerName": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Optional. Filter by provider(employee) names who provided the service.\nExample: [\"John Doe\", \"Sarah\", \"Amir\"]",
-            "type": "array"
-          },
-          "score": {
-            "items": {
-              "format": "int64",
-              "type": "string"
-            },
-            "title": "Optional. Filter by individual score values (0–10).\nEach entry represents a single score. Example: [1, 3, 5, 9]",
+            "title": "Optional. Filter by the ID of the user/team member that provided the service. (Starts with \"U-\")",
             "type": "array"
           },
           "scoreCategory": {
@@ -1280,9 +1242,6 @@
             },
             "type": "array"
           },
-          "channel": {
-            "$ref": "#/components/schemas/v1CommunicationChannel"
-          },
           "comment": {
             "description": "Optional customer comment provided along with the score.",
             "type": "string"
@@ -1305,7 +1264,7 @@
             "type": "string"
           },
           "netPromoterScoreId": {
-            "description": "Unique identifier for the NPS record starts with 'NPS-'.",
+            "description": "Unique identifier for the Net Promoter Score record starts with 'NPS-'.",
             "type": "string"
           },
           "npsClassification": {
@@ -1318,7 +1277,7 @@
             },
             "type": "array"
           },
-          "providerName": {
+          "providerNames": {
             "description": "Provider (employee) names associated with this NPS record, resolved from provider_ids.",
             "items": {
               "type": "string"

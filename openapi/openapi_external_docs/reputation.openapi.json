@@ -1228,6 +1228,20 @@
         "title": "NAP information of a listing",
         "type": "object"
       },
+      "v1NPSProviderDetails": {
+        "description": "Information about the provider (employee) associated with the NPS record.",
+        "properties": {
+          "id": {
+            "description": "Unique identifier for the Provider (starts with 'U-').",
+            "type": "string"
+          },
+          "name": {
+            "description": "Full Name of the Provider.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "v1NetPromoterScore": {
         "description": "Represents a customer's Net Promoter Score (NPS) submission, indicating how likely\nthey are to recommend the business. Scores range from 0–10 and may include comments.",
         "properties": {
@@ -1255,7 +1269,7 @@
             "type": "string"
           },
           "crmObjectId": {
-            "description": "CRM Contact ID of the customer who submitted the NPS score.",
+            "title": "CRM Contact ID of the customer who submitted the NPS score.\nexample: \"ContactID-cb3671fd-9cb6-4f8c-86b6-f604e6150aeb\"",
             "type": "string"
           },
           "deleted": {
@@ -1271,17 +1285,17 @@
             "$ref": "#/components/schemas/v1ScoreCategory"
           },
           "providerIds": {
-            "description": "List of provider (employee) IDs associated with this NPS scores.",
             "items": {
               "type": "string"
             },
+            "title": "List of provider (employee) IDs associated with this NPS scores.\nexample: [\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\",\"U-fa09664d-698d-4349-926f-147fb55e2a72\"]",
             "type": "array"
           },
-          "providerNames": {
-            "description": "Provider (employee) names associated with this NPS record, resolved from provider_ids.",
+          "providers": {
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/v1NPSProviderDetails"
             },
+            "title": "Providers (employees) associated with this NPS record, including their IDs and names.\nexample: [{id:\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\", name: \"John Doe\"}, {id:\"U-fa09664d-698d-4349-926f-147fb55e2a72\", name:\"Julie\"}]",
             "type": "array"
           },
           "reviewRequestRecordId": {

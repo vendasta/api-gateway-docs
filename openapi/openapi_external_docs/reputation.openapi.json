@@ -335,7 +335,7 @@
       },
       "v1CommunicationChannel": {
         "default": "EMAIL",
-        "description": "The medium through which the NPS feedback was submitted.",
+        "description": "Communication channel used by the customer to submit NPS feedback.\n\n - EMAIL: Submitted via email.\n - SMS: Submitted via SMS",
         "enum": [
           "EMAIL",
           "SMS"
@@ -424,18 +424,18 @@
         "type": "object"
       },
       "v1ContactDetails": {
-        "description": "Details of the customer (contact) who submitted the NPS score.",
+        "description": "Information about the customer (contact) who submitted the NPS score.",
         "properties": {
           "email": {
-            "description": "Email address of the customer, if available.",
+            "description": "Customer’s email address, if available.",
             "type": "string"
           },
           "name": {
-            "description": "Full name of the customer.",
+            "description": "Customer’s full name.",
             "type": "string"
           },
           "phone": {
-            "description": "Phone number of the customer, if available.",
+            "description": "Customer’s phone number, if available.",
             "type": "string"
           }
         },
@@ -930,8 +930,8 @@
             "type": "boolean"
           },
           "pageSize": {
-            "description": "Optional. Number of items to return per page.",
             "format": "int64",
+            "title": "Optional. Number of items to return per page. This value must not exceed 500",
             "type": "string"
           }
         },
@@ -942,17 +942,47 @@
         "type": "object"
       },
       "v1ListNetPromoterScoresRequestFilters": {
+        "description": "Optional filtering criteria for narrowing NPS results.",
         "properties": {
-          "fromDate": {
-            "description": "Optional. Filter NPS scores from this date onwards (RFC3339 UTC, inclusive).",
-            "format": "date-time",
-            "type": "string"
+          "channel": {
+            "$ref": "#/components/schemas/v1CommunicationChannel"
           },
-          "providerIds": {
+          "contactName": {
             "items": {
               "type": "string"
             },
-            "title": "Optional. Filter by the ID of the user/team member that provided the service. (Starts with \"U-\")",
+            "title": "Optional. Filter by customer (contact) names who gave the NPS Score.\nExample: [\"Sam\", \"Peter\", \"Nick\"]",
+            "type": "array"
+          },
+          "fromDate": {
+            "description": "Optional. Include NPS scores submitted on or after this timestamp (RFC3339 UTC, inclusive).",
+            "format": "date-time",
+            "type": "string"
+          },
+          "hasProviderAssociation": {
+            "description": "// Optional. When true, return only NPS records that include provider associations.",
+            "type": "boolean"
+          },
+          "providerIds": {
+            "description": "Optional. Filter by provider (employee) IDs associated with the NPS record (e.g., \"U-123\").",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "providerName": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Optional. Filter by provider(employee) names who provided the service.\nExample: [\"John Doe\", \"Sarah\", \"Amir\"]",
+            "type": "array"
+          },
+          "score": {
+            "items": {
+              "format": "int64",
+              "type": "string"
+            },
+            "title": "Optional. Filter by individual score values (0–10).\nEach entry represents a single score. Example: [1, 3, 5, 9]",
             "type": "array"
           },
           "scoreCategory": {
@@ -963,7 +993,7 @@
             "type": "array"
           },
           "toDate": {
-            "description": "Optional. Filter NPS scores up to this date (RFC3339 UTC, inclusive).",
+            "description": "Optional. Include NPS scores submitted on or before this timestamp (RFC3339 UTC, inclusive).",
             "format": "date-time",
             "type": "string"
           }
@@ -971,6 +1001,7 @@
         "type": "object"
       },
       "v1ListNetPromoterScoresResponse": {
+        "description": "List of NPS with pagination metadata.",
         "properties": {
           "cursor": {
             "description": "Cursor for next page. Pass to ListNetPromoterScoresRequest.cursor. Empty string means no more pages.",
@@ -1236,7 +1267,7 @@
         "type": "object"
       },
       "v1NetPromoterScore": {
-        "description": "Net Promoter Score (NPS) represents customer willingness to recommend a business.\nScore ranges from 0–10.",
+        "description": "Represents a customer's Net Promoter Score (NPS) submission, indicating how likely\nthey are to recommend the business. Scores range from 0–10 and may include comments.",
         "properties": {
           "accountGroupId": {
             "description": "Business account ID (starts with \"AG-\") associated with this NPS score.",
@@ -1253,7 +1284,7 @@
             "$ref": "#/components/schemas/v1CommunicationChannel"
           },
           "comment": {
-            "description": "Optional comment associated with the score.",
+            "description": "Optional customer comment provided along with the score.",
             "type": "string"
           },
           "contact": {
@@ -1274,7 +1305,7 @@
             "type": "string"
           },
           "netPromoterScoreId": {
-            "description": "Unique identifier for the Net Promoter Score record.",
+            "description": "Unique identifier for the NPS record starts with 'NPS-'.",
             "type": "string"
           },
           "npsClassification": {
@@ -1288,7 +1319,7 @@
             "type": "array"
           },
           "providerName": {
-            "description": "Names of providers(Employees) associated with this NPS.",
+            "description": "Provider (employee) names associated with this NPS record, resolved from provider_ids.",
             "items": {
               "type": "string"
             },
@@ -1313,6 +1344,7 @@
         "type": "object"
       },
       "v1NetPromoterScoreAttribute": {
+        "description": "A key-value pair providing additional metadata for an NPS record.",
         "properties": {
           "key": {
             "description": "The attribute key (e.g., \"source_system_id\", \"service_type\", \"external_review_id\").",
@@ -2002,97 +2034,6 @@
         },
         "type": "object"
       },
-      "v1SearchNPSRequest": {
-        "description": "Request to search for NPS data with filters and pagination.",
-        "properties": {
-          "accountGroupId": {
-            "description": "Required. Business account group ID (e.g. \"AG-123456\").",
-            "type": "string"
-          },
-          "channel": {
-            "$ref": "#/components/schemas/v1CommunicationChannel"
-          },
-          "contactName": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Optional. Filter by contact (customer) name.\nExample: [\"Sam\", \"Peter\", \"Nick\"]",
-            "type": "array"
-          },
-          "cursor": {
-            "description": "Optional. Cursor for fetching the next page. Leave empty for first request.",
-            "type": "string"
-          },
-          "hasProviderAssociation": {
-            "description": "Optional. When true, restrict results to NPS that include provider associations.",
-            "type": "boolean"
-          },
-          "maxDateTime": {
-            "description": "Optional. Filter for NPS submitted on or before this timestamp (inclusive).",
-            "format": "date-time",
-            "type": "string"
-          },
-          "minDateTime": {
-            "description": "Optional. Filter for NPS submitted on or after this timestamp (inclusive).",
-            "format": "date-time",
-            "type": "string"
-          },
-          "npsClassification": {
-            "items": {
-              "$ref": "#/components/schemas/v1ScoreCategory"
-            },
-            "title": "Optional. Filter by NPS classification categories: DETRACTORS (0-6), PASSIVES (7-8), PROMOTERS (9-10)\nExample: [DETRACTORS, PROMOTERS]",
-            "type": "array"
-          },
-          "pageSize": {
-            "description": "Optional. Number of records to return per page.\nMust not exceed 500.",
-            "format": "int32",
-            "type": "integer"
-          },
-          "providerName": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Optional. Filter by provider/employee names.\nExample: [\"John Doe\", \"Sarah\", \"Amir\"]",
-            "type": "array"
-          },
-          "score": {
-            "items": {
-              "format": "int64",
-              "type": "string"
-            },
-            "title": "Optional. Filter by individual score values (0–10).\nEach entry represents a single score. Example: [1, 3, 5, 9]",
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
-      "v1SearchNPSResponse": {
-        "description": "Response containing NPS search results and pagination metadata.",
-        "properties": {
-          "cursor": {
-            "description": "Cursor for fetching the next page. Empty string means no more pages.",
-            "type": "string"
-          },
-          "hasMore": {
-            "description": "Whether additional pages exist beyond the current one.",
-            "type": "boolean"
-          },
-          "netPromoterScores": {
-            "description": "NPS records matching the search criteria for the current page. Empty when no matches are found.",
-            "items": {
-              "$ref": "#/components/schemas/v1NetPromoterScore"
-            },
-            "type": "array"
-          },
-          "totalResults": {
-            "description": "Total number of matching records across all pages.",
-            "format": "int32",
-            "type": "integer"
-          }
-        },
-        "type": "object"
-      },
       "v1SearchReviewsRequest": {
         "description": "Search for reviews with filtering and pagination.",
         "properties": {
@@ -2490,7 +2431,7 @@
   "paths": {
     "/v1/reputation/nps/list": {
       "post": {
-        "description": "List Net Promoter Scores by their IDs",
+        "description": "List Net Promoter Scores by their IDsRequired OAuth2 scopes: `business-app`, `reputation`, `reputation.nps:read`",
         "operationId": "NetPromoterScoreService_ListNetPromoterScores",
         "requestBody": {
           "content": {
@@ -2534,57 +2475,6 @@
           }
         ],
         "summary": "List NPS scores",
-        "tags": [
-          "NetPromoterScoreService"
-        ]
-      }
-    },
-    "/v1/reputation/nps/search": {
-      "post": {
-        "description": "Search NPS by their IDs.\n\nRequired OAuth2 scopes: `business-app`, `reputation`, `reputation.nps:read`",
-        "operationId": "NetPromoterScoreService_SearchNPS",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/v1SearchNPSRequest"
-              }
-            }
-          },
-          "description": "Request to search for NPS data with filters and pagination.",
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/v1SearchNPSResponse"
-                }
-              }
-            },
-            "description": "A successful response."
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/rpcStatus"
-                }
-              }
-            },
-            "description": "An unexpected error response."
-          }
-        },
-        "security": [
-          {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
-          }
-        ],
-        "summary": "Search NPS",
         "tags": [
           "NetPromoterScoreService"
         ]

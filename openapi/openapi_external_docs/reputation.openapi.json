@@ -414,6 +414,24 @@
         "title": "ConciergeReviewResponse represents a Concierge ReviewResponse in the ReviewService",
         "type": "object"
       },
+      "v1ContactDetails": {
+        "description": "Information about the customer (contact) who submitted the NPS score.",
+        "properties": {
+          "email": {
+            "description": "Customer’s email address, if available.",
+            "type": "string"
+          },
+          "name": {
+            "description": "Customer’s full name.",
+            "type": "string"
+          },
+          "phone": {
+            "description": "Customer’s phone number, if available.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "v1CreateReviewCommentResponse": {
         "properties": {
           "commentId": {
@@ -903,7 +921,7 @@
             "type": "boolean"
           },
           "pageSize": {
-            "description": "Optional. Number of items to return per page.",
+            "description": "Optional. Number of items to return per page. This value must not exceed 500.",
             "format": "int64",
             "type": "string"
           }
@@ -915,9 +933,10 @@
         "type": "object"
       },
       "v1ListNetPromoterScoresRequestFilters": {
+        "description": "Optional filtering criteria for narrowing NPS results.",
         "properties": {
           "fromDate": {
-            "description": "Optional. Filter NPS scores from this date onwards (RFC3339 UTC, inclusive).",
+            "description": "Optional. Include NPS scores submitted on or after this timestamp (RFC3339 UTC, inclusive).",
             "format": "date-time",
             "type": "string"
           },
@@ -936,7 +955,7 @@
             "type": "array"
           },
           "toDate": {
-            "description": "Optional. Filter NPS scores up to this date (RFC3339 UTC, inclusive).",
+            "description": "Optional. Include NPS scores submitted on or before this timestamp (RFC3339 UTC, inclusive).",
             "format": "date-time",
             "type": "string"
           }
@@ -944,6 +963,7 @@
         "type": "object"
       },
       "v1ListNetPromoterScoresResponse": {
+        "description": "List of NPS with pagination metadata.",
         "properties": {
           "cursor": {
             "description": "Cursor for next page. Pass to ListNetPromoterScoresRequest.cursor. Empty string means no more pages.",
@@ -1208,7 +1228,22 @@
         "title": "NAP information of a listing",
         "type": "object"
       },
+      "v1NPSProviderDetails": {
+        "description": "Information about the provider (employee) associated with the NPS record.",
+        "properties": {
+          "id": {
+            "description": "Unique identifier for the Provider (starts with 'U-').",
+            "type": "string"
+          },
+          "name": {
+            "description": "Full Name of the Provider.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "v1NetPromoterScore": {
+        "description": "Represents a customer's Net Promoter Score (NPS) submission, indicating how likely\nthey are to recommend the business. Scores range from 0–10 and may include comments.",
         "properties": {
           "accountGroupId": {
             "description": "Business account ID (starts with \"AG-\") associated with this NPS score.",
@@ -1222,12 +1257,19 @@
             "type": "array"
           },
           "comment": {
-            "description": "Optional comment associated with the score.",
+            "description": "Optional customer comment provided along with the score.",
             "type": "string"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/v1ContactDetails"
           },
           "created": {
             "description": "Timestamp when the record was created (RFC3339 UTC).",
             "format": "date-time",
+            "type": "string"
+          },
+          "crmObjectId": {
+            "title": "CRM Contact ID of the customer who submitted the NPS score.\nexample: \"ContactID-cb3671fd-9cb6-4f8c-86b6-f604e6150aeb\"",
             "type": "string"
           },
           "deleted": {
@@ -1236,15 +1278,29 @@
             "type": "string"
           },
           "netPromoterScoreId": {
-            "description": "Unique identifier for the Net Promoter Score record.",
+            "description": "Unique identifier for the Net Promoter Score record starts with 'NPS-'.",
             "type": "string"
           },
+          "npsClassification": {
+            "$ref": "#/components/schemas/v1ScoreCategory"
+          },
           "providerIds": {
-            "description": "List of provider IDs associated with this NPS scores.",
             "items": {
               "type": "string"
             },
+            "title": "List of provider (employee) IDs associated with this NPS scores.\nexample: [\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\",\"U-fa09664d-698d-4349-926f-147fb55e2a72\"]",
             "type": "array"
+          },
+          "providers": {
+            "items": {
+              "$ref": "#/components/schemas/v1NPSProviderDetails"
+            },
+            "title": "Providers (employees) associated with this NPS record, including their IDs and names.\nexample: [{id:\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\", name: \"John Doe\"}, {id:\"U-fa09664d-698d-4349-926f-147fb55e2a72\", name:\"Julie\"}]",
+            "type": "array"
+          },
+          "reviewRequestRecordId": {
+            "description": "ID of the review request for which the customer submitted this NPS feedback.",
+            "type": "string"
           },
           "score": {
             "description": "The NPS score value on a scale of 0-10.",
@@ -1252,7 +1308,7 @@
             "type": "string"
           },
           "scoreLeftTime": {
-            "description": "Timestamp when the score was left (RFC3339 UTC).",
+            "description": "Timestamp when the NPS score was submitted by the customer (RFC3339 UTC).",
             "format": "date-time",
             "type": "string"
           },
@@ -1265,6 +1321,7 @@
         "type": "object"
       },
       "v1NetPromoterScoreAttribute": {
+        "description": "A key-value pair providing additional metadata for an NPS record.",
         "properties": {
           "key": {
             "description": "The attribute key (e.g., \"source_system_id\", \"service_type\", \"external_review_id\").",
@@ -1342,12 +1399,19 @@
           "actionStatus": {
             "$ref": "#/components/schemas/v1ReviewActionStatus"
           },
+          "classifiedAs": {
+            "$ref": "#/components/schemas/v1ReviewRatingCategory"
+          },
           "comments": {
             "description": "Business responses to this review.",
             "items": {
               "$ref": "#/components/schemas/v1ReviewComment"
             },
             "type": "array"
+          },
+          "contactId": {
+            "title": "Contact id of the user who gave the review. (Eg: ContactID-731b80b1-1aae-49ff-8c21-d43aa01e1bf8)",
+            "type": "string"
           },
           "content": {
             "description": "Full review text. May be empty for star-only reviews.",
@@ -1690,6 +1754,17 @@
         },
         "type": "object"
       },
+      "v1ReviewRatingCategory": {
+        "default": "UNSPECIFIED",
+        "enum": [
+          "UNSPECIFIED",
+          "DETRACTOR",
+          "PASSIVE",
+          "PROMOTER"
+        ],
+        "title": "enum for review rating classification",
+        "type": "string"
+      },
       "v1ReviewRequestTemplate": {
         "properties": {
           "accountGroupId": {
@@ -1986,9 +2061,30 @@
             "description": "Optional. Filter by rating: \"1\"-\"5\" (exact), \"L\" (1-2 stars), \"H\" (4-5 stars), \"N\" (no rating).\nCan accept single value or comma-separated list (e.g., \"1,3,5\" or \"L,H\").",
             "type": "string"
           },
+          "ratingValues": {
+            "description": "Optional. Filter by rating values: \"1\"-\"5\" (exact), \"L\" (1-2 stars), \"H\" (4-5 stars), \"N\" (no rating).\nEach entry in this repeated field must be one rating token. (e.g., [\"1\",\"3\",\"5\"] or [\"L\",\"H\"]).",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "sourceIds": {
+            "description": "Optional. Filter by internal source platform IDs. Common: 10010 (Google), 10000 (Yelp), 10050 (Facebook).\nEach entry in this repeated field must be a single ID string.(e.g., [\"10010\", \"10000\", \"10050\"]).",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
           "sourceName": {
             "description": "Optional. Filter by source platform (e.g., \"Google\", \"Yelp\", \"Facebook\").\nCan accept single value or comma-separated list. (e.g., \"Google,Yelp\").",
             "type": "string"
+          },
+          "sourceNames": {
+            "description": "Optional. Filter by source platform. To filter multiple platforms, provide multiple elements in the array\nEach entry in this repeated field must be a single source name Example: [\"Google\", \"Yelp\", \"Facebook\"].",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
           }
         },
         "type": "object"
@@ -1999,6 +2095,10 @@
           "cursor": {
             "description": "Cursor for next page. Pass to SearchReviewsRequest.cursor. Empty string means no more pages.",
             "type": "string"
+          },
+          "hasMore": {
+            "title": "Whether or not more results exist",
+            "type": "boolean"
           },
           "reviews": {
             "description": "Reviews matching the search criteria for the current page. Empty list if no matches.",
@@ -2308,7 +2408,7 @@
   "paths": {
     "/v1/reputation/nps/list": {
       "post": {
-        "description": "List Net Promoter Scores by their IDs",
+        "description": "List Net Promoter Scores for a business account with optional filtering and pagination.Required OAuth2 scopes: `business-app`, `reputation`, `reputation.nps:read`",
         "operationId": "NetPromoterScoreService_ListNetPromoterScores",
         "requestBody": {
           "content": {
@@ -2473,6 +2573,9 @@
     },
     {
       "name": "ReviewRequestRecordService"
+    },
+    {
+      "name": "BrandAssetMigrationService"
     }
   ]
 }

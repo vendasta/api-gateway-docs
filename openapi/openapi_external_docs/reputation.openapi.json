@@ -917,7 +917,7 @@
           },
           "hideParent": {
             "default": "false",
-            "description": "When set to true, parent NPS records (primary feedback marked is_parent=true and referenced by other NPS records via ParentNPSID) are excluded from the response. When false (default), all NPS records are included: parent records, records that reference them, and standalone records (neither marked as parent nor referencing any other NPS).",
+            "description": "When set to true, parent NPS records (primary feedback marked is_parent=true and referenced by other NPS records via ParentNPSID) are excluded from the response. When marked it as false, the parent NPS records are included in the response.",
             "type": "boolean"
           },
           "pageSize": {
@@ -1229,6 +1229,7 @@
         "type": "object"
       },
       "v1NPSProviderDetails": {
+        "description": "Information about a provider (employee) associated with an NPS record.",
         "properties": {
           "id": {
             "title": "IAM user ID of the provider (starts with \"U-\") created or linked when the NPS was received.\nUsed to fetch provider details such as first name, last name, and external ID from IAM.\nexample: \"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\"",
@@ -1239,7 +1240,6 @@
             "type": "string"
           }
         },
-        "title": "Information about a provider (employee) associated with an NPS record.\nExample: id: \"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\", name: \"John Doe\"",
         "type": "object"
       },
       "v1NetPromoterScore": {
@@ -1288,14 +1288,14 @@
             "items": {
               "type": "string"
             },
-            "title": "List of IAM user IDs for providers (employees) associated with this NPS record.\nThese IDs are created or linked when the NPS is received and are used to fetch\nprovider details (e.g., first name, last name, external ID) from IAM.\nexample: [\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\", \"U-fa09664d-698d-4349-926f-147fb55e2a72\"]",
+            "title": "List of IAM user IDs for providers (employees) associated with this NPS record.\nThese IDs are created or linked when the NPS is received and are used to fetch\nexample: [\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\", \"U-fa09664d-698d-4349-926f-147fb55e2a72\"]",
             "type": "array"
           },
           "providers": {
             "items": {
               "$ref": "#/components/schemas/v1NPSProviderDetails"
             },
-            "title": "List of providers (employees) associated with this NPS record.\nEach entry contains details such as IAM user ID, name, external ID, etc., representing details fetched from IAM.\nexample: [{id:\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\", name: \"John Doe\"}, {id:\"U-fa09664d-698d-4349-926f-147fb55e2a72\", name:\"Julie\"}]",
+            "title": "List of providers (employees) associated with this NPS record.\nexample: [{id:\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\", name: \"John Doe\"}, {id:\"U-fa09664d-698d-4349-926f-147fb55e2a72\", name:\"Julie\"}]",
             "type": "array"
           },
           "reviewRequestRecordId": {

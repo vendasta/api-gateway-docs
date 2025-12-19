@@ -723,6 +723,46 @@
         },
         "type": "object"
       },
+      "v1GetReviewMetricsRequest": {
+        "properties": {
+          "maxDateTime": {
+            "description": "Optional. Filter reviews published on or before this date (RFC3339 UTC, inclusive).",
+            "format": "date-time",
+            "type": "string"
+          },
+          "minDateTime": {
+            "description": "Optional. Filter reviews published on or after this date (RFC3339 UTC, inclusive).",
+            "format": "date-time",
+            "type": "string"
+          },
+          "namespaces": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Required. The IDs of the namespace(s) you wish to get metrics for. A namespace may be an account_group_id (AG-) or multi-location-group (G-)",
+            "type": "array"
+          },
+          "sourceNames": {
+            "description": "Optional. Filter by source platform. To filter multiple platforms, provide multiple elements in the array\nEach entry in this repeated field must be a single source name Example: [\"Google\", \"Yelp\", \"Facebook\"].",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetReviewMetricsResponse": {
+        "properties": {
+          "metricsForNamespace": {
+            "items": {
+              "$ref": "#/components/schemas/v1ReviewMetrics"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
       "v1GetReviewRequestEmailTemplateResponse": {
         "properties": {
           "template": {
@@ -1185,6 +1225,70 @@
             "type": "string"
           },
           "reviewFieldValue": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1MetricsForSource": {
+        "properties": {
+          "ratingFiveStar": {
+            "format": "int64",
+            "title": "Number of 5 star ratings from this source",
+            "type": "string"
+          },
+          "ratingFourStar": {
+            "format": "int64",
+            "title": "Number of 4 star ratings from this source",
+            "type": "string"
+          },
+          "ratingNone": {
+            "format": "int64",
+            "title": "Number of reviews with no rating from this source",
+            "type": "string"
+          },
+          "ratingOneStar": {
+            "format": "int64",
+            "title": "Number of 1 star ratings from this source",
+            "type": "string"
+          },
+          "ratingThreeStar": {
+            "format": "int64",
+            "title": "Number of 3 star ratings from this source",
+            "type": "string"
+          },
+          "ratingTwoStar": {
+            "format": "int64",
+            "title": "Number of 2 star ratings from this source",
+            "type": "string"
+          },
+          "respondedTo": {
+            "format": "int64",
+            "title": "Number of reviews responded to by the business on this source\nOnly applies to sources that support business responses in platform",
+            "type": "string"
+          },
+          "responseRate": {
+            "format": "float",
+            "title": "The percentage of reviews responded to from this source",
+            "type": "number"
+          },
+          "responseTimeHours": {
+            "format": "float",
+            "title": "The average number of hours it takes to respond to reviews from this source",
+            "type": "number"
+          },
+          "reviewRating": {
+            "format": "float",
+            "title": "The average rating from this source",
+            "type": "number"
+          },
+          "sourceName": {
+            "title": "The name of the site that the reviews are from",
+            "type": "string"
+          },
+          "totalReviews": {
+            "format": "int64",
+            "title": "Total number of reviews from this source",
             "type": "string"
           }
         },
@@ -1749,6 +1853,20 @@
             "type": "string"
           },
           "value": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ReviewMetrics": {
+        "properties": {
+          "metricsForSource": {
+            "items": {
+              "$ref": "#/components/schemas/v1MetricsForSource"
+            },
+            "type": "array"
+          },
+          "namespace": {
             "type": "string"
           }
         },
@@ -2454,6 +2572,56 @@
         "summary": "List NPS scores",
         "tags": [
           "NetPromoterScoreService"
+        ]
+      }
+    },
+    "/v1/reputation/reviews/getReviewMetrics": {
+      "post": {
+        "description": "Get review metrics by namespaces.\n\nRequired OAuth2 scopes: `business-app`, `reputation`, `reputation.review:read`",
+        "operationId": "ReviewService_GetReviewMetrics",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetReviewMetricsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetReviewMetricsResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Get review metrics",
+        "tags": [
+          "ReviewService"
         ]
       }
     },

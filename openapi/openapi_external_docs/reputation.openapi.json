@@ -917,11 +917,11 @@
           },
           "hideParent": {
             "default": "false",
-            "description": "When set to true, excludes NPS scores from parent account groups in the response. Only NPS scores directly associated with the specified account_group_id are returned. When false (default), NPS scores from both the account group and its parent account groups are included.",
+            "description": "When set to true, parent NPS records (primary feedback marked is_parent=true and referenced by other NPS records via ParentNPSID) are excluded from the response. When set to false, the parent NPS records are included in the response.",
             "type": "boolean"
           },
           "pageSize": {
-            "description": "Optional. Number of items to return per page. This value must not exceed 500.",
+            "description": "Optional. Number of items to return per page.\nThis value must be less than or equal to 500.",
             "format": "int64",
             "type": "string"
           }
@@ -944,7 +944,7 @@
             "items": {
               "type": "string"
             },
-            "title": "Optional. Filter by the ID of the user/team member that provided the service. (Starts with \"U-\")",
+            "title": "Filter NPS records by provider IAM user IDs (starts with \"U-\").\nProviders are employees associated with the NPS record who provided the service to the customer.\nThis field accepts only IAM user IDs and must not contain provider or employee names.\nexample: [\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\", \"U-fa09664d-698d-4349-926f-147fb55e2a72\"]",
             "type": "array"
           },
           "scoreCategory": {
@@ -1229,14 +1229,14 @@
         "type": "object"
       },
       "v1NPSProviderDetails": {
-        "description": "Information about the provider (employee) associated with the NPS record.",
+        "description": "Information about a provider (employee) associated with an NPS record.",
         "properties": {
           "id": {
-            "description": "Unique identifier for the Provider (starts with 'U-').",
+            "title": "IAM user ID of the provider (starts with \"U-\") created or linked when the NPS was received.\nUsed to fetch provider details such as first name, last name, and external ID from IAM.\nexample: \"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\"",
             "type": "string"
           },
           "name": {
-            "description": "Full Name of the Provider.",
+            "description": "Full name of the provider (example: \"John Doe\").",
             "type": "string"
           }
         },
@@ -1256,6 +1256,9 @@
             },
             "type": "array"
           },
+          "classifiedAs": {
+            "$ref": "#/components/schemas/v1ScoreCategory"
+          },
           "comment": {
             "description": "Optional customer comment provided along with the score.",
             "type": "string"
@@ -1263,13 +1266,13 @@
           "contact": {
             "$ref": "#/components/schemas/v1ContactDetails"
           },
+          "contactId": {
+            "title": "CRM Contact ID of the customer who submitted the NPS score.\nexample: \"ContactID-cb3671fd-9cb6-4f8c-86b6-f604e6150aeb\"",
+            "type": "string"
+          },
           "created": {
             "description": "Timestamp when the record was created (RFC3339 UTC).",
             "format": "date-time",
-            "type": "string"
-          },
-          "crmObjectId": {
-            "title": "CRM Contact ID of the customer who submitted the NPS score.\nexample: \"ContactID-cb3671fd-9cb6-4f8c-86b6-f604e6150aeb\"",
             "type": "string"
           },
           "deleted": {
@@ -1281,21 +1284,18 @@
             "description": "Unique identifier for the Net Promoter Score record starts with 'NPS-'.",
             "type": "string"
           },
-          "npsClassification": {
-            "$ref": "#/components/schemas/v1ScoreCategory"
-          },
           "providerIds": {
             "items": {
               "type": "string"
             },
-            "title": "List of provider (employee) IDs associated with this NPS scores.\nexample: [\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\",\"U-fa09664d-698d-4349-926f-147fb55e2a72\"]",
+            "title": "List of IAM user IDs for providers (employees) associated with this NPS record.\nThese IDs are created or linked when the NPS is received and are used to fetch\nexample: [\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\", \"U-fa09664d-698d-4349-926f-147fb55e2a72\"]",
             "type": "array"
           },
           "providers": {
             "items": {
               "$ref": "#/components/schemas/v1NPSProviderDetails"
             },
-            "title": "Providers (employees) associated with this NPS record, including their IDs and names.\nexample: [{id:\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\", name: \"John Doe\"}, {id:\"U-fa09664d-698d-4349-926f-147fb55e2a72\", name:\"Julie\"}]",
+            "title": "List of providers (employees) associated with this NPS record.\nexample: [{id:\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\", name: \"John Doe\"}, {id:\"U-fa09664d-698d-4349-926f-147fb55e2a72\", name:\"Julie\"}]",
             "type": "array"
           },
           "reviewRequestRecordId": {
@@ -2408,7 +2408,7 @@
   "paths": {
     "/v1/reputation/nps/list": {
       "post": {
-        "description": "List Net Promoter Scores for a business account with optional filtering and pagination.Required OAuth2 scopes: `business-app`, `reputation`, `reputation.nps:read`",
+        "description": "List NetPromoterScore feedback records for a business account with optional filtering and pagination.Required OAuth2 scopes: `business-app`, `reputation`, `reputation.nps:read`",
         "operationId": "NetPromoterScoreService_ListNetPromoterScores",
         "requestBody": {
           "content": {

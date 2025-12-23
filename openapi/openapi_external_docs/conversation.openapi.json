@@ -246,6 +246,18 @@
         ],
         "type": "string"
       },
+      "v1AIStatus": {
+        "default": "AI_INVALID",
+        "enum": [
+          "AI_INVALID",
+          "AI_RECEIVED",
+          "AI_THINKING",
+          "AI_THOUGHT",
+          "AI_CANCELLED",
+          "AI_ERROR"
+        ],
+        "type": "string"
+      },
       "v1AISystemMessage": {
         "properties": {
           "iamUserId": {
@@ -1426,6 +1438,9 @@
       },
       "v1Message": {
         "properties": {
+          "aiStatus": {
+            "$ref": "#/components/schemas/v1AIStatus"
+          },
           "aiThinkingDuration": {
             "description": "Duration of AI thinking before final response.",
             "type": "string"

@@ -21,11 +21,11 @@ Product | Production SKU | Demo SKU
 Inbox Pro — AI-assisted web chat lead capture | MP-DKT6XHPM6NCCDNK2TPDPVD3PG3V7ZHWP| N/A
 Campaigns Pro | MP-ZGJ6V4QRP77WPMDKXS6VDRNX58Q42P7P | MP-WF5KS7FHTGV4LR5DBQ4D6XKCCDB5B6G7
 Local SEO Pro | MS:EDITION-CFH5CKHC | MS:EDITION-MXWLTQPN
-Reputation Management Premium | RM:EDITION-JFRPLQPN | RM:EDITION-BFXF8W8Q
+Reputation AI Premium | RM:EDITION-JFRPLQPN | RM:EDITION-BFXF8W8Q
 Social Marketing Pro | SM | SM
 
 
-### Reputation Management
+### Reputation AI
 
 Product | Production SKU | Demo SKU
 --------|----------------|---------
@@ -33,7 +33,7 @@ Product | Production SKU | Demo SKU
  Pro | RM | RM
  Premium | RM:EDITION-JFRPLQPN | RM:EDITION-BFXF8W8Q
 
-The base Reputation Management product must be already active or included in the same order as any of the addons.
+The base Reputation AI product must be already active or included in the same order as any of the addons.
 
 Addon | Production SKU | Demo SKU
 --------|----------------|---------

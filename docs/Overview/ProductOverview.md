@@ -23,7 +23,7 @@ Create meetings, add contacts, message, and search
 <img src="https://raw.githubusercontent.com/vendasta/api-gateway-docs/master/docs/Overview/logos/logoRepMan.png" alt="Managing online reputation" class="sl-image" style="width:75px"/>
 </td><td>
 
-## Reputation Management
+## Reputation AI
 Managing online reputation
 
 ### Reviews

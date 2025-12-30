@@ -13,7 +13,7 @@ Deprecation of the Customer List API. Current integrations are supported for dep
 Mark `seoKeywords` field as deprecated in `SalesAccount` resource.
 
 ## 2023-10-24
-Add Reputation Management Premium edition ID under `Find SKU`
+Add Reputation AI Premium edition ID under `Find SKU`
 
 ## 2023-08-28
 Update the product name for Listing Builder to Local SEO, added the new editions, and added Additional Keyword addon SKUs.
@@ -130,7 +130,7 @@ The following new fields have been added to the salesAccounts resource:
 
 ### List business location reviews
 
-Trusted testers now have access to list the reviews that were collected by the Reputation Management product.
+Trusted testers now have access to list the reviews that were collected by the Reputation AI product.
 
 ## 2022-03-02
 

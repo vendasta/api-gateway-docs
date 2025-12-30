@@ -293,7 +293,7 @@
   "paths": {
     "/v1/business-metrics": {
       "post": {
-        "description": "Store data points for a business metric. Points are aggregated by aggregation_key to build Executive Report cards.\n\n**Limitations:**\n- Only integer values (intval) supported; strval coming soon\n- Fractions: submit numerator/denominator as separate points with different aggregation keys\n- Decimals: submit as integers (multiply by 10 or 100)\n\n**Date Format:** YYYY-MM-DDTHH:MM:SSZ",
+        "description": "Submit one or more data points grouped by aggregation_key. Points with the same\naggregation_key will be aggregated together when building report cards.\n\n**Limitations:**\n- Only integer values (intval) are currently supported; strval support coming soon\n- For fractions: submit numerator and denominator as separate points with different aggregation keys\n- For decimals: submit as integers (multiply by 10 or 100) and note in submission\n\n**Date Format:** YYYY-MM-DDTHH:MM:SSZ (e.g., \"2020-02-05T15:04:05Z\")",
         "operationId": "VAnalytics_PushBusinessMetric",
         "requestBody": {
           "content": {
@@ -344,7 +344,7 @@
     },
     "/v1/business-metrics/delete": {
       "post": {
-        "description": "Soft delete a metric point by its ID. The point is marked as deleted but not permanently removed. Returns 404 if already deleted or does not exist.",
+        "description": "The point is marked as deleted but not permanently removed. Returns 404 if already deleted\nor does not exist.",
         "operationId": "VAnalytics_DeleteBusinessMetric",
         "requestBody": {
           "content": {
@@ -395,7 +395,7 @@
     },
     "/v1/business-metrics/delete-multi": {
       "post": {
-        "description": "Soft delete multiple metric points in a single request. Each point is processed individually. Successfully deleted points have no error field; failed deletions include error details. Error code 1 indicates the point does not exist or is already deleted.",
+        "description": "Each point is processed individually. The response includes successfully deleted points\n(no error field) and failed deletions with error details. Error code 1 indicates the\npoint does not exist or is already deleted.",
         "operationId": "VAnalytics_DeleteMultiBusinessMetrics",
         "requestBody": {
           "content": {
@@ -446,7 +446,7 @@
     },
     "/v1/business-metrics/get": {
       "post": {
-        "description": "Retrieve metric points for a business, label, and optional date range. Returns paginated results. Use the cursor from the response for subsequent pages.",
+        "description": "Returns paginated results. Use the cursor from the response to retrieve additional pages.\nLeave cursor empty for the initial request.",
         "operationId": "VAnalytics_GetBusinessMetric",
         "requestBody": {
           "content": {
@@ -497,7 +497,7 @@
     },
     "/v1/business-metrics/point/get": {
       "post": {
-        "description": "Retrieve a single metric point by its ID. Returns complete details including source, business_id, label, value, timestamps, aggregation_key, and deletion status.",
+        "description": "Returns complete details including source, business_id, label, value, timestamps,\naggregation_key, and deletion status.",
         "operationId": "VAnalytics_GetBusinessMetricPoint",
         "requestBody": {
           "content": {

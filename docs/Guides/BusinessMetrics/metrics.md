@@ -1,11 +1,9 @@
 ---
 tags: [analytics]
 ---
-# Marketplace API
+# vAnalytics API
 
 This documentation provides Vendasta Partners and Vendors with the ability to send their data to our platform, where it will be used to generate cards for the Executive Report(both single and multi-location), in a new scalable way that supports slicing and rolling up reporting in any way that users need.
-
-
 
 You will not need to pre-aggregate your data and insert it into our card templates to be sent weekly or monthly. You can send data as often as you can, and we will aggregate the data for you based on your provided tags.
 ## Data story design
@@ -42,11 +40,10 @@ Note that the *BusinessMetrics* are only delivery containers for *BusinessMetric
 
 Card information required to be provided to Vendasta:
 
-1) Label  
-   1) Provided automatically via aggregationKey  
-   2) Statically set \- please communicate desired string to the Vendasta team.  
-2) Short description of card(required)  
-3) Longer tooltip description if needed(optional)
+1) Label & aggregation keys used in the data design (required)  
+2) Short description of card (required)  
+3) Longer tooltip description if needed (optional)
+4) Style (required)
 
 
 ## Endpoints
@@ -327,7 +324,9 @@ A single BusinessMetric
 }
 ```
 
-The same data provided via multiple BusinessMetrics
+The same data provided via multiple requests:
+
+Request 1: 
 
 ```json
 {
@@ -342,6 +341,8 @@ The same data provided via multiple BusinessMetrics
   ]
 }
 ```
+
+Request 2:
 
 ```json
 {

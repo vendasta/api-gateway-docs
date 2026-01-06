@@ -48,10 +48,10 @@ Card information required to be provided to Vendasta:
 
 ## Endpoints
 
+For full details on these endpoints see [vAnalytics](5279e486cb47d-vanalytics-open-api-documentation).
+
 ### Push Business Metric
 
-**Accept HTTP**: POST  
-**Path**: `/v1/business-metrics`
 
 Currently integer values designated by the **intval** key are the only data type available. This will support most basic card types. **strval** will be added in upcoming iterations. ***This means cards such as the List, and CTA won’t be supported in the current release.***
 
@@ -64,19 +64,28 @@ For decimals, submit them as Accountant integers, and specify in your submission
 <!--
 type: tab
 title: Request
-the-->
+-->
 
-```json
+```json http
 {
-  "businessId": "AG-S52RVH8H6H",
-  "label": "Campaigns System",
-  "points": [
-    {
-      "dateHappened": "2020-02-05T15:04:05Z",
-      "aggregationKey": "opens",
-      "intval": "1"
-    }
-  ]
+  "method": "POST",
+  "url": "https://prod.apigateway.co/v1/business-metrics",
+  "query": {},
+  "headers": {
+    "Authorization": "Bearer <Token with 'business.metrics' scope>",
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "businessId": "AG-S52RVH8H6H",
+    "label": "Campaigns System",
+    "points": [
+      {
+        "dateHappened": "2020-02-05T15:04:05Z",
+        "aggregationKey": "opens",
+        "intval": "1"
+      }
+    ]
+  }
 }
 ```
 
@@ -95,17 +104,24 @@ type: tab-end
 
 ### Get a business metric point
 
-**Accept HTTP**: POST  
-**Path**: `/v1/business-metrics/point/get`
 
 <!--
 type: tab
 title: Request
 -->
 
-```json
+```json http
 {
-  "id": "8108fc06-f455-4089-b324-f743eac28acc"
+  "method": "POST",
+  "url": "https://prod.apigateway.co/v1/business-metrics/point/get",
+  "query": {},
+  "headers": {
+    "Authorization": "Bearer <Token with 'business.metrics' scope>",
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "id": "8108fc06-f455-4089-b324-f743eac28acc"
+  }
 }
 ```
 
@@ -135,24 +151,31 @@ type: tab-end
 
 ### Get a business metric
 
-**Accept HTTP**: POST  
-**Path**: `/v1/business-metrics/get`
 
 <!--
 type: tab
 title: Request
 -->
 
-```json
+```json http
 {
-  "businessId": "AG-S52RVH8H6H",
-  "label": "Campaigns System",
-  "dateRange": {
-    "startDate": "2020-02-01T15:04:05Z",
-    "endDate": "2020-02-10T15:04:05Z"
+  "method": "POST",
+  "url": "https://prod.apigateway.co/v1/business-metrics/get",
+  "query": {},
+  "headers": {
+    "Authorization": "Bearer <Token with 'business.metrics' scope>",
+    "Content-Type": "application/json"
   },
-  "cursor": "",
-  "pageSize": "100"
+  "body": {
+    "businessId": "AG-S52RVH8H6H",
+    "label": "Campaigns System",
+    "dateRange": {
+      "startDate": "2020-02-01T15:04:05Z",
+      "endDate": "2020-02-10T15:04:05Z"
+    },
+    "cursor": "",
+    "pageSize": "100"
+  }
 }
 ```
 
@@ -191,17 +214,24 @@ type: tab-end
 
 ### Delete business metric point
 
-**Accept HTTP**: POST  
-**Path**: `/v1/business-metrics/delete`
 
 <!--
 type: tab
 title: Request
 -->
 
-```json
+```json http
 {
-  "id": "3143a075-701b-4067-9115-6e472f44c30f"
+  "method": "POST",
+  "url": "https://prod.apigateway.co/v1/business-metrics/delete",
+  "query": {},
+  "headers": {
+    "Authorization": "Bearer <Token with 'business.metrics' scope>",
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "id": "3143a075-701b-4067-9115-6e472f44c30f"
+  }
 }
 ```
 
@@ -232,30 +262,37 @@ type: tab-end
 
 ### Delete business metrics points
 
-**Accept HTTP**: POST  
-**Path**: `/v1/business-metrics/delete-multi`
 
 <!--
 type: tab
 title: Request
 -->
 
-```json
+```json http
 {
-  "businessMetrics": [
-    {
-      "id": "b808aa37-44b1-4678-a54a-0f3d38381887"
-    },
-    {
-      "id": "d2187725-1960-4d74-91a0-e7915ac7c13b"
-    },
-    {
-      "id": "3143a075-701b-4067-9115-6e472f44c30f"
-    },
-    {
-      "id": "3143a075-701b-4067-9115-xxxx"
-    }
-  ]
+  "method": "POST",
+  "url": "https://prod.apigateway.co/v1/business-metrics/delete-multi",
+  "query": {},
+  "headers": {
+    "Authorization": "Bearer <Token with 'business.metrics' scope>",
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "businessMetrics": [
+      {
+        "id": "b808aa37-44b1-4678-a54a-0f3d38381887"
+      },
+      {
+        "id": "d2187725-1960-4d74-91a0-e7915ac7c13b"
+      },
+      {
+        "id": "3143a075-701b-4067-9115-6e472f44c30f"
+      },
+      {
+        "id": "3143a075-701b-4067-9115-xxxx"
+      }
+    ]
+  }
 }
 ```
 
@@ -305,22 +342,31 @@ type: tab-end
 
 A single BusinessMetric
 
-```json
+```json http
 {
-  "businessId": "AG-XXXXXXXX",
-  "label": "Campaigns System",
-  "points": [
-    {
-      "dateHappened": "2021-01-05T15:04:05Z",
-      "aggregationKey": "opens",
-      "intval": "3"
-    },
-    {
-      "dateHappened": "2021-01-05T15:04:05Z",
-      "aggregationKey": "clicks",
-      "intval": "4"
-    }
-  ]
+  "method": "POST",
+  "url": "https://prod.apigateway.co/v1/business-metrics",
+  "query": {},
+  "headers": {
+    "Authorization": "Bearer <Token with 'business.metrics' scope>",
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "businessId": "AG-XXXXXXXX",
+    "label": "Campaigns System",
+    "points": [
+      {
+        "dateHappened": "2021-01-05T15:04:05Z",
+        "aggregationKey": "opens",
+        "intval": "3"
+      },
+      {
+        "dateHappened": "2021-01-05T15:04:05Z",
+        "aggregationKey": "clicks",
+        "intval": "4"
+      }
+    ]
+  }
 }
 ```
 
@@ -328,32 +374,50 @@ The same data provided via multiple requests:
 
 Request 1: 
 
-```json
+```json http
 {
-  "businessId": "AG-XXXXXXXX",
-  "label": "Campaigns System",
-  "points": [
-    {
-      "dateHappened": "2021-01-05T15:04:05Z",
-      "aggregationKey": "opens",
-      "intval": "3"
-    }
-  ]
+  "method": "POST",
+  "url": "https://prod.apigateway.co/v1/business-metrics",
+  "query": {},
+  "headers": {
+    "Authorization": "Bearer <Token with 'business.metrics' scope>",
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "businessId": "AG-XXXXXXXX",
+    "label": "Campaigns System",
+    "points": [
+      {
+        "dateHappened": "2021-01-05T15:04:05Z",
+        "aggregationKey": "opens",
+        "intval": "3"
+      }
+    ]
+  }
 }
 ```
 
 Request 2:
 
-```json
+```json http
 {
-  "businessId": "AG-XXXXXXXX",
-  "label": "Campaigns System",
-  "points": [
-    {
-      "dateHappened": "2021-01-05T15:04:05Z",
-      "aggregationKey": "clicks",
-      "intval": "4"
-    }
-  ]
+  "method": "POST",
+  "url": "https://prod.apigateway.co/v1/business-metrics",
+  "query": {},
+  "headers": {
+    "Authorization": "Bearer <Token with 'business.metrics' scope>",
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "businessId": "AG-XXXXXXXX",
+    "label": "Campaigns System",
+    "points": [
+      {
+        "dateHappened": "2021-01-05T15:04:05Z",
+        "aggregationKey": "clicks",
+        "intval": "4"
+      }
+    ]
+  }
 }
 ```

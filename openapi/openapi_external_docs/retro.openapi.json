@@ -1,0 +1,518 @@
+{
+  "components": {
+    "schemas": {
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "rpcStatus": {
+        "properties": {
+          "code": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            },
+            "type": "array"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ActionItemStatus": {
+        "default": "ACTION_ITEM_STATUS_UNSPECIFIED",
+        "description": "- ACTION_ITEM_STATUS_UNSPECIFIED: Unspecified status\n - ACTION_ITEM_STATUS_TODO: Action item is pending\n - ACTION_ITEM_STATUS_IN_PROGRESS: Action item is being worked on\n - ACTION_ITEM_STATUS_DONE: Action item is complete\n - ACTION_ITEM_STATUS_WONT_DO: Action item will not be done",
+        "enum": [
+          "ACTION_ITEM_STATUS_UNSPECIFIED",
+          "ACTION_ITEM_STATUS_TODO",
+          "ACTION_ITEM_STATUS_IN_PROGRESS",
+          "ACTION_ITEM_STATUS_DONE",
+          "ACTION_ITEM_STATUS_WONT_DO"
+        ],
+        "title": "ActionItemStatus represents the status of an action item",
+        "type": "string"
+      },
+      "v1AddRetroItemResponse": {
+        "properties": {
+          "item": {
+            "$ref": "#/components/schemas/v1RetroItem"
+          }
+        },
+        "type": "object"
+      },
+      "v1CreateRetroRequest": {
+        "properties": {
+          "accountId": {
+            "title": "Account ID",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description of the retrospective",
+            "type": "string"
+          },
+          "teamId": {
+            "title": "Team ID",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title of the retrospective",
+            "type": "string"
+          },
+          "votesPerUser": {
+            "format": "int32",
+            "title": "Number of votes per user (default: 5)",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "v1CreateRetroResponse": {
+        "properties": {
+          "retro": {
+            "$ref": "#/components/schemas/v1Retro"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetRetroResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/v1RetroItem"
+            },
+            "title": "All items in the retro",
+            "type": "array"
+          },
+          "retro": {
+            "$ref": "#/components/schemas/v1Retro"
+          },
+          "userVotesRemaining": {
+            "additionalProperties": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "title": "Map of user_id to remaining votes",
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListActionItemsResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/v1RetroItem"
+            },
+            "title": "List of action items (RetroItems where is_action_item=true)",
+            "type": "array"
+          },
+          "nextPageToken": {
+            "title": "Token for next page",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListRetrosResponse": {
+        "properties": {
+          "nextPageToken": {
+            "title": "Token for next page",
+            "type": "string"
+          },
+          "retros": {
+            "items": {
+              "$ref": "#/components/schemas/v1Retro"
+            },
+            "title": "List of retros",
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1PromoteToActionItemResponse": {
+        "properties": {
+          "item": {
+            "$ref": "#/components/schemas/v1RetroItem"
+          }
+        },
+        "type": "object"
+      },
+      "v1Retro": {
+        "properties": {
+          "accountId": {
+            "title": "Account this retro belongs to",
+            "type": "string"
+          },
+          "completedAt": {
+            "format": "date-time",
+            "title": "When the retro was completed (optional)",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "title": "When the retro was created",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description of the retrospective",
+            "type": "string"
+          },
+          "facilitatorId": {
+            "title": "User ID of the facilitator",
+            "type": "string"
+          },
+          "id": {
+            "title": "Unique identifier for the retro",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/v1RetroStatus"
+          },
+          "teamId": {
+            "title": "Team this retro belongs to",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title of the retrospective",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "title": "When the retro was last updated",
+            "type": "string"
+          },
+          "votesPerUser": {
+            "format": "int32",
+            "title": "Number of votes each user gets",
+            "type": "integer"
+          }
+        },
+        "title": "Retro represents a retrospective session",
+        "type": "object"
+      },
+      "v1RetroItem": {
+        "properties": {
+          "actionStatus": {
+            "$ref": "#/components/schemas/v1ActionItemStatus"
+          },
+          "assigneeId": {
+            "title": "User assigned to the action item (only set if is_action_item is true)",
+            "type": "string"
+          },
+          "authorId": {
+            "title": "Author of the item (nullable for anonymous items)",
+            "type": "string"
+          },
+          "category": {
+            "$ref": "#/components/schemas/v1RetroItemCategory"
+          },
+          "completedAt": {
+            "format": "date-time",
+            "title": "When the action was completed (optional)",
+            "type": "string"
+          },
+          "content": {
+            "title": "Content of the item",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "title": "When the item was created",
+            "type": "string"
+          },
+          "dueDate": {
+            "format": "date-time",
+            "title": "Due date for the action item (optional, only for action items)",
+            "type": "string"
+          },
+          "id": {
+            "title": "Unique identifier for the item",
+            "type": "string"
+          },
+          "isActionItem": {
+            "title": "Whether this item has been promoted to an action item",
+            "type": "boolean"
+          },
+          "isAnonymous": {
+            "title": "Whether the item is anonymous",
+            "type": "boolean"
+          },
+          "retroId": {
+            "title": "ID of the retro this item belongs to",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "title": "When the item was last updated",
+            "type": "string"
+          },
+          "voteCount": {
+            "format": "int32",
+            "title": "Number of votes this item has received",
+            "type": "integer"
+          }
+        },
+        "title": "RetroItem represents an item added to a retrospective",
+        "type": "object"
+      },
+      "v1RetroItemCategory": {
+        "default": "RETRO_ITEM_CATEGORY_UNSPECIFIED",
+        "description": "- RETRO_ITEM_CATEGORY_UNSPECIFIED: Unspecified category\n - RETRO_ITEM_CATEGORY_START: Things we should start doing\n - RETRO_ITEM_CATEGORY_STOP: Things we should stop doing\n - RETRO_ITEM_CATEGORY_CONTINUE: Things we should continue doing\n - RETRO_ITEM_CATEGORY_KUDOS: Kudos for great work",
+        "enum": [
+          "RETRO_ITEM_CATEGORY_UNSPECIFIED",
+          "RETRO_ITEM_CATEGORY_START",
+          "RETRO_ITEM_CATEGORY_STOP",
+          "RETRO_ITEM_CATEGORY_CONTINUE",
+          "RETRO_ITEM_CATEGORY_KUDOS"
+        ],
+        "title": "RetroItemCategory represents the type of retrospective item",
+        "type": "string"
+      },
+      "v1RetroItemSearchResult": {
+        "properties": {
+          "item": {
+            "$ref": "#/components/schemas/v1RetroItem"
+          },
+          "relevanceScore": {
+            "format": "float",
+            "title": "Relevance score",
+            "type": "number"
+          },
+          "retro": {
+            "$ref": "#/components/schemas/v1Retro"
+          }
+        },
+        "type": "object"
+      },
+      "v1RetroStatus": {
+        "default": "RETRO_STATUS_UNSPECIFIED",
+        "description": "- RETRO_STATUS_UNSPECIFIED: Unspecified status\n - RETRO_STATUS_DRAFT: Retro is being prepared\n - RETRO_STATUS_IN_PROGRESS: Retro is currently active\n - RETRO_STATUS_COMPLETED: Retro has been completed\n - RETRO_STATUS_ARCHIVED: Retro has been archived",
+        "enum": [
+          "RETRO_STATUS_UNSPECIFIED",
+          "RETRO_STATUS_DRAFT",
+          "RETRO_STATUS_IN_PROGRESS",
+          "RETRO_STATUS_COMPLETED",
+          "RETRO_STATUS_ARCHIVED"
+        ],
+        "title": "RetroStatus represents the current state of a retrospective",
+        "type": "string"
+      },
+      "v1SearchRetroItemsResponse": {
+        "properties": {
+          "nextPageToken": {
+            "title": "Token for next page",
+            "type": "string"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/v1RetroItemSearchResult"
+            },
+            "title": "Search results",
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1UnvoteRetroItemResponse": {
+        "properties": {
+          "item": {
+            "$ref": "#/components/schemas/v1RetroItem"
+          },
+          "votesRemaining": {
+            "format": "int32",
+            "title": "Number of votes remaining for this user",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "v1UpdateRetroItemResponse": {
+        "properties": {
+          "item": {
+            "$ref": "#/components/schemas/v1RetroItem"
+          }
+        },
+        "type": "object"
+      },
+      "v1UpdateRetroStatusResponse": {
+        "properties": {
+          "retro": {
+            "$ref": "#/components/schemas/v1Retro"
+          }
+        },
+        "type": "object"
+      },
+      "v1VoteRetroItemResponse": {
+        "properties": {
+          "item": {
+            "$ref": "#/components/schemas/v1RetroItem"
+          },
+          "votesRemaining": {
+            "format": "int32",
+            "title": "Number of votes remaining for this user",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2Demo": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
+            "scopes": {
+              "read": "Read access to the API",
+              "write": "Write access to the API"
+            },
+            "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      },
+      "OAuth2Prod": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "scopes": {
+              "read": "Read access to the API",
+              "write": "Write access to the API"
+            },
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "title": "Retro OpenAPI Documentation",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/retros": {
+      "post": {
+        "operationId": "RetroService_CreateRetro",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1CreateRetroRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1CreateRetroResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "CreateRetro creates a new retrospective",
+        "tags": [
+          "RetroService"
+        ]
+      }
+    },
+    "/v1/retros/{retroId}": {
+      "get": {
+        "operationId": "RetroService_GetRetro",
+        "parameters": [
+          {
+            "description": "ID of the retro to retrieve",
+            "in": "path",
+            "name": "retroId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetRetroResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "GetRetro retrieves a retrospective by ID",
+        "tags": [
+          "RetroService"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://prod.apigateway.co/grpc"
+    },
+    {
+      "description": "Demo",
+      "url": "https://demo.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "name": "RetroService"
+    }
+  ]
+}

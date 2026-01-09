@@ -1,0 +1,647 @@
+{
+  "components": {
+    "schemas": {
+      "RetroServiceAddItemBody": {
+        "properties": {
+          "authorId": {
+            "type": "string"
+          },
+          "column": {
+            "$ref": "#/components/schemas/v1RetroItemColumn"
+          },
+          "text": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "RetroServiceCloseRetroBody": {
+        "type": "object"
+      },
+      "ls_retrov1Vote": {
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "itemId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "voteId": {
+            "type": "string"
+          }
+        },
+        "title": "Vote represents a user's vote on a retrospective item",
+        "type": "object"
+      },
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "rpcStatus": {
+        "properties": {
+          "code": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            },
+            "type": "array"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1AddItemResponse": {
+        "properties": {
+          "item": {
+            "$ref": "#/components/schemas/v1RetroItem"
+          }
+        },
+        "type": "object"
+      },
+      "v1CloseRetroResponse": {
+        "properties": {
+          "retro": {
+            "$ref": "#/components/schemas/v1Retrospective"
+          }
+        },
+        "type": "object"
+      },
+      "v1CreateRetroRequest": {
+        "properties": {
+          "teamId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1CreateRetroResponse": {
+        "properties": {
+          "retro": {
+            "$ref": "#/components/schemas/v1Retrospective"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetRetroResponse": {
+        "properties": {
+          "retro": {
+            "$ref": "#/components/schemas/v1Retrospective"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListRetrosResponse": {
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/v1PagedResponseMetadata"
+          },
+          "retros": {
+            "items": {
+              "$ref": "#/components/schemas/v1Retrospective"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1PagedRequestOptions": {
+        "properties": {
+          "cursor": {
+            "title": "cursor can be passed to retrieve the next page of results keyed by the cursor",
+            "type": "string"
+          },
+          "pageSize": {
+            "format": "int32",
+            "title": "page_size specifies the number of items to return in the next page",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "v1PagedResponseMetadata": {
+        "properties": {
+          "hasMore": {
+            "title": "Whether or not more results exist",
+            "type": "boolean"
+          },
+          "nextCursor": {
+            "title": "A cursor that can be provided to retrieve the next page of results",
+            "type": "string"
+          },
+          "totalResults": {
+            "format": "int64",
+            "title": "Total number of results",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1RetroItem": {
+        "properties": {
+          "authorId": {
+            "type": "string"
+          },
+          "column": {
+            "$ref": "#/components/schemas/v1RetroItemColumn"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "itemId": {
+            "type": "string"
+          },
+          "retroId": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "voteCount": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "title": "RetroItem represents a single item in a retrospective",
+        "type": "object"
+      },
+      "v1RetroItemColumn": {
+        "default": "RETRO_ITEM_COLUMN_UNSPECIFIED",
+        "enum": [
+          "RETRO_ITEM_COLUMN_UNSPECIFIED",
+          "RETRO_ITEM_COLUMN_START",
+          "RETRO_ITEM_COLUMN_STOP",
+          "RETRO_ITEM_COLUMN_CONTINUE"
+        ],
+        "title": "RetroItemColumn represents the category of a retrospective item",
+        "type": "string"
+      },
+      "v1RetroServiceVoteBody": {
+        "properties": {
+          "userId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Retrospective": {
+        "properties": {
+          "closedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "retroId": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/v1RetrospectiveStatus"
+          },
+          "teamId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "title": "Retrospective represents a team retrospective session",
+        "type": "object"
+      },
+      "v1RetrospectiveStatus": {
+        "default": "RETROSPECTIVE_STATUS_UNSPECIFIED",
+        "enum": [
+          "RETROSPECTIVE_STATUS_UNSPECIFIED",
+          "RETROSPECTIVE_STATUS_OPEN",
+          "RETROSPECTIVE_STATUS_CLOSED"
+        ],
+        "type": "string"
+      },
+      "v1VoteResponse": {
+        "properties": {
+          "updatedItem": {
+            "$ref": "#/components/schemas/v1RetroItem"
+          },
+          "vote": {
+            "$ref": "#/components/schemas/ls_retrov1Vote"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2Demo": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
+            "scopes": {
+              "read": "Read access to the API",
+              "write": "Write access to the API"
+            },
+            "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      },
+      "OAuth2Prod": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "scopes": {
+              "read": "Read access to the API",
+              "write": "Write access to the API"
+            },
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "title": "Ls Retro OpenAPI Documentation",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/items/{itemId}/vote": {
+      "post": {
+        "operationId": "RetroService_Vote",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "itemId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1RetroServiceVoteBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1VoteResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "tags": [
+          "RetroService"
+        ]
+      }
+    },
+    "/v1/retros": {
+      "get": {
+        "operationId": "RetroService_ListRetros",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "teamId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "default": "RETROSPECTIVE_STATUS_UNSPECIFIED",
+              "enum": [
+                "RETROSPECTIVE_STATUS_UNSPECIFIED",
+                "RETROSPECTIVE_STATUS_OPEN",
+                "RETROSPECTIVE_STATUS_CLOSED"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "cursor can be passed to retrieve the next page of results keyed by the cursor",
+            "in": "query",
+            "name": "paging.cursor",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "page_size specifies the number of items to return in the next page",
+            "in": "query",
+            "name": "paging.pageSize",
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ListRetrosResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "tags": [
+          "RetroService"
+        ]
+      },
+      "post": {
+        "operationId": "RetroService_CreateRetro",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1CreateRetroRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1CreateRetroResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "tags": [
+          "RetroService"
+        ]
+      }
+    },
+    "/v1/retros/{retroId}": {
+      "get": {
+        "operationId": "RetroService_GetRetro",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "retroId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetRetroResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "tags": [
+          "RetroService"
+        ]
+      }
+    },
+    "/v1/retros/{retroId}/close": {
+      "post": {
+        "operationId": "RetroService_CloseRetro",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "retroId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetroServiceCloseRetroBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1CloseRetroResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "tags": [
+          "RetroService"
+        ]
+      }
+    },
+    "/v1/retros/{retroId}/items": {
+      "post": {
+        "operationId": "RetroService_AddItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "retroId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetroServiceAddItemBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1AddItemResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "tags": [
+          "RetroService"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://prod.apigateway.co/grpc"
+    },
+    {
+      "description": "Demo",
+      "url": "https://demo.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "name": "RetroService"
+    }
+  ]
+}

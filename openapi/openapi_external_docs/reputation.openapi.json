@@ -241,53 +241,6 @@
         },
         "type": "object"
       },
-      "v1ActionItem": {
-        "description": "ActionItem represents a single follow-up item created during a retrospective.",
-        "properties": {
-          "actionItemId": {
-            "description": "Unique identifier of the action item.",
-            "type": "string"
-          },
-          "created": {
-            "description": "When the action item was created.",
-            "format": "date-time",
-            "type": "string"
-          },
-          "text": {
-            "description": "Action item text.",
-            "type": "string"
-          },
-          "updated": {
-            "description": "When the action item was last updated.",
-            "format": "date-time",
-            "type": "string"
-          },
-          "voteCount": {
-            "description": "Current vote count.",
-            "format": "int64",
-            "type": "string"
-          },
-          "voterUserIds": {
-            "description": "Tracks which users have voted for this action item (1 vote per user).",
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
-      "v1AddActionItemResponse": {
-        "properties": {
-          "actionItem": {
-            "$ref": "#/components/schemas/v1ActionItem"
-          },
-          "retrospective": {
-            "$ref": "#/components/schemas/v1Retrospective"
-          }
-        },
-        "type": "object"
-      },
       "v1AutoReviewResponseSettings": {
         "properties": {
           "autoResponseEnabled": {
@@ -459,14 +412,6 @@
           }
         },
         "title": "ConciergeReviewResponse represents a Concierge ReviewResponse in the ReviewService",
-        "type": "object"
-      },
-      "v1CreateRetrospectiveResponse": {
-        "properties": {
-          "retrospective": {
-            "$ref": "#/components/schemas/v1Retrospective"
-          }
-        },
         "type": "object"
       },
       "v1CreateReviewCommentResponse": {
@@ -1023,30 +968,6 @@
         },
         "type": "object"
       },
-      "v1ListRetrospectivesResponse": {
-        "properties": {
-          "cursor": {
-            "description": "Cursor to retrieve the next page of results.",
-            "type": "string"
-          },
-          "hasMore": {
-            "description": "Whether there are more results.",
-            "type": "boolean"
-          },
-          "retrospectives": {
-            "items": {
-              "$ref": "#/components/schemas/v1Retrospective"
-            },
-            "type": "array"
-          },
-          "totalResults": {
-            "description": "Approximate total results for an unbounded page size.",
-            "format": "int64",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
       "v1ListReviewRequestEmailTemplatesResponse": {
         "properties": {
           "cursor": {
@@ -1421,49 +1342,6 @@
         ],
         "title": "Enum for a review's facebook recommendation value",
         "type": "string"
-      },
-      "v1Retrospective": {
-        "description": "Retrospective is a user-scoped retrospective with notes and action items.",
-        "properties": {
-          "actionItems": {
-            "description": "Action items captured for the retrospective.",
-            "items": {
-              "$ref": "#/components/schemas/v1ActionItem"
-            },
-            "type": "array"
-          },
-          "created": {
-            "description": "When the retrospective was created.",
-            "format": "date-time",
-            "type": "string"
-          },
-          "notes": {
-            "description": "Freeform notes for the retrospective.",
-            "type": "string"
-          },
-          "ownerEmail": {
-            "description": "Owner email address (denormalized for display).",
-            "type": "string"
-          },
-          "ownerUserId": {
-            "description": "Owner IAM user ID of the retrospective.",
-            "type": "string"
-          },
-          "retrospectiveId": {
-            "description": "Unique identifier of the retrospective.",
-            "type": "string"
-          },
-          "title": {
-            "description": "Title of the retrospective.",
-            "type": "string"
-          },
-          "updated": {
-            "description": "When the retrospective was last updated.",
-            "format": "date-time",
-            "type": "string"
-          }
-        },
-        "type": "object"
       },
       "v1Review": {
         "description": "Customer feedback about a business with ratings, comments, and responses.",
@@ -2428,17 +2306,6 @@
         "title": "The response message for ReviewService.UpdateReview",
         "type": "object"
       },
-      "v1VoteActionItemResponse": {
-        "properties": {
-          "actionItem": {
-            "$ref": "#/components/schemas/v1ActionItem"
-          },
-          "retrospective": {
-            "$ref": "#/components/schemas/v1Retrospective"
-          }
-        },
-        "type": "object"
-      },
       "vendastatypesFieldMask": {
         "description": "paths: \"f.a\"\n    paths: \"f.b.d\"\n\nHere `f` represents a field in some root message, `a` and `b`\nfields in the message found in `f`, and `d` a field found in the\nmessage in `f.b`.\n\nField masks are used to specify a subset of fields that should be\nreturned by a get operation or modified by an update operation.\nField masks also have a custom JSON encoding (see below).\n\n# Field Masks in Projections\n\nWhen used in the context of a projection, a response message or\nsub-message is filtered by the API to only contain those fields as\nspecified in the mask. For example, if the mask in the previous\nexample is applied to a response message as follows:\n\n    f {\n      a : 22\n      b {\n        d : 1\n        x : 2\n      }\n      y : 13\n    }\n    z: 8\n\nThe result will not contain specific values for fields x,y and z\n(their value will be set to the default, and omitted in proto text\noutput):\n\n\n    f {\n      a : 22\n      b {\n        d : 1\n      }\n    }\n\nA repeated field is not allowed except at the last position of a\npaths string.\n\nIf a FieldMask object is not present in a get operation, the\noperation applies to all fields (as if a FieldMask of all fields\nhad been specified).\n\nNote that a field mask does not necessarily apply to the\ntop-level response message. In case of a REST get operation, the\nfield mask applies directly to the response, but in case of a REST\nlist operation, the mask instead applies to each individual message\nin the returned resource list. In case of a REST custom method,\nother definitions may be used. Where the mask applies will be\nclearly documented together with its declaration in the API.  In\nany case, the effect on the returned resource/resources is required\nbehavior for APIs.\n\n# Field Masks in Update Operations\n\nA field mask in update operations specifies which fields of the\ntargeted resource are going to be updated. The API is required\nto only change the values of the fields as specified in the mask\nand leave the others untouched. If a resource is passed in to\ndescribe the updated values, the API ignores the values of all\nfields not covered by the mask.\n\nIf a repeated field is specified for an update operation, the existing\nrepeated values in the target resource will be overwritten by the new values.\nNote that a repeated field is only allowed in the last position of a `paths`\nstring.\n\nIf a sub-message is specified in the last position of the field mask for an\nupdate operation, then the existing sub-message in the target resource is\noverwritten. Given the target message:\n\n    f {\n      b {\n        d : 1\n        x : 2\n      }\n      c : 1\n    }\n\nAnd an update message:\n\n    f {\n      b {\n        d : 10\n      }\n    }\n\nthen if the field mask is:\n\n paths: \"f.b\"\n\nthen the result will be:\n\n    f {\n      b {\n        d : 10\n      }\n      c : 1\n    }\n\nHowever, if the update mask was:\n\n paths: \"f.b.d\"\n\nthen the result would be:\n\n    f {\n      b {\n        d : 10\n        x : 2\n      }\n      c : 1\n    }\n\nIn order to reset a field's value to the default, the field must\nbe in the mask and set to the default value in the provided resource.\nHence, in order to reset all fields of a resource, provide a default\ninstance of the resource and set all fields in the mask, or do\nnot provide a mask as described below.\n\nIf a field mask is not present on update, the operation applies to\nall fields (as if a field mask of all fields has been specified).\nNote that in the presence of schema evolution, this may mean that\nfields the client does not know and has therefore not filled into\nthe request will be reset to their default. If this is unwanted\nbehavior, a specific service may require a client to always specify\na field mask, producing an error if not.\n\nAs with get operations, the location of the resource which\ndescribes the updated values in the request message depends on the\noperation kind. In any case, the effect of the field mask is\nrequired to be honored by the API.\n\n## Considerations for HTTP REST\n\nThe HTTP kind of an update operation which uses a field mask must\nbe set to PATCH instead of PUT in order to satisfy HTTP semantics\n(PUT must only be used for full updates).\n\n# JSON Encoding of Field Masks\n\nIn JSON, a field mask is encoded as a single string where paths are\nseparated by a comma. Fields name in each path are converted\nto/from lower-camel naming conventions.\n\nAs an example, consider the following message declarations:\n\n    message Profile {\n      User user = 1;\n      Photo photo = 2;\n    }\n    message User {\n      string display_name = 1;\n      string address = 2;\n    }\n\nIn proto a field mask for `Profile` may look as such:\n\n    mask {\n      paths: \"user.display_name\"\n      paths: \"photo\"\n    }\n\nIn JSON, the same mask is represented as below:\n\n    {\n      mask: \"user.displayName,photo\"\n    }\n\n# Field Masks and Oneof Fields\n\nField masks treat fields in oneofs just as regular fields. Consider the\nfollowing message:\n\n    message SampleMessage {\n      oneof test_oneof {\n        string name = 4;\n        SubMessage sub_message = 9;\n      }\n    }\n\nThe field mask can be:\n\n    mask {\n      paths: \"name\"\n    }\n\nOr:\n\n    mask {\n      paths: \"sub_message\"\n    }\n\nNote that oneof type names (\"test_oneof\" in this case) cannot be used in\npaths.",
         "properties": {
@@ -2603,9 +2470,6 @@
     }
   ],
   "tags": [
-    {
-      "name": "RetrospectiveService"
-    },
     {
       "name": "ListingService"
     },

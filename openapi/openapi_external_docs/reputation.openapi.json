@@ -968,6 +968,11 @@
             "description": "When set to true, parent NPS records (primary feedback marked is_parent=true and referenced by other NPS records via ParentNPSID) are excluded from the response. When set to false, the parent NPS records are included in the response.",
             "type": "boolean"
           },
+          "includeTriggeringActivityDetails": {
+            "default": "false",
+            "description": "When set to true, triggering_activity_details will be populated with CRM activity information for each NPS record. When set to false, triggering_activity_details will be empty.",
+            "type": "boolean"
+          },
           "pageSize": {
             "description": "Optional. Number of items to return per page.\nThis value must be less than or equal to 500.",
             "format": "int64",
@@ -1427,6 +1432,13 @@
             "description": "Timestamp when the NPS score was submitted by the customer (RFC3339 UTC).",
             "format": "date-time",
             "type": "string"
+          },
+          "triggeringActivityDetails": {
+            "description": "Details of the CRM activities that triggered this NPS request.\nThis field is populated only when include_triggering_activity_details is set to true in the request.",
+            "items": {
+              "$ref": "#/components/schemas/v1TriggeringActivityDetail"
+            },
+            "type": "array"
           },
           "updated": {
             "description": "Timestamp when the record was last updated (RFC3339 UTC).",
@@ -2469,6 +2481,34 @@
           "showStarRatingSummary": {
             "title": "Whether or not to show the average star rating",
             "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "v1TriggeringActivityDetail": {
+        "description": "Information about the CRM activity that triggered the NPS request.",
+        "properties": {
+          "standardActivitySourceName": {
+            "title": "Source name of the transaction/job e.g (Neighborly, serviceTitan etc)",
+            "type": "string"
+          },
+          "systemActivityCreated": {
+            "description": "System creation timestamp of the activity.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "systemActivityEffective": {
+            "description": "Effective datetime of the job/transaction completion.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "systemActivityExternalId": {
+            "description": "External Job ID of the source system of the transaction.",
+            "type": "string"
+          },
+          "systemActivityId": {
+            "description": "Transaction ID of the source system of the transaction.",
+            "type": "string"
           }
         },
         "type": "object"

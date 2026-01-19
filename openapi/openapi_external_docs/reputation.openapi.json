@@ -333,6 +333,15 @@
         },
         "type": "object"
       },
+      "v1CommunicationChannel": {
+        "default": "COMMUNICATION_CHANNEL_UNSPECIFIED",
+        "enum": [
+          "COMMUNICATION_CHANNEL_UNSPECIFIED",
+          "COMMUNICATION_CHANNEL_EMAIL",
+          "COMMUNICATION_CHANNEL_SMS"
+        ],
+        "type": "string"
+      },
       "v1ConciergeReviewResponse": {
         "properties": {
           "agentName": {
@@ -742,12 +751,20 @@
             "title": "Required. The IDs of the namespace(s) you wish to get metrics for. A namespace may be an account_group_id (AG-) or multi-location-group (G-)",
             "type": "array"
           },
+          "partnerId": {
+            "description": "Required. Partner ID of the namespaces provided in the request (e.g., \"ABC\").",
+            "type": "string"
+          },
           "sourceNames": {
             "description": "Optional. Filter by source platform. To filter multiple platforms, provide multiple elements in the array\nEach entry in this repeated field must be a single source name Example: [\"Google\", \"Yelp\", \"Facebook\"].",
             "items": {
               "type": "string"
             },
             "type": "array"
+          },
+          "splitGroupsIntoAccounts": {
+            "description": "Optional. Controls metric aggregation granularity for review data.\nWhen false (default): Returns aggregated metrics at the group level (e.g., for multi-location group G-12345).\nWhen true: Returns metrics split by individual account group IDs within the parent group, providing more detailed breakdowns.\nUse this when you need to analyze performance differences between individual locations or accounts within a larger organizational group.\nExample: A franchise with 10 locations would get 10 separate metric entries instead of 1 combined entry.",
+            "type": "boolean"
           }
         },
         "type": "object"
@@ -903,6 +920,7 @@
       "v1ImportNPSResponse": {
         "properties": {
           "netPromoterScoreId": {
+            "title": "The NPS record ID (starts with \"NPS-\")",
             "type": "string"
           }
         },

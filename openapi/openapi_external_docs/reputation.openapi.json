@@ -333,6 +333,16 @@
         },
         "type": "object"
       },
+      "v1CommunicationChannel": {
+        "default": "COMMUNICATION_CHANNEL_UNSPECIFIED",
+        "enum": [
+          "COMMUNICATION_CHANNEL_UNSPECIFIED",
+          "COMMUNICATION_CHANNEL_EMAIL",
+          "COMMUNICATION_CHANNEL_SMS"
+        ],
+        "title": "Communication channel types for NPS feedback collection",
+        "type": "string"
+      },
       "v1ConciergeReviewResponse": {
         "properties": {
           "agentName": {
@@ -984,7 +994,7 @@
         "description": "Optional filtering criteria for narrowing NPS results.",
         "properties": {
           "channel": {
-            "$ref": "#/components/schemas/v1NPSChannel"
+            "$ref": "#/components/schemas/v1CommunicationChannel"
           },
           "customerName": {
             "title": "Optional. Filter NPS records by customer/contact name using fuzzy text search.\nThis performs a case-insensitive search against the contact.name field.\nNote: This identifies the customer who provided the feedback, not the employee/provider who provided the service.\nexample: \"Jane Smith\" or \"Michael\"",
@@ -1354,16 +1364,6 @@
         },
         "title": "NAP information of a listing",
         "type": "object"
-      },
-      "v1NPSChannel": {
-        "default": "NPS_CHANNEL_UNSPECIFIED",
-        "enum": [
-          "NPS_CHANNEL_UNSPECIFIED",
-          "NPS_CHANNEL_EMAIL",
-          "NPS_CHANNEL_SMS"
-        ],
-        "title": "Communication channel types for NPS feedback collection",
-        "type": "string"
       },
       "v1NPSProviderDetails": {
         "description": "Information about a provider (employee) associated with an NPS record.",

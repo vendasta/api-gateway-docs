@@ -996,13 +996,12 @@
           "channel": {
             "$ref": "#/components/schemas/v1CommunicationChannel"
           },
-          "customerName": {
+          "contactNames": {
+            "items": {
+              "type": "string"
+            },
             "title": "Optional. Filter NPS records by customer/contact name using fuzzy text search.\nThis performs a case-insensitive search against the contact.name field.\nNote: This identifies the customer who provided the feedback, not the employee/provider who provided the service.\nexample: \"Jane Smith\" or \"Michael\"",
-            "type": "string"
-          },
-          "employeeName": {
-            "title": "Optional. Filter NPS records by employee/provider name using fuzzy text search.\nThis performs a case-insensitive search against the names in the providers field.\nNote: This identifies the employee/provider who provided the service, not the customer (contact) who submitted the NPS.\nexample: \"John Doe\" or \"Sarah\"",
-            "type": "string"
+            "type": "array"
           },
           "fromDate": {
             "description": "Optional. Include NPS scores submitted on or after this timestamp (RFC3339 UTC, inclusive).",
@@ -1018,6 +1017,13 @@
               "type": "string"
             },
             "title": "This field filters NPS records by provider (employee) internal IAM user ID (starts with \"U-\") and not by provider name.\nNote: This identifies the employee/provider who provided the service, not the customer (contact) who submitted the NPS.\nAccepts IDs only; names are not supported.\nexample: [\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\", \"U-fa09664d-698d-4349-926f-147fb55e2a72\"]",
+            "type": "array"
+          },
+          "providerNames": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Optional. Filter NPS records by employee/provider name using fuzzy text search.\nThis performs a case-insensitive search against the names in the providers field.\nNote: This identifies the employee/provider who provided the service, not the customer (contact) who submitted the NPS.\nexample: \"John Doe\" or \"Sarah\"",
             "type": "array"
           },
           "scoreCategory": {

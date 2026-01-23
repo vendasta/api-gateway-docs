@@ -574,6 +574,32 @@
         ],
         "type": "string"
       },
+      "v1GenerateCustomCSSRequest": {
+        "properties": {
+          "currentCss": {
+            "$ref": "#/components/schemas/v1Styles"
+          },
+          "formId": {
+            "type": "string"
+          },
+          "htmlTemplate": {
+            "type": "string"
+          },
+          "imageUrls": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "v1GenerateCustomCSSResponse": {
         "properties": {
           "generatedCss": {
@@ -735,6 +761,31 @@
           "PROCESS_RESULT_STATUS_FAILED"
         ],
         "type": "string"
+      },
+      "v1ListMappedFieldSchemaRequest": {
+        "properties": {
+          "crmObjectSubtype": {
+            "type": "string"
+          },
+          "crmObjectType": {
+            "title": "dont tie this to crm",
+            "type": "string"
+          },
+          "locale": {
+            "title": "locale of the user such as \"af\", \"cs\", \"de\", \"en\", \"es-419\", \"fr\", \"it\", \"nl\", \"pt\", \"ru\"",
+            "type": "string"
+          },
+          "mappedToResource": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "pagingOptions": {
+            "$ref": "#/components/schemas/vendastatypesPagedRequestOptions"
+          }
+        },
+        "type": "object"
       },
       "v1ListMappedFieldSchemaResponse": {
         "properties": {
@@ -1162,6 +1213,7 @@
   "paths": {
     "/v1/forms/create": {
       "post": {
+        "description": "IMPORTANT: Use unmapped_field for custom fields. Do NOT add UTM tracking fields -\nthey are automatically added by the system.\n\nExample form_config:\n{\n  \"name\": \"Contact Form\",\n  \"namespace\": \"\u003cuse namespace from context\u003e\",\n  \"fields\": [\n    {\n      \"label\": \"Name\",\n      \"required\": true,\n      \"schema\": {\n        \"unmapped_field\": {\"id\": \"name\", \"type\": \"FIELD_TYPE_STRING\"}\n      }\n    },\n    {\n      \"label\": \"Email\",\n      \"required\": true,\n      \"schema\": {\n        \"unmapped_field\": {\"id\": \"email\", \"type\": \"FIELD_TYPE_EMAIL\"}\n      }\n    },\n    {\n      \"label\": \"Message\",\n      \"required\": true,\n      \"schema\": {\n        \"unmapped_field\": {\"id\": \"message\", \"type\": \"FIELD_TYPE_TEXT_AREA\"}\n      }\n    }\n  ]\n}\n\nValid field types: FIELD_TYPE_STRING, FIELD_TYPE_EMAIL, FIELD_TYPE_PHONE,\nFIELD_TYPE_TEXT_AREA, FIELD_TYPE_DROPDOWN, FIELD_TYPE_DATE, FIELD_TYPE_BOOLEAN,\nFIELD_TYPE_CURRENCY, FIELD_TYPE_FILE, FIELD_TYPE_RADIO, FIELD_TYPE_RICH_TEXT_ELEMENT",
         "operationId": "Forms_CreateForm",
         "requestBody": {
           "content": {
@@ -1211,6 +1263,7 @@
     },
     "/v1/forms/embed-code": {
       "post": {
+        "description": "Use the form_id returned from CreateForm or CreateFormFromTemplate.\nThe embed code can be added to any webpage to display the form.",
         "operationId": "Forms_GetEmbedCode",
         "requestBody": {
           "content": {
@@ -1253,6 +1306,56 @@
           }
         ],
         "summary": "Get Form Embed Code",
+        "tags": [
+          "Forms"
+        ]
+      }
+    },
+    "/v1/forms/generate-custom-css": {
+      "post": {
+        "description": "Provide a prompt describing the desired styling, and optionally include\nimage_urls for visual references. Returns generated Styles that can be\napplied to a form via UpdateForm.\n\nExample: prompt = \"Make the form match a modern dark theme with rounded corners\"",
+        "operationId": "Forms_GenerateCustomCSS",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GenerateCustomCSSRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GenerateCustomCSSResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Generate Custom CSS",
         "tags": [
           "Forms"
         ]
@@ -1351,6 +1454,56 @@
           }
         ],
         "summary": "List Forms",
+        "tags": [
+          "Forms"
+        ]
+      }
+    },
+    "/v1/forms/mapped-field-schema/list": {
+      "post": {
+        "description": "Call this FIRST to understand what CRM fields are available before creating\nforms with mapped fields.\n\nmapped_to_resource options:\n- \"crm_contact\" - CRM Contact fields (name, email, phone, etc.)\n- \"crm_company\" - CRM Company fields\n- \"utm_attribute\" - UTM tracking fields (auto-added, don't include manually)\n- \"special_attribute\" - Special fields like google_places_id",
+        "operationId": "Forms_ListMappedFieldSchema",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ListMappedFieldSchemaRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ListMappedFieldSchemaResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "List Mapped Field Schema",
         "tags": [
           "Forms"
         ]

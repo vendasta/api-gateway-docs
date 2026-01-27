@@ -586,7 +586,7 @@ Match contacts by phone number when email isn't available.
 
 1. **Choose Stable Identifiers:** Use fields that don't change often (email, external_id)
 2. **Consider Data Quality:** Poor data quality reduces matching effectiveness
-3. **Use External IDs:** When integrating with other systems, always set and search by external_id
+3. **Use External IDs:** When integrating with other systems, always set and search by external_id. If you need to track additional ids, leverage custom fields.
 4. **Test Matching Logic:** Verify your de-duplication works before bulk imports
 5. **Handle Edge Cases:** Consider what happens with:
    - Missing values in match fields
@@ -903,7 +903,7 @@ curl -X DELETE "https://prod.apigateway.co/org/P-ABC123/contacts/CON-123456" \
 
 ### Important Notes
 
-1. **Use External IDs:** The `{id}` parameter accepts the external_id you assigned to the record
+1. **Use External IDs:** The `{id}` parameter accepts the id found in the Get Schema response (the external_id you assigned to the record in the case of a custom field)
 2. **Permanent Deletion:** Deleted records cannot be recovered
 3. **Cascade Behavior:** Check if deleting records affects associations
 4. **Not Supported for Activities:** Some activity types may have deletion restrictions
@@ -1152,7 +1152,7 @@ custom__renewal_date
 
 #### Creating and Using Custom Fields
 
-Custom fields are typically created through the Vendasta admin interface. Once created, they appear in the field schema:
+Custom fields are created through the Vendasta admin interface(Administration-->CRM Objects). Once created, they appear in the field schema:
 
 ```bash
 curl -X GET "https://prod.apigateway.co/org/P-ABC123/contacts/meta/fields"
@@ -1206,12 +1206,11 @@ Custom objects are entirely user-defined object types with custom fields. They w
 
 #### Common Custom Object Use Cases
 
-- **Projects:** Track project information tied to companies
 - **Assets:** Equipment, software licenses, or inventory
 - **Locations:** Physical locations for multi-location businesses
-- **Opportunities:** Sales opportunities with custom stages
 - **Contracts:** Service agreements or contracts
 - **Tickets:** Support or service tickets
+- **Animals:** Animals for boarding, grooming companies, etc.
 
 #### Custom Object Structure
 
@@ -1325,7 +1324,7 @@ When defining custom fields (via admin interface), choose appropriate types:
 1. **Plan Your Schema:** Design your custom fields before implementation
 2. **Use Descriptive Names:** `custom__renewal_date` is better than `custom__date1`
 3. **Choose Appropriate Types:** Use the most specific type (date vs string)
-4. **Limit Custom Fields:** Too many fields impact performance and usability
+4. **Limit Custom Fields:** Too many fields could impact usability
 5. **Document Custom Fields:** Maintain documentation of what each field represents
 6. **Use Dropdowns:** Prefer dropdowns over free text for consistency
 7. **Consider Search:** Include custom fields you'll query in `searchExisting`
@@ -1462,117 +1461,6 @@ If you're syncing multiple source systems, namespace your external IDs:
 }
 ```
 
-### Common Integration Patterns
-
-#### Pattern 1: Initial Import
-
-```javascript
-// Pseudo-code for importing from external system
-async function importContact(externalContact) {
-  const response = await fetch(
-    'https://prod.apigateway.co/org/P-ABC123/contacts',
-    {
-      method: 'PATCH',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        fields: [
-          {
-            id: 'system__contact_external_id',
-            value: `EXTERNAL-${externalContact.id}`,
-            operation: 'always_overwrite'
-          },
-          {
-            id: 'standard__first_name',
-            value: externalContact.firstName,
-            operation: 'always_overwrite'
-          },
-          {
-            id: 'standard__email',
-            value: externalContact.email,
-            operation: 'always_overwrite'
-          }
-        ],
-        searchExisting: ['external_id'],
-        returnFields: ['system__contact_id']
-      })
-    }
-  );
-
-  const result = await response.json();
-  
-  // Store the Vendasta ID in your system
-  await saveMapping(externalContact.id, result.fields.find(f => f.id === 'system__contact_id').value);
-}
-```
-
-#### Pattern 2: Ongoing Sync
-
-```javascript
-async function syncContact(externalContact) {
-  // Check last sync timestamp
-  const lastSync = await getLastSyncTime(externalContact.id);
-  
-  if (externalContact.updatedAt > lastSync) {
-    await fetch('https://prod.apigateway.co/org/P-ABC123/contacts', {
-      method: 'PATCH',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        fields: [
-          {
-            id: 'system__contact_external_id',
-            value: `EXTERNAL-${externalContact.id}`,
-            operation: 'always_overwrite'
-          },
-          // ... updated fields
-        ],
-        searchExisting: ['external_id']
-      })
-    });
-    
-    await updateLastSyncTime(externalContact.id, new Date());
-  }
-}
-```
-
-#### Pattern 3: Querying by External ID
-
-```javascript
-async function findByExternalId(externalId) {
-  const response = await fetch(
-    'https://prod.apigateway.co/org/P-ABC123/list/contacts',
-    {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        fields: [
-          {
-            id: 'system__contact_external_id',
-            value: externalId,
-            operation: 'IS'
-          }
-        ],
-        returnFields: [
-          'system__contact_id',
-          'standard__first_name',
-          'standard__email'
-        ]
-      })
-    }
-  );
-
-  const result = await response.json();
-  return result.objects[0]; // Should be unique
-}
-```
 
 ### External ID Gotchas
 
@@ -1826,6 +1714,7 @@ Include source fields in your queries:
 3. **Validate Data:** Validate data before sending to reduce errors
 4. **Use Pagination:** Don't try to fetch all records at once
 5. **Cache Field Schemas:** Field schemas change infrequently; cache them
+6. **Document your integration**.
 
 ### Data Management
 
@@ -1843,22 +1732,6 @@ Include source fields in your queries:
 4. **Monitor API Usage:** Track your API usage and optimize
 5. **Async Processing:** Use async patterns for large data imports
 
-### Security
-
-1. **Protect API Keys:** Never expose authentication tokens
-2. **Use Environment Variables:** Store credentials securely
-3. **Implement Logging:** Log API interactions for audit trails
-4. **Validate Inputs:** Sanitize user inputs before sending to API
-5. **Follow Least Privilege:** Use appropriate permission scopes
-
-### Error Handling
-
-1. **Handle All Error Codes:** Implement comprehensive error handling
-2. **Log Errors:** Capture error details for debugging
-3. **Retry Transient Errors:** Retry on network or temporary failures
-4. **User-Friendly Messages:** Translate API errors to user-friendly messages
-5. **Monitor Failures:** Track failure rates and investigate anomalies
-
 ### Testing
 
 1. **Use Demo Environment:** Test thoroughly in demo before production
@@ -1870,19 +1743,6 @@ Include source fields in your queries:
 ---
 
 ## Error Handling
-
-### HTTP Status Codes
-
-| Code | Meaning | Action |
-|------|---------|--------|
-| 200 | Success | Process response |
-| 400 | Bad Request | Check request format and parameters |
-| 401 | Unauthorized | Verify authentication token |
-| 403 | Forbidden | Check permissions for namespace |
-| 404 | Not Found | Verify resource exists |
-| 429 | Rate Limited | Implement backoff and retry |
-| 500 | Server Error | Retry with exponential backoff |
-| 503 | Service Unavailable | Retry later |
 
 ### Error Response Format
 
@@ -1934,279 +1794,13 @@ Include source fields in your queries:
 
 **Solution:** Verify your authentication token is valid and not expired
 
-### Implementing Retry Logic
 
-```javascript
-async function apiCallWithRetry(url, options, maxRetries = 3) {
-  let lastError;
-  
-  for (let i = 0; i < maxRetries; i++) {
-    try {
-      const response = await fetch(url, options);
-      
-      if (response.ok) {
-        return await response.json();
-      }
-      
-      // Don't retry client errors (except rate limiting)
-      if (response.status >= 400 && response.status < 500 && response.status !== 429) {
-        throw new Error(`Client error: ${response.status}`);
-      }
-      
-      // Retry server errors and rate limiting
-      if (response.status === 429 || response.status >= 500) {
-        const delay = Math.pow(2, i) * 1000; // Exponential backoff
-        await new Promise(resolve => setTimeout(resolve, delay));
-        continue;
-      }
-      
-    } catch (error) {
-      lastError = error;
-      if (i === maxRetries - 1) {
-        throw lastError;
-      }
-      
-      // Exponential backoff
-      const delay = Math.pow(2, i) * 1000;
-      await new Promise(resolve => setTimeout(resolve, delay));
-    }
-  }
-  
-  throw lastError;
-}
-```
 
 ---
 
-## Code Examples
+## Examples
 
-### Python
 
-#### Upsert a Contact
-
-```python
-import requests
-import json
-
-def upsert_contact(namespace, token, email, first_name, last_name):
-    url = f"https://prod.apigateway.co/org/{namespace}/contacts"
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json"
-    }
-    
-    payload = {
-        "fields": [
-            {
-                "id": "standard__email",
-                "value": email,
-                "operation": "always_overwrite"
-            },
-            {
-                "id": "standard__first_name",
-                "value": first_name,
-                "operation": "overwrite_if_empty"
-            },
-            {
-                "id": "standard__last_name",
-                "value": last_name,
-                "operation": "overwrite_if_empty"
-            }
-        ],
-        "searchExisting": ["standard__email"],
-        "returnFields": ["system__contact_id", "standard__email"]
-    }
-    
-    response = requests.patch(url, headers=headers, json=payload)
-    response.raise_for_status()
-    
-    return response.json()
-
-# Usage
-result = upsert_contact(
-    namespace="P-ABC123",
-    token="your_token_here",
-    email="john@example.com",
-    first_name="John",
-    last_name="Doe"
-)
-print(f"Contact ID: {result['fields'][0]['value']}")
-```
-
-#### List Companies
-
-```python
-def list_companies(namespace, token, page_cursor="", limit=20):
-    url = f"https://prod.apigateway.co/org/list/{namespace}/companies"
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json"
-    }
-    
-    payload = {
-        "fields": [],
-        "returnFields": [
-            "system__company_id",
-            "standard__company_name",
-            "standard__company_website"
-        ],
-        "page": {
-            "cursor": page_cursor,
-            "limit": limit
-        }
-    }
-    
-    response = requests.post(url, headers=headers, json=payload)
-    response.raise_for_status()
-    
-    return response.json()
-
-# Usage
-companies = list_companies(
-    namespace="P-ABC123",
-    token="your_token_here",
-    limit=50
-)
-
-for company in companies['objects']:
-    name = next((f['value'] for f in company['fields'] if f['id'] == 'standard__company_name'), None)
-    print(f"Company: {name}")
-```
-
-### JavaScript/Node.js
-
-#### Upsert with External ID
-
-```javascript
-const fetch = require('node-fetch');
-
-async function upsertContactWithExternalId(namespace, token, externalId, contactData) {
-  const url = `https://prod.apigateway.co/org/${namespace}/contacts`;
-  
-  const payload = {
-    fields: [
-      {
-        id: 'system__contact_external_id',
-        value: externalId,
-        operation: 'always_overwrite'
-      },
-      {
-        id: 'standard__first_name',
-        value: contactData.firstName,
-        operation: 'always_overwrite'
-      },
-      {
-        id: 'standard__last_name',
-        value: contactData.lastName,
-        operation: 'always_overwrite'
-      },
-      {
-        id: 'standard__email',
-        value: contactData.email,
-        operation: 'always_overwrite'
-      }
-    ],
-    searchExisting: ['external_id'],
-    returnFields: ['system__contact_id', 'system__contact_external_id']
-  };
-
-  const response = await fetch(url, {
-    method: 'PATCH',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload)
-  });
-
-  if (!response.ok) {
-    throw new Error(`API error: ${response.status}`);
-  }
-
-  return await response.json();
-}
-
-// Usage
-upsertContactWithExternalId(
-  'P-ABC123',
-  'your_token_here',
-  'SALESFORCE-12345',
-  {
-    firstName: 'Jane',
-    lastName: 'Smith',
-    email: 'jane.smith@example.com'
-  }
-).then(result => {
-  console.log('Contact created/updated:', result);
-}).catch(error => {
-  console.error('Error:', error);
-});
-```
-
-#### Create Activity with Associations
-
-```javascript
-async function createTask(namespace, token, taskName, dueDate, contactId, companyId) {
-  const url = `https://prod.apigateway.co/org/${namespace}/activities`;
-  
-  const payload = {
-    subtype: 'Task',
-    fields: [
-      {
-        id: 'standard__activity_name',
-        value: taskName,
-        operation: 'always_overwrite'
-      },
-      {
-        id: 'standard__task_due_date',
-        value: dueDate, // ISO 8601 format
-        operation: 'always_overwrite'
-      },
-      {
-        id: 'standard__task_status',
-        value: 'Not Started',
-        operation: 'always_overwrite'
-      }
-    ],
-    associations: [
-      {
-        id: contactId,
-        type: 'Contact'
-      },
-      {
-        id: companyId,
-        type: 'Company'
-      }
-    ],
-    returnFields: ['system__activity_id', 'standard__activity_name']
-  };
-
-  const response = await fetch(url, {
-    method: 'PATCH',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload)
-  });
-
-  if (!response.ok) {
-    throw new Error(`API error: ${response.status}`);
-  }
-
-  return await response.json();
-}
-
-// Usage
-createTask(
-  'P-ABC123',
-  'your_token_here',
-  'Follow up on proposal',
-  '2024-12-31T17:00:00Z',
-  'CON-123456',
-  'COM-789012'
-);
-```
 
 ### cURL Examples
 
@@ -2320,41 +1914,6 @@ curl -X DELETE \
 - `Email` - Email communications
 - `Communication` - Other communications
 
-### Common Field Patterns
-
-#### Contact Fields
-
-- `standard__first_name`, `standard__last_name` - Name
-- `standard__email` - Email address
-- `standard__phone_number` - Primary phone
-- `standard__contact_mobile_phone_number` - Mobile phone
-- `standard__contact_job_title` - Job title
-- `standard__contact_company_name` - Company name
-- `system__contact_id` - Unique ID
-- `system__contact_external_id` - Your external ID
-- `system__contact_owner_id` - Record owner
-- `system__contact_created` - Creation date
-- `system__contact_updated` - Last update date
-
-#### Company Fields
-
-- `standard__company_name` - Company name
-- `standard__company_website` - Website URL
-- `standard__company_industry` - Industry
-- `standard__company_employee_count` - Number of employees
-- `standard__company_annual_revenue` - Annual revenue
-- `system__company_id` - Unique ID
-- `system__company_external_id` - Your external ID
-- `system__company_owner_id` - Record owner
-
-#### Activity Fields
-
-- `standard__activity_name` - Activity title
-- `standard__task_due_date` - Due date (for tasks)
-- `standard__task_status` - Status (for tasks)
-- `standard__meeting_start_time` - Start time (for meetings)
-- `standard__meeting_end_time` - End time (for meetings)
-- `system__activity_id` - Unique ID
 
 ### Glossary
 
@@ -2385,19 +1944,10 @@ curl -X DELETE \
 - Review field schema to ensure you're using correct field IDs
 - Verify namespace and resource types are correct
 
-### Best Practices Summary
-1. Always use external_id for integrations
-2. Implement proper error handling and retries
-3. Use searchExisting to prevent duplicates
-4. Choose appropriate merge strategies
-5. Cache field schemas
-6. Test thoroughly in demo environment
-7. Monitor API usage and performance
-8. Document your integration
 
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** November 2024  
+**Last Updated:** Jan 2026 
 **API Status:** Trusted Tester
 

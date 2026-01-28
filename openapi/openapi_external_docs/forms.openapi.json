@@ -854,17 +854,6 @@
         "title": "This follows the E164 international standard specification for phone numbers",
         "type": "object"
       },
-      "v1PreviewFormRequest": {
-        "properties": {
-          "formConfig": {
-            "$ref": "#/components/schemas/v1FormConfig"
-          },
-          "library": {
-            "$ref": "#/components/schemas/v1JsonSchemaLibrary"
-          }
-        },
-        "type": "object"
-      },
       "v1PreviewFormResponse": {
         "properties": {
           "jsonSchema": {
@@ -886,18 +875,6 @@
           }
         },
         "title": "RecoverFormResponse - last version of the form recovered (if any)",
-        "type": "object"
-      },
-      "v1RenderFormRequest": {
-        "properties": {
-          "formId": {
-            "title": "form unique identifier",
-            "type": "string"
-          },
-          "library": {
-            "$ref": "#/components/schemas/v1JsonSchemaLibrary"
-          }
-        },
         "type": "object"
       },
       "v1RenderFormResponse": {
@@ -1504,104 +1481,6 @@
           }
         ],
         "summary": "List Mapped Field Schema",
-        "tags": [
-          "Forms"
-        ]
-      }
-    },
-    "/v1/forms/preview": {
-      "post": {
-        "operationId": "Forms_PreviewForm",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/v1PreviewFormRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/v1PreviewFormResponse"
-                }
-              }
-            },
-            "description": "A successful response."
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/rpcStatus"
-                }
-              }
-            },
-            "description": "An unexpected error response."
-          }
-        },
-        "security": [
-          {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
-          }
-        ],
-        "summary": "Preview Form",
-        "tags": [
-          "Forms"
-        ]
-      }
-    },
-    "/v1/forms/render": {
-      "post": {
-        "operationId": "Forms_RenderForm",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/v1RenderFormRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/v1RenderFormResponse"
-                }
-              }
-            },
-            "description": "A successful response."
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/rpcStatus"
-                }
-              }
-            },
-            "description": "An unexpected error response."
-          }
-        },
-        "security": [
-          {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
-          }
-        ],
-        "summary": "Render Form",
         "tags": [
           "Forms"
         ]

@@ -1,0 +1,468 @@
+{
+  "components": {
+    "schemas": {
+      "ListImagesRequestFilters": {
+        "properties": {
+          "imageType": {
+            "items": {
+              "$ref": "#/components/schemas/v1ImageType"
+            },
+            "title": "Filter by image types: LOGO, PRIMARY, NOT_SPECIFIED (gallery)",
+            "type": "array"
+          },
+          "includeDeleted": {
+            "title": "Include soft-deleted images in results",
+            "type": "boolean"
+          },
+          "tags": {
+            "items": {
+              "$ref": "#/components/schemas/accountgroupmediav1Tag"
+            },
+            "title": "Filter by tags (images must match ALL specified tags)",
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "accountgroupmediav1Tag": {
+        "properties": {
+          "key": {
+            "title": "Tag key (e.g., \"source\", \"purpose\", \"session_id\")",
+            "type": "string"
+          },
+          "value": {
+            "title": "Tag value (e.g., \"ai-generated\", \"carousel\", UUID)",
+            "type": "string"
+          }
+        },
+        "title": "Tag is a key-value pair for categorizing and filtering images",
+        "type": "object"
+      },
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "rpcStatus": {
+        "properties": {
+          "code": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            },
+            "type": "array"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1AssociateImageRequest": {
+        "properties": {
+          "accountGroupId": {
+            "title": "Account group ID of the business to associate the image with",
+            "type": "string"
+          },
+          "imageId": {
+            "title": "The unique image ID from the media upload service",
+            "type": "string"
+          },
+          "imageType": {
+            "$ref": "#/components/schemas/v1ImageType"
+          },
+          "tags": {
+            "items": {
+              "$ref": "#/components/schemas/accountgroupmediav1Tag"
+            },
+            "title": "Tags for categorizing images (e.g., source=ai-generated, purpose=carousel)",
+            "type": "array"
+          }
+        },
+        "title": "AssociateImageRequest associates an image id in the media service to an account group.\nUse image_id from the media upload service. The serving URL will be\nhttps://lh3.googleusercontent.com/{image_id}",
+        "type": "object"
+      },
+      "v1DeleteImageRequest": {
+        "properties": {
+          "accountGroupId": {
+            "title": "Account group ID of the account with which the image to be deleted is associated",
+            "type": "string"
+          },
+          "imageId": {
+            "title": "The unique image id to of the image to delete",
+            "type": "string"
+          }
+        },
+        "title": "DeleteImageRequest deletes an image association",
+        "type": "object"
+      },
+      "v1GetLogoImageRequest": {
+        "properties": {
+          "accountGroupId": {
+            "title": "Account group ID of the account with which the desired images are associated",
+            "type": "string"
+          }
+        },
+        "title": "GetLogoImageRequest is used to retrieve logo-type image associations related to account group ID",
+        "type": "object"
+      },
+      "v1GetLogoImageResponse": {
+        "properties": {
+          "image": {
+            "$ref": "#/components/schemas/v1ImageAssociation"
+          }
+        },
+        "title": "GetLogoImageResponse contains the image association for the logo associated with an account group",
+        "type": "object"
+      },
+      "v1ImageAssociation": {
+        "properties": {
+          "accountGroupId": {
+            "title": "Account group ID of the account with which the image is associated",
+            "type": "string"
+          },
+          "created": {
+            "format": "date-time",
+            "title": "The timestap for when the image association was created",
+            "type": "string"
+          },
+          "deleted": {
+            "format": "date-time",
+            "title": "The timestamp for when the image association was deleted",
+            "type": "string"
+          },
+          "imageId": {
+            "title": "The unique image id of the image associated with the account group",
+            "type": "string"
+          },
+          "imageType": {
+            "$ref": "#/components/schemas/v1ImageType"
+          },
+          "tags": {
+            "items": {
+              "$ref": "#/components/schemas/accountgroupmediav1Tag"
+            },
+            "title": "Tags for categorizing and filtering images (e.g., source, purpose, session_id)",
+            "type": "array"
+          }
+        },
+        "title": "ImageAssociation is the pairing of an image id to an account group id",
+        "type": "object"
+      },
+      "v1ImageType": {
+        "default": "NOT_SPECIFIED",
+        "description": "- NOT_SPECIFIED: Gallery images, team photos, product images\n - PRIMARY: Main business photo (storefront, hero image, cover photo)\n - LOGO: Business logo for headers, footers, brand identity\n - SECONDARY_LOGO: Secondary/alternate logo",
+        "enum": [
+          "NOT_SPECIFIED",
+          "PRIMARY",
+          "LOGO",
+          "SECONDARY_LOGO"
+        ],
+        "title": "Image types for categorizing business images",
+        "type": "string"
+      },
+      "v1ListImagesPagedResponse": {
+        "properties": {
+          "hasMore": {
+            "title": "Whether or not more results exist",
+            "type": "boolean"
+          },
+          "images": {
+            "items": {
+              "$ref": "#/components/schemas/v1ImageAssociation"
+            },
+            "type": "array"
+          },
+          "nextCursor": {
+            "title": "A cursor that can be provided to retrieve the next page of results",
+            "type": "string"
+          },
+          "totalResults": {
+            "format": "int64",
+            "title": "The total number of results for this query across all pages",
+            "type": "string"
+          }
+        },
+        "title": "ListImagesPagedResponse is the list of image association models that are associated to an account group",
+        "type": "object"
+      },
+      "v1ListImagesRequest": {
+        "description": "ListImagesRequest lists images associated with a business account group.\nReturns image associations with serving URLs for use in websites.",
+        "properties": {
+          "accountGroupId": {
+            "title": "Account group ID of the business whose images to list",
+            "type": "string"
+          },
+          "cursor": {
+            "title": "Pagination cursor from previous response, empty for first page",
+            "type": "string"
+          },
+          "filters": {
+            "$ref": "#/components/schemas/ListImagesRequestFilters"
+          },
+          "pageSize": {
+            "format": "int64",
+            "title": "Number of results per page (default 20, max 100)",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2Demo": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
+            "scopes": {
+              "read": "Read access to the API",
+              "write": "Write access to the API"
+            },
+            "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      },
+      "OAuth2Prod": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "scopes": {
+              "read": "Read access to the API",
+              "write": "Write access to the API"
+            },
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "title": "Account Group Media OpenAPI Documentation",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/images/associate": {
+      "post": {
+        "description": "Image types:\n- LOGO: Business logo for headers, footers, brand identity\n- PRIMARY: Main business photo (storefront, hero image)\n- NOT_SPECIFIED: Gallery images, team photos, product images",
+        "operationId": "MediaService_AssociateImage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1AssociateImageRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Associate Image",
+        "tags": [
+          "MediaService"
+        ]
+      }
+    },
+    "/v1/images/delete": {
+      "post": {
+        "operationId": "MediaService_DeleteImage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1DeleteImageRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Delete Image",
+        "tags": [
+          "MediaService"
+        ]
+      }
+    },
+    "/v1/images/list": {
+      "post": {
+        "operationId": "MediaService_ListImages",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ListImagesRequest"
+              }
+            }
+          },
+          "description": "ListImagesRequest lists images associated with a business account group.\nReturns image associations with serving URLs for use in websites.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ListImagesPagedResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "List Images",
+        "tags": [
+          "MediaService"
+        ]
+      }
+    },
+    "/v1/images/logo": {
+      "post": {
+        "operationId": "MediaService_GetLogoImage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetLogoImageRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetLogoImageResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Get Logo Image",
+        "tags": [
+          "MediaService"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://prod.apigateway.co/grpc"
+    },
+    {
+      "description": "Demo",
+      "url": "https://demo.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "name": "MediaService"
+    }
+  ]
+}

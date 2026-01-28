@@ -13,8 +13,29 @@
           "includeDeleted": {
             "title": "Include soft-deleted images in results",
             "type": "boolean"
+          },
+          "tags": {
+            "items": {
+              "$ref": "#/components/schemas/accountgroupmediav1Tag"
+            },
+            "title": "Filter by tags (images must match ALL specified tags)",
+            "type": "array"
           }
         },
+        "type": "object"
+      },
+      "accountgroupmediav1Tag": {
+        "properties": {
+          "key": {
+            "title": "Tag key (e.g., \"source\", \"purpose\", \"session_id\")",
+            "type": "string"
+          },
+          "value": {
+            "title": "Tag value (e.g., \"ai-generated\", \"carousel\", UUID)",
+            "type": "string"
+          }
+        },
+        "title": "Tag is a key-value pair for categorizing and filtering images",
         "type": "object"
       },
       "protobufAny": {
@@ -56,6 +77,13 @@
           },
           "imageType": {
             "$ref": "#/components/schemas/v1ImageType"
+          },
+          "tags": {
+            "items": {
+              "$ref": "#/components/schemas/accountgroupmediav1Tag"
+            },
+            "title": "Tags for categorizing images (e.g., source=ai-generated, purpose=carousel)",
+            "type": "array"
           }
         },
         "title": "AssociateImageRequest associates an image id in the media service to an account group.\nUse image_id from the media upload service. The serving URL will be\nhttps://lh3.googleusercontent.com/{image_id}",
@@ -116,6 +144,13 @@
           },
           "imageType": {
             "$ref": "#/components/schemas/v1ImageType"
+          },
+          "tags": {
+            "items": {
+              "$ref": "#/components/schemas/accountgroupmediav1Tag"
+            },
+            "title": "Tags for categorizing and filtering images (e.g., source, purpose, session_id)",
+            "type": "array"
           }
         },
         "title": "ImageAssociation is the pairing of an image id to an account group id",

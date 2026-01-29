@@ -241,20 +241,6 @@
         },
         "type": "object"
       },
-      "v1AccountResult": {
-        "properties": {
-          "accountGroupId": {
-            "type": "string"
-          },
-          "error": {
-            "type": "string"
-          },
-          "success": {
-            "type": "boolean"
-          }
-        },
-        "type": "object"
-      },
       "v1AutoReviewResponseSettings": {
         "properties": {
           "autoResponseEnabled": {
@@ -346,15 +332,6 @@
           }
         },
         "type": "object"
-      },
-      "v1CommunicationChannel": {
-        "default": "COMMUNICATION_CHANNEL_UNSPECIFIED",
-        "enum": [
-          "COMMUNICATION_CHANNEL_UNSPECIFIED",
-          "COMMUNICATION_CHANNEL_EMAIL",
-          "COMMUNICATION_CHANNEL_SMS"
-        ],
-        "type": "string"
       },
       "v1ConciergeReviewResponse": {
         "properties": {
@@ -451,25 +428,6 @@
           "phone": {
             "description": "Customer’s phone number, if available.",
             "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "v1CreateBulkReputationAssistantSetupResponse": {
-        "properties": {
-          "results": {
-            "items": {
-              "$ref": "#/components/schemas/v1AccountResult"
-            },
-            "type": "array"
-          },
-          "totalFailed": {
-            "format": "int32",
-            "type": "integer"
-          },
-          "totalSucceeded": {
-            "format": "int32",
-            "type": "integer"
           }
         },
         "type": "object"
@@ -784,20 +742,12 @@
             "title": "Required. The IDs of the namespace(s) you wish to get metrics for. A namespace may be an account_group_id (AG-) or multi-location-group (G-)",
             "type": "array"
           },
-          "partnerId": {
-            "description": "Required. Partner ID of the namespaces provided in the request (e.g., \"ABC\").",
-            "type": "string"
-          },
           "sourceNames": {
             "description": "Optional. Filter by source platform. To filter multiple platforms, provide multiple elements in the array\nEach entry in this repeated field must be a single source name Example: [\"Google\", \"Yelp\", \"Facebook\"].",
             "items": {
               "type": "string"
             },
             "type": "array"
-          },
-          "splitGroupsIntoAccounts": {
-            "description": "Optional. Controls metric aggregation granularity for review data.\nWhen false (default): Returns aggregated metrics at the group level (e.g., for multi-location group G-12345).\nWhen true: Returns metrics split by individual account group IDs within the parent group, providing more detailed breakdowns.\nUse this when you need to analyze performance differences between individual locations or accounts within a larger organizational group.\nExample: A franchise with 10 locations would get 10 separate metric entries instead of 1 combined entry.",
-            "type": "boolean"
           }
         },
         "type": "object"
@@ -953,7 +903,6 @@
       "v1ImportNPSResponse": {
         "properties": {
           "netPromoterScoreId": {
-            "title": "The NPS record ID (starts with \"NPS-\")",
             "type": "string"
           }
         },
@@ -1011,11 +960,6 @@
             "description": "When set to true, parent NPS records (primary feedback marked is_parent=true and referenced by other NPS records via ParentNPSID) are excluded from the response. When set to false, the parent NPS records are included in the response.",
             "type": "boolean"
           },
-          "includeTriggeringActivityDetails": {
-            "default": "false",
-            "description": "When set to true, triggering_activity_details will be populated with CRM activity information for each NPS record. When set to false, triggering_activity_details will be empty.",
-            "type": "boolean"
-          },
           "pageSize": {
             "description": "Optional. Number of items to return per page.\nThis value must be less than or equal to 500.",
             "format": "int64",
@@ -1031,37 +975,16 @@
       "v1ListNetPromoterScoresRequestFilters": {
         "description": "Optional filtering criteria for narrowing NPS results.",
         "properties": {
-          "channel": {
-            "$ref": "#/components/schemas/v1CommunicationChannel"
-          },
-          "contactNames": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Optional. Filter NPS records by contact names using fuzzy text search.\nA contact is the CRM customer who received the service and submitted the NPS feedback.\nThis performs a case-insensitive search against the contact.name field.\nMultiple names can be provided to filter for records matching any of the specified contact names.\nexample: [\"Jane Smith\", \"Michael Johnson\", \"Sarah Davis\"]",
-            "type": "array"
-          },
           "fromDate": {
             "description": "Optional. Include NPS scores submitted on or after this timestamp (RFC3339 UTC, inclusive).",
             "format": "date-time",
             "type": "string"
-          },
-          "hasProviderAssociation": {
-            "description": "Optional. Filter NPS records based on whether they have associated providers.\nA provider is the employee or service provider who delivered the service to the contact.\nWhen true, returns only NPS records that have provider associations (populated provider_ids or providers fields).\nWhen false, returns only NPS records that do NOT have provider associations.\nWhen omitted/null, returns all NPS records regardless of provider association status.",
-            "type": "boolean"
           },
           "providerIds": {
             "items": {
               "type": "string"
             },
             "title": "This field filters NPS records by provider (employee) internal IAM user ID (starts with \"U-\") and not by provider name.\nNote: This identifies the employee/provider who provided the service, not the customer (contact) who submitted the NPS.\nAccepts IDs only; names are not supported.\nexample: [\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\", \"U-fa09664d-698d-4349-926f-147fb55e2a72\"]",
-            "type": "array"
-          },
-          "providerNames": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Optional. Filter NPS records by provider names using fuzzy text search.\nA provider is the employee or service provider who delivered the service to the customer.\nThis performs a case-insensitive search against the names in the providers field.\nMultiple names can be provided to filter for records matching any of the specified provider names.\nexample: [\"John Doe\", \"Sarah Johnson\", \"Mike Smith\"]",
             "type": "array"
           },
           "scoreCategory": {
@@ -1469,10 +1392,6 @@
             "description": "Unique identifier for the Net Promoter Score record starts with 'NPS-'.",
             "type": "string"
           },
-          "npsExternalId": {
-            "description": "External NPS identifier for imported NPS records.\nThis field stores the external identifier provided during NPS data migration through the ImportNPS API.\nIt is used for deduplication and reconciliation against the source system.",
-            "type": "string"
-          },
           "providerIds": {
             "items": {
               "type": "string"
@@ -1500,13 +1419,6 @@
             "description": "Timestamp when the NPS score was submitted by the customer (RFC3339 UTC).",
             "format": "date-time",
             "type": "string"
-          },
-          "triggeringActivityDetails": {
-            "description": "Details of the CRM activities that triggered this NPS request.\nThis field is populated only when:\n1) include_triggering_activity_details is set to true in the request, and\n2) the NPS request was triggered from a third-party integration that stored triggering_activity_ids in the NPS record.",
-            "items": {
-              "$ref": "#/components/schemas/v1TriggeringActivityDetail"
-            },
-            "type": "array"
           },
           "updated": {
             "description": "Timestamp when the record was last updated (RFC3339 UTC).",
@@ -1554,19 +1466,6 @@
             "format": "int32",
             "title": "The number of periods to wait before sending the review request",
             "type": "integer"
-          }
-        },
-        "type": "object"
-      },
-      "v1PromptConfiguration": {
-        "properties": {
-          "customPromptContent": {
-            "title": "Optional: Custom prompt content for overriding default",
-            "type": "string"
-          },
-          "goalId": {
-            "title": "Optional: Goal override target (defaults to GenerateReviewResponse)\nExample: \"GenerateReviewResponse\" or \"ChatWithReputationData\"",
-            "type": "string"
           }
         },
         "type": "object"
@@ -2562,34 +2461,6 @@
           "showStarRatingSummary": {
             "title": "Whether or not to show the average star rating",
             "type": "boolean"
-          }
-        },
-        "type": "object"
-      },
-      "v1TriggeringActivityDetail": {
-        "description": "Information about the CRM activity that triggered the NPS request.",
-        "properties": {
-          "standardActivitySourceName": {
-            "description": "Source name of the transaction/job e.g. (Neighborly, serviceTitan etc).",
-            "type": "string"
-          },
-          "systemActivityCreated": {
-            "description": "System creation timestamp of the activity.",
-            "format": "date-time",
-            "type": "string"
-          },
-          "systemActivityEffective": {
-            "description": "Timestamp of the job/transaction.",
-            "format": "date-time",
-            "type": "string"
-          },
-          "systemActivityExternalId": {
-            "description": "Job ID of the source system of the transaction.",
-            "type": "string"
-          },
-          "systemActivityId": {
-            "description": "Transaction ID from the source system.",
-            "type": "string"
           }
         },
         "type": "object"

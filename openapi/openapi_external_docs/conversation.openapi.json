@@ -1335,6 +1335,19 @@
         },
         "type": "object"
       },
+      "v1ListMessageAIThoughtsResponse": {
+        "properties": {
+          "thoughts": {
+            "items": {
+              "$ref": "#/components/schemas/v1MessageAIThought"
+            },
+            "title": "List of AI thinking chunks, ordered by sequence_number",
+            "type": "array"
+          }
+        },
+        "title": "Response containing all AI thinking chunks for a message",
+        "type": "object"
+      },
       "v1ListMessageTemplateResponse": {
         "properties": {
           "pagingMetadata": {
@@ -1522,6 +1535,49 @@
           }
         },
         "title": "Message represents a message of a conversation",
+        "type": "object"
+      },
+      "v1MessageAIThought": {
+        "description": "MessageAIThought represents a single AI thinking chunk stored as a child entity of Message.\nEach chunk is uniquely identified by message_id and sequence_number.\nThis allows thinking chunks to be fetched independently from the parent Message,\nreducing payload sizes for GetMultiMessages API calls.",
+        "properties": {
+          "chunkType": {
+            "title": "The type of AI thinking chunk (e.g. start, content, metadata, function, etc.)",
+            "type": "string"
+          },
+          "content": {
+            "title": "JSON serialized version of the chunk returned by the AI (may contain PII)",
+            "type": "string"
+          },
+          "created": {
+            "format": "date-time",
+            "title": "Timestamp when this chunk was created",
+            "type": "string"
+          },
+          "deleted": {
+            "format": "date-time",
+            "title": "Soft delete timestamp",
+            "type": "string"
+          },
+          "messageId": {
+            "title": "The parent message ID",
+            "type": "string"
+          },
+          "sequenceNumber": {
+            "format": "int32",
+            "title": "The sequence number of this thinking chunk in the order it was streamed",
+            "type": "integer"
+          },
+          "sizeBytes": {
+            "format": "int64",
+            "title": "Size of the content in bytes for monitoring purposes",
+            "type": "string"
+          },
+          "updated": {
+            "format": "date-time",
+            "title": "Timestamp when this chunk was last updated",
+            "type": "string"
+          }
+        },
         "type": "object"
       },
       "v1MessageStatus": {

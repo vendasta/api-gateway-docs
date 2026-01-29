@@ -1005,7 +1005,7 @@
             "items": {
               "type": "string"
             },
-            "title": "Optional. Filter NPS records by contact names using fuzzy text search.\nA contact is the CRM customer who received the service and submitted the NPS feedback.\nThis performs a case-insensitive search against the contact.name field.\nMultiple names can be provided to filter for records matching any of the specified contact names.\nexample: [\"Jane Smith\", \"Michael Johnson\", \"Sarah Davis\"]",
+            "title": "Optional. Filter NPS records by customer/contact names using fuzzy text search.\nThis performs a case-insensitive search against the contact.name field.\nMultiple names can be provided to filter for records matching any of the specified contact names.\nNote: This identifies the customer who provided the feedback, not the employee/provider who provided the service.\nexample: [\"Jane Smith\", \"Michael Johnson\", \"Sarah Davis\"]",
             "type": "array"
           },
           "fromDate": {
@@ -1013,8 +1013,8 @@
             "format": "date-time",
             "type": "string"
           },
-          "hasProviderAssociation": {
-            "description": "Optional. Filter NPS records based on whether they have associated providers.\nA provider is the employee or service provider who delivered the service to the contact.\nWhen true, returns only NPS records that have provider associations (populated provider_ids or providers fields).\nWhen false, returns only NPS records that do NOT have provider associations.\nWhen omitted/null, returns all NPS records regardless of provider association status.",
+          "hasEmployeeAssociation": {
+            "description": "Optional. Filter NPS records based on whether they have associated employees/providers.\nWhen true, returns only NPS records that have employee associations (populated provider_ids or providers fields).\nWhen false, returns only NPS records that do NOT have employee associations.\nWhen omitted/null, returns all NPS records regardless of employee association status.",
             "type": "boolean"
           },
           "providerIds": {
@@ -1028,7 +1028,7 @@
             "items": {
               "type": "string"
             },
-            "title": "Optional. Filter NPS records by provider names using fuzzy text search.\nA provider is the employee or service provider who delivered the service to the customer.\nThis performs a case-insensitive search against the names in the providers field.\nMultiple names can be provided to filter for records matching any of the specified provider names.\nexample: [\"John Doe\", \"Sarah Johnson\", \"Mike Smith\"]",
+            "title": "Optional. Filter NPS records by employee/provider names using fuzzy text search.\nThis performs a case-insensitive search against the names in the providers field.\nMultiple names can be provided to filter for records matching any of the specified provider names.\nNote: This identifies the employee/provider who provided the service, not the customer (contact) who submitted the NPS.\nexample: [\"John Doe\", \"Sarah Johnson\", \"Mike Smith\"]",
             "type": "array"
           },
           "scoreCategory": {

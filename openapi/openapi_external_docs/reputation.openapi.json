@@ -241,6 +241,20 @@
         },
         "type": "object"
       },
+      "v1AccountResult": {
+        "properties": {
+          "accountGroupId": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
       "v1AutoReviewResponseSettings": {
         "properties": {
           "autoResponseEnabled": {
@@ -437,6 +451,25 @@
           "phone": {
             "description": "Customer’s phone number, if available.",
             "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1CreateBulkReputationAssistantSetupResponse": {
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/v1AccountResult"
+            },
+            "type": "array"
+          },
+          "totalFailed": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "totalSucceeded": {
+            "format": "int32",
+            "type": "integer"
           }
         },
         "type": "object"
@@ -1521,6 +1554,19 @@
             "format": "int32",
             "title": "The number of periods to wait before sending the review request",
             "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "v1PromptConfiguration": {
+        "properties": {
+          "customPromptContent": {
+            "title": "Optional: Custom prompt content for overriding default",
+            "type": "string"
+          },
+          "goalId": {
+            "title": "Optional: Goal override target (defaults to GenerateReviewResponse)\nExample: \"GenerateReviewResponse\" or \"ChatWithReputationData\"",
+            "type": "string"
           }
         },
         "type": "object"

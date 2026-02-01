@@ -78,7 +78,6 @@ While the core schema is shared, namespaces differ in:
 | `companies`     | Organizations                 |
 | `activities`    | Tasks, meetings, calls, notes |
 | `customobjects` | User-defined objects          |
-| `accounts`      | Platform business accounts    |
 
 ### Endpoint patterns
 

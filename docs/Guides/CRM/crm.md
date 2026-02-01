@@ -136,8 +136,8 @@ The API supports various field types:
 | `string`                         | Text values            | `"John Doe"`              |
 | `integer`                        | Whole numbers          | `42`                      |
 | `boolean`                        | True/false             | `true`                    |
-| `date`                           | Date only              | `"2024-01-15"`            |
-| `date-time`                      | Date and time          | `"2024-01-15T14:30:00Z"`  |
+| `date`                           | Date only              | `"2026-01-15"`            |
+| `date-time`                      | Date and time          | `"2026-01-15T14:30:00Z"`  |
 | `email`                          | Email address          | `"user@example.com"`      |
 | `phone`                          | Phone number           | `"+1-555-123-4567"`       |
 | `currency`                       | Monetary value         | See currency format below |
@@ -164,6 +164,37 @@ The API supports various field types:
   "value": "49.8951,-97.1384"
 }
 ```
+
+## Data Integrity and Validation
+
+### Minimum required fields
+
+While the API allows flexibility for updates, creating a record requires at least one identifiable or descriptive field to be provided.
+
+| Resource Type | Minimum Requirements (At least one) |
+| :--- | :--- |
+| **Contacts** | `standard__first_name`, `standard__last_name`, OR `standard__email` |
+| **Companies** | `standard__company_name` |
+| **Activities** | `standard__activity_name` |
+| **Custom Objects**| `standard__customobject_name` |
+
+### Validation rules
+
+The API performs several levels of validation:
+
+1.  **Type Validation:** Values must match the schema type (e.g., you cannot send text for an `integer` field).
+2.  **Format Validation:**
+    *   **Dates:** Must be `YYYY-MM-DD` (ISO 8601).
+    *   **Date-Times:** Must be RFC 3339 format (e.g., `2026-01-15T14:30:00Z`).
+    *   **Emails:** Must be valid email formats.
+    *   **Phones:** Should follow E.164 format for best results.
+3.  **Dropdown Validation:** Values for dropdown fields must match one of the valid options returned by the **Get field options** endpoint.
+
+### Limitations
+
+-   **String Length:** Standard text fields typically have a 255-character limit unless otherwise specified in the schema.
+-   **Bulk Operations:** The upsert endpoint is optimized for individual or small-batch syncs. For high-volume imports, contact support for bulk ingestion options.
+-   **Rate Limits:** API usage is subject to rate limiting. Implement exponential backoff when receiving `429 Too Many Requests` responses.
 ---
 
 ## Upserting Records (Create + Update)
@@ -178,56 +209,59 @@ Upsert (`PATCH`) is the primary write operation. It creates a record if none is 
 
 `searchExisting` controls **record matching, de-duplication, and update targeting**.
 
-#### How matching works
+#### Priority-based Fallback Matching
 
-When multiple fields are provided in `searchExisting`, the system evaluates them **sequentially, not as a logical AND**:
+When multiple fields are provided in `searchExisting`, the system evaluates them **sequentially as a prioritized fallback list**, not as a combined logical AND.
 
-1. Fields are evaluated **in the order listed**.
-2. The system searches for an existing record matching the **first field**.
-3. If a match is found, that record is updated and the search stops.
-4. If no match is found, the system proceeds to the **next field**, and so on.
-5. If none of the fields match, a **new record is created**.
+1.  **Sequential Evaluation:** The system searches for an existing record matching the **first field** in your list.
+2.  **Short-circuiting:** If a match is found, that record is selected for update, and the search **stops immediately**.
+3.  **Fallback:** If no match is found for the first field, the system proceeds to search for the **next field**, and so on.
+4.  **Creation:** If none of the fields result in a match, a **new record is created**.
 
-**Effectively:** `searchExisting` behaves like a **logical OR with priority order**. The *first match wins*.
+**Key takeaway:** This allows you to "stitch" records together safely by providing multiple unique identifiers in order of preference (e.g., *“Try my internal ID first, fall back to email if not found”*).
 
-This allows you to "stitch" records together safely (for example: *try external ID first, fall back to email*).
-
-#### Field requirements
+#### Field Requirements
 
 - Any field listed in `searchExisting` **must also appear in the** `fields` **array** with a value.
-- Fields not present in `fields` are ignored during matching.
+- The system cannot search for a field if you aren't providing a value for it in the same request.
+- Fields listed in `searchExisting` that are missing from the `fields` array are ignored.
 
-#### Automatic default fields
+#### Automatic Default Fallbacks (The "Safety Net")
 
-If you do not include system defaults, the API appends them **after your provided fields**:
+If you provide data for a default identifier in your `fields` list but omit it from `searchExisting`, the API **automatically appends it to the end** of your search chain as a fallback.
 
-- **Contacts:** `standard__email`
-- **Companies:** `external_id`, `standard__company_name`
-- **Custom objects:** `external_id`, `standard__customobject_name`
+**Crucially:** A field can only be used for searching if you have provided a value for it in the `fields` array. You cannot search for data you haven't provided.
 
-The final evaluation order is:
+| Resource Type | Default Identifiers |
+| :--- | :--- |
+| **Contacts** | `standard__email` |
+| **Companies** | `external_id`, `standard__company_name` |
+| **Custom Objects** | `external_id`, `standard__customobject_name` |
 
-1. Your provided `searchExisting` fields (in order)
-2. System default fields (appended)
+**Final Logic Flow:**
+1. Collect your `searchExisting` list.
+2. Add the system defaults to the end of that list.
+3. **Filter out** any field in that list that is missing from your `fields` data.
+4. Execute searches sequentially with the remaining fields.
 
-#### Practical example
+
+#### Practical Example
 
 If you send:
 
 ```json 
 {
   "fields": [
-    { "id": "external_id", "value": "12345" },
+    { "id": "external_id", "value": "ID-999" },
     { "id": "standard__email", "value": "user@example.com" }
   ],
   "searchExisting": ["external_id", "standard__email"]
 }
 ```
-The system will:
-
-1. Search by `external_id = 12345`
-2. If not found, search by `standard__email = user@example.com`
-3. If still not found, create a new record
+The search logic is:
+1.  `WHERE external_id = "ID-999"`
+2.  `OR WHERE standard__email = "jane@example.com"` (only if #1 failed)
+3.  Create new record (only if #1 and #2 failed)
 
 #### Merge strategies
 
@@ -301,13 +335,16 @@ Pagination is cursor-based and required for large datasets.
 
 **Endpoint:** `DELETE /{namespace}/{resourceTypeCode}/{id}`
 
-### ID rules
+### ID support
 
-- `{id}` refers to the **record identifier**, not a field ID
-- Use the system ID (e.g., `CON-123`) or a supported external ID value
-- Field schemas indicate which identifiers are accepted
+The `{id}` parameter in the URL is flexible and supports multiple identifier types:
 
-**Important:** Deletes are permanent and cannot be recovered.
+1.  **System ID:** The internal Vendasta identifier (e.g., `CON-123`, `COM-456`).
+2.  **External ID:** Any `external_id` you have previously assigned to the record.
+
+The API performs a lookup using the provided ID. If a unique match is found, the record is permanently deleted.
+
+**Important:** Deletes are permanent and cannot be recovered. Ensure you have the correct identifier before executing this call.
 
 ---
 
@@ -463,7 +500,7 @@ Link activities to contacts and/or companies:
     },
     {
       "id": "standard__task_due_date",
-      "value": "2024-12-31T17:00:00Z",
+      "value": "2026-12-31T17:00:00Z",
       "operation": "always_overwrite"
     }
   ],
@@ -516,11 +553,14 @@ Link custom objects to standard objects:
 
 ## Custom Fields and Custom Objects
 
-Custom fields extend standard objects. Custom objects define entirely new record types.
+Custom fields extend standard objects, while custom objects allow you to define entirely new record types tailored to your domain.
 
-- Custom fields appear in schema after creation
-- Custom objects behave like first-class resources
-- Both support associations, search, list, and external IDs
+### Lifecycle and management
+
+*   **Creation:** Custom objects and fields are created and configured via the **Partner Center** or **Business App** admin interfaces. They cannot be created dynamically via this API.
+*   **Discovery:** Once created, they appear immediately in the **Get field schema** response for that namespace.
+*   **Searching:** Custom fields can be used in `searchExisting` for upserts and as filters in `list` requests.
+*   **External IDs:** Just like standard objects, custom objects support `external_id` (via `system__customobject_external_id`) which should be used as the anchor for sync operations.
 
 ---
 
@@ -619,14 +659,3 @@ Override source fields intentionally when:
 Use merge strategies appropriately:
 * **Original source:** `overwrite_if_empty`
 * **Record source:** `always_overwrite`
-
----
-
-## Error Handling
-
-Errors return a consistent structure:
-
-```json
-{ "error": "Detailed error message" }
-```
-Validate namespaces, resource types, field IDs, and authentication tokens when errors occur.

@@ -236,6 +236,28 @@
         },
         "type": "object"
       },
+      "v1AIMode": {
+        "default": "AI_MODE_UNSET",
+        "enum": [
+          "AI_MODE_UNSET",
+          "AI_MODE_FAST",
+          "AI_MODE_THINKING",
+          "AI_MODE_DEEP_RESEARCH"
+        ],
+        "type": "string"
+      },
+      "v1AIStatus": {
+        "default": "AI_INVALID",
+        "enum": [
+          "AI_INVALID",
+          "AI_RECEIVED",
+          "AI_THINKING",
+          "AI_THOUGHT",
+          "AI_CANCELLED",
+          "AI_ERROR"
+        ],
+        "type": "string"
+      },
       "v1AISystemMessage": {
         "properties": {
           "iamUserId": {
@@ -368,6 +390,10 @@
         "properties": {
           "aiConfiguration": {
             "$ref": "#/components/schemas/v1ConfigurationAIConfiguration"
+          },
+          "aiEmailEnabled": {
+            "title": "Determines if ai email capabilities are available for the organization referred to by subject_participant",
+            "type": "boolean"
           },
           "aiVoiceEnabled": {
             "title": "Determines if ai voice capabilities are available for the organization referred to by subject_participant",
@@ -545,7 +571,8 @@
           "CONVERSATION_CHANNEL_WEB_CHAT",
           "CONVERSATION_CHANNEL_INSTAGRAM",
           "CONVERSATION_CHANNEL_WHATSAPP",
-          "CONVERSATION_CHANNEL_AI_ASSISTANT"
+          "CONVERSATION_CHANNEL_AI_ASSISTANT",
+          "CONVERSATION_CHANNEL_GOOGLE_CHAT"
         ],
         "type": "string"
       },
@@ -1416,6 +1443,9 @@
       },
       "v1Message": {
         "properties": {
+          "aiStatus": {
+            "$ref": "#/components/schemas/v1AIStatus"
+          },
           "aiThinkingDuration": {
             "description": "Duration of AI thinking before final response.",
             "type": "string"
@@ -1756,6 +1786,10 @@
       },
       "v1ProductFeature": {
         "properties": {
+          "aiEmailEnabled": {
+            "title": "Determines if ai email capabilities are available for the organization referred to by subject_participant",
+            "type": "boolean"
+          },
           "aiSmsResponderEnabled": {
             "title": "Determines if ai sms responder is available for the organization referred to by subject_participant",
             "type": "boolean"
@@ -1864,6 +1898,9 @@
       },
       "v1SendMessageOptions": {
         "properties": {
+          "aiMode": {
+            "$ref": "#/components/schemas/v1AIMode"
+          },
           "runSync": {
             "title": "option to run sendMessage synchronously",
             "type": "boolean"

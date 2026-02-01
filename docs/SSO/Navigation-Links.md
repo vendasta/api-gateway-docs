@@ -11,7 +11,7 @@ that will send users to pages in the Vendasta platform and marketplace products.
 >
 > Business App edit business profile-> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=VBC&path=%2Faccount%2Flocation%2F%7B%7BaccountId%7D%7D%2Fsettings%2Fprofile&account_id=AG-1234567`
 >
-> Reputation Management -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=RM&&account_id=AG-1234567`
+> Reputation AI -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=RM&&account_id=AG-1234567`
 >
 > Local SEO -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=MS&account_id=AG-1234567`
 >

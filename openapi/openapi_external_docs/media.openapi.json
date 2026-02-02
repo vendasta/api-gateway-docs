@@ -377,7 +377,7 @@
             "type": "string"
           },
           "paging": {
-            "$ref": "#/components/schemas/v3PagedRequestOptions"
+            "$ref": "#/components/schemas/vendastatypesPagedRequestOptions"
           }
         },
         "title": "ListFilesRequest is used to list files with optional filtering",
@@ -393,28 +393,27 @@
             "type": "array"
           },
           "paging": {
-            "$ref": "#/components/schemas/v3PagedResponseMetadata"
+            "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
           }
         },
         "title": "ListFilesResponse contains the list of files matching the request",
         "type": "object"
       },
-      "v3PagedRequestOptions": {
+      "vendastatypesPagedRequestOptions": {
         "properties": {
           "cursor": {
-            "title": "Cursor can be passed to retrieve the next page of results",
+            "title": "cursor can be passed to retrieve the next page of results keyed by the cursor",
             "type": "string"
           },
           "pageSize": {
-            "format": "int32",
-            "title": "Page size specifies the number of items to return (default: 100, max: 1000)",
-            "type": "integer"
+            "format": "int64",
+            "title": "page_size specifies the number of items to return in the next page",
+            "type": "string"
           }
         },
-        "title": "Cursor and page size for paging requests",
         "type": "object"
       },
-      "v3PagedResponseMetadata": {
+      "vendastatypesPagedResponseMetadata": {
         "properties": {
           "hasMore": {
             "title": "Whether or not more results exist",
@@ -426,11 +425,10 @@
           },
           "totalResults": {
             "format": "int64",
-            "title": "Total number of results (may be approximate for large datasets)",
+            "title": "The total number of results. This is not supported on all paged apis and will be 0 if it is not supported",
             "type": "string"
           }
         },
-        "title": "Metadata related to the paged response from a List request",
         "type": "object"
       }
     },

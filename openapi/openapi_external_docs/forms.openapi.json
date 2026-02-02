@@ -1,0 +1,1560 @@
+{
+  "components": {
+    "schemas": {
+      "FormConfigField": {
+        "properties": {
+          "defaultPhoneIsoCountryCode": {
+            "type": "string"
+          },
+          "defaultValue": {
+            "$ref": "#/components/schemas/v1FieldValue"
+          },
+          "hidden": {
+            "type": "boolean"
+          },
+          "label": {
+            "type": "string"
+          },
+          "placeholder": {
+            "type": "string"
+          },
+          "preFillByUrlQueryParameter": {
+            "description": "When displaying the form, pre-fill it with the value in this query\nparameter. For example, you could fill out a hidden field with the\nutm_medium and utm_campaign, so you know how people landed on your page\nbefore filling out the form.",
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "schema": {
+            "$ref": "#/components/schemas/FormConfigFieldSchema"
+          },
+          "sectionConfig": {
+            "$ref": "#/components/schemas/v1SectionConfig"
+          }
+        },
+        "type": "object"
+      },
+      "FormConfigFieldSchema": {
+        "properties": {
+          "mappedField": {
+            "$ref": "#/components/schemas/v1MappedField"
+          },
+          "unmappedField": {
+            "$ref": "#/components/schemas/v1UnmappedField"
+          }
+        },
+        "type": "object"
+      },
+      "FormConfigTemplateSetupSettings": {
+        "properties": {
+          "automationIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "FormSubmissionProcessResult": {
+        "properties": {
+          "entityIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "entities that have been processed as a result of form submission",
+            "type": "array"
+          },
+          "errors": {
+            "items": {
+              "$ref": "#/components/schemas/FormSubmissionResultError"
+            },
+            "title": "errors that may have happened in one of the processing steps of a form submission",
+            "type": "array"
+          },
+          "status": {
+            "$ref": "#/components/schemas/v1FormSubmissionProcessResultStatus"
+          }
+        },
+        "type": "object"
+      },
+      "FormSubmissionProcessResultErrorType": {
+        "default": "PROCESS_RESULT_ERROR_TYPE_UNSPECIFIED",
+        "enum": [
+          "PROCESS_RESULT_ERROR_TYPE_UNSPECIFIED",
+          "PROCESS_RESULT_ERROR_TYPE_NOT_FOUND",
+          "PROCESS_RESULT_ERROR_TYPE_ALREADY_EXISTS",
+          "PROCESS_RESULT_ERROR_TYPE_INVALID_ARGUMENT"
+        ],
+        "type": "string"
+      },
+      "FormSubmissionResultError": {
+        "properties": {
+          "errorType": {
+            "$ref": "#/components/schemas/FormSubmissionProcessResultErrorType"
+          },
+          "stepId": {
+            "title": "step from processing that failed",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "FormSubmissionSubmittedValue": {
+        "properties": {
+          "fieldId": {
+            "type": "string"
+          },
+          "fieldType": {
+            "$ref": "#/components/schemas/v1FieldType"
+          },
+          "fieldValue": {
+            "$ref": "#/components/schemas/v1FieldValue"
+          },
+          "mappedToResource": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "GetMultiFormVersionsListResponseVersions": {
+        "properties": {
+          "formId": {
+            "type": "string"
+          },
+          "versions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "GetMultiRequestFormConfigIdentifier": {
+        "properties": {
+          "formId": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ListFormsRequestFilters": {
+        "properties": {
+          "namespace": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ListFormsResponseFormRow": {
+        "properties": {
+          "form": {
+            "$ref": "#/components/schemas/v1FormConfig"
+          },
+          "numberOfSubmissions": {
+            "format": "int64",
+            "type": "string"
+          },
+          "recentProcessingStatus": {
+            "$ref": "#/components/schemas/v1ListFormsResponseProcessResultStatus"
+          }
+        },
+        "type": "object"
+      },
+      "RenderFormResponseDefaultValues": {
+        "properties": {
+          "fieldId": {
+            "type": "string"
+          },
+          "jsonValue": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "RenderFormResponsePreFillByUrlQueryParameter": {
+        "properties": {
+          "fieldId": {
+            "type": "string"
+          },
+          "queryParam": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "rpcStatus": {
+        "properties": {
+          "code": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            },
+            "type": "array"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ActionParameters": {
+        "properties": {
+          "nextParameters": {
+            "$ref": "#/components/schemas/v1NextParameters"
+          },
+          "submitConditionParams": {
+            "$ref": "#/components/schemas/v1SubmitConditionParameters"
+          }
+        },
+        "type": "object"
+      },
+      "v1CreateFormFromTemplateResponse": {
+        "properties": {
+          "workflowId": {
+            "title": "The workflow ID to track the form creation process",
+            "type": "string"
+          }
+        },
+        "title": "Response for creating a form from template",
+        "type": "object"
+      },
+      "v1CreateFormRequest": {
+        "properties": {
+          "formConfig": {
+            "$ref": "#/components/schemas/v1FormConfig"
+          }
+        },
+        "title": "CreateFormRequest - new form request",
+        "type": "object"
+      },
+      "v1CreateFormResponse": {
+        "properties": {
+          "errors": {
+            "items": {
+              "$ref": "#/components/schemas/v1ValidationError"
+            },
+            "type": "array"
+          },
+          "formId": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        },
+        "title": "CreateFormResponse - returns the newly generated form_id and version",
+        "type": "object"
+      },
+      "v1CreateFormSubmissionResponse": {
+        "properties": {
+          "redirectUrl": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1DateDefault": {
+        "default": "DATE_DEFAULT_INVALID",
+        "enum": [
+          "DATE_DEFAULT_INVALID",
+          "DATE_DEFAULT_TODAY",
+          "DATE_DEFAULT_YESTERDAY",
+          "DATE_DEFAULT_TOMORROW",
+          "DATE_DEFAULT_THIS_WEEK",
+          "DATE_DEFAULT_LAST_WEEK",
+          "DATE_DEFAULT_NEXT_WEEK",
+          "DATE_DEFAULT_THIS_MONTH",
+          "DATE_DEFAULT_LAST_MONTH",
+          "DATE_DEFAULT_NEXT_MONTH",
+          "DATE_DEFAULT_THIS_QUARTER",
+          "DATE_DEFAULT_LAST_QUARTER",
+          "DATE_DEFAULT_NEXT_QUARTER",
+          "DATE_DEFAULT_THIS_YEAR",
+          "DATE_DEFAULT_LAST_YEAR",
+          "DATE_DEFAULT_NEXT_YEAR"
+        ],
+        "type": "string"
+      },
+      "v1FieldOption": {
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1FieldType": {
+        "default": "FIELD_TYPE_INVALID",
+        "enum": [
+          "FIELD_TYPE_INVALID",
+          "FIELD_TYPE_STRING",
+          "FIELD_TYPE_INTEGER",
+          "FIELD_TYPE_DATE",
+          "FIELD_TYPE_DROPDOWN",
+          "FIELD_TYPE_CURRENCY",
+          "FIELD_TYPE_BOOLEAN",
+          "FIELD_TYPE_RADIO",
+          "FIELD_TYPE_RICH_TEXT_ELEMENT",
+          "FIELD_TYPE_EMAIL",
+          "FIELD_TYPE_PHONE",
+          "FIELD_TYPE_BUSINESS_SEARCH",
+          "FIELD_TYPE_TEXT_AREA",
+          "FIELD_TYPE_TAG",
+          "FIELD_TYPE_SECTION",
+          "FIELD_TYPE_FILE"
+        ],
+        "type": "string"
+      },
+      "v1FieldValue": {
+        "properties": {
+          "boolean": {
+            "title": "used for boolean",
+            "type": "boolean"
+          },
+          "integer": {
+            "format": "int64",
+            "title": "used for integer and currency",
+            "type": "string"
+          },
+          "invalid": {
+            "type": "boolean"
+          },
+          "string": {
+            "title": "used for string, date, dropdown and radio",
+            "type": "string"
+          },
+          "stringValues": {
+            "$ref": "#/components/schemas/v1StringList"
+          }
+        },
+        "type": "object"
+      },
+      "v1Filter": {
+        "properties": {
+          "fieldId": {
+            "type": "string"
+          },
+          "floatTolerance": {
+            "format": "float",
+            "type": "number"
+          },
+          "operator": {
+            "$ref": "#/components/schemas/v1FilterOperator"
+          },
+          "values": {
+            "items": {
+              "$ref": "#/components/schemas/v1FilterValue"
+            },
+            "title": "This is repeated to support operations that take zero or more than one value.\nFor example\n   isEmpty()\n   isAnyOf(a, b, c)\n   isBetween(date1, date2)",
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1FilterGroup": {
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/v1Filter"
+            },
+            "type": "array"
+          },
+          "operator": {
+            "$ref": "#/components/schemas/v1FilterGroupOperator"
+          }
+        },
+        "type": "object"
+      },
+      "v1FilterGroupOperator": {
+        "default": "FILTER_GROUP_OPERATOR_INVALID",
+        "enum": [
+          "FILTER_GROUP_OPERATOR_INVALID",
+          "FILTER_GROUP_OPERATOR_AND",
+          "FILTER_GROUP_OPERATOR_OR"
+        ],
+        "type": "string"
+      },
+      "v1FilterOperator": {
+        "default": "FILTER_OPERATOR_INVALID",
+        "enum": [
+          "FILTER_OPERATOR_INVALID",
+          "FILTER_OPERATOR_IS_EMPTY",
+          "FILTER_OPERATOR_IS_NOT_EMPTY",
+          "FILTER_OPERATOR_IS",
+          "FILTER_OPERATOR_IS_NOT",
+          "FILTER_OPERATOR_IS_ANY",
+          "FILTER_OPERATOR_IS_NOT_ANY",
+          "FILTER_OPERATOR_IS_ALL",
+          "FILTER_OPERATOR_IS_NOT_ALL",
+          "FILTER_OPERATOR_CONTAINS",
+          "FILTER_OPERATOR_DOES_NOT_CONTAIN",
+          "FILTER_OPERATOR_IS_EQUAL_TO",
+          "FILTER_OPERATOR_IS_NOT_EQUAL_TO",
+          "FILTER_OPERATOR_IS_GREATER_THAN",
+          "FILTER_OPERATOR_IS_GREATER_THAN_OR_EQUAL_TO",
+          "FILTER_OPERATOR_IS_LESS_THAN",
+          "FILTER_OPERATOR_IS_LESS_THAN_OR_EQUAL_TO",
+          "FILTER_OPERATOR_IS_BEFORE",
+          "FILTER_OPERATOR_IS_BEFORE_OR_ON",
+          "FILTER_OPERATOR_IS_AFTER",
+          "FILTER_OPERATOR_IS_AFTER_OR_ON",
+          "FILTER_OPERATOR_IS_BETWEEN",
+          "FILTER_OPERATOR_IS_NOT_BETWEEN",
+          "FILTER_OPERATOR_IS_VALID",
+          "FILTER_OPERATOR_IS_NOT_VALID"
+        ],
+        "type": "string"
+      },
+      "v1FilterValue": {
+        "properties": {
+          "boolean": {
+            "type": "boolean"
+          },
+          "date": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "dateDefault": {
+            "$ref": "#/components/schemas/v1DateDefault"
+          },
+          "float": {
+            "format": "float",
+            "type": "number"
+          },
+          "integer": {
+            "format": "int64",
+            "type": "string"
+          },
+          "phone": {
+            "$ref": "#/components/schemas/v1Phone"
+          },
+          "string": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1FormConfig": {
+        "description": "Information about a form needed to display it on a partner's website,\nto validate submissions to that form, or\nshow it in the form-builder for modification.",
+        "properties": {
+          "createInboxConversation": {
+            "title": "On form submission, create a conversation in the inbox or associate submission with an existing conversation",
+            "type": "boolean"
+          },
+          "created": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "description": {
+            "title": "short description for the purpose of a form",
+            "type": "string"
+          },
+          "fields": {
+            "items": {
+              "$ref": "#/components/schemas/FormConfigField"
+            },
+            "type": "array"
+          },
+          "formId": {
+            "type": "string"
+          },
+          "formType": {
+            "title": "the type of the form, 'template' string is special\nand makes the form a template",
+            "type": "string"
+          },
+          "mostRecent": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "namespace": {
+            "title": "namespace basically tells who owns this form",
+            "type": "string"
+          },
+          "recaptchaSecretKey": {
+            "description": "This will be redacted but non-empty when retrieving an existing form.\nAn empty value indicates the form was created before we started\nadding recaptcha, and a value must be provided in order to update the form.",
+            "type": "string"
+          },
+          "recaptchaSiteKey": {
+            "type": "string"
+          },
+          "redirectUrl": {
+            "type": "string"
+          },
+          "styles": {
+            "$ref": "#/components/schemas/v1Styles"
+          },
+          "submitButtonLabel": {
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "tags used to categorize forms",
+            "type": "array"
+          },
+          "templateSetupSettings": {
+            "$ref": "#/components/schemas/FormConfigTemplateSetupSettings"
+          },
+          "updated": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1FormCreationStatus": {
+        "default": "FORM_CREATION_STATUS_UNSPECIFIED",
+        "enum": [
+          "FORM_CREATION_STATUS_UNSPECIFIED",
+          "FORM_CREATION_STATUS_IN_PROGRESS",
+          "FORM_CREATION_STATUS_COMPLETED",
+          "FORM_CREATION_STATUS_FAILED"
+        ],
+        "title": "Status of form creation workflow",
+        "type": "string"
+      },
+      "v1FormSubmission": {
+        "properties": {
+          "created": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "formSubmissionId": {
+            "type": "string"
+          },
+          "formVersion": {
+            "type": "string"
+          },
+          "processResult": {
+            "$ref": "#/components/schemas/FormSubmissionProcessResult"
+          },
+          "values": {
+            "items": {
+              "$ref": "#/components/schemas/FormSubmissionSubmittedValue"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1FormSubmissionProcessResultStatus": {
+        "default": "PROCESS_RESULT_STATUS_UNSPECIFIED",
+        "enum": [
+          "PROCESS_RESULT_STATUS_UNSPECIFIED",
+          "PROCESS_RESULT_STATUS_IN_PROGRESS",
+          "PROCESS_RESULT_STATUS_COMPLETED",
+          "PROCESS_RESULT_STATUS_COMPLETED_WITH_WARNINGS",
+          "PROCESS_RESULT_STATUS_FAILED"
+        ],
+        "type": "string"
+      },
+      "v1GenerateCustomCSSRequest": {
+        "properties": {
+          "currentCss": {
+            "$ref": "#/components/schemas/v1Styles"
+          },
+          "formId": {
+            "type": "string"
+          },
+          "htmlTemplate": {
+            "type": "string"
+          },
+          "imageUrls": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GenerateCustomCSSResponse": {
+        "properties": {
+          "generatedCss": {
+            "$ref": "#/components/schemas/v1Styles"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetCreateFormFromTemplateStatusResponse": {
+        "properties": {
+          "errorMessage": {
+            "title": "Any error message if the workflow failed",
+            "type": "string"
+          },
+          "formId": {
+            "title": "The form ID if creation is complete",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/v1FormCreationStatus"
+          }
+        },
+        "title": "Response for form creation status",
+        "type": "object"
+      },
+      "v1GetEmbedCodeRequest": {
+        "properties": {
+          "formId": {
+            "title": "form unique identifier",
+            "type": "string"
+          }
+        },
+        "title": "Request to fetch an embed code of a custom form",
+        "type": "object"
+      },
+      "v1GetEmbedCodeResponse": {
+        "properties": {
+          "embedCode": {
+            "title": "Form's HTML embed code",
+            "type": "string"
+          }
+        },
+        "title": "Response for a embed form code",
+        "type": "object"
+      },
+      "v1GetFormRequest": {
+        "properties": {
+          "formId": {
+            "title": "form unique identifier",
+            "type": "string"
+          }
+        },
+        "title": "Request to load style, schema and UI config",
+        "type": "object"
+      },
+      "v1GetFormResponse": {
+        "properties": {
+          "formConfig": {
+            "$ref": "#/components/schemas/v1FormConfig"
+          }
+        },
+        "title": "returns the most recent version of FormConfig for a specific form_id",
+        "type": "object"
+      },
+      "v1GetMultiFormSubmissionResponse": {
+        "properties": {
+          "submissions": {
+            "items": {
+              "$ref": "#/components/schemas/v1FormSubmission"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetMultiFormVersionsListResponse": {
+        "properties": {
+          "versions": {
+            "items": {
+              "$ref": "#/components/schemas/GetMultiFormVersionsListResponseVersions"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetMultiResponse": {
+        "properties": {
+          "formConfigs": {
+            "items": {
+              "$ref": "#/components/schemas/v1FormConfig"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1JsonSchemaLibrary": {
+        "default": "JSON_SCHEMA_LIBRARY_UNDEFINED",
+        "enum": [
+          "JSON_SCHEMA_LIBRARY_UNDEFINED",
+          "JSON_SCHEMA_LIBRARY_JSONFORM"
+        ],
+        "title": "- JSON_SCHEMA_LIBRARY_JSONFORM: JSONFORMS, ALPACA",
+        "type": "string"
+      },
+      "v1ListFormSubmissionResponse": {
+        "properties": {
+          "pagingMetadata": {
+            "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
+          },
+          "submissions": {
+            "items": {
+              "$ref": "#/components/schemas/v1FormSubmission"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListFormsRequest": {
+        "properties": {
+          "filters": {
+            "$ref": "#/components/schemas/ListFormsRequestFilters"
+          },
+          "filtersV2": {
+            "$ref": "#/components/schemas/v1FilterGroup"
+          },
+          "pagingOptions": {
+            "$ref": "#/components/schemas/vendastatypesPagedRequestOptions"
+          },
+          "searchTerm": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListFormsResponse": {
+        "properties": {
+          "formRows": {
+            "items": {
+              "$ref": "#/components/schemas/ListFormsResponseFormRow"
+            },
+            "type": "array"
+          },
+          "pagingMetadata": {
+            "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListFormsResponseProcessResultStatus": {
+        "default": "PROCESS_RESULT_STATUS_UNSPECIFIED",
+        "enum": [
+          "PROCESS_RESULT_STATUS_UNSPECIFIED",
+          "PROCESS_RESULT_STATUS_IN_PROGRESS",
+          "PROCESS_RESULT_STATUS_COMPLETED",
+          "PROCESS_RESULT_STATUS_COMPLETED_WITH_WARNINGS",
+          "PROCESS_RESULT_STATUS_FAILED"
+        ],
+        "type": "string"
+      },
+      "v1ListMappedFieldSchemaRequest": {
+        "properties": {
+          "crmObjectSubtype": {
+            "type": "string"
+          },
+          "crmObjectType": {
+            "title": "dont tie this to crm",
+            "type": "string"
+          },
+          "locale": {
+            "title": "locale of the user such as \"af\", \"cs\", \"de\", \"en\", \"es-419\", \"fr\", \"it\", \"nl\", \"pt\", \"ru\"",
+            "type": "string"
+          },
+          "mappedToResource": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "pagingOptions": {
+            "$ref": "#/components/schemas/vendastatypesPagedRequestOptions"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListMappedFieldSchemaResponse": {
+        "properties": {
+          "fieldSchemas": {
+            "items": {
+              "$ref": "#/components/schemas/v1MappedField"
+            },
+            "type": "array"
+          },
+          "pagingMetadata": {
+            "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
+          }
+        },
+        "type": "object"
+      },
+      "v1MappedField": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "mappedTo": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/v1FieldOption"
+            },
+            "type": "array"
+          },
+          "readonly": {
+            "type": "boolean"
+          },
+          "systemDefined": {
+            "$ref": "#/components/schemas/v1SystemDefined"
+          },
+          "type": {
+            "$ref": "#/components/schemas/v1FieldType"
+          }
+        },
+        "type": "object"
+      },
+      "v1NextParameters": {
+        "properties": {
+          "nextSectionId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Phone": {
+        "properties": {
+          "extension": {
+            "type": "string"
+          },
+          "isoCountryCode": {
+            "title": "ISO country code is the 2 or 3 letter code for the country, example 'CA' for Canada",
+            "type": "string"
+          },
+          "nationalNumber": {
+            "type": "string"
+          }
+        },
+        "title": "This follows the E164 international standard specification for phone numbers",
+        "type": "object"
+      },
+      "v1PreviewFormResponse": {
+        "properties": {
+          "jsonSchema": {
+            "type": "string"
+          },
+          "jsonUiSchema": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1RecoverFormResponse": {
+        "properties": {
+          "formId": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        },
+        "title": "RecoverFormResponse - last version of the form recovered (if any)",
+        "type": "object"
+      },
+      "v1RenderFormResponse": {
+        "properties": {
+          "defaultValues": {
+            "items": {
+              "$ref": "#/components/schemas/RenderFormResponseDefaultValues"
+            },
+            "type": "array"
+          },
+          "fieldQueryParams": {
+            "items": {
+              "$ref": "#/components/schemas/RenderFormResponsePreFillByUrlQueryParameter"
+            },
+            "type": "array"
+          },
+          "jsonSchema": {
+            "type": "string"
+          },
+          "jsonUiSchema": {
+            "type": "string"
+          },
+          "recaptchaSiteKey": {
+            "type": "string"
+          },
+          "styles": {
+            "$ref": "#/components/schemas/v1Styles"
+          }
+        },
+        "type": "object"
+      },
+      "v1ReprocessStatus": {
+        "default": "REPROCESS_STATUS_UNSPECIFIED",
+        "enum": [
+          "REPROCESS_STATUS_UNSPECIFIED",
+          "STARTED",
+          "ALREADY_RUNNING",
+          "NO_MAPPABLE_FIELDS"
+        ],
+        "title": "- STARTED: New Temporal workflow started\n - ALREADY_RUNNING: A workflow is already in-flight for this submission\n - NO_MAPPABLE_FIELDS: Nothing to process after schema filtering",
+        "type": "string"
+      },
+      "v1ReprocessSubmissionResponse": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/v1ReprocessStatus"
+          }
+        },
+        "type": "object"
+      },
+      "v1SectionAction": {
+        "default": "SECTION_ACTION_UNDEFINED",
+        "enum": [
+          "SECTION_ACTION_UNDEFINED",
+          "SECTION_ACTION_SUBMIT",
+          "SECTION_ACTION_SUBMIT_CONDITION",
+          "SECTION_ACTION_NEXT_PAGE",
+          "SECTION_ACTION_NEXT_APPEND"
+        ],
+        "type": "string"
+      },
+      "v1SectionConfig": {
+        "properties": {
+          "actionParameters": {
+            "$ref": "#/components/schemas/v1ActionParameters"
+          },
+          "buttonAction": {
+            "$ref": "#/components/schemas/v1SectionAction"
+          },
+          "buttonLabel": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1StringList": {
+        "properties": {
+          "values": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1Styles": {
+        "properties": {
+          "backgroundColor": {
+            "type": "string"
+          },
+          "borderColor": {
+            "type": "string"
+          },
+          "borderRadius": {
+            "type": "string"
+          },
+          "borderStyle": {
+            "type": "string"
+          },
+          "borderWidth": {
+            "type": "string"
+          },
+          "customCss": {
+            "title": "allow more specific customizations by the user",
+            "type": "string"
+          },
+          "onPrimaryColor": {
+            "title": "text on primary buttons, checkmarks in checkboxes, etc",
+            "type": "string"
+          },
+          "padding": {
+            "type": "string"
+          },
+          "primaryColor": {
+            "title": "These follow the naming of Material and Bootstrap, with primary, secondary, warning...\nbackgrounds of primary button, checkboxes, etc",
+            "type": "string"
+          },
+          "primaryFontColor": {
+            "title": "in material, this would be the \"on background\" color",
+            "type": "string"
+          },
+          "width": {
+            "type": "string"
+          }
+        },
+        "title": "CSS style linked to a form",
+        "type": "object"
+      },
+      "v1SubmitConditionParameters": {
+        "properties": {
+          "anyValue": {
+            "type": "boolean"
+          },
+          "fieldId": {
+            "type": "string"
+          },
+          "isNotValue": {
+            "type": "string"
+          },
+          "isValue": {
+            "type": "string"
+          },
+          "noValue": {
+            "type": "boolean"
+          },
+          "onConditionFailure": {
+            "$ref": "#/components/schemas/v1SectionAction"
+          },
+          "onConditionFailureParameters": {
+            "$ref": "#/components/schemas/v1ActionParameters"
+          }
+        },
+        "type": "object"
+      },
+      "v1SystemDefined": {
+        "properties": {
+          "hidden": {
+            "title": "hidden fields won't display in editor",
+            "type": "boolean"
+          },
+          "includedByDefault": {
+            "title": "included_by_default fields will be auto-dropped upon init",
+            "type": "boolean"
+          },
+          "required": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "v1UnmappedField": {
+        "properties": {
+          "currencyCode": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/v1FieldOption"
+            },
+            "type": "array"
+          },
+          "type": {
+            "$ref": "#/components/schemas/v1FieldType"
+          }
+        },
+        "type": "object"
+      },
+      "v1UpdateFormRequest": {
+        "properties": {
+          "formConfig": {
+            "$ref": "#/components/schemas/v1FormConfig"
+          }
+        },
+        "title": "UpdateFormRequest - new form version request",
+        "type": "object"
+      },
+      "v1UpdateFormResponse": {
+        "properties": {
+          "errors": {
+            "items": {
+              "$ref": "#/components/schemas/v1ValidationError"
+            },
+            "type": "array"
+          },
+          "version": {
+            "type": "string"
+          }
+        },
+        "title": "UpdateFormResponse - returns the newly generated version",
+        "type": "object"
+      },
+      "v1UserFormSubmission": {
+        "properties": {
+          "formId": {
+            "title": "form identification",
+            "type": "string"
+          },
+          "values": {
+            "title": "json with the values being submitted - must conform with form specification",
+            "type": "string"
+          },
+          "version": {
+            "title": "optional version - if not set it will be used the latest version",
+            "type": "string"
+          }
+        },
+        "title": "UserFormSubmission represents a set of values being submitted to a form by the user",
+        "type": "object"
+      },
+      "v1ValidationError": {
+        "properties": {
+          "message": {
+            "title": "this can be a translation key",
+            "type": "string"
+          },
+          "ruleId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "vendastatypesPagedRequestOptions": {
+        "properties": {
+          "cursor": {
+            "title": "cursor can be passed to retrieve the next page of results keyed by the cursor",
+            "type": "string"
+          },
+          "pageSize": {
+            "format": "int64",
+            "title": "page_size specifies the number of items to return in the next page",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "vendastatypesPagedResponseMetadata": {
+        "properties": {
+          "hasMore": {
+            "title": "Whether or not more results exist",
+            "type": "boolean"
+          },
+          "nextCursor": {
+            "title": "A cursor that can be provided to retrieve the next page of results",
+            "type": "string"
+          },
+          "totalResults": {
+            "format": "int64",
+            "title": "The total number of results. This is not supported on all paged apis and will be 0 if it is not supported",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2Demo": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
+            "scopes": {
+              "read": "Read access to the API",
+              "write": "Write access to the API"
+            },
+            "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      },
+      "OAuth2Prod": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "scopes": {
+              "read": "Read access to the API",
+              "write": "Write access to the API"
+            },
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "title": "Forms OpenAPI Documentation",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/forms/create": {
+      "post": {
+        "description": "IMPORTANT: Use unmapped_field for custom fields. Do NOT add UTM tracking fields -\nthey are automatically added by the system.\n\nExample form_config:\n{\n  \"name\": \"Contact Form\",\n  \"namespace\": \"\u003cuse namespace from context\u003e\",\n  \"fields\": [\n    {\n      \"label\": \"Name\",\n      \"required\": true,\n      \"schema\": {\n        \"unmapped_field\": {\"id\": \"name\", \"type\": \"FIELD_TYPE_STRING\"}\n      }\n    },\n    {\n      \"label\": \"Email\",\n      \"required\": true,\n      \"schema\": {\n        \"unmapped_field\": {\"id\": \"email\", \"type\": \"FIELD_TYPE_EMAIL\"}\n      }\n    },\n    {\n      \"label\": \"Message\",\n      \"required\": true,\n      \"schema\": {\n        \"unmapped_field\": {\"id\": \"message\", \"type\": \"FIELD_TYPE_TEXT_AREA\"}\n      }\n    }\n  ]\n}\n\nValid field types: FIELD_TYPE_STRING, FIELD_TYPE_EMAIL, FIELD_TYPE_PHONE,\nFIELD_TYPE_TEXT_AREA, FIELD_TYPE_DROPDOWN, FIELD_TYPE_DATE, FIELD_TYPE_BOOLEAN,\nFIELD_TYPE_CURRENCY, FIELD_TYPE_FILE, FIELD_TYPE_RADIO, FIELD_TYPE_RICH_TEXT_ELEMENT",
+        "operationId": "Forms_CreateForm",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1CreateFormRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1CreateFormResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Create Form",
+        "tags": [
+          "Forms"
+        ]
+      }
+    },
+    "/v1/forms/embed-code": {
+      "post": {
+        "description": "Use the form_id returned from CreateForm or CreateFormFromTemplate.\nThe embed code can be added to any webpage to display the form.",
+        "operationId": "Forms_GetEmbedCode",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetEmbedCodeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetEmbedCodeResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Get Form Embed Code",
+        "tags": [
+          "Forms"
+        ]
+      }
+    },
+    "/v1/forms/generate-custom-css": {
+      "post": {
+        "description": "Provide a prompt describing the desired styling, and optionally include\nimage_urls for visual references. Returns generated Styles that can be\napplied to a form via UpdateForm.\n\nExample: prompt = \"Make the form match a modern dark theme with rounded corners\"",
+        "operationId": "Forms_GenerateCustomCSS",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GenerateCustomCSSRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GenerateCustomCSSResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Generate Custom CSS",
+        "tags": [
+          "Forms"
+        ]
+      }
+    },
+    "/v1/forms/get": {
+      "post": {
+        "operationId": "Forms_GetForm",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetFormRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetFormResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Get Form",
+        "tags": [
+          "Forms"
+        ]
+      }
+    },
+    "/v1/forms/list": {
+      "post": {
+        "operationId": "Forms_ListForms",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ListFormsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ListFormsResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "List Forms",
+        "tags": [
+          "Forms"
+        ]
+      }
+    },
+    "/v1/forms/mapped-field-schema/list": {
+      "post": {
+        "description": "Call this FIRST to understand what CRM fields are available before creating\nforms with mapped fields.\n\nmapped_to_resource options:\n- \"crm_contact\" - CRM Contact fields (name, email, phone, etc.)\n- \"crm_company\" - CRM Company fields\n- \"utm_attribute\" - UTM tracking fields (auto-added, don't include manually)\n- \"special_attribute\" - Special fields like google_places_id",
+        "operationId": "Forms_ListMappedFieldSchema",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ListMappedFieldSchemaRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ListMappedFieldSchemaResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "List Mapped Field Schema",
+        "tags": [
+          "Forms"
+        ]
+      }
+    },
+    "/v1/forms/update": {
+      "post": {
+        "operationId": "Forms_UpdateForm",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1UpdateFormRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1UpdateFormResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Update Form",
+        "tags": [
+          "Forms"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://prod.apigateway.co/grpc"
+    },
+    {
+      "description": "Demo",
+      "url": "https://demo.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Forms"
+    },
+    {
+      "name": "FormSubmissionService"
+    },
+    {
+      "name": "FormTemplateService"
+    }
+  ]
+}

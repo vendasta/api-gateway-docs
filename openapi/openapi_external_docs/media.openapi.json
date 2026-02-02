@@ -1,0 +1,690 @@
+{
+  "components": {
+    "schemas": {
+      "mediav1CreateImageResponse": {
+        "properties": {
+          "imageId": {
+            "title": "The image_id for the image indexed in vStore",
+            "type": "string"
+          }
+        },
+        "title": "The CreateImageResponse returns the image_id of the image that is indexed in vStore",
+        "type": "object"
+      },
+      "mediav1Tag": {
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "title": "Key value pair",
+        "type": "object"
+      },
+      "mediav2CreateImageResponse": {
+        "properties": {
+          "imageId": {
+            "title": "The image_id for the image indexed in vStore",
+            "type": "string"
+          }
+        },
+        "title": "The CreateImageResponse returns the image_id of the image that is indexed in\nvStore",
+        "type": "object"
+      },
+      "mediav2Tag": {
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "title": "Tag is a key-value pair",
+        "type": "object"
+      },
+      "mediav3Tag": {
+        "properties": {
+          "key": {
+            "title": "The tag key (e.g., \"type\", \"project_id\", \"purpose\")",
+            "type": "string"
+          },
+          "value": {
+            "title": "The tag value (e.g., \"logo\", \"proj-123\", \"hero-image\")",
+            "type": "string"
+          }
+        },
+        "title": "Tag is a key-value pair for categorizing and filtering files",
+        "type": "object"
+      },
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "rpcStatus": {
+        "properties": {
+          "code": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            },
+            "type": "array"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v2CreateVideoResponse": {
+        "properties": {
+          "videoId": {
+            "title": "The video_id for the video that was created",
+            "type": "string"
+          }
+        },
+        "title": "CreateVideoResponse returns the video_id of the video that was created",
+        "type": "object"
+      },
+      "v2GenerateUploadUrlResponse": {
+        "properties": {
+          "signedUrl": {
+            "title": "The signed_url used for uploading video",
+            "type": "string"
+          }
+        },
+        "title": "The GenerateUploadUrlResponse returns the signed_url used for uploading video",
+        "type": "object"
+      },
+      "v2GetImageResponse": {
+        "properties": {
+          "image": {
+            "$ref": "#/components/schemas/v2Image"
+          }
+        },
+        "title": "GetImageResponse is the requested image object",
+        "type": "object"
+      },
+      "v2GetResumableUploadSessionResponse": {
+        "properties": {
+          "sessionUri": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v2GetVideoResponse": {
+        "properties": {
+          "video": {
+            "$ref": "#/components/schemas/v2Video"
+          }
+        },
+        "title": "GetVideoResponse is the requested video object",
+        "type": "object"
+      },
+      "v2Image": {
+        "description": "A model representing an image.",
+        "properties": {
+          "created": {
+            "format": "date-time",
+            "title": "When the image was created",
+            "type": "string"
+          },
+          "id": {
+            "title": "The internal ID of the image",
+            "type": "string"
+          },
+          "modified": {
+            "format": "date-time",
+            "title": "When the image was updated",
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "$ref": "#/components/schemas/mediav2Tag"
+            },
+            "title": "The tags for the image",
+            "type": "array"
+          },
+          "url": {
+            "title": "The image public url",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v2Video": {
+        "description": "A model representing a Video.",
+        "properties": {
+          "created": {
+            "format": "date-time",
+            "title": "When the video was created",
+            "type": "string"
+          },
+          "id": {
+            "title": "The internal ID of the video",
+            "type": "string"
+          },
+          "modified": {
+            "format": "date-time",
+            "title": "When the video was updated",
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "$ref": "#/components/schemas/mediav2Tag"
+            },
+            "title": "The tags for the video",
+            "type": "array"
+          },
+          "url": {
+            "title": "The video url",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v3CreateFileRequest": {
+        "properties": {
+          "fileMetadata": {
+            "$ref": "#/components/schemas/v3FileMetadata"
+          },
+          "namespace": {
+            "title": "The namespace to use for the request",
+            "type": "string"
+          }
+        },
+        "title": "The CreateFileRequest message is used to create a file in the system\nfile uploading",
+        "type": "object"
+      },
+      "v3CreateFileResponse": {
+        "properties": {
+          "fileUrl": {
+            "title": "URL to access the file after upload",
+            "type": "string"
+          },
+          "signedUrl": {
+            "title": "The signed_url used for uploading file",
+            "type": "string"
+          }
+        },
+        "title": "The CreateFileResponse message is used to return the file upload url",
+        "type": "object"
+      },
+      "v3DeleteFileRequest": {
+        "properties": {
+          "fileId": {
+            "$ref": "#/components/schemas/v3FileIdentifier"
+          },
+          "namespace": {
+            "title": "The namespace to use for the request",
+            "type": "string"
+          }
+        },
+        "title": "The DeleteFileRequest message is used to delete a file in the system",
+        "type": "object"
+      },
+      "v3FileAccessType": {
+        "default": "INVALID",
+        "enum": [
+          "INVALID",
+          "PRIVATE",
+          "PUBLIC"
+        ],
+        "title": "- INVALID: The file access type is invalid, this should not be used\n - PRIVATE: The file is private and requires authentication to access\n - PUBLIC: The file is publicly accessible",
+        "type": "string"
+      },
+      "v3FileIdentifier": {
+        "properties": {
+          "fileId": {
+            "title": "file unique identifier",
+            "type": "string"
+          },
+          "fileUrl": {
+            "title": "file url most other services will only know a file by its URL",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v3FileMetadata": {
+        "properties": {
+          "accessType": {
+            "$ref": "#/components/schemas/v3FileAccessType"
+          },
+          "contentType": {
+            "title": "The content type of the file prefer using MIME types (e.g., \"image/png\", \"application/pdf\") fallback to extension if not available",
+            "type": "string"
+          },
+          "created": {
+            "format": "date-time",
+            "title": "The timestamp when the file was created",
+            "type": "string"
+          },
+          "deleted": {
+            "format": "date-time",
+            "title": "The timestamp when the file was deleted, if applicable",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description of the file, generated by AI",
+            "type": "string"
+          },
+          "fileId": {
+            "title": "The file identifier (unique identifier for the file like FileID-e1eb582f-2883-4cf3-ba32-42a27d69594a)",
+            "type": "string"
+          },
+          "fileName": {
+            "title": "The file name, required for the file to be created",
+            "type": "string"
+          },
+          "fileSize": {
+            "format": "int64",
+            "title": "The file size in bytes, determined from GCS metadata",
+            "type": "string"
+          },
+          "fileUrl": {
+            "title": "The URL to access the file",
+            "type": "string"
+          },
+          "path": {
+            "title": "The optional path of the file, relative to the storage bucket",
+            "type": "string"
+          },
+          "source": {
+            "title": "The source of the file, e.g., \"user_upload\", \"system_generated\", \"meetings-analysis\"",
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "$ref": "#/components/schemas/mediav3Tag"
+            },
+            "title": "Tags for categorizing and filtering files (e.g., type=logo, project_id=xyz)",
+            "type": "array"
+          },
+          "updated": {
+            "format": "date-time",
+            "title": "The timestamp when the file was last updated",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v3GetMultiFileMetadataRequest": {
+        "properties": {
+          "fileIds": {
+            "items": {
+              "$ref": "#/components/schemas/v3FileIdentifier"
+            },
+            "title": "The identifiers of the files to fetch metadata for",
+            "type": "array"
+          },
+          "namespace": {
+            "title": "The namespace to use for the request",
+            "type": "string"
+          }
+        },
+        "title": "Request to fetch an embed code of a custom form",
+        "type": "object"
+      },
+      "v3GetMultiFileMetadataResponse": {
+        "properties": {
+          "fileMetadata": {
+            "items": {
+              "$ref": "#/components/schemas/v3FileMetadata"
+            },
+            "title": "The metadata for the requested files",
+            "type": "array"
+          }
+        },
+        "title": "Response containing metadata for the requested files",
+        "type": "object"
+      },
+      "v3ListFilesFilters": {
+        "properties": {
+          "source": {
+            "title": "Filter by source (e.g., \"vibe\", \"crm\", \"user_upload\")",
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "$ref": "#/components/schemas/mediav3Tag"
+            },
+            "title": "Filter by tags - files must have ALL specified tags (AND logic)",
+            "type": "array"
+          }
+        },
+        "title": "Filters for listing files",
+        "type": "object"
+      },
+      "v3ListFilesRequest": {
+        "properties": {
+          "filters": {
+            "$ref": "#/components/schemas/v3ListFilesFilters"
+          },
+          "namespace": {
+            "title": "The namespace to filter files by (required)",
+            "type": "string"
+          },
+          "paging": {
+            "$ref": "#/components/schemas/v3PagedRequestOptions"
+          }
+        },
+        "title": "ListFilesRequest is used to list files with optional filtering",
+        "type": "object"
+      },
+      "v3ListFilesResponse": {
+        "properties": {
+          "files": {
+            "items": {
+              "$ref": "#/components/schemas/v3FileMetadata"
+            },
+            "title": "The files matching the request",
+            "type": "array"
+          },
+          "paging": {
+            "$ref": "#/components/schemas/v3PagedResponseMetadata"
+          }
+        },
+        "title": "ListFilesResponse contains the list of files matching the request",
+        "type": "object"
+      },
+      "v3PagedRequestOptions": {
+        "properties": {
+          "cursor": {
+            "title": "Cursor can be passed to retrieve the next page of results",
+            "type": "string"
+          },
+          "pageSize": {
+            "format": "int32",
+            "title": "Page size specifies the number of items to return (default: 100, max: 1000)",
+            "type": "integer"
+          }
+        },
+        "title": "Cursor and page size for paging requests",
+        "type": "object"
+      },
+      "v3PagedResponseMetadata": {
+        "properties": {
+          "hasMore": {
+            "title": "Whether or not more results exist",
+            "type": "boolean"
+          },
+          "nextCursor": {
+            "title": "A cursor that can be provided to retrieve the next page of results",
+            "type": "string"
+          },
+          "totalResults": {
+            "format": "int64",
+            "title": "Total number of results (may be approximate for large datasets)",
+            "type": "string"
+          }
+        },
+        "title": "Metadata related to the paged response from a List request",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2Demo": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
+            "scopes": {
+              "read": "Read access to the API",
+              "write": "Write access to the API"
+            },
+            "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      },
+      "OAuth2Prod": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "scopes": {
+              "read": "Read access to the API",
+              "write": "Write access to the API"
+            },
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "title": "Media OpenAPI Documentation",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/v3/files/create": {
+      "post": {
+        "operationId": "Files_CreateFile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v3CreateFileRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v3CreateFileResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Create File",
+        "tags": [
+          "Files"
+        ]
+      }
+    },
+    "/v3/files/delete": {
+      "post": {
+        "operationId": "Files_DeleteFile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v3DeleteFileRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Delete File",
+        "tags": [
+          "Files"
+        ]
+      }
+    },
+    "/v3/files/list": {
+      "post": {
+        "operationId": "Files_ListFiles",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v3ListFilesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v3ListFilesResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "List Files",
+        "tags": [
+          "Files"
+        ]
+      }
+    },
+    "/v3/files/metadata/get": {
+      "post": {
+        "operationId": "Files_GetMultiFileMetadata",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v3GetMultiFileMetadataRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v3GetMultiFileMetadataResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Get Multi File Metadata",
+        "tags": [
+          "Files"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://prod.apigateway.co/grpc"
+    },
+    {
+      "description": "Demo",
+      "url": "https://demo.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "name": "ImageService"
+    },
+    {
+      "name": "MediaService"
+    },
+    {
+      "name": "Files"
+    }
+  ]
+}

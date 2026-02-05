@@ -441,6 +441,27 @@
         },
         "type": "object"
       },
+      "v1CreateBulkReputationAssistantSetupResponse": {
+        "properties": {
+          "errorCode": {
+            "title": "Error code if workflow failed to start (e.g., \"INVALID_ARGUMENT\", \"PERMISSION_DENIED\")",
+            "type": "string"
+          },
+          "errorMessage": {
+            "title": "Detailed error message if workflow failed to start",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status of the workflow initiation: \"started\", \"failed\"",
+            "type": "string"
+          },
+          "workflowId": {
+            "title": "Temporal workflow ID for tracking progress in Temporal UI",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "v1CreateReviewCommentResponse": {
         "properties": {
           "commentId": {
@@ -1521,6 +1542,23 @@
             "format": "int32",
             "title": "The number of periods to wait before sending the review request",
             "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "v1PromptConfiguration": {
+        "properties": {
+          "customPromptContent": {
+            "title": "Optional: Custom prompt content for overriding default",
+            "type": "string"
+          },
+          "goalId": {
+            "title": "Optional: Goal override target (defaults to GenerateReviewResponse)\nExample: \"GenerateReviewResponse\" or \"ChatWithReputationData\"",
+            "type": "string"
+          },
+          "resetPromptConfiguration": {
+            "description": "Optional: Revert to the default prompt configuration if true.",
+            "type": "boolean"
           }
         },
         "type": "object"

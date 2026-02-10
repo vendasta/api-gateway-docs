@@ -225,6 +225,40 @@
         },
         "type": "object"
       },
+      "v1ConsentFieldConfig": {
+        "properties": {
+          "consentTypes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Which consent types to display on the form (values: \"email\", \"sms\")",
+            "type": "array"
+          },
+          "emailConsentText": {
+            "type": "string"
+          },
+          "headerText": {
+            "type": "string"
+          },
+          "smsConsentText": {
+            "type": "string"
+          }
+        },
+        "title": "ConsentFieldConfig defines configuration options for consent field types",
+        "type": "object"
+      },
+      "v1ConsentValue": {
+        "properties": {
+          "emailConsent": {
+            "type": "boolean"
+          },
+          "smsConsent": {
+            "type": "boolean"
+          }
+        },
+        "title": "ConsentValue represents marketing consent preferences for email and SMS",
+        "type": "object"
+      },
       "v1CreateFormFromTemplateResponse": {
         "properties": {
           "workflowId": {
@@ -321,7 +355,8 @@
           "FIELD_TYPE_TEXT_AREA",
           "FIELD_TYPE_TAG",
           "FIELD_TYPE_SECTION",
-          "FIELD_TYPE_FILE"
+          "FIELD_TYPE_FILE",
+          "FIELD_TYPE_CONSENT"
         ],
         "type": "string"
       },
@@ -330,6 +365,9 @@
           "boolean": {
             "title": "used for boolean",
             "type": "boolean"
+          },
+          "consentValue": {
+            "$ref": "#/components/schemas/v1ConsentValue"
           },
           "integer": {
             "format": "int64",
@@ -803,6 +841,9 @@
       },
       "v1MappedField": {
         "properties": {
+          "consentConfig": {
+            "$ref": "#/components/schemas/v1ConsentFieldConfig"
+          },
           "id": {
             "type": "string"
           },

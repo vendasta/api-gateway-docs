@@ -225,39 +225,40 @@
         },
         "type": "object"
       },
+      "v1ConsentField": {
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/v1ConsentType"
+          }
+        },
+        "type": "object"
+      },
       "v1ConsentFieldConfig": {
         "properties": {
-          "consentTypes": {
+          "consent": {
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/v1ConsentField"
             },
-            "title": "Which consent types to display on the form (values: \"email\", \"sms\")",
             "type": "array"
           },
-          "emailConsentText": {
-            "type": "string"
-          },
           "headerText": {
-            "type": "string"
-          },
-          "smsConsentText": {
             "type": "string"
           }
         },
         "title": "ConsentFieldConfig defines configuration options for consent field types",
         "type": "object"
       },
-      "v1ConsentValue": {
-        "properties": {
-          "emailConsent": {
-            "type": "boolean"
-          },
-          "smsConsent": {
-            "type": "boolean"
-          }
-        },
-        "title": "ConsentValue represents marketing consent preferences for email and SMS",
-        "type": "object"
+      "v1ConsentType": {
+        "default": "CONSENT_TYPE_INVALID",
+        "enum": [
+          "CONSENT_TYPE_INVALID",
+          "CONSENT_TYPE_EMAIL",
+          "CONSENT_TYPE_SMS"
+        ],
+        "type": "string"
       },
       "v1CreateFormFromTemplateResponse": {
         "properties": {
@@ -356,7 +357,7 @@
           "FIELD_TYPE_TAG",
           "FIELD_TYPE_SECTION",
           "FIELD_TYPE_FILE",
-          "FIELD_TYPE_CONSENT"
+          "FIELD_TYPE_PRIVACY_CONSENT"
         ],
         "type": "string"
       },
@@ -365,9 +366,6 @@
           "boolean": {
             "title": "used for boolean",
             "type": "boolean"
-          },
-          "consentValue": {
-            "$ref": "#/components/schemas/v1ConsentValue"
           },
           "integer": {
             "format": "int64",

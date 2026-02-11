@@ -1,0 +1,4393 @@
+{
+  "components": {
+    "schemas": {
+      "BookingFailureCause": {
+        "default": "CAUSE_UNSPECIFIED",
+        "description": " - CAUSE_UNSPECIFIED: Default value: Don't use; amounts to an \"unknown error\"\n - SLOT_UNAVAILABLE: The referenced availability slot is not available any longer.\n - SLOT_ALREADY_BOOKED_BY_USER: The user has already booked an appointment for the referenced\navailability slot.\n - LEASE_EXPIRED: The lease (if provided) has expired and cannot be used any longer to\ncomplete the requested booking.\n - OUTSIDE_CANCELLATION_WINDOW: The requested cancellation cannot be performed at the current time due\nto time restrictions in the merchant's cancellation policy.\n - PAYMENT_ERROR_CARD_TYPE_REJECTED: An error was encountered while processing the payment because the\nprovided credit card type was not accepted by the merchant. The credit\ncard type must be supplied in rejected_card_type.\n - PAYMENT_ERROR_CARD_DECLINED: An error was encountered while processing the payment because the\nprovided credit card was declined.\n - PAYMENT_OPTION_NOT_VALID: An error was encountered with the pack/membership used to pay for the\nbooking. There could be no valid uses left, it could have expired, etc.\n - PAYMENT_ERROR: An error was encountered while processing the payment for this booking.\nUse this value to indicate a general payment related error, only if the\nerror does not match to a specific payment error above.\n - USER_CANNOT_USE_PAYMENT_OPTION: User cannot use the given payment option (e.g. user trying to use a\nfirst time price for the second time).\n - BOOKING_ALREADY_CANCELLED: A booking that the user tried to cancel has already been cancelled.\n - BOOKING_NOT_CANCELLABLE: A booking that the user tried to cancel is not cancellable.\n - OVERLAPPING_RESERVATION: User has an existing reservation too close to this time.\n - USER_OVER_BOOKING_LIMIT: Booking failed due to the user being over the aggregator's per-user\nbookings limit.\n - OFFER_UNAVAILABLE: Offer (previously \"Deal\") is unavailable for the provided slot. If the\nslot itself is unavailable, use SLOT_UNAVAILABLE instead.\n - PAYMENT_REQUIRES_3DS1: Set when payment is rejected because you are requesting that the\ntransaction be tried again, but this time after undergoing 3DS1\nchallenge/response.  Note that the current transaction's failure state\nwill stay failed.  The retry will be completely separate.\n\nWhen this is the failure reason, payment_failure.3DS1_parameters\nMUST be set.  If it is not, then the current cause will be treated as\nif it were PAYMENT_ERROR.",
+        "enum": [
+          "CAUSE_UNSPECIFIED",
+          "SLOT_UNAVAILABLE",
+          "SLOT_ALREADY_BOOKED_BY_USER",
+          "LEASE_EXPIRED",
+          "OUTSIDE_CANCELLATION_WINDOW",
+          "PAYMENT_ERROR_CARD_TYPE_REJECTED",
+          "PAYMENT_ERROR_CARD_DECLINED",
+          "PAYMENT_OPTION_NOT_VALID",
+          "PAYMENT_ERROR",
+          "USER_CANNOT_USE_PAYMENT_OPTION",
+          "BOOKING_ALREADY_CANCELLED",
+          "BOOKING_NOT_CANCELLABLE",
+          "OVERLAPPING_RESERVATION",
+          "USER_OVER_BOOKING_LIMIT",
+          "OFFER_UNAVAILABLE",
+          "DEAL_UNAVAILABLE",
+          "PAYMENT_REQUIRES_3DS1"
+        ],
+        "type": "string"
+      },
+      "PaymentInformationPaymentProcessedBy": {
+        "default": "PAYMENT_PROCESSED_BY_UNSPECIFIED",
+        "description": "Who handles payment processing?\nIf payment is processed by the partner, CreateBooking request will\ninclude additional parameters (PaymentProcessingParameters) indicating\nthe payment method to be used to process the payment.",
+        "enum": [
+          "PAYMENT_PROCESSED_BY_UNSPECIFIED",
+          "PROCESSED_BY_GOOGLE",
+          "PROCESSED_BY_PARTNER"
+        ],
+        "type": "string"
+      },
+      "PaymentProcessingParametersPaymentProcessor": {
+        "default": "PAYMENT_PROCESSOR_UNSPECIFIED",
+        "enum": [
+          "PAYMENT_PROCESSOR_UNSPECIFIED",
+          "PROCESSOR_STRIPE",
+          "PROCESSOR_BRAINTREE"
+        ],
+        "type": "string"
+      },
+      "TokenizationConfigAuthMethod": {
+        "default": "AUTH_METHOD_UNSPECIFIED",
+        "description": "Fields supported to authorize a card transaction.\n\nSee the GPay documentation at\nhttps://developers.google.com/pay/api/web/reference/object#CardParameters\n\n - PAN_ONLY: This authentication method is associated with payment cards stored on\nfile with the user's Google Account. Returned payment data includes\npersonal account number (PAN) with the expiration month and the\nexpiration year.\n - CRYPTOGRAM_3DS: This authentication method is associated with cards stored as Android\ndevice tokens. Returned payment data includes a 3-D Secure (3DS)\ncryptogram generated on the device.",
+        "enum": [
+          "AUTH_METHOD_UNSPECIFIED",
+          "PAN_ONLY",
+          "CRYPTOGRAM_3DS"
+        ],
+        "type": "string"
+      },
+      "TokenizationConfigBillingInformationFormat": {
+        "default": "BILLING_INFORMATION_FORMAT_UNSPECIFIED",
+        "description": "How much of the Billing Address to require of the user and include in the\ntoken. The enum values correspond to parameters in the Google Pay API (see\nhttps://developers.google.com/pay/api/web/reference/object\\\n #BillingAddressParameters).\n\n - MIN: name, country code, and postal code (GPay default setting).\n - FULL: name, street address, locality, region, country code, and postal code",
+        "enum": [
+          "BILLING_INFORMATION_FORMAT_UNSPECIFIED",
+          "MIN",
+          "FULL"
+        ],
+        "type": "string"
+      },
+      "TokenizationConfigCardNetworkParameters": {
+        "description": "Per CardNetwork Processing information.",
+        "properties": {
+          "acquirerBin": {
+            "description": "The Bank Identification Number of the acquiring bank used for processing\nof the card.\n\nIf this value is not known to you, you should ask your acquirer or\nmerchant processor representative.",
+            "type": "string"
+          },
+          "acquirerMerchantId": {
+            "description": "The merchant identifier assigned by the acquirer to the merchant for use\nin transaction authorization (for Visa and American Express\ntransactions).\n\nIf this value is not known to you, you should ask the acquirer or\nmerchant processor representative.",
+            "type": "string"
+          },
+          "cardNetwork": {
+            "$ref": "#/components/schemas/v3CreditCardRestrictionsCreditCardType"
+          }
+        },
+        "type": "object"
+      },
+      "meetingsv1Contact": {
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "isPrimary": {
+            "type": "boolean"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "phoneFields": {
+            "$ref": "#/components/schemas/v1PhoneFields"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "timeZone": {
+            "$ref": "#/components/schemas/typeTimeZone"
+          }
+        },
+        "title": "TODO: For v2 of API, we'd like to merge Contact and Attendee into one message type",
+        "type": "object"
+      },
+      "partnerv3CreditCardType": {
+        "default": "CREDIT_CARD_TYPE_UNSPECIFIED",
+        "description": "Used when booking/order failure cause is PAYMENT_ERROR_CARD_TYPE_REJECTED to\nindicate the type of credit card that was rejected.\n\n - CREDIT_CARD_TYPE_UNSPECIFIED: Default value. Used if credit card type does not match to one below.",
+        "enum": [
+          "CREDIT_CARD_TYPE_UNSPECIFIED",
+          "VISA",
+          "MASTERCARD",
+          "AMERICAN_EXPRESS",
+          "DISCOVER",
+          "JCB"
+        ],
+        "type": "string"
+      },
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "rpcStatus": {
+        "properties": {
+          "code": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            },
+            "type": "array"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "typeDayOfWeek": {
+        "default": "DAY_OF_WEEK_UNSPECIFIED",
+        "description": "Represents a day of the week.\n\n - DAY_OF_WEEK_UNSPECIFIED: The day of the week is unspecified.\n - MONDAY: Monday\n - TUESDAY: Tuesday\n - WEDNESDAY: Wednesday\n - THURSDAY: Thursday\n - FRIDAY: Friday\n - SATURDAY: Saturday\n - SUNDAY: Sunday",
+        "enum": [
+          "DAY_OF_WEEK_UNSPECIFIED",
+          "MONDAY",
+          "TUESDAY",
+          "WEDNESDAY",
+          "THURSDAY",
+          "FRIDAY",
+          "SATURDAY",
+          "SUNDAY"
+        ],
+        "type": "string"
+      },
+      "typeTimeOfDay": {
+        "description": "Represents a time of day. The date and time zone are either not significant\nor are specified elsewhere. An API may choose to allow leap seconds. Related\ntypes are [google.type.Date][google.type.Date] and\n`google.protobuf.Timestamp`.",
+        "properties": {
+          "hours": {
+            "description": "Hours of day in 24 hour format. Should be from 0 to 23. An API may choose\nto allow the value \"24:00:00\" for scenarios like business closing time.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "minutes": {
+            "description": "Minutes of hour of day. Must be from 0 to 59.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "nanos": {
+            "description": "Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "seconds": {
+            "description": "Seconds of minutes of the time. Must normally be from 0 to 59. An API may\nallow the value 60 if it allows leap-seconds.",
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "typeTimeZone": {
+        "description": "Represents a time zone from the\n[IANA Time Zone Database](https://www.iana.org/time-zones).",
+        "properties": {
+          "id": {
+            "description": "IANA Time Zone Database time zone, e.g. \"America/New_York\".",
+            "type": "string"
+          },
+          "version": {
+            "description": "Optional. IANA Time Zone Database version number, e.g. \"2019a\".",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Answer": {
+        "properties": {
+          "answer": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/v1FormFieldType"
+          }
+        },
+        "type": "object"
+      },
+      "v1Answers": {
+        "properties": {
+          "formAnswers": {
+            "items": {
+              "$ref": "#/components/schemas/v1Answer"
+            },
+            "title": "The order of fields specified here is the order they will be displayed in",
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1Attachment": {
+        "properties": {
+          "fileTitle": {
+            "type": "string"
+          },
+          "fileType": {
+            "type": "string"
+          },
+          "fileUrl": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Attendee": {
+        "properties": {
+          "email": {
+            "title": "email of the attendee",
+            "type": "string"
+          },
+          "firstName": {
+            "title": "the first name of the attendee",
+            "type": "string"
+          },
+          "isPrimary": {
+            "type": "boolean"
+          },
+          "lastName": {
+            "title": "the last name of the attendee",
+            "type": "string"
+          },
+          "phoneNumber": {
+            "title": "phone number of the attendee",
+            "type": "string"
+          },
+          "timeZone": {
+            "type": "string"
+          }
+        },
+        "title": "TODO: For v2 of API, we'd like to merge Contact and Attendee into one message type",
+        "type": "object"
+      },
+      "v1AvailabilityRule": {
+        "properties": {
+          "day": {
+            "$ref": "#/components/schemas/typeDayOfWeek"
+          },
+          "hostId": {
+            "type": "string"
+          },
+          "meetingTypeId": {
+            "type": "string"
+          },
+          "timeSlot": {
+            "$ref": "#/components/schemas/v1TimeRange"
+          },
+          "timeZone": {
+            "$ref": "#/components/schemas/typeTimeZone"
+          }
+        },
+        "type": "object"
+      },
+      "v1AvailabilityRuleList": {
+        "properties": {
+          "rules": {
+            "items": {
+              "$ref": "#/components/schemas/v1AvailabilityRule"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1AvailableTimeSlotsResponse": {
+        "description": "Response containing a list of available time slots for booking.",
+        "properties": {
+          "timeSlots": {
+            "description": "Ordered list of available time slots in ISO date-time format, in the requested time zone.",
+            "items": {
+              "$ref": "#/components/schemas/v1IsoDateTimeRange"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1BookMeetingExternalRequest": {
+        "description": "Request message for booking a new meeting for a specified event type.",
+        "properties": {
+          "attendees": {
+            "items": {
+              "$ref": "#/components/schemas/meetingsv1Contact"
+            },
+            "title": "Required. List of attendees to invite. Each must include at minimum a valid email address or valid phone number based on event type configuration",
+            "type": "array"
+          },
+          "businessId": {
+            "description": "Required. The business ID (starts with \"AG-\").",
+            "type": "string"
+          },
+          "comment": {
+            "description": "Optional. Additional notes or description for the meeting; included in calendar invitations.",
+            "type": "string"
+          },
+          "eventTypeId": {
+            "description": "Required. Unique identifier of the event type to be booked (defines duration, availability, and settings).",
+            "type": "string"
+          },
+          "formAnswers": {
+            "$ref": "#/components/schemas/v1Answers"
+          },
+          "hostUserId": {
+            "description": "Required for Team event type - ClientChoice and PriorityRoundRobin; ignored for RoundRobin and MultiHost.\nMust be one of the event type's configured host user IDs.",
+            "type": "string"
+          },
+          "location": {
+            "description": "Optional. Location for the meeting. Empty for virtual; physical address for in-person.",
+            "type": "string"
+          },
+          "start": {
+            "description": "Required. Desired start time of the meeting in UTC. System validates the slot is available.",
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1BookMeetingExternalResponse": {
+        "description": "Response containing the details of the successfully booked meeting.",
+        "properties": {
+          "attendeeEmails": {
+            "description": "List of email addresses for all attendees successfully added to the meeting.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "bookingUrl": {
+            "description": "Public URL where attendees can view booking details and manage their participation.",
+            "type": "string"
+          },
+          "cancelUrl": {
+            "description": "URL for attendees to cancel their participation in the meeting.",
+            "type": "string"
+          },
+          "eventTypeId": {
+            "description": "Unique identifier of the event type that was booked.",
+            "type": "string"
+          },
+          "hostDetails": {
+            "description": "List of all hosts for this meeting with their full details (single-host or multi-host).",
+            "items": {
+              "$ref": "#/components/schemas/v1HostUserDetails"
+            },
+            "type": "array"
+          },
+          "location": {
+            "description": "Location of the meeting. Empty for virtual; physical address for in-person.",
+            "type": "string"
+          },
+          "meetingEndTime": {
+            "description": "Scheduled end time of the meeting in UTC.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "meetingId": {
+            "description": "Unique identifier of the booked meeting; use for rescheduling, cancellation, or retrieval.",
+            "type": "string"
+          },
+          "meetingLink": {
+            "description": "URL to join the virtual meeting (Zoom, Google Meet, Microsoft Teams). May be empty immediately after booking; generated asynchronously.",
+            "type": "string"
+          },
+          "meetingStartTime": {
+            "description": "Scheduled start time of the meeting in UTC.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "rescheduleUrl": {
+            "description": "URL for attendees to reschedule the meeting to a different time slot.",
+            "type": "string"
+          },
+          "title": {
+            "description": "Title or subject of the meeting as it appears in calendar invitations.",
+            "type": "string"
+          },
+          "userId": {
+            "description": "Unique identifier of the calendar owner (host) for this meeting.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1BookMeetingResponse": {
+        "properties": {
+          "hostId": {
+            "type": "string"
+          },
+          "meetingId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1BookingFailureReason": {
+        "default": "BOOKING_FAILURE_REASON_REGISTRATION_CUTOFF_EXCEEDED",
+        "enum": [
+          "BOOKING_FAILURE_REASON_REGISTRATION_CUTOFF_EXCEEDED",
+          "BOOKING_FAILURE_REASON_MAX_INVITEE_COUNT_EXCEEDED"
+        ],
+        "type": "string"
+      },
+      "v1BookingSource": {
+        "default": "BOOKING_SOURCE_UNKNOWN",
+        "description": "Defines the origin of the booking.\nUsed to filter and query booked meetings by source.",
+        "enum": [
+          "BOOKING_SOURCE_UNKNOWN",
+          "BOOKING_SOURCE_BOOKING_FORM",
+          "BOOKING_SOURCE_AI_VOICE",
+          "BOOKING_SOURCE_AI_CHAT",
+          "BOOKING_SOURCE_BOOK_A_MEETING",
+          "BOOKING_SOURCE_API_INTEGRATION",
+          "BOOKING_SOURCE_CRM"
+        ],
+        "type": "string"
+      },
+      "v1BuildHostIdResponse": {
+        "properties": {
+          "hostId": {
+            "description": "The host_id you can use for the rest of the APIs.\nThis is also suitable to use in the booking url (but prefer slugs from the host's preferences).",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Calendar": {
+        "properties": {
+          "applicationContext": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Key-value pairs that provide context to the use of the calendar.\nThere is currently inflexible support for a handful of backend\nintegrations with other Vendasta data models to derive some of\nthe fields of the calendar. These known pairs are:\n  - external_integration: [v_sales_team, v_business]\n  - sales_team_id: G-123\n  - business_id: AG-123\nFor example, if you wanted to contextualize a sales team's calendar you would use:\n  {'external_integration': 'v_sales_team', 'sales_team_id': 'G-123'}\nIf you wanted to contextualize a business calendar you would use:\n  {'external_integration': 'v_business', 'business_id': 'AG-123'}\nIf you wanted to contextualize and individual salesperson you would use:\n  {'user_context': 'sales', 'partner_id': 'ABC', 'market_id': 'DEFAULT'}",
+            "type": "object"
+          },
+          "bookingUrl": {
+            "title": "A valid, public URL to book a time slot on this calendar",
+            "type": "string"
+          },
+          "calendarType": {
+            "$ref": "#/components/schemas/v1CalendarType"
+          },
+          "creatorUserId": {
+            "title": "Who created the calendar",
+            "type": "string"
+          },
+          "displayLogoUrl": {
+            "title": "Larger image to be used as a banner for example",
+            "type": "string"
+          },
+          "displayName": {
+            "title": "The name of the calendar",
+            "type": "string"
+          },
+          "displayProfileUrl": {
+            "title": "Squared image for the calendar to be used as an icon",
+            "type": "string"
+          },
+          "encodedApplicationContext": {
+            "type": "string"
+          },
+          "externalId": {
+            "title": "A mutable namespaced identifier of this calendar that has meaning to whoever created it\nThis is effectively the result of BuildHostId at this time",
+            "type": "string"
+          },
+          "hostUserIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Who is a possible, but not necessarily available, host of the calendar (at least 1)",
+            "type": "array"
+          },
+          "id": {
+            "title": "The immutable, generated, globally unique identifier of a calendar\nAttempting to set or mutate this will have no effect, use external_id",
+            "type": "string"
+          },
+          "slug": {
+            "title": "A mutable namespaced identifier of this calendar for the purposes of building memorable URLs",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1CalendarMigrationResponse": {
+        "properties": {
+          "status": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "v1CalendarSource": {
+        "default": "CALENDAR_SOURCE_GOOGLE",
+        "enum": [
+          "CALENDAR_SOURCE_GOOGLE",
+          "CALENDAR_SOURCE_MICROSOFT",
+          "CALENDAR_SOURCE_INVALID"
+        ],
+        "type": "string"
+      },
+      "v1CalendarType": {
+        "default": "CALENDAR_TYPE_INVALID",
+        "enum": [
+          "CALENDAR_TYPE_INVALID",
+          "CALENDAR_TYPE_PERSONAL",
+          "CALENDAR_TYPE_GROUP",
+          "CALENDAR_TYPE_SESSION"
+        ],
+        "type": "string"
+      },
+      "v1CheckEventTypeSlugExistResponse": {
+        "properties": {
+          "exists": {
+            "title": "Whether the slug already exists for the given calendar",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "v1CheckFeatureFlagResponse": {
+        "properties": {
+          "isEnabled": {
+            "title": "is_enabled indicates whether the feature flag is enabled for the given identifier",
+            "type": "boolean"
+          }
+        },
+        "title": "CheckFeatureFlagResponse returns whether the feature flag exists",
+        "type": "object"
+      },
+      "v1CheckGroupOrServiceSlugExistResponse": {
+        "properties": {
+          "exists": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "v1CreateAvailabilityResponse": {
+        "type": "object"
+      },
+      "v1CreateCalendarResponse": {
+        "properties": {
+          "calendarId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1CreateGroupResponse": {
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1CreateMeetingTypeResponse": {
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1CreateServiceResponse": {
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1CreateZoomMeetingResponse": {
+        "description": "The response body for creating a zoom meeting.\nPlease check https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingcreate for more details.",
+        "properties": {
+          "agenda": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "duration": {
+            "description": "Duration in minutes.",
+            "format": "int64",
+            "type": "string"
+          },
+          "h323Password": {
+            "description": "H.323/SIP room system password.",
+            "type": "string"
+          },
+          "iamUserId": {
+            "type": "string"
+          },
+          "joinUrl": {
+            "type": "string"
+          },
+          "meetingId": {
+            "format": "int64",
+            "type": "string"
+          },
+          "occurrences": {
+            "items": {
+              "$ref": "#/components/schemas/v1ZoomOccurrence"
+            },
+            "type": "array"
+          },
+          "password": {
+            "type": "string"
+          },
+          "pmi": {
+            "format": "int64",
+            "type": "string"
+          },
+          "recurrence": {
+            "$ref": "#/components/schemas/v1ZoomMeetingRecurrence"
+          },
+          "settings": {
+            "$ref": "#/components/schemas/v1ZoomMeetingSettings"
+          },
+          "startTime": {
+            "description": "Start time in UTC.",
+            "type": "string"
+          },
+          "startUrl": {
+            "type": "string"
+          },
+          "timezone": {
+            "title": "See: https://marketplace.zoom.us/docs/api-reference/other-references/abbreviation-lists#timezones",
+            "type": "string"
+          },
+          "topic": {
+            "type": "string"
+          },
+          "trackingFields": {
+            "items": {
+              "$ref": "#/components/schemas/v1ZoomMeetingTrackingField"
+            },
+            "type": "array"
+          },
+          "type": {
+            "$ref": "#/components/schemas/v1ZoomMeetingType"
+          }
+        },
+        "type": "object"
+      },
+      "v1DateRangeType": {
+        "default": "RELATIVE",
+        "enum": [
+          "RELATIVE",
+          "CUSTOM"
+        ],
+        "type": "string"
+      },
+      "v1DoesCalendarExistResponse": {
+        "properties": {
+          "exists": {
+            "title": "Whether a calendar with the given identifer exists already",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "v1EmailsToDelete": {
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1EnsureGroupCalendarsExistResponse": {
+        "properties": {
+          "calendarIds": {
+            "description": "The calendar_ids belonging to the calendars with the given external_ids.\nThe order of the returned calendar_ids is guaranteed to match the order the external_ids were given in.\nFor every calendar_id, calendar_ids[i] is the calendar_id for external_ids[i]\nOn subsequent calls this response is guaranteed to be the same.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1EnsurePersonalCalendarExistsResponse": {
+        "properties": {
+          "calendarId": {
+            "description": "The calendar_id belonging to the user having the given application_context_properties\nsubsequence with the same user_id and application_context_properties will return the same calendar_id.\nA single property change in application_context_properties will result in a new calendar.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1EnsureSessionEventCalendarsExistResponse": {
+        "properties": {
+          "calendarId": {
+            "description": "The calendar_id belonging to the calendar with the given external_id.\nOn subsequent calls this response is guaranteed to be the same.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1EventGroupAndServiceAssociations": {
+        "properties": {
+          "bookingUrl": {
+            "type": "string"
+          },
+          "calendarId": {
+            "type": "string"
+          },
+          "creatorUserName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "string"
+          },
+          "eventType": {
+            "type": "string"
+          },
+          "hexColor": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "identifier": {
+            "title": "group or event",
+            "type": "string"
+          },
+          "isEditable": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1EventType": {
+        "description": "Event type configuration returned by ListTeamEventTypes and ListUserEventTypes.",
+        "properties": {
+          "bookingUrl": {
+            "description": "Public booking URL where attendees can schedule this event type.",
+            "type": "string"
+          },
+          "bookingWindow": {
+            "$ref": "#/components/schemas/v1EventTypeDateRange"
+          },
+          "calendarType": {
+            "description": "Type or identifier of the calendar used when booking this event.",
+            "type": "string"
+          },
+          "description": {
+            "description": "Optional. Description of the event type, visible in booking experiences.",
+            "type": "string"
+          },
+          "duration": {
+            "description": "Duration of the scheduled meeting for this event type.",
+            "type": "string"
+          },
+          "hostOrderDetails": {
+            "description": "Ordering or assignment details used to select a host for new bookings.",
+            "items": {
+              "$ref": "#/components/schemas/v1HostOrderDetails"
+            },
+            "type": "array"
+          },
+          "hostUsers": {
+            "description": "Users who can host meetings for this event type.",
+            "items": {
+              "$ref": "#/components/schemas/v1HostUser"
+            },
+            "type": "array"
+          },
+          "id": {
+            "description": "Unique identifier of the event type.",
+            "type": "string"
+          },
+          "isEmailRequired": {
+            "description": "Whether an attendee email address is required when booking.",
+            "type": "boolean"
+          },
+          "isPhoneNumberRequired": {
+            "description": "Whether an attendee phone number is required when booking.",
+            "type": "boolean"
+          },
+          "isVideoConferencingEnabled": {
+            "description": "Whether video conferencing is enabled.",
+            "type": "boolean"
+          },
+          "location": {
+            "description": "Default location details for the meeting (e.g., address or meeting link).",
+            "type": "string"
+          },
+          "locationGuidelines": {
+            "description": "Optional. Additional instructions or guidelines about the meeting location.",
+            "type": "string"
+          },
+          "locationType": {
+            "$ref": "#/components/schemas/v1MeetingLocationType"
+          },
+          "meetingType": {
+            "$ref": "#/components/schemas/v1TeamEventMeetingType"
+          },
+          "name": {
+            "description": "Name of the event type shown to users and invitees.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1EventTypeDateRange": {
+        "properties": {
+          "customDateRange": {
+            "$ref": "#/components/schemas/vendastatypesDateRange"
+          },
+          "dateRangeType": {
+            "$ref": "#/components/schemas/v1DateRangeType"
+          },
+          "relativeDateRange": {
+            "$ref": "#/components/schemas/v1RelativeDateRange"
+          }
+        },
+        "type": "object"
+      },
+      "v1EventTypeSummary": {
+        "description": "EventTypeSummary provides a concise overview of an event type's key properties.",
+        "properties": {
+          "bookingUrl": {
+            "title": "The booking URL for this event type",
+            "type": "string"
+          },
+          "calendarId": {
+            "title": "The calendar id this event type belongs to (personal, team, or session)",
+            "type": "string"
+          },
+          "category": {
+            "title": "The category type of the event type (personal, team, or session)",
+            "type": "string"
+          },
+          "duration": {
+            "format": "int64",
+            "title": "The duration of the event type in seconds",
+            "type": "string"
+          },
+          "id": {
+            "title": "The unique identifier for the event type",
+            "type": "string"
+          },
+          "isPinned": {
+            "title": "Whether this event type is pinned or featured",
+            "type": "boolean"
+          },
+          "location": {
+            "title": "The location where the event type meeting will take place (virtual or physical location)",
+            "type": "string"
+          },
+          "name": {
+            "title": "The display name of the event type",
+            "type": "string"
+          },
+          "slug": {
+            "title": "The URL-friendly slug identifier for the event type",
+            "type": "string"
+          },
+          "teamName": {
+            "title": "The name of the team this event type belongs to (only applicable when category is \"team\")",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ExternalCancelMeetingRequest": {
+        "description": "Request message for cancelling an existing meeting.",
+        "properties": {
+          "businessId": {
+            "description": "Required. The business ID (starts with \"AG-\").",
+            "type": "string"
+          },
+          "cancellationReason": {
+            "description": "Optional. Reason for the cancellation.",
+            "type": "string"
+          },
+          "meetingId": {
+            "description": "Required. Identifier for the meeting to cancel.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ExternalRescheduleMeetingRequest": {
+        "description": "Request message for rescheduling an existing meeting to a new time and/or location.\nEither start_time or location is required.",
+        "properties": {
+          "businessId": {
+            "description": "Required. The business ID (starts with \"AG-\").",
+            "type": "string"
+          },
+          "location": {
+            "description": "Optional. The new location for the meeting. For virtual meetings, leave empty. For in-person, use physical address.",
+            "type": "string"
+          },
+          "meetingId": {
+            "description": "Required. Identifier for the meeting to reschedule.",
+            "type": "string"
+          },
+          "startTime": {
+            "description": "Optional. The new desired start time for the meeting in UTC. Either start_time or location is required.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "timeZone": {
+            "$ref": "#/components/schemas/typeTimeZone"
+          }
+        },
+        "type": "object"
+      },
+      "v1ExternalRescheduleMeetingResponse": {
+        "description": "Response containing the updated details of the rescheduled meeting.",
+        "properties": {
+          "bookingUrl": {
+            "description": "Public URL where attendees can book another meeting for this event.",
+            "type": "string"
+          },
+          "cancelUrl": {
+            "description": "URL for attendees to cancel their participation in the meeting.",
+            "type": "string"
+          },
+          "endTime": {
+            "description": "New scheduled end time of the meeting in UTC.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "eventTypeId": {
+            "description": "Unique identifier of the event type for this meeting.",
+            "type": "string"
+          },
+          "hostDetails": {
+            "description": "List of all hosts for this meeting with their full details.",
+            "items": {
+              "$ref": "#/components/schemas/v1HostUserDetails"
+            },
+            "type": "array"
+          },
+          "location": {
+            "description": "Location of the meeting. Empty for virtual; physical address for in-person.",
+            "type": "string"
+          },
+          "meetingId": {
+            "description": "Unique identifier of the rescheduled meeting.",
+            "type": "string"
+          },
+          "meetingUrl": {
+            "description": "URL to join the virtual meeting (e.g., Zoom, Google Meet, Microsoft Teams link).",
+            "type": "string"
+          },
+          "rescheduleUrl": {
+            "description": "URL for attendees to reschedule the meeting to a different time slot.",
+            "type": "string"
+          },
+          "startTime": {
+            "description": "New scheduled start time of the meeting in UTC.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "title": {
+            "description": "Title or subject of the meeting as it appears in calendar invitations.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1FeatureFlagFieldType": {
+        "default": "FEATURE_FLAG_FIELD_TYPE_CALENDAR_ID",
+        "enum": [
+          "FEATURE_FLAG_FIELD_TYPE_CALENDAR_ID"
+        ],
+        "type": "string"
+      },
+      "v1Field": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "type": {
+            "$ref": "#/components/schemas/v1FormFieldType"
+          }
+        },
+        "type": "object"
+      },
+      "v1Form": {
+        "properties": {
+          "fields": {
+            "items": {
+              "$ref": "#/components/schemas/v1Field"
+            },
+            "title": "The order of fields specified here is the order they will be displayed in",
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1FormFieldType": {
+        "default": "FORM_FIELD_TYPE_INVALID",
+        "enum": [
+          "FORM_FIELD_TYPE_INVALID",
+          "FORM_FIELD_TYPE_TEXT",
+          "FORM_FIELD_TYPE_EMAIL",
+          "FORM_FIELD_TYPE_PHONE_NUMBER",
+          "FORM_FIELD_TYPE_SELECT"
+        ],
+        "type": "string"
+      },
+      "v1GetCalendarResponse": {
+        "properties": {
+          "calendar": {
+            "$ref": "#/components/schemas/v1Calendar"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetEntityAssociationResponse": {
+        "properties": {
+          "groups": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "services": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "title": "Contains names of services and groups which has linked to the entity (event_type or group)",
+        "type": "object"
+      },
+      "v1GetGroupResponse": {
+        "properties": {
+          "businessDisplayLogoUrl": {
+            "type": "string"
+          },
+          "group": {
+            "$ref": "#/components/schemas/v1Group"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetHostMeetingResponse": {
+        "properties": {
+          "meeting": {
+            "$ref": "#/components/schemas/v1Meeting"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetHostPreferencesResponse": {
+        "properties": {
+          "preferences": {
+            "$ref": "#/components/schemas/v1Preferences"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetHostResponse": {
+        "properties": {
+          "host": {
+            "$ref": "#/components/schemas/v1Host"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetHostsForCalendarResponse": {
+        "properties": {
+          "hostUserAvailabilityRule": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/v1AvailabilityRuleList"
+            },
+            "type": "object"
+          },
+          "hostUsers": {
+            "items": {
+              "$ref": "#/components/schemas/v1HostUser"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetMeetingCalendarInfoResponse": {
+        "properties": {
+          "googleCalendarLink": {
+            "type": "string"
+          },
+          "linkReady": {
+            "title": "Indicates whether at least one of the above fields is populated\nFrontend should stop polling when this is true",
+            "type": "boolean"
+          },
+          "outlookCalendarLink": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetMeetingTypeResponse": {
+        "properties": {
+          "meetingType": {
+            "$ref": "#/components/schemas/v1MeetingType"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetMeetingTypesForCalendarsResponse": {
+        "properties": {
+          "calendarMeetingTypesMap": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/v1MeetingTypeList"
+            },
+            "title": "map is from string to list of meeting types\nEach calendar_id passed in the request is in the map - even if there are no meeting types for the calendar",
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetServiceResponse": {
+        "properties": {
+          "businessDisplayLogoUrl": {
+            "type": "string"
+          },
+          "service": {
+            "$ref": "#/components/schemas/v1Service"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetSessionInviteeMeetingInfoResponse": {
+        "properties": {
+          "businessLogoUrl": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "string"
+          },
+          "hostNames": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "location": {
+            "type": "string"
+          },
+          "start": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetSessionMeetingResponse": {
+        "properties": {
+          "attendeeCount": {
+            "format": "int64",
+            "type": "string"
+          },
+          "businessLogoUrl": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "string"
+          },
+          "form": {
+            "$ref": "#/components/schemas/v1Form"
+          },
+          "hostUsers": {
+            "items": {
+              "$ref": "#/components/schemas/v1HostUser"
+            },
+            "type": "array"
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "registeredAttendeeCount": {
+            "format": "int64",
+            "type": "string"
+          },
+          "registrationCutOffTime": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "start": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetUsersResponse": {
+        "description": "Paginated response containing list of users with their configuration status.",
+        "properties": {
+          "pagedResponseMetadata": {
+            "$ref": "#/components/schemas/v1PagedResponseMetadata"
+          },
+          "users": {
+            "description": "List of users with their configuration status.",
+            "items": {
+              "$ref": "#/components/schemas/v1UserResponse"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1GoogleMeetConferenceData": {
+        "properties": {
+          "conferenceId": {
+            "type": "string"
+          },
+          "conferenceSolution": {
+            "$ref": "#/components/schemas/v1GoogleMeetConferenceSolution"
+          },
+          "createRequest": {
+            "$ref": "#/components/schemas/v1GoogleMeetCreateConferenceRequest"
+          },
+          "entryPoints": {
+            "items": {
+              "$ref": "#/components/schemas/v1GoogleMeetEntryPoint"
+            },
+            "type": "array"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "signature": {
+            "type": "string"
+          }
+        },
+        "title": "https://github.com/google/google-api-go-client/tree/master/calendar/v3/calendar-gen.go#L829",
+        "type": "object"
+      },
+      "v1GoogleMeetConferenceRequestStatus": {
+        "properties": {
+          "statusCode": {
+            "type": "string"
+          }
+        },
+        "title": "https://github.com/google/google-api-go-client/tree/master/calendar/v3/calendar-gen.go#L990",
+        "type": "object"
+      },
+      "v1GoogleMeetConferenceSolution": {
+        "properties": {
+          "iconUri": {
+            "type": "string"
+          },
+          "key": {
+            "$ref": "#/components/schemas/v1GoogleMeetConferenceSolutionKey"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "title": "https://github.com/google/google-api-go-client/tree/master/calendar/v3/calendar-gen.go#L1025",
+        "type": "object"
+      },
+      "v1GoogleMeetConferenceSolutionKey": {
+        "properties": {
+          "type": {
+            "type": "string"
+          }
+        },
+        "title": "https://github.com/googleapis/google-api-go-client/blob/master/calendar/v3/calendar-gen.go#L1059",
+        "type": "object"
+      },
+      "v1GoogleMeetCreateConferenceRequest": {
+        "properties": {
+          "conferenceSolutionKey": {
+            "$ref": "#/components/schemas/v1GoogleMeetConferenceSolutionKey"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/v1GoogleMeetConferenceRequestStatus"
+          }
+        },
+        "title": "https://github.com/google/google-api-go-client/tree/master/calendar/v3/calendar-gen.go#L1096",
+        "type": "object"
+      },
+      "v1GoogleMeetCreateMeetingResponse": {
+        "description": "Request body of creating a google-meet meeting.",
+        "properties": {
+          "calenderId": {
+            "type": "string"
+          },
+          "iamUserId": {
+            "type": "string"
+          },
+          "meeting": {
+            "$ref": "#/components/schemas/v1GoogleMeetMeeting"
+          }
+        },
+        "type": "object"
+      },
+      "v1GoogleMeetEntryPoint": {
+        "properties": {
+          "accessCode": {
+            "type": "string"
+          },
+          "entryPointFeatures": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "entryPointType": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "meetingCode": {
+            "type": "string"
+          },
+          "passcode": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "pin": {
+            "type": "string"
+          },
+          "regionCode": {
+            "type": "string"
+          },
+          "uri": {
+            "type": "string"
+          }
+        },
+        "title": "https://github.com/google/google-api-go-client/tree/master/calendar/v3/calendar-gen.go#L1135",
+        "type": "object"
+      },
+      "v1GoogleMeetListMeetingsResponse": {
+        "properties": {
+          "meetings": {
+            "items": {
+              "$ref": "#/components/schemas/v1GoogleMeetMeeting"
+            },
+            "type": "array"
+          },
+          "nextPageToken": {
+            "description": "Cursor used to get the next page of results. If set, nextSyncToken will be empty.",
+            "type": "string"
+          },
+          "nextSyncToken": {
+            "description": "Token used to get only the changed events since this call. Signifies the end of this paginated set of results. If set, nextPageToken will be empty.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GoogleMeetMeeting": {
+        "description": "Google meet meetings (a.k.a events of google calendar)\nCheck https://github.com/google/google-api-go-client/tree/master/calendar/v3/calendar-gen.go#L1289 for more details of parameters.",
+        "properties": {
+          "anyoneCanAddSelf": {
+            "type": "boolean"
+          },
+          "attendees": {
+            "items": {
+              "$ref": "#/components/schemas/v1GoogleMeetMeetingAttendee"
+            },
+            "type": "array"
+          },
+          "attendeesOmitted": {
+            "type": "boolean"
+          },
+          "colorId": {
+            "type": "string"
+          },
+          "conferenceData": {
+            "$ref": "#/components/schemas/v1GoogleMeetConferenceData"
+          },
+          "created": {
+            "type": "string"
+          },
+          "creator": {
+            "$ref": "#/components/schemas/v1GoogleMeetMeetingCreator"
+          },
+          "description": {
+            "type": "string"
+          },
+          "end": {
+            "$ref": "#/components/schemas/v1GoogleMeetMeetingDateTime"
+          },
+          "endTimeUnspecified": {
+            "type": "boolean"
+          },
+          "etag": {
+            "type": "string"
+          },
+          "hangoutLink": {
+            "title": "Read only properties",
+            "type": "string"
+          },
+          "htmlLink": {
+            "type": "string"
+          },
+          "icalUid": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "locked": {
+            "type": "boolean"
+          },
+          "organizer": {
+            "$ref": "#/components/schemas/v1GoogleMeetMeetingOrganizer"
+          },
+          "originalStartTime": {
+            "$ref": "#/components/schemas/v1GoogleMeetMeetingDateTime"
+          },
+          "recurrence": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "recurringMeetingId": {
+            "type": "string"
+          },
+          "reminders": {
+            "$ref": "#/components/schemas/v1GoogleMeetMeetingReminders"
+          },
+          "sequence": {
+            "format": "int64",
+            "type": "string"
+          },
+          "start": {
+            "$ref": "#/components/schemas/v1GoogleMeetMeetingDateTime"
+          },
+          "status": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "transparency": {
+            "type": "string"
+          },
+          "updated": {
+            "type": "string"
+          },
+          "visibility": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GoogleMeetMeetingAttendee": {
+        "properties": {
+          "additionalGuests": {
+            "format": "int64",
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "optional": {
+            "type": "boolean"
+          },
+          "organizer": {
+            "type": "boolean"
+          },
+          "resource": {
+            "type": "boolean"
+          },
+          "responseStatus": {
+            "type": "string"
+          },
+          "self": {
+            "type": "boolean"
+          }
+        },
+        "title": "https://github.com/google/google-api-go-client/tree/master/calendar/v3/calendar-gen.go#L1842",
+        "type": "object"
+      },
+      "v1GoogleMeetMeetingCreator": {
+        "properties": {
+          "displayName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "self": {
+            "type": "boolean"
+          }
+        },
+        "title": "https://github.com/google/google-api-go-client/tree/master/calendar/v3/calendar-gen.go#L1556",
+        "type": "object"
+      },
+      "v1GoogleMeetMeetingDateTime": {
+        "properties": {
+          "date": {
+            "type": "string"
+          },
+          "dateTime": {
+            "type": "string"
+          },
+          "timeZone": {
+            "type": "string"
+          }
+        },
+        "title": "https://github.com/google/google-api-go-client/tree/master/calendar/v3/calendar-gen.go#L1914",
+        "type": "object"
+      },
+      "v1GoogleMeetMeetingOrganizer": {
+        "properties": {
+          "displayName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "self": {
+            "type": "boolean"
+          }
+        },
+        "title": "https://github.com/googleapis/google-api-go-client/blob/main/calendar/v3/calendar-gen.go#L1457",
+        "type": "object"
+      },
+      "v1GoogleMeetMeetingReminder": {
+        "properties": {
+          "method": {
+            "type": "string"
+          },
+          "minutes": {
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "title": "https://github.com/google/google-api-go-client/tree/master/calendar/v3/calendar-gen.go#L1961",
+        "type": "object"
+      },
+      "v1GoogleMeetMeetingReminders": {
+        "properties": {
+          "overrides": {
+            "items": {
+              "$ref": "#/components/schemas/v1GoogleMeetMeetingReminder"
+            },
+            "type": "array"
+          },
+          "useDefault": {
+            "type": "boolean"
+          }
+        },
+        "title": "https://github.com/google/google-api-go-client/tree/master/calendar/v3/calendar-gen.go#L1734",
+        "type": "object"
+      },
+      "v1Group": {
+        "properties": {
+          "associations": {
+            "items": {
+              "$ref": "#/components/schemas/v1EventGroupAndServiceAssociations"
+            },
+            "type": "array"
+          },
+          "bookingUrl": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "hexColor": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "isPinned": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GroupResponse": {
+        "description": "Response containing details of a single group.",
+        "properties": {
+          "bookingUrl": {
+            "description": "Public URL where users can book meetings with this group.",
+            "type": "string"
+          },
+          "description": {
+            "description": "Optional. Description of the group and its purpose.",
+            "type": "string"
+          },
+          "hexColor": {
+            "description": "Hex color code used for visual representation of the group.",
+            "type": "string"
+          },
+          "id": {
+            "description": "Unique identifier of the group.",
+            "type": "string"
+          },
+          "name": {
+            "description": "Display name of the group.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GroupsRequest": {
+        "description": "Request message for listing all groups for a given business.",
+        "properties": {
+          "businessId": {
+            "description": "Required. The business ID (starts with \"AG-\").",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GroupsResponse": {
+        "description": "Response containing a list of all groups for the specified business.",
+        "properties": {
+          "groups": {
+            "description": "List of groups available for the specified business.",
+            "items": {
+              "$ref": "#/components/schemas/v1GroupResponse"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1GuestGetBookedMeetingResponse": {
+        "properties": {
+          "calendarId": {
+            "title": "used during listAvailableTimeSlots api call when multiple host are involved in reschedule flow",
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "endTime": {
+            "format": "date-time",
+            "title": "The time at which the meeting was scheduled to end",
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "locationGuideline": {
+            "type": "string"
+          },
+          "locationType": {
+            "$ref": "#/components/schemas/v1MeetingLocationType"
+          },
+          "meetingType": {
+            "$ref": "#/components/schemas/v1TeamEventMeetingType"
+          },
+          "meetingTypeId": {
+            "type": "string"
+          },
+          "startTime": {
+            "format": "date-time",
+            "title": "The time at which the meeting was scheduled to start",
+            "type": "string"
+          },
+          "timeZone": {
+            "$ref": "#/components/schemas/typeTimeZone"
+          }
+        },
+        "type": "object"
+      },
+      "v1GuestGetBookedMeetingResponseV2": {
+        "properties": {
+          "bookingUrl": {
+            "type": "string"
+          },
+          "businessLogo": {
+            "type": "string"
+          },
+          "cancelLink": {
+            "type": "string"
+          },
+          "endTime": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "googleCalendarLink": {
+            "type": "string"
+          },
+          "hostUserNames": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "location": {
+            "type": "string"
+          },
+          "meetingLocationType": {
+            "$ref": "#/components/schemas/v1MeetingLocation"
+          },
+          "meetingSource": {
+            "$ref": "#/components/schemas/v1MeetingSource"
+          },
+          "meetingSourceLink": {
+            "type": "string"
+          },
+          "outlookCalendarLink": {
+            "type": "string"
+          },
+          "rescheduleLink": {
+            "type": "string"
+          },
+          "startTime": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "timeZone": {
+            "$ref": "#/components/schemas/typeTimeZone"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GuestIsHostConfiguredResponse": {
+        "properties": {
+          "isConfigured": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "v1Host": {
+        "properties": {
+          "displayLogoUrl": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "displayProfileUrl": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1HostBookMeetingResponse": {
+        "properties": {
+          "meetingId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1HostBookSessionResponse": {
+        "properties": {
+          "bookingUrl": {
+            "type": "string"
+          },
+          "meetingId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1HostDetails": {
+        "properties": {
+          "hostId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1HostGetCalendarResponse": {
+        "properties": {
+          "calendar": {
+            "$ref": "#/components/schemas/v1Calendar"
+          }
+        },
+        "type": "object"
+      },
+      "v1HostGetMeetingTypeResponse": {
+        "properties": {
+          "meetingType": {
+            "$ref": "#/components/schemas/v1MeetingType"
+          }
+        },
+        "type": "object"
+      },
+      "v1HostListMeetingTypesResponse": {
+        "properties": {
+          "meetingTypes": {
+            "items": {
+              "$ref": "#/components/schemas/v1MeetingType"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1HostOrderDetails": {
+        "properties": {
+          "hostOrder": {
+            "format": "int64",
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1HostUser": {
+        "properties": {
+          "displayName": {
+            "type": "string"
+          },
+          "isConfigured": {
+            "type": "boolean"
+          },
+          "isConnected": {
+            "type": "boolean"
+          },
+          "userId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1HostUserDetails": {
+        "description": "Details about a host user including their ID and display name.",
+        "properties": {
+          "hostUserId": {
+            "description": "Unique identifier of the host user (IAM user ID).",
+            "type": "string"
+          },
+          "hostUserName": {
+            "description": "Full display name of the host user (FirstName + LastName).",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1IsCalendarConfiguredResponse": {
+        "properties": {
+          "calendarIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "isConfigured": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "v1IsHostConfiguredResponse": {
+        "properties": {
+          "isConfigured": {
+            "type": "boolean"
+          },
+          "onBoardingState": {
+            "$ref": "#/components/schemas/v1OnBoardingState"
+          }
+        },
+        "type": "object"
+      },
+      "v1IsoDateTimeRange": {
+        "properties": {
+          "end": {
+            "type": "string"
+          },
+          "start": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListAttendeesResponse": {
+        "properties": {
+          "attendees": {
+            "items": {
+              "$ref": "#/components/schemas/v1SessionAttendees"
+            },
+            "type": "array"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/v1PagedResponseMetadata"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListAvailabilityRequestFilters": {
+        "properties": {
+          "hostId": {
+            "type": "string"
+          },
+          "meetingTypeId": {
+            "title": "meeting type for the availability. OPTIONAL - empty will return all",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListAvailabilityResponse": {
+        "properties": {
+          "availabilityRules": {
+            "items": {
+              "$ref": "#/components/schemas/v1AvailabilityRule"
+            },
+            "type": "array"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/v1PagedResponseMetadata"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListAvailableTimeSlotsResponse": {
+        "properties": {
+          "isoTimeSlots": {
+            "items": {
+              "$ref": "#/components/schemas/v1IsoDateTimeRange"
+            },
+            "type": "array"
+          },
+          "timeSlots": {
+            "items": {
+              "$ref": "#/components/schemas/vendastatypesDateRange"
+            },
+            "title": "Ordered by start time UTC and reflects the requested TimeZone",
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListAvailableTimeslotsForRecurringSessionResponse": {
+        "properties": {
+          "timeSlots": {
+            "items": {
+              "$ref": "#/components/schemas/v1TimeSlotsByWeekDay"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListAvailableTimeslotsForSessionResponse": {
+        "properties": {
+          "isoTimeSlots": {
+            "items": {
+              "$ref": "#/components/schemas/v1IsoDateTimeRange"
+            },
+            "type": "array"
+          },
+          "timeSlots": {
+            "items": {
+              "$ref": "#/components/schemas/vendastatypesDateRange"
+            },
+            "title": "Ordered by start time UTC and reflects the requested TimeZone",
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListBookedMeetingsRequestFilters": {
+        "properties": {
+          "hostId": {
+            "title": "The identifier of the host to list the meetings for",
+            "type": "string"
+          },
+          "meetingTypeIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "The identifiers of a meeting types to be filtered on",
+            "type": "array"
+          },
+          "timeSpan": {
+            "$ref": "#/components/schemas/vendastatypesDateRange"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListBookedMeetingsResponse": {
+        "properties": {
+          "meetings": {
+            "items": {
+              "$ref": "#/components/schemas/v1Meeting"
+            },
+            "type": "array"
+          },
+          "pagingMetadata": {
+            "$ref": "#/components/schemas/v1PagedResponseMetadata"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListEventTypesForMultipleCalendarsResponse": {
+        "description": "ListEventTypesForMultipleCalendarsResponse contains a list of event type summaries across the requested calendars.",
+        "properties": {
+          "eventTypes": {
+            "items": {
+              "$ref": "#/components/schemas/v1EventTypeSummary"
+            },
+            "title": "A summary of each event type found across the requested calendars",
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListGroupsResponse": {
+        "properties": {
+          "groups": {
+            "items": {
+              "$ref": "#/components/schemas/v1Group"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListMeetingTypesResponse": {
+        "properties": {
+          "meetingTypes": {
+            "items": {
+              "$ref": "#/components/schemas/v1MeetingType"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListServicesResponse": {
+        "properties": {
+          "services": {
+            "items": {
+              "$ref": "#/components/schemas/v1Service"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListTeamEventTypesResponse": {
+        "description": "Response containing a paginated list of team event types.",
+        "properties": {
+          "eventTypes": {
+            "description": "List of event types available for the specified business.",
+            "items": {
+              "$ref": "#/components/schemas/v1EventType"
+            },
+            "type": "array"
+          },
+          "hasMore": {
+            "description": "Whether more results are available beyond the current page.",
+            "type": "boolean"
+          },
+          "nextCursor": {
+            "description": "Cursor for next page. Pass to ListTeamEventTypesRequest.cursor. Empty means no more pages.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListUserEventTypesResponse": {
+        "description": "Response containing the list of event types accessible for the given user and context.",
+        "properties": {
+          "eventTypes": {
+            "description": "List of event types (personal and team) the user has access to.",
+            "items": {
+              "$ref": "#/components/schemas/v1EventType"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1Meeting": {
+        "properties": {
+          "attachments": {
+            "items": {
+              "$ref": "#/components/schemas/v1Attachment"
+            },
+            "type": "array"
+          },
+          "attendees": {
+            "items": {
+              "$ref": "#/components/schemas/v1Attendee"
+            },
+            "type": "array"
+          },
+          "calendarId": {
+            "type": "string"
+          },
+          "created": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "end": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "eventTypeId": {
+            "type": "string"
+          },
+          "formAnswers": {
+            "$ref": "#/components/schemas/v1Answers"
+          },
+          "hostDetails": {
+            "items": {
+              "$ref": "#/components/schemas/v1HostDetails"
+            },
+            "type": "array"
+          },
+          "hostId": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "joinMeetingUrl": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "maxAttendeeCount": {
+            "format": "int64",
+            "type": "string"
+          },
+          "meetingType": {
+            "$ref": "#/components/schemas/v1TeamEventMeetingType"
+          },
+          "metadata": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "metadata will include additional fields from the url during the booking process (msm_business, utm_campaign)\nhttps://vendasta.jira.com/wiki/spaces/BOOKME/pages/227836157/Terminology#Meeting-Metadata",
+            "type": "object"
+          },
+          "registeredAttendeeCount": {
+            "format": "int64",
+            "type": "string"
+          },
+          "registrationCutoff": {
+            "type": "string"
+          },
+          "sessionRegistrationUrl": {
+            "type": "string"
+          },
+          "sessionTitle": {
+            "title": "Additional Details for Session",
+            "type": "string"
+          },
+          "start": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "topic": {
+            "type": "string"
+          },
+          "updated": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1MeetingLocation": {
+        "default": "VIDEO_MEETING",
+        "enum": [
+          "VIDEO_MEETING",
+          "IN_PERSON_MEETING",
+          "HYBRID_MEETING"
+        ],
+        "type": "string"
+      },
+      "v1MeetingLocationType": {
+        "default": "VIDEO",
+        "enum": [
+          "VIDEO",
+          "IN_PERSON_USER_SITE",
+          "IN_PERSON_CLIENT_SITE"
+        ],
+        "type": "string"
+      },
+      "v1MeetingSource": {
+        "default": "MEETING_SOURCE_INVALID",
+        "enum": [
+          "MEETING_SOURCE_INVALID",
+          "MEETING_SOURCE_ZOOM",
+          "MEETING_SOURCE_GOOGLE_MEET",
+          "MEETING_SOURCE_MICROSOFT"
+        ],
+        "type": "string"
+      },
+      "v1MeetingSourceInfo": {
+        "properties": {
+          "connectDisconnectUrl": {
+            "description": "It will be a connect URL if the user is not connected yet. Otherwise, it will be a disconnected URL.",
+            "type": "string"
+          },
+          "connectionLabel": {
+            "title": "This is the unique identifier, where it holds emailID / username of zoom, google meet, teams etc",
+            "type": "string"
+          },
+          "source": {
+            "$ref": "#/components/schemas/v1MeetingSource"
+          },
+          "status": {
+            "$ref": "#/components/schemas/v1MeetingSourceStatus"
+          }
+        },
+        "type": "object"
+      },
+      "v1MeetingSourceListResponse": {
+        "properties": {
+          "iamUserId": {
+            "type": "string"
+          },
+          "sourceInfo": {
+            "items": {
+              "$ref": "#/components/schemas/v1MeetingSourceInfo"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1MeetingSourceQuery": {
+        "description": "MeetingSourceQuery is used to query the status of a meeting source.",
+        "properties": {
+          "connectNextUrl": {
+            "description": "This URL is used to constuct a connect URL of the meeting source.",
+            "type": "string"
+          },
+          "disconnectNextUrl": {
+            "description": "This URL is used to constuct a disconnect URL of the meeting source.",
+            "type": "string"
+          },
+          "source": {
+            "$ref": "#/components/schemas/v1MeetingSource"
+          }
+        },
+        "type": "object"
+      },
+      "v1MeetingSourceStatus": {
+        "default": "MEETING_SOURCE_STATUS_INVALID",
+        "enum": [
+          "MEETING_SOURCE_STATUS_INVALID",
+          "MEETING_SOURCE_STATUS_CONNECTED",
+          "MEETING_SOURCE_STATUS_DISCONNECTED",
+          "MEETING_SOURCE_STATUS_BROKEN"
+        ],
+        "type": "string"
+      },
+      "v1MeetingType": {
+        "properties": {
+          "attendeeCount": {
+            "format": "int64",
+            "title": "These 3 fields are used only for the session type",
+            "type": "string"
+          },
+          "availabilityIncrement": {
+            "format": "int64",
+            "type": "string"
+          },
+          "bookingUrl": {
+            "title": "Derived booking_url of the form https://bookmenow.info/book/calendar-slug/meeting-type-slug for responses",
+            "type": "string"
+          },
+          "bufferDurationAfterMeeting": {
+            "format": "int64",
+            "type": "string"
+          },
+          "bufferDurationBeforeMeeting": {
+            "format": "int64",
+            "type": "string"
+          },
+          "calendarId": {
+            "type": "string"
+          },
+          "calendarType": {
+            "type": "string"
+          },
+          "dateRange": {
+            "$ref": "#/components/schemas/v1EventTypeDateRange"
+          },
+          "description": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "string"
+          },
+          "emailDescription": {
+            "type": "string"
+          },
+          "emailSubject": {
+            "type": "string"
+          },
+          "form": {
+            "$ref": "#/components/schemas/v1Form"
+          },
+          "hexColor": {
+            "type": "string"
+          },
+          "hostOrderDetails": {
+            "items": {
+              "$ref": "#/components/schemas/v1HostOrderDetails"
+            },
+            "type": "array"
+          },
+          "hostUserIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "hostUsers": {
+            "items": {
+              "$ref": "#/components/schemas/v1HostUser"
+            },
+            "type": "array"
+          },
+          "id": {
+            "type": "string"
+          },
+          "isEmailRequired": {
+            "type": "boolean"
+          },
+          "isPhoneNumberRequired": {
+            "type": "boolean"
+          },
+          "isPinned": {
+            "type": "boolean"
+          },
+          "isPrivate": {
+            "type": "boolean"
+          },
+          "isReserveWithGoogleService": {
+            "type": "boolean"
+          },
+          "isVideoLinkDisabled": {
+            "type": "boolean"
+          },
+          "location": {
+            "type": "string"
+          },
+          "locationGuidelines": {
+            "type": "string"
+          },
+          "locationType": {
+            "$ref": "#/components/schemas/v1MeetingLocationType"
+          },
+          "meetingType": {
+            "$ref": "#/components/schemas/v1TeamEventMeetingType"
+          },
+          "meetingTypeSlug": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "noticeTime": {
+            "format": "int64",
+            "type": "string"
+          },
+          "notificationType": {
+            "$ref": "#/components/schemas/v1NotificationType"
+          },
+          "registrationCutoff": {
+            "$ref": "#/components/schemas/v1RegistrationCutOff"
+          },
+          "sessionTitle": {
+            "type": "string"
+          },
+          "teamName": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1MeetingTypeList": {
+        "description": "This message is necessary as a map of string to repeated property is not supported in proto3 at this time.",
+        "properties": {
+          "meetingTypes": {
+            "items": {
+              "$ref": "#/components/schemas/v1MeetingType"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1NotificationType": {
+        "default": "EMAIL",
+        "enum": [
+          "EMAIL",
+          "SMS",
+          "BOTH"
+        ],
+        "type": "string"
+      },
+      "v1OnBoardingState": {
+        "default": "COMPLETED_SETUP",
+        "enum": [
+          "COMPLETED_SETUP",
+          "NOT_YET_STARTED",
+          "SLUG_CREATED",
+          "CALENDAR_CONNECTED",
+          "MEETING_APP_CONNECTED"
+        ],
+        "type": "string"
+      },
+      "v1PagedRequestOptions": {
+        "properties": {
+          "cursor": {
+            "title": "cursor can be passed to retrieve the next page of results keyed by the cursor",
+            "type": "string"
+          },
+          "pageSize": {
+            "format": "int64",
+            "title": "page_size specifies the number of items to return in the next page",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1PagedResponseMetadata": {
+        "properties": {
+          "hasMore": {
+            "title": "Whether or not more results exist",
+            "type": "boolean"
+          },
+          "nextCursor": {
+            "title": "A cursor that can be provided to retrieve the next page of results",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1PhoneFields": {
+        "properties": {
+          "countryCode": {
+            "title": "Numeric country calling code (e.g., 1 for Canada, 91 for India)",
+            "type": "string"
+          },
+          "extension": {
+            "title": "An extension number",
+            "type": "string"
+          },
+          "nationalNumber": {
+            "title": "The main phone number without the country code",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Preferences": {
+        "properties": {
+          "availabilityIncrement": {
+            "format": "int64",
+            "title": "How availability is split into smaller pieces - specified in seconds.\nhttps://vendasta.jira.com/wiki/spaces/BOOKME/pages/227836157/Terminology#Availability-Increments",
+            "type": "string"
+          },
+          "bufferDurationAfterMeeting": {
+            "format": "int64",
+            "title": "The length of time that should be left unscheduled after a meeting - specified in seconds.\nSee https://vendasta.jira.com/wiki/spaces/BOOKME/pages/227836157/Terminology#Meeting-Buffer-Time",
+            "type": "string"
+          },
+          "bufferDurationBeforeMeeting": {
+            "format": "int64",
+            "type": "string"
+          },
+          "calendarIntegration": {
+            "$ref": "#/components/schemas/v1CalendarSource"
+          },
+          "calendarSlug": {
+            "title": "The slug that can be used for routing to the booking client for this calendar.\nI.e., if this was vendasta the link https://bookmenow.info/vendasta would link to this calendar.\nslugs are unique to a calendar.\nDANGER: Changing this slug may BREAK existing links under the previous slug.\nSee https://vendasta.jira.com/wiki/spaces/BOOKME/pages/227836157/Terminology#Calendar-Slug",
+            "type": "string"
+          },
+          "meetingIntegration": {
+            "$ref": "#/components/schemas/v1MeetingSource"
+          },
+          "noticeTime": {
+            "format": "int64",
+            "title": "The minimum required duration from now that a meeting can be scheduled - specified in seconds.\nSee https://vendasta.jira.com/wiki/spaces/BOOKME/pages/227836157/Terminology#Meeting-Notice-Time",
+            "type": "string"
+          },
+          "onBoardingState": {
+            "$ref": "#/components/schemas/v1OnBoardingState"
+          },
+          "timezone": {
+            "$ref": "#/components/schemas/typeTimeZone"
+          }
+        },
+        "type": "object"
+      },
+      "v1Recurrence": {
+        "default": "RECURRENCE_DAILY",
+        "description": "- RECURRENCE_DAILY: Daily recurrence\n - RECURRENCE_WEEKLY: Weekly recurrence\n - RECURRENCE_WORKING_WEEK: Working week (Mon-Fri)\n - RECURRENCE_MONTHLY: Monthly recurrence\n - RECURRENCE_QUARTERLY: Quarterly recurrence",
+        "enum": [
+          "RECURRENCE_DAILY",
+          "RECURRENCE_WEEKLY",
+          "RECURRENCE_WORKING_WEEK",
+          "RECURRENCE_MONTHLY",
+          "RECURRENCE_QUARTERLY"
+        ],
+        "title": "Recurrence patterns for session events",
+        "type": "string"
+      },
+      "v1RecurrenceConfig": {
+        "properties": {
+          "recurrence": {
+            "$ref": "#/components/schemas/v1Recurrence"
+          },
+          "recurrenceEnd": {
+            "$ref": "#/components/schemas/v1RecurrenceEnd"
+          },
+          "registrationMode": {
+            "$ref": "#/components/schemas/v1RegistrationMode"
+          },
+          "repeatOnDays": {
+            "items": {
+              "$ref": "#/components/schemas/v1Weekday"
+            },
+            "title": "Specific weekdays for weekly pattern",
+            "type": "array"
+          },
+          "startTime": {
+            "format": "date-time",
+            "title": "First occurrence start time (mandatory)",
+            "type": "string"
+          }
+        },
+        "title": "Configuration for recurring session events",
+        "type": "object"
+      },
+      "v1RecurrenceEnd": {
+        "properties": {
+          "endDate": {
+            "format": "date-time",
+            "title": "Stop on specific date",
+            "type": "string"
+          },
+          "occurrenceCount": {
+            "format": "int64",
+            "title": "Stop after N occurrences",
+            "type": "string"
+          }
+        },
+        "title": "Defines when a recurring session series ends",
+        "type": "object"
+      },
+      "v1RegistrationCutOff": {
+        "properties": {
+          "unit": {
+            "$ref": "#/components/schemas/v1RegistrationCutOffUnit"
+          },
+          "value": {
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1RegistrationCutOffUnit": {
+        "default": "REGISTRATION_CUTOFF_DAYS",
+        "enum": [
+          "REGISTRATION_CUTOFF_DAYS",
+          "REGISTRATION_CUTOFF_HOURS",
+          "REGISTRATION_CUTOFF_MINUTES"
+        ],
+        "type": "string"
+      },
+      "v1RegistrationMode": {
+        "default": "REGISTRATION_MODE_ALL",
+        "description": "- REGISTRATION_MODE_ALL: Must register for complete series\n - REGISTRATION_MODE_ANY: Can register for individual sessions",
+        "enum": [
+          "REGISTRATION_MODE_ALL",
+          "REGISTRATION_MODE_ANY"
+        ],
+        "title": "Registration modes for recurring sessions",
+        "type": "string"
+      },
+      "v1RelativeDateRange": {
+        "properties": {
+          "unit": {
+            "$ref": "#/components/schemas/v1RelativeTimeUnit"
+          },
+          "value": {
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1RelativeTimeUnit": {
+        "default": "DAYS",
+        "enum": [
+          "DAYS",
+          "WEEKS",
+          "MONTHS"
+        ],
+        "type": "string"
+      },
+      "v1Service": {
+        "properties": {
+          "associations": {
+            "items": {
+              "$ref": "#/components/schemas/v1EventGroupAndServiceAssociations"
+            },
+            "type": "array"
+          },
+          "bookingUrl": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "hexColor": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "isPinned": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ServiceResponse": {
+        "description": "Response containing details of a single service.",
+        "properties": {
+          "bookingUrl": {
+            "description": "Public URL where users can book meetings for this service.",
+            "type": "string"
+          },
+          "description": {
+            "description": "Optional. Description of the service and its purpose.",
+            "type": "string"
+          },
+          "hexColor": {
+            "description": "Hex color code used for visual representation of the service.",
+            "type": "string"
+          },
+          "id": {
+            "description": "Unique identifier of the service.",
+            "type": "string"
+          },
+          "name": {
+            "description": "Display name of the service.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ServicesRequest": {
+        "description": "Request message for listing all services for a given business.",
+        "properties": {
+          "businessId": {
+            "description": "Required. The business ID (starts with \"AG-\").",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ServicesResponse": {
+        "description": "Response containing a list of all services for the specified business.",
+        "properties": {
+          "services": {
+            "description": "List of services available for the specified business.",
+            "items": {
+              "$ref": "#/components/schemas/v1ServiceResponse"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1SessionAttendees": {
+        "properties": {
+          "bookingFailureReason": {
+            "$ref": "#/components/schemas/v1BookingFailureReason"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "contactId": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "formAnswers": {
+            "$ref": "#/components/schemas/v1Answers"
+          },
+          "id": {
+            "type": "string"
+          },
+          "isBookingConfirmed": {
+            "type": "boolean"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1TeamEventMeetingType": {
+        "default": "ROUND_ROBIN",
+        "enum": [
+          "ROUND_ROBIN",
+          "CLIENT_CHOICE",
+          "MULTI_HOST",
+          "PRIORITY_ROUND_ROBIN"
+        ],
+        "type": "string"
+      },
+      "v1TimeRange": {
+        "description": "TimeRange fields need be in UTC.",
+        "properties": {
+          "from": {
+            "$ref": "#/components/schemas/typeTimeOfDay"
+          },
+          "to": {
+            "$ref": "#/components/schemas/typeTimeOfDay"
+          }
+        },
+        "type": "object"
+      },
+      "v1TimeSlotsByWeekDay": {
+        "properties": {
+          "day": {
+            "$ref": "#/components/schemas/typeDayOfWeek"
+          },
+          "timeSlot": {
+            "items": {
+              "$ref": "#/components/schemas/v1TimeRange"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1UserResponse": {
+        "description": "User information with meeting configuration status.",
+        "properties": {
+          "displayName": {
+            "description": "Full display name of the user (FirstName + LastName).",
+            "type": "string"
+          },
+          "isConfigured": {
+            "description": "Whether the user has configured their availability for meeting scheduling (at least one availability rule).",
+            "type": "boolean"
+          },
+          "userId": {
+            "description": "Unique identifier of the user (IAM user ID).",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Weekday": {
+        "default": "WEEKDAY_UNSPECIFIED",
+        "description": "- WEEKDAY_UNSPECIFIED: Unspecified weekday\n - WEEKDAY_MONDAY: Monday\n - WEEKDAY_TUESDAY: Tuesday\n - WEEKDAY_WEDNESDAY: Wednesday\n - WEEKDAY_THURSDAY: Thursday\n - WEEKDAY_FRIDAY: Friday\n - WEEKDAY_SATURDAY: Saturday\n - WEEKDAY_SUNDAY: Sunday",
+        "enum": [
+          "WEEKDAY_UNSPECIFIED",
+          "WEEKDAY_MONDAY",
+          "WEEKDAY_TUESDAY",
+          "WEEKDAY_WEDNESDAY",
+          "WEEKDAY_THURSDAY",
+          "WEEKDAY_FRIDAY",
+          "WEEKDAY_SATURDAY",
+          "WEEKDAY_SUNDAY"
+        ],
+        "title": "Weekday enum for recurring sessions (to avoid Google import issues)",
+        "type": "string"
+      },
+      "v1WeekdayAvailability": {
+        "properties": {
+          "day": {
+            "$ref": "#/components/schemas/typeDayOfWeek"
+          },
+          "timeSlots": {
+            "items": {
+              "$ref": "#/components/schemas/v1TimeRange"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1ZoomApprovalType": {
+        "default": "ZOOM_APPROVAL_TYPE_INVALID",
+        "enum": [
+          "ZOOM_APPROVAL_TYPE_INVALID",
+          "ZOOM_APPROVAL_TYPE_ATUO_APPROVE",
+          "ZOOM_APPROVAL_TYPE_MANUALLY_APPROVE",
+          "ZOOM_APPROVAL_TYPE_NO_REGISTRATION_REQUIRED"
+        ],
+        "type": "string"
+      },
+      "v1ZoomMeetingRecurrence": {
+        "properties": {
+          "endDateTime": {
+            "title": "Select the final data on which the meeting will recur before it is cancelled. Should be in UTC time and cannot\nbe used with `end_times`",
+            "type": "string"
+          },
+          "endTimes": {
+            "format": "int64",
+            "title": "Select how many times the meeting should recur before it is cancelled. (Cannot be used with `end_date_time`)",
+            "type": "string"
+          },
+          "monthlyDay": {
+            "description": "Use this field only if you are scheduling a recurring meeting of type 3 to state which day in a month, the meeting\nshould recurd. The value range is from 1 to 31.",
+            "format": "int64",
+            "type": "string"
+          },
+          "monthlyWeek": {
+            "$ref": "#/components/schemas/v1ZoomMonthlyWeek"
+          },
+          "monthlyWeekDay": {
+            "$ref": "#/components/schemas/v1ZoomMonthlyWeekDay"
+          },
+          "repeatInterval": {
+            "description": "Define the internal at which the meeting should recur. For instance, if you would like to schedule a meeting that\nrecurs every two months, you must set the value of this field as 2 and the value of type parameter as 3.\nMax daily meeting: 90 days\nMax weekly meeting: 12 weeks.\nMax monthly meeting: 3 months.",
+            "format": "int64",
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/v1ZoomMeetingRecurrenceType"
+          },
+          "weeklyDays": {
+            "title": "Use this field only if you are scheduling a recurring meeting of type 2 to state which day(s) of the week the meeting\nshould repeat.\nIf you would like the meeting to occur on multiple days of a week, you should provide comma separated values for this field.\nFor example \"1,2,3\"",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ZoomMeetingRecurrenceType": {
+        "default": "ZOOM_MEETING_RECURRENCE_TYPE_INVALID",
+        "enum": [
+          "ZOOM_MEETING_RECURRENCE_TYPE_INVALID",
+          "ZOOM_MEETING_RECURRENCE_TYPE_DAILY",
+          "ZOOM_MEETING_RECURRENCE_TYPE_WEEKLY",
+          "ZOOM_MEETING_RECURRENCE_TYPE_MONTHLY"
+        ],
+        "type": "string"
+      },
+      "v1ZoomMeetingSettings": {
+        "properties": {
+          "alternativeHosts": {
+            "type": "string"
+          },
+          "approvalType": {
+            "$ref": "#/components/schemas/v1ZoomApprovalType"
+          },
+          "audio": {
+            "type": "string"
+          },
+          "authenticationDomains": {
+            "type": "string"
+          },
+          "authenticationOptions": {
+            "type": "string"
+          },
+          "autoRecording": {
+            "type": "string"
+          },
+          "closeRegistration": {
+            "type": "boolean"
+          },
+          "cnMeeting": {
+            "type": "boolean"
+          },
+          "contactEmail": {
+            "type": "string"
+          },
+          "contactName": {
+            "type": "string"
+          },
+          "enforceLogin": {
+            "description": "The following fields are reponse only.",
+            "type": "boolean"
+          },
+          "enforceLoginDomains": {
+            "type": "string"
+          },
+          "globalDialInCountries": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "hostVideo": {
+            "type": "boolean"
+          },
+          "inMeeting": {
+            "type": "boolean"
+          },
+          "joinBeforeHost": {
+            "type": "boolean"
+          },
+          "meetingAuthentication": {
+            "type": "boolean"
+          },
+          "muteUponEntry": {
+            "type": "boolean"
+          },
+          "participantVideo": {
+            "type": "boolean"
+          },
+          "registrationEmailNotification": {
+            "type": "boolean"
+          },
+          "registrationType": {
+            "$ref": "#/components/schemas/v1ZoomRegistrationType"
+          },
+          "usePmi": {
+            "type": "boolean"
+          },
+          "waitingRoom": {
+            "type": "boolean"
+          },
+          "watermark": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "v1ZoomMeetingTrackingField": {
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ZoomMeetingType": {
+        "default": "ZOOM_MEETING_TYPE_INVALID",
+        "description": " - ZOOM_MEETING_TYPE_INVALID: Invalid meeting type.\n - ZOOM_MEETING_TYPE_INSTANT: Instant meeting.\n - ZOOM_MEETING_TYPE_SCHEDULED: Scheduled meeting.\n - ZOOM_MEETING_TYPE_RECURRING_NO_FIXED: Recurring meeting with no fixed tiem.\n - ZOOM_MEETING_TYPE_RECURRING_FIXED: Recurring meeting with fixed time.",
+        "enum": [
+          "ZOOM_MEETING_TYPE_INVALID",
+          "ZOOM_MEETING_TYPE_INSTANT",
+          "ZOOM_MEETING_TYPE_SCHEDULED",
+          "ZOOM_MEETING_TYPE_RECURRING_NO_FIXED",
+          "ZOOM_MEETING_TYPE_RECURRING_FIXED"
+        ],
+        "type": "string"
+      },
+      "v1ZoomMonthlyWeek": {
+        "default": "ZOOM_MONTHLY_WEEK_INVALD",
+        "enum": [
+          "ZOOM_MONTHLY_WEEK_INVALD",
+          "ZOOM_MONTHLY_WEEK_LAST_WEEK",
+          "ZOOM_MONTHLY_WEEK_FIRST_WEEK",
+          "ZOOM_MONTHLY_WEEK_SECOND_WEEK",
+          "ZOOM_MONTHLY_WEEK_THIRD_WEEK",
+          "ZOOM_MONTHLY_WEEK_FOURTH_WEEK"
+        ],
+        "type": "string"
+      },
+      "v1ZoomMonthlyWeekDay": {
+        "default": "ZOOM_MONTHLY_WEEK_DAY_INVALID",
+        "enum": [
+          "ZOOM_MONTHLY_WEEK_DAY_INVALID",
+          "ZOOM_MONTHLY_WEEK_DAY_SUNDAY",
+          "ZOOM_MONTHLY_WEEK_DAY_MONDAY",
+          "ZOOM_MONTHLY_WEEK_DAY_TUESDAY",
+          "ZOOM_MONTHLY_WEEK_DAY_WEDNESDAY",
+          "ZOOM_MONTHLY_WEEK_DAY_THURSDAY",
+          "ZOOM_MONTHLY_WEEK_DAY_FRIDAY",
+          "ZOOM_MONTHLY_WEEK_DAY_SATURDAY"
+        ],
+        "type": "string"
+      },
+      "v1ZoomOccurrence": {
+        "properties": {
+          "duration": {
+            "format": "int64",
+            "type": "string"
+          },
+          "occurrenceId": {
+            "type": "string"
+          },
+          "startTime": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ZoomRegistrationType": {
+        "default": "ZOOM_REGISTRATION_TYPE_INVALID",
+        "enum": [
+          "ZOOM_REGISTRATION_TYPE_INVALID",
+          "ZOOM_REGISTRATION_TYPE_RESGITER_ONCE_FOR_ALL",
+          "ZOOM_REGISTRATION_TYPE_REGISTER_FOR_EACH",
+          "ZOOM_REGISTRATION_TYPE_RESGITER_ONCE_FOR_ONE_OR_MORE"
+        ],
+        "type": "string"
+      },
+      "v3BatchAvailabilityLookupResponse": {
+        "description": "Response for the [ext.maps.booking.partner.v3.BatchAvailabilityLookupRequest]\nRPC with the availabilities of the appointment slots.",
+        "properties": {
+          "slotTimeAvailability": {
+            "description": "The availabilities for the requested SlotTime entries. There must be\nexactly one slot_time_availability for each SlotTime entry in the\n[ext.maps.booking.partner.v3.BatchAvailabilityLookupRequest].",
+            "items": {
+              "$ref": "#/components/schemas/v3SlotTimeAvailability"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v3Booking": {
+        "properties": {
+          "bookingId": {
+            "title": "ID of this booking (required)",
+            "type": "string"
+          },
+          "offerInfo": {
+            "$ref": "#/components/schemas/v3OfferInfo"
+          },
+          "paymentInformation": {
+            "$ref": "#/components/schemas/v3PaymentInformation"
+          },
+          "slot": {
+            "$ref": "#/components/schemas/v3Slot"
+          },
+          "status": {
+            "$ref": "#/components/schemas/v3BookingStatus"
+          },
+          "userInformation": {
+            "$ref": "#/components/schemas/v3UserInformation"
+          },
+          "virtualSessionInfo": {
+            "$ref": "#/components/schemas/v3VirtualSessionInfo"
+          }
+        },
+        "title": "A booking for an inventory slot",
+        "type": "object"
+      },
+      "v3BookingFailure": {
+        "description": "Status data that conveys why (1) creating a lease or (2) creating or updating\na booking fails.\nBookingFailure is intended to primarily capture business logic errors.",
+        "properties": {
+          "cause": {
+            "$ref": "#/components/schemas/BookingFailureCause"
+          },
+          "description": {
+            "title": "This optional field is used for the partner to include additional\ninformation for debugging purpose only. (optional)",
+            "type": "string"
+          },
+          "paymentFailure": {
+            "$ref": "#/components/schemas/v3BookingFailurePaymentFailureInformation"
+          },
+          "rejectedCardType": {
+            "$ref": "#/components/schemas/partnerv3CreditCardType"
+          }
+        },
+        "type": "object"
+      },
+      "v3BookingFailurePaymentFailureInformation": {
+        "description": "Information about payment failures.",
+        "properties": {
+          "threeds1Parameters": {
+            "$ref": "#/components/schemas/v3BookingFailurePaymentFailureInformationThreeDS1Parameters"
+          }
+        },
+        "type": "object"
+      },
+      "v3BookingFailurePaymentFailureInformationThreeDS1Parameters": {
+        "description": "Parameters requesting that RwG perform a 3DS1 challenge.\n\nThe parameters are set by EMVCo's description of the 3DS1 protocol.",
+        "properties": {
+          "acsUrl": {
+            "description": "The URL from which to load a form to present to the User for\nauthentication.",
+            "type": "string"
+          },
+          "mdMerchantData": {
+            "description": "Merchant data.  To be posted to the ACSUrl form if supplied.",
+            "type": "string"
+          },
+          "paReq": {
+            "description": "A PaymentAuthentication Request.  To be posted to the ACSUrl form if\nsupplied.",
+            "type": "string"
+          },
+          "transactionId": {
+            "description": "An identifier used by the ACS provider.  To be posted to the ACSUrl\nform if supplied.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v3BookingStatus": {
+        "default": "BOOKING_STATUS_UNSPECIFIED",
+        "description": "Status of a booking.\n\nUpdating booking status does not change the status of the associated payment.\nPrepayment status updates should be done using the PrepaymentStatus enum.\n\n - BOOKING_STATUS_UNSPECIFIED: Not specified.\n - CONFIRMED: Booking has been confirmed\n - PENDING_MERCHANT_CONFIRMATION: Booking is awaiting confirmation by the merchant before it can transition\ninto CONFIRMED status. Only applicable to non-payments Dining or\nBeauty verticals.\n - CANCELED: Booking has been canceled on behalf of the user.\nThe merchant can still trigger a manual refund.\n - NO_SHOW: User did not show for the appointment\n - NO_SHOW_PENALIZED: User did not show for the appointment in violation of the cancellation\npolicy.\n - FAILED: Booking could not be completed by the async backend due to a failure.\n - DECLINED_BY_MERCHANT: Booking was asynchronously declined by the merchant. Only applicable to\nnon-payments Dining or Beauty verticals.",
+        "enum": [
+          "BOOKING_STATUS_UNSPECIFIED",
+          "CONFIRMED",
+          "PENDING_MERCHANT_CONFIRMATION",
+          "CANCELED",
+          "NO_SHOW",
+          "NO_SHOW_PENALIZED",
+          "FAILED",
+          "DECLINED_BY_MERCHANT"
+        ],
+        "type": "string"
+      },
+      "v3ConfirmationMode": {
+        "default": "CONFIRMATION_MODE_UNSPECIFIED",
+        "description": "Mode by which bookings for an availability slot are confirmed.\n\n - CONFIRMATION_MODE_UNSPECIFIED: The confirmation mode was not specified.\nSynchronous confirmation will be assumed.\n - CONFIRMATION_MODE_SYNCHRONOUS: Bookings for this availability will be confirmed synchronously.\n - CONFIRMATION_MODE_ASYNCHRONOUS: Bookings for this availability will be confirmed asynchronously.",
+        "enum": [
+          "CONFIRMATION_MODE_UNSPECIFIED",
+          "CONFIRMATION_MODE_SYNCHRONOUS",
+          "CONFIRMATION_MODE_ASYNCHRONOUS"
+        ],
+        "type": "string"
+      },
+      "v3CreateBookingResponse": {
+        "description": "Response with the created Booking for an inventory slot.",
+        "properties": {
+          "booking": {
+            "$ref": "#/components/schemas/v3Booking"
+          },
+          "bookingFailure": {
+            "$ref": "#/components/schemas/v3BookingFailure"
+          },
+          "userPaymentOption": {
+            "$ref": "#/components/schemas/v3UserPaymentOption"
+          }
+        },
+        "type": "object"
+      },
+      "v3CreditCardRestrictionsCreditCardType": {
+        "default": "CREDIT_CARD_TYPE_UNSPECIFIED",
+        "description": "A credit card type.\n\n - CREDIT_CARD_TYPE_UNSPECIFIED: Unused.\n - VISA: A Visa credit card.\n - MASTERCARD: A Mastercard credit card.\n - AMERICAN_EXPRESS: An American Express credit card.\n - DISCOVER: A Discover credit card.\n - JCB: A JCB credit card.",
+        "enum": [
+          "CREDIT_CARD_TYPE_UNSPECIFIED",
+          "VISA",
+          "MASTERCARD",
+          "AMERICAN_EXPRESS",
+          "DISCOVER",
+          "JCB"
+        ],
+        "type": "string"
+      },
+      "v3Deposit": {
+        "description": "A deposit that the user may be charged or have a hold on their credit card\nfor.",
+        "properties": {
+          "deposit": {
+            "$ref": "#/components/schemas/v3Price"
+          },
+          "depositType": {
+            "$ref": "#/components/schemas/v3PriceType"
+          },
+          "minAdvanceCancellationSec": {
+            "description": "Minimum advance cancellation for the deposit.",
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v3GetBookingStatusResponse": {
+        "description": "Response for the GetBookingStatus RPC with booking status and prepayment\nstatus.",
+        "properties": {
+          "bookingId": {
+            "title": "ID of the booking (required)",
+            "type": "string"
+          },
+          "bookingStatus": {
+            "$ref": "#/components/schemas/v3BookingStatus"
+          },
+          "prepaymentStatus": {
+            "$ref": "#/components/schemas/v3PrepaymentStatus"
+          }
+        },
+        "type": "object"
+      },
+      "v3LeaseReference": {
+        "description": "Reference to a Lease that has been created via CreateLease.",
+        "properties": {
+          "leaseId": {
+            "title": "Lease ID (required)",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v3ListBookingsResponse": {
+        "description": "Response for the ListBookings RPC with all bookings for the requested user.",
+        "properties": {
+          "bookings": {
+            "items": {
+              "$ref": "#/components/schemas/v3Booking"
+            },
+            "title": "All bookings of the user (required)",
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v3NoShowFee": {
+        "description": "A fee that a user may be charged if they have made a booking but do not\nshow up.",
+        "properties": {
+          "fee": {
+            "$ref": "#/components/schemas/v3Price"
+          },
+          "feeType": {
+            "$ref": "#/components/schemas/v3PriceType"
+          }
+        },
+        "type": "object"
+      },
+      "v3OfferInfo": {
+        "description": "Information about an Offer applied to a booking.",
+        "properties": {
+          "offerId": {
+            "description": "The ID of the Offer.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v3PaymentInformation": {
+        "description": "Payment details that are sent when creating a new transaction (which could be\na booking, order, or parking session).",
+        "properties": {
+          "deposit": {
+            "$ref": "#/components/schemas/v3Deposit"
+          },
+          "fees": {
+            "$ref": "#/components/schemas/v3Price"
+          },
+          "feesAndTaxes": {
+            "$ref": "#/components/schemas/v3Price"
+          },
+          "fraudSignals": {
+            "description": "Fraud signals that are sent to the partner as per agreement with Google.\nThe signals are sent via a serialized JSON blob.",
+            "type": "string"
+          },
+          "mdMerchantData": {
+            "description": "After we engage in a 3DS1 protocol gaining further authentication\ninformation from a user, this payload may be returned to us from an ACS\nprovider, and if provided, it should be used by the partner to complete the\n3DS1 protocol.",
+            "type": "string"
+          },
+          "noShowFee": {
+            "$ref": "#/components/schemas/v3NoShowFee"
+          },
+          "paResponse": {
+            "description": "After we engage in a 3DS1 protocol gaining further authentication\ninformation from a user, this payload is returned to us from an ACS\nprovider, and it should be used by the partner to complete the 3DS1\nprotocol.",
+            "type": "string"
+          },
+          "paymentOptionId": {
+            "description": "The id of the payment option associated with this booking. If this field\nis populated, price (and tax_amount, if applicable) must be  populated as\nwell.",
+            "type": "string"
+          },
+          "paymentProcessedBy": {
+            "$ref": "#/components/schemas/PaymentInformationPaymentProcessedBy"
+          },
+          "paymentTransactionId": {
+            "description": "Unique identifier for a payment transaction associated with the booking.\nIf the payment is PROCESSED_BY_GOOGLE, this field will be set by Google.\nIf the payment is PROCESSED_BY_PARTNER, this field will be left empty in\nGoogle's CreateBooking or CreateOrder requests to the partner, and it must\nbe set by the partner in their responses.",
+            "type": "string"
+          },
+          "prepaymentStatus": {
+            "$ref": "#/components/schemas/v3PrepaymentStatus"
+          },
+          "price": {
+            "$ref": "#/components/schemas/v3Price"
+          },
+          "taxAmount": {
+            "$ref": "#/components/schemas/v3Price"
+          },
+          "userPaymentOptionId": {
+            "description": "The id of the user payment option used to pay for this booking.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v3PaymentOptionType": {
+        "default": "PAYMENT_OPTION_TYPE_UNSPECIFIED",
+        "enum": [
+          "PAYMENT_OPTION_TYPE_UNSPECIFIED",
+          "PAYMENT_OPTION_SINGLE_USE",
+          "PAYMENT_OPTION_MULTI_USE",
+          "PAYMENT_OPTION_UNLIMITED_USE"
+        ],
+        "type": "string"
+      },
+      "v3PaymentProcessingParameters": {
+        "properties": {
+          "paymentMethodToken": {
+            "description": "The token representing the payment method that will be used to pay\nfor this booking. This token can be only used once. This token can be\nonly used for the merchant associated with this booking.\n\nEach processor may choose its own format for this field.\nAn example of Stripe's token is \"tok_1C3orL2eZvKYlo2CxReMgS4K\".\n\nReplaced by unparsed_payment_method_token, which contains\npayment_method_token as one of its fields.\nFor example, for Stripe, unparsed_payment_method_token is a serialized\nJSON object documented at https://stripe.com/docs/api#token_object.\npayment_method_token is the 'id' field parsed out of that.",
+            "type": "string"
+          },
+          "paymentProcessor": {
+            "description": "The payment processor whose configuration was used to generate this token.\n(required)\nThis is deprecated in favor of tokenization_parameters.",
+            "type": "string"
+          },
+          "processor": {
+            "$ref": "#/components/schemas/PaymentProcessingParametersPaymentProcessor"
+          },
+          "tokenizationConfig": {
+            "$ref": "#/components/schemas/v3TokenizationConfig"
+          },
+          "unparsedPaymentMethodToken": {
+            "description": "This token can only be used once, and only for the merchant associated with\nthis booking.\n\n[(datapol.semantic_type) = ST_PAYMENTS_INFO];",
+            "title": "The full token received from Google Payments.  This is typically a\nserialized JSON object.  See documentation from Google Payments and your\npayment processor for the JSON format of the token for your processor.\nhttps://developers.google.com/pay/api/#participating-google-pay-processors",
+            "type": "string"
+          },
+          "version": {
+            "description": "The payment processor API version that the given payment token is valid\nfor.\n\nEach processor may choose its own format for this field.\nStripe uses a date (e.g. \"2017-06-15\"). (required if and only if the\npayment processor has a tokenization parameter for version)\nThis is deprecated in favor of tokenization_parameters.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v3PostalAddress": {
+        "description": "The postal address for a merchant.",
+        "properties": {
+          "country": {
+            "title": "The country, e.g. \"US\". (required)",
+            "type": "string"
+          },
+          "locality": {
+            "title": "The locality/city, e.g. \"Mountain View\". (required)",
+            "type": "string"
+          },
+          "postalCode": {
+            "title": "The postal code, e.g. \"94043\". (required)",
+            "type": "string"
+          },
+          "region": {
+            "title": "The region/state/province, e.g. \"CA\". This field is only required in\ncountries where region is commonly a part of the address. (optional)",
+            "type": "string"
+          },
+          "streetAddress": {
+            "title": "The street address, e.g. \"1600 Amphitheatre Pkwy\". (required)",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v3PrepaymentStatus": {
+        "default": "PREPAYMENT_STATUS_UNSPECIFIED",
+        "description": "Prepayment status of a booking.\nUpdating payment status will trigger an update on the payment status of the\nassociated booking (if applicable).\nCurrently, the only supported transition is from PREPAYMENT_PROVIDED to\nPREPAYMENT_REFUNDED, which will initiate a non-reversible refund on the\nassociated payment transaction.\n\n - PREPAYMENT_STATUS_UNSPECIFIED: Not specified, defaults to PREPAYMENT_NOT_PROVIDED.\n - PREPAYMENT_PROVIDED: The fee for the booking has been paid in advance.\n - PREPAYMENT_NOT_PROVIDED: The fee for the booking has not been paid in advance.\n - PREPAYMENT_REFUNDED: The fee was previously PREPAYMENT_PROVIDED but has now been refunded.\n - PREPAYMENT_CREDITED: The fee was previously PREPAYMENT_PROVIDED but now has been credited\n(user given a UserPaymentOption as a voucher for the booking).\nIf this is set, the response should also include the updated\nUserPaymentOption.",
+        "enum": [
+          "PREPAYMENT_STATUS_UNSPECIFIED",
+          "PREPAYMENT_PROVIDED",
+          "PREPAYMENT_NOT_PROVIDED",
+          "PREPAYMENT_REFUNDED",
+          "PREPAYMENT_CREDITED"
+        ],
+        "type": "string"
+      },
+      "v3Price": {
+        "description": "The price of a service or a fee.",
+        "properties": {
+          "currencyCode": {
+            "title": "The currency of the price that is defined in ISO 4217. (required)",
+            "type": "string"
+          },
+          "priceMicros": {
+            "format": "int64",
+            "title": "The price in micro-units of the currency.\nFor example: 1.95 USD is 1950000 in micro-units.\nIf your price contains fractions of the smallest currency unit, then it\nwill be rounded using nearest even rounding (e.g. 2.5 cents rounded\nto 2 cents, 3.5 cents rounded to 4 cents, 0.5 cents rounded to 0 cents,\n2.51 cents rounded to 3 cents). (required)",
+            "type": "string"
+          },
+          "pricingOptionTag": {
+            "title": "An optional and opaque string that identifies the pricing option that is\nassociated with the extended price. (optional)",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v3PriceType": {
+        "default": "FIXED_RATE_DEFAULT",
+        "description": "Defines how a total price is determined from an availability.\n\n - FIXED_RATE_DEFAULT: The price is for a fixed amount. This is the default value if the field is\nnot set.\n\nExamples:\n  $50 deposit to reserve a table; $20 no show fee for a yoga class\n - PER_PERSON: The price specified is per person, and the total price is calculated\naccording to the party size specified in Resources as price_micros *\nparty_size. A PER_PERSON price must be accompanied by a party size in the\navailability resources. If it is not, a party size of one is used.\n\nExamples:\n  $10 each for tickets to a museum",
+        "enum": [
+          "FIXED_RATE_DEFAULT",
+          "PER_PERSON"
+        ],
+        "type": "string"
+      },
+      "v3ResourceIds": {
+        "properties": {
+          "partySize": {
+            "format": "int32",
+            "title": "For Dining Reservations only: the number of seats requested in the booking.\n(optional)",
+            "type": "integer"
+          },
+          "roomId": {
+            "title": "The room ID as provided in the feed or empty if not applicable or no room\nwas selected. (optional)",
+            "type": "string"
+          },
+          "staffId": {
+            "title": "The staff ID as provided in the feed or empty if not applicable or no staff\nwas selected. (optional)",
+            "type": "string"
+          }
+        },
+        "title": "Resource specification that disambiguates an appointment slot",
+        "type": "object"
+      },
+      "v3Slot": {
+        "properties": {
+          "availabilityTag": {
+            "title": "Opaque tag that identifies the availability slot and matches the value\nprovided in the availability feed (optional)",
+            "type": "string"
+          },
+          "confirmationMode": {
+            "$ref": "#/components/schemas/v3ConfirmationMode"
+          },
+          "durationSec": {
+            "format": "int64",
+            "title": "Duration of the appointment slot (required for CreateBooking)",
+            "type": "string"
+          },
+          "merchantId": {
+            "title": "ID of the merchant for the slot (required for CreateBooking)",
+            "type": "string"
+          },
+          "resources": {
+            "$ref": "#/components/schemas/v3ResourceIds"
+          },
+          "serviceId": {
+            "title": "ID of the merchant Service (required for CreateBooking)",
+            "type": "string"
+          },
+          "startSec": {
+            "format": "int64",
+            "title": "Start time of the appointment slot in seconds of UTC time since Unix epoch.\n(required for CreateBooking)",
+            "type": "string"
+          }
+        },
+        "title": "An inventory slot",
+        "type": "object"
+      },
+      "v3SlotTime": {
+        "description": "Identifies a Slot service_id and start time and optionally, the Slot duration\nand resources, for a specific merchant. Note that this differs from the\ndefinition of Slot, as it does not include merchant_id identifier.",
+        "properties": {
+          "availabilityTag": {
+            "title": "Opaque tag that identifies the availability slot and matches the value\nprovided in the availability feed (optional)",
+            "type": "string"
+          },
+          "confirmationMode": {
+            "$ref": "#/components/schemas/v3ConfirmationMode"
+          },
+          "durationSec": {
+            "format": "int64",
+            "title": "Duration of the appointment slot in seconds (optional)",
+            "type": "string"
+          },
+          "resourceIds": {
+            "$ref": "#/components/schemas/v3ResourceIds"
+          },
+          "serviceId": {
+            "title": "ID of the service. (required)",
+            "type": "string"
+          },
+          "startSec": {
+            "format": "int64",
+            "title": "Start time of the appointment slot in seconds of UTC time since Unix epoch\n(required)",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v3SlotTimeAvailability": {
+        "properties": {
+          "available": {
+            "title": "Whether the requested SlotTime is available",
+            "type": "boolean"
+          },
+          "slotTime": {
+            "$ref": "#/components/schemas/v3SlotTime"
+          }
+        },
+        "type": "object"
+      },
+      "v3TokenizationConfig": {
+        "description": "A configuration for payment-processor tokenization, set up on a per-Merchant\nbasis.",
+        "properties": {
+          "allowedAuthMethods": {
+            "description": "Defines types of cardholder data that are accepted by the gateway.\nIf not specified, no restrictions are applied.\n\nNote that partners who use commercial gateways should leave this\nempty unless their gateway provider has specified otherwise.  Restricting\nallowed_auth_methods is most useful in the scenario that a partner\nintegrates with GPay as a gateway themselves.",
+            "items": {
+              "$ref": "#/components/schemas/TokenizationConfigAuthMethod"
+            },
+            "type": "array"
+          },
+          "billingInformationFormat": {
+            "$ref": "#/components/schemas/TokenizationConfigBillingInformationFormat"
+          },
+          "cardNetworkParameters": {
+            "description": "Per-Card Network processing parameters.\n\nThese are currently only required for PSD2\n(https://en.wikipedia.org/wiki/Payment_Services_Directive)\nprocessing when payment_country_code is a European country where PSD2 is in\neffect.  They are also only currently required for VISA and\nAMERICAN_EXPRESS.",
+            "items": {
+              "$ref": "#/components/schemas/TokenizationConfigCardNetworkParameters"
+            },
+            "type": "array"
+          },
+          "merchantOfRecordName": {
+            "description": "Name of the Merchant Of Record (MOR).  This user-visible name will be shown\nin 3DS2 challenges.  In some cases, this is the Merchant, in others this is\nthe Aggregator.",
+            "type": "string"
+          },
+          "paymentCountryCode": {
+            "description": "Country where transaction will be processed, in ISO 3166-1 alpha-2 form.",
+            "type": "string"
+          },
+          "tokenizationParameter": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "A tokenization configuration will typically have one\ntokenization_parameter whose key is \"gateway\" and whose value is the\nname of the processor.\n\nThe rest of the parameters are dependent on the processor.  See\ndocumentation from Google Pay and your processor for further information.\nhttps://developers.google.com/pay/api/web/object-reference# \\\n  PaymentMethodTokenizationSpecification\nhttps://developers.google.com/pay/api/#participating-google-pay-processors\n\nBraintree example:\ntokenization_parameter { key: \"gateway\" value: \"braintree\" }\ntokenization_parameter { key: \"braintree:apiVersion\" value: \"v1\" }\ntokenization_parameter { key: \"braintree:sdkVersion\" value: \"2.30.0\" }\ntokenization_parameter { key: \"braintree:merchantId\" value: \"abcdef\" }\ntokenization_parameter { key: \"braintree:clientKey\"\n                         value: \"production_xxx_yyy\" }\n\nStripe example:\ntokenization_parameter { key: \"gateway\" value: \"stripe\" }\ntokenization_parameter { key: \"stripe:version\" value: \"2018-02-28\" }\ntokenization_parameter { key: \"stripe:publishableKey\" value: \"pk_1234\" }\n\nAdyen example:\ntokenization_parameter { key: \"gateway\" value: \"adyen\" }\ntokenization_parameter { key: \"gatewayMerchantId\" value: \"yourId\" }",
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "v3UpdateBookingResponse": {
+        "description": "Response with the updated Booking.",
+        "properties": {
+          "booking": {
+            "$ref": "#/components/schemas/v3Booking"
+          },
+          "bookingFailure": {
+            "$ref": "#/components/schemas/v3BookingFailure"
+          },
+          "userPaymentOption": {
+            "$ref": "#/components/schemas/v3UserPaymentOption"
+          }
+        },
+        "type": "object"
+      },
+      "v3UserInformation": {
+        "description": "Personal information about the person taking action (e.g. making a\nbooking, an order, or creates a parking session).",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/v3PostalAddress"
+          },
+          "email": {
+            "title": "Email address of the user (required except for waitlists)",
+            "type": "string"
+          },
+          "familyName": {
+            "title": "Family name of the user (maximum 40 characters) (required)",
+            "type": "string"
+          },
+          "givenName": {
+            "title": "Given name of the user (maximum 40 characters) (required)",
+            "type": "string"
+          },
+          "languageCode": {
+            "title": "User's language code, in IETF BCP 47 format. It is sent only if a partner\nis allowed to use this feature. Please contact Reserve with Google team\nto be added to the allowlist and receive this code. (optional)",
+            "type": "string"
+          },
+          "telephone": {
+            "title": "Phone number of the user (required)\nConsistent with the international definition in ITU-T E.123 recommendation.\nHowever, local conventions are also followed, such as using '-' instead of\na space as separator. For example, a phone number in the US can be\nwritten as '+1 415-736-0000'",
+            "type": "string"
+          },
+          "userId": {
+            "title": "Unique ID of the user to the partner, chosen by Reserve with Google.\n(required)",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v3UserPaymentOption": {
+        "description": "This describes a payment option, such as a pack, membership, or\nsingle-session pass after it has been purchased by a user. It includes an\nidentifier for the user payment option, as well as some information about\nthe payment option with which it is associated.",
+        "properties": {
+          "currentCount": {
+            "format": "int32",
+            "title": "The number of uses remaining for this user payment option. If this number\nis 0 for a pack, attempts to use this payment option to make a booking will\nfail. (required)",
+            "type": "integer"
+          },
+          "originalCount": {
+            "format": "int32",
+            "title": "The original number of uses for this user payment option when it was\npurchased. This value is ignored for unlimited payment options. (required)",
+            "type": "integer"
+          },
+          "paymentOptionId": {
+            "title": "The id of the payment option that has been used to purchase this user\npayment option. (required)",
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/v3PaymentOptionType"
+          },
+          "userPaymentOptionId": {
+            "title": "A unique identifier for the user payment option. This Id MUST be unique\nfor all UserPaymentOptions across all merchants and users. (required)",
+            "type": "string"
+          },
+          "validEndTimeSec": {
+            "format": "int64",
+            "type": "string"
+          },
+          "validStartTimeSec": {
+            "format": "int64",
+            "title": "The user payment option will be valid (usable) between start_time and\nend_time set in UTC. Attempts to use a user payment option to make a\nbooking outside of this interval will fail. (both optional)",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v3VirtualSessionInfo": {
+        "description": "Information related to the virtual session which was booked.",
+        "properties": {
+          "meetingId": {
+            "title": "The meeting id which was created for the virtual session. (optional)",
+            "type": "string"
+          },
+          "password": {
+            "title": "Password required to access the session. (optional)",
+            "type": "string"
+          },
+          "sessionUrl": {
+            "title": "URL which was created for the virtual session. (optional)",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "vendastatypesDateRange": {
+        "properties": {
+          "end": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "start": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "vendastatypesFieldMask": {
+        "description": "paths: \"f.a\"\n    paths: \"f.b.d\"\n\nHere `f` represents a field in some root message, `a` and `b`\nfields in the message found in `f`, and `d` a field found in the\nmessage in `f.b`.\n\nField masks are used to specify a subset of fields that should be\nreturned by a get operation or modified by an update operation.\nField masks also have a custom JSON encoding (see below).\n\n# Field Masks in Projections\n\nWhen used in the context of a projection, a response message or\nsub-message is filtered by the API to only contain those fields as\nspecified in the mask. For example, if the mask in the previous\nexample is applied to a response message as follows:\n\n    f {\n      a : 22\n      b {\n        d : 1\n        x : 2\n      }\n      y : 13\n    }\n    z: 8\n\nThe result will not contain specific values for fields x,y and z\n(their value will be set to the default, and omitted in proto text\noutput):\n\n\n    f {\n      a : 22\n      b {\n        d : 1\n      }\n    }\n\nA repeated field is not allowed except at the last position of a\npaths string.\n\nIf a FieldMask object is not present in a get operation, the\noperation applies to all fields (as if a FieldMask of all fields\nhad been specified).\n\nNote that a field mask does not necessarily apply to the\ntop-level response message. In case of a REST get operation, the\nfield mask applies directly to the response, but in case of a REST\nlist operation, the mask instead applies to each individual message\nin the returned resource list. In case of a REST custom method,\nother definitions may be used. Where the mask applies will be\nclearly documented together with its declaration in the API.  In\nany case, the effect on the returned resource/resources is required\nbehavior for APIs.\n\n# Field Masks in Update Operations\n\nA field mask in update operations specifies which fields of the\ntargeted resource are going to be updated. The API is required\nto only change the values of the fields as specified in the mask\nand leave the others untouched. If a resource is passed in to\ndescribe the updated values, the API ignores the values of all\nfields not covered by the mask.\n\nIf a repeated field is specified for an update operation, the existing\nrepeated values in the target resource will be overwritten by the new values.\nNote that a repeated field is only allowed in the last position of a `paths`\nstring.\n\nIf a sub-message is specified in the last position of the field mask for an\nupdate operation, then the existing sub-message in the target resource is\noverwritten. Given the target message:\n\n    f {\n      b {\n        d : 1\n        x : 2\n      }\n      c : 1\n    }\n\nAnd an update message:\n\n    f {\n      b {\n        d : 10\n      }\n    }\n\nthen if the field mask is:\n\n paths: \"f.b\"\n\nthen the result will be:\n\n    f {\n      b {\n        d : 10\n      }\n      c : 1\n    }\n\nHowever, if the update mask was:\n\n paths: \"f.b.d\"\n\nthen the result would be:\n\n    f {\n      b {\n        d : 10\n        x : 2\n      }\n      c : 1\n    }\n\nIn order to reset a field's value to the default, the field must\nbe in the mask and set to the default value in the provided resource.\nHence, in order to reset all fields of a resource, provide a default\ninstance of the resource and set all fields in the mask, or do\nnot provide a mask as described below.\n\nIf a field mask is not present on update, the operation applies to\nall fields (as if a field mask of all fields has been specified).\nNote that in the presence of schema evolution, this may mean that\nfields the client does not know and has therefore not filled into\nthe request will be reset to their default. If this is unwanted\nbehavior, a specific service may require a client to always specify\na field mask, producing an error if not.\n\nAs with get operations, the location of the resource which\ndescribes the updated values in the request message depends on the\noperation kind. In any case, the effect of the field mask is\nrequired to be honored by the API.\n\n## Considerations for HTTP REST\n\nThe HTTP kind of an update operation which uses a field mask must\nbe set to PATCH instead of PUT in order to satisfy HTTP semantics\n(PUT must only be used for full updates).\n\n# JSON Encoding of Field Masks\n\nIn JSON, a field mask is encoded as a single string where paths are\nseparated by a comma. Fields name in each path are converted\nto/from lower-camel naming conventions.\n\nAs an example, consider the following message declarations:\n\n    message Profile {\n      User user = 1;\n      Photo photo = 2;\n    }\n    message User {\n      string display_name = 1;\n      string address = 2;\n    }\n\nIn proto a field mask for `Profile` may look as such:\n\n    mask {\n      paths: \"user.display_name\"\n      paths: \"photo\"\n    }\n\nIn JSON, the same mask is represented as below:\n\n    {\n      mask: \"user.displayName,photo\"\n    }\n\n# Field Masks and Oneof Fields\n\nField masks treat fields in oneofs just as regular fields. Consider the\nfollowing message:\n\n    message SampleMessage {\n      oneof test_oneof {\n        string name = 4;\n        SubMessage sub_message = 9;\n      }\n    }\n\nThe field mask can be:\n\n    mask {\n      paths: \"name\"\n    }\n\nOr:\n\n    mask {\n      paths: \"sub_message\"\n    }\n\nNote that oneof type names (\"test_oneof\" in this case) cannot be used in\npaths.",
+        "properties": {
+          "paths": {
+            "description": "The set of field mask paths.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "title": "`FieldMask` represents a set of symbolic field paths, for example:",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2Demo": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
+            "scopes": {
+              "read": "Read access to the API",
+              "write": "Write access to the API"
+            },
+            "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      },
+      "OAuth2Prod": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "scopes": {
+              "read": "Read access to the API",
+              "write": "Write access to the API"
+            },
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "title": "Meetings OpenAPI Documentation",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/meetings/book": {
+      "post": {
+        "description": "Book a new meeting for a specified event type in a given business.\n\nRequired OAuth2 scopes: `meeting`",
+        "operationId": "MeetingExternal_BookMeeting",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1BookMeetingExternalRequest"
+              }
+            }
+          },
+          "description": "Request message for booking a new meeting for a specified event type.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1BookMeetingExternalResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Book meeting",
+        "tags": [
+          "MeetingExternal"
+        ]
+      }
+    },
+    "/v1/meetings/cancel": {
+      "post": {
+        "description": "Cancel a booked meeting identified by meeting ID for a given business.\n\nRequired OAuth2 scopes: `meeting`",
+        "operationId": "MeetingExternal_CancelMeeting",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ExternalCancelMeetingRequest"
+              }
+            }
+          },
+          "description": "Request message for cancelling an existing meeting.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Cancel meeting",
+        "tags": [
+          "MeetingExternal"
+        ]
+      }
+    },
+    "/v1/meetings/event-type-availability-slots": {
+      "get": {
+        "description": "List available time slots for a specified event type in a given business.\n\nRequired OAuth2 scopes: `meeting`",
+        "operationId": "MeetingExternal_ListAvailableTimeSlots",
+        "parameters": [
+          {
+            "description": "Required. The business ID (starts with \"AG-\").",
+            "in": "query",
+            "name": "businessId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Required. Identifier for the event type to retrieve available time slots for.",
+            "in": "query",
+            "name": "eventTypeId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "timeSpan.start",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "timeSpan.end",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "description": "IANA Time Zone Database time zone, e.g. \"America/New_York\".",
+            "in": "query",
+            "name": "timeZone.id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. IANA Time Zone Database version number, e.g. \"2019a\".",
+            "in": "query",
+            "name": "timeZone.version",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. Host user ID; only used for ClientChoice and PriorityRoundRobin event types. Other types use event type's configured hosts.",
+            "in": "query",
+            "name": "hostUserId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1AvailableTimeSlotsResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "List available time slots",
+        "tags": [
+          "MeetingExternal"
+        ]
+      }
+    },
+    "/v1/meetings/event-types": {
+      "get": {
+        "description": "List team event types for a given business (paginated).\n\nRequired OAuth2 scopes: `meeting`",
+        "operationId": "MeetingExternal_ListTeamEventTypes",
+        "parameters": [
+          {
+            "description": "Required. The business ID (starts with \"AG-\").",
+            "in": "query",
+            "name": "businessId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. Pagination cursor from previous response. Empty for first request.",
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. Number of items to return per page. Default/max page size is 50.",
+            "in": "query",
+            "name": "pageSize",
+            "schema": {
+              "format": "int64",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ListTeamEventTypesResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "List team event types",
+        "tags": [
+          "MeetingExternal"
+        ]
+      }
+    },
+    "/v1/meetings/groups": {
+      "post": {
+        "description": "List all groups for a given business.\n\nRequired OAuth2 scopes: `meeting`",
+        "operationId": "MeetingExternal_ListGroups",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GroupsRequest"
+              }
+            }
+          },
+          "description": "Request message for listing all groups for a given business.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GroupsResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "List groups",
+        "tags": [
+          "MeetingExternal"
+        ]
+      }
+    },
+    "/v1/meetings/reschedule": {
+      "post": {
+        "description": "Reschedule an existing meeting to a new time and/or location for a given business.\n\nRequired OAuth2 scopes: `meeting`",
+        "operationId": "MeetingExternal_RescheduleMeeting",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ExternalRescheduleMeetingRequest"
+              }
+            }
+          },
+          "description": "Request message for rescheduling an existing meeting to a new time and/or location.\nEither start_time or location is required.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ExternalRescheduleMeetingResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "Reschedule meeting",
+        "tags": [
+          "MeetingExternal"
+        ]
+      }
+    },
+    "/v1/meetings/services": {
+      "post": {
+        "description": "List all services for a given business.\n\nRequired OAuth2 scopes: `meeting`",
+        "operationId": "MeetingExternal_ListServices",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ServicesRequest"
+              }
+            }
+          },
+          "description": "Request message for listing all services for a given business.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ServicesResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "List services",
+        "tags": [
+          "MeetingExternal"
+        ]
+      }
+    },
+    "/v1/meetings/user-event-types": {
+      "get": {
+        "description": "List personal and team event types for a user.\n\nRequired OAuth2 scopes: `meeting`",
+        "operationId": "MeetingExternal_ListUserEventTypes",
+        "parameters": [
+          {
+            "description": "Required. The business ID (starts with \"AG-\").",
+            "in": "query",
+            "name": "businessId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Required. Unique identifier of the user to get their event types (user must belong to business).",
+            "in": "query",
+            "name": "userId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ListUserEventTypesResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "List user event types",
+        "tags": [
+          "MeetingExternal"
+        ]
+      }
+    },
+    "/v1/meetings/users": {
+      "get": {
+        "description": "List users for a given business (paginated).\n\nRequired OAuth2 scopes: `meeting`",
+        "operationId": "MeetingExternal_GetUsers",
+        "parameters": [
+          {
+            "description": "Required. The business ID (starts with \"AG-\").",
+            "in": "query",
+            "name": "businessId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "cursor can be passed to retrieve the next page of results keyed by the cursor",
+            "in": "query",
+            "name": "pagedRequestOptions.cursor",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "page_size specifies the number of items to return in the next page",
+            "in": "query",
+            "name": "pagedRequestOptions.pageSize",
+            "schema": {
+              "format": "int64",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetUsersResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2Demo": []
+          },
+          {
+            "OAuth2Prod": []
+          }
+        ],
+        "summary": "List users",
+        "tags": [
+          "MeetingExternal"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://prod.apigateway.co/grpc"
+    },
+    {
+      "description": "Demo",
+      "url": "https://demo.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "name": "MeetingSourceAPI"
+    },
+    {
+      "name": "GoogleMeet"
+    },
+    {
+      "name": "Zoom"
+    },
+    {
+      "name": "ReserveWithGoogle"
+    },
+    {
+      "name": "MeetingHost"
+    },
+    {
+      "name": "MeetingGuest"
+    },
+    {
+      "name": "MeetingExternal"
+    }
+  ]
+}

@@ -818,7 +818,7 @@
           "hostUsers": {
             "description": "Users who can host meetings for this event type.",
             "items": {
-              "$ref": "#/components/schemas/v1HostUser"
+              "$ref": "#/components/schemas/v1UserResponse"
             },
             "type": "array"
           },
@@ -1266,7 +1266,7 @@
         "type": "object"
       },
       "v1GetUsersResponse": {
-        "description": "Paginated response containing list of users with their configuration status.",
+        "description": "Paginated response containing list of users with their connection status.",
         "properties": {
           "pagedResponseMetadata": {
             "$ref": "#/components/schemas/v1PagedResponseMetadata"
@@ -2871,14 +2871,14 @@
         "type": "object"
       },
       "v1UserResponse": {
-        "description": "User information with meeting configuration status.",
+        "description": "User information with meeting connection status.",
         "properties": {
           "displayName": {
-            "description": "Full display name of the user (FirstName + LastName).",
+            "description": "Full display name of the user.",
             "type": "string"
           },
-          "isConfigured": {
-            "description": "Whether the user has configured their availability for meeting scheduling (at least one availability rule).",
+          "isConnected": {
+            "description": "Whether the user has active connections to both a calendar provider (Google Calendar, Microsoft Outlook)\nand a meeting app (Google Meet, Microsoft Teams, or Zoom). Returns false if either connection is missing or inactive.",
             "type": "boolean"
           },
           "userId": {

@@ -858,6 +858,19 @@
         },
         "type": "object"
       },
+      "v1GetReviewRequestTemplateUsageResponse": {
+        "description": "GetReviewRequestTemplateUsageResponse contains the usage information for the requested templates.\nTemplates not found in any automation are omitted from the response.",
+        "properties": {
+          "templateUsages": {
+            "description": "Usage details grouped by template ID.",
+            "items": {
+              "$ref": "#/components/schemas/v1ReviewRequestTemplateUsage"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
       "v1GetReviewResponseResponse": {
         "properties": {
           "reviewResponse": {
@@ -936,19 +949,6 @@
           }
         },
         "title": "The response message for SourceService.GetSourceDetails",
-        "type": "object"
-      },
-      "v1GetTemplateUsageResponse": {
-        "description": "GetTemplateUsageResponse contains the usage information for the requested templates.\nTemplates not found in any automation are omitted from the response.",
-        "properties": {
-          "templateUsages": {
-            "description": "Usage details grouped by template ID.",
-            "items": {
-              "$ref": "#/components/schemas/v1TemplateUsage"
-            },
-            "type": "array"
-          }
-        },
         "type": "object"
       },
       "v1ImportNPSResponse": {
@@ -2051,6 +2051,40 @@
         ],
         "type": "string"
       },
+      "v1ReviewRequestTemplateUsage": {
+        "description": "ReviewRequestTemplateUsage groups all usages for a single template.",
+        "properties": {
+          "templateId": {
+            "description": "The template ID (e.g., \"TEMP-abc\" for email, \"SMS-TEMP-xyz\" for SMS).",
+            "type": "string"
+          },
+          "templateType": {
+            "$ref": "#/components/schemas/v1ReviewRequestTemplateType"
+          },
+          "usages": {
+            "description": "All automations where this template is referenced.",
+            "items": {
+              "$ref": "#/components/schemas/v1ReviewRequestTemplateUsageDetail"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1ReviewRequestTemplateUsageDetail": {
+        "description": "ReviewRequestTemplateUsageDetail represents a single automation that references a template.",
+        "properties": {
+          "automationId": {
+            "description": "The ID of the automation that references the template.",
+            "type": "string"
+          },
+          "automationName": {
+            "description": "The name of the automation for display purposes.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "v1ReviewResponseTemplate": {
         "properties": {
           "categories": {
@@ -2503,40 +2537,6 @@
           "TEMPLATE_TYPE_REVIEW_AND_NPS_REQUEST"
         ],
         "type": "string"
-      },
-      "v1TemplateUsage": {
-        "description": "TemplateUsage groups all usages for a single template.",
-        "properties": {
-          "templateId": {
-            "description": "The template ID (e.g., \"TEMP-abc\" for email, \"SMS-TEMP-xyz\" for SMS).",
-            "type": "string"
-          },
-          "templateType": {
-            "$ref": "#/components/schemas/v1ReviewRequestTemplateType"
-          },
-          "usages": {
-            "description": "All automations where this template is referenced.",
-            "items": {
-              "$ref": "#/components/schemas/v1TemplateUsageDetail"
-            },
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
-      "v1TemplateUsageDetail": {
-        "description": "TemplateUsageDetail represents a single automation that references a template.",
-        "properties": {
-          "automationId": {
-            "description": "The ID of the automation that references the template.",
-            "type": "string"
-          },
-          "automationName": {
-            "description": "The name of the automation for display purposes.",
-            "type": "string"
-          }
-        },
-        "type": "object"
       },
       "v1ThirdPartyPublishedStatus": {
         "default": "THIRD_PARTY_PUBLISHED_STATUS_EMPTY",

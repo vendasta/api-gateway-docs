@@ -372,24 +372,9 @@
             },
             "type": "array"
           },
-          "bookingUrl": {
-            "description": "Public URL where attendees can view booking details and manage their participation.",
-            "type": "string"
-          },
-          "cancelUrl": {
-            "description": "URL for attendees to cancel their participation in the meeting.",
-            "type": "string"
-          },
           "eventTypeId": {
             "description": "Unique identifier of the event type that was booked.",
             "type": "string"
-          },
-          "hostDetails": {
-            "description": "List of all hosts for this meeting with their full details (single-host or multi-host).",
-            "items": {
-              "$ref": "#/components/schemas/v1HostUserDetails"
-            },
-            "type": "array"
           },
           "location": {
             "description": "Location of the meeting. Empty for virtual; physical address for in-person.",
@@ -404,17 +389,9 @@
             "description": "Unique identifier of the booked meeting; use for rescheduling, cancellation, or retrieval.",
             "type": "string"
           },
-          "meetingLink": {
-            "description": "URL to join the virtual meeting (Zoom, Google Meet, Microsoft Teams). May be empty immediately after booking; generated asynchronously.",
-            "type": "string"
-          },
           "meetingStartTime": {
             "description": "Scheduled start time of the meeting in UTC.",
             "format": "date-time",
-            "type": "string"
-          },
-          "rescheduleUrl": {
-            "description": "URL for attendees to reschedule the meeting to a different time slot.",
             "type": "string"
           },
           "title": {
@@ -967,29 +944,14 @@
       "v1ExternalRescheduleMeetingResponse": {
         "description": "Response containing the updated details of the rescheduled meeting.",
         "properties": {
-          "bookingUrl": {
-            "description": "Public URL where attendees can book another meeting for this event.",
-            "type": "string"
-          },
-          "cancelUrl": {
-            "description": "URL for attendees to cancel their participation in the meeting.",
-            "type": "string"
-          },
           "endTime": {
             "description": "New scheduled end time of the meeting in UTC.",
             "format": "date-time",
             "type": "string"
           },
           "eventTypeId": {
-            "description": "Unique identifier of the event type for this meeting.",
-            "type": "string"
-          },
-          "hostDetails": {
             "description": "List of all hosts for this meeting with their full details.",
-            "items": {
-              "$ref": "#/components/schemas/v1HostUserDetails"
-            },
-            "type": "array"
+            "type": "string"
           },
           "location": {
             "description": "Location of the meeting. Empty for virtual; physical address for in-person.",
@@ -997,14 +959,6 @@
           },
           "meetingId": {
             "description": "Unique identifier of the rescheduled meeting.",
-            "type": "string"
-          },
-          "meetingUrl": {
-            "description": "URL to join the virtual meeting (e.g., Zoom, Google Meet, Microsoft Teams link).",
-            "type": "string"
-          },
-          "rescheduleUrl": {
-            "description": "URL for attendees to reschedule the meeting to a different time slot.",
             "type": "string"
           },
           "startTime": {
@@ -1928,20 +1882,6 @@
             "type": "boolean"
           },
           "userId": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "v1HostUserDetails": {
-        "description": "Details about a host user including their ID and display name.",
-        "properties": {
-          "hostUserId": {
-            "description": "Unique identifier of the host user (IAM user ID).",
-            "type": "string"
-          },
-          "hostUserName": {
-            "description": "Full display name of the host user (FirstName + LastName).",
             "type": "string"
           }
         },
@@ -3911,7 +3851,7 @@
       }
     },
     "/v1/meetings/event-type-availability-slots": {
-      "get": {
+      "post": {
         "description": "List available time slots for a specified event type in a given business.\n\nRequired OAuth2 scopes: `meeting`, `business-app`",
         "operationId": "MeetingExternal_ListAvailableTimeSlots",
         "parameters": [
@@ -4009,7 +3949,7 @@
       }
     },
     "/v1/meetings/event-types": {
-      "get": {
+      "post": {
         "description": "List team event types for a given business (paginated).\n\nRequired OAuth2 scopes: `meeting`, `business-app`",
         "operationId": "MeetingExternal_ListTeamEventTypes",
         "parameters": [
@@ -4229,7 +4169,7 @@
       }
     },
     "/v1/meetings/user-event-types": {
-      "get": {
+      "post": {
         "description": "List personal and team event types for a user.\n\nRequired OAuth2 scopes: `meeting`, `business-app`",
         "operationId": "MeetingExternal_ListUserEventTypes",
         "parameters": [
@@ -4287,7 +4227,7 @@
       }
     },
     "/v1/meetings/users": {
-      "get": {
+      "post": {
         "description": "List users for a given business (paginated).\n\nRequired OAuth2 scopes: `meeting`, `business-app`",
         "operationId": "MeetingExternal_GetUsers",
         "parameters": [

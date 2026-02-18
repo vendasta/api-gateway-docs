@@ -307,6 +307,30 @@
         },
         "type": "object"
       },
+      "v1AvailableTimeSlotsRequest": {
+        "description": "Request message for listing available time slots for booking a meeting of a specific event type.",
+        "properties": {
+          "businessId": {
+            "description": "Required. The business ID (starts with \"AG-\").",
+            "type": "string"
+          },
+          "eventTypeId": {
+            "description": "Required. Identifier for the event type to retrieve available time slots for.",
+            "type": "string"
+          },
+          "hostUserId": {
+            "description": "Optional. Host user ID; only used for ClientChoice and PriorityRoundRobin event types. Other types use event type's configured hosts.",
+            "type": "string"
+          },
+          "timeSpan": {
+            "$ref": "#/components/schemas/vendastatypesDateRange"
+          },
+          "timeZone": {
+            "$ref": "#/components/schemas/typeTimeZone"
+          }
+        },
+        "type": "object"
+      },
       "v1AvailableTimeSlotsResponse": {
         "description": "Response containing a list of available time slots for booking.",
         "properties": {
@@ -1249,6 +1273,16 @@
         },
         "type": "object"
       },
+      "v1GetUsersRequest": {
+        "description": "Request message for listing users with their meeting configuration status (paginated).\nReturns all users under the business.",
+        "properties": {
+          "businessId": {
+            "description": "Required. The business ID (starts with \"AG-\").",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "v1GetUsersResponse": {
         "description": "Paginated response containing list of users with their connection status.",
         "properties": {
@@ -2127,6 +2161,25 @@
         },
         "type": "object"
       },
+      "v1ListTeamEventTypesRequest": {
+        "description": "Request message for listing team event types for a given business (paginated).",
+        "properties": {
+          "businessId": {
+            "description": "Required. The business ID (starts with \"AG-\").",
+            "type": "string"
+          },
+          "cursor": {
+            "description": "Optional. Pagination cursor from previous response. Empty for first request.",
+            "type": "string"
+          },
+          "pageSize": {
+            "description": "Optional. Number of items to return per page. Default/max page size is 50.",
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "v1ListTeamEventTypesResponse": {
         "description": "Response containing a paginated list of team event types.",
         "properties": {
@@ -2143,6 +2196,20 @@
           },
           "nextCursor": {
             "description": "Cursor for next page. Pass to ListTeamEventTypesRequest.cursor. Empty means no more pages.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListUserEventTypesRequest": {
+        "description": "Request message for listing event types for a user (personal and team) scoped by partner/business.\nThe user must belong to the given business.",
+        "properties": {
+          "businessId": {
+            "description": "Required. The business ID (starts with \"AG-\").",
+            "type": "string"
+          },
+          "userId": {
+            "description": "Required. Unique identifier of the user to get their event types (user must belong to business).",
             "type": "string"
           }
         },
@@ -3892,64 +3959,17 @@
       "post": {
         "description": "List available time slots for a specified event type in a given business.\n\nRequired OAuth2 scopes: `meeting`, `business-app`",
         "operationId": "MeetingExternal_ListAvailableTimeSlots",
-        "parameters": [
-          {
-            "description": "Required. The business ID (starts with \"AG-\").",
-            "in": "query",
-            "name": "businessId",
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1AvailableTimeSlotsRequest"
+              }
             }
           },
-          {
-            "description": "Required. Identifier for the event type to retrieve available time slots for.",
-            "in": "query",
-            "name": "eventTypeId",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "timeSpan.start",
-            "schema": {
-              "format": "date-time",
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "timeSpan.end",
-            "schema": {
-              "format": "date-time",
-              "type": "string"
-            }
-          },
-          {
-            "description": "IANA Time Zone Database time zone, e.g. \"America/New_York\".",
-            "in": "query",
-            "name": "timeZone.id",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Optional. IANA Time Zone Database version number, e.g. \"2019a\".",
-            "in": "query",
-            "name": "timeZone.version",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Optional. Host user ID; only used for ClientChoice and PriorityRoundRobin event types. Other types use event type's configured hosts.",
-            "in": "query",
-            "name": "hostUserId",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+          "description": "Request message for listing available time slots for booking a meeting of a specific event type.",
+          "required": true
+        },
         "responses": {
           "200": {
             "content": {
@@ -3990,33 +4010,17 @@
       "post": {
         "description": "List team event types for a given business (paginated).\n\nRequired OAuth2 scopes: `meeting`, `business-app`",
         "operationId": "MeetingExternal_ListTeamEventTypes",
-        "parameters": [
-          {
-            "description": "Required. The business ID (starts with \"AG-\").",
-            "in": "query",
-            "name": "businessId",
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ListTeamEventTypesRequest"
+              }
             }
           },
-          {
-            "description": "Optional. Pagination cursor from previous response. Empty for first request.",
-            "in": "query",
-            "name": "cursor",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Optional. Number of items to return per page. Default/max page size is 50.",
-            "in": "query",
-            "name": "pageSize",
-            "schema": {
-              "format": "int64",
-              "type": "string"
-            }
-          }
-        ],
+          "description": "Request message for listing team event types for a given business (paginated).",
+          "required": true
+        },
         "responses": {
           "200": {
             "content": {
@@ -4210,24 +4214,17 @@
       "post": {
         "description": "List personal and team event types for a user.\n\nRequired OAuth2 scopes: `meeting`, `business-app`",
         "operationId": "MeetingExternal_ListUserEventTypes",
-        "parameters": [
-          {
-            "description": "Required. The business ID (starts with \"AG-\").",
-            "in": "query",
-            "name": "businessId",
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ListUserEventTypesRequest"
+              }
             }
           },
-          {
-            "description": "Required. Unique identifier of the user to get their event types (user must belong to business).",
-            "in": "query",
-            "name": "userId",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+          "description": "Request message for listing event types for a user (personal and team) scoped by partner/business.\nThe user must belong to the given business.",
+          "required": true
+        },
         "responses": {
           "200": {
             "content": {
@@ -4268,16 +4265,17 @@
       "post": {
         "description": "List users for a given business (paginated).\n\nRequired OAuth2 scopes: `meeting`, `business-app`",
         "operationId": "MeetingExternal_GetUsers",
-        "parameters": [
-          {
-            "description": "Required. The business ID (starts with \"AG-\").",
-            "in": "query",
-            "name": "businessId",
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetUsersRequest"
+              }
             }
-          }
-        ],
+          },
+          "description": "Request message for listing users with their meeting configuration status (paginated).\nReturns all users under the business.",
+          "required": true
+        },
         "responses": {
           "200": {
             "content": {

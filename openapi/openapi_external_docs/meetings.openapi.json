@@ -884,14 +884,27 @@
             "title": "The calendar id this event type belongs to (personal, team, or session)",
             "type": "string"
           },
-          "category": {
-            "title": "The category type of the event type (personal, team, or session)",
+          "calendarType": {
+            "$ref": "#/components/schemas/v1CalendarType"
+          },
+          "dateRange": {
+            "$ref": "#/components/schemas/v1EventTypeDateRange"
+          },
+          "description": {
+            "title": "The description of the event type",
             "type": "string"
           },
           "duration": {
             "format": "int64",
             "title": "The duration of the event type in seconds",
             "type": "string"
+          },
+          "hostUsers": {
+            "items": {
+              "$ref": "#/components/schemas/v1HostUser"
+            },
+            "title": "The host users associated with this event type",
+            "type": "array"
           },
           "id": {
             "title": "The unique identifier for the event type",
@@ -904,6 +917,16 @@
           "location": {
             "title": "The location where the event type meeting will take place (virtual or physical location)",
             "type": "string"
+          },
+          "locationGuidelines": {
+            "title": "Guideline text for the meeting location",
+            "type": "string"
+          },
+          "locationType": {
+            "$ref": "#/components/schemas/v1MeetingLocationType"
+          },
+          "meetingType": {
+            "$ref": "#/components/schemas/v1TeamEventMeetingType"
           },
           "name": {
             "title": "The display name of the event type",

@@ -344,6 +344,54 @@
         },
         "type": "object"
       },
+      "v1BatchBookingTarget": {
+        "description": "BatchBookingTarget identifies a single event type in a batch booking request.",
+        "properties": {
+          "eventTypeId": {
+            "description": "Event type for this position in the chain.",
+            "type": "string"
+          },
+          "order": {
+            "description": "Explicit chain position (1-based). Must be contiguous starting from 1 with no duplicates.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "userId": {
+            "description": "For team event types, specifies the host user.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1BatchEventTypeTarget": {
+        "description": "BatchEventTypeTarget identifies a single event type in a batch availability request.",
+        "properties": {
+          "eventTypeId": {
+            "description": "Event type to include in the chain.",
+            "type": "string"
+          },
+          "order": {
+            "description": "Explicit chain position (1-based). Targets are processed in ascending order.\nMust be contiguous starting from 1 with no duplicates.",
+            "format": "int32",
+            "type": "integer"
+          },
+          "userId": {
+            "description": "For team event types (client-choice, priority round-robin), scopes availability to a specific host user.\nNot required for personal event types.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1BookBatchMeetingResponse": {
+        "description": "BookBatchMeetingResponse returns the identifier linking all created events.",
+        "properties": {
+          "bookingGroupId": {
+            "description": "Single identifier linking all created events in the batch.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "v1BookMeetingExternalRequest": {
         "description": "Request message for booking a new meeting for a specified event type.",
         "properties": {
@@ -2077,6 +2125,26 @@
               "$ref": "#/components/schemas/vendastatypesDateRange"
             },
             "title": "Ordered by start time UTC and reflects the requested TimeZone",
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListBatchAvailableTimeSlotsResponse": {
+        "description": "ListBatchAvailableTimeSlotsResponse returns valid chain start times in ISO format.\nEach time slot represents the start of the first meeting in the chain.\nNote: This API always returns ISO date format (iso_time_slots). The time_slots field is reserved for\nbackwards compatibility but will not be populated by the batch API.",
+        "properties": {
+          "isoTimeSlots": {
+            "description": "Valid first-meeting start times in ISO format. Ordered by start time UTC.",
+            "items": {
+              "$ref": "#/components/schemas/v1IsoDateTimeRange"
+            },
+            "type": "array"
+          },
+          "timeSlots": {
+            "description": "Reserved for backwards compatibility. Not populated by batch API.",
+            "items": {
+              "$ref": "#/components/schemas/vendastatypesDateRange"
+            },
             "type": "array"
           }
         },

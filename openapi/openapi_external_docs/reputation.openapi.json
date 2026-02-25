@@ -583,23 +583,23 @@
       },
       "v1DraftStatus": {
         "default": "DRAFT_STATUS_INVALID",
+        "description": "Tracks the lifecycle of a draft. DRAFT_STATUS_DRAFT means the response is still being worked on\nand can be edited. DRAFT_STATUS_PUBLISHED means the response has been finalized and posted —\npublished drafts are immutable and cannot be updated.",
         "enum": [
           "DRAFT_STATUS_INVALID",
           "DRAFT_STATUS_DRAFT",
           "DRAFT_STATUS_PUBLISHED"
         ],
-        "title": "The status of a draft",
         "type": "string"
       },
       "v1DraftType": {
         "default": "DRAFT_TYPE_INVALID",
+        "description": "Indicates how a draft was created. Use DRAFT_TYPE_INITIAL_DRAFT_POSTED when saving the first\nAI-generated suggestion, DRAFT_TYPE_MANUAL_DRAFT_POSTED when the user writes a response manually,\nand DRAFT_TYPE_AI_CONVERSATION_DRAFT_POSTED when the draft is refined through an AI conversation.",
         "enum": [
           "DRAFT_TYPE_INVALID",
           "DRAFT_TYPE_INITIAL_DRAFT_POSTED",
           "DRAFT_TYPE_MANUAL_DRAFT_POSTED",
           "DRAFT_TYPE_AI_CONVERSATION_DRAFT_POSTED"
         ],
-        "title": "The type of draft",
         "type": "string"
       },
       "v1EmailTemplateData": {
@@ -2107,51 +2107,61 @@
         "type": "object"
       },
       "v1ReviewResponseDraft": {
+        "description": "A draft review response that is being composed before posting. Only one draft per review can be\nin DRAFT_STATUS_DRAFT status at a time. Once published, a draft becomes immutable.",
         "properties": {
           "accountGroupId": {
+            "description": "The account group that owns the review. Used together with review_id to scope draft lookups.",
             "type": "string"
           },
           "conversationIds": {
+            "description": "Conversation IDs from AI-assisted drafting sessions. Present when draft_type is DRAFT_TYPE_AI_CONVERSATION_DRAFT_POSTED.",
             "items": {
               "type": "string"
             },
             "type": "array"
           },
           "created": {
+            "description": "When the draft was first created. Set automatically by the server.",
             "format": "date-time",
             "type": "string"
           },
           "draftContent": {
+            "description": "The current response text. This is what will be posted as the public review response when the draft is published.",
             "type": "string"
           },
           "draftId": {
+            "description": "Server-generated unique identifier for this draft. Format: \"DRAFT-\u003cuuid\u003e\".\nUse this value to reference the draft in subsequent upsert calls.",
             "type": "string"
           },
           "draftType": {
             "$ref": "#/components/schemas/v1DraftType"
           },
           "initialDraft": {
+            "description": "The original AI-generated or initial response text before user edits. Preserved for comparison.",
             "type": "string"
           },
           "lastUpdatedBy": {
+            "description": "Identifier of the user who last modified this draft.",
             "type": "string"
           },
           "published": {
+            "description": "When the draft was published. Only set when status is DRAFT_STATUS_PUBLISHED.",
             "format": "date-time",
             "type": "string"
           },
           "reviewId": {
+            "description": "The review this draft is a response to. Matches the review_id from the reviews system.",
             "type": "string"
           },
           "status": {
             "$ref": "#/components/schemas/v1DraftStatus"
           },
           "updated": {
+            "description": "When the draft was last modified. Updated automatically by the server on each upsert.",
             "format": "date-time",
             "type": "string"
           }
         },
-        "title": "ReviewResponseDraft represents a draft response to a review",
         "type": "object"
       },
       "v1ReviewResponseTemplate": {
@@ -2721,12 +2731,12 @@
         "type": "object"
       },
       "v1UpsertReviewResponseDraftResponse": {
+        "description": "Returns the full draft after the upsert operation completes.",
         "properties": {
           "reviewResponseDraft": {
             "$ref": "#/components/schemas/v1ReviewResponseDraft"
           }
         },
-        "title": "Response message for ReviewResponseDraftService.UpsertReviewResponseDraft",
         "type": "object"
       },
       "vendastatypesFieldMask": {

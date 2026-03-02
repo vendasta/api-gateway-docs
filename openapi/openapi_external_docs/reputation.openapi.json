@@ -638,19 +638,6 @@
         "title": "The response message for SourceService.GetBusinessSources",
         "type": "object"
       },
-      "v1GetDraftsByReviewIDResponse": {
-        "description": "Returns all matching drafts for the given review.",
-        "properties": {
-          "reviewResponseDrafts": {
-            "description": "The drafts associated with the review. May include both editable and published drafts\nif include_published_drafts was set to true in the request.",
-            "items": {
-              "$ref": "#/components/schemas/v1ReviewResponseDraft"
-            },
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
       "v1GetLeaveReviewURLsResponse": {
         "properties": {
           "urls": {
@@ -688,6 +675,19 @@
           }
         },
         "title": "The response message for ListingService.GetListings",
+        "type": "object"
+      },
+      "v1GetMultiDraftsByReviewIDResponse": {
+        "description": "Returns all matching drafts for the given reviews, keyed by review ID.",
+        "properties": {
+          "draftsByReviewId": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/v1ReviewResponseDrafts"
+            },
+            "description": "Map of review ID to its associated drafts.",
+            "type": "object"
+          }
+        },
         "type": "object"
       },
       "v1GetMultiNPSResponse": {
@@ -2173,6 +2173,19 @@
             "description": "When the draft was last modified. Updated automatically by the server on each upsert.",
             "format": "date-time",
             "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ReviewResponseDrafts": {
+        "description": "A collection of drafts for a single review.",
+        "properties": {
+          "reviewResponseDrafts": {
+            "description": "The drafts associated with the review.",
+            "items": {
+              "$ref": "#/components/schemas/v1ReviewResponseDraft"
+            },
+            "type": "array"
           }
         },
         "type": "object"

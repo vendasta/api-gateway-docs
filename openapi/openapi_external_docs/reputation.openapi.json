@@ -677,19 +677,6 @@
         "title": "The response message for ListingService.GetListings",
         "type": "object"
       },
-      "v1GetMultiDraftsByReviewIDResponse": {
-        "description": "Returns all matching drafts for the given reviews, keyed by review ID.",
-        "properties": {
-          "draftsByReviewId": {
-            "additionalProperties": {
-              "$ref": "#/components/schemas/v1ReviewResponseDrafts"
-            },
-            "description": "Map of review ID to its associated drafts.",
-            "type": "object"
-          }
-        },
-        "type": "object"
-      },
       "v1GetMultiNPSResponse": {
         "properties": {
           "netPromoterScore": {
@@ -706,6 +693,19 @@
           "reviewMatching": {
             "items": {
               "$ref": "#/components/schemas/v1ReviewMatching"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetMultiReviewResponseDraftResponse": {
+        "description": "Returns deduplicated drafts matching the requested draft IDs and/or review IDs.",
+        "properties": {
+          "reviewResponseDrafts": {
+            "description": "Deduplicated drafts matching the request criteria.",
+            "items": {
+              "$ref": "#/components/schemas/v1ReviewResponseDraft"
             },
             "type": "array"
           }
@@ -2173,19 +2173,6 @@
             "description": "When the draft was last modified. Updated automatically by the server on each upsert.",
             "format": "date-time",
             "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "v1ReviewResponseDrafts": {
-        "description": "A collection of drafts for a single review.",
-        "properties": {
-          "reviewResponseDrafts": {
-            "description": "The drafts associated with the review.",
-            "items": {
-              "$ref": "#/components/schemas/v1ReviewResponseDraft"
-            },
-            "type": "array"
           }
         },
         "type": "object"

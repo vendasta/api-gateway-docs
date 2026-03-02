@@ -251,6 +251,10 @@
       },
       "v1Attendee": {
         "properties": {
+          "contactId": {
+            "title": "CRM contact ID associated with this attendee",
+            "type": "string"
+          },
           "email": {
             "title": "email of the attendee",
             "type": "string"
@@ -2092,7 +2096,7 @@
       "v1ListBookedMeetingsRequestFilters": {
         "properties": {
           "hostId": {
-            "title": "The identifier of the host to list the meetings for",
+            "title": "Deprecated: Use user_ids instead. The identifier of the host to list the meetings for",
             "type": "string"
           },
           "meetingTypeIds": {
@@ -2104,6 +2108,13 @@
           },
           "timeSpan": {
             "$ref": "#/components/schemas/vendastatypesDateRange"
+          },
+          "userIds": {
+            "description": "The user IDs to filter booked meetings by. Replaces host_id.\nWhen provided, returns meetings where any of these users is the host or additional host.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
           }
         },
         "type": "object"

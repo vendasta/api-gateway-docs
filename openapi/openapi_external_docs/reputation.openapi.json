@@ -981,6 +981,31 @@
         },
         "type": "object"
       },
+      "v1ImportReviewsResponse": {
+        "properties": {
+          "reviewId": {
+            "title": "The ID of the matched/imported review (starts with \"RVW-\")",
+            "type": "string"
+          },
+          "reviewRequestRecordId": {
+            "title": "The ID of the review request record created, only present if request mapping was successful",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/v1ImportStatus"
+          }
+        },
+        "type": "object"
+      },
+      "v1ImportStatus": {
+        "default": "IMPORT_STATUS_UNSPECIFIED",
+        "enum": [
+          "IMPORT_STATUS_UNSPECIFIED",
+          "IMPORT_STATUS_IMPORTED",
+          "IMPORT_STATUS_SKIPPED"
+        ],
+        "type": "string"
+      },
       "v1Interval": {
         "default": "INTERVAL_UNSPECIFIED",
         "enum": [
@@ -1844,6 +1869,15 @@
           }
         },
         "type": "object"
+      },
+      "v1ReviewCommunicationChannel": {
+        "default": "REVIEW_COMMUNICATION_CHANNEL_UNSPECIFIED",
+        "enum": [
+          "REVIEW_COMMUNICATION_CHANNEL_UNSPECIFIED",
+          "REVIEW_COMMUNICATION_CHANNEL_EMAIL",
+          "REVIEW_COMMUNICATION_CHANNEL_SMS"
+        ],
+        "type": "string"
       },
       "v1ReviewDeletedStatus": {
         "default": "REVIEW_DELETED_STATUS_EMPTY",

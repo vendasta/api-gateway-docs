@@ -2755,30 +2755,15 @@
       }
     },
     "securitySchemes": {
-      "OAuth2Demo": {
-        "flows": {
-          "authorizationCode": {
-            "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
-            "scopes": {
-              "business-app": "Grants business-app access",
-              "reputation": "Grants reputation access",
-              "reputation.nps:read": "Grants reputation.nps:read access",
-              "reputation.review:read": "Grants reputation.review:read access"
-            },
-            "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token"
-          }
-        },
-        "type": "oauth2"
-      },
-      "OAuth2Prod": {
+      "OAuth2": {
         "flows": {
           "authorizationCode": {
             "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
             "scopes": {
-              "business-app": "Grants business-app access",
-              "reputation": "Grants reputation access",
-              "reputation.nps:read": "Grants reputation.nps:read access",
-              "reputation.review:read": "Grants reputation.review:read access"
+              "business-app": "Allows the application to manage all features of Business App",
+              "reputation": "Allows the application to manage reputation reports for your clients' businesses",
+              "reputation.nps:read": "Allows the application view-only access to NPS data for the business locations you have access to",
+              "reputation.review:read": "Allows the application view-only access to retrieve reviews for the business locations you have access to"
             },
             "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
           }
@@ -2795,7 +2780,7 @@
   "paths": {
     "/v1/reputation/nps/list": {
       "post": {
-        "description": "List NetPromoterScore feedback records for a business account with optional filtering and pagination.",
+        "description": "List NetPromoterScore feedback records for a business account with optional filtering and pagination.Required OAuth2 scopes: `business-app`, `reputation`, `reputation.nps:read`",
         "operationId": "NetPromoterScoreService_ListNetPromoterScores",
         "requestBody": {
           "content": {
@@ -2832,14 +2817,7 @@
         },
         "security": [
           {
-            "OAuth2Demo": [
-              "business-app",
-              "reputation",
-              "reputation.nps:read"
-            ]
-          },
-          {
-            "OAuth2Prod": [
+            "OAuth2": [
               "business-app",
               "reputation",
               "reputation.nps:read"
@@ -2854,7 +2832,7 @@
     },
     "/v1/reputation/reviews/review-metrics": {
       "post": {
-        "description": "Get review metrics by namespaces.",
+        "description": "Get review metrics by namespaces.\n\nRequired OAuth2 scopes: `business-app`, `reputation`, `reputation.review:read`",
         "operationId": "ReviewService_GetReviewMetrics",
         "requestBody": {
           "content": {
@@ -2890,14 +2868,7 @@
         },
         "security": [
           {
-            "OAuth2Demo": [
-              "business-app",
-              "reputation",
-              "reputation.review:read"
-            ]
-          },
-          {
-            "OAuth2Prod": [
+            "OAuth2": [
               "business-app",
               "reputation",
               "reputation.review:read"
@@ -2912,7 +2883,7 @@
     },
     "/v1/reputation/reviews/search": {
       "post": {
-        "description": "Search reviews by their IDs.",
+        "description": "Search reviews by their IDs.\n\nRequired OAuth2 scopes: `business-app`, `reputation`, `reputation.review:read`",
         "operationId": "ReviewService_SearchReviews",
         "requestBody": {
           "content": {
@@ -2949,14 +2920,7 @@
         },
         "security": [
           {
-            "OAuth2Demo": [
-              "business-app",
-              "reputation",
-              "reputation.review:read"
-            ]
-          },
-          {
-            "OAuth2Prod": [
+            "OAuth2": [
               "business-app",
               "reputation",
               "reputation.review:read"

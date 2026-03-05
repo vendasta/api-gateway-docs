@@ -3835,8 +3835,8 @@
           "authorizationCode": {
             "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
             "scopes": {
-              "read": "Read access to the API",
-              "write": "Write access to the API"
+              "business-app": "Grants business-app access",
+              "meeting": "Grants meeting access"
             },
             "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token"
           }
@@ -3848,8 +3848,8 @@
           "authorizationCode": {
             "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
             "scopes": {
-              "read": "Read access to the API",
-              "write": "Write access to the API"
+              "business-app": "Grants business-app access",
+              "meeting": "Grants meeting access"
             },
             "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
           }
@@ -3866,7 +3866,7 @@
   "paths": {
     "/v1/meetings/book": {
       "post": {
-        "description": "Book a new meeting for a specified event type in a given business.\n\nRequired OAuth2 scopes: `meeting`, `business-app`",
+        "description": "Book a new meeting for a specified event type in a given business.",
         "operationId": "MeetingExternal_BookMeeting",
         "requestBody": {
           "content": {
@@ -3903,10 +3903,16 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
+            "OAuth2Demo": [
+              "meeting",
+              "business-app"
+            ]
           },
           {
-            "OAuth2Prod": []
+            "OAuth2Prod": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "Book meeting",
@@ -3917,7 +3923,7 @@
     },
     "/v1/meetings/cancel": {
       "post": {
-        "description": "Cancel a booked meeting identified by meeting ID for a given business.\n\nRequired OAuth2 scopes: `meeting`, `business-app`",
+        "description": "Cancel a booked meeting identified by meeting ID for a given business.",
         "operationId": "MeetingExternal_CancelMeeting",
         "requestBody": {
           "content": {
@@ -3954,10 +3960,16 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
+            "OAuth2Demo": [
+              "meeting",
+              "business-app"
+            ]
           },
           {
-            "OAuth2Prod": []
+            "OAuth2Prod": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "Cancel meeting",
@@ -3968,7 +3980,7 @@
     },
     "/v1/meetings/event-type-availability-slots": {
       "post": {
-        "description": "List available time slots for a specified event type in a given business.\n\nRequired OAuth2 scopes: `meeting`, `business-app`",
+        "description": "List available time slots for a specified event type in a given business.",
         "operationId": "MeetingExternal_ListAvailableTimeSlots",
         "requestBody": {
           "content": {
@@ -4005,10 +4017,16 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
+            "OAuth2Demo": [
+              "meeting",
+              "business-app"
+            ]
           },
           {
-            "OAuth2Prod": []
+            "OAuth2Prod": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "List available time slots",
@@ -4019,7 +4037,7 @@
     },
     "/v1/meetings/event-types": {
       "post": {
-        "description": "List team event types for a given business (paginated).\n\nRequired OAuth2 scopes: `meeting`, `business-app`",
+        "description": "List team event types for a given business (paginated).",
         "operationId": "MeetingExternal_ListTeamEventTypes",
         "requestBody": {
           "content": {
@@ -4056,10 +4074,16 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
+            "OAuth2Demo": [
+              "meeting",
+              "business-app"
+            ]
           },
           {
-            "OAuth2Prod": []
+            "OAuth2Prod": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "List team event types",
@@ -4070,7 +4094,7 @@
     },
     "/v1/meetings/groups": {
       "post": {
-        "description": "List all groups for a given business.\n\nRequired OAuth2 scopes: `meeting`, `business-app`",
+        "description": "List all groups for a given business.",
         "operationId": "MeetingExternal_ListGroups",
         "requestBody": {
           "content": {
@@ -4107,10 +4131,16 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
+            "OAuth2Demo": [
+              "meeting",
+              "business-app"
+            ]
           },
           {
-            "OAuth2Prod": []
+            "OAuth2Prod": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "List groups",
@@ -4121,7 +4151,7 @@
     },
     "/v1/meetings/reschedule": {
       "post": {
-        "description": "Reschedule an existing meeting to a new time and/or location for a given business.\n\nRequired OAuth2 scopes: `meeting`, `business-app`",
+        "description": "Reschedule an existing meeting to a new time and/or location for a given business.",
         "operationId": "MeetingExternal_RescheduleMeeting",
         "requestBody": {
           "content": {
@@ -4158,10 +4188,16 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
+            "OAuth2Demo": [
+              "meeting",
+              "business-app"
+            ]
           },
           {
-            "OAuth2Prod": []
+            "OAuth2Prod": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "Reschedule meeting",
@@ -4172,7 +4208,7 @@
     },
     "/v1/meetings/services": {
       "post": {
-        "description": "List all services for a given business.\n\nRequired OAuth2 scopes: `meeting`, `business-app`",
+        "description": "List all services for a given business.",
         "operationId": "MeetingExternal_ListServices",
         "requestBody": {
           "content": {
@@ -4209,10 +4245,16 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
+            "OAuth2Demo": [
+              "meeting",
+              "business-app"
+            ]
           },
           {
-            "OAuth2Prod": []
+            "OAuth2Prod": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "List services",
@@ -4223,7 +4265,7 @@
     },
     "/v1/meetings/user-event-types": {
       "post": {
-        "description": "List personal and team event types for a user.\n\nRequired OAuth2 scopes: `meeting`, `business-app`",
+        "description": "List personal and team event types for a user.",
         "operationId": "MeetingExternal_ListUserEventTypes",
         "requestBody": {
           "content": {
@@ -4260,10 +4302,16 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
+            "OAuth2Demo": [
+              "meeting",
+              "business-app"
+            ]
           },
           {
-            "OAuth2Prod": []
+            "OAuth2Prod": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "List user event types",
@@ -4274,7 +4322,7 @@
     },
     "/v1/meetings/users": {
       "post": {
-        "description": "List users for a given business (paginated).\n\nRequired OAuth2 scopes: `meeting`, `business-app`",
+        "description": "List users for a given business (paginated).",
         "operationId": "MeetingExternal_GetUsers",
         "requestBody": {
           "content": {
@@ -4311,10 +4359,16 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
+            "OAuth2Demo": [
+              "meeting",
+              "business-app"
+            ]
           },
           {
-            "OAuth2Prod": []
+            "OAuth2Prod": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "List users",

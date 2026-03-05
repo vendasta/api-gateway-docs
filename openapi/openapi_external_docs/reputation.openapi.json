@@ -2760,8 +2760,10 @@
           "authorizationCode": {
             "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
             "scopes": {
-              "read": "Read access to the API",
-              "write": "Write access to the API"
+              "business-app": "Grants business-app access",
+              "reputation": "Grants reputation access",
+              "reputation.nps:read": "Grants reputation.nps:read access",
+              "reputation.review:read": "Grants reputation.review:read access"
             },
             "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token"
           }
@@ -2773,8 +2775,10 @@
           "authorizationCode": {
             "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
             "scopes": {
-              "read": "Read access to the API",
-              "write": "Write access to the API"
+              "business-app": "Grants business-app access",
+              "reputation": "Grants reputation access",
+              "reputation.nps:read": "Grants reputation.nps:read access",
+              "reputation.review:read": "Grants reputation.review:read access"
             },
             "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
           }
@@ -2791,7 +2795,7 @@
   "paths": {
     "/v1/reputation/nps/list": {
       "post": {
-        "description": "List NetPromoterScore feedback records for a business account with optional filtering and pagination.Required OAuth2 scopes: `business-app`, `reputation`, `reputation.nps:read`",
+        "description": "List NetPromoterScore feedback records for a business account with optional filtering and pagination.",
         "operationId": "NetPromoterScoreService_ListNetPromoterScores",
         "requestBody": {
           "content": {
@@ -2828,10 +2832,18 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
+            "OAuth2Demo": [
+              "business-app",
+              "reputation",
+              "reputation.nps:read"
+            ]
           },
           {
-            "OAuth2Prod": []
+            "OAuth2Prod": [
+              "business-app",
+              "reputation",
+              "reputation.nps:read"
+            ]
           }
         ],
         "summary": "List NPS scores",
@@ -2842,7 +2854,7 @@
     },
     "/v1/reputation/reviews/review-metrics": {
       "post": {
-        "description": "Get review metrics by namespaces.\n\nRequired OAuth2 scopes: `business-app`, `reputation`, `reputation.review:read`",
+        "description": "Get review metrics by namespaces.",
         "operationId": "ReviewService_GetReviewMetrics",
         "requestBody": {
           "content": {
@@ -2878,10 +2890,18 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
+            "OAuth2Demo": [
+              "business-app",
+              "reputation",
+              "reputation.review:read"
+            ]
           },
           {
-            "OAuth2Prod": []
+            "OAuth2Prod": [
+              "business-app",
+              "reputation",
+              "reputation.review:read"
+            ]
           }
         ],
         "summary": "Get review metrics",
@@ -2892,7 +2912,7 @@
     },
     "/v1/reputation/reviews/search": {
       "post": {
-        "description": "Search reviews by their IDs.\n\nRequired OAuth2 scopes: `business-app`, `reputation`, `reputation.review:read`",
+        "description": "Search reviews by their IDs.",
         "operationId": "ReviewService_SearchReviews",
         "requestBody": {
           "content": {
@@ -2929,10 +2949,18 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
+            "OAuth2Demo": [
+              "business-app",
+              "reputation",
+              "reputation.review:read"
+            ]
           },
           {
-            "OAuth2Prod": []
+            "OAuth2Prod": [
+              "business-app",
+              "reputation",
+              "reputation.review:read"
+            ]
           }
         ],
         "summary": "Search reviews",

@@ -251,6 +251,10 @@
       },
       "v1Attendee": {
         "properties": {
+          "contactId": {
+            "title": "CRM contact ID associated with this attendee",
+            "type": "string"
+          },
           "email": {
             "title": "email of the attendee",
             "type": "string"
@@ -2104,6 +2108,13 @@
           },
           "timeSpan": {
             "$ref": "#/components/schemas/vendastatypesDateRange"
+          },
+          "userIds": {
+            "description": "The user IDs to filter booked meetings by. Replaces host_id.\nWhen provided, returns meetings where any of these users is the host or additional host.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
           }
         },
         "type": "object"
@@ -3826,26 +3837,13 @@
       }
     },
     "securitySchemes": {
-      "OAuth2Demo": {
-        "flows": {
-          "authorizationCode": {
-            "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
-            "scopes": {
-              "read": "Read access to the API",
-              "write": "Write access to the API"
-            },
-            "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token"
-          }
-        },
-        "type": "oauth2"
-      },
-      "OAuth2Prod": {
+      "OAuth2": {
         "flows": {
           "authorizationCode": {
             "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
             "scopes": {
-              "read": "Read access to the API",
-              "write": "Write access to the API"
+              "business-app": "Allows the application to manage all features of Business App",
+              "meeting": "Allows the application to book and manage meetings for your business(es)"
             },
             "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
           }
@@ -3899,10 +3897,10 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
+            "OAuth2": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "Book meeting",
@@ -3950,10 +3948,10 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
+            "OAuth2": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "Cancel meeting",
@@ -4001,10 +3999,10 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
+            "OAuth2": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "List available time slots",
@@ -4052,10 +4050,10 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
+            "OAuth2": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "List team event types",
@@ -4103,10 +4101,10 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
+            "OAuth2": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "List groups",
@@ -4154,10 +4152,10 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
+            "OAuth2": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "Reschedule meeting",
@@ -4205,10 +4203,10 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
+            "OAuth2": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "List services",
@@ -4256,10 +4254,10 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
+            "OAuth2": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "List user event types",
@@ -4307,10 +4305,10 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
+            "OAuth2": [
+              "meeting",
+              "business-app"
+            ]
           }
         ],
         "summary": "List users",
@@ -4324,10 +4322,6 @@
     {
       "description": "Production",
       "url": "https://prod.apigateway.co/grpc"
-    },
-    {
-      "description": "Demo",
-      "url": "https://demo.apigateway.co/grpc"
     }
   ],
   "tags": [

@@ -588,26 +588,13 @@
       }
     },
     "securitySchemes": {
-      "OAuth2Demo": {
-        "flows": {
-          "authorizationCode": {
-            "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
-            "scopes": {
-              "read": "Read access to the API",
-              "write": "Write access to the API"
-            },
-            "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token"
-          }
-        },
-        "type": "oauth2"
-      },
-      "OAuth2Prod": {
+      "OAuth2": {
         "flows": {
           "authorizationCode": {
             "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
             "scopes": {
-              "read": "Read access to the API",
-              "write": "Write access to the API"
+              "business-app": "Allows the application to manage all features of Business App",
+              "partner:read": "Allows the application view-only access to your platform setup information"
             },
             "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
           }
@@ -624,7 +611,7 @@
   "paths": {
     "/v1/websites/site-details": {
       "post": {
-        "description": "List primary and alternate domains for all WordPress sites owned by the partner.\n\nRequired OAuth2 scopes: `partner:read`, `business-app`",
+        "description": "List primary and alternate domains for all WordPress sites owned by the partner.",
         "operationId": "PartnerApi_ListSiteDetails",
         "requestBody": {
           "content": {
@@ -661,10 +648,10 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
+            "OAuth2": [
+              "partner:read",
+              "business-app"
+            ]
           }
         ],
         "summary": "List Site Details",
@@ -678,10 +665,6 @@
     {
       "description": "Production",
       "url": "https://prod.apigateway.co/grpc"
-    },
-    {
-      "description": "Demo",
-      "url": "https://demo.apigateway.co/grpc"
     }
   ],
   "tags": [

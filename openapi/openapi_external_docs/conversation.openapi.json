@@ -2282,26 +2282,13 @@
       }
     },
     "securitySchemes": {
-      "OAuth2Demo": {
-        "flows": {
-          "authorizationCode": {
-            "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
-            "scopes": {
-              "read": "Read access to the API",
-              "write": "Write access to the API"
-            },
-            "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token"
-          }
-        },
-        "type": "oauth2"
-      },
-      "OAuth2Prod": {
+      "OAuth2": {
         "flows": {
           "authorizationCode": {
             "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
             "scopes": {
-              "read": "Read access to the API",
-              "write": "Write access to the API"
+              "business-app": "Allows the application to manage all features of Business App",
+              "conversation.widget": "Allows the application to manage conversation widgets"
             },
             "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
           }
@@ -2394,10 +2381,10 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
+            "OAuth2": [
+              "business-app",
+              "conversation.widget"
+            ]
           }
         ],
         "summary": "List widgets",
@@ -2411,10 +2398,6 @@
     {
       "description": "Production",
       "url": "https://prod.apigateway.co/grpc"
-    },
-    {
-      "description": "Demo",
-      "url": "https://demo.apigateway.co/grpc"
     }
   ],
   "tags": [

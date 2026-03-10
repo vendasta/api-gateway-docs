@@ -1,0 +1,27 @@
+name: Trivy Scan
+on:
+  pull_request:
+    branches:
+      - master
+jobs:
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      # Config scan
+      - name: Trivy config scan
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          scan-type: config
+          severity: CRITICAL,HIGH
+          timeout: 15m
+
+      # Filesystem scan (secrets, sensitive files)
+      - name: Trivy secret scan
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          scan-type: fs
+          scanners: secret
+          severity: CRITICAL,HIGH
+          timeout: 15m

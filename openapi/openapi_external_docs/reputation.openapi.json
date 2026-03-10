@@ -985,6 +985,22 @@
         "title": "The response message for SourceService.GetSourceDetails",
         "type": "object"
       },
+      "v1ImportMatchedReviewResponse": {
+        "properties": {
+          "reviewId": {
+            "title": "The ID of the matched review (starts with \"RVW-\")",
+            "type": "string"
+          },
+          "reviewRequestRecordId": {
+            "title": "The ID of the review request record created, only present if request mapping was successful",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/v1ImportStatus"
+          }
+        },
+        "type": "object"
+      },
       "v1ImportNPSResponse": {
         "properties": {
           "netPromoterScoreId": {
@@ -993,6 +1009,15 @@
           }
         },
         "type": "object"
+      },
+      "v1ImportStatus": {
+        "default": "IMPORT_STATUS_UNSPECIFIED",
+        "enum": [
+          "IMPORT_STATUS_UNSPECIFIED",
+          "IMPORT_STATUS_IMPORTED",
+          "IMPORT_STATUS_SKIPPED"
+        ],
+        "type": "string"
       },
       "v1Interval": {
         "default": "INTERVAL_UNSPECIFIED",

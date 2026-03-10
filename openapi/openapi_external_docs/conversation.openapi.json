@@ -395,6 +395,10 @@
             "title": "Determines if ai email capabilities are available for the organization referred to by subject_participant",
             "type": "boolean"
           },
+          "aiPlatformEnabled": {
+            "title": "Determines if ai platform capabilities are available for the organization referred to by subject_participant",
+            "type": "boolean"
+          },
           "aiVoiceEnabled": {
             "title": "Determines if ai voice capabilities are available for the organization referred to by subject_participant",
             "type": "boolean"
@@ -559,6 +563,7 @@
       },
       "v1ConversationChannel": {
         "default": "CONVERSATION_CHANNEL_UNDEFINED",
+        "description": " - CONVERSATION_CHANNEL_PERSONAL_EMAIL: Personal email via Gmail/Outlook platform integration.\nMessage content is stored in Email service (TrackedMessageContent), retrieved via tracked_message_id metadata.",
         "enum": [
           "CONVERSATION_CHANNEL_UNDEFINED",
           "CONVERSATION_CHANNEL_INTERNAL",
@@ -572,7 +577,8 @@
           "CONVERSATION_CHANNEL_INSTAGRAM",
           "CONVERSATION_CHANNEL_WHATSAPP",
           "CONVERSATION_CHANNEL_AI_ASSISTANT",
-          "CONVERSATION_CHANNEL_GOOGLE_CHAT"
+          "CONVERSATION_CHANNEL_GOOGLE_CHAT",
+          "CONVERSATION_CHANNEL_PERSONAL_EMAIL"
         ],
         "type": "string"
       },
@@ -1457,6 +1463,9 @@
             },
             "type": "array"
           },
+          "automationSource": {
+            "$ref": "#/components/schemas/v1PlatformLocation"
+          },
           "body": {
             "type": "string"
           },
@@ -1503,6 +1512,9 @@
           },
           "participantId": {
             "type": "string"
+          },
+          "platformLocation": {
+            "$ref": "#/components/schemas/v1PlatformLocation"
           },
           "sendStatus": {
             "$ref": "#/components/schemas/v1SendStatus"
@@ -1780,7 +1792,14 @@
           "PLATFORM_LOCATION_TASK_MANAGER",
           "PLATFORM_LOCATION_PROPOSAL_BUILDER",
           "PLATFORM_LOCATION_SALES_CENTER",
-          "PLATFORM_LOCATION_ADMIN_CENTER"
+          "PLATFORM_LOCATION_ADMIN_CENTER",
+          "PLATFORM_LOCATION_REPUTATION_MANAGEMENT",
+          "PLATFORM_LOCATION_CAMPAIGNS",
+          "PLATFORM_LOCATION_SMS",
+          "PLATFORM_LOCATION_CRM",
+          "PLATFORM_LOCATION_VOICE",
+          "PLATFORM_LOCATION_AUTOMATA",
+          "PLATFORM_LOCATION_WHATSAPP_BUSINESS_APP"
         ],
         "type": "string"
       },
@@ -1796,6 +1815,10 @@
           },
           "aiInstagramProductActive": {
             "title": "Whether the AI product is active for the Instagram channel",
+            "type": "boolean"
+          },
+          "aiPlatformEnabled": {
+            "title": "Determines if ai platform capabilities are available for the organization referred to by subject_participant",
             "type": "boolean"
           },
           "aiSmsResponderEnabled": {
@@ -2263,7 +2286,10 @@
         "flows": {
           "authorizationCode": {
             "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
-            "scopes": {},
+            "scopes": {
+              "business-app": "Allows the application to manage all features of Business App",
+              "conversation.widget": "Allows the application to manage conversation widgets"
+            },
             "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
           }
         },
@@ -2353,6 +2379,14 @@
             "description": "An unexpected error response."
           }
         },
+        "security": [
+          {
+            "OAuth2": [
+              "business-app",
+              "conversation.widget"
+            ]
+          }
+        ],
         "summary": "List widgets",
         "tags": [
           "ConversationService"

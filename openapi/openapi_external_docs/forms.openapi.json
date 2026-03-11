@@ -56,92 +56,6 @@
         },
         "type": "object"
       },
-      "FormSubmissionProcessResult": {
-        "properties": {
-          "entityIds": {
-            "items": {
-              "type": "string"
-            },
-            "title": "entities that have been processed as a result of form submission",
-            "type": "array"
-          },
-          "errors": {
-            "items": {
-              "$ref": "#/components/schemas/FormSubmissionResultError"
-            },
-            "title": "errors that may have happened in one of the processing steps of a form submission",
-            "type": "array"
-          },
-          "status": {
-            "$ref": "#/components/schemas/v1FormSubmissionProcessResultStatus"
-          }
-        },
-        "type": "object"
-      },
-      "FormSubmissionProcessResultErrorType": {
-        "default": "PROCESS_RESULT_ERROR_TYPE_UNSPECIFIED",
-        "enum": [
-          "PROCESS_RESULT_ERROR_TYPE_UNSPECIFIED",
-          "PROCESS_RESULT_ERROR_TYPE_NOT_FOUND",
-          "PROCESS_RESULT_ERROR_TYPE_ALREADY_EXISTS",
-          "PROCESS_RESULT_ERROR_TYPE_INVALID_ARGUMENT"
-        ],
-        "type": "string"
-      },
-      "FormSubmissionResultError": {
-        "properties": {
-          "errorType": {
-            "$ref": "#/components/schemas/FormSubmissionProcessResultErrorType"
-          },
-          "stepId": {
-            "title": "step from processing that failed",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "FormSubmissionSubmittedValue": {
-        "properties": {
-          "fieldId": {
-            "type": "string"
-          },
-          "fieldType": {
-            "$ref": "#/components/schemas/v1FieldType"
-          },
-          "fieldValue": {
-            "$ref": "#/components/schemas/v1FieldValue"
-          },
-          "mappedToResource": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "GetMultiFormVersionsListResponseVersions": {
-        "properties": {
-          "formId": {
-            "type": "string"
-          },
-          "versions": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
-      "GetMultiRequestFormConfigIdentifier": {
-        "properties": {
-          "formId": {
-            "type": "string"
-          },
-          "version": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
       "ListFormsRequestFilters": {
         "properties": {
           "namespace": {
@@ -161,28 +75,6 @@
           },
           "recentProcessingStatus": {
             "$ref": "#/components/schemas/v1ListFormsResponseProcessResultStatus"
-          }
-        },
-        "type": "object"
-      },
-      "RenderFormResponseDefaultValues": {
-        "properties": {
-          "fieldId": {
-            "type": "string"
-          },
-          "jsonValue": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "RenderFormResponsePreFillByUrlQueryParameter": {
-        "properties": {
-          "fieldId": {
-            "type": "string"
-          },
-          "queryParam": {
-            "type": "string"
           }
         },
         "type": "object"
@@ -261,16 +153,6 @@
         ],
         "type": "string"
       },
-      "v1CreateFormFromTemplateResponse": {
-        "properties": {
-          "workflowId": {
-            "title": "The workflow ID to track the form creation process",
-            "type": "string"
-          }
-        },
-        "title": "Response for creating a form from template",
-        "type": "object"
-      },
       "v1CreateFormRequest": {
         "properties": {
           "formConfig": {
@@ -296,14 +178,6 @@
           }
         },
         "title": "CreateFormResponse - returns the newly generated form_id and version",
-        "type": "object"
-      },
-      "v1CreateFormSubmissionResponse": {
-        "properties": {
-          "redirectUrl": {
-            "type": "string"
-          }
-        },
         "type": "object"
       },
       "v1DateDefault": {
@@ -567,52 +441,6 @@
         },
         "type": "object"
       },
-      "v1FormCreationStatus": {
-        "default": "FORM_CREATION_STATUS_UNSPECIFIED",
-        "enum": [
-          "FORM_CREATION_STATUS_UNSPECIFIED",
-          "FORM_CREATION_STATUS_IN_PROGRESS",
-          "FORM_CREATION_STATUS_COMPLETED",
-          "FORM_CREATION_STATUS_FAILED"
-        ],
-        "title": "Status of form creation workflow",
-        "type": "string"
-      },
-      "v1FormSubmission": {
-        "properties": {
-          "created": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "formSubmissionId": {
-            "type": "string"
-          },
-          "formVersion": {
-            "type": "string"
-          },
-          "processResult": {
-            "$ref": "#/components/schemas/FormSubmissionProcessResult"
-          },
-          "values": {
-            "items": {
-              "$ref": "#/components/schemas/FormSubmissionSubmittedValue"
-            },
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
-      "v1FormSubmissionProcessResultStatus": {
-        "default": "PROCESS_RESULT_STATUS_UNSPECIFIED",
-        "enum": [
-          "PROCESS_RESULT_STATUS_UNSPECIFIED",
-          "PROCESS_RESULT_STATUS_IN_PROGRESS",
-          "PROCESS_RESULT_STATUS_COMPLETED",
-          "PROCESS_RESULT_STATUS_COMPLETED_WITH_WARNINGS",
-          "PROCESS_RESULT_STATUS_FAILED"
-        ],
-        "type": "string"
-      },
       "v1GenerateCustomCSSRequest": {
         "properties": {
           "currentCss": {
@@ -645,23 +473,6 @@
             "$ref": "#/components/schemas/v1Styles"
           }
         },
-        "type": "object"
-      },
-      "v1GetCreateFormFromTemplateStatusResponse": {
-        "properties": {
-          "errorMessage": {
-            "title": "Any error message if the workflow failed",
-            "type": "string"
-          },
-          "formId": {
-            "title": "The form ID if creation is complete",
-            "type": "string"
-          },
-          "status": {
-            "$ref": "#/components/schemas/v1FormCreationStatus"
-          }
-        },
-        "title": "Response for form creation status",
         "type": "object"
       },
       "v1GetEmbedCodeRequest": {
@@ -701,62 +512,6 @@
           }
         },
         "title": "returns the most recent version of FormConfig for a specific form_id",
-        "type": "object"
-      },
-      "v1GetMultiFormSubmissionResponse": {
-        "properties": {
-          "submissions": {
-            "items": {
-              "$ref": "#/components/schemas/v1FormSubmission"
-            },
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
-      "v1GetMultiFormVersionsListResponse": {
-        "properties": {
-          "versions": {
-            "items": {
-              "$ref": "#/components/schemas/GetMultiFormVersionsListResponseVersions"
-            },
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
-      "v1GetMultiResponse": {
-        "properties": {
-          "formConfigs": {
-            "items": {
-              "$ref": "#/components/schemas/v1FormConfig"
-            },
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
-      "v1JsonSchemaLibrary": {
-        "default": "JSON_SCHEMA_LIBRARY_UNDEFINED",
-        "enum": [
-          "JSON_SCHEMA_LIBRARY_UNDEFINED",
-          "JSON_SCHEMA_LIBRARY_JSONFORM"
-        ],
-        "title": "- JSON_SCHEMA_LIBRARY_JSONFORM: JSONFORMS, ALPACA",
-        "type": "string"
-      },
-      "v1ListFormSubmissionResponse": {
-        "properties": {
-          "pagingMetadata": {
-            "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
-          },
-          "submissions": {
-            "items": {
-              "$ref": "#/components/schemas/v1FormSubmission"
-            },
-            "type": "array"
-          }
-        },
         "type": "object"
       },
       "v1ListFormsRequest": {
@@ -899,17 +654,6 @@
         "title": "This follows the E164 international standard specification for phone numbers",
         "type": "object"
       },
-      "v1PreviewFormResponse": {
-        "properties": {
-          "jsonSchema": {
-            "type": "string"
-          },
-          "jsonUiSchema": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
       "v1PromoSelectionFieldConfig": {
         "properties": {
           "autoAdvance": {
@@ -917,66 +661,6 @@
           },
           "multiSelection": {
             "type": "boolean"
-          }
-        },
-        "type": "object"
-      },
-      "v1RecoverFormResponse": {
-        "properties": {
-          "formId": {
-            "type": "string"
-          },
-          "version": {
-            "type": "string"
-          }
-        },
-        "title": "RecoverFormResponse - last version of the form recovered (if any)",
-        "type": "object"
-      },
-      "v1RenderFormResponse": {
-        "properties": {
-          "defaultValues": {
-            "items": {
-              "$ref": "#/components/schemas/RenderFormResponseDefaultValues"
-            },
-            "type": "array"
-          },
-          "fieldQueryParams": {
-            "items": {
-              "$ref": "#/components/schemas/RenderFormResponsePreFillByUrlQueryParameter"
-            },
-            "type": "array"
-          },
-          "jsonSchema": {
-            "type": "string"
-          },
-          "jsonUiSchema": {
-            "type": "string"
-          },
-          "recaptchaSiteKey": {
-            "type": "string"
-          },
-          "styles": {
-            "$ref": "#/components/schemas/v1Styles"
-          }
-        },
-        "type": "object"
-      },
-      "v1ReprocessStatus": {
-        "default": "REPROCESS_STATUS_UNSPECIFIED",
-        "enum": [
-          "REPROCESS_STATUS_UNSPECIFIED",
-          "STARTED",
-          "ALREADY_RUNNING",
-          "NO_MAPPABLE_FIELDS"
-        ],
-        "title": "- STARTED: New Temporal workflow started\n - ALREADY_RUNNING: A workflow is already in-flight for this submission\n - NO_MAPPABLE_FIELDS: Nothing to process after schema filtering",
-        "type": "string"
-      },
-      "v1ReprocessSubmissionResponse": {
-        "properties": {
-          "status": {
-            "$ref": "#/components/schemas/v1ReprocessStatus"
           }
         },
         "type": "object"
@@ -1144,24 +828,6 @@
           }
         },
         "title": "UpdateFormResponse - returns the newly generated version",
-        "type": "object"
-      },
-      "v1UserFormSubmission": {
-        "properties": {
-          "formId": {
-            "title": "form identification",
-            "type": "string"
-          },
-          "values": {
-            "title": "json with the values being submitted - must conform with form specification",
-            "type": "string"
-          },
-          "version": {
-            "title": "optional version - if not set it will be used the latest version",
-            "type": "string"
-          }
-        },
-        "title": "UserFormSubmission represents a set of values being submitted to a form by the user",
         "type": "object"
       },
       "v1ValidationError": {
@@ -1580,12 +1246,6 @@
   "tags": [
     {
       "name": "Forms"
-    },
-    {
-      "name": "FormSubmissionService"
-    },
-    {
-      "name": "FormTemplateService"
     }
   ]
 }

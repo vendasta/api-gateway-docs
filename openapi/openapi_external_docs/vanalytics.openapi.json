@@ -257,26 +257,14 @@
       }
     },
     "securitySchemes": {
-      "OAuth2Demo": {
-        "flows": {
-          "authorizationCode": {
-            "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
-            "scopes": {
-              "read": "Read access to the API",
-              "write": "Write access to the API"
-            },
-            "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token"
-          }
-        },
-        "type": "oauth2"
-      },
-      "OAuth2Prod": {
+      "OAuth2": {
         "flows": {
           "authorizationCode": {
             "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
             "scopes": {
-              "read": "Read access to the API",
-              "write": "Write access to the API"
+              "business": "Allows the application to manage your business profiles",
+              "business.metrics": "Allows the application to manage business metrics",
+              "business:read": "Allows the application view-only access to your business profiles"
             },
             "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
           }
@@ -330,10 +318,10 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
+            "OAuth2": [
+              "business",
+              "business.metrics"
+            ]
           }
         ],
         "summary": "Push Business Metric",
@@ -381,10 +369,10 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
+            "OAuth2": [
+              "business",
+              "business.metrics"
+            ]
           }
         ],
         "summary": "Delete Business Metric",
@@ -432,10 +420,10 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
+            "OAuth2": [
+              "business",
+              "business.metrics"
+            ]
           }
         ],
         "summary": "Delete Multiple Business Metrics",
@@ -483,10 +471,11 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
+            "OAuth2": [
+              "business",
+              "business:read",
+              "business.metrics"
+            ]
           }
         ],
         "summary": "Get Business Metric",
@@ -534,10 +523,11 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
+            "OAuth2": [
+              "business",
+              "business:read",
+              "business.metrics"
+            ]
           }
         ],
         "summary": "Get Business Metric Point",
@@ -551,10 +541,6 @@
     {
       "description": "Production",
       "url": "https://prod.apigateway.co/grpc"
-    },
-    {
-      "description": "Demo",
-      "url": "https://demo.apigateway.co/grpc"
     }
   ],
   "tags": [

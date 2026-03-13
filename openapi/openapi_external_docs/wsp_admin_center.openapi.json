@@ -28,187 +28,6 @@
         },
         "type": "object"
       },
-      "v1AppConfig": {
-        "properties": {
-          "partnerId": {
-            "type": "string"
-          },
-          "showAdvancedFeatures": {
-            "type": "boolean"
-          },
-          "showBackupsFeatures": {
-            "type": "boolean"
-          },
-          "showDomainsFeatures": {
-            "type": "boolean"
-          },
-          "showImportFeatures": {
-            "type": "boolean"
-          },
-          "showIncludedTemplates": {
-            "type": "boolean"
-          },
-          "showStagingFeatures": {
-            "type": "boolean"
-          },
-          "templateCategories": {
-            "items": {
-              "$ref": "#/components/schemas/v1TemplateCategory"
-            },
-            "title": "The list of template categories for this partner",
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
-      "v1BackfillResponse": {
-        "properties": {
-          "message": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "v1CreateTemplateCategoryResponse": {
-        "properties": {
-          "category": {
-            "$ref": "#/components/schemas/v1TemplateCategory"
-          }
-        },
-        "title": "CreateTemplateCategory response message",
-        "type": "object"
-      },
-      "v1DeleteSitesResponse": {
-        "properties": {
-          "failedSiteIds": {
-            "items": {
-              "$ref": "#/components/schemas/v1DeleteSitesResult"
-            },
-            "type": "array"
-          },
-          "failureCount": {
-            "format": "int32",
-            "type": "integer"
-          },
-          "status": {
-            "type": "string"
-          },
-          "successCount": {
-            "format": "int32",
-            "type": "integer"
-          },
-          "successfulSiteIds": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "totalProcessed": {
-            "format": "int32",
-            "type": "integer"
-          }
-        },
-        "type": "object"
-      },
-      "v1DeleteSitesResult": {
-        "properties": {
-          "error": {
-            "type": "string"
-          },
-          "siteId": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "v1DeleteTemplateCategoryResponse": {
-        "title": "DeleteTemplateCategory response message",
-        "type": "object"
-      },
-      "v1GetAppConfigResponse": {
-        "properties": {
-          "config": {
-            "$ref": "#/components/schemas/v1AppConfig"
-          }
-        },
-        "type": "object"
-      },
-      "v1GetDiscrepancyDataResponse": {
-        "properties": {
-          "discrepancyData": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
-      "v1GetHealthCheckResponse": {
-        "properties": {
-          "hasMore": {
-            "title": "Whether or not more results exist",
-            "type": "boolean"
-          },
-          "siteHealths": {
-            "items": {
-              "$ref": "#/components/schemas/v1SiteHealths"
-            },
-            "title": "The cursor to use for the next healthcheckData",
-            "type": "array"
-          },
-          "totalResults": {
-            "format": "int64",
-            "title": "The total number of results for this query across all pages",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "v1GetMultiSiteResponse": {
-        "properties": {
-          "sites": {
-            "items": {
-              "$ref": "#/components/schemas/v1WordPressSite"
-            },
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
-      "v1GetPluginUpdatesCountResponse": {
-        "properties": {
-          "totalCount": {
-            "format": "int64",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "v1GetSiteResponse": {
-        "properties": {
-          "site": {
-            "$ref": "#/components/schemas/v1WordPressSite"
-          }
-        },
-        "type": "object"
-      },
-      "v1HealthCheckValues": {
-        "properties": {
-          "created": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "state": {
-            "type": "string"
-          },
-          "updated": {
-            "format": "date-time",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
       "v1ListSiteDetailsRequest": {
         "description": "Request message for listing primary and alternate domains for all WordPress sites owned by a partner.",
         "properties": {
@@ -256,100 +75,6 @@
         "title": "List Site Details Response",
         "type": "object"
       },
-      "v1ListTemplateCategoriesResponse": {
-        "properties": {
-          "categories": {
-            "items": {
-              "$ref": "#/components/schemas/v1TemplateCategory"
-            },
-            "title": "The list of template categories",
-            "type": "array"
-          }
-        },
-        "title": "ListTemplateCategories response message",
-        "type": "object"
-      },
-      "v1SearchFilters": {
-        "properties": {
-          "coreUpdating": {
-            "title": "filter sites when its core is not the latest version",
-            "type": "boolean"
-          },
-          "multisite": {
-            "title": "filter the multisites",
-            "type": "boolean"
-          },
-          "partnerId": {
-            "type": "string"
-          },
-          "pluginUpdating": {
-            "title": "filter sites when its plugins are not the latest version",
-            "type": "boolean"
-          },
-          "themeUpdating": {
-            "title": "filter sites when its theme is not the latest version",
-            "type": "boolean"
-          }
-        },
-        "type": "object"
-      },
-      "v1SearchPidHealthResponse": {
-        "properties": {
-          "sites": {
-            "items": {
-              "$ref": "#/components/schemas/v1SiteHealth"
-            },
-            "type": "array"
-          },
-          "totalDeactivatedSites": {
-            "format": "int64",
-            "type": "string"
-          },
-          "totalDownSites": {
-            "format": "int64",
-            "type": "string"
-          },
-          "totalResults": {
-            "format": "int64",
-            "type": "string"
-          },
-          "totalUpSites": {
-            "format": "int64",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "v1SearchResponse": {
-        "properties": {
-          "hasMore": {
-            "title": "Whether or not more results exist",
-            "type": "boolean"
-          },
-          "sites": {
-            "items": {
-              "$ref": "#/components/schemas/v1WordPressSite"
-            },
-            "type": "array"
-          },
-          "totalResults": {
-            "format": "int64",
-            "title": "The total number of results for this query across all pages",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "v1SearchableField": {
-        "default": "SEARCHABLE_FIELD_ACCOUNT_ID",
-        "description": "All of the possible fields that can be searched against the search term.",
-        "enum": [
-          "SEARCHABLE_FIELD_ACCOUNT_ID",
-          "SEARCHABLE_FIELD_ACCOUNT_GROUP_NAME",
-          "SEARCHABLE_FIELD_PRIMARY_DOMAIN"
-        ],
-        "type": "string"
-      },
       "v1SiteDetails": {
         "description": "Domain information for a single WordPress site including primary and alternate domains.",
         "properties": {
@@ -371,243 +96,16 @@
         },
         "title": "Site Details",
         "type": "object"
-      },
-      "v1SiteHealth": {
-        "properties": {
-          "currentHealth": {
-            "type": "string"
-          },
-          "siteActivationStatus": {
-            "type": "boolean"
-          },
-          "siteId": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "v1SiteHealths": {
-        "properties": {
-          "accountId": {
-            "type": "string"
-          },
-          "currentHealth": {
-            "type": "string"
-          },
-          "healthCheckValues": {
-            "items": {
-              "$ref": "#/components/schemas/v1HealthCheckValues"
-            },
-            "type": "array"
-          },
-          "partnerId": {
-            "type": "string"
-          },
-          "primaryDomain": {
-            "type": "string"
-          },
-          "siteId": {
-            "type": "string"
-          },
-          "statusCode": {
-            "type": "string"
-          },
-          "uptime1day": {
-            "type": "string"
-          },
-          "uptime30days": {
-            "type": "string"
-          },
-          "uptime7days": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "v1SortDirection": {
-        "default": "SORT_DIRECTION_ASC",
-        "description": "The directions that a result set can be sorted in.",
-        "enum": [
-          "SORT_DIRECTION_ASC",
-          "SORT_DIRECTION_DESC"
-        ],
-        "type": "string"
-      },
-      "v1SortField": {
-        "default": "SORT_FIELD_MODIFIED",
-        "description": "The field to sort a result set on.",
-        "enum": [
-          "SORT_FIELD_MODIFIED",
-          "SORT_FIELD_CREATED",
-          "SORT_FIELD_ACCOUNT_GROUP_NAME",
-          "SORT_FIELD_PRIMARY_DOMAIN"
-        ],
-        "type": "string"
-      },
-      "v1SortOptions": {
-        "properties": {
-          "direction": {
-            "$ref": "#/components/schemas/v1SortDirection"
-          },
-          "field": {
-            "$ref": "#/components/schemas/v1SortField"
-          }
-        },
-        "title": "Options for controlling the order of query results",
-        "type": "object"
-      },
-      "v1SubSiteInfo": {
-        "properties": {
-          "blogId": {
-            "description": "blog_id represents the unique integer id of the subsite.",
-            "format": "int64",
-            "type": "string"
-          },
-          "blogName": {
-            "title": "blog_name represents the title description of the subsite added by user",
-            "type": "string"
-          },
-          "createdAt": {
-            "title": "subsite created time",
-            "type": "string"
-          },
-          "lastUpdated": {
-            "title": "subsite last updated time",
-            "type": "string"
-          },
-          "metadata": {
-            "title": "subsite metadata",
-            "type": "string"
-          },
-          "path": {
-            "title": "path represents the path of the subsite in url after domain",
-            "type": "string"
-          },
-          "status": {
-            "title": "subsite status",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "v1TemplateCategory": {
-        "properties": {
-          "created": {
-            "format": "date-time",
-            "title": "A time indicator of when the category was created",
-            "type": "string"
-          },
-          "id": {
-            "title": "The unique identifier of the template category",
-            "type": "string"
-          },
-          "name": {
-            "title": "The name of the template category",
-            "type": "string"
-          },
-          "updated": {
-            "format": "date-time",
-            "title": "A time indicator of when the category was updated",
-            "type": "string"
-          }
-        },
-        "title": "TemplateCategory represents a template category for a partner",
-        "type": "object"
-      },
-      "v1UpdateTemplateCategoryResponse": {
-        "title": "UpdateTemplateCategory response message",
-        "type": "object"
-      },
-      "v1WordPressAddon": {
-        "properties": {
-          "currentVersion": {
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "latestVersion": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "v1WordPressSite": {
-        "properties": {
-          "accountGroupName": {
-            "type": "string"
-          },
-          "accountId": {
-            "type": "string"
-          },
-          "created": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "currentCoreVersion": {
-            "type": "string"
-          },
-          "currentTheme": {
-            "$ref": "#/components/schemas/v1WordPressAddon"
-          },
-          "isMultisite": {
-            "type": "boolean"
-          },
-          "latestCoreVersion": {
-            "type": "string"
-          },
-          "pluginUpdates": {
-            "format": "int32",
-            "title": "how many plugins are not the latest version",
-            "type": "integer"
-          },
-          "plugins": {
-            "items": {
-              "$ref": "#/components/schemas/v1WordPressAddon"
-            },
-            "type": "array"
-          },
-          "primaryDomain": {
-            "type": "string"
-          },
-          "siteId": {
-            "type": "string"
-          },
-          "subsiteInfo": {
-            "items": {
-              "$ref": "#/components/schemas/v1SubSiteInfo"
-            },
-            "type": "array"
-          },
-          "updated": {
-            "format": "date-time",
-            "type": "string"
-          }
-        },
-        "type": "object"
       }
     },
     "securitySchemes": {
-      "OAuth2Demo": {
-        "flows": {
-          "authorizationCode": {
-            "authorizationUrl": "https://sso-api-demo.apigateway.co/oauth2/auth",
-            "scopes": {
-              "read": "Read access to the API",
-              "write": "Write access to the API"
-            },
-            "tokenUrl": "https://sso-api-demo.apigateway.co/oauth2/token"
-          }
-        },
-        "type": "oauth2"
-      },
-      "OAuth2Prod": {
+      "OAuth2": {
         "flows": {
           "authorizationCode": {
             "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
             "scopes": {
-              "read": "Read access to the API",
-              "write": "Write access to the API"
+              "business-app": "Allows the application to manage all features of Business App",
+              "partner:read": "Allows the application view-only access to your platform setup information"
             },
             "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
           }
@@ -624,7 +122,7 @@
   "paths": {
     "/v1/websites/site-details": {
       "post": {
-        "description": "List primary and alternate domains for all WordPress sites owned by the partner.\n\nRequired OAuth2 scopes: `partner:read`, `business-app`",
+        "description": "List primary and alternate domains for all WordPress sites owned by the partner.",
         "operationId": "PartnerApi_ListSiteDetails",
         "requestBody": {
           "content": {
@@ -661,15 +159,15 @@
         },
         "security": [
           {
-            "OAuth2Demo": []
-          },
-          {
-            "OAuth2Prod": []
+            "OAuth2": [
+              "partner:read",
+              "business-app"
+            ]
           }
         ],
         "summary": "List Site Details",
         "tags": [
-          "PartnerApi"
+          "SiteDetail Service"
         ]
       }
     }
@@ -678,27 +176,12 @@
     {
       "description": "Production",
       "url": "https://prod.apigateway.co/grpc"
-    },
-    {
-      "description": "Demo",
-      "url": "https://demo.apigateway.co/grpc"
     }
   ],
   "tags": [
     {
-      "name": "AdminCenterService"
-    },
-    {
-      "name": "SearchService"
-    },
-    {
-      "name": "SiteService"
-    },
-    {
-      "name": "PartnerApi"
-    },
-    {
-      "name": "WordpressService"
+      "description": "Partner-facing endpoints for WordPress site information.",
+      "name": "SiteDetail Service"
     }
   ]
 }

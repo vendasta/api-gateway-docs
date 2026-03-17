@@ -854,12 +854,7 @@
         "flows": {
           "authorizationCode": {
             "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
-            "scopes": {
-              "business-app": "Allows the application to manage all features of Business App",
-              "reputation": "Allows the application to manage reputation reports for your clients' businesses",
-              "reputation.nps:read": "Allows the application view-only access to NPS data for the business locations you have access to",
-              "reputation.review:read": "Allows the application view-only access to retrieve reviews for the business locations you have access to"
-            },
+            "scopes": {},
             "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
           }
         },
@@ -875,7 +870,7 @@
   "paths": {
     "/v1/reputation/nps/list": {
       "post": {
-        "description": "List NetPromoterScore feedback records for a business account with optional filtering and pagination.",
+        "description": "List NetPromoterScore feedback records for a business account with optional filtering and pagination.Required OAuth2 scopes: `business-app`, `reputation`, `reputation.nps:read`",
         "operationId": "NetPromoterScoreService_ListNetPromoterScores",
         "requestBody": {
           "content": {
@@ -927,7 +922,7 @@
     },
     "/v1/reputation/reviews/review-metrics": {
       "post": {
-        "description": "Get review metrics by namespaces.",
+        "description": "Get review metrics by namespaces.\n\nRequired OAuth2 scopes: `business-app`, `reputation`, `reputation.review:read`",
         "operationId": "ReviewService_GetReviewMetrics",
         "requestBody": {
           "content": {
@@ -978,7 +973,7 @@
     },
     "/v1/reputation/reviews/search": {
       "post": {
-        "description": "Search reviews by their IDs.",
+        "description": "Search reviews by their IDs.\n\nRequired OAuth2 scopes: `business-app`, `reputation`, `reputation.review:read`",
         "operationId": "ReviewService_SearchReviews",
         "requestBody": {
           "content": {

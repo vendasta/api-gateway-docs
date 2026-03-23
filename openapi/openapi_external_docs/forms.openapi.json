@@ -147,9 +147,8 @@
         "default": "CONSENT_TYPE_INVALID",
         "enum": [
           "CONSENT_TYPE_INVALID",
-          "CONSENT_TYPE_MARKETING_EMAIL",
-          "CONSENT_TYPE_TRANSACTION_SMS",
-          "CONSENT_TYPE_MARKETING_SMS"
+          "CONSENT_TYPE_EMAIL",
+          "CONSENT_TYPE_SMS"
         ],
         "type": "string"
       },
@@ -333,8 +332,7 @@
           "FILTER_OPERATOR_IS_BETWEEN",
           "FILTER_OPERATOR_IS_NOT_BETWEEN",
           "FILTER_OPERATOR_IS_VALID",
-          "FILTER_OPERATOR_IS_NOT_VALID",
-          "FILTER_OPERATOR_ANNIVERSARY_IS"
+          "FILTER_OPERATOR_IS_NOT_VALID"
         ],
         "type": "string"
       },
@@ -615,9 +613,6 @@
             },
             "type": "array"
           },
-          "promoSelectionConfig": {
-            "$ref": "#/components/schemas/v1PromoSelectionConfig"
-          },
           "readonly": {
             "type": "boolean"
           },
@@ -652,17 +647,6 @@
           }
         },
         "title": "This follows the E164 international standard specification for phone numbers",
-        "type": "object"
-      },
-      "v1PromoSelectionConfig": {
-        "properties": {
-          "autoAdvance": {
-            "type": "boolean"
-          },
-          "multiSelection": {
-            "type": "boolean"
-          }
-        },
         "type": "object"
       },
       "v1SectionAction": {
@@ -845,12 +829,12 @@
       "vendastatypesPagedRequestOptions": {
         "properties": {
           "cursor": {
-            "description": "Optional. An opaque token from a previous response's next_cursor to retrieve the next page of results. Omit or leave empty for the first page.",
+            "title": "cursor can be passed to retrieve the next page of results keyed by the cursor",
             "type": "string"
           },
           "pageSize": {
-            "description": "Optional. The maximum number of items to return per page.",
             "format": "int64",
+            "title": "page_size specifies the number of items to return in the next page",
             "type": "string"
           }
         },
@@ -880,9 +864,7 @@
         "flows": {
           "authorizationCode": {
             "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
-            "scopes": {
-              "business-app": "Allows the application to manage all features of Business App"
-            },
+            "scopes": {},
             "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
           }
         },

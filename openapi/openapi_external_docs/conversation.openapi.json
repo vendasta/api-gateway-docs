@@ -1,6 +1,37 @@
 {
   "components": {
     "schemas": {
+      "ListConversationsResponseInboxConversation": {
+        "properties": {
+          "conversation": {
+            "$ref": "#/components/schemas/v1Conversation"
+          },
+          "latestMessage": {
+            "$ref": "#/components/schemas/v1Message"
+          },
+          "participants": {
+            "items": {
+              "$ref": "#/components/schemas/v1Participant"
+            },
+            "title": "Participants in the conversation",
+            "type": "array"
+          }
+        },
+        "title": "A conversation with its associated details for inbox rendering",
+        "type": "object"
+      },
+      "conversationv1AIConfiguration": {
+        "properties": {
+          "aiResponseEnabled": {
+            "type": "boolean"
+          },
+          "willRespondAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "googlerpcStatus": {
         "properties": {
           "code": {
@@ -23,6 +54,63 @@
         "additionalProperties": {},
         "properties": {
           "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1AIStatus": {
+        "default": "AI_INVALID",
+        "enum": [
+          "AI_INVALID",
+          "AI_RECEIVED",
+          "AI_THINKING",
+          "AI_THOUGHT",
+          "AI_CANCELLED",
+          "AI_ERROR"
+        ],
+        "type": "string"
+      },
+      "v1AIThought": {
+        "description": "Represents a single streamed reasoning or progress thought from the AI assistant.",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "sequenceNumber": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "thoughtType": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Address": {
+        "properties": {
+          "city": {
+            "title": "City of the participant",
+            "type": "string"
+          },
+          "country": {
+            "title": "Country of the participant",
+            "type": "string"
+          },
+          "firstLineAddress": {
+            "title": "Address first line of the participant",
+            "type": "string"
+          },
+          "secondLineAddress": {
+            "title": "Address second line of the participant",
+            "type": "string"
+          },
+          "state": {
+            "title": "State of the participant",
+            "type": "string"
+          },
+          "zipCode": {
+            "title": "Zip code of the participant",
             "type": "string"
           }
         },
@@ -51,6 +139,175 @@
         "title": "Information about a communication channel",
         "type": "object"
       },
+      "v1Conversation": {
+        "properties": {
+          "aiConfiguration": {
+            "$ref": "#/components/schemas/conversationv1AIConfiguration"
+          },
+          "channel": {
+            "$ref": "#/components/schemas/v1ConversationChannel"
+          },
+          "conversationId": {
+            "type": "string"
+          },
+          "conversationViewIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "created": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "externalConversationId": {
+            "type": "string"
+          },
+          "instanceId": {
+            "title": "A uuid that is used to uniquely identify the conversation among a set of conversations between the same subject participants\nIf only one conversation is expected between a set of subject participants, this field should be \"\"",
+            "type": "string"
+          },
+          "isOpen": {
+            "type": "boolean"
+          },
+          "lastSeenByParticipant": {
+            "items": {
+              "$ref": "#/components/schemas/v1LastSeenByParticipant"
+            },
+            "type": "array"
+          },
+          "latestMsgSentTime": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "latestMsgSentTimeBySubjectParticipant": {
+            "items": {
+              "$ref": "#/components/schemas/v1LatestMessageSentTimeBySubjectParticipant"
+            },
+            "type": "array"
+          },
+          "latestRelevantActivityTime": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "metadata": {
+            "items": {
+              "$ref": "#/components/schemas/v1KeyValuePair"
+            },
+            "title": "metadata can represent any kind of value",
+            "type": "array"
+          },
+          "originLocation": {
+            "$ref": "#/components/schemas/v1PlatformLocation"
+          },
+          "originLocationExternalId": {
+            "type": "string"
+          },
+          "participantIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "subjectParticipantKey": {
+            "$ref": "#/components/schemas/v1SubjectParticipantKey"
+          },
+          "subjectParticipants": {
+            "items": {
+              "$ref": "#/components/schemas/v1SubjectParticipant"
+            },
+            "type": "array"
+          },
+          "subjectParticipantsKey": {
+            "type": "string"
+          },
+          "updated": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ConversationChannel": {
+        "default": "CONVERSATION_CHANNEL_UNDEFINED",
+        "description": " - CONVERSATION_CHANNEL_GOOGLE_BUSINESS_COMMUNICATIONS: Deprecated: Google Business Messaging is no longer supported\n - CONVERSATION_CHANNEL_PERSONAL_EMAIL: Personal email via Gmail/Outlook platform integration.\nMessage content is stored in Email service (TrackedMessageContent), retrieved via tracked_message_id metadata.\n - CONVERSATION_CHANNEL_SYSTEM: Conversation channel for events which have no associated provider.",
+        "enum": [
+          "CONVERSATION_CHANNEL_UNDEFINED",
+          "CONVERSATION_CHANNEL_INTERNAL",
+          "CONVERSATION_CHANNEL_SMS",
+          "CONVERSATION_CHANNEL_FACEBOOK",
+          "CONVERSATION_CHANNEL_GOOGLE_MESSAGES",
+          "CONVERSATION_CHANNEL_OPENAI",
+          "CONVERSATION_CHANNEL_EMAIL",
+          "CONVERSATION_CHANNEL_GOOGLE_BUSINESS_COMMUNICATIONS",
+          "CONVERSATION_CHANNEL_WEB_CHAT",
+          "CONVERSATION_CHANNEL_INSTAGRAM",
+          "CONVERSATION_CHANNEL_WHATSAPP",
+          "CONVERSATION_CHANNEL_AI_ASSISTANT",
+          "CONVERSATION_CHANNEL_GOOGLE_CHAT",
+          "CONVERSATION_CHANNEL_PERSONAL_EMAIL",
+          "CONVERSATION_CHANNEL_SYSTEM"
+        ],
+        "type": "string"
+      },
+      "v1GlobalParticipantType": {
+        "default": "GLOBAL_PARTICIPANT_TYPE_UNDEFINED",
+        "enum": [
+          "GLOBAL_PARTICIPANT_TYPE_UNDEFINED",
+          "GLOBAL_PARTICIPANT_TYPE_CUSTOMER",
+          "GLOBAL_PARTICIPANT_TYPE_IAM_USER",
+          "GLOBAL_PARTICIPANT_TYPE_ACCOUNT_GROUP",
+          "GLOBAL_PARTICIPANT_TYPE_PARTNER",
+          "GLOBAL_PARTICIPANT_TYPE_IAM_TEMPORARY_SUBJECT",
+          "GLOBAL_PARTICIPANT_TYPE_DIGITAL_AGENT",
+          "GLOBAL_PARTICIPANT_TYPE_VENDOR",
+          "GLOBAL_PARTICIPANT_TYPE_OPENAI_BOT",
+          "GLOBAL_PARTICIPANT_TYPE_ANONYMOUS",
+          "GLOBAL_PARTICIPANT_TYPE_GROUP",
+          "GLOBAL_PARTICIPANT_TYPE_AI_ASSISTANT"
+        ],
+        "title": "Participant Type that replaces Type the Type enum in Participant message",
+        "type": "string"
+      },
+      "v1KeyValuePair": {
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1LastSeenByParticipant": {
+        "properties": {
+          "lastSeenTime": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "participantId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1LatestMessageSentTimeBySubjectParticipant": {
+        "properties": {
+          "subjectParticipant": {
+            "$ref": "#/components/schemas/v1SubjectParticipant"
+          },
+          "time": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "v1ListCommunicationChannelsInfoRequest": {
         "properties": {
           "accountGroupId": {
@@ -74,6 +331,21 @@
         "title": "Response containing communication channel information",
         "type": "object"
       },
+      "v1ListConversationsResponse": {
+        "description": "ListConversationsResponse is the response for ListConversations, containing a page of inbox conversations.",
+        "properties": {
+          "conversations": {
+            "items": {
+              "$ref": "#/components/schemas/ListConversationsResponseInboxConversation"
+            },
+            "type": "array"
+          },
+          "pagingMetadata": {
+            "$ref": "#/components/schemas/v1PagedResponseMetadata"
+          }
+        },
+        "type": "object"
+      },
       "v1ListWidgetsResponse": {
         "properties": {
           "pagingMetadata": {
@@ -85,6 +357,134 @@
             },
             "title": "The list of widgets",
             "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1Message": {
+        "properties": {
+          "aiStatus": {
+            "$ref": "#/components/schemas/v1AIStatus"
+          },
+          "aiThinkingDuration": {
+            "description": "Duration of AI thinking before final response.",
+            "type": "string"
+          },
+          "aiThoughts": {
+            "description": "AI reasoning or thinking generated during response creation.",
+            "items": {
+              "$ref": "#/components/schemas/v1AIThought"
+            },
+            "type": "array"
+          },
+          "automationSource": {
+            "$ref": "#/components/schemas/v1PlatformLocation"
+          },
+          "body": {
+            "type": "string"
+          },
+          "channel": {
+            "$ref": "#/components/schemas/v1ConversationChannel"
+          },
+          "conversationId": {
+            "type": "string"
+          },
+          "created": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          },
+          "externalMessageId": {
+            "type": "string"
+          },
+          "media": {
+            "items": {
+              "type": "string"
+            },
+            "title": "media is the media content of the message",
+            "type": "array"
+          },
+          "messageId": {
+            "type": "string"
+          },
+          "metadata": {
+            "items": {
+              "$ref": "#/components/schemas/v1KeyValuePair"
+            },
+            "title": "metadata can represent any kind of value",
+            "type": "array"
+          },
+          "originalContent": {
+            "title": "original_content is the original content of the message",
+            "type": "string"
+          },
+          "participantId": {
+            "type": "string"
+          },
+          "platformLocation": {
+            "$ref": "#/components/schemas/v1PlatformLocation"
+          },
+          "sendStatus": {
+            "$ref": "#/components/schemas/v1SendStatus"
+          },
+          "type": {
+            "$ref": "#/components/schemas/v1MessageType"
+          },
+          "uiComponents": {
+            "items": {
+              "$ref": "#/components/schemas/v1UIComponent"
+            },
+            "type": "array"
+          },
+          "updated": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "title": "Message represents a message of a conversation",
+        "type": "object"
+      },
+      "v1MessageStatus": {
+        "default": "MESSAGE_STATUS_NOT_READ",
+        "enum": [
+          "MESSAGE_STATUS_NOT_READ",
+          "MESSAGE_STATUS_READ",
+          "MESSAGE_STATUS_SENT",
+          "MESSAGE_STATUS_DELIVERED",
+          "MESSAGE_STATUS_FAILED",
+          "MESSAGE_STATUS_UNDELIVERED",
+          "MESSAGE_STATUS_SENDING"
+        ],
+        "title": "MessageStatus represents the status a message is",
+        "type": "string"
+      },
+      "v1MessageType": {
+        "default": "MESSAGE_TYPE_MESSAGE",
+        "description": "- MESSAGE_TYPE_FORM_SUBMISSION: Form Submission messages have been moved to events",
+        "enum": [
+          "MESSAGE_TYPE_MESSAGE",
+          "MESSAGE_TYPE_MEDIA",
+          "MESSAGE_TYPE_SYSTEM",
+          "MESSAGE_TYPE_FORM_SUBMISSION",
+          "MESSAGE_TYPE_BOOKING_AVAILABILITY",
+          "MESSAGE_TYPE_TEMPLATE"
+        ],
+        "title": "MessageType represents the type of a message",
+        "type": "string"
+      },
+      "v1NamespaceDetail": {
+        "properties": {
+          "internalParticipantId": {
+            "type": "string"
+          },
+          "participantType": {
+            "$ref": "#/components/schemas/v1GlobalParticipantType"
           }
         },
         "type": "object"
@@ -106,6 +506,262 @@
           }
         },
         "type": "object"
+      },
+      "v1Participant": {
+        "properties": {
+          "accountGroupId": {
+            "title": "account group ID",
+            "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/v1Address"
+          },
+          "channel": {
+            "$ref": "#/components/schemas/v1ConversationChannel"
+          },
+          "created": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "email": {
+            "title": "the email address of the participant",
+            "type": "string"
+          },
+          "externalParticipantId": {
+            "title": "the external participant id from 3rd party integrations",
+            "type": "string"
+          },
+          "internalParticipantId": {
+            "title": "the internal participant id (IAM or Contact)",
+            "type": "string"
+          },
+          "isParticipantInternalInfoDeleted": {
+            "title": "If an accountGroup or Customer is deleted the internal\ninfo will be missing and will not be shown in the conversation",
+            "type": "boolean"
+          },
+          "isSubjectParticipant": {
+            "description": "Participant is a \"subject participant\"\nIf a message is sent by an SMB to a Partner,\nthen `is_subject_participant` is true for both SMB and Partner\nNOTE: we might add a new field in the future to indicate if a\nsubject participant is in the `subject_participant_key`\nthis will be a different boolean from `is_subject_participant`.",
+            "type": "boolean"
+          },
+          "location": {
+            "$ref": "#/components/schemas/v1PlatformLocation"
+          },
+          "name": {
+            "title": "the name of the participant",
+            "type": "string"
+          },
+          "namespaceHierarchy": {
+            "items": {
+              "$ref": "#/components/schemas/v1NamespaceDetail"
+            },
+            "title": "the namespace hierarchy of the participant\nthis field is used to determine the organization hierarchy that the participant belongs to",
+            "type": "array"
+          },
+          "participantId": {
+            "title": "the participant id",
+            "type": "string"
+          },
+          "participantType": {
+            "$ref": "#/components/schemas/v1ParticipantType"
+          },
+          "partnerId": {
+            "title": "partner ID",
+            "type": "string"
+          },
+          "phoneNumber": {
+            "title": "the phone number of the participant",
+            "type": "string"
+          },
+          "profileImageUrl": {
+            "title": "the profile image url of the participant",
+            "type": "string"
+          },
+          "updated": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ParticipantType": {
+        "default": "PARTICIPANT_TYPE_UNDEFINED",
+        "enum": [
+          "PARTICIPANT_TYPE_UNDEFINED",
+          "PARTICIPANT_TYPE_CUSTOMER",
+          "PARTICIPANT_TYPE_IAM_USER",
+          "PARTICIPANT_TYPE_ACCOUNT_GROUP",
+          "PARTICIPANT_TYPE_PARTNER",
+          "PARTICIPANT_TYPE_IAM_TEMPORARY_SUBJECT",
+          "PARTICIPANT_TYPE_DIGITAL_AGENT",
+          "PARTICIPANT_TYPE_VENDOR",
+          "PARTICIPANT_TYPE_OPENAI_BOT",
+          "PARTICIPANT_TYPE_ANONYMOUS",
+          "PARTICIPANT_TYPE_GROUP",
+          "PARTICIPANT_TYPE_AI_ASSISTANT"
+        ],
+        "title": "the participant type determines the type of a participant in a conversation",
+        "type": "string"
+      },
+      "v1PlatformLocation": {
+        "default": "PLATFORM_LOCATION_UNDEFINED",
+        "enum": [
+          "PLATFORM_LOCATION_UNDEFINED",
+          "PLATFORM_LOCATION_BUSINESS_APP",
+          "PLATFORM_LOCATION_PARTNER_CENTER",
+          "PLATFORM_LOCATION_VENDOR_CENTER",
+          "PLATFORM_LOCATION_TASK_MANAGER",
+          "PLATFORM_LOCATION_PROPOSAL_BUILDER",
+          "PLATFORM_LOCATION_SALES_CENTER",
+          "PLATFORM_LOCATION_ADMIN_CENTER",
+          "PLATFORM_LOCATION_REPUTATION_MANAGEMENT",
+          "PLATFORM_LOCATION_CAMPAIGNS",
+          "PLATFORM_LOCATION_SMS",
+          "PLATFORM_LOCATION_CRM",
+          "PLATFORM_LOCATION_VOICE",
+          "PLATFORM_LOCATION_AUTOMATA",
+          "PLATFORM_LOCATION_WHATSAPP_BUSINESS_APP"
+        ],
+        "type": "string"
+      },
+      "v1SendStatus": {
+        "properties": {
+          "created": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/v1MessageStatus"
+          }
+        },
+        "type": "object"
+      },
+      "v1SubjectParticipant": {
+        "properties": {
+          "internalParticipantId": {
+            "title": "the internal participant id",
+            "type": "string"
+          },
+          "participantType": {
+            "$ref": "#/components/schemas/v1GlobalParticipantType"
+          }
+        },
+        "type": "object"
+      },
+      "v1SubjectParticipantKey": {
+        "properties": {
+          "subjectParticipants": {
+            "items": {
+              "$ref": "#/components/schemas/v1SubjectParticipant"
+            },
+            "title": "parsed from subject_participants_key",
+            "type": "array"
+          },
+          "subjectParticipantsKey": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1UIButton": {
+        "properties": {
+          "action": {
+            "type": "string"
+          },
+          "clickedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1UICheckbox": {
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1UICheckboxGroup": {
+        "properties": {
+          "checkboxes": {
+            "items": {
+              "$ref": "#/components/schemas/v1UICheckbox"
+            },
+            "type": "array"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "selectedCheckboxIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "submitLabel": {
+            "type": "string"
+          },
+          "submittedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1UIComponent": {
+        "properties": {
+          "button": {
+            "$ref": "#/components/schemas/v1UIButton"
+          },
+          "checkboxGroup": {
+            "$ref": "#/components/schemas/v1UICheckboxGroup"
+          },
+          "type": {
+            "$ref": "#/components/schemas/v1UIComponentType"
+          }
+        },
+        "type": "object"
+      },
+      "v1UIComponentType": {
+        "default": "UI_COMPONENT_TYPE_UNDEFINED",
+        "enum": [
+          "UI_COMPONENT_TYPE_UNDEFINED",
+          "UI_COMPONENT_TYPE_BUTTON",
+          "UI_COMPONENT_TYPE_CHECKBOX_GROUP"
+        ],
+        "type": "string"
       },
       "v1Widget": {
         "properties": {
@@ -247,6 +903,132 @@
   },
   "openapi": "3.0.0",
   "paths": {
+    "/conversation/v1/conversations": {
+      "get": {
+        "operationId": "ConversationService_ListConversations",
+        "parameters": [
+          {
+            "description": "The account group ID to scope conversations to (e.g. \"AG-XXXXXX\")",
+            "in": "query",
+            "name": "accountGroupId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The participant ID of the viewing user (e.g. \"PARTICIPANT-XXX\"). Used for unread status.",
+            "in": "query",
+            "name": "participantId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "cursor can be passed to retrieve the next page of results keyed by the cursor",
+            "in": "query",
+            "name": "pagingOptions.cursor",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "page_size specifies the number of items to return in the next page",
+            "in": "query",
+            "name": "pagingOptions.pageSize",
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "channels filters to conversations on any of the specified channels. Empty = all channels.\n\n - CONVERSATION_CHANNEL_GOOGLE_BUSINESS_COMMUNICATIONS: Deprecated: Google Business Messaging is no longer supported\n - CONVERSATION_CHANNEL_PERSONAL_EMAIL: Personal email via Gmail/Outlook platform integration.\nMessage content is stored in Email service (TrackedMessageContent), retrieved via tracked_message_id metadata.\n - CONVERSATION_CHANNEL_SYSTEM: Conversation channel for events which have no associated provider.",
+            "explode": true,
+            "in": "query",
+            "name": "filters.channels",
+            "schema": {
+              "items": {
+                "enum": [
+                  "CONVERSATION_CHANNEL_UNDEFINED",
+                  "CONVERSATION_CHANNEL_INTERNAL",
+                  "CONVERSATION_CHANNEL_SMS",
+                  "CONVERSATION_CHANNEL_FACEBOOK",
+                  "CONVERSATION_CHANNEL_GOOGLE_MESSAGES",
+                  "CONVERSATION_CHANNEL_OPENAI",
+                  "CONVERSATION_CHANNEL_EMAIL",
+                  "CONVERSATION_CHANNEL_GOOGLE_BUSINESS_COMMUNICATIONS",
+                  "CONVERSATION_CHANNEL_WEB_CHAT",
+                  "CONVERSATION_CHANNEL_INSTAGRAM",
+                  "CONVERSATION_CHANNEL_WHATSAPP",
+                  "CONVERSATION_CHANNEL_AI_ASSISTANT",
+                  "CONVERSATION_CHANNEL_GOOGLE_CHAT",
+                  "CONVERSATION_CHANNEL_PERSONAL_EMAIL",
+                  "CONVERSATION_CHANNEL_SYSTEM"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "is_open filters by conversation open/closed state. Unset = all conversations.",
+            "in": "query",
+            "name": "filters.isOpen",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "unread_only, when true, returns only conversations where participant_id has not seen the latest activity.",
+            "in": "query",
+            "name": "filters.unreadOnly",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "awaiting_response_only, when true, returns only conversations where the most recent message was from a\nnon-owner participant (e.g. a customer). Note: backed by a field only populated from 2024-09 onward;\nolder conversations without data will be excluded.",
+            "in": "query",
+            "name": "filters.awaitingResponseOnly",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ListConversationsResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/googlerpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "business-app"
+            ]
+          }
+        ],
+        "summary": "List conversations for inbox filtering, backed by CloudSQL",
+        "tags": [
+          "ConversationService"
+        ]
+      }
+    },
     "/v1/conversation/communication-channels-info": {
       "post": {
         "operationId": "ConversationService_ListCommunicationChannelsInfo",

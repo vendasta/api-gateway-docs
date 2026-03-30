@@ -1,0 +1,220 @@
+{
+  "components": {
+    "schemas": {
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "rpcStatus": {
+        "properties": {
+          "code": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            },
+            "type": "array"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetScoreRequest": {
+        "properties": {
+          "device": {
+            "title": "device should be mobile or desktop",
+            "type": "string"
+          },
+          "domain": {
+            "title": "site_id represents the identifier of the site for which the desktop and mobile scores will be get",
+            "type": "string"
+          }
+        },
+        "title": "GetScoreRequest defines the request structure for calling the GetScore API. The request contains a site identifier,\nand a desktop and mobile score to obtain",
+        "type": "object"
+      },
+      "v1GetScoreResponse": {
+        "properties": {
+          "response": {
+            "title": "google pagespeed insight api response",
+            "type": "string"
+          },
+          "success": {
+            "title": "success informs the caller whether the score was set successfully or not",
+            "type": "boolean"
+          }
+        },
+        "title": "SetScoreResponse defines the response for calling the SetScore API. The response contains a success flag, which\nindicates whether the call to SetScore was executed successfully",
+        "type": "object"
+      },
+      "v1GetSiteUpdateRequest": {
+        "properties": {
+          "siteId": {
+            "title": "site_id represents the identifier of the site to retrieve",
+            "type": "string"
+          },
+          "staging": {
+            "type": "boolean"
+          }
+        },
+        "title": "GetSiteUpdateRequest is the request structure of GetSiteUpdate rpc",
+        "type": "object"
+      },
+      "v1GetSiteUpdateResponse": {
+        "properties": {
+          "update": {
+            "$ref": "#/components/schemas/v1SiteUpdate"
+          }
+        },
+        "title": "GetSiteUpdateResponse is the response structure of GetSiteUpdate rpc",
+        "type": "object"
+      },
+      "v1SiteUpdate": {
+        "properties": {
+          "coreVersion": {
+            "title": "core_version the current WordPress version",
+            "type": "string"
+          },
+          "latestCoreVersion": {
+            "title": "latest_core_version the latest WordPress version available",
+            "type": "string"
+          },
+          "numOfPluginUpdates": {
+            "format": "int64",
+            "title": "num_of_plugin_updates the number of plugins that has more recent versions available to update",
+            "type": "string"
+          },
+          "phpVersion": {
+            "title": "php_version the current PHP version",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "scopes": {},
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "title": "Wsp Wp Manager OpenAPI Documentation",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/wph/manager/pagespeed/score": {
+      "post": {
+        "operationId": "PageSpeedService_GetScore",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetScoreRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetScoreResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "summary": "Get Page Speed Score",
+        "tags": [
+          "PageSpeedService"
+        ]
+      }
+    },
+    "/v1/wph/manager/site-options/updates": {
+      "post": {
+        "operationId": "SiteOptionsService_GetSiteUpdate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetSiteUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetSiteUpdateResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "summary": "Get Site Update",
+        "tags": [
+          "SiteOptionsService"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://prod.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "name": "SiteOptionsService"
+    },
+    {
+      "name": "PageSpeedService"
+    }
+  ]
+}

@@ -1,0 +1,1074 @@
+{
+  "components": {
+    "schemas": {
+      "YoutubeCustomizationPrivacyStatus": {
+        "default": "YOUTUBE_PRIVACY_STATUS_INVALID",
+        "enum": [
+          "YOUTUBE_PRIVACY_STATUS_INVALID",
+          "YOUTUBE_PRIVACY_STATUS_PUBLIC",
+          "YOUTUBE_PRIVACY_STATUS_PRIVATE",
+          "YOUTUBE_PRIVACY_STATUS_UNLISTED"
+        ],
+        "type": "string"
+      },
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "rpcStatus": {
+        "properties": {
+          "code": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            },
+            "type": "array"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Author": {
+        "properties": {
+          "id": {
+            "format": "int64",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1BlogPostCustomization": {
+        "properties": {
+          "author": {
+            "$ref": "#/components/schemas/v1Author"
+          },
+          "categories": {
+            "items": {
+              "$ref": "#/components/schemas/v1Categories"
+            },
+            "type": "array"
+          },
+          "siteType": {
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1CampaignCustomization": {
+        "properties": {
+          "id": {
+            "title": "Id of the Campaign",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name of the Campaign",
+            "type": "string"
+          },
+          "shortCode": {
+            "title": "short code for the custom shortened url",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Categories": {
+        "properties": {
+          "id": {
+            "format": "int64",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1CreateDraftRequest": {
+        "properties": {
+          "accountGroupId": {
+            "description": "Unique id signifying account group this belongs to.",
+            "type": "string"
+          },
+          "blogPostCustomization": {
+            "$ref": "#/components/schemas/v1BlogPostCustomization"
+          },
+          "brandId": {
+            "title": "to store the brand id of the draft",
+            "type": "string"
+          },
+          "campaignCustomization": {
+            "$ref": "#/components/schemas/v1CampaignCustomization"
+          },
+          "draftText": {
+            "description": "Raw text of the draft.",
+            "type": "string"
+          },
+          "draftType": {
+            "$ref": "#/components/schemas/v1DraftType"
+          },
+          "gmbPostCustomization": {
+            "$ref": "#/components/schemas/v1GMBPostCustomization"
+          },
+          "isHidden": {
+            "type": "boolean"
+          },
+          "media": {
+            "description": "List of the media attached to the draft.",
+            "items": {
+              "$ref": "#/components/schemas/v1Media"
+            },
+            "type": "array"
+          },
+          "metadata": {
+            "items": {
+              "$ref": "#/components/schemas/v1MetaData"
+            },
+            "title": "Any metadata associated with this draft (source, last raised exception, etc)",
+            "type": "array"
+          },
+          "multilocationPostId": {
+            "title": "to store the multilocation post id of the draft",
+            "type": "string"
+          },
+          "options": {
+            "description": "Special configurations options for the composer.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "postDateTime": {
+            "description": "Time the draft is set to be posted at.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "previews": {
+            "description": "Preview link for shortened URL Links.",
+            "type": "string"
+          },
+          "socialNetworkIdentifier": {
+            "description": "Identifier for the social network platform (e.g., LinkedIn Profile URL).\nUsed to track drafts associated with specific social network profiles,\nparticularly when connections are disconnected and posts move to drafts.",
+            "type": "string"
+          },
+          "ssidDraftTypes": {
+            "description": "The ssid draft type map.",
+            "items": {
+              "$ref": "#/components/schemas/v1SSIDDraftType"
+            },
+            "type": "array"
+          },
+          "ssids": {
+            "description": "Social Service ids used in this draft.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "tiktokCustomization": {
+            "$ref": "#/components/schemas/v1TikTokCustomization"
+          },
+          "youtubeCustomization": {
+            "$ref": "#/components/schemas/v1YoutubeCustomization"
+          }
+        },
+        "type": "object"
+      },
+      "v1CreateDraftResponse": {
+        "properties": {
+          "draft": {
+            "$ref": "#/components/schemas/v1Draft"
+          }
+        },
+        "type": "object"
+      },
+      "v1CreateMultiDraftsRequest": {
+        "properties": {
+          "drafts": {
+            "items": {
+              "$ref": "#/components/schemas/v1CreateDraftRequest"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1CreateMultiDraftsResponse": {
+        "properties": {
+          "drafts": {
+            "items": {
+              "$ref": "#/components/schemas/v1Draft"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1DeleteDraftRequest": {
+        "properties": {
+          "accountGroupId": {
+            "title": "The account group id",
+            "type": "string"
+          },
+          "draftId": {
+            "title": "The internal id of the draft",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Draft": {
+        "description": "All the information used to create a draft.",
+        "properties": {
+          "accountGroupId": {
+            "description": "Unique id signifying account group this draft belongs to.",
+            "type": "string"
+          },
+          "blogPostCustomization": {
+            "$ref": "#/components/schemas/v1BlogPostCustomization"
+          },
+          "brandId": {
+            "title": "to store the brand id of the draft",
+            "type": "string"
+          },
+          "campaignCustomization": {
+            "$ref": "#/components/schemas/v1CampaignCustomization"
+          },
+          "created": {
+            "description": "Time when the draft was created.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "draftId": {
+            "description": "Unique id for the draft.",
+            "type": "string"
+          },
+          "draftText": {
+            "description": "Raw text of the draft.",
+            "type": "string"
+          },
+          "draftType": {
+            "$ref": "#/components/schemas/v1DraftType"
+          },
+          "gmbPostCustomization": {
+            "$ref": "#/components/schemas/v1GMBPostCustomization"
+          },
+          "isHidden": {
+            "title": "If this draft is hidden",
+            "type": "boolean"
+          },
+          "media": {
+            "description": "A list of media attached to this draft.",
+            "items": {
+              "$ref": "#/components/schemas/v1Media"
+            },
+            "type": "array"
+          },
+          "metadata": {
+            "items": {
+              "$ref": "#/components/schemas/v1MetaData"
+            },
+            "title": "Any metadata associated with this draft (source, last raised exception, etc)",
+            "type": "array"
+          },
+          "multilocationPostId": {
+            "title": "to store the multilocation post id of the draft",
+            "type": "string"
+          },
+          "options": {
+            "description": "Special configuration options for the composer.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "postDateTime": {
+            "description": "Time the draft is set to be posted at.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "previews": {
+            "description": "Preview link for shortened URL Links.",
+            "type": "string"
+          },
+          "socialNetworkIdentifier": {
+            "description": "Identifier for the social network platform (e.g., LinkedIn Profile URL).\nUsed to track drafts associated with specific social network profiles,\nparticularly when connections are disconnected and posts move to drafts.",
+            "type": "string"
+          },
+          "ssidDraftTypes": {
+            "items": {
+              "$ref": "#/components/schemas/v1SSIDDraftType"
+            },
+            "title": "SSID Draft Type",
+            "type": "array"
+          },
+          "ssids": {
+            "description": "Social Service ids used in this draft.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "tiktokCustomization": {
+            "$ref": "#/components/schemas/v1TikTokCustomization"
+          },
+          "updated": {
+            "description": "Time when the draft was updated.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "youtubeCustomization": {
+            "$ref": "#/components/schemas/v1YoutubeCustomization"
+          }
+        },
+        "type": "object"
+      },
+      "v1DraftType": {
+        "default": "DRAFT_TYPE_INVALID",
+        "enum": [
+          "DRAFT_TYPE_INVALID",
+          "DRAFT_TYPE_IMAGE",
+          "DRAFT_TYPE_VIDEO",
+          "DRAFT_TYPE_GIF",
+          "DRAFT_TYPE_REEL",
+          "DRAFT_TYPE_CAROUSEL",
+          "DRAFT_TYPE_TEXT",
+          "DRAFT_TYPE_STORIES",
+          "DRAFT_TYPE_IMAGE_STORY",
+          "DRAFT_TYPE_VIDEO_STORY"
+        ],
+        "type": "string"
+      },
+      "v1GMBPostCustomization": {
+        "properties": {
+          "ctaType": {
+            "description": "Call to action type.",
+            "type": "string"
+          },
+          "eventEnd": {
+            "description": "Scheduled end for the event.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "eventStart": {
+            "description": "Scheduled start for the event.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "linkUrl": {
+            "description": "URL link for event.",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title of GMB Event",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetDraftRequest": {
+        "properties": {
+          "accountGroupId": {
+            "description": "The account group id of te draft.",
+            "type": "string"
+          },
+          "draftId": {
+            "title": "The internal id of the draft",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetDraftResponse": {
+        "properties": {
+          "draft": {
+            "$ref": "#/components/schemas/v1Draft"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListDraftsRequest": {
+        "properties": {
+          "accountGroupId": {
+            "title": "The account group id",
+            "type": "string"
+          },
+          "cursor": {
+            "title": "Cursor to more drafts if it is greater then the page size",
+            "type": "string"
+          },
+          "end": {
+            "format": "date-time",
+            "title": "If an end time is provided, a page of the drafts older than it will be returned",
+            "type": "string"
+          },
+          "networks": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Should filter on basis of networks ssids",
+            "type": "array"
+          },
+          "pageSize": {
+            "format": "int64",
+            "title": "Number of results to grab",
+            "type": "string"
+          },
+          "searchTerm": {
+            "title": "Including searching in draft",
+            "type": "string"
+          },
+          "start": {
+            "format": "date-time",
+            "title": "If a start time is provided, a page of the drafts that are newer than it will be returned",
+            "type": "string"
+          },
+          "visibilityType": {
+            "$ref": "#/components/schemas/v1VisibilityType"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListDraftsResponse": {
+        "properties": {
+          "drafts": {
+            "description": "List of obtained drafts.",
+            "items": {
+              "$ref": "#/components/schemas/v1Draft"
+            },
+            "type": "array"
+          },
+          "hasMore": {
+            "title": "Boolean if there are more drafts to get",
+            "type": "boolean"
+          },
+          "nextCursor": {
+            "title": "Cursor to more drafts if it is greater then the page size",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Media": {
+        "description": "All the information necessary to describe a piece of media inside a draft.\nThis can either hold a video and use the video_url field, or be an image and use the\nimage_url, image_path, and image_size fields.",
+        "properties": {
+          "gifUrl": {
+            "description": "URL to a gif, if this is one.",
+            "type": "string"
+          },
+          "imageUrl": {
+            "description": "Url for an image, if this is one.",
+            "type": "string"
+          },
+          "mediaId": {
+            "title": "Id of the media entry (mostly used when dealing with more than one)",
+            "type": "string"
+          },
+          "metaData": {
+            "items": {
+              "$ref": "#/components/schemas/v1MetaData"
+            },
+            "title": "Any metadata associated with this Media (source, last raised exception, etc)",
+            "type": "array"
+          },
+          "videoUrl": {
+            "description": "URL to a video, if this is one.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1MetaData": {
+        "properties": {
+          "propertyName": {
+            "type": "string"
+          },
+          "propertyValue": {
+            "type": "string"
+          }
+        },
+        "title": "Metadata message type for saving properties inside each Media of a draft",
+        "type": "object"
+      },
+      "v1MlDraftPost": {
+        "properties": {
+          "accountGroupIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "list of account group ids for that post",
+            "type": "array"
+          },
+          "multilocationPostId": {
+            "title": "Post Id mapped to each multilocation posts",
+            "type": "string"
+          }
+        },
+        "title": "Multilocation draft posts to be deleted",
+        "type": "object"
+      },
+      "v1MultiDeleteMLDraftPostsRequest": {
+        "properties": {
+          "brandId": {
+            "title": "brandId of the all multilocation draft posts",
+            "type": "string"
+          },
+          "mlDraftPosts": {
+            "items": {
+              "$ref": "#/components/schemas/v1MlDraftPost"
+            },
+            "title": "List of multilocation draft Posts",
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1SSIDDraftType": {
+        "properties": {
+          "draftType": {
+            "$ref": "#/components/schemas/v1DraftType"
+          },
+          "ssid": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1TikTokCustomization": {
+        "properties": {
+          "allowComment": {
+            "type": "boolean"
+          },
+          "allowDuet": {
+            "type": "boolean"
+          },
+          "allowStitch": {
+            "type": "boolean"
+          },
+          "isBrandOrganic": {
+            "type": "boolean"
+          },
+          "isBrandedContent": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "v1UpdateDraftRequest": {
+        "properties": {
+          "accountGroupId": {
+            "description": "Unique id signifying account group this belongs to.",
+            "type": "string"
+          },
+          "blogPostCustomization": {
+            "$ref": "#/components/schemas/v1BlogPostCustomization"
+          },
+          "brandId": {
+            "title": "to store the brand id of the draft",
+            "type": "string"
+          },
+          "campaignCustomization": {
+            "$ref": "#/components/schemas/v1CampaignCustomization"
+          },
+          "draftId": {
+            "description": "Unique id for the draft.",
+            "type": "string"
+          },
+          "draftText": {
+            "description": "Raw text of the draft.",
+            "type": "string"
+          },
+          "draftType": {
+            "$ref": "#/components/schemas/v1DraftType"
+          },
+          "gmbPostCustomization": {
+            "$ref": "#/components/schemas/v1GMBPostCustomization"
+          },
+          "isHidden": {
+            "type": "boolean"
+          },
+          "media": {
+            "description": "List of media attached to the draft.",
+            "items": {
+              "$ref": "#/components/schemas/v1Media"
+            },
+            "type": "array"
+          },
+          "metadata": {
+            "items": {
+              "$ref": "#/components/schemas/v1MetaData"
+            },
+            "title": "Any metadata associated with this draft (source, last raised exception, etc)",
+            "type": "array"
+          },
+          "multilocationPostId": {
+            "title": "to store the multilocation post id of the draft",
+            "type": "string"
+          },
+          "options": {
+            "description": "Special configurations options for the composer.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "postDateTime": {
+            "description": "Time the draft is set to be posted at.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "previews": {
+            "description": "Preview link for shortened URL Links.",
+            "type": "string"
+          },
+          "socialNetworkIdentifier": {
+            "description": "Identifier for the social network platform (e.g., LinkedIn Profile URL).\nUsed to track drafts associated with specific social network profiles,\nparticularly when connections are disconnected and posts move to drafts.",
+            "type": "string"
+          },
+          "ssidDraftTypes": {
+            "description": "The ssid draft type map.",
+            "items": {
+              "$ref": "#/components/schemas/v1SSIDDraftType"
+            },
+            "type": "array"
+          },
+          "ssids": {
+            "description": "Social Service ids used in this draft.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "tiktokCustomization": {
+            "$ref": "#/components/schemas/v1TikTokCustomization"
+          },
+          "youtubeCustomization": {
+            "$ref": "#/components/schemas/v1YoutubeCustomization"
+          }
+        },
+        "type": "object"
+      },
+      "v1UpdateDraftResponse": {
+        "properties": {
+          "draft": {
+            "$ref": "#/components/schemas/v1Draft"
+          }
+        },
+        "type": "object"
+      },
+      "v1UpdateMultiMLDraftsRequest": {
+        "properties": {
+          "drafts": {
+            "items": {
+              "$ref": "#/components/schemas/v1UpdateDraftRequest"
+            },
+            "title": "Array of UpdateDraftRequest",
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1VisibilityType": {
+        "default": "VISIBILITY_TYPE_INVALID",
+        "enum": [
+          "VISIBILITY_TYPE_INVALID",
+          "VISIBILITY_TYPE_ALL",
+          "VISIBILITY_TYPE_HIDDEN",
+          "VISIBILITY_TYPE_VISIBLE"
+        ],
+        "type": "string"
+      },
+      "v1YoutubeCustomization": {
+        "properties": {
+          "privacyStatus": {
+            "$ref": "#/components/schemas/YoutubeCustomizationPrivacyStatus"
+          },
+          "title": {
+            "title": "Title of Youtube video",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "scopes": {},
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "title": "Social Drafts OpenAPI Documentation",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/social-drafts/create": {
+      "post": {
+        "operationId": "Drafts_CreateDraft",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1CreateDraftRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1CreateDraftResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "summary": "Create Draft",
+        "tags": [
+          "Drafts"
+        ]
+      }
+    },
+    "/v1/social-drafts/create-multi": {
+      "post": {
+        "operationId": "Drafts_CreateMultiDrafts",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1CreateMultiDraftsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1CreateMultiDraftsResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "summary": "Create Multi Drafts",
+        "tags": [
+          "Drafts"
+        ]
+      }
+    },
+    "/v1/social-drafts/delete": {
+      "post": {
+        "operationId": "Drafts_DeleteDraft",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1DeleteDraftRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "summary": "Delete Draft",
+        "tags": [
+          "Drafts"
+        ]
+      }
+    },
+    "/v1/social-drafts/delete-multi": {
+      "post": {
+        "operationId": "Drafts_DeleteMultiMLDrafts",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1MultiDeleteMLDraftPostsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "summary": "Delete Multi ML Drafts",
+        "tags": [
+          "Drafts"
+        ]
+      }
+    },
+    "/v1/social-drafts/get": {
+      "post": {
+        "operationId": "Drafts_GetDraft",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetDraftRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetDraftResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "summary": "Get Draft",
+        "tags": [
+          "Drafts"
+        ]
+      }
+    },
+    "/v1/social-drafts/list": {
+      "post": {
+        "operationId": "Drafts_ListDrafts",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ListDraftsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ListDraftsResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "summary": "List Drafts",
+        "tags": [
+          "Drafts"
+        ]
+      }
+    },
+    "/v1/social-drafts/update": {
+      "post": {
+        "operationId": "Drafts_UpdateDraft",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1UpdateDraftRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1UpdateDraftResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "summary": "Update Draft",
+        "tags": [
+          "Drafts"
+        ]
+      }
+    },
+    "/v1/social-drafts/update-multi": {
+      "post": {
+        "operationId": "Drafts_UpdateMultiMLDrafts",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1UpdateMultiMLDraftsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "summary": "Update Multi ML Drafts",
+        "tags": [
+          "Drafts"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://prod.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Drafts"
+    }
+  ]
+}

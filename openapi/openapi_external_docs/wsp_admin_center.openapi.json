@@ -1,0 +1,446 @@
+{
+  "components": {
+    "schemas": {
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "rpcStatus": {
+        "properties": {
+          "code": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            },
+            "type": "array"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetHealthCheckRequest": {
+        "properties": {
+          "siteId": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetHealthCheckResponse": {
+        "properties": {
+          "hasMore": {
+            "title": "Whether or not more results exist",
+            "type": "boolean"
+          },
+          "siteHealths": {
+            "items": {
+              "$ref": "#/components/schemas/v1SiteHealths"
+            },
+            "title": "The cursor to use for the next healthcheckData",
+            "type": "array"
+          },
+          "totalResults": {
+            "format": "int64",
+            "title": "The total number of results for this query across all pages",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetPluginUpdatesCountRequest": {
+        "properties": {
+          "partnerId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetPluginUpdatesCountResponse": {
+        "properties": {
+          "totalCount": {
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1HealthCheckValues": {
+        "properties": {
+          "created": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "updated": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1SiteHealths": {
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "currentHealth": {
+            "type": "string"
+          },
+          "healthCheckValues": {
+            "items": {
+              "$ref": "#/components/schemas/v1HealthCheckValues"
+            },
+            "type": "array"
+          },
+          "partnerId": {
+            "type": "string"
+          },
+          "primaryDomain": {
+            "type": "string"
+          },
+          "siteId": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "string"
+          },
+          "uptime1day": {
+            "type": "string"
+          },
+          "uptime30days": {
+            "type": "string"
+          },
+          "uptime7days": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1UpdateCoreRequest": {
+        "properties": {
+          "coreCurrentVersion": {
+            "type": "string"
+          },
+          "coreLatestVersion": {
+            "type": "string"
+          },
+          "siteId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1UpdatePluginsRequest": {
+        "properties": {
+          "method": {
+            "type": "string"
+          },
+          "plugins": {
+            "items": {
+              "$ref": "#/components/schemas/v1WordPressAddon"
+            },
+            "type": "array"
+          },
+          "siteId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1UpdateThemeRequest": {
+        "properties": {
+          "siteId": {
+            "type": "string"
+          },
+          "theme": {
+            "$ref": "#/components/schemas/v1WordPressAddon"
+          }
+        },
+        "type": "object"
+      },
+      "v1WordPressAddon": {
+        "properties": {
+          "currentVersion": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "latestVersion": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "scopes": {
+              "admin": "Allows the application to perform administrative tasks that you have access to across the platform"
+            },
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "title": "Wsp Admin Center OpenAPI Documentation",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/wph/admin/plugins/updates-count": {
+      "post": {
+        "operationId": "SearchService_GetPluginUpdatesCount",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetPluginUpdatesCountRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetPluginUpdatesCountResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "admin"
+            ]
+          }
+        ],
+        "summary": "Get Plugin Updates Count",
+        "tags": [
+          "SearchService"
+        ]
+      }
+    },
+    "/v1/wph/admin/site-health": {
+      "post": {
+        "operationId": "SearchService_GetSiteHealthChecks",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetHealthCheckRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetHealthCheckResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "admin"
+            ]
+          }
+        ],
+        "summary": "Get Site Health Checks",
+        "tags": [
+          "SearchService"
+        ]
+      }
+    },
+    "/v1/wph/admin/wordpress/core": {
+      "post": {
+        "operationId": "WordpressService_UpdateCore",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1UpdateCoreRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "summary": "Update Core",
+        "tags": [
+          "WordpressService"
+        ]
+      }
+    },
+    "/v1/wph/admin/wordpress/plugins": {
+      "post": {
+        "operationId": "WordpressService_UpdatePlugins",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1UpdatePluginsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "summary": "Update Plugins",
+        "tags": [
+          "WordpressService"
+        ]
+      }
+    },
+    "/v1/wph/admin/wordpress/themes": {
+      "post": {
+        "operationId": "WordpressService_UpdateTheme",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1UpdateThemeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "summary": "Update Theme",
+        "tags": [
+          "WordpressService"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://prod.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "name": "SearchService"
+    },
+    {
+      "name": "WordpressService"
+    }
+  ]
+}

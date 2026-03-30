@@ -1,0 +1,261 @@
+{
+  "components": {
+    "schemas": {
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "rpcStatus": {
+        "properties": {
+          "code": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            },
+            "type": "array"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1FetchUptimeDataRequest": {
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "end": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "start": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1FetchUptimeDataResponse": {
+        "properties": {
+          "currentUptime": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/v1UptimeEvent"
+            },
+            "type": "array"
+          },
+          "previousUptime": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "v1SiteHealths": {
+        "properties": {
+          "accountGroupName": {
+            "type": "string"
+          },
+          "accountId": {
+            "type": "string"
+          },
+          "activationStatus": {
+            "type": "string"
+          },
+          "currentHealth": {
+            "type": "string"
+          },
+          "partnerId": {
+            "type": "string"
+          },
+          "siteId": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "string"
+          },
+          "uptime1day": {
+            "type": "string"
+          },
+          "uptime30days": {
+            "type": "string"
+          },
+          "uptime7days": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1UptimeEvent": {
+        "properties": {
+          "dateTime": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1UptimeSearchRequest": {
+        "properties": {
+          "partnerId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1UptimeSearchResponse": {
+        "properties": {
+          "siteHealths": {
+            "items": {
+              "$ref": "#/components/schemas/v1SiteHealths"
+            },
+            "title": "The cursor to use for the next healthcheckData",
+            "type": "array"
+          },
+          "totalResults": {
+            "format": "int64",
+            "title": "The total number of results for this query across all pages",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "scopes": {
+              "business-app": "Allows the application to manage all features of Business App"
+            },
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "title": "Wsp Monitor OpenAPI Documentation",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/wph/monitor/search": {
+      "post": {
+        "operationId": "Monitor_Search",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1UptimeSearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1UptimeSearchResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "summary": "Search Monitors",
+        "tags": [
+          "Monitor"
+        ]
+      }
+    },
+    "/v1/wph/monitor/uptime": {
+      "post": {
+        "operationId": "Monitor_FetchUptimeData",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1FetchUptimeDataRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1FetchUptimeDataResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "business-app"
+            ]
+          }
+        ],
+        "summary": "Fetch Uptime Data",
+        "tags": [
+          "Monitor"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://prod.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Monitor"
+    }
+  ]
+}

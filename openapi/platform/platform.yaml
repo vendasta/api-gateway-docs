@@ -1891,9 +1891,11 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Saves (upserts) form field data for a specific app within an order. This does **not** submit the form to the vendor — use the `/actions/submit` endpoint for that.
+        Saves (upserts) form field data for a specific app within an order.
 
-        **Note:** The fulfillment order status may automatically transition from `detailsNeeded` to `inReview` if all required fields are filled. To explicitly control submission, use the `/orderFulfillmentForms/{id}/actions/submit` endpoint.
+        **Auto-submission:** When all required fields are filled, the fulfillment order status will automatically transition from `detailsNeeded` to `inReview` asynchronously — notifying the vendor without any additional API call. For most use cases this is sufficient and the `/actions/submit` endpoint is not needed.
+
+        **Explicit submission:** If you need a synchronous status transition, or want to force `inReview` before all required fields are filled, use the `/orderFulfillmentForms/{id}/actions/submit` endpoint instead.
       security:
         - OAuth2Demo:
             - order
@@ -1946,7 +1948,9 @@ paths:
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Submits a fulfillment form to the vendor for a specific app within an order. This explicitly sets the fulfillment order status to `inReview`, notifying the vendor that the form is ready for processing.
+        Explicitly sets the fulfillment order status to `inReview`, notifying the vendor that the form is ready for processing.
+
+        **Note:** In most cases you do not need to call this endpoint. When all required fields are filled via PATCH, the status automatically transitions to `inReview` asynchronously. Use this endpoint only when you need a synchronous transition, or want to force submission before all required fields are filled.
 
         The request body is optional. If `fields` are provided, they will be saved before the status transition occurs. If the fields were already saved via PATCH, the body can be omitted.
       requestBody:

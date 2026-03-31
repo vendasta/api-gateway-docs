@@ -1715,6 +1715,35 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/orderFulfillmentForms'
+              examples:
+                List fulfillment forms:
+                  value:
+                    data:
+                      - id: 'AG-1234:ORD-1234567:MP-abc'
+                        type: orderFulfillmentForms
+                        attributes:
+                          appId: MP-abc
+                          status: detailsNeeded
+                          fields:
+                            - id: target_keywords
+                              value: ''
+                              label: Target Keywords
+                              description: Keywords you want to rank for
+                              type: textarea
+                            - id: business_hours
+                              value: 'Mon-Fri 9am-5pm'
+                              label: Business Hours
+                              type: text
+                      - id: 'AG-1234:ORD-1234567:MP-xyz'
+                        type: orderFulfillmentForms
+                        attributes:
+                          appId: MP-xyz
+                          status: inReview
+                          fields:
+                            - id: logo_file
+                              value: 'https://example.com/logo.png'
+                              label: Logo
+                              type: file
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
@@ -1762,6 +1791,25 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/orderFulfillmentForms'
+              examples:
+                Fulfillment form in detailsNeeded status:
+                  value:
+                    data:
+                      id: 'AG-1234:ORD-1234567:MP-abc'
+                      type: orderFulfillmentForms
+                      attributes:
+                        appId: MP-abc
+                        status: detailsNeeded
+                        fields:
+                          - id: target_keywords
+                            value: ''
+                            label: Target Keywords
+                            description: Keywords you want to rank for
+                            type: textarea
+                          - id: business_hours
+                            value: 'Mon-Fri 9am-5pm'
+                            label: Business Hours
+                            type: text
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
@@ -1799,6 +1847,18 @@ paths:
                   $ref: '#/components/schemas/orderFulfillmentForms'
               required:
                 - data
+            examples:
+              Save form field data:
+                value:
+                  data:
+                    id: 'AG-1234:ORD-1234567:MP-abc'
+                    type: orderFulfillmentForms
+                    attributes:
+                      fields:
+                        - id: target_keywords
+                          value: 'plumber, emergency plumber'
+                        - id: business_hours
+                          value: 'Mon-Fri 9am-5pm'
       responses:
         '200':
           description: OK
@@ -1809,6 +1869,25 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/orderFulfillmentForms'
+              examples:
+                Updated fulfillment form:
+                  value:
+                    data:
+                      id: 'AG-1234:ORD-1234567:MP-abc'
+                      type: orderFulfillmentForms
+                      attributes:
+                        appId: MP-abc
+                        status: detailsNeeded
+                        fields:
+                          - id: target_keywords
+                            value: 'plumber, emergency plumber'
+                            label: Target Keywords
+                            description: Keywords you want to rank for
+                            type: textarea
+                          - id: business_hours
+                            value: 'Mon-Fri 9am-5pm'
+                            label: Business Hours
+                            type: text
       description: |-
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
@@ -1881,6 +1960,16 @@ paths:
                   description: Optional form fields to save before submitting.
                   items:
                     $ref: '#/components/schemas/orderFormField'
+            examples:
+              Submit with final field values:
+                value:
+                  fields:
+                    - id: target_keywords
+                      value: 'plumber, emergency plumber'
+                    - id: business_hours
+                      value: 'Mon-Fri 9am-5pm'
+              Submit without fields (already saved via PATCH):
+                value: {}
       responses:
         '204':
           description: No Content — form submitted successfully.

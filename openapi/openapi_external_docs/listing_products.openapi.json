@@ -1916,20 +1916,23 @@
         "type": "object"
       },
       "v1UpdateListingProfileRequest": {
-        "description": "BulkUpdateRequest allows updating all of the pieces of the account group and runs them in order.",
+        "description": "UpdateListingProfileRequest applies a list of update operations to a business's listing profile.\nOperations are executed in order. Use if_unmodified_since to guard against concurrent edits.",
         "properties": {
           "businessId": {
+            "description": "The business whose listing profile should be updated.",
             "type": "string"
           },
           "ifUnmodifiedSince": {
+            "description": "Optional optimistic-concurrency guard. If set, the update fails when the profile has been\nmodified after this timestamp. Similar to HTTP If-Unmodified-Since.",
             "format": "date-time",
-            "title": "If unmodified since will fail any update is older than current updated time. Much like https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Unmodified-Since",
             "type": "string"
           },
           "languageCode": {
+            "description": "Optional BCP-47 language code for locale-specific field values (e.g., \"en\", \"fr\").",
             "type": "string"
           },
           "updateOperations": {
+            "description": "Ordered list of field-level changes to apply (e.g., set name, add category, update hours).",
             "items": {
               "$ref": "#/components/schemas/v1UpdateOperation"
             },
@@ -1939,6 +1942,7 @@
         "type": "object"
       },
       "v1UpdateOperation": {
+        "description": "UpdateOperation represents a single field-level change to a listing profile.\nChoose exactly one oneof field that covers the data you want to modify, then set\nfield_mask to the specific sub-fields within that message.",
         "properties": {
           "bingAttributes": {
             "$ref": "#/components/schemas/v1BingAttributes"
@@ -1974,7 +1978,6 @@
             "$ref": "#/components/schemas/v1SocialURLs"
           }
         },
-        "title": "Update operation allows updating a specific piece of the listing profile",
         "type": "object"
       },
       "v1Vicinity": {
@@ -2155,7 +2158,7 @@
               }
             }
           },
-          "description": "BulkUpdateRequest allows updating all of the pieces of the account group and runs them in order.",
+          "description": "UpdateListingProfileRequest applies a list of update operations to a business's listing profile.\nOperations are executed in order. Use if_unmodified_since to guard against concurrent edits.",
           "required": true
         },
         "responses": {

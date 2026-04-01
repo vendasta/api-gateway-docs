@@ -1,0 +1,1767 @@
+{
+  "components": {
+    "schemas": {
+      "LineItemAppKey": {
+        "properties": {
+          "appId": {
+            "type": "string"
+          },
+          "editionId": {
+            "type": "string"
+          },
+          "packageId": {
+            "description": "A package id is optional, it is used to group line items together in a package.",
+            "type": "string"
+          },
+          "packageInstanceId": {
+            "description": "A package instance id keeps track of the package instance that a line item belongs to. For example, if the customer purchases two packages that contain the same product,\nthis will identify which package the product belongs to.\n\nThis must be provided if a package id is provided, and should not be provided if there is no package id provided. The ID should be a uuid.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "googlerpcStatus": {
+        "properties": {
+          "code": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            },
+            "type": "array"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "salesordersv1Status": {
+        "default": "SUBMITTED",
+        "description": "- SUBMITTED: Submitted is the status when an order is ready for admin approval\n - APPROVED: Approved is the status when an order is has been approved by an admin\n - DECLINED: Declined is the status when an order is has been declined by an admin or a smb\n - DRAFTED: Drafted is currently not used but would be the state the order can be created in before it's sent to someone else\n - FULFILLED: Fulfilled is the status when an order has had all of the products activated\n - PROCESSING: Processing is the status when an order is currently activating the products\n - ACTIVATION_ERRORS: ActivationErrors is the status when an order is has encountered an error when activating products\n - ARCHIVED: Archived is the status to use when hiding the orders from the ui unless explicitly asked for\n - SUBMITTED_FOR_CUSTOMER_APPROVAL: SubmittedForCustomerApproval is the status when an order has been sent to a SMB to approve\n - CANCELLATION_REQUESTED: CancellationRequested is the status when a sales person requests to cancel a full order\n - CANCELLED: Cancelled is the status when a after an admin has approved a Cancellation\n - SCHEDULED_ACTIVATION: ScheduledActivation is the status of an order after the admin requests to activate products on the contract start date\n - AWAITING_PAYMENT: AwaitingPayment is the status of a BIY order on creation before we attempt to charge\n - PROCESSING_PAYMENT: ProcessingPayment is the status of a BIY order while waiting on confirmation for the charge\n - RESUBMITTED: Resubmitted is the status of an order when it has been resubmitted for admin approval, after being submitted at least one other time in the past",
+        "enum": [
+          "SUBMITTED",
+          "APPROVED",
+          "DECLINED",
+          "DRAFTED",
+          "FULFILLED",
+          "PROCESSING",
+          "ACTIVATION_ERRORS",
+          "ARCHIVED",
+          "SUBMITTED_FOR_CUSTOMER_APPROVAL",
+          "CANCELLATION_REQUESTED",
+          "CANCELLED",
+          "SCHEDULED_ACTIVATION",
+          "AWAITING_PAYMENT",
+          "PROCESSING_PAYMENT",
+          "RESUBMITTED"
+        ],
+        "title": "The different statuses representing any given state an order can be in",
+        "type": "string"
+      },
+      "salesv1Duration": {
+        "properties": {
+          "duration": {
+            "$ref": "#/components/schemas/v1DurationPeriod"
+          },
+          "value": {
+            "description": "Value for duration of time of a given operation.",
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ActivationStatus": {
+        "default": "PENDING",
+        "description": "- PENDING: The product is in the process of being activated\n - ACTIVATED: The product was successfully activated via the order\n - ERRORED: An error occured while activating the product during the activation step\n - ALREADY_ACTIVATED: The product was already active prior to fulfilling the order\n - IGNORED_ERRORS: An error occurred while activating the product during the activation step but then the item was marked as ignored errors\n - CANCELED: The product was requested to be deactivated at a time in the future (awaiting a deactivation date)\n - DEACTIVATED: The product has been deactivated/turned off\n - UNKNOWN: The product activation status is in an unknown status. Otherwise a client will inaccurately assume the default status is Pending.\n - SCHEDULED: The product activation has been scheduled\n - UNSCHEDULED: The product activation has been unscheduled",
+        "enum": [
+          "PENDING",
+          "ACTIVATED",
+          "ERRORED",
+          "ALREADY_ACTIVATED",
+          "IGNORED_ERRORS",
+          "CANCELED",
+          "DEACTIVATED",
+          "UNKNOWN",
+          "SCHEDULED",
+          "UNSCHEDULED"
+        ],
+        "title": "The different statuses representing any given state that a product can be in during the activation process",
+        "type": "string"
+      },
+      "v1AddonActivation": {
+        "properties": {
+          "activationStatus": {
+            "$ref": "#/components/schemas/v1ActivationStatus"
+          },
+          "addonId": {
+            "title": "Unique identifier of a single addon that is going through the activation process",
+            "type": "string"
+          },
+          "appId": {
+            "title": "Unique identifier of the parent app for the addon that is going through the activation process",
+            "type": "string"
+          }
+        },
+        "title": "Represents a single addon with its corresponding activation status",
+        "type": "object"
+      },
+      "v1AddonKey": {
+        "properties": {
+          "addonId": {
+            "title": "Unique identifier of an addon",
+            "type": "string"
+          },
+          "appId": {
+            "title": "The parent app for the addon",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Agreement": {
+        "properties": {
+          "agreed": {
+            "title": "Whether or not the user agreed",
+            "type": "boolean"
+          },
+          "term": {
+            "title": "The term that the user may have agreed to",
+            "type": "string"
+          },
+          "userId": {
+            "title": "The user who may have agreed to this agreement",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1Attachment": {
+        "properties": {
+          "name": {
+            "title": "The name of the attachment",
+            "type": "string"
+          },
+          "url": {
+            "title": "The url to the attachment",
+            "type": "string"
+          }
+        },
+        "title": "Represents an attachment on an order",
+        "type": "object"
+      },
+      "v1AuxiliaryDataFieldSchema": {
+        "properties": {
+          "archived": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "created": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "currencyCode": {
+            "title": "currency code according to ISO-4217, e.g. 'USD', 'CAD', 'BRL', etc",
+            "type": "string"
+          },
+          "dropdownOptions": {
+            "items": {
+              "$ref": "#/components/schemas/v1DropdownOption"
+            },
+            "type": "array"
+          },
+          "externalId": {
+            "type": "string"
+          },
+          "fieldDescription": {
+            "type": "string"
+          },
+          "fieldId": {
+            "type": "string"
+          },
+          "fieldName": {
+            "type": "string"
+          },
+          "fieldType": {
+            "$ref": "#/components/schemas/v1AuxiliaryDataFieldType"
+          },
+          "partnerId": {
+            "type": "string"
+          },
+          "updated": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1AuxiliaryDataFieldType": {
+        "default": "AUXILIARY_DATA_FIELD_TYPE_INVALID",
+        "enum": [
+          "AUXILIARY_DATA_FIELD_TYPE_INVALID",
+          "AUXILIARY_DATA_FIELD_TYPE_STRING",
+          "AUXILIARY_DATA_FIELD_TYPE_INTEGER",
+          "AUXILIARY_DATA_FIELD_TYPE_DATE",
+          "AUXILIARY_DATA_FIELD_TYPE_DROPDOWN",
+          "AUXILIARY_DATA_FIELD_TYPE_CURRENCY"
+        ],
+        "type": "string"
+      },
+      "v1BillingPeriod": {
+        "properties": {
+          "duration": {
+            "$ref": "#/components/schemas/salesv1Duration"
+          },
+          "endDate": {
+            "format": "date-time",
+            "title": "The end date of the billing period",
+            "type": "string"
+          },
+          "startDate": {
+            "format": "date-time",
+            "title": "The start date of the billing period",
+            "type": "string"
+          }
+        },
+        "title": "The Time frame to bill for",
+        "type": "object"
+      },
+      "v1Business": {
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "address2": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "companyName": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "deleted": {
+            "type": "boolean"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "website": {
+            "type": "string"
+          },
+          "zip": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1CommonField": {
+        "properties": {
+          "addonKeys": {
+            "items": {
+              "$ref": "#/components/schemas/v1AddonKey"
+            },
+            "title": "List of addon keys that share the common field",
+            "type": "array"
+          },
+          "field": {
+            "$ref": "#/components/schemas/v1Field"
+          },
+          "productIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "List of unique product identifiers that share the common field",
+            "type": "array"
+          }
+        },
+        "title": "Represents the answer to a common field may be shared between products",
+        "type": "object"
+      },
+      "v1Cost": {
+        "properties": {
+          "customPrice": {
+            "format": "int64",
+            "title": "The custom price of the order item. Can only be changed if the application supports custom pricing",
+            "type": "string"
+          }
+        },
+        "title": "Cost represents the wholesale cost of an order",
+        "type": "object"
+      },
+      "v1CreateSalesOrderRequest": {
+        "properties": {
+          "attachments": {
+            "items": {
+              "$ref": "#/components/schemas/v1Attachment"
+            },
+            "title": "Data for the attachments on the order",
+            "type": "array"
+          },
+          "businessId": {
+            "title": "ID of the business that the order is for",
+            "type": "string"
+          },
+          "commonFields": {
+            "items": {
+              "$ref": "#/components/schemas/v1CommonField"
+            },
+            "title": "A list of additional information that is shared across multiple products",
+            "type": "array"
+          },
+          "contractDuration": {
+            "$ref": "#/components/schemas/salesv1Duration"
+          },
+          "customFields": {
+            "items": {
+              "$ref": "#/components/schemas/v1CustomField"
+            },
+            "title": "A list of additional unique information pertaining to an individual product",
+            "type": "array"
+          },
+          "customerAttachments": {
+            "items": {
+              "$ref": "#/components/schemas/v1Attachment"
+            },
+            "title": "Data for the customer attachments on the order",
+            "type": "array"
+          },
+          "customerNotes": {
+            "title": "Additional notes written for customer by a salesperson",
+            "type": "string"
+          },
+          "enforceContractTerm": {
+            "title": "Indicates whether to enforce the contract term",
+            "type": "boolean"
+          },
+          "extraFields": {
+            "items": {
+              "$ref": "#/components/schemas/v1Field"
+            },
+            "title": "Extra fields are the fields that a partner (or market) admin has added to their orders by default to be filled",
+            "type": "array"
+          },
+          "idempotencyKey": {
+            "title": "Optional key used to prevent request duplication and allows safety when retrying requests",
+            "type": "string"
+          },
+          "lineItems": {
+            "items": {
+              "$ref": "#/components/schemas/v1LineItem"
+            },
+            "title": "Lineitems replace Products and Packages",
+            "type": "array"
+          },
+          "marketId": {
+            "title": "ID of the market that the order belongs to",
+            "type": "string"
+          },
+          "notes": {
+            "title": "Additional notes written by a salesperson for admin only",
+            "type": "string"
+          },
+          "opportunityIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Opportunity id(s) that the order is fulfilling",
+            "type": "array"
+          },
+          "orderIsSmbPayable": {
+            "title": "Indicates whether the order should be charged to the SMB or not",
+            "type": "boolean"
+          },
+          "origin": {
+            "$ref": "#/components/schemas/v1Origin"
+          },
+          "packages": {
+            "items": {
+              "$ref": "#/components/schemas/v1Package"
+            },
+            "title": "Data for the package(s) being activated upon approval of this order",
+            "type": "array"
+          },
+          "partnerId": {
+            "title": "ID of the partner that the order belongs to",
+            "type": "string"
+          },
+          "products": {
+            "items": {
+              "$ref": "#/components/schemas/v1Product"
+            },
+            "title": "Data for the product(s) being activated upon approval of this order",
+            "type": "array"
+          },
+          "quoteId": {
+            "title": "ID of the quote associated with the order if the order was created from a quote",
+            "type": "string"
+          },
+          "requestedActivation": {
+            "format": "date-time",
+            "title": "Time submitted by a salesperson that indicates when an administrator should activate the products on the order",
+            "type": "string"
+          },
+          "salespersonId": {
+            "title": "ID of the salesperson who should attend to the order",
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Tags on the order",
+            "type": "array"
+          },
+          "useCustomerPrice": {
+            "title": "Indicates whether or not to automatically resolve the line items' retail pricing.\nThe request's line items are expected to have nil revenue if this is set to true.\nFor more information and error scenarios, see Confluence docs:\nhttps://vendasta.jira.com/wiki/spaces/PSYC/pages/2211971323/New+use+customer+price+on+sales-orders+Create+APIs",
+            "type": "boolean"
+          }
+        },
+        "title": "Containing information to create a new order",
+        "type": "object"
+      },
+      "v1CreateSalesOrderResponse": {
+        "properties": {
+          "orderId": {
+            "title": "Unique identifier of an order",
+            "type": "string"
+          }
+        },
+        "title": "Response of creating an order",
+        "type": "object"
+      },
+      "v1Currency": {
+        "default": "USD",
+        "description": "- ZAR: Do not add to this list. If more currencies are required currency_code should be used instead",
+        "enum": [
+          "USD",
+          "CAD",
+          "EUR",
+          "AUD",
+          "GBP",
+          "NZD",
+          "ZAR"
+        ],
+        "type": "string"
+      },
+      "v1CustomField": {
+        "properties": {
+          "addonKey": {
+            "$ref": "#/components/schemas/v1AddonKey"
+          },
+          "fields": {
+            "items": {
+              "$ref": "#/components/schemas/v1Field"
+            },
+            "title": "List of custom fields for a given product",
+            "type": "array"
+          },
+          "productId": {
+            "title": "Unique identifier of a single product that the custom questions belong to, and will not be provided if the custom field belongs to an addon",
+            "type": "string"
+          }
+        },
+        "title": "Represents the answer(s) to a custom field that is unique to a product",
+        "type": "object"
+      },
+      "v1CustomPriceMapping": {
+        "properties": {
+          "customPrice": {
+            "format": "int64",
+            "title": "The custom price value of the product",
+            "type": "string"
+          },
+          "productId": {
+            "title": "The ID of the product",
+            "type": "string"
+          }
+        },
+        "title": "Representing custom prices for variable priced products in a package",
+        "type": "object"
+      },
+      "v1CustomerRecipient": {
+        "properties": {
+          "firstName": {
+            "title": "The user's first name",
+            "type": "string"
+          },
+          "lastName": {
+            "title": "The user's last name",
+            "type": "string"
+          },
+          "userId": {
+            "title": "The ID of the user",
+            "type": "string"
+          }
+        },
+        "title": "The customer who receives the order",
+        "type": "object"
+      },
+      "v1DropdownOption": {
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1DurationPeriod": {
+        "default": "UNSPECIFIED",
+        "enum": [
+          "UNSPECIFIED",
+          "MONTH",
+          "YEAR",
+          "DAY",
+          "WEEK"
+        ],
+        "type": "string"
+      },
+      "v1Field": {
+        "properties": {
+          "answer": {
+            "title": "Response related to the question of the field_id",
+            "type": "string"
+          },
+          "description": {
+            "title": "The description of the field",
+            "type": "string"
+          },
+          "fieldId": {
+            "title": "Unique identifier of a custom or common field",
+            "type": "string"
+          },
+          "fieldType": {
+            "$ref": "#/components/schemas/v1FieldType"
+          },
+          "label": {
+            "title": "The question for the custom or common field",
+            "type": "string"
+          },
+          "prefix": {
+            "title": "For textbox fields, this string will be displayed in front of the textbox",
+            "type": "string"
+          },
+          "regexErrorMessage": {
+            "title": "The error message displayed if the regex_validator does not match the answer",
+            "type": "string"
+          },
+          "regexValidator": {
+            "title": "A regex string used to validate a fields answer",
+            "type": "string"
+          },
+          "suffix": {
+            "title": "For textbox fields, this string will be displayed behind the textbox",
+            "type": "string"
+          }
+        },
+        "title": "Represents an information field pertaining to a product",
+        "type": "object"
+      },
+      "v1FieldSchemaIdentifier": {
+        "properties": {
+          "externalId": {
+            "type": "string"
+          },
+          "fieldId": {
+            "type": "string"
+          },
+          "partnerId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1FieldType": {
+        "default": "NOT_SPECIFIED",
+        "enum": [
+          "NOT_SPECIFIED",
+          "TEXT",
+          "TEXTAREA",
+          "DROPDOWN",
+          "CHECKBOX",
+          "FILE",
+          "VBCUSER"
+        ],
+        "title": "Available types that a field can be",
+        "type": "string"
+      },
+      "v1FulfillmentOrderStatus": {
+        "default": "FULFILLMENT_STATUS_UNSET",
+        "description": " - FULFILLMENT_STATUS_DETAILS_NEEDED: Details Needed: Fulfillment Form needs to be submitted\n - FULFILLMENT_STATUS_IN_REVIEW: In Review: Fulfillment Form has been submitted. Vendor is reviewing submission\n - FULFILLMENT_STATUS_IN_PROGRESS: In Progress: Fulfillment Form has required info and work has begun to deliver order.\n - FULFILLMENT_STATUS_COMPLETED: Completed: Work for the order is done and has been delivered.\n - FULFILLMENT_STATUS_CANCELLED: Cancelled: Fulfillment has not been completed and will not be completed.",
+        "enum": [
+          "FULFILLMENT_STATUS_UNSET",
+          "FULFILLMENT_STATUS_DETAILS_NEEDED",
+          "FULFILLMENT_STATUS_IN_REVIEW",
+          "FULFILLMENT_STATUS_IN_PROGRESS",
+          "FULFILLMENT_STATUS_COMPLETED",
+          "FULFILLMENT_STATUS_CANCELLED"
+        ],
+        "type": "string"
+      },
+      "v1GetAuxiliaryDataFieldSchemaRequest": {
+        "properties": {
+          "identifier": {
+            "$ref": "#/components/schemas/v1FieldSchemaIdentifier"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetAuxiliaryDataFieldSchemaResponse": {
+        "properties": {
+          "fieldSchema": {
+            "$ref": "#/components/schemas/v1AuxiliaryDataFieldSchema"
+          }
+        },
+        "type": "object"
+      },
+      "v1GetSalesOrderRequest": {
+        "properties": {
+          "businessId": {
+            "title": "The business the order belongs to",
+            "type": "string"
+          },
+          "orderId": {
+            "title": "Unique identifier of an order",
+            "type": "string"
+          },
+          "projectionFilter": {
+            "$ref": "#/components/schemas/v1SalesOrderProjectionFilter"
+          }
+        },
+        "title": "Containing information to get an order",
+        "type": "object"
+      },
+      "v1GetSalesOrderResponse": {
+        "properties": {
+          "order": {
+            "$ref": "#/components/schemas/v1Order"
+          }
+        },
+        "title": "Response of getting an order",
+        "type": "object"
+      },
+      "v1LineItem": {
+        "properties": {
+          "appKey": {
+            "$ref": "#/components/schemas/LineItemAppKey"
+          },
+          "autoBillable": {
+            "title": "DEPRECATED: use non_billable instead",
+            "type": "boolean"
+          },
+          "billToRecipientId": {
+            "description": "The billing recipient for this line item.\nWhen set to a partner_id, wholesale billing applies (default behavior).\nWhen set to an account_group_id, retail billing is triggered for that customer.\nWhen empty, defaults to the merchant (partner) paying wholesale.",
+            "type": "string"
+          },
+          "billingPeriod": {
+            "$ref": "#/components/schemas/v1BillingPeriod"
+          },
+          "cost": {
+            "$ref": "#/components/schemas/v1Cost"
+          },
+          "currency": {
+            "$ref": "#/components/schemas/v1Currency"
+          },
+          "currencyCode": {
+            "description": "The 3-letter currency code defined in ISO 4217.",
+            "type": "string"
+          },
+          "currentRevenue": {
+            "$ref": "#/components/schemas/v1Revenue"
+          },
+          "customPrices": {
+            "items": {
+              "$ref": "#/components/schemas/v1CustomPriceMapping"
+            },
+            "title": "The custom price mapping for variable priced products in a package in the order",
+            "type": "array"
+          },
+          "initialRevenue": {
+            "$ref": "#/components/schemas/v1Revenue"
+          },
+          "isTrial": {
+            "title": "Only used when AppKey is the identifier",
+            "type": "boolean"
+          },
+          "nonBillable": {
+            "title": "Indicates whether this line item should be billable or not\nIf true, the item will not be billed",
+            "type": "boolean"
+          },
+          "packageId": {
+            "type": "string"
+          },
+          "quantity": {
+            "format": "int64",
+            "type": "string"
+          },
+          "retailSubscriptionGroupId": {
+            "title": "The retail subscription group id that this line item belongs to (if any)",
+            "type": "string"
+          },
+          "taxRateIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "The tax rate ids that apply to this line item",
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListAuxiliaryDataFieldSchemaRequest": {
+        "properties": {
+          "filters": {
+            "$ref": "#/components/schemas/v1ListAuxiliaryDataFieldSchemaRequestFilters"
+          },
+          "pagingOptions": {
+            "$ref": "#/components/schemas/vendastatypesPagedRequestOptions"
+          },
+          "partnerId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListAuxiliaryDataFieldSchemaRequestFilters": {
+        "properties": {
+          "onlyArchived": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListAuxiliaryDataFieldSchemaResponse": {
+        "properties": {
+          "fieldSchemas": {
+            "items": {
+              "$ref": "#/components/schemas/v1AuxiliaryDataFieldSchema"
+            },
+            "type": "array"
+          },
+          "pagingMetadata": {
+            "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListSalesOrderRequest": {
+        "properties": {
+          "cursor": {
+            "title": "current cursor position",
+            "type": "string"
+          },
+          "filters": {
+            "$ref": "#/components/schemas/v1ListSalesOrderRequestFilters"
+          },
+          "pageSize": {
+            "format": "int64",
+            "title": "size of the page to list\n0 assumes the default page size",
+            "type": "string"
+          },
+          "partnerId": {
+            "title": "partner id for partner making request",
+            "type": "string"
+          },
+          "sortOption": {
+            "$ref": "#/components/schemas/v1ListSalesOrderRequestSortOption"
+          }
+        },
+        "title": "Request to get a list of orders for a partner",
+        "type": "object"
+      },
+      "v1ListSalesOrderRequestDateRangeFilter": {
+        "properties": {
+          "beginRange": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "endRange": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "title": "Begin and end of date range",
+        "type": "object"
+      },
+      "v1ListSalesOrderRequestFilters": {
+        "properties": {
+          "businessId": {
+            "title": "Singular business filter",
+            "type": "string"
+          },
+          "created": {
+            "$ref": "#/components/schemas/v1ListSalesOrderRequestDateRangeFilter"
+          },
+          "expiryDate": {
+            "$ref": "#/components/schemas/v1ListSalesOrderRequestDateRangeFilter"
+          },
+          "includeArchivedOrders": {
+            "title": "Will include archived orders if true",
+            "type": "boolean"
+          },
+          "marketId": {
+            "title": "DEPRECATED: Singular market filter. Use market_ids instead. If both are supplied, market_ids will be used instead",
+            "type": "string"
+          },
+          "marketIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Multi market request",
+            "type": "array"
+          },
+          "orderId": {
+            "title": "DEPRECATED: Singular order identifier to filter for. Use order_ids instead. If both are supplied, order_ids will be used instead",
+            "type": "string"
+          },
+          "orderIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Multiple order identifiers to filter for",
+            "type": "array"
+          },
+          "packageId": {
+            "title": "Singular package filter",
+            "type": "string"
+          },
+          "productEditionId": {
+            "title": "Singular product edition filter",
+            "type": "string"
+          },
+          "productId": {
+            "title": "Singular product filter",
+            "type": "string"
+          },
+          "requestedActivation": {
+            "$ref": "#/components/schemas/v1ListSalesOrderRequestDateRangeFilter"
+          },
+          "salespersonId": {
+            "title": "DEPRECATED: Singular salesperson filter.  Use salesperson_ids instead.  If both are supplied, salesperson_ids\nwill be used instead",
+            "type": "string"
+          },
+          "salespersonIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Multiple salesperson filter",
+            "type": "array"
+          },
+          "statuses": {
+            "items": {
+              "$ref": "#/components/schemas/salesordersv1Status"
+            },
+            "title": "Multiple status filter",
+            "type": "array"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Tags required to be on the order",
+            "type": "array"
+          },
+          "untagged": {
+            "description": "Will filter for orders that don't have tags if true.",
+            "type": "boolean"
+          }
+        },
+        "title": "Filters to list sales orders based on given filter criterias",
+        "type": "object"
+      },
+      "v1ListSalesOrderRequestSortDirection": {
+        "default": "ASCENDING",
+        "enum": [
+          "ASCENDING",
+          "DESCENDING"
+        ],
+        "title": "The directions that a result set can be sorted in",
+        "type": "string"
+      },
+      "v1ListSalesOrderRequestSortField": {
+        "default": "REQUESTED_ACTIVATION",
+        "enum": [
+          "REQUESTED_ACTIVATION",
+          "CREATED",
+          "STATUS",
+          "EXPIRY_DATE"
+        ],
+        "title": "The field to sort a result set on",
+        "type": "string"
+      },
+      "v1ListSalesOrderRequestSortOption": {
+        "properties": {
+          "direction": {
+            "$ref": "#/components/schemas/v1ListSalesOrderRequestSortDirection"
+          },
+          "field": {
+            "$ref": "#/components/schemas/v1ListSalesOrderRequestSortField"
+          }
+        },
+        "title": "Options for controlling the order of query results",
+        "type": "object"
+      },
+      "v1ListSalesOrderResponse": {
+        "properties": {
+          "hasMore": {
+            "title": "Whether or not more results exist",
+            "type": "boolean"
+          },
+          "nextCursor": {
+            "title": "A cursor that can be provided to retrieve the next page of results",
+            "type": "string"
+          },
+          "orders": {
+            "items": {
+              "$ref": "#/components/schemas/v1Order"
+            },
+            "title": "list of the requested sales order data",
+            "type": "array"
+          },
+          "totalResults": {
+            "format": "int64",
+            "title": "The number of total results there are",
+            "type": "string"
+          }
+        },
+        "title": "Response to get a list of orders for a partner",
+        "type": "object"
+      },
+      "v1Order": {
+        "properties": {
+          "addonActivations": {
+            "items": {
+              "$ref": "#/components/schemas/v1AddonActivation"
+            },
+            "title": "The list of addons with their corresponding activation status",
+            "type": "array"
+          },
+          "agreements": {
+            "items": {
+              "$ref": "#/components/schemas/v1Agreement"
+            },
+            "title": "The terms that a customer has agreed to for this order",
+            "type": "array"
+          },
+          "attachments": {
+            "items": {
+              "$ref": "#/components/schemas/v1Attachment"
+            },
+            "title": "Attachments on the order",
+            "type": "array"
+          },
+          "business": {
+            "$ref": "#/components/schemas/v1Business"
+          },
+          "businessId": {
+            "title": "The business the order is being made for",
+            "type": "string"
+          },
+          "commonFields": {
+            "items": {
+              "$ref": "#/components/schemas/v1CommonField"
+            },
+            "title": "Common field answers for the packages",
+            "type": "array"
+          },
+          "contractDuration": {
+            "$ref": "#/components/schemas/salesv1Duration"
+          },
+          "created": {
+            "format": "date-time",
+            "title": "Time the order was submitted by a salesperson",
+            "type": "string"
+          },
+          "customFields": {
+            "items": {
+              "$ref": "#/components/schemas/v1CustomField"
+            },
+            "title": "Custom field answers for the packages",
+            "type": "array"
+          },
+          "customerAttachments": {
+            "items": {
+              "$ref": "#/components/schemas/v1Attachment"
+            },
+            "title": "Customer attachments on the order",
+            "type": "array"
+          },
+          "customerNotes": {
+            "title": "Notes for the customer from the salesperson/admin",
+            "type": "string"
+          },
+          "customerRecipient": {
+            "$ref": "#/components/schemas/v1CustomerRecipient"
+          },
+          "declinedReason": {
+            "title": "DEPRECATED: declined_reason is now added to the StatusHistoryItem\nThe reason the order was declined",
+            "type": "string"
+          },
+          "enforceContractTerm": {
+            "title": "Indicates whether to enforce the contract term",
+            "type": "boolean"
+          },
+          "expiryDate": {
+            "format": "date-time",
+            "title": "The requested activation date for the order's products",
+            "type": "string"
+          },
+          "extraFields": {
+            "items": {
+              "$ref": "#/components/schemas/v1Field"
+            },
+            "title": "Extra fields are the fields that a partner (or market) admin has added to their orders by default to be filled",
+            "type": "array"
+          },
+          "finalizedAt": {
+            "format": "date-time",
+            "title": "When the order's totals and taxes were locked in, used as the invoice issued date",
+            "type": "string"
+          },
+          "fulfillmentStatus": {
+            "$ref": "#/components/schemas/v1FulfillmentOrderStatus"
+          },
+          "hasFulfillment": {
+            "title": "Determines if the sales order has any fulfillment forms associated with it",
+            "type": "boolean"
+          },
+          "idempotencyKey": {
+            "title": "Optional key used to prevent request duplication and allows safety when retrying requests",
+            "type": "string"
+          },
+          "invoiceId": {
+            "title": "The billing invoice ID created from this order during the charge workflow",
+            "type": "string"
+          },
+          "leasedToAutomations": {
+            "format": "date-time",
+            "title": "DEPRECATED: No longer supported",
+            "type": "string"
+          },
+          "lineItems": {
+            "items": {
+              "$ref": "#/components/schemas/v1LineItem"
+            },
+            "title": "Line items that make up the order",
+            "type": "array"
+          },
+          "marketId": {
+            "title": "The market the order is being made under",
+            "type": "string"
+          },
+          "notes": {
+            "title": "Notes for the partner administrator from the salesperson",
+            "type": "string"
+          },
+          "offerExpiry": {
+            "description": "The most recently added date that the customer must approve this order by. This cannot be set on creation and only\nwhen sending the order to a customer. It is valid that this is in the past for expired orders, or orders that have\nmade it through the customer approval stage.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "opportunityIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "The opportunities that are being used for the order",
+            "type": "array"
+          },
+          "orderId": {
+            "title": "The unique identifier of the order",
+            "type": "string"
+          },
+          "orderIsSmbPayable": {
+            "title": "Indicates whether the order should be charged to the SMB or not",
+            "type": "boolean"
+          },
+          "origin": {
+            "$ref": "#/components/schemas/v1Origin"
+          },
+          "packages": {
+            "items": {
+              "$ref": "#/components/schemas/v1Package"
+            },
+            "title": "Packages in the order",
+            "type": "array"
+          },
+          "partnerId": {
+            "title": "The partner the order is being made under",
+            "type": "string"
+          },
+          "paymentMethodToken": {
+            "title": "An id used by BIY sales orders to associate a payment method",
+            "type": "string"
+          },
+          "productActivations": {
+            "items": {
+              "$ref": "#/components/schemas/v1ProductActivation"
+            },
+            "title": "The list of products with their corresponding activation status",
+            "type": "array"
+          },
+          "products": {
+            "items": {
+              "$ref": "#/components/schemas/v1Product"
+            },
+            "title": "Products in the order",
+            "type": "array"
+          },
+          "quoteId": {
+            "title": "The id of the quote associated to the order if the order was created from a quote",
+            "type": "string"
+          },
+          "requestedActivation": {
+            "format": "date-time",
+            "title": "The requested activation date for the order's products",
+            "type": "string"
+          },
+          "retailSubscriptionGroups": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/v1RetailSubscriptionGroup"
+            },
+            "title": "The retail subscription groups on the order",
+            "type": "object"
+          },
+          "salesperson": {
+            "$ref": "#/components/schemas/v1Salesperson"
+          },
+          "salespersonId": {
+            "title": "Salesperson who submitted the order",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/salesordersv1Status"
+          },
+          "statusHistory": {
+            "items": {
+              "$ref": "#/components/schemas/v1StatusHistoryItem"
+            },
+            "title": "The historical list of status updates that have taken place on the order",
+            "type": "array"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Tags for orders",
+            "type": "array"
+          },
+          "taxOptions": {
+            "items": {
+              "$ref": "#/components/schemas/v1TaxOptions"
+            },
+            "title": "Options for adding tax to orders",
+            "type": "array"
+          }
+        },
+        "title": "Data representing an order form submitted by a salesperson",
+        "type": "object"
+      },
+      "v1Origin": {
+        "default": "SSC",
+        "enum": [
+          "SSC",
+          "VBC",
+          "PC",
+          "IMPORT"
+        ],
+        "title": "Origin of the create request, whether a salesperson or smb created it",
+        "type": "string"
+      },
+      "v1Package": {
+        "properties": {
+          "addonKeys": {
+            "items": {
+              "$ref": "#/components/schemas/v1AddonKey"
+            },
+            "title": "DEPRECATED: get the addons that are in a package from marketplace",
+            "type": "array"
+          },
+          "currency": {
+            "$ref": "#/components/schemas/v1Currency"
+          },
+          "customPrices": {
+            "items": {
+              "$ref": "#/components/schemas/v1CustomPriceMapping"
+            },
+            "title": "The custom price mapping of the order",
+            "type": "array"
+          },
+          "packageId": {
+            "title": "Unique identifier of a package",
+            "type": "string"
+          },
+          "productIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "List of unique identifiers for the products that belong to the package\nDEPRECATED: get the products that are in a package from marketplace",
+            "type": "array"
+          },
+          "quantity": {
+            "format": "int64",
+            "title": "How many of the package is being requested",
+            "type": "string"
+          },
+          "revenue": {
+            "$ref": "#/components/schemas/v1Revenue"
+          }
+        },
+        "title": "Representing a package in an order",
+        "type": "object"
+      },
+      "v1Product": {
+        "properties": {
+          "currency": {
+            "$ref": "#/components/schemas/v1Currency"
+          },
+          "editionId": {
+            "title": "Optional unique identifier for the edition of the product that will be activated when an order if fulfilled",
+            "type": "string"
+          },
+          "parentProductId": {
+            "title": "Optional unique identifier for the parent of product that will be activated when an order is fulfilled",
+            "type": "string"
+          },
+          "productId": {
+            "title": "Unique identifier of the product that will be activated when an order is fulfilled",
+            "type": "string"
+          },
+          "revenue": {
+            "$ref": "#/components/schemas/v1Revenue"
+          }
+        },
+        "type": "object"
+      },
+      "v1ProductActivation": {
+        "properties": {
+          "activationId": {
+            "title": "Identifies the existing activation of a product if it was activated before the order was completed",
+            "type": "string"
+          },
+          "activationStatus": {
+            "$ref": "#/components/schemas/v1ActivationStatus"
+          },
+          "editionId": {
+            "title": "Identifies the (optional) edition of that product that is going through the activation process",
+            "type": "string"
+          },
+          "isEditionChange": {
+            "title": "Identifies whether or not this activation is an edition change or not",
+            "type": "boolean"
+          },
+          "previousEditionId": {
+            "title": "Identifies the previous edition id of that product if this activation is an edition change (optional)",
+            "type": "string"
+          },
+          "productId": {
+            "title": "Identifier of a single product that is going through the activation process",
+            "type": "string"
+          },
+          "uniqueId": {
+            "title": "Unique identifier for this product activation, it is possible for this to be empty (historical activations, activations not fully processed, etc)",
+            "type": "string"
+          }
+        },
+        "title": "Represents a single product with its corresponding activation status",
+        "type": "object"
+      },
+      "v1RetailSubscriptionGroup": {
+        "properties": {
+          "displayOption": {
+            "$ref": "#/components/schemas/v1RetailSubscriptionGroupDisplayOption"
+          },
+          "iconUrl": {
+            "title": "The icon url of the retail subscription group",
+            "type": "string"
+          },
+          "name": {
+            "title": "The name of the retail subscription group",
+            "type": "string"
+          },
+          "sourceIdentifier": {
+            "title": "The source identifier of the retail subscription group",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1RetailSubscriptionGroupDisplayOption": {
+        "default": "DISPLAY_OPTION_INVALID",
+        "enum": [
+          "DISPLAY_OPTION_INVALID",
+          "SHOW_CONTENT_SHOW_PRICES",
+          "SHOW_CONTENT_HIDE_PRICES",
+          "HIDE_CONTENT_HIDE_PRICES"
+        ],
+        "type": "string"
+      },
+      "v1Revenue": {
+        "properties": {
+          "revenueComponents": {
+            "items": {
+              "$ref": "#/components/schemas/v1RevenueComponent"
+            },
+            "type": "array"
+          }
+        },
+        "title": "Revenue represents the retail price of an order",
+        "type": "object"
+      },
+      "v1RevenueComponent": {
+        "properties": {
+          "isStartingRevenue": {
+            "title": "The indication if this is only the starting price or the actual price",
+            "type": "boolean"
+          },
+          "period": {
+            "$ref": "#/components/schemas/v1RevenuePeriod"
+          },
+          "value": {
+            "description": "The value in the smallest common currency unit i.e. cents. Therefore 4000 would represent $40.00.",
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1RevenuePeriod": {
+        "default": "ONETIME",
+        "enum": [
+          "ONETIME",
+          "DAILY",
+          "WEEKLY",
+          "BIWEEKLY",
+          "MONTHLY",
+          "YEARLY"
+        ],
+        "type": "string"
+      },
+      "v1SalesOrderProjectionFilter": {
+        "properties": {
+          "includeCustomerRecipient": {
+            "title": "Indicates whether customer recipient data should be included",
+            "type": "boolean"
+          },
+          "includeUserInfoInStatusHistory": {
+            "title": "Indicates whether info and role should be included about the user in the status history",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "v1Salesperson": {
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          }
+        },
+        "title": "A User is the information about a user",
+        "type": "object"
+      },
+      "v1Source": {
+        "default": "SOURCE_INVALID",
+        "enum": [
+          "SOURCE_INVALID",
+          "SOURCE_SYSTEM",
+          "SOURCE_SYSTEM_ADMIN"
+        ],
+        "type": "string"
+      },
+      "v1StatusHistoryItem": {
+        "properties": {
+          "created": {
+            "format": "date-time",
+            "title": "The time the status was created",
+            "type": "string"
+          },
+          "email": {
+            "description": "The email fo the user that updated the status.",
+            "type": "string"
+          },
+          "metadata": {
+            "title": "The metadata is freeform json about the status history item. It's structure depends on the status",
+            "type": "string"
+          },
+          "name": {
+            "title": "The name or email of the user",
+            "type": "string"
+          },
+          "source": {
+            "$ref": "#/components/schemas/v1Source"
+          },
+          "status": {
+            "$ref": "#/components/schemas/salesordersv1Status"
+          },
+          "userId": {
+            "title": "The unique identifier of the user that updated the status",
+            "type": "string"
+          },
+          "userRole": {
+            "$ref": "#/components/schemas/v1UserRole"
+          }
+        },
+        "title": "Represents a status change on the order to determine who it was updated by and what time it was updated",
+        "type": "object"
+      },
+      "v1TaxOptions": {
+        "properties": {
+          "initialAmount": {
+            "format": "int64",
+            "title": "The initial amount (in cents) of tax to be applied to an order after all tax rules have been taken into account",
+            "type": "string"
+          },
+          "label": {
+            "title": "Setting that defines a name for a given tax that should be applied to an order",
+            "type": "string"
+          },
+          "percentageMultiplier": {
+            "format": "double",
+            "title": "Setting that defines a tax percentage multiplier with a precision between 0.0000 and 1.0000",
+            "type": "number"
+          },
+          "taxRateId": {
+            "title": "The id of the tax rate that this tax corresponds to",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1UserRole": {
+        "default": "USER_ROLE_UNSPECIFIED",
+        "enum": [
+          "USER_ROLE_UNSPECIFIED",
+          "USER_ROLE_ADMIN",
+          "USER_ROLE_SALESPERSON",
+          "USER_ROLE_CLIENT"
+        ],
+        "type": "string"
+      },
+      "vendastatypesPagedRequestOptions": {
+        "properties": {
+          "cursor": {
+            "description": "Optional. An opaque token from a previous response's next_cursor to retrieve the next page of results. Omit or leave empty for the first page.",
+            "type": "string"
+          },
+          "pageSize": {
+            "description": "Optional. The maximum number of items to return per page.",
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "vendastatypesPagedResponseMetadata": {
+        "properties": {
+          "hasMore": {
+            "title": "Whether or not more results exist",
+            "type": "boolean"
+          },
+          "nextCursor": {
+            "title": "A cursor that can be provided to retrieve the next page of results",
+            "type": "string"
+          },
+          "totalResults": {
+            "format": "int64",
+            "title": "The total number of results. This is not supported on all paged apis and will be 0 if it is not supported",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "scopes": {
+              "order": "Allows the application to manage orders",
+              "order:read": "Allows the application view-only access to orders"
+            },
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "title": "Sales Orders OpenAPI Documentation",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/order/create": {
+      "post": {
+        "operationId": "SalesOrders_CreateSalesOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1CreateSalesOrderRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1CreateSalesOrderResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/googlerpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "order"
+            ]
+          }
+        ],
+        "summary": "Create Sales Order",
+        "tags": [
+          "SalesOrders"
+        ]
+      }
+    },
+    "/v1/order/custom-fields/get": {
+      "post": {
+        "operationId": "SalesOrdersAuxiliaryFieldSchema_GetAuxiliaryDataFieldSchema",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetAuxiliaryDataFieldSchemaRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetAuxiliaryDataFieldSchemaResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/googlerpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "summary": "Get Auxiliary Data Field Schema",
+        "tags": [
+          "SalesOrdersAuxiliaryFieldSchema"
+        ]
+      }
+    },
+    "/v1/order/custom-fields/list": {
+      "post": {
+        "operationId": "SalesOrdersAuxiliaryFieldSchema_ListAuxiliaryDataFieldSchema",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ListAuxiliaryDataFieldSchemaRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ListAuxiliaryDataFieldSchemaResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/googlerpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "summary": "List Auxiliary Data Field Schema",
+        "tags": [
+          "SalesOrdersAuxiliaryFieldSchema"
+        ]
+      }
+    },
+    "/v1/order/get": {
+      "post": {
+        "operationId": "SalesOrders_GetSalesOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetSalesOrderRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetSalesOrderResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/googlerpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "order",
+              "order:read"
+            ]
+          }
+        ],
+        "summary": "Get Sales Order",
+        "tags": [
+          "SalesOrders"
+        ]
+      }
+    },
+    "/v1/order/list": {
+      "post": {
+        "operationId": "SalesOrders_ListSalesOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ListSalesOrderRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ListSalesOrderResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/googlerpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "order",
+              "order:read"
+            ]
+          }
+        ],
+        "summary": "List Sales Orders",
+        "tags": [
+          "SalesOrders"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://prod.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "name": "SalesOrders"
+    },
+    {
+      "name": "SalesOrdersAuxiliaryFieldSchema"
+    }
+  ]
+}

@@ -1039,6 +1039,25 @@ paths:
                         type: string
                         format: uri
                         description: The address of the newly created order
+              examples:
+                Create order:
+                  value:
+                    data:
+                      id: 'AG-1234567:ORD-1234567'
+                      type: orders
+                      attributes:
+                        statusCode: processing
+                        currencyCode: USD
+                        lineItems:
+                          - productId: MP-abc123
+                            quantity: 1
+                      relationships:
+                        businessLocation:
+                          data:
+                            id: AG-1234567
+                            type: businessLocations
+                    links:
+                      self: 'https://prod.apigateway.co/platform/orders/AG-1234567:ORD-1234567'
           headers:
             Location:
               schema:
@@ -1053,6 +1072,21 @@ paths:
               properties:
                 data:
                   $ref: '#/components/schemas/orders'
+            examples:
+              Create order:
+                value:
+                  data:
+                    type: orders
+                    attributes:
+                      currencyCode: USD
+                      lineItems:
+                        - productId: MP-abc123
+                          quantity: 1
+                    relationships:
+                      businessLocation:
+                        data:
+                          id: AG-1234567
+                          type: businessLocations
       x-lifecycle:
         status: trustedTester
       description: |-
@@ -1198,6 +1232,25 @@ paths:
                     properties:
                       self:
                         type: string
+              examples:
+                Get order:
+                  value:
+                    data:
+                      id: 'AG-1234567:ORD-1234567'
+                      type: orders
+                      attributes:
+                        statusCode: processing
+                        currencyCode: USD
+                        lineItems:
+                          - productId: MP-abc123
+                            quantity: 1
+                      relationships:
+                        businessLocation:
+                          data:
+                            id: AG-1234567
+                            type: businessLocations
+                    links:
+                      self: 'https://prod.apigateway.co/platform/orders/AG-1234567:ORD-1234567'
       operationId: get-orders-id
       security:
         - OAuth2Demo:
@@ -5103,6 +5156,9 @@ components:
                 type: string
                 maxLength: 30
                 minLength: 1
+            notes:
+              type: string
+              description: Free-text notes associated with the order.
         relationships:
           type: object
           properties:

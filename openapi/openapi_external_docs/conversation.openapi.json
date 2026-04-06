@@ -28,52 +28,6 @@
         },
         "type": "object"
       },
-      "v1CommunicationChannelType": {
-        "default": "COMMUNICATION_CHANNEL_TYPE_UNDEFINED",
-        "enum": [
-          "COMMUNICATION_CHANNEL_TYPE_UNDEFINED",
-          "COMMUNICATION_CHANNEL_TYPE_SMS",
-          "COMMUNICATION_CHANNEL_TYPE_VOICE"
-        ],
-        "title": "Channel types for communication info",
-        "type": "string"
-      },
-      "v1CommunicationInfo": {
-        "properties": {
-          "channel": {
-            "$ref": "#/components/schemas/v1CommunicationChannelType"
-          },
-          "identifier": {
-            "title": "The identifier for this channel (phone number, email, etc.)",
-            "type": "string"
-          }
-        },
-        "title": "Information about a communication channel",
-        "type": "object"
-      },
-      "v1ListCommunicationChannelsInfoRequest": {
-        "properties": {
-          "accountGroupId": {
-            "title": "The account group ID to look up communication info for",
-            "type": "string"
-          }
-        },
-        "title": "Request to list communication channel info for a business",
-        "type": "object"
-      },
-      "v1ListCommunicationChannelsInfoResponse": {
-        "properties": {
-          "communicationInfo": {
-            "items": {
-              "$ref": "#/components/schemas/v1CommunicationInfo"
-            },
-            "title": "The list of communication info for this account",
-            "type": "array"
-          }
-        },
-        "title": "Response containing communication channel information",
-        "type": "object"
-      },
       "v1ListWidgetsResponse": {
         "properties": {
           "pagingMetadata": {
@@ -228,12 +182,7 @@
         "flows": {
           "authorizationCode": {
             "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
-            "scopes": {
-              "business-app": "Allows the application to manage all features of Business App",
-              "conversation": "Allows the application to manage conversations",
-              "conversation.widget": "Allows the application to manage conversation widgets",
-              "conversation:read": "Allows the application view-only access to conversations"
-            },
+            "scopes": {},
             "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
           }
         },
@@ -247,56 +196,6 @@
   },
   "openapi": "3.0.0",
   "paths": {
-    "/v1/conversation/communication-channels-info": {
-      "post": {
-        "operationId": "ConversationService_ListCommunicationChannelsInfo",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/v1ListCommunicationChannelsInfoRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/v1ListCommunicationChannelsInfoResponse"
-                }
-              }
-            },
-            "description": "A successful response."
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/googlerpcStatus"
-                }
-              }
-            },
-            "description": "An unexpected error response."
-          }
-        },
-        "security": [
-          {
-            "OAuth2": [
-              "conversation:read",
-              "conversation",
-              "business-app"
-            ]
-          }
-        ],
-        "summary": "List communication channels info for a business",
-        "tags": [
-          "ConversationService"
-        ]
-      }
-    },
     "/v1beta/widgets": {
       "get": {
         "operationId": "ConversationService_ListWidgets",
@@ -373,14 +272,6 @@
             "description": "An unexpected error response."
           }
         },
-        "security": [
-          {
-            "OAuth2": [
-              "business-app",
-              "conversation.widget"
-            ]
-          }
-        ],
         "summary": "List widgets",
         "tags": [
           "ConversationService"

@@ -1638,6 +1638,320 @@ paths:
       tags:
         - Options
         - Order Custom Fields
+  /orderFulfillmentForms:
+    get:
+      summary: List Fulfillment Forms for an Order
+      operationId: get-orderFulfillmentForms
+      parameters:
+        - schema:
+            type: string
+            example: 'AG-1234:ORD-1234567'
+          in: query
+          name: ordersID
+          required: true
+          description: 'The composite order ID in the form `businessId:orderId`.'
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/orderFulfillmentForms'
+              examples:
+                List fulfillment forms:
+                  value:
+                    data:
+                      - id: 'AG-1234:ORD-1234567:MP-abc'
+                        type: orderFulfillmentForms
+                        attributes:
+                          appId: MP-abc
+                          status: detailsNeeded
+                          fields:
+                            - id: target_keywords
+                              value: ''
+                              label: Target Keywords
+                              description: Keywords you want to rank for
+                              type: textarea
+                            - id: business_hours
+                              value: 'Mon-Fri 9am-5pm'
+                              label: Business Hours
+                              type: text
+                      - id: 'AG-1234:ORD-1234567:MP-xyz'
+                        type: orderFulfillmentForms
+                        attributes:
+                          appId: MP-xyz
+                          status: inReview
+                          fields:
+                            - id: logo_file
+                              value: 'https://example.com/logo.png'
+                              label: Logo
+                              type: file
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Returns all fulfillment form submissions for the apps in a given order. Each app with a fulfillment order will have its own entry.
+      security:
+        - OAuth2Demo:
+            - order
+            - 'order:read'
+        - OAuth2Prod:
+            - order
+            - 'order:read'
+      x-lifecycle:
+        status: trustedTester
+      tags:
+        - Order Fulfillment Forms
+    options:
+      summary: List valid HTTP verbs for /orderFulfillmentForms
+      operationId: options-orderFulfillmentForms
+      responses:
+        '204':
+          description: No Content
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+        - Order Fulfillment Forms
+  '/orderFulfillmentForms/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        example: 'AG-1234:ORD-1234567:MP-abc'
+        description: 'The composite fulfillment form ID in the form `businessId:orderId:appId`.'
+    get:
+      summary: Get Fulfillment Form by ID
+      operationId: get-orderFulfillmentForms-by-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/orderFulfillmentForms'
+              examples:
+                Fulfillment form in detailsNeeded status:
+                  value:
+                    data:
+                      id: 'AG-1234:ORD-1234567:MP-abc'
+                      type: orderFulfillmentForms
+                      attributes:
+                        appId: MP-abc
+                        status: detailsNeeded
+                        fields:
+                          - id: target_keywords
+                            value: ''
+                            label: Target Keywords
+                            description: Keywords you want to rank for
+                            type: textarea
+                          - id: business_hours
+                            value: 'Mon-Fri 9am-5pm'
+                            label: Business Hours
+                            type: text
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Returns the latest fulfillment form submission for a specific app within an order.
+      security:
+        - OAuth2Demo:
+            - order
+            - 'order:read'
+        - OAuth2Prod:
+            - order
+            - 'order:read'
+      x-lifecycle:
+        status: trustedTester
+      tags:
+        - Order Fulfillment Forms
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+    patch:
+      summary: Update Fulfillment Form
+      operationId: patch-orderFulfillmentForms-by-id
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/orderFulfillmentForms'
+              required:
+                - data
+            examples:
+              Save form field data:
+                value:
+                  data:
+                    id: 'AG-1234:ORD-1234567:MP-abc'
+                    type: orderFulfillmentForms
+                    attributes:
+                      fields:
+                        - id: target_keywords
+                          value: 'plumber, emergency plumber'
+                        - id: business_hours
+                          value: 'Mon-Fri 9am-5pm'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/orderFulfillmentForms'
+              examples:
+                Updated fulfillment form:
+                  value:
+                    data:
+                      id: 'AG-1234:ORD-1234567:MP-abc'
+                      type: orderFulfillmentForms
+                      attributes:
+                        appId: MP-abc
+                        status: detailsNeeded
+                        fields:
+                          - id: target_keywords
+                            value: 'plumber, emergency plumber'
+                            label: Target Keywords
+                            description: Keywords you want to rank for
+                            type: textarea
+                          - id: business_hours
+                            value: 'Mon-Fri 9am-5pm'
+                            label: Business Hours
+                            type: text
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Saves (upserts) form field data for a specific app within an order.
+
+        **Auto-submission:** When all required fields are filled, the fulfillment order status will automatically transition from `detailsNeeded` to `inReview` asynchronously — notifying the vendor without any additional API call. For most use cases this is sufficient and the `/actions/submit` endpoint is not needed.
+
+        **Explicit submission:** If you need a synchronous status transition, or want to force `inReview` before all required fields are filled, use the `/orderFulfillmentForms/{id}/actions/submit` endpoint instead.
+      security:
+        - OAuth2Demo:
+            - order
+        - OAuth2Prod:
+            - order
+      x-lifecycle:
+        status: trustedTester
+      tags:
+        - Order Fulfillment Forms
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent. In most cases you will want `application/vnd.api+json`
+    options:
+      summary: 'List valid HTTP verbs for /orderFulfillmentForms/{id}'
+      operationId: options-orderFulfillmentForms-by-id
+      responses:
+        '204':
+          description: No Content
+      description: 'Used solely for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) the OPTIONS request returns the list of possible HTTP methods and other headers that browsers use to protect user''s security. You should not call this operation directly. '
+      tags:
+        - Options
+        - Order Fulfillment Forms
+  '/orderFulfillmentForms/{id}/actions/submit':
+    parameters:
+      - schema:
+          type: string
+          example: 'AG-1234:ORD-1234567:MP-abc'
+        name: id
+        in: path
+        required: true
+        description: 'Composite ID in the form `businessId:orderId:appId`.'
+    post:
+      summary: Submit a fulfillment form to the vendor
+      operationId: post-orderFulfillmentForms-submit
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Explicitly sets the fulfillment order status to `inReview`, notifying the vendor that the form is ready for processing.
+
+        **Note:** In most cases you do not need to call this endpoint. When all required fields are filled via PATCH, the status automatically transitions to `inReview` asynchronously. Use this endpoint only when you need a synchronous transition, or want to force submission before all required fields are filled.
+
+        The request body is optional. If `fields` are provided, they will be saved before the status transition occurs. If the fields were already saved via PATCH, the body can be omitted.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fields:
+                  type: array
+                  description: Optional form fields to save before submitting.
+                  items:
+                    $ref: '#/components/schemas/orderFormField'
+            examples:
+              Submit with final field values:
+                value:
+                  fields:
+                    - id: target_keywords
+                      value: 'plumber, emergency plumber'
+                    - id: business_hours
+                      value: 'Mon-Fri 9am-5pm'
+              Submit without fields (already saved via PATCH):
+                value: {}
+      responses:
+        '204':
+          description: No Content — form submitted successfully.
+        '404':
+          description: Not Found — the fulfillment order was not found for the given ID.
+      security:
+        - OAuth2Demo:
+            - order
+        - OAuth2Prod:
+            - order
+      x-lifecycle:
+        status: trustedTester
+      tags:
+        - Order Fulfillment Forms
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token to identify the user the app is acting on behalf of. See the Authorization guide for details.
+          required: true
   '/users/{id}/relationships/businessLocations':
     parameters:
       - schema:
@@ -5407,6 +5721,123 @@ components:
       required:
         - id
         - type
+    orderForm:
+      title: Order Form
+      type: object
+      description: |-
+        A group of form fields associated with an order. The `id` identifies the form:
+        - `standard`: Vendasta shared fields (business name, address, etc.)
+        - `admin`: Partner/market admin-configured default fields
+        - `order:<app-id>`: App-specific order form fields
+        - `order:<app-id>:<addon-id>`: Addon-specific order form fields
+      properties:
+        id:
+          type: string
+          description: 'Identifies which form this group belongs to. For example: `standard`, `admin`, `order:MP-abc`, or `order:MP-abc:addon-123`.'
+          example: 'order:MP-abc'
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/orderFormField'
+      required:
+        - id
+        - fields
+    orderFormField:
+      title: Order Form Field
+      type: object
+      description: A single field within an order form.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the field within its form.
+          example: business_name
+        value:
+          type: string
+          description: |-
+            The answer or value for this field.
+
+            For `file` fields, provide a plain URL string pointing to any publicly accessible file. The filename will be derived from the URL path. To use Vendasta-hosted file storage, first upload the file to `https://order-fulfillment-api-prod.apigateway.co/fulfillment-form/attachments/upload` and use the returned URL as the value.
+          example: Acme Corp
+        label:
+          type: string
+          readOnly: true
+          description: Human-readable label for the field. Read-only; returned on GET but ignored on create/update.
+        description:
+          type: string
+          readOnly: true
+          description: Description or help text for the field. Read-only.
+        type:
+          type: string
+          description: 'The input type of the field. Required when creating or updating order forms.'
+          enum:
+            - text
+            - textarea
+            - dropdown
+            - checkbox
+            - file
+            - vbcUser
+      required:
+        - id
+        - value
+    orderFulfillmentForms:
+      title: Order Fulfillment Form
+      type: object
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        A fulfillment form submission for an app within an order. Fulfillment forms are filled out after order creation to provide the vendor with information needed to fulfill the order.
+        The ID is a composite of `businessId:orderId:appId`.
+
+        **Workflow:** Use PATCH to save form field data as a draft, then POST to `/actions/submit` to explicitly submit the form to the vendor. The `status` field is read-only and reflects the vendor-side workflow state.
+
+        **Limitation:** If an order contains multiple instances of the same add-on app, only a single set of form answers is stored per app ID. Per-instance form answers are not currently supported.
+      properties:
+        id:
+          type: string
+          example: 'AG-1234:ORD-1234567:MP-abc'
+          readOnly: true
+        type:
+          type: string
+          default: orderFulfillmentForms
+          enum:
+            - orderFulfillmentForms
+        attributes:
+          type: object
+          properties:
+            appId:
+              type: string
+              readOnly: true
+              description: The app ID this fulfillment form belongs to.
+              example: MP-abc
+            status:
+              type: string
+              readOnly: true
+              description: |-
+                The current fulfillment order status. This field is read-only and reflects the vendor-side workflow state.
+
+                - `detailsNeeded` — The vendor is waiting for the partner to provide form details.
+                - `inReview` — The form has been submitted and is awaiting vendor review.
+                - `inProgress` — The vendor is actively fulfilling the order.
+                - `completed` — Fulfillment is complete.
+                - `cancelled` — The fulfillment order was cancelled.
+                - `onHold` — The fulfillment order is on hold.
+
+                To submit a form (transitioning status to `inReview`), use the `/orderFulfillmentForms/{id}/actions/submit` endpoint.
+              enum:
+                - detailsNeeded
+                - inReview
+                - inProgress
+                - completed
+                - cancelled
+                - onHold
+              example: detailsNeeded
+            fields:
+              type: array
+              description: The form fields and their submitted values.
+              items:
+                $ref: '#/components/schemas/orderFormField'
     businessCategories:
       title: Business Category
       type: object
@@ -7301,6 +7732,7 @@ tags:
   - name: Countries
   - name: Orders
   - name: Order Custom Fields
+  - name: Order Fulfillment Forms
   - name: Partner Activatable Products
   - name: Partners
   - name: Products

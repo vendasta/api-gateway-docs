@@ -1040,7 +1040,7 @@ paths:
                         format: uri
                         description: The address of the newly created order
               examples:
-                Order with order form fields:
+                Create order:
                   value:
                     data:
                       id: 'AG-1234567:ORD-1234567'
@@ -1051,23 +1051,6 @@ paths:
                         lineItems:
                           - productId: MP-abc123
                             quantity: 1
-                        orderForms:
-                          - id: standard
-                            fields:
-                              - id: business_name
-                                value: Acme Corp
-                                label: Business Name
-                                type: text
-                              - id: business_address
-                                value: '123 Main St, Springfield'
-                                label: Business Address
-                                type: text
-                          - id: 'order:MP-abc123'
-                            fields:
-                              - id: target_keywords
-                                value: 'plumber, emergency plumber'
-                                label: Target Keywords
-                                type: textarea
                       relationships:
                         businessLocation:
                           data:
@@ -1090,7 +1073,7 @@ paths:
                 data:
                   $ref: '#/components/schemas/orders'
             examples:
-              Order with order form fields:
+              Create order:
                 value:
                   data:
                     type: orders
@@ -1099,17 +1082,6 @@ paths:
                       lineItems:
                         - productId: MP-abc123
                           quantity: 1
-                      orderForms:
-                        - id: standard
-                          fields:
-                            - id: business_name
-                              value: Acme Corp
-                            - id: business_address
-                              value: '123 Main St, Springfield'
-                        - id: 'order:MP-abc123'
-                          fields:
-                            - id: target_keywords
-                              value: 'plumber, emergency plumber'
                     relationships:
                       businessLocation:
                         data:
@@ -1261,7 +1233,7 @@ paths:
                       self:
                         type: string
               examples:
-                Order with order form fields:
+                Get order:
                   value:
                     data:
                       id: 'AG-1234567:ORD-1234567'
@@ -1272,23 +1244,6 @@ paths:
                         lineItems:
                           - productId: MP-abc123
                             quantity: 1
-                        orderForms:
-                          - id: standard
-                            fields:
-                              - id: business_name
-                                value: Acme Corp
-                                label: Business Name
-                                type: text
-                              - id: business_address
-                                value: '123 Main St, Springfield'
-                                label: Business Address
-                                type: text
-                          - id: 'order:MP-abc123'
-                            fields:
-                              - id: target_keywords
-                                value: 'plumber, emergency plumber'
-                                label: Target Keywords
-                                type: textarea
                       relationships:
                         businessLocation:
                           data:
@@ -5518,18 +5473,6 @@ components:
             notes:
               type: string
               description: Free-text notes associated with the order.
-            orderForms:
-              type: array
-              description: |-
-                Form fields associated with the order, grouped by form. Each entry represents a distinct form:
-                - `standard`: Vendasta shared fields (business name, address, etc.)
-                - `admin`: Partner/market admin-configured default fields
-                - `order:<app-id>`: App-specific order form fields
-                - `order:<app-id>:<addon-id>`: Addon-specific order form fields
-
-                On create/update, only `id` and `value` on each field are used. The `label`, `description`, and `type` fields are read-only metadata returned on GET.
-              items:
-                $ref: '#/components/schemas/orderForm'
         relationships:
           type: object
           properties:

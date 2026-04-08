@@ -101,11 +101,13 @@ const config: Config = {
             outputDir: 'docs/api/social',
             sidebarOptions: {groupPathsBy: 'tag', categoryLinkSource: 'tag'},
           } satisfies OpenApiPlugin.Options,
-          customervoice: {
-            specPath: '../openapi/customervoice/customervoice.yaml',
-            outputDir: 'docs/api/customervoice',
-            sidebarOptions: {groupPathsBy: 'tag', categoryLinkSource: 'tag'},
-          } satisfies OpenApiPlugin.Options,
+          // customervoice: temporarily excluded — spec has operation without summary/operationId
+          // that the plugin can't handle. Needs spec fix.
+          // customervoice: {
+          //   specPath: '../openapi/customervoice/customervoice.yaml',
+          //   outputDir: 'docs/api/customervoice',
+          //   sidebarOptions: {groupPathsBy: 'tag', categoryLinkSource: 'tag'},
+          // } satisfies OpenApiPlugin.Options,
           scim: {
             specPath: '../openapi/scim/scim.yaml',
             outputDir: 'docs/api/scim',

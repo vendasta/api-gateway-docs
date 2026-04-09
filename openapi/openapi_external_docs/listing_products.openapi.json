@@ -856,6 +856,36 @@
         "title": "Based on https://developers.google.com/my-business/reference/businessinformation/rest/v1/accounts.locations#Location.PlaceInfo",
         "type": "object"
       },
+      "v1GoogleService": {
+        "properties": {
+          "displayName": {
+            "description": "The human-readable display name (e.g., \"Beard trim\"). Stored alongside the ID\nso downstream consumers can use it without a metadata API call.",
+            "type": "string"
+          },
+          "enabled": {
+            "description": "Whether the user has enabled (true) or disabled (false) this service.",
+            "type": "boolean"
+          },
+          "serviceTypeId": {
+            "description": "The Google-provided service type ID (e.g., \"job_type_id:beard_trimming\").",
+            "type": "string"
+          }
+        },
+        "title": "Represents a single Google structured service that a user has explicitly toggled.\nReference: https://developers.google.com/my-business/reference/businessinformation/rest/v1/accounts.locations#structuredserviceitem",
+        "type": "object"
+      },
+      "v1GoogleServices": {
+        "description": "Wrapper for use in UpdateOperation oneof.",
+        "properties": {
+          "googleService": {
+            "items": {
+              "$ref": "#/components/schemas/v1GoogleService"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
       "v1HealthCareProfessionalInformation": {
         "properties": {
           "dateOfBirth": {
@@ -1958,6 +1988,9 @@
           },
           "googleAttributes": {
             "$ref": "#/components/schemas/v1GoogleAttributes"
+          },
+          "googleServices": {
+            "$ref": "#/components/schemas/v1GoogleServices"
           },
           "hoursOfOperation": {
             "$ref": "#/components/schemas/v1HoursOfOperation"

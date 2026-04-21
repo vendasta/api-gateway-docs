@@ -271,6 +271,29 @@
         },
         "type": "object"
       },
+      "v1CreateFieldSchemaCustomizationRequest": {
+        "description": "Request to create a field schema customization, which restricts the allowed values for a specific field on a CRM object type within a namespace.",
+        "properties": {
+          "crmObjectType": {
+            "description": "Required. The CRM object type the field belongs to (e.g. \"contact\", \"company\", \"opportunity\").",
+            "type": "string"
+          },
+          "fieldSchemaCustomization": {
+            "$ref": "#/components/schemas/v1FieldSchemaCustomization"
+          },
+          "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) the customization applies to.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "namespace",
+          "crmObjectType",
+          "fieldSchemaCustomization"
+        ],
+        "title": "Create Field Schema Customization Request",
+        "type": "object"
+      },
       "v1CreatePipelineRequest": {
         "properties": {
           "pipeline": {
@@ -460,6 +483,30 @@
         },
         "type": "object"
       },
+      "v1DeleteFieldSchemaCustomizationRequest": {
+        "description": "Request to delete a field schema customization for a specific field on a CRM object type within a namespace.",
+        "properties": {
+          "crmObjectType": {
+            "description": "Required. The CRM object type the field belongs to (e.g. \"contact\", \"company\", \"opportunity\").",
+            "type": "string"
+          },
+          "fieldId": {
+            "description": "Required. The field ID whose customization should be deleted.",
+            "type": "string"
+          },
+          "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) the customization applies to.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "namespace",
+          "crmObjectType",
+          "fieldId"
+        ],
+        "title": "Delete Field Schema Customization Request",
+        "type": "object"
+      },
       "v1DeletePipelineRequest": {
         "properties": {
           "namespace": {
@@ -551,6 +598,36 @@
           "updated": {
             "format": "date-time",
             "title": "Timestamp of the last update of the schema",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1FieldSchemaCustomization": {
+        "properties": {
+          "created": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "fieldId": {
+            "type": "string"
+          },
+          "namespace": {
+            "description": "For create or update requests, this should be omitted.",
+            "type": "string"
+          },
+          "restrictedFieldValues": {
+            "items": {
+              "$ref": "#/components/schemas/v1FieldValue"
+            },
+            "type": "array"
+          },
+          "updated": {
+            "format": "date-time",
             "type": "string"
           }
         },
@@ -894,6 +971,47 @@
             "type": "array"
           }
         },
+        "type": "object"
+      },
+      "v1GetMultiFieldSchemaCustomizationRequest": {
+        "description": "Request to retrieve field schema customizations for the specified fields on a CRM object type within a namespace.",
+        "properties": {
+          "crmObjectType": {
+            "description": "Required. The CRM object type the fields belong to (e.g. \"contact\", \"company\", \"opportunity\").",
+            "type": "string"
+          },
+          "fieldId": {
+            "description": "Required. The field IDs whose customizations should be retrieved.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) to look up customizations for.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "namespace",
+          "crmObjectType",
+          "fieldId"
+        ],
+        "title": "Get Multi Field Schema Customization Request",
+        "type": "object"
+      },
+      "v1GetMultiFieldSchemaCustomizationResponse": {
+        "description": "Response containing the requested field schema customizations.",
+        "properties": {
+          "fieldSchemaCustomizations": {
+            "description": "The field schema customizations that were found. Fields without a customization are omitted.",
+            "items": {
+              "$ref": "#/components/schemas/v1FieldSchemaCustomization"
+            },
+            "type": "array"
+          }
+        },
+        "title": "Get Multi Field Schema Customization Response",
         "type": "object"
       },
       "v1GetMultiPipelineRequest": {
@@ -1428,6 +1546,32 @@
         },
         "type": "object"
       },
+      "v1UpdateFieldSchemaCustomizationRequest": {
+        "description": "Request to update an existing field schema customization on a CRM object type within a namespace.",
+        "properties": {
+          "crmObjectType": {
+            "description": "Required. The CRM object type the field belongs to (e.g. \"contact\", \"company\", \"opportunity\").",
+            "type": "string"
+          },
+          "fieldMask": {
+            "$ref": "#/components/schemas/vendastatypesFieldMask"
+          },
+          "fieldSchemaCustomization": {
+            "$ref": "#/components/schemas/v1FieldSchemaCustomization"
+          },
+          "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) the customization applies to.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "namespace",
+          "crmObjectType",
+          "fieldSchemaCustomization"
+        ],
+        "title": "Update Field Schema Customization Request",
+        "type": "object"
+      },
       "v1UpdatePipelineRequest": {
         "properties": {
           "fieldMask": {
@@ -1546,6 +1690,7 @@
               "crm.custom-object:read": "Allows the application view-only access to CRM custom objects",
               "crm.opportunity": "Allows the application to manage your CRM opportunities",
               "crm.opportunity:read": "Allows the application view-only access to CRM opportunities",
+              "crm.schema": "Allows the application to manage your CRM object schemas",
               "crm.schema:read": "Allows the application view-only access to CRM object schemas"
             },
             "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
@@ -3003,6 +3148,206 @@
         ]
       }
     },
+    "/v1/crm/field-schema-customization/create": {
+      "post": {
+        "operationId": "CRMFieldSchemaCustomizationService_CreateFieldSchemaCustomization",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1CreateFieldSchemaCustomizationRequest"
+              }
+            }
+          },
+          "description": "Request to create a field schema customization, which restricts the allowed values for a specific field on a CRM object type within a namespace.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "crm",
+              "crm.schema"
+            ]
+          }
+        ],
+        "summary": "Create Field Schema Customization",
+        "tags": [
+          "CRMFieldSchemaCustomizationService"
+        ]
+      }
+    },
+    "/v1/crm/field-schema-customization/delete": {
+      "post": {
+        "operationId": "CRMFieldSchemaCustomizationService_DeleteFieldSchemaCustomization",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1DeleteFieldSchemaCustomizationRequest"
+              }
+            }
+          },
+          "description": "Request to delete a field schema customization for a specific field on a CRM object type within a namespace.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "crm",
+              "crm.schema"
+            ]
+          }
+        ],
+        "summary": "Delete Field Schema Customization",
+        "tags": [
+          "CRMFieldSchemaCustomizationService"
+        ]
+      }
+    },
+    "/v1/crm/field-schema-customization/get-multi": {
+      "post": {
+        "operationId": "CRMFieldSchemaCustomizationService_GetMultiFieldSchemaCustomization",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetMultiFieldSchemaCustomizationRequest"
+              }
+            }
+          },
+          "description": "Request to retrieve field schema customizations for the specified fields on a CRM object type within a namespace.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetMultiFieldSchemaCustomizationResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "crm",
+              "crm.schema:read"
+            ]
+          }
+        ],
+        "summary": "Get Multi Field Schema Customization",
+        "tags": [
+          "CRMFieldSchemaCustomizationService"
+        ]
+      }
+    },
+    "/v1/crm/field-schema-customization/update": {
+      "post": {
+        "operationId": "CRMFieldSchemaCustomizationService_UpdateFieldSchemaCustomization",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1UpdateFieldSchemaCustomizationRequest"
+              }
+            }
+          },
+          "description": "Request to update an existing field schema customization on a CRM object type within a namespace.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "crm",
+              "crm.schema"
+            ]
+          }
+        ],
+        "summary": "Update Field Schema Customization",
+        "tags": [
+          "CRMFieldSchemaCustomizationService"
+        ]
+      }
+    },
     "/v1/crm/field-schema/list": {
       "post": {
         "operationId": "CRMFieldSchemaService_ListFieldSchema",
@@ -3590,6 +3935,9 @@
     },
     {
       "name": "CRMFieldSchemaService"
+    },
+    {
+      "name": "CRMFieldSchemaCustomizationService"
     },
     {
       "name": "Pipelines"

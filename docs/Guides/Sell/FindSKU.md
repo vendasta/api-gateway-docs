@@ -4,7 +4,7 @@ We currently only support creating orders for products that don't include order 
 
 Variably priced products are also not currently able to be activated over API.
 
->Not all skus will map to elgible service provider ids for SSO. Please coordinate with your vendasta integration representative for service provider ids. 
+>Not all skus will map to elgible service provider ids for SSO. Please coordinate with your Vendasta integration representative for service provider ids. 
 
 **The SKU is typically different between the demo and production environments so be sure to use the correct values.**
 

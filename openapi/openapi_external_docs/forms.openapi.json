@@ -405,6 +405,9 @@
             "title": "namespace basically tells who owns this form",
             "type": "string"
           },
+          "recaptchaEnterprise": {
+            "$ref": "#/components/schemas/v1RecaptchaEnterpriseConfig"
+          },
           "recaptchaSecretKey": {
             "description": "This will be redacted but non-empty when retrieving an existing form.\nAn empty value indicates the form was created before we started\nadding recaptcha, and a value must be provided in order to update the form.",
             "type": "string"
@@ -672,6 +675,25 @@
           },
           "multiSelection": {
             "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "v1RecaptchaEnterpriseConfig": {
+        "properties": {
+          "apiKey": {
+            "description": "Redacted (non-empty sentinel) when retrieving an existing form.",
+            "type": "string"
+          },
+          "managed": {
+            "description": "When true, uses platform-level credentials instead of per-form BYO keys.",
+            "type": "boolean"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "siteKey": {
+            "type": "string"
           }
         },
         "type": "object"

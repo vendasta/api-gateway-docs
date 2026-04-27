@@ -521,6 +521,14 @@
         "title": "returns the most recent version of FormConfig for a specific form_id",
         "type": "object"
       },
+      "v1HasEnterpriseAPIKeyInNamespaceResponse": {
+        "properties": {
+          "hasApiKey": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
       "v1ListFormsRequest": {
         "properties": {
           "filters": {
@@ -675,6 +683,28 @@
           },
           "multiSelection": {
             "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "v1ProvisionRecaptchaEnterpriseRequest": {
+        "properties": {
+          "domain": {
+            "description": "The domain to register in the reCAPTCHA Enterprise site (e.g. \"example.com\").",
+            "type": "string"
+          },
+          "formId": {
+            "description": "The ID of the form to provision reCAPTCHA Enterprise for.\nEach form gets its own reCAPTCHA Enterprise site so different forms\nunder the same namespace can have different domains.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ProvisionRecaptchaEnterpriseResponse": {
+        "properties": {
+          "siteKey": {
+            "description": "The site key of the provisioned reCAPTCHA Enterprise site.",
+            "type": "string"
           }
         },
         "type": "object"
@@ -1124,6 +1154,54 @@
         ]
       }
     },
+    "/v1/forms/has-enterprise-api-key": {
+      "get": {
+        "operationId": "Forms_HasEnterpriseAPIKeyInNamespace",
+        "parameters": [
+          {
+            "description": "The namespace to check for an enterprise reCAPTCHA API key.",
+            "in": "query",
+            "name": "namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1HasEnterpriseAPIKeyInNamespaceResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "business-app"
+            ]
+          }
+        ],
+        "summary": "Has Enterprise API Key In Namespace",
+        "tags": [
+          "Forms"
+        ]
+      }
+    },
     "/v1/forms/list": {
       "post": {
         "operationId": "Forms_ListForms",
@@ -1216,6 +1294,54 @@
           }
         ],
         "summary": "List Mapped Field Schema",
+        "tags": [
+          "Forms"
+        ]
+      }
+    },
+    "/v1/forms/provision-recaptcha-enterprise": {
+      "post": {
+        "operationId": "Forms_ProvisionRecaptchaEnterprise",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ProvisionRecaptchaEnterpriseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ProvisionRecaptchaEnterpriseResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "business-app"
+            ]
+          }
+        ],
+        "summary": "Provision reCAPTCHA Enterprise",
         "tags": [
           "Forms"
         ]

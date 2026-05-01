@@ -151,6 +151,34 @@
         },
         "type": "object"
       },
+      "v1ArchiveFieldSchemaRequest": {
+        "description": "Request to archive a field schema. Archived schemas are hidden from default list responses and are not used when reading or writing CRM objects, but their historical values on existing CRM objects are preserved.",
+        "properties": {
+          "crmObjectSubtype": {
+            "description": "Optional. The custom object subtype the field belongs to. Only used when `crm_object_type` refers to a custom object type that defines subtypes.",
+            "type": "string"
+          },
+          "crmObjectType": {
+            "description": "Required. The CRM object type the field belongs to. Valid values include \"Contact\", \"Activity\", \"Company\", \"Opportunity\", \"PotentialContact\", and the ID of any custom object type.",
+            "type": "string"
+          },
+          "fieldId": {
+            "description": "Required. The ID of the field schema to archive.",
+            "type": "string"
+          },
+          "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) the field schema belongs to.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "namespace",
+          "crmObjectType",
+          "fieldId"
+        ],
+        "title": "Archive Field Schema Request",
+        "type": "object"
+      },
       "v1Association": {
         "properties": {
           "associationId": {
@@ -292,6 +320,44 @@
           "fieldSchemaCustomization"
         ],
         "title": "Create Field Schema Customization Request",
+        "type": "object"
+      },
+      "v1CreateFieldSchemaRequest": {
+        "description": "Request to create a new custom field schema on a CRM object type within a namespace.",
+        "properties": {
+          "crmObjectSubtype": {
+            "description": "Optional. The custom object subtype the field belongs to. Only used when `crm_object_type` refers to a custom object type that defines subtypes.",
+            "type": "string"
+          },
+          "crmObjectType": {
+            "description": "Required. The CRM object type the field belongs to. Valid values include \"Contact\", \"Activity\", \"Company\", \"Opportunity\", \"PotentialContact\", and the ID of any custom object type.",
+            "type": "string"
+          },
+          "fieldSchema": {
+            "$ref": "#/components/schemas/v1FieldSchema"
+          },
+          "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) the new field schema will belong to.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "namespace",
+          "crmObjectType",
+          "fieldSchema"
+        ],
+        "title": "Create Field Schema Request",
+        "type": "object"
+      },
+      "v1CreateFieldSchemaResponse": {
+        "description": "Response containing the identifier of the newly created field schema.",
+        "properties": {
+          "fieldId": {
+            "description": "The unique identifier of the newly created field schema. Use this value to reference the field on subsequent CRM object create/update requests and on `UpdateFieldSchema`, `ArchiveFieldSchema`, and `GetMultiFieldSchema` calls.",
+            "type": "string"
+          }
+        },
+        "title": "Create Field Schema Response",
         "type": "object"
       },
       "v1CreatePipelineRequest": {
@@ -523,84 +589,92 @@
       "v1DropdownOption": {
         "properties": {
           "label": {
-            "title": "Human readable value of the option",
+            "description": "The human-readable label displayed for this option in the partner UI.",
             "type": "string"
           },
           "value": {
-            "title": "Value of the option",
+            "description": "The stored value written to the CRM object when this option is selected.",
             "type": "string"
           }
         },
         "type": "object"
       },
       "v1FieldSchema": {
+        "description": "Defines a field on a CRM object type. Field schemas describe the type, label, and validation rules for both built-in fields (provided by Vendasta) and partner-defined custom fields.",
         "properties": {
           "archived": {
+            "description": "Output only. Set when the schema has been archived via `ArchiveFieldSchema`. Absent on non-archived schemas.",
             "format": "date-time",
-            "title": "If this schema was archived, this will have a value",
+            "readOnly": true,
             "type": "string"
           },
           "created": {
+            "description": "Output only. The time the schema was created.",
             "format": "date-time",
-            "title": "Timestamp of the creation of the schema",
+            "readOnly": true,
             "type": "string"
           },
           "crmObjectSubtype": {
-            "title": "Subtype of the object that contains the field, only used for responses, ignoring it on requests",
+            "description": "Output only. The custom object subtype the field belongs to. Set by the service from the request `crm_object_subtype`; ignored on Create and Update.",
+            "readOnly": true,
             "type": "string"
           },
           "crmObjectType": {
-            "title": "Type of the object that contains the field, only used for responses, ignoring it on requests",
+            "description": "Output only. The CRM object type the field belongs to. Set by the service from the request `crm_object_type`; ignored on Create and Update.",
+            "readOnly": true,
             "type": "string"
           },
           "currencyCode": {
-            "title": "ISO 4217 currency code",
+            "description": "Optional. The ISO 4217 currency code (e.g. \"USD\", \"EUR\", \"CAD\") used when `field_type` is `FIELD_TYPE_CURRENCY`. Ignored for other field types.",
             "type": "string"
           },
           "dropdownOptions": {
+            "description": "Optional. The set of allowed values when `field_type` is `FIELD_TYPE_DROPDOWN`. Ignored for other field types.",
             "items": {
               "$ref": "#/components/schemas/v1DropdownOption"
             },
-            "title": "Options of values for the field (dropdown or constrained strings)",
             "type": "array"
           },
           "externalId": {
-            "title": "Alternative identifier for the field, not required",
+            "description": "Optional. A partner-defined alternate identifier for this field, used to map an external system's field name onto this schema. Has no effect on Vendasta storage or validation.",
             "type": "string"
           },
           "fieldDescription": {
-            "description": "Description of the field\nThis description should indicate when the field requires values from the dropdown_options list.",
+            "description": "Optional. The display description of the field shown in the partner UI. For dropdown fields, this should indicate which values from `dropdown_options` are valid.",
             "type": "string"
           },
           "fieldId": {
-            "title": "Identifier of the field",
+            "description": "The unique identifier of the field schema. Required on `UpdateFieldSchema` to identify the schema being updated. On `CreateFieldSchema` it is auto-assigned by the service and must be omitted on the request.",
             "type": "string"
           },
           "fieldName": {
-            "title": "Name of the field",
+            "description": "Required on Create. The display name of the field shown in the partner UI.",
             "type": "string"
           },
           "fieldType": {
             "$ref": "#/components/schemas/v1FieldType"
           },
           "namespace": {
-            "title": "Namespace can be either a PID or an AGID",
+            "description": "Output only. The namespace (partner ID or account group ID) the schema belongs to. Set by the service from the request namespace; ignored on Create and Update.",
+            "readOnly": true,
             "type": "string"
           },
           "readonly": {
-            "title": "Flag to signal if this field cannot be updated by the user or not",
+            "description": "Optional. When true, the value of this field on CRM objects cannot be modified by API or UI callers (the field is treated as system-managed). Default false.",
             "type": "boolean"
           },
           "skipAutomation": {
-            "title": "Flag to signal if automations should not handle changes on objects when this field is changed",
+            "description": "Optional. When true, value changes to this field on a CRM object will not trigger automations. Default false.",
             "type": "boolean"
           },
           "updated": {
+            "description": "Output only. The time the schema was last updated.",
             "format": "date-time",
-            "title": "Timestamp of the last update of the schema",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Field Schema",
         "type": "object"
       },
       "v1FieldSchemaCustomization": {
@@ -1014,6 +1088,55 @@
         "title": "Get Multi Field Schema Customization Response",
         "type": "object"
       },
+      "v1GetMultiFieldSchemaRequest": {
+        "description": "Request to retrieve multiple field schemas by ID for a CRM object type within a namespace.",
+        "properties": {
+          "crmObjectSubtype": {
+            "description": "Optional. The custom object subtype the fields belong to. Only used when `crm_object_type` refers to a custom object type that defines subtypes.",
+            "type": "string"
+          },
+          "crmObjectType": {
+            "description": "Required. The CRM object type the fields belong to. Valid values include \"Contact\", \"Activity\", \"Company\", \"Opportunity\", \"PotentialContact\", and the ID of any custom object type.",
+            "type": "string"
+          },
+          "fieldId": {
+            "description": "Required. The IDs of the field schemas to retrieve. The response returns one entry per requested ID, in the same order; entries for IDs that were not found are returned as empty `FieldSchema` messages.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "locale": {
+            "description": "Optional. The locale used to translate built-in field labels and descriptions. Examples: \"af\", \"cs\", \"de\", \"en\", \"es-419\", \"fr\", \"it\", \"nl\", \"pt\", \"ru\". If omitted, the default locale is used.",
+            "type": "string"
+          },
+          "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) the field schemas belong to.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "namespace",
+          "crmObjectType",
+          "fieldId"
+        ],
+        "title": "Get Multi Field Schema Request",
+        "type": "object"
+      },
+      "v1GetMultiFieldSchemaResponse": {
+        "description": "Response containing the requested field schemas.",
+        "properties": {
+          "fieldSchemas": {
+            "description": "The retrieved field schemas, returned in the same order as the request `field_id` list. If an ID is not found, an empty `FieldSchema` (with no `field_id` set) is returned at that position so that response entries align positionally with the requested IDs.",
+            "items": {
+              "$ref": "#/components/schemas/v1FieldSchema"
+            },
+            "type": "array"
+          }
+        },
+        "title": "Get Multi Field Schema Response",
+        "type": "object"
+      },
       "v1GetMultiPipelineRequest": {
         "properties": {
           "namespace": {
@@ -1221,47 +1344,59 @@
         "type": "object"
       },
       "v1ListFieldSchemaRequest": {
+        "description": "Request to list field schemas for a CRM object type within a namespace, optionally filtered by subtype, namespace, archive status, or search term.",
         "properties": {
           "crmObjectSubtype": {
+            "description": "Optional. The custom object subtype to filter by. Only used when `crm_object_type` refers to a custom object type that defines subtypes.",
             "type": "string"
           },
           "crmObjectType": {
+            "description": "Optional. The CRM object type to filter by. Valid values include \"Contact\", \"Activity\", \"Company\", \"Opportunity\", \"PotentialContact\", and the ID of any custom object type. If omitted, schemas across all object types are returned.",
             "type": "string"
           },
           "filters": {
             "$ref": "#/components/schemas/v1ListFieldSchemaRequestFilters"
           },
           "locale": {
-            "title": "locale of the user such as \"af\", \"cs\", \"de\", \"en\", \"es-419\", \"fr\", \"it\", \"nl\", \"pt\", \"ru\"",
+            "description": "Optional. The locale used to translate built-in field labels and descriptions. Examples: \"af\", \"cs\", \"de\", \"en\", \"es-419\", \"fr\", \"it\", \"nl\", \"pt\", \"ru\". If omitted, the default locale is used.",
             "type": "string"
           },
           "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) to list field schemas for. Inherited schemas from field extensions and built-ins are included unless `filters.namespace` narrows them.",
             "type": "string"
           },
           "pagingOptions": {
             "$ref": "#/components/schemas/vendastatypesPagedRequestOptions"
           },
           "searchTerm": {
+            "description": "Optional. Case-insensitive substring matched against the field name and description. If omitted, no search filter is applied.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace"
+        ],
+        "title": "List Field Schema Request",
         "type": "object"
       },
       "v1ListFieldSchemaRequestFilters": {
         "properties": {
           "namespace": {
-            "description": "The namespace may be used to filter the results for specific namespaces that are included automatically or through field extensions.",
+            "description": "Optional. Restricts results to schemas owned by this specific namespace. Useful when the calling namespace inherits schemas from multiple sources (built-ins or field extensions) and you want only one source.",
             "type": "string"
           },
           "onlyArchived": {
+            "description": "Optional. When true, only archived field schemas are returned. When false or omitted, only non-archived schemas are returned.",
             "type": "boolean"
           }
         },
         "type": "object"
       },
       "v1ListFieldSchemaResponse": {
+        "description": "Response containing a page of field schemas that match the request criteria.",
         "properties": {
           "fieldSchemas": {
+            "description": "The field schemas that match the request criteria for this page.",
             "items": {
               "$ref": "#/components/schemas/v1FieldSchema"
             },
@@ -1271,6 +1406,7 @@
             "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
           }
         },
+        "title": "List Field Schema Response",
         "type": "object"
       },
       "v1ListFiltersRequest": {
@@ -1570,6 +1706,37 @@
           "fieldSchemaCustomization"
         ],
         "title": "Update Field Schema Customization Request",
+        "type": "object"
+      },
+      "v1UpdateFieldSchemaRequest": {
+        "description": "Request to update an existing custom field schema. Only fields named in the field mask are modified. The CRM object type and subtype of an existing schema cannot be changed.",
+        "properties": {
+          "crmObjectSubtype": {
+            "description": "Optional. The custom object subtype the field belongs to. Only used when `crm_object_type` refers to a custom object type that defines subtypes.",
+            "type": "string"
+          },
+          "crmObjectType": {
+            "description": "Required. The CRM object type the field belongs to. Valid values include \"Contact\", \"Activity\", \"Company\", \"Opportunity\", \"PotentialContact\", and the ID of any custom object type.",
+            "type": "string"
+          },
+          "fieldMask": {
+            "$ref": "#/components/schemas/vendastatypesFieldMask"
+          },
+          "fieldSchema": {
+            "$ref": "#/components/schemas/v1FieldSchema"
+          },
+          "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) the field schema belongs to.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "namespace",
+          "crmObjectType",
+          "fieldSchema",
+          "fieldMask"
+        ],
+        "title": "Update Field Schema Request",
         "type": "object"
       },
       "v1UpdatePipelineRequest": {
@@ -3348,6 +3515,156 @@
         ]
       }
     },
+    "/v1/crm/field-schema/archive": {
+      "post": {
+        "operationId": "CRMFieldSchemaService_ArchiveFieldSchema",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ArchiveFieldSchemaRequest"
+              }
+            }
+          },
+          "description": "Request to archive a field schema. Archived schemas are hidden from default list responses and are not used when reading or writing CRM objects, but their historical values on existing CRM objects are preserved.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "crm",
+              "crm.schema"
+            ]
+          }
+        ],
+        "summary": "Archive Field Schema",
+        "tags": [
+          "CRMFieldSchemaService"
+        ]
+      }
+    },
+    "/v1/crm/field-schema/create": {
+      "post": {
+        "operationId": "CRMFieldSchemaService_CreateFieldSchema",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1CreateFieldSchemaRequest"
+              }
+            }
+          },
+          "description": "Request to create a new custom field schema on a CRM object type within a namespace.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1CreateFieldSchemaResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "crm",
+              "crm.schema"
+            ]
+          }
+        ],
+        "summary": "Create Field Schema",
+        "tags": [
+          "CRMFieldSchemaService"
+        ]
+      }
+    },
+    "/v1/crm/field-schema/get-multi": {
+      "post": {
+        "operationId": "CRMFieldSchemaService_GetMultiFieldSchema",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetMultiFieldSchemaRequest"
+              }
+            }
+          },
+          "description": "Request to retrieve multiple field schemas by ID for a CRM object type within a namespace.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetMultiFieldSchemaResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "crm",
+              "crm.schema:read"
+            ]
+          }
+        ],
+        "summary": "Get Multi Field Schema",
+        "tags": [
+          "CRMFieldSchemaService"
+        ]
+      }
+    },
     "/v1/crm/field-schema/list": {
       "post": {
         "operationId": "CRMFieldSchemaService_ListFieldSchema",
@@ -3359,6 +3676,7 @@
               }
             }
           },
+          "description": "Request to list field schemas for a CRM object type within a namespace, optionally filtered by subtype, namespace, archive status, or search term.",
           "required": true
         },
         "responses": {
@@ -3392,6 +3710,56 @@
           }
         ],
         "summary": "List Field Schema",
+        "tags": [
+          "CRMFieldSchemaService"
+        ]
+      }
+    },
+    "/v1/crm/field-schema/update": {
+      "post": {
+        "operationId": "CRMFieldSchemaService_UpdateFieldSchema",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1UpdateFieldSchemaRequest"
+              }
+            }
+          },
+          "description": "Request to update an existing custom field schema. Only fields named in the field mask are modified. The CRM object type and subtype of an existing schema cannot be changed.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "crm",
+              "crm.schema"
+            ]
+          }
+        ],
+        "summary": "Update Field Schema",
         "tags": [
           "CRMFieldSchemaService"
         ]

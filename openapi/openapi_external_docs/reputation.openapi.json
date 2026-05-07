@@ -219,6 +219,35 @@
         },
         "type": "object"
       },
+      "v1GetNetPromoterScoreDetailsRequest": {
+        "properties": {
+          "netPromoterScoreId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "netPromoterScoreId"
+        ],
+        "type": "object"
+      },
+      "v1GetNetPromoterScoreDetailsResponse": {
+        "properties": {
+          "npsRedirectReviewSource": {
+            "description": "Whether to redirect to the review source when score \u003e= nps_redirect_threshold.",
+            "type": "boolean"
+          },
+          "npsRedirectThreshold": {
+            "description": "Effective redirect threshold (6–10). Server resolves unset/invalid stored values to the default before returning.",
+            "format": "int64",
+            "type": "string"
+          },
+          "reviewSourceId": {
+            "description": "The review source ID to redirect to.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "v1GetReviewMetricsRequest": {
         "properties": {
           "maxDateTime": {
@@ -1729,6 +1758,47 @@
           }
         },
         "summary": "Leave Net Promoter Score",
+        "tags": [
+          "NetPromoterScoreService"
+        ]
+      }
+    },
+    "/v1/reputation/nps/get-details": {
+      "post": {
+        "operationId": "NetPromoterScoreService_GetNetPromoterScoreDetails",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetNetPromoterScoreDetailsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetNetPromoterScoreDetailsResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "summary": "Get NPS redirect details",
         "tags": [
           "NetPromoterScoreService"
         ]

@@ -258,6 +258,14 @@ paths:
           in: query
           name: 'filter[id]'
           description: 'Return accounts for given ids. For this filter ,We are not supporting pagination.'
+        - schema:
+            type: string
+            example: 'Acme Plumbing'
+          in: query
+          name: 'filter[searchTerm]'
+          description: |-
+            Performs a full-text search across business location data (such as name, phone numbers, and address). The results order is not affected by the quality of this match — use `sort` to control ordering.
+            Cannot be combined with `filter[id]`; the request will be rejected if both are provided.
       security:
         - OAuth2Demo:
             - business

@@ -303,7 +303,15 @@
         "type": "object"
       },
       "v1GetAvailableMetricsRequest": {
-        "description": "Request for GetAvailableMetrics. No parameters required.\nReturns the full catalog of queryable metrics with their schemas.",
+        "description": "Request for GetAvailableMetrics. Requires at least one ResourceId, which scopes the\nreturned catalog to the audience tier appropriate for that resource.",
+        "properties": {
+          "resourceIds": {
+            "items": {
+              "$ref": "#/components/schemas/v1ResourceId"
+            },
+            "type": "array"
+          }
+        },
         "type": "object"
       },
       "v1GetAvailableMetricsResponse": {
@@ -733,7 +741,7 @@
   "paths": {
     "/v1/multi-location-analytics/available-metrics": {
       "post": {
-        "description": "IMPORTANT: Always call this first before calling QueryMetrics. The response tells you:\n- Valid metric_name values to use in QueryMetrics\n- Available measures for each metric (usable in QueryMetricsRequest.measures)\n- Available dimensions for each metric (usable in QueryMetricsRequest.group_by and filter)\n- The time field used for date range filtering and alignment\n\nThe response is not scoped to a partner — it returns the global set of available metrics.\nSome metrics may return empty results for a given partner if no data exists.",
+        "description": "The catalog is filtered by audience tier derived from the resource shape:\n  - BusinessResourceId or JWTResourceId -\u003e SMB-tier only\n  - GroupResourceId, MarketId, or SalesTeam -\u003e SMB + Partner tiers\n\nMixing Business with Market/Group/SalesTeam in one request returns InvalidArgument.",
         "operationId": "AnalyticsService_GetAvailableMetrics",
         "requestBody": {
           "content": {
@@ -743,7 +751,7 @@
               }
             }
           },
-          "description": "Request for GetAvailableMetrics. No parameters required.\nReturns the full catalog of queryable metrics with their schemas.",
+          "description": "Request for GetAvailableMetrics. Requires at least one ResourceId, which scopes the\nreturned catalog to the audience tier appropriate for that resource.",
           "required": true
         },
         "responses": {

@@ -9,6 +9,7 @@
             }
           }
         },
+        "description": "Request to create a new CRM object (contact, company, opportunity, or custom object) within a namespace.",
         "required": true
       },
       "v1DeleteCrmObjectRequest": {
@@ -19,6 +20,7 @@
             }
           }
         },
+        "description": "Request to soft-delete a CRM object within a namespace.",
         "required": true
       },
       "v1GetMultiCrmObjectRequest": {
@@ -29,6 +31,7 @@
             }
           }
         },
+        "description": "Request to retrieve multiple CRM objects by their IDs within a namespace.",
         "required": true
       },
       "v1ListCrmObjectsRequest": {
@@ -39,6 +42,7 @@
             }
           }
         },
+        "description": "Request to list CRM objects within a namespace, with optional filtering, sorting, and pagination.",
         "required": true
       },
       "v1ListFieldOptionsRequest": {
@@ -49,6 +53,7 @@
             }
           }
         },
+        "description": "Request to list the valid values for a string-based field type on a CRM object.",
         "required": true
       },
       "v1UpdateCrmObjectRequest": {
@@ -59,6 +64,7 @@
             }
           }
         },
+        "description": "Request to update an existing CRM object within a namespace. Use the field mask to specify which fields to update.",
         "required": true
       }
     },
@@ -76,14 +82,16 @@
       "ValidateCrmObjectResponseUniquenessCheck": {
         "properties": {
           "existingCrmObjectIds": {
+            "description": "Output only. The IDs of existing CRM objects that share the same value for this field.",
             "items": {
               "type": "string"
             },
-            "title": "List of IDs of objects that share the same value of the field",
+            "readOnly": true,
             "type": "array"
           },
           "fieldId": {
-            "title": "Id of the field that is restricted to be unique",
+            "description": "Output only. The identifier of the field that is restricted to be unique.",
+            "readOnly": true,
             "type": "string"
           },
           "uniqueness": {
@@ -95,10 +103,11 @@
       "ValidateCrmObjectResponseValidationErrorDetails": {
         "properties": {
           "fieldIds": {
+            "description": "Output only. The field IDs associated with this validation error.",
             "items": {
               "type": "string"
             },
-            "title": "list of fields with validation errors",
+            "readOnly": true,
             "type": "array"
           },
           "uniquenessCheck": {
@@ -119,6 +128,7 @@
       "crmv1Tag": {
         "properties": {
           "tagValue": {
+            "description": "Required. The tag value string.",
             "type": "string"
           }
         },
@@ -180,123 +190,174 @@
         "type": "object"
       },
       "v1Association": {
+        "description": "Represents a directional link between two CRM objects, such as a contact-to-company or opportunity-to-contact relationship.",
         "properties": {
           "associationId": {
+            "description": "Output only. The unique identifier of this association.",
+            "readOnly": true,
             "type": "string"
           },
           "associationType": {
+            "description": "Required. The type of association (e.g. \"contact_to_company\", \"opportunity_to_contact\"). Determines the relationship semantics.",
             "type": "string"
           },
           "created": {
+            "description": "Output only. The time the association was created.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "deleted": {
+            "description": "Output only. The time the association was soft-deleted. Zero value if the association has not been deleted.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "fromCrmObjectSubtype": {
-            "title": "these properties are only needed for\nassociations that include custom object types",
+            "description": "Optional. The custom object subtype of the source CRM object. Only needed when the source is a custom object type.",
             "type": "string"
           },
           "fromId": {
+            "description": "Required. The CRM object ID on the source side of the association.",
             "type": "string"
           },
           "tags": {
+            "description": "Optional. Tags attached to this association for categorization.",
             "items": {
               "$ref": "#/components/schemas/crmv1Tag"
             },
             "type": "array"
           },
           "toCrmObjectSubtype": {
+            "description": "Optional. The custom object subtype of the target CRM object. Only needed when the target is a custom object type.",
             "type": "string"
           },
           "toId": {
+            "description": "Required. The CRM object ID on the target side of the association.",
             "type": "string"
           },
           "updated": {
+            "description": "Output only. The time the association was last updated.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Association",
         "type": "object"
       },
       "v1BulkDeleteCrmObjectsRequest": {
+        "description": "Request to bulk-delete CRM objects matching the specified filters within a namespace.",
         "properties": {
           "crmObjectSubtype": {
+            "description": "Optional. The custom object subtype to restrict deletion to. Only relevant for custom object types.",
             "type": "string"
           },
           "filters": {
             "$ref": "#/components/schemas/v1FilterGroup"
           },
           "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) to delete objects from.",
             "type": "string"
           },
           "search": {
             "$ref": "#/components/schemas/v1CrmObjectSearch"
           }
         },
+        "required": [
+          "namespace"
+        ],
+        "title": "Bulk Delete CRM Objects Request",
         "type": "object"
       },
       "v1CreateAssociationRequest": {
+        "description": "Request to create a new association between two CRM objects within a namespace.",
         "properties": {
           "association": {
             "$ref": "#/components/schemas/v1Association"
           },
           "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) the association belongs to.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace",
+          "association"
+        ],
+        "title": "Create Association Request",
         "type": "object"
       },
       "v1CreateAssociationResponse": {
+        "description": "Response containing the identifier of the newly created association.",
         "properties": {
           "associationId": {
+            "description": "Output only. The unique identifier of the newly created association.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Create Association Response",
         "type": "object"
       },
       "v1CreateCrmObjectRequest": {
+        "description": "Request to create a new CRM object (contact, company, opportunity, or custom object) within a namespace.",
         "properties": {
           "crmObject": {
             "$ref": "#/components/schemas/v1CrmObject"
           },
           "namespace": {
-            "title": "Namespace can be either a PID or an AGID",
+            "description": "Required. The namespace (partner ID or account group ID) the object belongs to.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace",
+          "crmObject"
+        ],
+        "title": "Create CRM Object Request",
         "type": "object"
       },
       "v1CreateCrmObjectResponse": {
+        "description": "Response containing the identifier of the newly created CRM object.",
         "properties": {
           "crmObjectId": {
-            "title": "The identifier of the object created",
+            "description": "Output only. The unique identifier of the newly created CRM object.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Create CRM Object Response",
         "type": "object"
       },
       "v1CreateCustomObjectTypeRequest": {
+        "description": "Request to create a new custom object type within a namespace.",
         "properties": {
           "customObjectType": {
             "$ref": "#/components/schemas/v1CustomObjectType"
           },
           "namespace": {
-            "title": "Namespace can be either a PID or an AGID",
+            "description": "Required. The namespace (partner ID or account group ID) the custom object type will belong to.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace",
+          "customObjectType"
+        ],
+        "title": "Create Custom Object Type Request",
         "type": "object"
       },
       "v1CreateCustomObjectTypeResponse": {
+        "description": "Response containing the identifier of the newly created custom object type.",
         "properties": {
           "customObjectTypeId": {
-            "title": "The identifier of the custom object type created",
+            "description": "Output only. The unique identifier of the newly created custom object type.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Create Custom Object Type Response",
         "type": "object"
       },
       "v1CreateFieldSchemaCustomizationRequest": {
@@ -361,75 +422,89 @@
         "type": "object"
       },
       "v1CreatePipelineRequest": {
+        "description": "Request to create a new pipeline within a namespace.",
         "properties": {
           "pipeline": {
             "$ref": "#/components/schemas/v1Pipeline"
           }
         },
+        "required": [
+          "pipeline"
+        ],
+        "title": "Create Pipeline Request",
         "type": "object"
       },
       "v1CreatePipelineResponse": {
+        "description": "Response containing the identifier of the newly created pipeline.",
         "properties": {
           "pipelineId": {
-            "title": "The identifier of the pipeline created",
+            "description": "Output only. The unique identifier of the newly created pipeline.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Create Pipeline Response",
         "type": "object"
       },
       "v1CrmObject": {
+        "description": "Represents a CRM record such as a contact, company, opportunity, or custom object. Contains the object's field values, metadata, and system-managed timestamps.",
         "properties": {
           "created": {
+            "description": "Output only. The time the object was created.",
             "format": "date-time",
-            "title": "When the object was created",
+            "readOnly": true,
             "type": "string"
           },
           "crmObjectId": {
-            "title": "The identifier of the object",
+            "description": "The unique identifier of the CRM object. Assigned by the system on create; must be provided on update.",
             "type": "string"
           },
           "crmObjectSubtype": {
-            "title": "Some kind of objects have subtypes, this is used mainly by custom objects",
+            "description": "Optional. The subtype of the CRM object, used primarily by custom objects to differentiate between subtypes.",
             "type": "string"
           },
           "deleted": {
-            "description": "CRM do only soft delete of its objects. If the object was deleted, this is when it was deleted, otherwise it is time zero.",
+            "description": "Output only. The time the object was soft-deleted. Zero value if the object has not been deleted.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "externalId": {
-            "title": "The external_id of the object, if any",
+            "description": "Optional. A partner-defined external identifier for this object, used to correlate it with records in an external system.",
             "type": "string"
           },
           "fields": {
+            "description": "Optional. The set of field values on this CRM object. Each entry corresponds to a field defined in the object's field schema.",
             "items": {
               "$ref": "#/components/schemas/v1FieldValue"
             },
-            "title": "A CRM object is composed of several fields containing values",
             "type": "array"
           },
           "groupId": {
-            "title": "Used for multi-location",
+            "description": "Optional. A group identifier used for multi-location linking.",
             "type": "string"
           },
           "idempotencyId": {
-            "title": "Used to uniquely identify this object",
+            "description": "Optional. A client-generated unique identifier used for idempotent object creation.",
             "type": "string"
           },
           "namespace": {
-            "title": "Namespace only used for multi-location responses, safe to ignore on requests",
+            "description": "Output only. The namespace this object belongs to. Populated only in multi-location responses; safe to ignore on requests.",
+            "readOnly": true,
             "type": "string"
           },
           "ownerId": {
-            "title": "Identifiee of the owner of the object",
+            "description": "Optional. The identifier of the user who owns this CRM object.",
             "type": "string"
           },
           "updated": {
+            "description": "Output only. The time the object was last updated.",
             "format": "date-time",
-            "title": "When the object was last updated",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "CRM Object",
         "type": "object"
       },
       "v1CrmObjectSearch": {
@@ -457,39 +532,45 @@
         "type": "object"
       },
       "v1CustomObjectType": {
+        "description": "Defines a partner-created custom object type in the CRM, including its display names and system-managed timestamps.",
         "properties": {
           "created": {
+            "description": "Output only. The time the custom object type was created.",
             "format": "date-time",
-            "title": "When the custom object type was created",
+            "readOnly": true,
             "type": "string"
           },
           "customObjectTypeId": {
-            "title": "The identifier of the custom object type",
+            "description": "The unique identifier of the custom object type. Assigned by the system on create; must be provided on update.",
             "type": "string"
           },
           "deleted": {
-            "description": "CRM do only soft delete of its objects. If the custom object type was deleted, this is when it was deleted, otherwise it is time zero.",
+            "description": "Output only. The time the custom object type was soft-deleted. Zero value if it has not been deleted.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "namespace": {
-            "title": "Namespace can be either a PID or an AGID",
+            "description": "Output only. The namespace (partner ID or account group ID) the custom object type belongs to.",
+            "readOnly": true,
             "type": "string"
           },
           "pluralObjectName": {
-            "title": "Use this custom object type name if it is in plural form",
+            "description": "Required on Create. The plural display name for this custom object type (e.g. \"Projects\").",
             "type": "string"
           },
           "singularObjectName": {
-            "title": "Use this custom object type name if it is in singular form",
+            "description": "Required on Create. The singular display name for this custom object type (e.g. \"Project\").",
             "type": "string"
           },
           "updated": {
+            "description": "Output only. The time the custom object type was last updated.",
             "format": "date-time",
-            "title": "When the custom object type was last updated",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Custom Object Type",
         "type": "object"
       },
       "v1DateDefault": {
@@ -515,38 +596,60 @@
         "type": "string"
       },
       "v1DeleteAssociationRequest": {
+        "description": "Request to delete an association between CRM objects within a namespace.",
         "properties": {
           "associationId": {
+            "description": "Required. The identifier of the association to delete.",
             "type": "string"
           },
           "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) the association belongs to.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace",
+          "associationId"
+        ],
+        "title": "Delete Association Request",
         "type": "object"
       },
       "v1DeleteCrmObjectRequest": {
+        "description": "Request to soft-delete a CRM object within a namespace.",
         "properties": {
           "crmObjectId": {
-            "title": "The identifier of the object to be deleted",
+            "description": "Required. The identifier of the CRM object to delete.",
             "type": "string"
           },
           "namespace": {
-            "title": "Namespace can be either a PID or an AGID",
+            "description": "Required. The namespace (partner ID or account group ID) the object belongs to.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace",
+          "crmObjectId"
+        ],
+        "title": "Delete CRM Object Request",
         "type": "object"
       },
       "v1DeleteCustomObjectTypeRequest": {
+        "description": "Request to delete a custom object type within a namespace.",
         "properties": {
           "customObjectTypeId": {
+            "description": "Required. The identifier of the custom object type to delete.",
             "type": "string"
           },
           "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) the custom object type belongs to.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace",
+          "customObjectTypeId"
+        ],
+        "title": "Delete Custom Object Type Request",
         "type": "object"
       },
       "v1DeleteFieldSchemaCustomizationRequest": {
@@ -574,16 +677,22 @@
         "type": "object"
       },
       "v1DeletePipelineRequest": {
+        "description": "Request to delete a pipeline within a namespace.",
         "properties": {
           "namespace": {
-            "title": "Namespace is an AGID",
+            "description": "Required. The namespace (account group ID) the pipeline belongs to.",
             "type": "string"
           },
           "pipelineId": {
-            "title": "The identifier of a pipeline",
+            "description": "Required. The identifier of the pipeline to delete.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace",
+          "pipelineId"
+        ],
+        "title": "Delete Pipeline Request",
         "type": "object"
       },
       "v1DropdownOption": {
@@ -804,27 +913,36 @@
         "type": "object"
       },
       "v1FilterDefinition": {
+        "description": "Describes an available filter for searching CRM objects, including its type and supported operators.",
         "properties": {
           "fieldId": {
+            "description": "Output only. The identifier of the field this filter applies to.",
+            "readOnly": true,
             "type": "string"
           },
           "fieldName": {
+            "description": "Output only. The display name of the field this filter applies to.",
+            "readOnly": true,
             "type": "string"
           },
           "hasFilterOptions": {
-            "description": "If set, the filter has specific options that may be shown in a dropdown.",
+            "description": "Output only. When true, this filter has specific option values that may be shown in a dropdown.",
+            "readOnly": true,
             "type": "boolean"
           },
           "supportedOperatorsV2": {
+            "description": "Output only. The comparison operators supported by this filter.",
             "items": {
               "$ref": "#/components/schemas/v1FilterOperator"
             },
+            "readOnly": true,
             "type": "array"
           },
           "typeV2": {
             "$ref": "#/components/schemas/v1FilterType"
           }
         },
+        "title": "Filter Definition",
         "type": "object"
       },
       "v1FilterGroup": {
@@ -942,109 +1060,141 @@
         "type": "object"
       },
       "v1GetMultiAssociationRequest": {
+        "description": "Request to retrieve multiple associations by their IDs within a namespace.",
         "properties": {
           "associationIds": {
+            "description": "Required. The identifiers of the associations to retrieve.",
             "items": {
               "type": "string"
             },
             "type": "array"
           },
           "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) the associations belong to.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace",
+          "associationIds"
+        ],
+        "title": "Get Multi Association Request",
         "type": "object"
       },
       "v1GetMultiAssociationResponse": {
+        "description": "Response containing the requested associations and per-ID status codes.",
         "properties": {
           "associations": {
+            "description": "Output only. The retrieved associations.",
             "items": {
               "$ref": "#/components/schemas/v1Association"
             },
+            "readOnly": true,
             "type": "array"
           },
           "statusCode": {
+            "description": "Output only. HTTP-style status codes for each association_id in the request (e.g. 200, 403, or 404).",
             "items": {
               "format": "int64",
               "type": "string"
             },
-            "title": "HTTP style status codes for each association_id in the request, usually 200, 403, or 404",
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "Get Multi Association Response",
         "type": "object"
       },
       "v1GetMultiCrmObjectRequest": {
+        "description": "Request to retrieve multiple CRM objects by their IDs within a namespace.",
         "properties": {
           "crmObjectIds": {
+            "description": "Required. A list of CRM object identifiers to retrieve.",
             "items": {
               "type": "string"
             },
-            "title": "A list of object identifiers to retrieve information about",
             "type": "array"
           },
           "fieldMask": {
             "$ref": "#/components/schemas/vendastatypesFieldMask"
           },
           "namespace": {
-            "title": "Namespace can be either a PID or an AGID",
+            "description": "Required. The namespace (partner ID or account group ID) the objects belong to.",
             "type": "string"
           },
           "projectionFilters": {
+            "description": "Optional. Extra options for retrieving objects, such as field type conversions or including soft-deleted records.",
             "items": {
               "$ref": "#/components/schemas/v1ObjectProjectionFilter"
             },
-            "title": "extra options for retrieving objects",
             "type": "array"
           }
         },
+        "required": [
+          "namespace",
+          "crmObjectIds"
+        ],
+        "title": "Get Multi CRM Object Request",
         "type": "object"
       },
       "v1GetMultiCrmObjectResponse": {
+        "description": "Response containing the requested CRM objects and their field schemas.",
         "properties": {
           "crmObjects": {
+            "description": "Output only. The list of CRM objects retrieved.",
             "items": {
               "$ref": "#/components/schemas/v1CrmObject"
             },
-            "title": "the list of objects retrieved",
+            "readOnly": true,
             "type": "array"
           },
           "fieldSchemas": {
+            "description": "Output only. The field schemas for the fields present on the retrieved objects.",
             "items": {
               "$ref": "#/components/schemas/v1FieldSchema"
             },
-            "title": "the list of schemas of fields for the objects retrieved",
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "Get Multi CRM Object Response",
         "type": "object"
       },
       "v1GetMultiCustomObjectTypeRequest": {
+        "description": "Request to retrieve multiple custom object types by their IDs within a namespace.",
         "properties": {
           "customObjectTypeIds": {
+            "description": "Required. The identifiers of the custom object types to retrieve.",
             "items": {
               "type": "string"
             },
-            "title": "A list of custom object type identifiers to retrieve information about",
             "type": "array"
           },
           "namespace": {
-            "title": "Namespace can be either a PID or an AGID",
+            "description": "Required. The namespace (partner ID or account group ID) the custom object types belong to.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace",
+          "customObjectTypeIds"
+        ],
+        "title": "Get Multi Custom Object Type Request",
         "type": "object"
       },
       "v1GetMultiCustomObjectTypeResponse": {
+        "description": "Response containing the requested custom object types.",
         "properties": {
           "customObjectTypes": {
+            "description": "Output only. The retrieved custom object types.",
             "items": {
               "$ref": "#/components/schemas/v1CustomObjectType"
             },
-            "title": "the list of custom object types retrieved",
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "Get Multi Custom Object Type Response",
         "type": "object"
       },
       "v1GetMultiFieldSchemaCustomizationRequest": {
@@ -1138,209 +1288,270 @@
         "type": "object"
       },
       "v1GetMultiPipelineRequest": {
+        "description": "Request to retrieve multiple pipelines by their IDs within a namespace.",
         "properties": {
           "namespace": {
-            "title": "Namespace is an AGID",
+            "description": "Required. The namespace (account group ID) the pipelines belong to.",
             "type": "string"
           },
           "pipelineIds": {
+            "description": "Required. The identifiers of the pipelines to retrieve.",
             "items": {
               "type": "string"
             },
-            "title": "A list of pipeline identifiers to retrieve information about",
             "type": "array"
           }
         },
+        "required": [
+          "namespace",
+          "pipelineIds"
+        ],
+        "title": "Get Multi Pipeline Request",
         "type": "object"
       },
       "v1GetMultiPipelineResponse": {
+        "description": "Response containing the requested pipelines.",
         "properties": {
           "pipelines": {
+            "description": "Output only. The retrieved pipelines.",
             "items": {
               "$ref": "#/components/schemas/v1Pipeline"
             },
-            "title": "the list of pipelines retrieved",
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "Get Multi Pipeline Response",
         "type": "object"
       },
       "v1ListAssociationFieldOptionsRequest": {
+        "description": "Request to list valid values for a field on associations of a given type.",
         "properties": {
           "associationType": {
+            "description": "Required. The association type to list field options for.",
             "type": "string"
           },
           "fieldId": {
+            "description": "Required. The identifier of the field whose options should be listed.",
             "type": "string"
           },
           "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) to list field options for.",
             "type": "string"
           },
           "pageSize": {
+            "description": "Optional. The maximum number of options to return.",
             "format": "int64",
             "type": "string"
           },
           "searchTerm": {
+            "description": "Optional. A search term to filter options by substring match.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace",
+          "associationType",
+          "fieldId"
+        ],
+        "title": "List Association Field Options Request",
         "type": "object"
       },
       "v1ListAssociationFieldOptionsResponse": {
+        "description": "Response containing the valid values for the requested association field.",
         "properties": {
           "options": {
+            "description": "Output only. The list of valid option values for the field.",
             "items": {
               "type": "string"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "List Association Field Options Response",
         "type": "object"
       },
       "v1ListAssociationsRequest": {
+        "description": "Request to list associations within a namespace, with optional filtering and pagination.",
         "properties": {
           "filtersV2": {
             "$ref": "#/components/schemas/v1FilterGroup"
           },
           "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) to list associations for.",
             "type": "string"
           },
           "pagingOptions": {
             "$ref": "#/components/schemas/vendastatypesPagedRequestOptions"
           }
         },
+        "required": [
+          "namespace"
+        ],
+        "title": "List Associations Request",
         "type": "object"
       },
       "v1ListAssociationsResponse": {
+        "description": "Response containing a page of associations matching the request criteria.",
         "properties": {
           "associations": {
+            "description": "Output only. The associations matching the request criteria for this page.",
             "items": {
               "$ref": "#/components/schemas/v1Association"
             },
+            "readOnly": true,
             "type": "array"
           },
           "pagingMetadata": {
             "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
           },
           "statusCode": {
+            "description": "Output only. HTTP-style status codes for each association in the response (e.g. 200, 403, or 404).",
             "items": {
               "format": "int64",
               "type": "string"
             },
-            "title": "HTTP style status codes for each association_id in the request, usually 200, 403, or 404",
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "List Associations Response",
         "type": "object"
       },
       "v1ListCrmObjectsRequest": {
+        "description": "Request to list CRM objects within a namespace, with optional filtering, sorting, and pagination.",
         "properties": {
           "crmObjectSubtype": {
-            "title": "Special filter used only for custom objects",
+            "description": "Optional. The custom object subtype to filter by. Only relevant for custom object types.",
             "type": "string"
           },
           "filtersV2": {
             "$ref": "#/components/schemas/v1FilterGroup"
           },
           "namespace": {
-            "title": "Namespace can be either a PID or an AGID",
+            "description": "Required. The namespace (partner ID or account group ID) to list objects for.",
             "type": "string"
           },
           "pagingOptions": {
             "$ref": "#/components/schemas/vendastatypesPagedRequestOptions"
           },
           "projectionFilters": {
+            "description": "Optional. Projection filters used to hydrate, enhance, or transform the results.",
             "items": {
               "$ref": "#/components/schemas/v1ObjectProjectionFilter"
             },
-            "title": "Projection filters are used to hydrate, enhance or transform the results",
             "type": "array"
           },
           "search": {
             "$ref": "#/components/schemas/v1CrmObjectSearch"
           },
           "sortBy": {
+            "description": "Optional. Sorting criteria applied to the result set.",
             "items": {
               "$ref": "#/components/schemas/v1SortBy"
             },
-            "title": "Options for sorting the results",
             "type": "array"
           }
         },
+        "required": [
+          "namespace"
+        ],
+        "title": "List CRM Objects Request",
         "type": "object"
       },
       "v1ListCrmObjectsResponse": {
+        "description": "Response containing a page of CRM objects matching the request criteria.",
         "properties": {
           "crmObjects": {
+            "description": "Output only. The CRM objects matching the request criteria for this page.",
             "items": {
               "$ref": "#/components/schemas/v1CrmObject"
             },
-            "title": "List of objects returned",
+            "readOnly": true,
             "type": "array"
           },
           "pagingMetadata": {
             "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
           }
         },
+        "title": "List CRM Objects Response",
         "type": "object"
       },
       "v1ListCustomObjectTypesRequest": {
+        "description": "Request to list all custom object types within a namespace.",
         "properties": {
           "namespace": {
-            "title": "Namespace can be either a PID or an AGID",
+            "description": "Required. The namespace (partner ID or account group ID) to list custom object types for.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace"
+        ],
+        "title": "List Custom Object Types Request",
         "type": "object"
       },
       "v1ListCustomObjectTypesResponse": {
+        "description": "Response containing all custom object types in the namespace.",
         "properties": {
           "customObjectTypes": {
+            "description": "Output only. The custom object types in the namespace.",
             "items": {
               "$ref": "#/components/schemas/v1CustomObjectType"
             },
-            "title": "List of custom object types returned",
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "List Custom Object Types Response",
         "type": "object"
       },
       "v1ListFieldOptionsRequest": {
+        "description": "Request to list the valid values for a string-based field type on a CRM object.",
         "properties": {
           "crmObjectSubtype": {
-            "title": "Object subtype, used for custom objects",
+            "description": "Optional. The custom object subtype. Only relevant for custom object types.",
             "type": "string"
           },
           "fieldId": {
-            "title": "Id of the field for the options search",
+            "description": "Required. The identifier of the field whose options should be listed.",
             "type": "string"
           },
           "namespace": {
-            "title": "Namespace can be either a PID or an AGID",
+            "description": "Required. The namespace (partner ID or account group ID) to list field options for.",
             "type": "string"
           },
           "pageSize": {
+            "description": "Optional. The maximum number of options to return.",
             "format": "int64",
-            "title": "Pagination metadata",
             "type": "string"
           },
           "searchTerm": {
-            "title": "Search option filter",
+            "description": "Optional. A search term to filter options by substring match.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace",
+          "fieldId"
+        ],
+        "title": "List Field Options Request",
         "type": "object"
       },
       "v1ListFieldOptionsResponse": {
+        "description": "Response containing the valid string values for the requested field.",
         "properties": {
           "options": {
+            "description": "Output only. The list of valid option values for the field.",
             "items": {
               "type": "string"
             },
-            "title": "List of options",
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "List Field Options Response",
         "type": "object"
       },
       "v1ListFieldSchemaRequest": {
@@ -1410,75 +1621,98 @@
         "type": "object"
       },
       "v1ListFiltersRequest": {
+        "description": "Request to list the available filters for searching CRM objects within a namespace.",
         "properties": {
           "crmObjectSubtype": {
+            "description": "Optional. The custom object subtype to list filters for. Only relevant for custom object types.",
             "type": "string"
           },
           "locale": {
-            "title": "locale of the user such as \"af\", \"cs\", \"de\", \"en\", \"es-419\", \"fr\", \"it\", \"nl\", \"pt\", \"ru\"",
+            "description": "Optional. The locale of the user for translated field names. Examples: \"af\", \"cs\", \"de\", \"en\", \"es-419\", \"fr\", \"it\", \"nl\", \"pt\", \"ru\".",
             "type": "string"
           },
           "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) to list filters for.",
             "type": "string"
           },
           "paging": {
             "$ref": "#/components/schemas/vendastatypesPagedRequestOptions"
           },
           "searchTerm": {
+            "description": "Optional. A search term to filter results by field name substring match.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace"
+        ],
+        "title": "List Filters Request",
         "type": "object"
       },
       "v1ListFiltersResponse": {
+        "description": "Response containing the available filter definitions for searching CRM objects.",
         "properties": {
           "filters": {
+            "description": "Output only. The available filter definitions.",
             "items": {
               "$ref": "#/components/schemas/v1FilterDefinition"
             },
+            "readOnly": true,
             "type": "array"
           },
           "paging": {
             "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
           }
         },
+        "title": "List Filters Response",
         "type": "object"
       },
       "v1ListOptions": {
         "properties": {
           "crmObjectSubtype": {
-            "title": "Subtype of CRM object, relevant if object_type is CustomObject",
+            "description": "Optional. The custom object subtype to filter by. Only relevant when `object_type` refers to a custom object type.",
             "type": "string"
           },
           "namespace": {
-            "title": "Namespace is an AGID",
+            "description": "Required. The namespace (account group ID) to list pipelines for.",
             "type": "string"
           },
           "objectType": {
-            "title": "Type of CRM object",
+            "description": "Optional. The CRM object type to filter pipelines by. Valid values include \"Contact\", \"Company\", \"Opportunity\", and custom object type IDs.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace"
+        ],
         "type": "object"
       },
       "v1ListPipelinesRequest": {
+        "description": "Request to list pipelines within a namespace, optionally filtered by object type.",
         "properties": {
           "listOptions": {
             "$ref": "#/components/schemas/v1ListOptions"
           }
         },
+        "required": [
+          "listOptions"
+        ],
+        "title": "List Pipelines Request",
         "type": "object"
       },
       "v1ListPipelinesResponse": {
+        "description": "Response containing the pipelines matching the request criteria.",
         "properties": {
           "pipelines": {
+            "description": "Output only. The pipelines matching the request criteria.",
             "items": {
               "$ref": "#/components/schemas/v1Pipeline"
             },
-            "title": "The list of pipelines retrieved",
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "List Pipelines Response",
         "type": "object"
       },
       "v1ObjectProjectionFilter": {
@@ -1537,36 +1771,43 @@
         "type": "object"
       },
       "v1Pipeline": {
+        "description": "A structured representation of a sales or business process, tracking CRM objects through defined stages from start to finish.",
         "properties": {
           "crmObjectSubtype": {
-            "title": "Subtype of the pipeline, relevant if object_type is CustomObject",
+            "description": "Optional. The custom object subtype this pipeline tracks. Only relevant when `object_type` refers to a custom object type.",
             "type": "string"
           },
           "name": {
-            "title": "The name of the pipeline",
+            "description": "Required. The display name of the pipeline.",
             "type": "string"
           },
           "namespace": {
-            "title": "Namespace is an AGID",
+            "description": "Required. The namespace (account group ID) the pipeline belongs to.",
             "type": "string"
           },
           "objectType": {
-            "title": "The object type of the pipeline",
+            "description": "Required. The CRM object type this pipeline tracks. Valid values include \"Contact\", \"Company\", \"Opportunity\", and custom object type IDs.",
             "type": "string"
           },
           "pipelineId": {
-            "title": "The identifier of the pipeline",
+            "description": "The unique identifier of the pipeline. Assigned by the system on create; must be provided on update.",
             "type": "string"
           },
           "stages": {
+            "description": "Required. The ordered list of stages in this pipeline.",
             "items": {
               "$ref": "#/components/schemas/v1Stage"
             },
-            "title": "List of stages of the pipeline",
             "type": "array"
           }
         },
-        "title": "A structured representation of a sales process, tracking objects through defined stages from start to finish",
+        "required": [
+          "namespace",
+          "name",
+          "objectType",
+          "stages"
+        ],
+        "title": "Pipeline",
         "type": "object"
       },
       "v1ProjectionFilterType": {
@@ -1600,27 +1841,32 @@
         "type": "string"
       },
       "v1Stage": {
+        "description": "Represents a single stage within a pipeline, including the filter criteria that determine object membership and mutations applied on stage entry.",
         "properties": {
           "filterGroup": {
             "$ref": "#/components/schemas/v1FilterGroup"
           },
           "mutations": {
+            "description": "Optional. Field value mutations applied to an object when it enters this stage, ensuring it satisfies the stage filters.",
             "items": {
               "$ref": "#/components/schemas/v1FieldValue"
             },
-            "title": "Mutations we can apply to an object to make sure it satisfies the above filters",
             "type": "array"
           },
           "name": {
-            "title": "The name of the stage",
+            "description": "Required. The display name of the stage.",
             "type": "string"
           },
           "stageId": {
-            "title": "The identifier of the stage",
+            "description": "Required. The unique identifier of the stage within its pipeline.",
             "type": "string"
           }
         },
-        "title": "A stage represents a specific point in a pipeline",
+        "required": [
+          "stageId",
+          "name"
+        ],
+        "title": "Stage",
         "type": "object"
       },
       "v1StringList": {
@@ -1636,23 +1882,33 @@
         "type": "object"
       },
       "v1UpdateAssociationRequest": {
+        "description": "Request to update the tags on an existing association.",
         "properties": {
           "associationId": {
+            "description": "Required. The identifier of the association to update.",
             "type": "string"
           },
           "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) the association belongs to.",
             "type": "string"
           },
           "tags": {
+            "description": "Optional. The updated set of tags for this association. Replaces all existing tags.",
             "items": {
               "$ref": "#/components/schemas/crmv1Tag"
             },
             "type": "array"
           }
         },
+        "required": [
+          "namespace",
+          "associationId"
+        ],
+        "title": "Update Association Request",
         "type": "object"
       },
       "v1UpdateCrmObjectRequest": {
+        "description": "Request to update an existing CRM object within a namespace. Use the field mask to specify which fields to update.",
         "properties": {
           "crmObject": {
             "$ref": "#/components/schemas/v1CrmObject"
@@ -1661,13 +1917,19 @@
             "$ref": "#/components/schemas/vendastatypesFieldMask"
           },
           "namespace": {
-            "title": "Namespace can be either a PID or an AGID",
+            "description": "Required. The namespace (partner ID or account group ID) the object belongs to.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace",
+          "crmObject"
+        ],
+        "title": "Update CRM Object Request",
         "type": "object"
       },
       "v1UpdateCustomObjectTypeRequest": {
+        "description": "Request to update an existing custom object type within a namespace.",
         "properties": {
           "customObjectType": {
             "$ref": "#/components/schemas/v1CustomObjectType"
@@ -1676,10 +1938,15 @@
             "$ref": "#/components/schemas/vendastatypesFieldMask"
           },
           "namespace": {
-            "title": "Namespace can be either a PID or an AGID",
+            "description": "Required. The namespace (partner ID or account group ID) the custom object type belongs to.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace",
+          "customObjectType"
+        ],
+        "title": "Update Custom Object Type Request",
         "type": "object"
       },
       "v1UpdateFieldSchemaCustomizationRequest": {
@@ -1740,6 +2007,7 @@
         "type": "object"
       },
       "v1UpdatePipelineRequest": {
+        "description": "Request to update an existing pipeline. Use the field mask to specify which fields to update.",
         "properties": {
           "fieldMask": {
             "$ref": "#/components/schemas/vendastatypesFieldMask"
@@ -1748,30 +2016,43 @@
             "$ref": "#/components/schemas/v1Pipeline"
           }
         },
+        "required": [
+          "pipeline"
+        ],
+        "title": "Update Pipeline Request",
         "type": "object"
       },
       "v1ValidateCrmObjectRequest": {
+        "description": "Request to validate the data on a CRM object before creating or updating it.",
         "properties": {
           "crmObject": {
             "$ref": "#/components/schemas/v1CrmObject"
           },
           "namespace": {
-            "title": "Namespace can be either a PID or an AGID",
+            "description": "Required. The namespace (partner ID or account group ID) the object belongs to.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace",
+          "crmObject"
+        ],
+        "title": "Validate CRM Object Request",
         "type": "object"
       },
       "v1ValidateCrmObjectResponse": {
+        "description": "Response containing any validation errors found on the submitted CRM object.",
         "properties": {
           "errors": {
+            "description": "Output only. The list of validation errors found. Empty if the object is valid.",
             "items": {
               "$ref": "#/components/schemas/v1ValidateCrmObjectResponseValidationError"
             },
-            "title": "List of errors",
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "Validate CRM Object Response",
         "type": "object"
       },
       "v1ValidateCrmObjectResponseValidationError": {
@@ -1780,11 +2061,13 @@
             "$ref": "#/components/schemas/ValidateCrmObjectResponseValidationErrorDetails"
           },
           "message": {
-            "title": "Validation message, this can be a translation key",
+            "description": "Output only. A human-readable or translation key describing the validation error.",
+            "readOnly": true,
             "type": "string"
           },
           "ruleId": {
-            "title": "validation rule identifier",
+            "description": "Output only. The identifier of the validation rule that triggered.",
+            "readOnly": true,
             "type": "string"
           },
           "severity": {
@@ -1884,6 +2167,7 @@
               }
             }
           },
+          "description": "Request to create a new association between two CRM objects within a namespace.",
           "required": true
         },
         "responses": {
@@ -1933,6 +2217,7 @@
               }
             }
           },
+          "description": "Request to delete an association between CRM objects within a namespace.",
           "required": true
         },
         "responses": {
@@ -1982,6 +2267,7 @@
               }
             }
           },
+          "description": "Request to list valid values for a field on associations of a given type.",
           "required": true
         },
         "responses": {
@@ -2032,6 +2318,7 @@
               }
             }
           },
+          "description": "Request to retrieve multiple associations by their IDs within a namespace.",
           "required": true
         },
         "responses": {
@@ -2082,6 +2369,7 @@
               }
             }
           },
+          "description": "Request to list associations within a namespace, with optional filtering and pagination.",
           "required": true
         },
         "responses": {
@@ -2132,6 +2420,7 @@
               }
             }
           },
+          "description": "Request to update the tags on an existing association.",
           "required": true
         },
         "responses": {
@@ -2683,6 +2972,7 @@
               }
             }
           },
+          "description": "Request to create a new custom object type within a namespace.",
           "required": true
         },
         "responses": {
@@ -2731,6 +3021,7 @@
               }
             }
           },
+          "description": "Request to delete a custom object type within a namespace.",
           "required": true
         },
         "responses": {
@@ -2779,6 +3070,7 @@
               }
             }
           },
+          "description": "Request to retrieve multiple custom object types by their IDs within a namespace.",
           "required": true
         },
         "responses": {
@@ -2827,6 +3119,7 @@
               }
             }
           },
+          "description": "Request to list all custom object types within a namespace.",
           "required": true
         },
         "responses": {
@@ -2875,6 +3168,7 @@
               }
             }
           },
+          "description": "Request to update an existing custom object type within a namespace.",
           "required": true
         },
         "responses": {
@@ -2923,6 +3217,7 @@
               }
             }
           },
+          "description": "Request to bulk-delete CRM objects matching the specified filters within a namespace.",
           "required": true
         },
         "responses": {
@@ -3185,6 +3480,7 @@
               }
             }
           },
+          "description": "Request to list the available filters for searching CRM objects within a namespace.",
           "required": true
         },
         "responses": {
@@ -3277,6 +3573,7 @@
               }
             }
           },
+          "description": "Request to validate the data on a CRM object before creating or updating it.",
           "required": true
         },
         "responses": {
@@ -4031,6 +4328,7 @@
               }
             }
           },
+          "description": "Request to create a new pipeline within a namespace.",
           "required": true
         },
         "responses": {
@@ -4082,6 +4380,7 @@
               }
             }
           },
+          "description": "Request to delete a pipeline within a namespace.",
           "required": true
         },
         "responses": {
@@ -4133,6 +4432,7 @@
               }
             }
           },
+          "description": "Request to retrieve multiple pipelines by their IDs within a namespace.",
           "required": true
         },
         "responses": {
@@ -4187,6 +4487,7 @@
               }
             }
           },
+          "description": "Request to list pipelines within a namespace, optionally filtered by object type.",
           "required": true
         },
         "responses": {
@@ -4241,6 +4542,7 @@
               }
             }
           },
+          "description": "Request to update an existing pipeline. Use the field mask to specify which fields to update.",
           "required": true
         },
         "responses": {

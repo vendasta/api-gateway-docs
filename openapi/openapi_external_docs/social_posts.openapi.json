@@ -65,31 +65,39 @@
         "type": "object"
       },
       "socialpostsv1Author": {
+        "description": "The author of a blog post.",
         "properties": {
           "id": {
+            "description": "Output only. The id of the author.",
             "format": "int64",
-            "title": "The id of the author",
+            "readOnly": true,
             "type": "string"
           },
           "name": {
-            "title": "The name of the author",
+            "description": "Output only. The name of the author.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Author",
         "type": "object"
       },
       "socialpostsv1Category": {
+        "description": "A blog post category.",
         "properties": {
           "id": {
+            "description": "Output only. The category id.",
             "format": "int64",
-            "title": "The categoryId",
+            "readOnly": true,
             "type": "string"
           },
           "name": {
-            "title": "The category name",
+            "description": "Output only. The category name.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Category",
         "type": "object"
       },
       "socialpostsv2Author": {
@@ -119,41 +127,49 @@
         "type": "object"
       },
       "v1BlogPostCustomization": {
+        "description": "Blog post-specific customization options, including author, categories, and tags.",
         "properties": {
           "author": {
             "$ref": "#/components/schemas/socialpostsv1Author"
           },
           "categories": {
+            "description": "Output only. The categories of the blog post.",
             "items": {
               "$ref": "#/components/schemas/socialpostsv1Category"
             },
-            "title": "The categories of the blog post",
+            "readOnly": true,
             "type": "array"
           },
           "siteType": {
-            "title": "The site type of the blog post",
+            "description": "Output only. The site type of the blog post.",
+            "readOnly": true,
             "type": "string"
           },
           "tags": {
+            "description": "Output only. The tags of the blog post.",
             "items": {
               "type": "string"
             },
-            "title": "The tags of the blog post",
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "BlogPostCustomization",
         "type": "object"
       },
       "v1CallToAction": {
+        "description": "A call-to-action button associated with a Google My Business social post.",
         "properties": {
           "actionType": {
             "$ref": "#/components/schemas/v1CallToActionCallToActionType"
           },
           "url": {
-            "title": "The url for the CTA",
+            "description": "Output only. The URL for the CTA.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "CallToAction",
         "type": "object"
       },
       "v1CallToActionCallToActionType": {
@@ -184,33 +200,44 @@
         "type": "object"
       },
       "v1Error": {
+        "description": "Describes the reason and category of an error that occurred while scheduling or posting.",
         "properties": {
           "category": {
+            "description": "Output only. The category of the error.",
+            "readOnly": true,
             "type": "string"
           },
           "reason": {
+            "description": "Output only. The reason for the error.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Error",
         "type": "object"
       },
       "v1Event": {
+        "description": "An event associated with a Google My Business social post.",
         "properties": {
           "endDatetime": {
+            "description": "Output only. The end timestamp of the event.",
             "format": "date-time",
-            "title": "The end timestamp of the evet",
+            "readOnly": true,
             "type": "string"
           },
           "startDatetime": {
+            "description": "Output only. The start timestamp of the event.",
             "format": "date-time",
-            "title": "The start timestamp of the event",
+            "readOnly": true,
             "type": "string"
           },
           "title": {
-            "title": "The title of the event",
+            "description": "Output only. The title of the event.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Event",
         "type": "object"
       },
       "v1GetMultiSocialPostsRequest": {
@@ -308,41 +335,58 @@
         "type": "object"
       },
       "v1MediaEntry": {
+        "description": "A single media item (image, video, etc.) attached to a social post.",
         "properties": {
           "containerId": {
+            "description": "Output only. The container identifier, if the network requires it.",
+            "readOnly": true,
             "type": "string"
           },
           "mediaEntryId": {
+            "description": "Output only. The unique identifier of this media entry.",
+            "readOnly": true,
             "type": "string"
           },
           "mediaPath": {
+            "description": "Output only. The storage path of the media.",
+            "readOnly": true,
             "type": "string"
           },
           "mediaType": {
+            "description": "Output only. The MIME type or classification of the media (e.g. image, video).",
+            "readOnly": true,
             "type": "string"
           },
           "mediaUrl": {
+            "description": "Output only. The URL where the media is hosted.",
+            "readOnly": true,
             "type": "string"
           },
           "metaData": {
+            "description": "Output only. Metadata associated with this media entry.",
             "items": {
               "$ref": "#/components/schemas/v1MetaData"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "MediaEntry",
         "type": "object"
       },
       "v1MetaData": {
+        "description": "A key-value pair of metadata associated with a social post or media entry.",
         "properties": {
           "propertyName": {
+            "description": "Required. The name of the metadata property.",
             "type": "string"
           },
           "propertyValue": {
+            "description": "Required. The value of the metadata property.",
             "type": "string"
           }
         },
-        "title": "Metadata message type for saving properties in instagram µservice",
+        "title": "MetaData",
         "type": "object"
       },
       "v1PostType": {
@@ -371,29 +415,36 @@
         "type": "string"
       },
       "v1SocialCampaign": {
+        "description": "Campaign details associated with a social post.",
         "properties": {
           "id": {
-            "title": "Unique ID of the campaign",
+            "description": "Output only. The unique ID of the campaign.",
+            "readOnly": true,
             "type": "string"
           },
           "name": {
-            "title": "The name of the campaign",
+            "description": "Output only. The name of the campaign.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "SocialCampaign",
         "type": "object"
       },
       "v1SocialPost": {
+        "description": "Represents a social media post, including its content, scheduling, status, and metadata.",
         "properties": {
           "blogPostCustomization": {
             "$ref": "#/components/schemas/v1BlogPostCustomization"
           },
           "brandId": {
-            "title": "A unique identifer for a brand (if this is a multilocation post)",
+            "description": "Output only. A unique identifier for a brand (if this is a multilocation post).",
+            "readOnly": true,
             "type": "string"
           },
           "businessId": {
-            "title": "The unique identifier of the business this post is related to",
+            "description": "Output only. The unique identifier of the business this post is related to.",
+            "readOnly": true,
             "type": "string"
           },
           "callToAction": {
@@ -403,12 +454,14 @@
             "$ref": "#/components/schemas/v1SocialCampaign"
           },
           "created": {
+            "description": "Output only. The date time that this entity was created in our system (not the time that\nit was posted).",
             "format": "date-time",
-            "title": "The date time that this entity was created in our system (not the time that\nit was posted)",
+            "readOnly": true,
             "type": "string"
           },
           "createdBy": {
-            "description": "Identifier of who created this post.\nIn automation flow it will be an assistant ID.\nIn chat flow it will be a user ID.",
+            "description": "Output only. Identifier of who created this post.\nIn automation flow it will be an assistant ID.\nIn chat flow it will be a user ID.",
+            "readOnly": true,
             "type": "string"
           },
           "deletionStatus": {
@@ -421,83 +474,105 @@
             "$ref": "#/components/schemas/v1Event"
           },
           "imageUrl": {
-            "title": "The image posted",
+            "description": "Output only. The image URL posted.",
+            "readOnly": true,
             "type": "string"
           },
           "imageUrls": {
+            "description": "Output only. A list of image URLs for this post.",
             "items": {
               "type": "string"
             },
-            "title": "A list of images for this post",
+            "readOnly": true,
             "type": "array"
           },
           "isError": {
+            "description": "Output only. Whether the post encountered an error during posting.",
+            "readOnly": true,
             "type": "boolean"
           },
           "linkPreviewImageUrl": {
-            "description": "An image that appears as a preview to a URL link.",
+            "description": "Output only. An image that appears as a preview to a URL link.",
+            "readOnly": true,
             "type": "string"
           },
           "mediaEntries": {
+            "description": "Output only. Array of media content when uploading multiple media.",
             "items": {
               "$ref": "#/components/schemas/v1MediaEntry"
             },
-            "title": "Array of media content when uploading multiple media",
+            "readOnly": true,
             "type": "array"
           },
           "metaData": {
+            "description": "Output only. Metadata about the media.",
             "items": {
               "$ref": "#/components/schemas/v1MetaData"
             },
-            "title": "Metadata about the media, could be anything",
+            "readOnly": true,
             "type": "array"
           },
           "multilocationPostId": {
-            "title": "A unique identifer if this is a multilocation post",
+            "description": "Output only. A unique identifier if this is a multilocation post.",
+            "readOnly": true,
             "type": "string"
           },
           "name": {
-            "title": "The name of the social account (may not always be populated)",
+            "description": "Output only. The name of the social account (may not always be populated).",
+            "readOnly": true,
             "type": "string"
           },
           "parentId": {
-            "title": "The correlation id for posts that have been posted as a group",
+            "description": "Output only. The correlation id for posts that have been posted as a group.",
+            "readOnly": true,
             "type": "string"
           },
           "permalink": {
-            "title": "The link to the post on the social page (e.g. an actual link to Facebook)",
+            "description": "Output only. The link to the post on the social page (e.g. an actual link to Facebook).",
+            "readOnly": true,
             "type": "string"
           },
           "postText": {
+            "description": "Output only. The text content of the post.",
+            "readOnly": true,
             "type": "string"
           },
           "postType": {
             "$ref": "#/components/schemas/v1PostType"
           },
           "posted": {
+            "description": "Output only. The date time that this post was posted to its corresponding social\naccount.",
             "format": "date-time",
-            "title": "The date time that this post was posted to it's corresponding social\naccount",
+            "readOnly": true,
             "type": "string"
           },
           "profileImageUrl": {
+            "description": "Output only. The profile image URL of the social account that posted.",
+            "readOnly": true,
             "type": "string"
           },
           "profileUrl": {
+            "description": "Output only. The profile URL of the social account that posted.",
+            "readOnly": true,
             "type": "string"
           },
           "scheduled": {
+            "description": "Output only. The date time that this post is scheduled to be posted. If it's in the past\nthat means we have or are attempting to post this. You can see if it was\nsuccessful based on the status.",
             "format": "date-time",
-            "title": "The date time that this post is scheduled to be posted. If it's in the past\nthat means it we have or are attempting to post this You can see if it was\nsuccessful based on the status",
+            "readOnly": true,
             "type": "string"
           },
           "service": {
             "$ref": "#/components/schemas/SocialPostService"
           },
           "socialPostId": {
+            "description": "Output only. The unique identifier of this social post.",
+            "readOnly": true,
             "type": "string"
           },
           "socialServiceId": {
-            "title": "The id of the social service this post was created with",
+            "description": "Output only. The id of the social service this post was created with.",
+            "readOnly": true,
             "type": "string"
           },
           "status": {
@@ -507,64 +582,77 @@
             "$ref": "#/components/schemas/v1TikTokCustomization"
           },
           "title": {
-            "title": "The title of the post",
+            "description": "Output only. The title of the post.",
+            "readOnly": true,
             "type": "string"
           },
           "updatedBy": {
-            "description": "Identifier of who last updated this post. Empty until the first\nupdate, then overwritten on every subsequent update.\nIn automation flow it will be an assistant ID.\nIn chat flow it will be a user ID.",
+            "description": "Output only. Identifier of who last updated this post. Empty until the first\nupdate, then overwritten on every subsequent update.\nIn automation flow it will be an assistant ID.\nIn chat flow it will be a user ID.",
+            "readOnly": true,
             "type": "string"
           },
           "username": {
-            "title": "The username of the social account (may not always be populated)",
+            "description": "Output only. The username of the social account (may not always be populated).",
+            "readOnly": true,
             "type": "string"
           },
           "videoUrl": {
-            "title": "The video posted",
+            "description": "Output only. The video URL posted.",
+            "readOnly": true,
             "type": "string"
           },
           "youtubeCustomization": {
             "$ref": "#/components/schemas/v1YoutubeCustomization"
           }
         },
-        "title": "The information about a social post. It does not necessarily need to have\nbeen posted yet",
+        "title": "SocialPost",
         "type": "object"
       },
       "v1TikTokCustomization": {
-        "description": "TikTokCustomization contains TikTok-specific options for video posts.\nAI agents should default to enabling community features (comments, duets, stitches)\nunless the user requests otherwise or the content is sensitive/private.",
+        "description": "TikTok-specific options for video posts, including community interaction and branding settings.",
         "properties": {
           "allowComment": {
-            "description": "Whether viewers can comment on the video. Default: true for public engagement.",
+            "description": "Output only. Whether viewers can comment on the video. Default: true for public engagement.",
+            "readOnly": true,
             "type": "boolean"
           },
           "allowDuet": {
-            "description": "Whether other users can create duet videos (side-by-side reactions).\nDisable for branded content that shouldn't be remixed. Default: true.",
+            "description": "Output only. Whether other users can create duet videos (side-by-side reactions).",
+            "readOnly": true,
             "type": "boolean"
           },
           "allowStitch": {
-            "description": "Whether other users can stitch/use clips from this video in their content.\nDisable for copyrighted or sensitive material. Default: true.",
+            "description": "Output only. Whether other users can stitch/use clips from this video in their content.",
+            "readOnly": true,
             "type": "boolean"
           },
           "isBrandOrganic": {
-            "description": "REQUIRED by TikTok: Whether this is organic brand content (not paid promotion).\nSet to true for regular business posts, false for paid advertising.",
+            "description": "Output only. Whether this is organic brand content (not paid promotion).\nREQUIRED by TikTok. Set to true for regular business posts, false for paid advertising.",
+            "readOnly": true,
             "type": "boolean"
           },
           "isBrandedContent": {
-            "description": "REQUIRED by TikTok: Whether this video contains branded content or product placement.\nSet to true if showcasing products/services, false for general content.",
+            "description": "Output only. Whether this video contains branded content or product placement.\nREQUIRED by TikTok. Set to true if showcasing products/services, false for general content.",
+            "readOnly": true,
             "type": "boolean"
           }
         },
+        "title": "TikTokCustomization",
         "type": "object"
       },
       "v1YoutubeCustomization": {
+        "description": "YouTube-specific customization options for video posts, including title and privacy settings.",
         "properties": {
           "privacyStatus": {
             "$ref": "#/components/schemas/v1YoutubeCustomizationPrivacyStatus"
           },
           "title": {
-            "title": "Title of Youtube video",
+            "description": "Output only. Title of the YouTube video.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "YoutubeCustomization",
         "type": "object"
       },
       "v1YoutubeCustomizationPrivacyStatus": {
@@ -753,33 +841,37 @@
         "type": "object"
       },
       "v2LinkV2": {
+        "description": "Link preview information associated with a social post, including URL, title, and preview image.",
         "properties": {
           "description": {
-            "title": "The description of the link",
+            "description": "Optional. The description of the link.",
             "type": "string"
           },
           "name": {
-            "title": "The name of the link preview",
+            "description": "Optional. The name of the link preview.",
             "type": "string"
           },
           "picture": {
-            "description": "The preview image associated with the link.",
+            "description": "Optional. The preview image associated with the link.",
             "type": "string"
           },
           "shortcode": {
-            "title": "The shortcode of the link",
+            "description": "Optional. The shortcode of the link.",
             "type": "string"
           },
           "title": {
-            "title": "The title for the link",
+            "description": "Optional. The title for the link.",
             "type": "string"
           },
           "url": {
-            "title": "The URL of the link",
+            "description": "Required. The URL of the link.",
             "type": "string"
           }
         },
-        "title": "Represents all the information of a post's link",
+        "required": [
+          "url"
+        ],
+        "title": "LinkV2",
         "type": "object"
       },
       "v2ListPostableSocialServiceRequest": {
@@ -817,66 +909,81 @@
         "type": "object"
       },
       "v2MetadataV2": {
+        "description": "A key-value pair used to store generic metadata information associated with a post or media.",
         "properties": {
           "name": {
-            "title": "The property name or key",
+            "description": "Required. The property name or key.",
             "type": "string"
           },
           "value": {
-            "title": "The property value associated with the name/key",
+            "description": "Required. The property value associated with the name/key.",
             "type": "string"
           }
         },
-        "title": "Stored as key/value pairs can contain generic metadata information",
+        "required": [
+          "name",
+          "value"
+        ],
+        "title": "MetadataV2",
         "type": "object"
       },
       "v2PostActionV2": {
+        "description": "A call-to-action (CTA) associated with a social post.",
         "properties": {
           "linkUrl": {
-            "title": "The link where the CTA will lead to",
+            "description": "Required. The link URL where the CTA will lead to.",
             "type": "string"
           },
           "type": {
-            "title": "Represents the type of the CTA",
+            "description": "Required. The type of the CTA (e.g. LEARN_MORE, BOOK, SHOP).",
             "type": "string"
           }
         },
-        "title": "Represents the action associated with the post when the network allows CTA",
+        "required": [
+          "type",
+          "linkUrl"
+        ],
+        "title": "PostActionV2",
         "type": "object"
       },
       "v2PostContentV2": {
+        "description": "Contains all the content of a social post including text, media attachments, and links.",
         "properties": {
           "description": {
-            "title": "Description : Added specifically for linkedin",
+            "description": "Optional. Description for the post, used specifically for LinkedIn.",
             "type": "string"
           },
           "links": {
+            "description": "Optional. Link previews associated with the post.",
             "items": {
               "$ref": "#/components/schemas/v2LinkV2"
             },
-            "title": "Contains the information of a post's link if any",
             "type": "array"
           },
           "medias": {
+            "description": "Optional. All media associated with the post (images, videos, etc.).",
             "items": {
               "$ref": "#/components/schemas/v2PostMediaV2"
             },
-            "title": "All media associated with the post",
             "type": "array"
           },
           "postText": {
-            "title": "The text of the post",
+            "description": "Required. The text content of the post.",
             "type": "string"
           },
           "title": {
-            "title": "Title: Not required for all social networks",
+            "description": "Optional. Title for the post. Not required for all social networks.",
             "type": "string"
           }
         },
-        "title": "Represents all the content of a post: text, media, links, etc",
+        "required": [
+          "postText"
+        ],
+        "title": "PostContentV2",
         "type": "object"
       },
       "v2PostCustomizationV2": {
+        "description": "Extra configurations for a social post, including events and call-to-action settings.",
         "properties": {
           "action": {
             "$ref": "#/components/schemas/v2PostActionV2"
@@ -885,56 +992,67 @@
             "$ref": "#/components/schemas/v2PostEventV2"
           }
         },
-        "title": "Contains extra configurations of a post, like events and actions",
+        "title": "PostCustomizationV2",
         "type": "object"
       },
       "v2PostEventV2": {
+        "description": "An event associated with a social post, typically used for Google My Business event posts.",
         "properties": {
           "end": {
+            "description": "Required. The timestamp when the event will end.",
             "format": "date-time",
-            "title": "The timestamp when the event will end",
             "type": "string"
           },
           "start": {
+            "description": "Required. The timestamp when the event will start.",
             "format": "date-time",
-            "title": "The timestamp when the event will start",
             "type": "string"
           },
           "title": {
-            "title": "Title of the event related to the post",
+            "description": "Required. Title of the event related to the post.",
             "type": "string"
           }
         },
-        "title": "Represents an event that should be associated/created with a post",
+        "required": [
+          "title",
+          "start",
+          "end"
+        ],
+        "title": "PostEventV2",
         "type": "object"
       },
       "v2PostMediaV2": {
+        "description": "A single media attachment (image, video, etc.) associated with a social post.",
         "properties": {
           "containerId": {
-            "title": "Represents the container identifier, if the network requires it",
+            "description": "Optional. The container identifier, if the network requires it.",
             "type": "string"
           },
           "mediaId": {
-            "title": "Identifier of all the media associated to a post",
+            "description": "Optional. Identifier for this media item.",
             "type": "string"
           },
           "mediaType": {
-            "title": "Type of the media: 'IMAGE' or 'VIDEO', etc",
+            "description": "Required. Type of the media: 'IMAGE' or 'VIDEO', etc.",
             "type": "string"
           },
           "mediaUrl": {
-            "title": "The URL where the media is stored",
+            "description": "Required. The URL where the media is stored.",
             "type": "string"
           },
           "metadata": {
+            "description": "Optional. Metadata associated with this media item.",
             "items": {
               "$ref": "#/components/schemas/v2MetadataV2"
             },
-            "title": "Contains metadata if any associated with each media of the post",
             "type": "array"
           }
         },
-        "title": "Represents the media used on a post",
+        "required": [
+          "mediaUrl",
+          "mediaType"
+        ],
+        "title": "PostMediaV2",
         "type": "object"
       },
       "v2PostStatusV2": {
@@ -1121,43 +1239,46 @@
         "type": "object"
       },
       "v2SocialPostV2": {
+        "description": "Represents a social media post including its content, scheduling, customization, and metadata.",
         "properties": {
           "brandId": {
-            "title": "brand_id related to this post (multilocation only)",
+            "description": "Optional. The brand_id related to this post (multilocation only).",
             "type": "string"
           },
           "businessId": {
-            "title": "The business id that owes this post",
+            "description": "Required. The business id that owns this post.",
             "type": "string"
           },
           "campaignId": {
-            "title": "Campaign ID , Used to store Control social posts for Campaign",
+            "description": "Optional. Campaign ID, used to store control social posts for a campaign.",
             "type": "string"
           },
           "createdBy": {
-            "description": "Identifier of who created this post.\nIn automation flow it will be an assistant ID.\nIn chat flow it will be a user ID.",
+            "description": "Output only. Identifier of who created this post.\nIn automation flow it will be an assistant ID.\nIn chat flow it will be a user ID.",
+            "readOnly": true,
             "type": "string"
           },
           "customization": {
             "$ref": "#/components/schemas/v2PostCustomizationV2"
           },
           "internalPostId": {
-            "title": "Internal post id, we need it as  a fail-safe",
+            "description": "Output only. Internal post id, used as a fail-safe identifier.",
+            "readOnly": true,
             "type": "string"
           },
           "metadata": {
+            "description": "Optional. Metadata to hold any additional details related to the post.",
             "items": {
               "$ref": "#/components/schemas/v2MetadataV2"
             },
-            "title": "Metadata to hold any additional details related to the post",
             "type": "array"
           },
           "multilocationPostId": {
-            "title": "multi_location_post_id related to this post (multilocation only)",
+            "description": "Optional. The multilocation post id related to this post (multilocation only).",
             "type": "string"
           },
           "partnerId": {
-            "title": "partner_id of the business_id for this post",
+            "description": "Required. The partner_id of the business_id for this post.",
             "type": "string"
           },
           "postContent": {
@@ -1167,34 +1288,41 @@
             "$ref": "#/components/schemas/v2PostTypeV2"
           },
           "scheduled": {
+            "description": "Optional. The time to schedule the post at. If not provided, the post will be published immediately.",
             "format": "date-time",
-            "title": "The time to schedule the post at",
             "type": "string"
           },
           "shareId": {
-            "title": "Adding share_id for TikTok",
+            "description": "Optional. The share ID, used for TikTok posts.",
             "type": "string"
           },
           "socialServiceId": {
-            "title": "Social service id represents specific networks ids. Indicates the network in which the post will be published",
+            "description": "Required. Social service id representing the specific network. Indicates the network in which the post will be published.",
             "type": "string"
           },
           "tiktokCustomization": {
             "$ref": "#/components/schemas/v2TikTokCustomizationV2"
           },
           "updatedBy": {
-            "description": "Identifier of who last updated this post. Empty until the first\nupdate, then overwritten on every subsequent update.\nIn automation flow it will be an assistant ID.\nIn chat flow it will be a user ID.",
+            "description": "Output only. Identifier of who last updated this post. Empty until the first\nupdate, then overwritten on every subsequent update.\nIn automation flow it will be an assistant ID.\nIn chat flow it will be a user ID.",
+            "readOnly": true,
             "type": "string"
           },
           "userId": {
-            "title": "Adding UserId, for TikTok",
+            "description": "Optional. The user ID, used for TikTok posts.",
             "type": "string"
           },
           "youtubeCustomization": {
             "$ref": "#/components/schemas/v2YoutubeCustomizationV2"
           }
         },
-        "title": "Represents all the structure needed to create a post",
+        "required": [
+          "businessId",
+          "socialServiceId",
+          "postContent",
+          "partnerId"
+        ],
+        "title": "SocialPostV2",
         "type": "object"
       },
       "v2SocialService": {
@@ -1278,23 +1406,30 @@
         "type": "object"
       },
       "v2TikTokCustomizationV2": {
+        "description": "TikTok-specific customization options for video posts, including community interaction and branding settings.",
         "properties": {
           "allowComment": {
+            "description": "Optional. Whether viewers can comment on the video.",
             "type": "boolean"
           },
           "allowDuet": {
+            "description": "Optional. Whether other users can create duet videos.",
             "type": "boolean"
           },
           "allowStitch": {
+            "description": "Optional. Whether other users can stitch clips from this video.",
             "type": "boolean"
           },
           "isBrandOrganic": {
+            "description": "Optional. Whether this is organic brand content (not paid promotion).",
             "type": "boolean"
           },
           "isBrandedContent": {
+            "description": "Optional. Whether this video contains branded content or product placement.",
             "type": "boolean"
           }
         },
+        "title": "TikTokCustomizationV2",
         "type": "object"
       },
       "v2UpdateBlogPostRequest": {
@@ -1306,11 +1441,13 @@
         "type": "object"
       },
       "v2YoutubeCustomizationV2": {
+        "description": "YouTube-specific customization options for video posts, including privacy settings.",
         "properties": {
           "privacyStatus": {
             "$ref": "#/components/schemas/YoutubeCustomizationV2PrivacyStatusV2"
           }
         },
+        "title": "YoutubeCustomizationV2",
         "type": "object"
       }
     },

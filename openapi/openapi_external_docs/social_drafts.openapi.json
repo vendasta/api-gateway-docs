@@ -39,70 +39,86 @@
         "type": "object"
       },
       "v1Author": {
+        "description": "The author of a blog post.",
         "properties": {
           "id": {
+            "description": "Optional. The id of the author.",
             "format": "int64",
             "type": "string"
           },
           "name": {
+            "description": "Optional. The name of the author.",
             "type": "string"
           }
         },
+        "title": "Author",
         "type": "object"
       },
       "v1BlogPostCustomization": {
+        "description": "Blog post-specific customization options for a draft, including author, categories, and tags.",
         "properties": {
           "author": {
             "$ref": "#/components/schemas/v1Author"
           },
           "categories": {
+            "description": "Optional. The categories of the blog post.",
             "items": {
               "$ref": "#/components/schemas/v1Categories"
             },
             "type": "array"
           },
           "siteType": {
+            "description": "Optional. The site type of the blog post.",
             "type": "string"
           },
           "tags": {
+            "description": "Optional. The tags of the blog post.",
             "items": {
               "type": "string"
             },
             "type": "array"
           },
           "title": {
+            "description": "Optional. The title of the blog post.",
             "type": "string"
           }
         },
+        "title": "BlogPostCustomization",
         "type": "object"
       },
       "v1CampaignCustomization": {
+        "description": "Campaign-specific customization options for a draft, including campaign identity and link shortening.",
         "properties": {
           "id": {
-            "title": "Id of the Campaign",
+            "description": "Optional. Id of the Campaign.",
             "type": "string"
           },
           "name": {
-            "title": "Name of the Campaign",
+            "description": "Optional. Name of the Campaign.",
             "type": "string"
           },
           "shortCode": {
-            "title": "short code for the custom shortened url",
+            "description": "Optional. Short code for the custom shortened URL.",
             "type": "string"
           }
         },
+        "title": "CampaignCustomization",
         "type": "object"
       },
       "v1Categories": {
+        "description": "A blog post category.",
         "properties": {
           "id": {
+            "description": "Optional. The category id.",
             "format": "int64",
             "type": "string"
           },
           "name": {
+            "description": "Optional. The category name.",
             "type": "string"
           }
         },
+        "title": "Categories",
         "type": "object"
       },
       "v1CreateDraftRequest": {
@@ -239,33 +255,38 @@
         "type": "object"
       },
       "v1Draft": {
-        "description": "All the information used to create a draft.",
+        "description": "Represents a social media draft post, including its content, scheduling, and metadata.",
         "properties": {
           "accountGroupId": {
-            "description": "Unique id signifying account group this draft belongs to.",
+            "description": "Output only. Unique id signifying account group this draft belongs to.",
+            "readOnly": true,
             "type": "string"
           },
           "blogPostCustomization": {
             "$ref": "#/components/schemas/v1BlogPostCustomization"
           },
           "brandId": {
-            "title": "to store the brand id of the draft",
+            "description": "Output only. The brand id of the draft.",
+            "readOnly": true,
             "type": "string"
           },
           "campaignCustomization": {
             "$ref": "#/components/schemas/v1CampaignCustomization"
           },
           "created": {
-            "description": "Time when the draft was created.",
+            "description": "Output only. Time when the draft was created.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "draftId": {
-            "description": "Unique id for the draft.",
+            "description": "Output only. Unique id for the draft.",
+            "readOnly": true,
             "type": "string"
           },
           "draftText": {
-            "description": "Raw text of the draft.",
+            "description": "Output only. Raw text of the draft.",
+            "readOnly": true,
             "type": "string"
           },
           "draftType": {
@@ -275,73 +296,85 @@
             "$ref": "#/components/schemas/v1GMBPostCustomization"
           },
           "isHidden": {
-            "title": "If this draft is hidden",
+            "description": "Output only. Whether this draft is hidden.",
+            "readOnly": true,
             "type": "boolean"
           },
           "media": {
-            "description": "A list of media attached to this draft.",
+            "description": "Output only. A list of media attached to this draft.",
             "items": {
               "$ref": "#/components/schemas/v1Media"
             },
+            "readOnly": true,
             "type": "array"
           },
           "metadata": {
+            "description": "Output only. Any metadata associated with this draft (source, last raised exception, etc).",
             "items": {
               "$ref": "#/components/schemas/v1MetaData"
             },
-            "title": "Any metadata associated with this draft (source, last raised exception, etc)",
+            "readOnly": true,
             "type": "array"
           },
           "multilocationPostId": {
-            "title": "to store the multilocation post id of the draft",
+            "description": "Output only. The multilocation post id of the draft.",
+            "readOnly": true,
             "type": "string"
           },
           "options": {
-            "description": "Special configuration options for the composer.",
+            "description": "Output only. Special configuration options for the composer.",
             "items": {
               "type": "string"
             },
+            "readOnly": true,
             "type": "array"
           },
           "postDateTime": {
-            "description": "Time the draft is set to be posted at.",
+            "description": "Output only. Time the draft is set to be posted at.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "previews": {
-            "description": "Preview link for shortened URL Links.",
+            "description": "Output only. Preview link for shortened URL Links.",
+            "readOnly": true,
             "type": "string"
           },
           "socialNetworkIdentifier": {
-            "description": "Identifier for the social network platform (e.g., LinkedIn Profile URL).\nUsed to track drafts associated with specific social network profiles,\nparticularly when connections are disconnected and posts move to drafts.",
+            "description": "Output only. Identifier for the social network platform (e.g., LinkedIn Profile URL).\nUsed to track drafts associated with specific social network profiles,\nparticularly when connections are disconnected and posts move to drafts.",
+            "readOnly": true,
             "type": "string"
           },
           "ssidDraftTypes": {
+            "description": "Output only. SSID Draft Type mapping.",
             "items": {
               "$ref": "#/components/schemas/v1SSIDDraftType"
             },
-            "title": "SSID Draft Type",
+            "readOnly": true,
             "type": "array"
           },
           "ssids": {
-            "description": "Social Service ids used in this draft.",
+            "description": "Output only. Social Service ids used in this draft.",
             "items": {
               "type": "string"
             },
+            "readOnly": true,
             "type": "array"
           },
           "tiktokCustomization": {
             "$ref": "#/components/schemas/v1TikTokCustomization"
           },
           "updated": {
-            "description": "Time when the draft was updated.",
+            "description": "Output only. Time when the draft was updated.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "youtubeCustomization": {
             "$ref": "#/components/schemas/v1YoutubeCustomization"
           }
         },
+        "title": "Draft",
         "type": "object"
       },
       "v1DraftType": {
@@ -361,30 +394,32 @@
         "type": "string"
       },
       "v1GMBPostCustomization": {
+        "description": "Google My Business-specific customization options for a draft, including event and call-to-action settings.",
         "properties": {
           "ctaType": {
-            "description": "Call to action type.",
+            "description": "Optional. Call to action type.",
             "type": "string"
           },
           "eventEnd": {
-            "description": "Scheduled end for the event.",
+            "description": "Optional. Scheduled end for the event.",
             "format": "date-time",
             "type": "string"
           },
           "eventStart": {
-            "description": "Scheduled start for the event.",
+            "description": "Optional. Scheduled start for the event.",
             "format": "date-time",
             "type": "string"
           },
           "linkUrl": {
-            "description": "URL link for event.",
+            "description": "Optional. URL link for event.",
             "type": "string"
           },
           "title": {
-            "title": "Title of GMB Event",
+            "description": "Optional. Title of the GMB Event.",
             "type": "string"
           }
         },
+        "title": "GMBPostCustomization",
         "type": "object"
       },
       "v1GetDraftRequest": {
@@ -471,61 +506,74 @@
         "type": "object"
       },
       "v1Media": {
-        "description": "All the information necessary to describe a piece of media inside a draft.\nThis can either hold a video and use the video_url field, or be an image and use the\nimage_url, image_path, and image_size fields.",
+        "description": "A single media item (image, video, or gif) attached to a draft.",
         "properties": {
           "gifUrl": {
-            "description": "URL to a gif, if this is one.",
+            "description": "Optional. URL to a gif, if this media is a gif.",
             "type": "string"
           },
           "imageUrl": {
-            "description": "Url for an image, if this is one.",
+            "description": "Optional. URL for an image, if this media is an image.",
             "type": "string"
           },
           "mediaId": {
-            "title": "Id of the media entry (mostly used when dealing with more than one)",
+            "description": "Optional. Id of the media entry (mostly used when dealing with more than one).",
             "type": "string"
           },
           "metaData": {
+            "description": "Optional. Any metadata associated with this Media (source, last raised exception, etc).",
             "items": {
               "$ref": "#/components/schemas/v1MetaData"
             },
-            "title": "Any metadata associated with this Media (source, last raised exception, etc)",
             "type": "array"
           },
           "videoUrl": {
-            "description": "URL to a video, if this is one.",
+            "description": "Optional. URL to a video, if this media is a video.",
             "type": "string"
           }
         },
+        "title": "Media",
         "type": "object"
       },
       "v1MetaData": {
+        "description": "A key-value pair of metadata associated with a draft or media entry.",
         "properties": {
           "propertyName": {
+            "description": "Required. The name of the metadata property.",
             "type": "string"
           },
           "propertyValue": {
+            "description": "Required. The value of the metadata property.",
             "type": "string"
           }
         },
-        "title": "Metadata message type for saving properties inside each Media of a draft",
+        "required": [
+          "propertyName",
+          "propertyValue"
+        ],
+        "title": "MetaData",
         "type": "object"
       },
       "v1MlDraftPost": {
+        "description": "Identifies a multilocation draft post and the account groups it belongs to, used for bulk deletion.",
         "properties": {
           "accountGroupIds": {
+            "description": "Required. List of account group ids for that post.",
             "items": {
               "type": "string"
             },
-            "title": "list of account group ids for that post",
             "type": "array"
           },
           "multilocationPostId": {
-            "title": "Post Id mapped to each multilocation posts",
+            "description": "Required. Post Id mapped to each multilocation post.",
             "type": "string"
           }
         },
-        "title": "Multilocation draft posts to be deleted",
+        "required": [
+          "multilocationPostId",
+          "accountGroupIds"
+        ],
+        "title": "MlDraftPost",
         "type": "object"
       },
       "v1MultiDeleteMLDraftPostsRequest": {
@@ -545,34 +593,48 @@
         "type": "object"
       },
       "v1SSIDDraftType": {
+        "description": "Maps a social service ID to its corresponding draft type.",
         "properties": {
           "draftType": {
             "$ref": "#/components/schemas/v1DraftType"
           },
           "ssid": {
+            "description": "Required. The social service ID.",
             "type": "string"
           }
         },
+        "required": [
+          "ssid",
+          "draftType"
+        ],
+        "title": "SSIDDraftType",
         "type": "object"
       },
       "v1TikTokCustomization": {
+        "description": "TikTok-specific customization options for video drafts, including community interaction and branding settings.",
         "properties": {
           "allowComment": {
+            "description": "Optional. Whether viewers can comment on the video.",
             "type": "boolean"
           },
           "allowDuet": {
+            "description": "Optional. Whether other users can create duet videos.",
             "type": "boolean"
           },
           "allowStitch": {
+            "description": "Optional. Whether other users can stitch clips from this video.",
             "type": "boolean"
           },
           "isBrandOrganic": {
+            "description": "Optional. Whether this is organic brand content.",
             "type": "boolean"
           },
           "isBrandedContent": {
+            "description": "Optional. Whether this video contains branded content or product placement.",
             "type": "boolean"
           }
         },
+        "title": "TikTokCustomization",
         "type": "object"
       },
       "v1UpdateDraftRequest": {
@@ -700,15 +762,17 @@
         "type": "string"
       },
       "v1YoutubeCustomization": {
+        "description": "YouTube-specific customization options for video drafts, including title and privacy settings.",
         "properties": {
           "privacyStatus": {
             "$ref": "#/components/schemas/YoutubeCustomizationPrivacyStatus"
           },
           "title": {
-            "title": "Title of Youtube video",
+            "description": "Optional. Title of the YouTube video.",
             "type": "string"
           }
         },
+        "title": "YoutubeCustomization",
         "type": "object"
       }
     },

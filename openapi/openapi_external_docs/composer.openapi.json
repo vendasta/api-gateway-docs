@@ -63,16 +63,20 @@
         "type": "object"
       },
       "v1Exception": {
+        "description": "An error encountered for a specific social service during a post operation.",
         "properties": {
           "message": {
-            "title": "Exception message",
+            "description": "Output only. The error message describing what went wrong.",
+            "readOnly": true,
             "type": "string"
           },
           "socialServiceId": {
-            "title": "social service id",
+            "description": "Output only. The social service ID where the error occurred.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Exception",
         "type": "object"
       },
       "v1GMBPostCustomization": {
@@ -131,96 +135,103 @@
         "type": "object"
       },
       "v1Post": {
+        "description": "A social media post to be scheduled, updated, or returned in results.",
         "properties": {
           "brandId": {
-            "title": "If this is an ML post, brandId is also required",
+            "description": "Optional. If this is an ML post, brand ID is also required.",
             "type": "string"
           },
           "businessId": {
-            "title": "The business id of the account",
+            "description": "Required. The business ID of the account.",
             "type": "string"
           },
           "gifUrl": {
-            "title": "The url of a gif to post",
+            "description": "Optional. The URL of a gif to post.",
             "type": "string"
           },
           "gmbPostCustomization": {
             "$ref": "#/components/schemas/v1GMBPostCustomization"
           },
           "imageUrls": {
+            "description": "Optional. The URLs of images to include on the post.",
             "items": {
               "type": "string"
             },
-            "title": "The urls of images to include on the post",
             "type": "array"
           },
           "internalPostId": {
-            "title": "The internal post id",
+            "description": "Required. The internal post ID, used to identify the post for updates.",
             "type": "string"
           },
           "isMultilocation": {
-            "title": "If this is an ML composer post or not",
+            "description": "Optional. If this is a multi-location composer post or not.",
             "type": "boolean"
           },
           "link": {
             "$ref": "#/components/schemas/v1Link"
           },
           "linkShortCodes": {
+            "description": "Optional. The shortcodes of links in the post.",
             "items": {
               "type": "string"
             },
-            "title": "The shortcodes of links in the post",
             "type": "array"
           },
           "linkUrl": {
-            "title": "The url of a link to post",
+            "description": "Optional. The URL of a link to post.",
             "type": "string"
           },
           "mediaEntries": {
+            "description": "Optional. Array of media content when uploading multiple media.",
             "items": {
               "$ref": "#/components/schemas/composerv1MediaEntry"
             },
-            "title": "Array of media content when uploading multiple media",
             "type": "array"
           },
           "metaData": {
+            "description": "Optional. Metadata about the media, could be anything.",
             "items": {
               "$ref": "#/components/schemas/v1MetaData"
             },
-            "title": "Metadata about the media, could be anything",
             "type": "array"
           },
           "postText": {
-            "title": "The Post text",
+            "description": "Optional. The post text content.",
             "type": "string"
           },
           "postType": {
             "$ref": "#/components/schemas/v1PostType"
           },
           "scheduled": {
+            "description": "Optional. The time to schedule the post for.",
             "format": "date-time",
-            "title": "The time to schedule the post for",
             "type": "string"
           },
           "socialServiceId": {
-            "title": "The id of a social service to publish to",
+            "description": "Required. The ID of the social service connection to publish to.",
             "type": "string"
           },
           "tiktokCustomization": {
             "$ref": "#/components/schemas/v1TikTokCustomization"
           },
           "title": {
-            "title": "The title of the post: Used by Youtube and LinkedIn for now",
+            "description": "Optional. The title of the post. Used by YouTube and LinkedIn.",
             "type": "string"
           },
           "videoUrl": {
-            "title": "The url of a video to post",
+            "description": "Optional. The URL of a video to post.",
             "type": "string"
           },
           "youtubeCustomization": {
             "$ref": "#/components/schemas/v1YoutubeCustomization"
           }
         },
+        "required": [
+          "socialServiceId",
+          "businessId",
+          "internalPostId"
+        ],
+        "title": "Post",
         "type": "object"
       },
       "v1PostType": {
@@ -240,15 +251,18 @@
         "type": "string"
       },
       "v1Result": {
+        "description": "A successful result containing the social post ID and post details.",
         "properties": {
           "post": {
             "$ref": "#/components/schemas/v1Post"
           },
           "socialPostId": {
-            "title": "Social post id",
+            "description": "Output only. The social post ID assigned by the social media platform.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Result",
         "type": "object"
       },
       "v1TikTokCustomization": {
@@ -272,33 +286,43 @@
         "type": "object"
       },
       "v1UpdatePostsRequest": {
+        "description": "Request to update one or more scheduled social media posts.",
         "properties": {
           "posts": {
+            "description": "Required. The list of posts to update. Each post must include its internal_post_id.",
             "items": {
               "$ref": "#/components/schemas/v1Post"
             },
             "type": "array"
           }
         },
+        "required": [
+          "posts"
+        ],
+        "title": "UpdatePostsRequest",
         "type": "object"
       },
       "v1UpdatePostsResponse": {
+        "description": "Response containing the results of updating social media posts.",
         "properties": {
           "exceptions": {
+            "description": "Output only. Exceptions encountered during post updates.",
             "items": {
               "$ref": "#/components/schemas/v1Exception"
             },
-            "title": "Edit post exceptions",
+            "readOnly": true,
             "type": "array"
           },
           "results": {
+            "description": "Output only. The successfully updated posts.",
             "items": {
               "$ref": "#/components/schemas/v1Result"
             },
-            "title": "Edit post result",
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "UpdatePostsResponse",
         "type": "object"
       },
       "v1YoutubeCustomization": {
@@ -340,6 +364,7 @@
               }
             }
           },
+          "description": "Request to update one or more scheduled social media posts.",
           "required": true
         },
         "responses": {

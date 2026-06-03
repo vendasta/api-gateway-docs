@@ -29,230 +29,285 @@
         "type": "object"
       },
       "v1BusinessMetric": {
-        "description": "BusinessMetric contains a business identifier, label, and one or more data points.\nPoints are aggregated by aggregation_key to build report cards.",
+        "description": "A business identifier, label, and one or more data points for analytics reporting.",
         "properties": {
           "businessId": {
-            "title": "Business ID (Account ID). Format: AG-XXXXXXXX",
+            "title": "Required. Business ID (Account ID). Format: AG-XXXXXXXX",
             "type": "string"
           },
           "label": {
-            "title": "Label identifying the metric type. Example: \"click\", \"NetSyncGoogleMapViews\"",
+            "title": "Required. Label identifying the metric type. Example: \"click\", \"NetSyncGoogleMapViews\"",
             "type": "string"
           },
           "points": {
-            "description": "Data points to be collected and aggregated.",
+            "description": "Required. Data points to be collected and aggregated.",
             "items": {
               "$ref": "#/components/schemas/v1Point"
             },
             "type": "array"
           }
         },
+        "required": [
+          "businessId",
+          "label",
+          "points"
+        ],
+        "title": "BusinessMetric",
         "type": "object"
       },
       "v1DateRange": {
-        "description": "DateRange filters points by occurrence time. Both dates inclusive.",
+        "description": "A date range filter with inclusive start and end dates.",
         "properties": {
           "endDate": {
             "format": "date-time",
-            "title": "End date. Format: YYYY-MM-DDTHH:MM:SSZ",
+            "title": "Required. End date. Format: YYYY-MM-DDTHH:MM:SSZ",
             "type": "string"
           },
           "startDate": {
             "format": "date-time",
-            "title": "Start date. Format: YYYY-MM-DDTHH:MM:SSZ",
+            "title": "Required. Start date. Format: YYYY-MM-DDTHH:MM:SSZ",
             "type": "string"
           }
         },
+        "required": [
+          "startDate",
+          "endDate"
+        ],
+        "title": "DateRange",
         "type": "object"
       },
       "v1DeleteBusinessMetricRequest": {
-        "description": "DeleteBusinessMetricRequest soft deletes a metric point by ID.",
+        "description": "Request to soft delete a metric point by its unique identifier.",
         "properties": {
           "id": {
-            "description": "Unique identifier (UUID) of the metric point to delete.",
+            "description": "Required. Unique identifier (UUID) of the metric point to delete.",
             "type": "string"
           }
         },
+        "required": [
+          "id"
+        ],
+        "title": "DeleteBusinessMetricRequest",
         "type": "object"
       },
       "v1DeleteBusinessMetricResponse": {
-        "description": "DeleteBusinessMetricResponse indicates success or failure of a deletion.",
+        "description": "Result of a single metric point deletion, indicating success or failure.",
         "properties": {
           "error": {
             "$ref": "#/components/schemas/v1Error"
           },
           "id": {
-            "description": "UUID of the processed metric point.",
+            "description": "Output only. UUID of the processed metric point.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "DeleteBusinessMetricResponse",
         "type": "object"
       },
       "v1DeleteMultiBusinessMetricsRequest": {
-        "description": "DeleteMultiBusinessMetricsRequest soft deletes multiple metric points.",
+        "description": "Request to soft delete multiple metric points in a single call.",
         "properties": {
           "businessMetrics": {
-            "description": "List of metric point IDs to delete.",
+            "description": "Required. List of metric point IDs to delete.",
             "items": {
               "$ref": "#/components/schemas/v1DeleteBusinessMetricRequest"
             },
             "type": "array"
           }
         },
+        "required": [
+          "businessMetrics"
+        ],
+        "title": "DeleteMultiBusinessMetricsRequest",
         "type": "object"
       },
       "v1DeleteMultiBusinessMetricsResponse": {
-        "description": "DeleteMultiBusinessMetricsResponse contains results for each deletion attempt.",
+        "description": "Response containing results for each deletion attempt in a batch delete.",
         "properties": {
           "businessMetrics": {
-            "description": "Deletion results. Successfully deleted points have no error field.",
+            "description": "Output only. Deletion results. Successfully deleted points have no error field.",
             "items": {
               "$ref": "#/components/schemas/v1DeleteBusinessMetricResponse"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "DeleteMultiBusinessMetricsResponse",
         "type": "object"
       },
       "v1Error": {
-        "description": "Error details for failed operations.",
+        "description": "Error details for a failed operation.",
         "properties": {
           "code": {
-            "description": "Error code. Code 1: point does not exist or is already deleted.",
+            "description": "Output only. Error code. Code 1: point does not exist or is already deleted.",
             "format": "int64",
+            "readOnly": true,
             "type": "string"
           },
           "message": {
-            "description": "Human-readable error message.",
+            "description": "Output only. Human-readable error message.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Error",
         "type": "object"
       },
       "v1GetBusinessMetricPointRequest": {
-        "description": "GetBusinessMetricPointRequest retrieves a metric point by ID.",
+        "description": "Request to retrieve a single metric point by its unique identifier.",
         "properties": {
           "id": {
-            "description": "Unique identifier (UUID) of the metric point to retrieve.",
+            "description": "Required. Unique identifier (UUID) of the metric point to retrieve.",
             "type": "string"
           }
         },
+        "required": [
+          "id"
+        ],
+        "title": "GetBusinessMetricPointRequest",
         "type": "object"
       },
       "v1GetBusinessMetricPointResponse": {
-        "description": "GetBusinessMetricPointResponse contains complete details for a single metric point.",
+        "description": "Complete details for a single metric point including source, value, and timestamps.",
         "properties": {
           "aggregationKey": {
-            "description": "Aggregation key used to group this point with others.",
+            "description": "Output only. Aggregation key used to group this point with others.",
+            "readOnly": true,
             "type": "string"
           },
           "businessId": {
-            "title": "Business ID (Account ID). Format: AG-XXXXXXXX",
+            "readOnly": true,
+            "title": "Output only. Business ID (Account ID). Format: AG-XXXXXXXX",
             "type": "string"
           },
           "created": {
             "format": "date-time",
-            "title": "When this point was created. Format: YYYY-MM-DDTHH:MM:SSZ",
+            "readOnly": true,
+            "title": "Output only. When this point was created. Format: YYYY-MM-DDTHH:MM:SSZ",
             "type": "string"
           },
           "dateHappened": {
             "format": "date-time",
-            "title": "When the measurement occurred. Format: YYYY-MM-DDTHH:MM:SSZ",
+            "readOnly": true,
+            "title": "Output only. When the measurement occurred. Format: YYYY-MM-DDTHH:MM:SSZ",
             "type": "string"
           },
           "dateHappenedKey": {
-            "description": "Internal date key for indexing (Unix timestamp in nanoseconds).",
+            "description": "Output only. Internal date key for indexing (Unix timestamp in nanoseconds).",
+            "readOnly": true,
             "type": "string"
           },
           "deleted": {
-            "description": "Whether this point has been soft-deleted.",
+            "description": "Output only. Whether this point has been soft-deleted.",
+            "readOnly": true,
             "type": "boolean"
           },
           "id": {
-            "description": "Unique identifier (UUID).",
+            "description": "Output only. Unique identifier (UUID).",
+            "readOnly": true,
             "type": "string"
           },
           "label": {
-            "title": "Metric label. Example: \"NetSyncGoogleMapViews\", \"click\"",
+            "readOnly": true,
+            "title": "Output only. Metric label. Example: \"NetSyncGoogleMapViews\", \"click\"",
             "type": "string"
           },
           "source": {
-            "description": "Source identifier (typically the user identifier or service account) that submitted the point.",
+            "description": "Output only. Source identifier (typically the user identifier or service account) that submitted the point.",
+            "readOnly": true,
             "type": "string"
           },
           "value": {
-            "description": "Integer value of the metric point.",
+            "description": "Output only. Integer value of the metric point.",
             "format": "int64",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "GetBusinessMetricPointResponse",
         "type": "object"
       },
       "v1GetBusinessMetricRequest": {
-        "description": "GetBusinessMetricRequest filters metric points by business, label, and required date range.",
+        "description": "Request to retrieve metric points for a business, filtered by label and date range.",
         "properties": {
           "businessId": {
-            "title": "Business ID (Account ID). Format: AG-XXXXXXXX",
+            "title": "Required. Business ID (Account ID). Format: AG-XXXXXXXX",
             "type": "string"
           },
           "cursor": {
-            "description": "Pagination cursor from previous response. Leave empty for initial request.",
+            "description": "Optional. Pagination cursor from previous response. Leave empty for initial request.",
             "type": "string"
           },
           "dateRange": {
             "$ref": "#/components/schemas/v1DateRange"
           },
           "label": {
-            "description": "Label identifying the metric type. Must match the label used when pushing data.",
+            "description": "Required. Label identifying the metric type. Must match the label used when pushing data.",
             "type": "string"
           },
           "pageSize": {
-            "description": "Maximum number of points to return per page.",
+            "description": "Optional. Maximum number of points to return per page.",
             "format": "int64",
             "type": "string"
           }
         },
+        "required": [
+          "businessId",
+          "label",
+          "dateRange"
+        ],
+        "title": "GetBusinessMetricRequest",
         "type": "object"
       },
       "v1GetBusinessMetricResponse": {
-        "description": "GetBusinessMetricResponse contains paginated metric points.",
+        "description": "Response containing paginated metric points for a business.",
         "properties": {
           "cursor": {
-            "description": "Pagination cursor for next page. Empty if no more results.",
+            "description": "Output only. Pagination cursor for next page. Empty if no more results.",
+            "readOnly": true,
             "type": "string"
           },
           "metric": {
             "$ref": "#/components/schemas/v1BusinessMetric"
           }
         },
+        "title": "GetBusinessMetricResponse",
         "type": "object"
       },
       "v1Point": {
-        "description": "Point represents a single measurement or event at a specific time.\nPoints with the same aggregation_key are grouped together for aggregation.",
+        "description": "A single measurement or event at a specific time. Points with the same aggregation_key are grouped together.",
         "properties": {
           "aggregationKey": {
-            "title": "Tag used to group points for aggregation. Example: \"web\", \"mobile\", \"organic\"",
+            "title": "Required. Tag used to group points for aggregation. Example: \"web\", \"mobile\", \"organic\"",
             "type": "string"
           },
           "dateHappened": {
             "format": "date-time",
-            "title": "When the measurement occurred. Format: YYYY-MM-DDTHH:MM:SSZ",
+            "title": "Required. When the measurement occurred. Format: YYYY-MM-DDTHH:MM:SSZ",
             "type": "string"
           },
           "id": {
-            "description": "Unique identifier assigned by the system. Leave empty when creating new points.",
+            "description": "Output only. Unique identifier assigned by the system. Leave empty when creating new points.",
+            "readOnly": true,
             "type": "string"
           },
           "intval": {
             "format": "int64",
-            "title": "Integer value (counts, metrics, etc.)",
+            "title": "Optional. Integer value (counts, metrics, etc.)",
             "type": "string"
           },
           "strval": {
-            "title": "String value (coming soon)",
+            "title": "Optional. String value (coming soon)",
             "type": "string"
           }
         },
+        "required": [
+          "dateHappened",
+          "aggregationKey"
+        ],
+        "title": "Point",
         "type": "object"
       }
     },
@@ -291,7 +346,7 @@
               }
             }
           },
-          "description": "BusinessMetric contains a business identifier, label, and one or more data points.\nPoints are aggregated by aggregation_key to build report cards.",
+          "description": "A business identifier, label, and one or more data points for analytics reporting.",
           "required": true
         },
         "responses": {
@@ -342,7 +397,7 @@
               }
             }
           },
-          "description": "DeleteBusinessMetricRequest soft deletes a metric point by ID.",
+          "description": "Request to soft delete a metric point by its unique identifier.",
           "required": true
         },
         "responses": {
@@ -393,7 +448,7 @@
               }
             }
           },
-          "description": "DeleteMultiBusinessMetricsRequest soft deletes multiple metric points.",
+          "description": "Request to soft delete multiple metric points in a single call.",
           "required": true
         },
         "responses": {
@@ -444,7 +499,7 @@
               }
             }
           },
-          "description": "GetBusinessMetricRequest filters metric points by business, label, and required date range.",
+          "description": "Request to retrieve metric points for a business, filtered by label and date range.",
           "required": true
         },
         "responses": {
@@ -496,7 +551,7 @@
               }
             }
           },
-          "description": "GetBusinessMetricPointRequest retrieves a metric point by ID.",
+          "description": "Request to retrieve a single metric point by its unique identifier.",
           "required": true
         },
         "responses": {

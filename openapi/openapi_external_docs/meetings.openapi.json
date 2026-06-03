@@ -123,29 +123,38 @@
             "$ref": "#/components/schemas/typeTimeZone"
           }
         },
+        "required": [
+          "businessId",
+          "eventTypeId",
+          "timeSpan",
+          "timeZone"
+        ],
+        "title": "AvailableTimeSlotsRequest",
         "type": "object"
       },
       "v1AvailableTimeSlotsResponse": {
         "description": "Response containing a list of available time slots for booking.",
         "properties": {
           "timeSlots": {
-            "description": "Ordered list of available time slots in ISO date-time format, in the requested time zone.",
+            "description": "Output only. Ordered list of available time slots in ISO date-time format, in the requested time zone.",
             "items": {
               "$ref": "#/components/schemas/v1IsoDateTimeRange"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "AvailableTimeSlotsResponse",
         "type": "object"
       },
       "v1BookMeetingExternalRequest": {
-        "description": "Request message for booking a new meeting for a specified event type.",
+        "description": "Request message for booking a new meeting for a specified event type in a given business.",
         "properties": {
           "attendees": {
+            "description": "Required. List of attendees to invite. Each must include at minimum a valid email address or valid phone number based on event type configuration.",
             "items": {
               "$ref": "#/components/schemas/meetingsv1Contact"
             },
-            "title": "Required. List of attendees to invite. Each must include at minimum a valid email address or valid phone number based on event type configuration",
             "type": "array"
           },
           "businessId": {
@@ -164,7 +173,7 @@
             "$ref": "#/components/schemas/v1Answers"
           },
           "hostUserId": {
-            "description": "Required for Team event type - ClientChoice and PriorityRoundRobin; ignored for RoundRobin and MultiHost.\nMust be one of the event type's configured host user IDs.",
+            "description": "Optional. Host user ID. Required for Team event type - ClientChoice and PriorityRoundRobin; ignored for RoundRobin and MultiHost.\nMust be one of the event type's configured host user IDs.",
             "type": "string"
           },
           "location": {
@@ -177,49 +186,65 @@
             "type": "string"
           }
         },
+        "required": [
+          "businessId",
+          "eventTypeId",
+          "start",
+          "attendees"
+        ],
+        "title": "BookMeetingExternalRequest",
         "type": "object"
       },
       "v1BookMeetingExternalResponse": {
         "description": "Response containing the details of the successfully booked meeting.",
         "properties": {
           "attendeeEmails": {
-            "description": "List of email addresses for all attendees successfully added to the meeting.",
+            "description": "Output only. List of email addresses for all attendees successfully added to the meeting.",
             "items": {
               "type": "string"
             },
+            "readOnly": true,
             "type": "array"
           },
           "eventTypeId": {
-            "description": "Unique identifier of the event type that was booked.",
+            "description": "Output only. Unique identifier of the event type that was booked.",
+            "readOnly": true,
             "type": "string"
           },
           "location": {
-            "description": "Location of the meeting. Empty for virtual; physical address for in-person.",
+            "description": "Output only. Location of the meeting. Empty for virtual; physical address for in-person.",
+            "readOnly": true,
             "type": "string"
           },
           "meetingEndTime": {
-            "description": "Scheduled end time of the meeting in UTC.",
+            "description": "Output only. Scheduled end time of the meeting in UTC.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "meetingId": {
-            "description": "Unique identifier of the booked meeting; use for rescheduling, cancellation, or retrieval.",
+            "description": "Output only. Unique identifier of the booked meeting; use for rescheduling, cancellation, or retrieval.",
+            "readOnly": true,
             "type": "string"
           },
           "meetingStartTime": {
-            "description": "Scheduled start time of the meeting in UTC.",
+            "description": "Output only. Scheduled start time of the meeting in UTC.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "title": {
-            "description": "Title or subject of the meeting as it appears in calendar invitations.",
+            "description": "Output only. Title or subject of the meeting as it appears in calendar invitations.",
+            "readOnly": true,
             "type": "string"
           },
           "userId": {
-            "description": "Unique identifier of the calendar owner (host) for this meeting.",
+            "description": "Output only. Unique identifier of the calendar owner (host) for this meeting.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "BookMeetingExternalResponse",
         "type": "object"
       },
       "v1DateRangeType": {
@@ -231,63 +256,75 @@
         "type": "string"
       },
       "v1EventType": {
-        "description": "Event type configuration returned by ListTeamEventTypes and ListUserEventTypes.",
+        "description": "Event type configuration describing a bookable meeting type, including duration, location, and host details.",
         "properties": {
           "bookingUrl": {
-            "description": "Public booking URL where attendees can schedule this event type.",
+            "description": "Output only. Public booking URL where attendees can schedule this event type.",
+            "readOnly": true,
             "type": "string"
           },
           "bookingWindow": {
             "$ref": "#/components/schemas/v1EventTypeDateRange"
           },
           "calendarType": {
-            "description": "Type or identifier of the calendar used when booking this event.",
+            "description": "Output only. Type or identifier of the calendar used when booking this event.",
+            "readOnly": true,
             "type": "string"
           },
           "description": {
-            "description": "Optional. Description of the event type, visible in booking experiences.",
+            "description": "Output only. Optional. Description of the event type, visible in booking experiences.",
+            "readOnly": true,
             "type": "string"
           },
           "duration": {
-            "description": "Duration of the scheduled meeting for this event type.",
+            "description": "Output only. Duration of the scheduled meeting for this event type.",
+            "readOnly": true,
             "type": "string"
           },
           "hostOrderDetails": {
-            "description": "Ordering or assignment details used to select a host for new bookings.",
+            "description": "Output only. Ordering or assignment details used to select a host for new bookings.",
             "items": {
               "$ref": "#/components/schemas/v1HostOrderDetails"
             },
+            "readOnly": true,
             "type": "array"
           },
           "hostUsers": {
-            "description": "Users who can host meetings for this event type.",
+            "description": "Output only. Users who can host meetings for this event type.",
             "items": {
               "$ref": "#/components/schemas/v1UserResponse"
             },
+            "readOnly": true,
             "type": "array"
           },
           "id": {
-            "description": "Unique identifier of the event type.",
+            "description": "Output only. Unique identifier of the event type.",
+            "readOnly": true,
             "type": "string"
           },
           "isEmailRequired": {
-            "description": "Whether an attendee email address is required when booking.",
+            "description": "Output only. Whether an attendee email address is required when booking.",
+            "readOnly": true,
             "type": "boolean"
           },
           "isPhoneNumberRequired": {
-            "description": "Whether an attendee phone number is required when booking.",
+            "description": "Output only. Whether an attendee phone number is required when booking.",
+            "readOnly": true,
             "type": "boolean"
           },
           "isVideoConferencingEnabled": {
-            "description": "Whether video conferencing is enabled.",
+            "description": "Output only. Whether video conferencing is enabled.",
+            "readOnly": true,
             "type": "boolean"
           },
           "location": {
-            "description": "Default location details for the meeting (e.g., address or meeting link).",
+            "description": "Output only. Default location details for the meeting (e.g., address or meeting link).",
+            "readOnly": true,
             "type": "string"
           },
           "locationGuidelines": {
-            "description": "Optional. Additional instructions or guidelines about the meeting location.",
+            "description": "Output only. Optional. Additional instructions or guidelines about the meeting location.",
+            "readOnly": true,
             "type": "string"
           },
           "locationType": {
@@ -297,10 +334,12 @@
             "$ref": "#/components/schemas/v1TeamEventMeetingType"
           },
           "name": {
-            "description": "Name of the event type shown to users and invitees.",
+            "description": "Output only. Name of the event type shown to users and invitees.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "EventType",
         "type": "object"
       },
       "v1EventTypeDateRange": {
@@ -333,10 +372,15 @@
             "type": "string"
           }
         },
+        "required": [
+          "businessId",
+          "meetingId"
+        ],
+        "title": "ExternalCancelMeetingRequest",
         "type": "object"
       },
       "v1ExternalRescheduleMeetingRequest": {
-        "description": "Request message for rescheduling an existing meeting to a new time and/or location.\nEither start_time or location is required.",
+        "description": "Request message for rescheduling an existing meeting to a new time and/or location. Either start_time or location is required.",
         "properties": {
           "businessId": {
             "description": "Required. The business ID (starts with \"AG-\").",
@@ -359,38 +403,51 @@
             "$ref": "#/components/schemas/typeTimeZone"
           }
         },
+        "required": [
+          "businessId",
+          "meetingId",
+          "timeZone"
+        ],
+        "title": "ExternalRescheduleMeetingRequest",
         "type": "object"
       },
       "v1ExternalRescheduleMeetingResponse": {
         "description": "Response containing the updated details of the rescheduled meeting.",
         "properties": {
           "endTime": {
-            "description": "New scheduled end time of the meeting in UTC.",
+            "description": "Output only. New scheduled end time of the meeting in UTC.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "eventTypeId": {
-            "description": "List of all hosts for this meeting with their full details.",
+            "description": "Output only. Identifier of the event type for this meeting.",
+            "readOnly": true,
             "type": "string"
           },
           "location": {
-            "description": "Location of the meeting. Empty for virtual; physical address for in-person.",
+            "description": "Output only. Location of the meeting. Empty for virtual; physical address for in-person.",
+            "readOnly": true,
             "type": "string"
           },
           "meetingId": {
-            "description": "Unique identifier of the rescheduled meeting.",
+            "description": "Output only. Unique identifier of the rescheduled meeting.",
+            "readOnly": true,
             "type": "string"
           },
           "startTime": {
-            "description": "New scheduled start time of the meeting in UTC.",
+            "description": "Output only. New scheduled start time of the meeting in UTC.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "title": {
-            "description": "Title or subject of the meeting as it appears in calendar invitations.",
+            "description": "Output only. Title or subject of the meeting as it appears in calendar invitations.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "ExternalRescheduleMeetingResponse",
         "type": "object"
       },
       "v1FormFieldType": {
@@ -405,52 +462,64 @@
         "type": "string"
       },
       "v1GetUsersRequest": {
-        "description": "Request message for listing users with their meeting configuration status (paginated).\nReturns all users under the business.",
+        "description": "Request message for listing users with their meeting configuration status for a given business.",
         "properties": {
           "businessId": {
             "description": "Required. The business ID (starts with \"AG-\").",
             "type": "string"
           }
         },
+        "required": [
+          "businessId"
+        ],
+        "title": "GetUsersRequest",
         "type": "object"
       },
       "v1GetUsersResponse": {
-        "description": "Paginated response containing list of users with their connection status.",
+        "description": "Response containing a list of users with their meeting connection status.",
         "properties": {
           "users": {
-            "description": "List of users with their configuration status.",
+            "description": "Output only. List of users with their configuration status.",
             "items": {
               "$ref": "#/components/schemas/v1UserResponse"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "GetUsersResponse",
         "type": "object"
       },
       "v1GroupResponse": {
-        "description": "Response containing details of a single group.",
+        "description": "Details of a single group within a business.",
         "properties": {
           "bookingUrl": {
-            "description": "Public URL where users can book meetings with this group.",
+            "description": "Output only. Public URL where users can book meetings with this group.",
+            "readOnly": true,
             "type": "string"
           },
           "description": {
-            "description": "Optional. Description of the group and its purpose.",
+            "description": "Output only. Optional. Description of the group and its purpose.",
+            "readOnly": true,
             "type": "string"
           },
           "hexColor": {
-            "description": "Hex color code used for visual representation of the group.",
+            "description": "Output only. Hex color code used for visual representation of the group.",
+            "readOnly": true,
             "type": "string"
           },
           "id": {
-            "description": "Unique identifier of the group.",
+            "description": "Output only. Unique identifier of the group.",
+            "readOnly": true,
             "type": "string"
           },
           "name": {
-            "description": "Display name of the group.",
+            "description": "Output only. Display name of the group.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "GroupResponse",
         "type": "object"
       },
       "v1GroupsRequest": {
@@ -461,19 +530,25 @@
             "type": "string"
           }
         },
+        "required": [
+          "businessId"
+        ],
+        "title": "GroupsRequest",
         "type": "object"
       },
       "v1GroupsResponse": {
         "description": "Response containing a list of all groups for the specified business.",
         "properties": {
           "groups": {
-            "description": "List of groups available for the specified business.",
+            "description": "Output only. List of groups available for the specified business.",
             "items": {
               "$ref": "#/components/schemas/v1GroupResponse"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "GroupsResponse",
         "type": "object"
       },
       "v1HostOrderDetails": {
@@ -516,31 +591,39 @@
             "type": "string"
           }
         },
+        "required": [
+          "businessId"
+        ],
+        "title": "ListTeamEventTypesRequest",
         "type": "object"
       },
       "v1ListTeamEventTypesResponse": {
         "description": "Response containing a paginated list of team event types.",
         "properties": {
           "eventTypes": {
-            "description": "List of event types available for the specified business.",
+            "description": "Output only. List of event types available for the specified business.",
             "items": {
               "$ref": "#/components/schemas/v1EventType"
             },
+            "readOnly": true,
             "type": "array"
           },
           "hasMore": {
-            "description": "Whether more results are available beyond the current page.",
+            "description": "Output only. Whether more results are available beyond the current page.",
+            "readOnly": true,
             "type": "boolean"
           },
           "nextCursor": {
-            "description": "Cursor for next page. Pass to ListTeamEventTypesRequest.cursor. Empty means no more pages.",
+            "description": "Output only. Cursor for next page. Pass to ListTeamEventTypesRequest.cursor. Empty means no more pages.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "ListTeamEventTypesResponse",
         "type": "object"
       },
       "v1ListUserEventTypesRequest": {
-        "description": "Request message for listing event types for a user (personal and team) scoped by partner/business.\nThe user must belong to the given business.",
+        "description": "Request message for listing event types for a user (personal and team) scoped by partner/business.",
         "properties": {
           "businessId": {
             "description": "Required. The business ID (starts with \"AG-\").",
@@ -551,19 +634,26 @@
             "type": "string"
           }
         },
+        "required": [
+          "businessId",
+          "userId"
+        ],
+        "title": "ListUserEventTypesRequest",
         "type": "object"
       },
       "v1ListUserEventTypesResponse": {
         "description": "Response containing the list of event types accessible for the given user and context.",
         "properties": {
           "eventTypes": {
-            "description": "List of event types (personal and team) the user has access to.",
+            "description": "Output only. List of event types (personal and team) the user has access to.",
             "items": {
               "$ref": "#/components/schemas/v1EventType"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "ListUserEventTypesResponse",
         "type": "object"
       },
       "v1MeetingLocationType": {
@@ -614,29 +704,35 @@
         "type": "string"
       },
       "v1ServiceResponse": {
-        "description": "Response containing details of a single service.",
+        "description": "Details of a single service within a business.",
         "properties": {
           "bookingUrl": {
-            "description": "Public URL where users can book meetings for this service.",
+            "description": "Output only. Public URL where users can book meetings for this service.",
+            "readOnly": true,
             "type": "string"
           },
           "description": {
-            "description": "Optional. Description of the service and its purpose.",
+            "description": "Output only. Optional. Description of the service and its purpose.",
+            "readOnly": true,
             "type": "string"
           },
           "hexColor": {
-            "description": "Hex color code used for visual representation of the service.",
+            "description": "Output only. Hex color code used for visual representation of the service.",
+            "readOnly": true,
             "type": "string"
           },
           "id": {
-            "description": "Unique identifier of the service.",
+            "description": "Output only. Unique identifier of the service.",
+            "readOnly": true,
             "type": "string"
           },
           "name": {
-            "description": "Display name of the service.",
+            "description": "Output only. Display name of the service.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "ServiceResponse",
         "type": "object"
       },
       "v1ServicesRequest": {
@@ -647,19 +743,25 @@
             "type": "string"
           }
         },
+        "required": [
+          "businessId"
+        ],
+        "title": "ServicesRequest",
         "type": "object"
       },
       "v1ServicesResponse": {
         "description": "Response containing a list of all services for the specified business.",
         "properties": {
           "services": {
-            "description": "List of services available for the specified business.",
+            "description": "Output only. List of services available for the specified business.",
             "items": {
               "$ref": "#/components/schemas/v1ServiceResponse"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "ServicesResponse",
         "type": "object"
       },
       "v1TeamEventMeetingType": {
@@ -673,21 +775,25 @@
         "type": "string"
       },
       "v1UserResponse": {
-        "description": "User information with meeting connection status.",
+        "description": "User information including meeting connection status.",
         "properties": {
           "displayName": {
-            "description": "Full display name of the user.",
+            "description": "Output only. Full display name of the user.",
+            "readOnly": true,
             "type": "string"
           },
           "isConnected": {
-            "description": "Whether the user has active connections to both a calendar provider (Google Calendar, Microsoft Outlook)\nand a meeting app (Google Meet, Microsoft Teams, or Zoom). Returns false if either connection is missing or inactive.",
+            "description": "Output only. Whether the user has active connections to both a calendar provider (Google Calendar, Microsoft Outlook)\nand a meeting app (Google Meet, Microsoft Teams, or Zoom). Returns false if either connection is missing or inactive.",
+            "readOnly": true,
             "type": "boolean"
           },
           "userId": {
-            "description": "Unique identifier of the user (IAM user ID).",
+            "description": "Output only. Unique identifier of the user (IAM user ID).",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "UserResponse",
         "type": "object"
       },
       "vendastatypesDateRange": {
@@ -738,7 +844,7 @@
               }
             }
           },
-          "description": "Request message for booking a new meeting for a specified event type.",
+          "description": "Request message for booking a new meeting for a specified event type in a given business.",
           "required": true
         },
         "responses": {
@@ -993,7 +1099,7 @@
               }
             }
           },
-          "description": "Request message for rescheduling an existing meeting to a new time and/or location.\nEither start_time or location is required.",
+          "description": "Request message for rescheduling an existing meeting to a new time and/or location. Either start_time or location is required.",
           "required": true
         },
         "responses": {
@@ -1095,7 +1201,7 @@
               }
             }
           },
-          "description": "Request message for listing event types for a user (personal and team) scoped by partner/business.\nThe user must belong to the given business.",
+          "description": "Request message for listing event types for a user (personal and team) scoped by partner/business.",
           "required": true
         },
         "responses": {
@@ -1146,7 +1252,7 @@
               }
             }
           },
-          "description": "Request message for listing users with their meeting configuration status (paginated).\nReturns all users under the business.",
+          "description": "Request message for listing users with their meeting configuration status for a given business.",
           "required": true
         },
         "responses": {

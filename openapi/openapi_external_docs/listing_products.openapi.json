@@ -289,37 +289,53 @@
         "type": "object"
       },
       "v1Citation": {
+        "description": "Citation contains details for a citation.",
         "properties": {
           "breadcrumb": {
+            "description": "Output only. The breadcrumb path of the citation page.",
+            "readOnly": true,
             "type": "string"
           },
           "created": {
+            "description": "Output only. When this citation was first discovered.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "description": {
+            "description": "Output only. The page description or snippet of the citation.",
+            "readOnly": true,
             "type": "string"
           },
           "domain": {
+            "description": "Output only. The domain where the citation was found.",
+            "readOnly": true,
             "type": "string"
           },
           "matchedFields": {
+            "description": "Output only. The NAP fields that matched in this citation.",
             "items": {
               "type": "string"
             },
+            "readOnly": true,
             "type": "array"
           },
           "searchTerm": {
+            "description": "Output only. The search term that found this citation.",
+            "readOnly": true,
             "type": "string"
           },
           "title": {
+            "description": "Output only. The page title of the citation.",
+            "readOnly": true,
             "type": "string"
           },
           "url": {
+            "description": "Output only. The URL of the citation.",
+            "readOnly": true,
             "type": "string"
           }
         },
-        "title": "Citation contains details for a citation",
         "type": "object"
       },
       "v1CitationsByDomain": {
@@ -603,79 +619,106 @@
         "type": "object"
       },
       "v1GetCitationDataRequest": {
+        "description": "Request to retrieve citation data for a business, including citation counts, historical trends, and citations grouped by domain.",
         "properties": {
           "businessId": {
+            "description": "Required. The business ID (account group ID) for which to retrieve citation data.",
             "type": "string"
           },
           "endDate": {
+            "description": "Optional. The end date of the date range for citation data retrieval.",
             "format": "date-time",
             "type": "string"
           },
           "startDate": {
+            "description": "Optional. The start date of the date range for citation data retrieval.",
             "format": "date-time",
             "type": "string"
           }
         },
+        "required": [
+          "businessId"
+        ],
+        "title": "GetCitationDataRequest",
         "type": "object"
       },
       "v1GetCitationDataResponse": {
+        "description": "Contains citation data for a business including total count, historical trends, and citations grouped by domain.",
         "properties": {
           "citationCount": {
+            "description": "Output only. The total number of citations found for the business.",
             "format": "int64",
+            "readOnly": true,
             "type": "string"
           },
           "citationPercentGrowth": {
+            "description": "Output only. The percentage growth in citations over the date range.",
             "format": "int64",
+            "readOnly": true,
             "type": "string"
           },
           "citationsByDomain": {
+            "description": "Output only. Citations grouped by domain.",
             "items": {
               "$ref": "#/components/schemas/v1CitationsByDomain"
             },
+            "readOnly": true,
             "type": "array"
           },
           "historicalCitationsSeries": {
+            "description": "Output only. Historical citation data points showing citation count over time.",
             "items": {
               "$ref": "#/components/schemas/v1HistoricalCitationsDataPoint"
             },
+            "readOnly": true,
             "type": "array"
           },
           "initialCitationCount": {
+            "description": "Output only. The initial citation count at the start of tracking.",
             "format": "int64",
+            "readOnly": true,
             "type": "string"
           },
           "startDate": {
+            "description": "Output only. The start date of the citation data range.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           }
         },
-        "title": "GetCitationDataResponse contains the citation data for a business",
+        "title": "GetCitationDataResponse",
         "type": "object"
       },
       "v1GetListingSourceByIdRequest": {
-        "description": "GetListingSourceByIdRequest is used to retrieve detailed configuration for a specific directory.\nUse this to understand directory constraints, requirements, and capabilities.",
+        "description": "Request to retrieve detailed configuration for a specific listing directory by its numeric ID.",
         "properties": {
           "fieldMask": {
             "$ref": "#/components/schemas/vendastatypesFieldMask"
           },
           "sourceId": {
+            "description": "Required. The numeric ID of the directory (e.g., 1 = Google, 2 = Facebook, etc.).\nYou can get this ID from the source_id field in GetSyncDataResponse.",
             "format": "int64",
-            "title": "source_id is the numeric ID of the directory (e.g., 1 = Google, 2 = Facebook, etc.)\nYou can get this ID from the source_id field in GetSyncDataResponse",
             "type": "string"
           }
         },
+        "required": [
+          "sourceId"
+        ],
+        "title": "GetListingSourceByIdRequest",
         "type": "object"
       },
       "v1GetListingSourceByIdResponse": {
-        "description": "GetListingSourceByIdResponse contains comprehensive directory configuration and constraints.\nUse this to explain why a business can't sync to a directory or what's required.",
+        "description": "Contains comprehensive directory configuration and constraints for a single listing source.",
         "properties": {
           "source": {
             "$ref": "#/components/schemas/v1Source"
           }
         },
+        "title": "GetListingSourceByIdResponse",
         "type": "object"
       },
       "v1GetListingSourcesRequest": {
+        "description": "Request to fetch all listing sources, optionally filtered by provider.",
         "properties": {
           "fieldMask": {
             "$ref": "#/components/schemas/vendastatypesFieldMask"
@@ -684,9 +727,11 @@
             "$ref": "#/components/schemas/v1Provider"
           }
         },
+        "title": "GetListingSourcesRequest",
         "type": "object"
       },
       "v1GetListingSourcesResponse": {
+        "description": "Contains a map of all listing sources keyed by source ID.",
         "properties": {
           "fieldMask": {
             "$ref": "#/components/schemas/vendastatypesFieldMask"
@@ -695,105 +740,125 @@
             "additionalProperties": {
               "$ref": "#/components/schemas/v1Source"
             },
+            "description": "Output only. Map of source_id to directory configuration.",
+            "readOnly": true,
             "type": "object"
           }
         },
+        "title": "GetListingSourcesResponse",
         "type": "object"
       },
       "v1GetLocalSearchSEODataRequest": {
-        "description": "GetLocalSearchSEODataRequest defines the query parameters for fetching detailed vicinity/local search data.",
+        "description": "Request to fetch detailed vicinity/local search data for a specific keyword, showing search results from multiple geographic locations around the business.",
         "properties": {
           "businessId": {
-            "description": "The business ID (account group ID) for which to query local search data.",
+            "description": "Required. The business ID (account group ID) for which to query local search data.",
             "type": "string"
           },
           "endDate": {
-            "description": "The end date of the date range for which to retrieve local search data.",
+            "description": "Optional. The end date of the date range for which to retrieve local search data.",
             "format": "date-time",
             "type": "string"
           },
           "keyword": {
-            "description": "The specific keyword to fetch local search data for. Unlike GetSEODataSummary, this endpoint\nonly accepts a single keyword to provide detailed vicinity analysis.",
+            "description": "Required. The specific keyword to fetch local search data for. Unlike GetSEODataSummary, this endpoint\nonly accepts a single keyword to provide detailed vicinity analysis.",
             "type": "string"
           },
           "startDate": {
-            "description": "The start date of the date range for which to retrieve local search data.",
+            "description": "Optional. The start date of the date range for which to retrieve local search data.",
             "format": "date-time",
             "type": "string"
           }
         },
+        "required": [
+          "businessId",
+          "keyword"
+        ],
+        "title": "GetLocalSearchSEODataRequest",
         "type": "object"
       },
       "v1GetLocalSearchSEODataResponse": {
-        "description": "GetLocalSearchSEODataResponse contains detailed vicinity/local search data for the requested keyword.\nThis response shows search results from multiple geographic locations around the business.",
+        "description": "Contains detailed vicinity/local search data for a keyword, showing search results from multiple geographic locations around the business.",
         "properties": {
           "averageLocalRank": {
-            "description": "The average ranking position across all 25 grid points (vicinities) in the Local Search Grid for\nthe current/most recent data. This metric represents the business's average visibility across the\n5x5 grid around the business location. Only grid points with available data are included in the\ncalculation. Grid points where the business was not found (rank 0, invalid, or \"-\") are treated as\nrank 21. Lower values indicate better average positioning across all geographic locations. Compare\nwith previous_average_local_rank to analyze visibility trends over time.\nNote: Although this field is a double, the agent response should display only the integer portion.",
+            "description": "Output only. The average ranking position across all 25 grid points (vicinities) in the Local Search Grid for\nthe current/most recent data. This metric represents the business's average visibility across the\n5x5 grid around the business location. Only grid points with available data are included in the\ncalculation. Grid points where the business was not found (rank 0, invalid, or \"-\") are treated as\nrank 21. Lower values indicate better average positioning across all geographic locations. Compare\nwith previous_average_local_rank to analyze visibility trends over time.\nNote: Although this field is a double, the agent response should display only the integer portion.",
             "format": "double",
+            "readOnly": true,
             "type": "number"
           },
           "keyword": {
-            "description": "The keyword for which this local search data was collected.",
+            "description": "Output only. The keyword for which this local search data was collected.",
+            "readOnly": true,
             "type": "string"
           },
           "localSearchData": {
-            "description": "A list of local search data entries, each representing search results from a different geographic\nlocation (vicinity). Each entry contains results from one of the 25 locations in the 5x5 grid around\nthe business, showing which businesses appear in search results at that specific location.",
+            "description": "Output only. A list of local search data entries, each representing search results from a different geographic\nlocation (vicinity). Each entry contains results from one of the 25 locations in the 5x5 grid around\nthe business, showing which businesses appear in search results at that specific location.",
             "items": {
               "$ref": "#/components/schemas/v1LocalSearchData"
             },
+            "readOnly": true,
             "type": "array"
           },
           "previousAverageLocalRank": {
-            "description": "The average ranking position across all 25 grid points (vicinities) from the previous/historical\nlocal search data. This represents the baseline average visibility for comparison with the current\naverage_local_rank. Only grid points with available data are included in the calculation. Grid points\nwhere the business was not found (rank 0, invalid, or \"-\") are treated as rank 21. Used for trend\nanalysis to determine if local search visibility has improved, declined, or remained stable.\nNote: Although this field is a double, the agent response should display only the integer portion.",
+            "description": "Output only. The average ranking position across all 25 grid points (vicinities) from the previous/historical\nlocal search data. This represents the baseline average visibility for comparison with the current\naverage_local_rank. Only grid points with available data are included in the calculation. Grid points\nwhere the business was not found (rank 0, invalid, or \"-\") are treated as rank 21. Used for trend\nanalysis to determine if local search visibility has improved, declined, or remained stable.\nNote: Although this field is a double, the agent response should display only the integer portion.",
             "format": "double",
+            "readOnly": true,
             "type": "number"
           },
           "previousLocalSearchData": {
-            "description": "Historical local search data entries from the oldest data point within the specified date range.\nThis represents baseline data for comparison to show performance changes over time.",
+            "description": "Output only. Historical local search data entries from the oldest data point within the specified date range.\nThis represents baseline data for comparison to show performance changes over time.",
             "items": {
               "$ref": "#/components/schemas/v1LocalSearchData"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "GetLocalSearchSEODataResponse",
         "type": "object"
       },
       "v1GetSyncDataRequest": {
-        "description": "GetSyncDataRequest is used to retrieve comprehensive sync and accuracy data for a business's listings.\nThis is the primary request for understanding listing presence across directories.",
+        "description": "Request to retrieve comprehensive sync status and listing accuracy data for a business across all directory sources.",
         "properties": {
           "businessId": {
-            "title": "business_id (also known as account_group_id) uniquely identifies the business location",
+            "description": "Required. The business ID (also known as account_group_id) uniquely identifying the business location.",
             "type": "string"
           },
           "includeHidden": {
-            "title": "include_hidden returns directories that are normally hidden from the UI (e.g., disabled by partner, not applicable to business category)\nSet to true for comprehensive troubleshooting or to see all possible directories",
+            "description": "Optional. Returns directories that are normally hidden from the UI (e.g., disabled by partner, not applicable to business category).\nSet to true for comprehensive troubleshooting or to see all possible directories.",
             "type": "boolean"
           },
           "refresh": {
-            "description": "refresh forces a refresh of OAuth tokens for connected accounts (Google, Facebook, etc.)\nSet to true if you suspect authentication issues. This will add latency to the request.",
+            "description": "Optional. Forces a refresh of OAuth tokens for connected accounts (Google, Facebook, etc.).\nSet to true if you suspect authentication issues. This will add latency to the request.",
             "type": "boolean"
           },
           "sourceIds": {
-            "description": "source_ids filters results to only include specific directory IDs\nIf empty, returns all directories. Use this to check status of specific directories efficiently.",
+            "description": "Optional. Filters results to only include specific directory IDs.\nIf empty, returns all directories. Use this to check status of specific directories efficiently.",
             "items": {
               "type": "string"
             },
             "type": "array"
           }
         },
+        "required": [
+          "businessId"
+        ],
+        "title": "GetSyncDataRequest",
         "type": "object"
       },
       "v1GetSyncDataResponse": {
+        "description": "Contains sync status and accuracy information for all relevant listing directories for a business.",
         "properties": {
           "sources": {
+            "description": "Output only. An array of directory-specific sync and accuracy data.\nEach entry represents one directory where the business has or could have a listing.",
             "items": {
               "$ref": "#/components/schemas/v1SyncData"
             },
-            "title": "sources is an array of directory-specific sync and accuracy data\nEach entry represents one directory where the business has or could have a listing",
+            "readOnly": true,
             "type": "array"
           }
         },
-        "title": "GetSyncDataResponse contains sync status and accuracy information for all relevant listing directories.\nThe sources array includes both:\n- Managed listings (LSP/Yext/Uberall) that sync automatically\n- Manual listings (Reputation Management) that are manually submitted\n- Direct sync sources (Google, Facebook, Apple, Bing) that connect via OAuth",
+        "title": "GetSyncDataResponse",
         "type": "object"
       },
       "v1GoogleAttribute": {
@@ -986,13 +1051,15 @@
       "v1HistoricalCitationsDataPoint": {
         "properties": {
           "date": {
-            "description": "Date of the data point.",
+            "description": "Output only. Date of the data point.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "value": {
+            "description": "Output only. Total citations found up to this date.",
             "format": "int64",
-            "title": "Value of the data point. Represents total citations up to a certain day",
+            "readOnly": true,
             "type": "string"
           }
         },
@@ -1337,11 +1404,14 @@
         "type": "object"
       },
       "v1SaveSEOSettingsRequest": {
+        "description": "Request to save SEO settings for a business, including local search radius and favorite keywords.",
         "properties": {
           "businessId": {
+            "description": "Required. The business ID (account group ID) for which to save SEO settings.",
             "type": "string"
           },
           "favoriteKeywords": {
+            "description": "Optional. The list of favorite keywords for this business.",
             "items": {
               "type": "string"
             },
@@ -1351,13 +1421,19 @@
             "$ref": "#/components/schemas/vendastatypesFieldMask"
           },
           "isFullSearchEnabled": {
+            "description": "Optional. Whether full search is enabled for this business.",
             "type": "boolean"
           },
           "localSearchRadius": {
+            "description": "Optional. The local search radius to use for keyword tracking.",
             "format": "double",
             "type": "number"
           }
         },
+        "required": [
+          "businessId"
+        ],
+        "title": "SaveSEOSettingsRequest",
         "type": "object"
       },
       "v1ServiceArea": {
@@ -1478,13 +1554,15 @@
             "type": "string"
           },
           "created": {
+            "description": "Output only. When this directory was added to the system.",
             "format": "date-time",
-            "title": "created is when this directory was added to the system",
+            "readOnly": true,
             "type": "string"
           },
           "deleted": {
+            "description": "Output only. Indicates this directory has been removed/deprecated.",
             "format": "date-time",
-            "title": "deleted indicates this directory has been removed/deprecated",
+            "readOnly": true,
             "type": "string"
           },
           "descriptionHtml": {
@@ -1633,8 +1711,9 @@
             "type": "string"
           },
           "sourceId": {
+            "description": "Output only. The unique numeric identifier for this directory.",
             "format": "int64",
-            "title": "source_id is the unique numeric identifier for this directory",
+            "readOnly": true,
             "type": "string"
           },
           "sourceTypeId": {
@@ -1679,8 +1758,9 @@
             "type": "string"
           },
           "updated": {
+            "description": "Output only. When this directory configuration was last modified.",
             "format": "date-time",
-            "title": "updated is when this directory configuration was last modified",
+            "readOnly": true,
             "type": "string"
           },
           "yextId": {
@@ -1880,12 +1960,14 @@
           },
           "lastAttemptedOn": {
             "format": "date-time",
-            "title": "last_attempted_on is when the most recent sync attempt started (successful or failed)\nUse this to determine \"when did we last try to sync?\"",
+            "readOnly": true,
+            "title": "Output only. When the most recent sync attempt started (successful or failed).\nUse this to determine \"when did we last try to sync?\"",
             "type": "string"
           },
           "lastSucceededOn": {
+            "description": "Output only. When the most recent successful sync completed.\nIf this is significantly older than last_attempted_on, syncs are failing.",
             "format": "date-time",
-            "title": "last_succeeded_on is when the most recent successful sync completed\nIf this is significantly older than last_attempted_on, syncs are failing",
+            "readOnly": true,
             "type": "string"
           },
           "lastSuccessfulAttemptId": {
@@ -1916,8 +1998,9 @@
             "type": "string"
           },
           "updated": {
+            "description": "Output only. When this sync status was last modified.",
             "format": "date-time",
-            "title": "updated is when this sync status was last modified",
+            "readOnly": true,
             "type": "string"
           }
         },
@@ -1950,29 +2033,34 @@
         "type": "object"
       },
       "v1UpdateListingProfileRequest": {
-        "description": "UpdateListingProfileRequest applies a list of update operations to a business's listing profile.\nOperations are executed in order. Use if_unmodified_since to guard against concurrent edits.",
+        "description": "Applies one or more field-level changes to a business's listing profile. Changes are executed in order and then synced to connected directories.",
         "properties": {
           "businessId": {
-            "description": "The business whose listing profile should be updated.",
+            "description": "Required. The business whose listing profile should be updated.",
             "type": "string"
           },
           "ifUnmodifiedSince": {
-            "description": "Optional optimistic-concurrency guard. If set, the update fails when the profile has been\nmodified after this timestamp. Similar to HTTP If-Unmodified-Since.",
+            "description": "Optional. Optimistic-concurrency guard. If set, the update fails when the profile has been\nmodified after this timestamp. Similar to HTTP If-Unmodified-Since.",
             "format": "date-time",
             "type": "string"
           },
           "languageCode": {
-            "description": "Optional BCP-47 language code for locale-specific field values (e.g., \"en\", \"fr\").",
+            "description": "Optional. BCP-47 language code for locale-specific field values (e.g., \"en\", \"fr\").",
             "type": "string"
           },
           "updateOperations": {
-            "description": "Ordered list of field-level changes to apply (e.g., set name, add category, update hours).",
+            "description": "Required. Ordered list of field-level changes to apply (e.g., set name, add category, update hours).",
             "items": {
               "$ref": "#/components/schemas/v1UpdateOperation"
             },
             "type": "array"
           }
         },
+        "required": [
+          "businessId",
+          "updateOperations"
+        ],
+        "title": "UpdateListingProfileRequest",
         "type": "object"
       },
       "v1UpdateOperation": {
@@ -2098,7 +2186,7 @@
               }
             }
           },
-          "description": "GetLocalSearchSEODataRequest defines the query parameters for fetching detailed vicinity/local search data.",
+          "description": "Request to fetch detailed vicinity/local search data for a specific keyword, showing search results from multiple geographic locations around the business.",
           "required": true
         },
         "responses": {
@@ -2147,6 +2235,7 @@
               }
             }
           },
+          "description": "Request to save SEO settings for a business, including local search radius and favorite keywords.",
           "required": true
         },
         "responses": {
@@ -2195,7 +2284,7 @@
               }
             }
           },
-          "description": "UpdateListingProfileRequest applies a list of update operations to a business's listing profile.\nOperations are executed in order. Use if_unmodified_since to guard against concurrent edits.",
+          "description": "Applies one or more field-level changes to a business's listing profile. Changes are executed in order and then synced to connected directories.",
           "required": true
         },
         "responses": {
@@ -2244,6 +2333,7 @@
               }
             }
           },
+          "description": "Request to retrieve citation data for a business, including citation counts, historical trends, and citations grouped by domain.",
           "required": true
         },
         "responses": {
@@ -2285,7 +2375,7 @@
               }
             }
           },
-          "description": "GetListingSourceByIdRequest is used to retrieve detailed configuration for a specific directory.\nUse this to understand directory constraints, requirements, and capabilities.",
+          "description": "Request to retrieve detailed configuration for a specific listing directory by its numeric ID.",
           "required": true
         },
         "responses": {
@@ -2334,6 +2424,7 @@
               }
             }
           },
+          "description": "Request to fetch all listing sources, optionally filtered by provider.",
           "required": true
         },
         "responses": {
@@ -2382,7 +2473,7 @@
               }
             }
           },
-          "description": "GetSyncDataRequest is used to retrieve comprehensive sync and accuracy data for a business's listings.\nThis is the primary request for understanding listing presence across directories.",
+          "description": "Request to retrieve comprehensive sync status and listing accuracy data for a business across all directory sources.",
           "required": true
         },
         "responses": {

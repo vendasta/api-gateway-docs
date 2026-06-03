@@ -75,21 +75,25 @@
         "type": "string"
       },
       "v1ContactDetails": {
-        "description": "Information about the customer (contact) who submitted the NPS score.\nThis represents the customer who provided the feedback, not the employee/provider who provided the service.",
+        "description": "Information about the customer (contact) who submitted the NPS score.",
         "properties": {
           "email": {
-            "description": "Customer’s email address, if available.",
+            "description": "Output only. Customer’s email address, if available.",
+            "readOnly": true,
             "type": "string"
           },
           "name": {
-            "description": "Customer's full name.",
+            "description": "Output only. Customer’s full name.",
+            "readOnly": true,
             "type": "string"
           },
           "phone": {
-            "description": "Customer’s phone number, if available.",
+            "description": "Output only. Customer’s phone number, if available.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Contact Details",
         "type": "object"
       },
       "v1CreateReviewCommentRequest": {
@@ -220,35 +224,44 @@
         "type": "object"
       },
       "v1GetNetPromoterScoreDetailsRequest": {
+        "description": "Request message for retrieving NPS redirect configuration details.",
         "properties": {
           "netPromoterScoreId": {
+            "description": "Required. The NPS record ID to get details for.",
             "type": "string"
           }
         },
         "required": [
           "netPromoterScoreId"
         ],
+        "title": "Get Net Promoter Score Details Request",
         "type": "object"
       },
       "v1GetNetPromoterScoreDetailsResponse": {
+        "description": "Response message containing NPS redirect configuration details.",
         "properties": {
           "npsRedirectReviewSource": {
-            "description": "Whether to redirect to the review source when score \u003e= nps_redirect_threshold.",
+            "description": "Output only. Whether to redirect to the review source when score \u003e= nps_redirect_threshold.",
+            "readOnly": true,
             "type": "boolean"
           },
           "npsRedirectThreshold": {
-            "description": "Effective redirect threshold (6–10). Server resolves unset/invalid stored values to the default before returning.",
+            "description": "Output only. Effective redirect threshold (6-10). Server resolves unset/invalid stored values to the default before returning.",
             "format": "int64",
+            "readOnly": true,
             "type": "string"
           },
           "reviewSourceId": {
-            "description": "The review source ID to redirect to.",
+            "description": "Output only. The review source ID to redirect to.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Get Net Promoter Score Details Response",
         "type": "object"
       },
       "v1GetReviewMetricsRequest": {
+        "description": "Request message for retrieving review metrics for one or more business namespaces.",
         "properties": {
           "maxDateTime": {
             "description": "Optional. Filter reviews published on or before this date (RFC3339 UTC, inclusive).",
@@ -261,10 +274,10 @@
             "type": "string"
           },
           "namespaces": {
+            "description": "Required. The IDs of the namespace(s) you wish to get metrics for. A namespace may be an account_group_id (AG-) or multi-location-group (G-).",
             "items": {
               "type": "string"
             },
-            "title": "Required. The IDs of the namespace(s) you wish to get metrics for. A namespace may be an account_group_id (AG-) or multi-location-group (G-)",
             "type": "array"
           },
           "partnerId": {
@@ -272,7 +285,7 @@
             "type": "string"
           },
           "sourceNames": {
-            "description": "Optional. Filter by source platform. To filter multiple platforms, provide multiple elements in the array\nEach entry in this repeated field must be a single source name Example: [\"Google\", \"Yelp\", \"Facebook\"].",
+            "description": "Optional. Filter by source platform. To filter multiple platforms, provide multiple elements in the array.\nEach entry in this repeated field must be a single source name Example: [\"Google\", \"Yelp\", \"Facebook\"].",
             "items": {
               "type": "string"
             },
@@ -283,17 +296,26 @@
             "type": "boolean"
           }
         },
+        "required": [
+          "namespaces",
+          "partnerId"
+        ],
+        "title": "Get Review Metrics Request",
         "type": "object"
       },
       "v1GetReviewMetricsResponse": {
+        "description": "Response message containing review metrics grouped by namespace.",
         "properties": {
           "metricsForNamespace": {
+            "description": "Output only. Review metrics grouped by namespace.",
             "items": {
               "$ref": "#/components/schemas/v1ReviewMetrics"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "Get Review Metrics Response",
         "type": "object"
       },
       "v1GetReviewsRequest": {
@@ -326,101 +348,118 @@
         "type": "object"
       },
       "v1ImportNPSRequest": {
+        "description": "Request message for importing an NPS record, primarily for importing historical data from external systems.",
         "properties": {
           "accountGroupId": {
-            "title": "Required: Business account ID (starts with \"AG-\")",
+            "description": "Required. Business account ID (starts with \"AG-\").",
             "type": "string"
           },
           "attributes": {
-            "description": "Optional: Additional attributes associated with the NPS score (key-value pairs).\nThis will be used to store meta data that provides additional context of the NPS feedback.",
+            "description": "Optional. Additional attributes associated with the NPS score (key-value pairs).\nThis will be used to store meta data that provides additional context of the NPS feedback.",
             "type": "object"
           },
           "comment": {
-            "title": "Optional: Customer comment provided along with the score",
+            "description": "Optional. Customer comment provided along with the score.",
             "type": "string"
           },
           "communicationChannel": {
             "$ref": "#/components/schemas/v1CommunicationChannel"
           },
           "crmContactId": {
-            "title": "Required: CRM Contact ID of the customer",
+            "description": "Required. CRM Contact ID of the customer.",
             "type": "string"
           },
           "externalReviewRequestId": {
-            "description": "Required: Unique external identifier for the review request. Used for deduplication.",
+            "description": "Required. Unique external identifier for the review request. Used for deduplication.",
             "type": "string"
           },
           "npsExternalId": {
-            "title": "Optional: External NPS identifier for tracking",
+            "description": "Optional. External NPS identifier for tracking.",
             "type": "string"
           },
           "providerIds": {
+            "description": "Optional. Provider IDs (IAM user IDs starting with \"U-\") associated with this NPS.",
             "items": {
               "type": "string"
             },
-            "title": "Optional: Provider IDs (IAM user IDs starting with \"U-\") associated with this NPS",
             "type": "array"
           },
           "requestSentTime": {
+            "description": "Required. Time when the request was sent.",
             "format": "date-time",
-            "title": "Required: Time when the request was sent",
             "type": "string"
           },
           "score": {
-            "description": "Optional: NPS score (0-10). Set if customer has already left a score.",
+            "description": "Optional. NPS score (0-10). Set if customer has already left a score.",
             "format": "int64",
             "type": "string"
           },
           "scoreLeft": {
+            "description": "Optional. Time when the score was left by the customer.",
             "format": "date-time",
-            "title": "Optional: Time when the score was left by the customer",
             "type": "string"
           },
           "status": {
-            "title": "Optional: Status of the review request.\nStatus mapping:\n  \"sending\" -\u003e Sending\n  \"sent\" -\u003e Sent\n  \"delivered\" -\u003e Delivered\n  \"opened\" -\u003e Opened\n  \"clicked\" -\u003e Clicked\n  \"failed\" -\u003e Failed\nUnmapped statuses (mapped to Invalid):\n  blocked, null, processing_attachments, undelivered, received, skipped\nDefault behavior when status is empty/not provided:\n  - If score or comment is present -\u003e Opened\n  - If no score and no comment -\u003e Invalid",
+            "title": "Optional. Status of the review request.\nStatus mapping:\n  \"sending\" -\u003e Sending\n  \"sent\" -\u003e Sent\n  \"delivered\" -\u003e Delivered\n  \"opened\" -\u003e Opened\n  \"clicked\" -\u003e Clicked\n  \"failed\" -\u003e Failed\nUnmapped statuses (mapped to Invalid):\n  blocked, null, processing_attachments, undelivered, received, skipped\nDefault behavior when status is empty/not provided:\n  - If score or comment is present -\u003e Opened\n  - If no score and no comment -\u003e Invalid",
             "type": "string"
           },
           "templateType": {
             "$ref": "#/components/schemas/v1TemplateType"
           },
           "triggeringActivityIds": {
+            "description": "Optional. Triggering activity IDs that initiated this review request.",
             "items": {
               "type": "string"
             },
-            "title": "Optional: Triggering activity IDs that initiated this review request",
             "type": "array"
           }
         },
+        "required": [
+          "accountGroupId",
+          "crmContactId",
+          "requestSentTime",
+          "externalReviewRequestId"
+        ],
+        "title": "Import NPS Request",
         "type": "object"
       },
       "v1ImportNPSResponse": {
+        "description": "Response message containing the ID of the created NPS record.",
         "properties": {
           "netPromoterScoreId": {
-            "title": "The NPS record ID (starts with \"NPS-\")",
+            "description": "Output only. The NPS record ID (starts with \"NPS-\").",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Import NPS Response",
         "type": "object"
       },
       "v1LeaveNetPromoterScoreRequest": {
+        "description": "Request message for submitting or updating a Net Promoter Score.",
         "properties": {
           "comment": {
-            "title": "Optional comment seen in some UI, so we know what score it was associated with",
+            "description": "Optional. Comment seen in some UI, so we know what score it was associated with.",
             "type": "string"
           },
           "fieldMask": {
             "$ref": "#/components/schemas/vendastatypesFieldMask"
           },
           "netPromoterScoreId": {
-            "title": "Nps ID of the entity that will be updated",
+            "description": "Required. NPS ID of the entity that will be updated.",
             "type": "string"
           },
           "score": {
+            "description": "Required. The NPS score that was picked on scale of 1 to 10.",
             "format": "int64",
-            "title": "The NPS score that was picked on scale of 1 to 10",
             "type": "string"
           }
         },
+        "required": [
+          "netPromoterScoreId",
+          "score"
+        ],
+        "title": "Leave Net Promoter Score Request",
         "type": "object"
       },
       "v1ListNetPromoterScoresRequest": {
@@ -511,29 +550,34 @@
         "type": "object"
       },
       "v1ListNetPromoterScoresResponse": {
-        "description": "List of NPS with pagination metadata.",
+        "description": "Response message containing NPS records matching the search criteria with pagination metadata.",
         "properties": {
           "cursor": {
-            "description": "Cursor for the next page. This value should be used in the next request's cursor field.\nEmpty string means no more pages. The cursor is an opaque token. It must be used exactly as returned and should not be modified or generated.",
+            "description": "Output only. Cursor for the next page. This value should be used in the next request's cursor field.\nEmpty string means no more pages. The cursor is an opaque token. It must be used exactly as returned and should not be modified or generated.",
+            "readOnly": true,
             "type": "string"
           },
           "hasMore": {
-            "description": "Whether there are more results available.",
+            "description": "Output only. Whether there are more results available.",
+            "readOnly": true,
             "type": "boolean"
           },
           "netPromoterScore": {
-            "description": "NPS score records matching the search criteria for the current page. Empty list if no matches.",
+            "description": "Output only. NPS score records matching the search criteria for the current page. Empty list if no matches.",
             "items": {
               "$ref": "#/components/schemas/v1NetPromoterScore"
             },
+            "readOnly": true,
             "type": "array"
           },
           "totalResults": {
-            "description": "Total count of NPS scores matching criteria across all pages.",
+            "description": "Output only. Total count of NPS scores matching criteria across all pages.",
             "format": "int64",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "List Net Promoter Scores Response",
         "type": "object"
       },
       "v1Listing": {
@@ -703,67 +747,81 @@
         "type": "object"
       },
       "v1MetricsForSource": {
+        "description": "Review metrics for a single source platform, including rating distribution and response statistics.",
         "properties": {
           "ratingFiveStar": {
+            "description": "Output only. Number of 5 star ratings from this source.",
             "format": "int64",
-            "title": "Number of 5 star ratings from this source",
+            "readOnly": true,
             "type": "string"
           },
           "ratingFourStar": {
+            "description": "Output only. Number of 4 star ratings from this source.",
             "format": "int64",
-            "title": "Number of 4 star ratings from this source",
+            "readOnly": true,
             "type": "string"
           },
           "ratingNone": {
+            "description": "Output only. Number of reviews with no rating from this source.",
             "format": "int64",
-            "title": "Number of reviews with no rating from this source",
+            "readOnly": true,
             "type": "string"
           },
           "ratingOneStar": {
+            "description": "Output only. Number of 1 star ratings from this source.",
             "format": "int64",
-            "title": "Number of 1 star ratings from this source",
+            "readOnly": true,
             "type": "string"
           },
           "ratingThreeStar": {
+            "description": "Output only. Number of 3 star ratings from this source.",
             "format": "int64",
-            "title": "Number of 3 star ratings from this source",
+            "readOnly": true,
             "type": "string"
           },
           "ratingTwoStar": {
+            "description": "Output only. Number of 2 star ratings from this source.",
             "format": "int64",
-            "title": "Number of 2 star ratings from this source",
+            "readOnly": true,
             "type": "string"
           },
           "respondedTo": {
+            "description": "Output only. Number of reviews responded to by the business on this source.\nOnly applies to sources that support business responses in platform.",
             "format": "int64",
-            "title": "Number of reviews responded to by the business on this source\nOnly applies to sources that support business responses in platform",
+            "readOnly": true,
             "type": "string"
           },
           "responseRate": {
+            "description": "Output only. The percentage of reviews responded to from this source.",
             "format": "float",
-            "title": "The percentage of reviews responded to from this source",
+            "readOnly": true,
             "type": "number"
           },
           "responseTimeHours": {
+            "description": "Output only. The average number of hours it takes to respond to reviews from this source.",
             "format": "float",
-            "title": "The average number of hours it takes to respond to reviews from this source",
+            "readOnly": true,
             "type": "number"
           },
           "reviewRating": {
+            "description": "Output only. The average rating from this source.",
             "format": "float",
-            "title": "The average rating from this source",
+            "readOnly": true,
             "type": "number"
           },
           "sourceName": {
-            "title": "The name of the site that the reviews are from",
+            "description": "Output only. The name of the site that the reviews are from.",
+            "readOnly": true,
             "type": "string"
           },
           "totalReviews": {
+            "description": "Output only. Total number of reviews from this source.",
             "format": "int64",
-            "title": "Total number of reviews from this source",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Metrics For Source",
         "type": "object"
       },
       "v1NAP": {
@@ -808,121 +866,144 @@
         "description": "Information about a provider (employee) associated with an NPS record.",
         "properties": {
           "id": {
-            "title": "IAM user ID of the provider (starts with \"U-\") created or linked when the NPS was received.\nUsed to fetch provider details such as first name, last name, and external ID from IAM.\nexample: \"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\"",
+            "readOnly": true,
+            "title": "Output only. IAM user ID of the provider (starts with \"U-\") created or linked when the NPS was received.\nUsed to fetch provider details such as first name, last name, and external ID from IAM.\nexample: \"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\"",
             "type": "string"
           },
           "name": {
-            "description": "Full name of the provider (example: \"John Doe\").",
+            "description": "Output only. Full name of the provider (example: \"John Doe\").",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "NPS Provider Details",
         "type": "object"
       },
       "v1NetPromoterScore": {
-        "description": "Represents a customer's Net Promoter Score (NPS) submission, indicating how likely\nthey are to recommend the business. Scores range from 0–10 and may include comments.",
+        "description": "A customer's Net Promoter Score (NPS) submission, indicating how likely they are to recommend the business.",
         "properties": {
           "accountGroupId": {
-            "description": "Business account ID (starts with \"AG-\") associated with this NPS score.",
+            "description": "Output only. Business account ID (starts with \"AG-\") associated with this NPS score.",
+            "readOnly": true,
             "type": "string"
           },
           "attributes": {
-            "description": "Additional attributes associated with the NPS score (key-value pairs).",
+            "description": "Output only. Additional attributes associated with the NPS score (key-value pairs).",
             "items": {
               "$ref": "#/components/schemas/v1NetPromoterScoreAttribute"
             },
+            "readOnly": true,
             "type": "array"
           },
           "classifiedAs": {
             "$ref": "#/components/schemas/v1ScoreCategory"
           },
           "comment": {
-            "description": "Optional customer comment provided along with the score.",
+            "description": "Output only. Optional customer comment provided along with the score.",
+            "readOnly": true,
             "type": "string"
           },
           "contact": {
             "$ref": "#/components/schemas/v1ContactDetails"
           },
           "contactExternalId": {
-            "description": "Contact external id of the user who submitted the NPS score.",
+            "description": "Output only. Contact external id of the user who submitted the NPS score.",
+            "readOnly": true,
             "type": "string"
           },
           "contactId": {
-            "title": "CRM Contact ID of the customer who submitted the NPS score.\nThis identifies the customer who provided the feedback, not the employee/provider who provided the service.\nexample: \"ContactID-cb3671fd-9cb6-4f8c-86b6-f604e6150aeb\"",
+            "readOnly": true,
+            "title": "Output only. CRM Contact ID of the customer who submitted the NPS score.\nThis identifies the customer who provided the feedback, not the employee/provider who provided the service.\nexample: \"ContactID-cb3671fd-9cb6-4f8c-86b6-f604e6150aeb\"",
             "type": "string"
           },
           "created": {
-            "description": "Timestamp when the record was created (RFC3339 UTC).",
+            "description": "Output only. Timestamp when the record was created (RFC3339 UTC).",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "deleted": {
-            "description": "Timestamp when the record was deleted, if applicable (RFC3339 UTC).",
+            "description": "Output only. Timestamp when the record was deleted, if applicable (RFC3339 UTC).",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "netPromoterScoreId": {
-            "description": "Unique identifier for the Net Promoter Score record starts with 'NPS-'.",
+            "description": "Output only. Unique identifier for the Net Promoter Score record starts with 'NPS-'.",
+            "readOnly": true,
             "type": "string"
           },
           "npsExternalId": {
-            "description": "External NPS identifier for imported NPS records.\nThis field stores the external identifier provided during NPS data migration through the ImportNPS API.\nIt is used for deduplication and reconciliation against the source system.",
+            "description": "Output only. External NPS identifier for imported NPS records.\nThis field stores the external identifier provided during NPS data migration through the ImportNPS API.\nIt is used for deduplication and reconciliation against the source system.",
+            "readOnly": true,
             "type": "string"
           },
           "providerIds": {
             "items": {
               "type": "string"
             },
-            "title": "List of IAM user IDs for providers (employees) associated with this NPS record.\nThese IDs are created or linked when the NPS is received and are used to fetch\nexample: [\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\", \"U-fa09664d-698d-4349-926f-147fb55e2a72\"]",
+            "readOnly": true,
+            "title": "Output only. List of IAM user IDs for providers (employees) associated with this NPS record.\nThese IDs are created or linked when the NPS is received and are used to fetch\nexample: [\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\", \"U-fa09664d-698d-4349-926f-147fb55e2a72\"]",
             "type": "array"
           },
           "providers": {
             "items": {
               "$ref": "#/components/schemas/v1NPSProviderDetails"
             },
-            "title": "List of providers (employees) associated with this NPS record.\nexample: [{id:\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\", name: \"John Doe\"}, {id:\"U-fa09664d-698d-4349-926f-147fb55e2a72\", name:\"Julie\"}]",
+            "readOnly": true,
+            "title": "Output only. List of providers (employees) associated with this NPS record.\nexample: [{id:\"U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3\", name: \"John Doe\"}, {id:\"U-fa09664d-698d-4349-926f-147fb55e2a72\", name:\"Julie\"}]",
             "type": "array"
           },
           "reviewRequestRecordId": {
-            "description": "ID of the review request for which the customer submitted this NPS feedback.",
+            "description": "Output only. ID of the review request for which the customer submitted this NPS feedback.",
+            "readOnly": true,
             "type": "string"
           },
           "score": {
-            "description": "The NPS score value on a scale of 0-10.",
+            "description": "Output only. The NPS score value on a scale of 0-10.",
             "format": "int64",
+            "readOnly": true,
             "type": "string"
           },
           "scoreLeftTime": {
-            "description": "Timestamp when the NPS score was submitted by the customer (RFC3339 UTC).",
+            "description": "Output only. Timestamp when the NPS score was submitted by the customer (RFC3339 UTC).",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "triggeringActivityDetails": {
-            "description": "Details of the CRM activities that triggered this NPS request.\nThis field is populated only when:\n1) include_triggering_activity_details is set to true in the request, and\n2) the NPS request was triggered from a third-party integration that stored triggering_activity_ids in the NPS record.",
+            "description": "Output only. Details of the CRM activities that triggered this NPS request.\nThis field is populated only when:\n1) include_triggering_activity_details is set to true in the request, and\n2) the NPS request was triggered from a third-party integration that stored triggering_activity_ids in the NPS record.",
             "items": {
               "$ref": "#/components/schemas/v1TriggeringActivityDetail"
             },
+            "readOnly": true,
             "type": "array"
           },
           "updated": {
-            "description": "Timestamp when the record was last updated (RFC3339 UTC).",
+            "description": "Output only. Timestamp when the record was last updated (RFC3339 UTC).",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Net Promoter Score",
         "type": "object"
       },
       "v1NetPromoterScoreAttribute": {
         "description": "A key-value pair providing additional metadata for an NPS record.",
         "properties": {
           "key": {
-            "description": "The attribute key (e.g., \"source_system_id\", \"service_type\", \"external_review_id\").",
+            "description": "Output only. The attribute key (e.g., \"source_system_id\", \"service_type\", \"external_review_id\").",
+            "readOnly": true,
             "type": "string"
           },
           "value": {
-            "description": "The attribute value corresponding to the key.",
+            "description": "Output only. The attribute value corresponding to the key.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Net Promoter Score Attribute",
         "type": "object"
       },
       "v1Recommendation": {
@@ -945,100 +1026,121 @@
             "$ref": "#/components/schemas/v1ReviewRatingCategory"
           },
           "comments": {
-            "description": "Business responses to this review.",
+            "description": "Output only. Business responses to this review.",
             "items": {
               "$ref": "#/components/schemas/v1ReviewComment"
             },
+            "readOnly": true,
             "type": "array"
           },
           "contactExternalId": {
-            "description": "Contact external id of the user who gave the review.",
+            "description": "Output only. Contact external id of the user who gave the review.",
+            "readOnly": true,
             "type": "string"
           },
           "contactId": {
-            "title": "Contact id of the user who gave the review. (Eg: ContactID-731b80b1-1aae-49ff-8c21-d43aa01e1bf8)",
+            "readOnly": true,
+            "title": "Output only. Contact id of the user who gave the review. (Eg: ContactID-731b80b1-1aae-49ff-8c21-d43aa01e1bf8)",
             "type": "string"
           },
           "content": {
-            "description": "Full review text. May be empty for star-only reviews.",
+            "description": "Output only. Full review text. May be empty for star-only reviews.",
+            "readOnly": true,
             "type": "string"
           },
           "created": {
-            "description": "When review was ingested into system (RFC3339 UTC). May differ from published.",
+            "description": "Output only. When review was ingested into system (RFC3339 UTC). May differ from published.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "deleted": {
-            "description": "When review was deleted (RFC3339 UTC). Zero timestamp = not deleted.",
+            "description": "Output only. When review was deleted (RFC3339 UTC). Zero timestamp = not deleted.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "deletedStatus": {
             "$ref": "#/components/schemas/v1ReviewDeletedStatus"
           },
           "domain": {
-            "description": "Platform domain indicating the source where the review was provided. (e.g., \"google.com\", \"yelp.com\").",
+            "description": "Output only. Platform domain indicating the source where the review was provided. (e.g., \"google.com\", \"yelp.com\").",
+            "readOnly": true,
             "type": "string"
           },
           "edited": {
-            "description": "When review was last edited by customer (RFC3339 UTC).",
+            "description": "Output only. When review was last edited by customer (RFC3339 UTC).",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "externalId": {
-            "description": "Platform's native review identifier (opaque string, often base64-encoded).",
+            "description": "Output only. Platform's native review identifier (opaque string, often base64-encoded).",
+            "readOnly": true,
             "type": "string"
           },
           "hasAccuratePublished": {
-            "description": "Whether published timestamp is accurate (true) or estimated (false, e.g., midday UTC).",
+            "description": "Output only. Whether published timestamp is accurate (true) or estimated (false, e.g., midday UTC).",
+            "readOnly": true,
             "type": "boolean"
           },
           "isPublished": {
-            "description": "Whether review is published.",
+            "description": "Output only. Whether review is published.",
+            "readOnly": true,
             "type": "boolean"
           },
           "isSharedByReviewer": {
-            "description": "Whether reviewer shared review beyond original platform.",
+            "description": "Output only. Whether reviewer shared review beyond original platform.",
+            "readOnly": true,
             "type": "boolean"
           },
           "lastFailedReviewCommentCreated": {
-            "description": "When most recent response attempt failed (RFC3339 UTC). Zero timestamp = no failures.",
+            "description": "Output only. When most recent response attempt failed (RFC3339 UTC). Zero timestamp = no failures.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "lastFailedReviewCommentReason": {
-            "description": "Error reason for failed response attempt. Empty = no failure.",
+            "description": "Output only. Error reason for failed response attempt. Empty = no failure.",
+            "readOnly": true,
             "type": "string"
           },
           "lastFailedReviewCommentText": {
-            "description": "Text of failed response attempt. Empty = no failed response.",
+            "description": "Output only. Text of failed response attempt. Empty = no failed response.",
+            "readOnly": true,
             "type": "string"
           },
           "listingId": {
-            "description": "Business location identifier. Format: \"LIS-\" prefix + alphanumeric.",
+            "description": "Output only. Business location identifier. Format: \"LIS-\" prefix + alphanumeric.",
+            "readOnly": true,
             "type": "string"
           },
           "modified": {
-            "description": "When review record was last updated (RFC3339 UTC).",
+            "description": "Output only. When review record was last updated (RFC3339 UTC).",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "newComment": {
-            "description": "Whether there's an unacknowledged business response.",
+            "description": "Output only. Whether there's an unacknowledged business response.",
+            "readOnly": true,
             "type": "boolean"
           },
           "originalStars": {
-            "description": "Platform rating * 1000. 5-star: 1000-5000, 10-point: 1000-10000, half-star: includes 1500, 2500, etc.",
+            "description": "Output only. Platform rating * 1000. 5-star: 1000-5000, 10-point: 1000-10000, half-star: includes 1500, 2500, etc.",
             "format": "double",
+            "readOnly": true,
             "type": "number"
           },
           "published": {
-            "description": "When customer published review on platform (RFC3339 UTC).",
+            "description": "Output only. When customer published review on platform (RFC3339 UTC).",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "rating": {
-            "description": "Star rating as string. Values: \"1\", \"2\", \"3\", \"4\", \"5\".",
+            "description": "Output only. Star rating as string. Values: \"1\", \"2\", \"3\", \"4\", \"5\".",
+            "readOnly": true,
             "type": "string"
           },
           "recommendation": {
@@ -1051,31 +1153,37 @@
             "$ref": "#/components/schemas/v1Reviewer"
           },
           "scaledStars": {
-            "description": "Normalized rating (0-1000 scale, linear interpolation across platforms).",
+            "description": "Output only. Normalized rating (0-1000 scale, linear interpolation across platforms).",
             "format": "int64",
+            "readOnly": true,
             "type": "string"
           },
           "sourceId": {
-            "description": "Internal platform ID. Common: 10010 (Google), 10000 (Yelp), 10050 (Facebook).\nFor readable names, use source_name (field 31).",
+            "description": "Output only. Internal platform ID. Common: 10010 (Google), 10000 (Yelp), 10050 (Facebook).\nFor readable names, use source_name (field 31).",
             "format": "int64",
+            "readOnly": true,
             "type": "string"
           },
           "sourceName": {
-            "description": "Readable platform name (e.g., \"Google\", \"Yelp\"). May be empty; use source_id as fallback.",
+            "description": "Output only. Readable platform name (e.g., \"Google\", \"Yelp\"). May be empty; use source_id as fallback.",
+            "readOnly": true,
             "type": "string"
           },
           "thirdPartyPublishedStatus": {
             "$ref": "#/components/schemas/v1ThirdPartyPublishedStatus"
           },
           "title": {
-            "description": "Truncated review text. No ellipsis added if truncated.",
+            "description": "Output only. Truncated review text. No ellipsis added if truncated.",
+            "readOnly": true,
             "type": "string"
           },
           "url": {
-            "description": "Direct URL to review on platform.",
+            "description": "Output only. Direct URL to review on platform.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Review",
         "type": "object"
       },
       "v1ReviewActionStatus": {
@@ -1092,64 +1200,78 @@
         "type": "string"
       },
       "v1ReviewComment": {
-        "description": "Business response to a customer review.",
+        "description": "A business response or comment on a customer review.",
         "properties": {
           "accountGroupId": {
-            "description": "Business account ID (starts with \"AG-\").",
+            "description": "Output only. Business account ID (starts with \"AG-\").",
+            "readOnly": true,
             "type": "string"
           },
           "commentId": {
-            "description": "Unique identifier (e.g., \"ReviewCommentModelV2-E7113B2DCBD9471DB494D845AEB2D9C5\").",
+            "description": "Output only. Unique identifier (e.g., \"ReviewCommentModelV2-E7113B2DCBD9471DB494D845AEB2D9C5\").",
+            "readOnly": true,
             "type": "string"
           },
           "created": {
-            "description": "When comment was created in the system (RFC3339 UTC).",
+            "description": "Output only. When comment was created in the system (RFC3339 UTC).",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "email": {
-            "description": "Email address of commenter.",
+            "description": "Output only. Email address of commenter.",
+            "readOnly": true,
             "type": "string"
           },
           "externalId": {
-            "description": "Platform's native identifier for this comment.",
+            "description": "Output only. Platform's native identifier for this comment.",
+            "readOnly": true,
             "type": "string"
           },
           "modified": {
-            "description": "When comment was last updated in the system (RFC3339 UTC).",
+            "description": "Output only. When comment was last updated in the system (RFC3339 UTC).",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "name": {
-            "description": "Display name of commenter (e.g., \"Owner\" or business name).",
+            "description": "Output only. Display name of commenter (e.g., \"Owner\" or business name).",
+            "readOnly": true,
             "type": "string"
           },
           "postedByAi": {
-            "description": "Whether automatically posted by the reputation specialist (true) or someone else (false).",
+            "description": "Output only. Whether automatically posted by the reputation specialist (true) or someone else (false).",
+            "readOnly": true,
             "type": "boolean"
           },
           "postedByDigitAgent": {
-            "description": "Whether posted by a digital agent (true) or manually by a human (false).",
+            "description": "Output only. Whether posted by a digital agent (true) or manually by a human (false).",
+            "readOnly": true,
             "type": "boolean"
           },
           "postedByOwner": {
-            "description": "Whether posted by the business owner (true) or someone else (false).",
+            "description": "Output only. Whether posted by the business owner (true) or someone else (false).",
+            "readOnly": true,
             "type": "boolean"
           },
           "published": {
-            "description": "When comment was published on the review platform (RFC3339 UTC).",
+            "description": "Output only. When comment was published on the review platform (RFC3339 UTC).",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "reviewId": {
-            "description": "Parent review ID (starts with \"RVW-\").",
+            "description": "Output only. Parent review ID (starts with \"RVW-\").",
+            "readOnly": true,
             "type": "string"
           },
           "text": {
-            "description": "Full text content of the business's response.",
+            "description": "Output only. Full text content of the business's response.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Review Comment",
         "type": "object"
       },
       "v1ReviewDeletedStatus": {
@@ -1164,69 +1286,83 @@
         "type": "string"
       },
       "v1ReviewHistory": {
+        "description": "A historical snapshot of a review, capturing the state of the review at a point in time.",
         "properties": {
           "accountGroupId": {
-            "title": "Business identifier of the review history",
+            "description": "Output only. Business identifier of the review history.",
+            "readOnly": true,
             "type": "string"
           },
           "content": {
-            "title": "The review content body",
+            "description": "Output only. The review content body.",
+            "readOnly": true,
             "type": "string"
           },
           "created": {
+            "description": "Output only. When the review history was created in the system.",
             "format": "date-time",
-            "title": "When the review history was created in the system",
+            "readOnly": true,
             "type": "string"
           },
           "externalId": {
-            "title": "The sources identifier of the review",
+            "description": "Output only. The sources identifier of the review.",
+            "readOnly": true,
             "type": "string"
           },
           "isRecommendation": {
             "$ref": "#/components/schemas/v1Recommendation"
           },
           "listingId": {
-            "title": "The listing id that the review belongs to",
+            "description": "Output only. The listing id that the review belongs to.",
+            "readOnly": true,
             "type": "string"
           },
           "partnerId": {
-            "title": "The rating of the review",
+            "description": "Output only. The partner ID associated with the review.",
+            "readOnly": true,
             "type": "string"
           },
           "published": {
+            "description": "Output only. When the review was published.",
             "format": "date-time",
-            "title": "When the review was published",
+            "readOnly": true,
             "type": "string"
           },
           "reviewHistoryId": {
-            "title": "Identifier of the review history",
+            "description": "Output only. Identifier of the review history.",
+            "readOnly": true,
             "type": "string"
           },
           "reviewId": {
-            "title": "Review id that the review history belongs to",
+            "description": "Output only. Review id that the review history belongs to.",
+            "readOnly": true,
             "type": "string"
           },
           "reviewLastEdited": {
+            "description": "Output only. When the review was last modified on the source site.",
             "format": "date-time",
-            "title": "When the review was last modified on the source site",
+            "readOnly": true,
             "type": "string"
           },
           "reviewerName": {
-            "title": "Name of the reviewer",
+            "description": "Output only. Name of the reviewer.",
+            "readOnly": true,
             "type": "string"
           },
           "scaledStarRating": {
+            "description": "Output only. The scaled stars of the review.",
             "format": "int64",
-            "title": "The scaled stars of the review",
+            "readOnly": true,
             "type": "string"
           },
           "source": {
+            "description": "Output only. The source that the review belongs to.",
             "format": "int64",
-            "title": "The source that the review belongs to",
+            "readOnly": true,
             "type": "string"
           }
         },
-        "title": "Represents a ReviewHistory in the ReviewService",
+        "title": "Review History",
         "type": "object"
       },
       "v1ReviewHistoryRequest": {
@@ -1249,30 +1385,42 @@
         "type": "object"
       },
       "v1ReviewIdentifier": {
+        "description": "Uniquely identifies a review by its account group and review ID.",
         "properties": {
           "accountGroupId": {
+            "description": "Required. The account group ID that owns the review.",
             "type": "string"
           },
           "reviewId": {
+            "description": "Required. The unique review ID.",
             "type": "string"
           }
         },
-        "title": "Uniquely identifies a Review",
+        "required": [
+          "accountGroupId",
+          "reviewId"
+        ],
+        "title": "Review Identifier",
         "type": "object"
       },
       "v1ReviewMetrics": {
+        "description": "Aggregated review metrics for a single namespace, broken down by source platform.",
         "properties": {
           "metricsForSource": {
+            "description": "Output only. Review metrics broken down by source platform.",
             "items": {
               "$ref": "#/components/schemas/v1MetricsForSource"
             },
+            "readOnly": true,
             "type": "array"
           },
           "namespace": {
-            "title": "The IDs of the namespace(s) the metrics are fetched for. A namespace may be an account_group_id (AG-) or multi-location-group (G-)",
+            "description": "Output only. The ID of the namespace the metrics are fetched for. A namespace may be an account_group_id (AG-) or multi-location-group (G-).",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Review Metrics",
         "type": "object"
       },
       "v1ReviewRatingCategory": {
@@ -1287,21 +1435,25 @@
         "type": "string"
       },
       "v1Reviewer": {
-        "description": "Person who wrote a review.",
+        "description": "Person who wrote a review, including their display name and contact details.",
         "properties": {
           "email": {
-            "description": "Email address. Often empty due to platform privacy settings.",
+            "description": "Output only. Email address. Often empty due to platform privacy settings.",
+            "readOnly": true,
             "type": "string"
           },
           "name": {
-            "description": "Display name as shown on platform (e.g., \"John Doe\" or \"Jane D.\").",
+            "description": "Output only. Display name as shown on platform (e.g., \"John Doe\" or \"Jane D.\").",
+            "readOnly": true,
             "type": "string"
           },
           "url": {
-            "description": "URL to reviewer's profile on the platform. May be empty.",
+            "description": "Output only. URL to reviewer's profile on the platform. May be empty.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Reviewer",
         "type": "object"
       },
       "v1ScoreCategory": {
@@ -1315,7 +1467,7 @@
         "type": "string"
       },
       "v1SearchReviewsRequest": {
-        "description": "Search for reviews with filtering and pagination.",
+        "description": "Request message for searching customer reviews with filtering and pagination.",
         "properties": {
           "accountGroupId": {
             "description": "Required. Business account ID (starts with \"AG-\").",
@@ -1390,32 +1542,41 @@
             "type": "array"
           }
         },
+        "required": [
+          "accountGroupId"
+        ],
+        "title": "Search Reviews Request",
         "type": "object"
       },
       "v1SearchReviewsResponse": {
-        "description": "Search results with pagination metadata.",
+        "description": "Response message containing reviews matching the search criteria with pagination metadata.",
         "properties": {
           "cursor": {
-            "description": "Cursor for the next page. This value should be used in the next request's cursor field.\nEmpty string means no more pages. The cursor is an opaque token. It must be used exactly as returned and should not be modified or generated.",
+            "description": "Output only. Cursor for the next page. This value should be used in the next request's cursor field.\nEmpty string means no more pages. The cursor is an opaque token. It must be used exactly as returned and should not be modified or generated.",
+            "readOnly": true,
             "type": "string"
           },
           "hasMore": {
-            "title": "Whether or not more results exist",
+            "description": "Output only. Whether or not more results exist.",
+            "readOnly": true,
             "type": "boolean"
           },
           "reviews": {
-            "description": "Reviews matching the search criteria for the current page. Empty list if no matches.",
+            "description": "Output only. Reviews matching the search criteria for the current page. Empty list if no matches.",
             "items": {
               "$ref": "#/components/schemas/v1Review"
             },
+            "readOnly": true,
             "type": "array"
           },
           "totalResults": {
-            "description": "Total count of reviews matching criteria across all pages.",
+            "description": "Output only. Total count of reviews matching criteria across all pages.",
             "format": "int32",
+            "readOnly": true,
             "type": "integer"
           }
         },
+        "title": "Search Reviews Response",
         "type": "object"
       },
       "v1TemplateType": {
@@ -1440,46 +1601,55 @@
         "type": "string"
       },
       "v1ThirdPartyReviewPublishSettings": {
+        "description": "Settings controlling how third-party reviews are published to the review widget.",
         "properties": {
           "minimumPublishRating": {
+            "description": "Output only. The minimum star rating to auto-publish reviews, 0 means only manually published reviews.",
             "format": "int64",
-            "title": "The minimum star rating to auto-publish reviews, 0 means only manually published reviews",
+            "readOnly": true,
             "type": "string"
           },
           "widgetAllReviewsEnabled": {
-            "title": "Whether the widget can show reviews for all sources",
+            "description": "Output only. Whether the widget can show reviews for all sources.",
+            "readOnly": true,
             "type": "boolean"
           }
         },
-        "title": "Settings for publishing 3rd party reviews to review widget",
+        "title": "Third Party Review Publish Settings",
         "type": "object"
       },
       "v1TriggeringActivityDetail": {
         "description": "Information about the CRM activity that triggered the NPS request.",
         "properties": {
           "standardActivitySourceName": {
-            "description": "Source name of the transaction/job e.g. (Neighborly, serviceTitan etc).",
+            "description": "Output only. Source name of the transaction/job e.g. (Neighborly, serviceTitan etc).",
+            "readOnly": true,
             "type": "string"
           },
           "systemActivityCreated": {
-            "description": "System creation timestamp of the activity.",
+            "description": "Output only. System creation timestamp of the activity.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "systemActivityEffective": {
-            "description": "Timestamp of the job/transaction.",
+            "description": "Output only. Timestamp of the job/transaction.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "systemActivityExternalId": {
-            "description": "Job ID of the source system of the transaction.",
+            "description": "Output only. Job ID of the source system of the transaction.",
+            "readOnly": true,
             "type": "string"
           },
           "systemActivityId": {
-            "description": "Transaction ID from the source system.",
+            "description": "Output only. Transaction ID from the source system.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Triggering Activity Detail",
         "type": "object"
       },
       "v1UpdateReviewCommentRequest": {
@@ -1733,6 +1903,7 @@
               }
             }
           },
+          "description": "Request message for submitting or updating a Net Promoter Score.",
           "required": true
         },
         "responses": {
@@ -1774,6 +1945,7 @@
               }
             }
           },
+          "description": "Request message for retrieving NPS redirect configuration details.",
           "required": true
         },
         "responses": {
@@ -1815,6 +1987,7 @@
               }
             }
           },
+          "description": "Request message for importing an NPS record, primarily for importing historical data from external systems.",
           "required": true
         },
         "responses": {
@@ -2149,6 +2322,7 @@
               }
             }
           },
+          "description": "Request message for retrieving review metrics for one or more business namespaces.",
           "required": true
         },
         "responses": {
@@ -2200,7 +2374,7 @@
               }
             }
           },
-          "description": "Search for reviews with filtering and pagination.",
+          "description": "Request message for searching customer reviews with filtering and pagination.",
           "required": true
         },
         "responses": {

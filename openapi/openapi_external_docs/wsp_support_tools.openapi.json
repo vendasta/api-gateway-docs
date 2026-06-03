@@ -29,98 +29,149 @@
         "type": "object"
       },
       "v1ActivatePluginRequest": {
+        "description": "Request to activate one or more plugins on a WordPress site.",
         "properties": {
           "pluginIds": {
+            "description": "Required. The list of plugin IDs to activate.",
             "items": {
               "type": "string"
             },
             "type": "array"
           },
           "siteId": {
+            "description": "Required. The unique identifier of the site.",
             "type": "string"
           }
         },
+        "required": [
+          "siteId",
+          "pluginIds"
+        ],
+        "title": "ActivatePluginRequest",
         "type": "object"
       },
       "v1ChatCompletionRequest": {
+        "description": "Request to generate a chat completion response.",
         "properties": {
           "text": {
+            "description": "Required. The input text for the chat completion.",
             "type": "string"
           }
         },
+        "required": [
+          "text"
+        ],
+        "title": "ChatCompletionRequest",
         "type": "object"
       },
       "v1ChatCompletionResponse": {
+        "description": "Response containing the generated chat completion.",
         "properties": {
           "resp": {
+            "description": "Output only. The generated response text.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "ChatCompletionResponse",
         "type": "object"
       },
       "v1DeactivatePluginRequest": {
+        "description": "Request to deactivate one or more plugins on a WordPress site.",
         "properties": {
           "pluginIds": {
+            "description": "Required. The list of plugin IDs to deactivate.",
             "items": {
               "type": "string"
             },
             "type": "array"
           },
           "siteId": {
+            "description": "Required. The unique identifier of the site.",
             "type": "string"
           }
         },
+        "required": [
+          "siteId",
+          "pluginIds"
+        ],
+        "title": "DeactivatePluginRequest",
         "type": "object"
       },
       "v1GetSiteResourceUsagesRequest": {
+        "description": "Request to get resource usage data for a WordPress site.",
         "properties": {
           "monthYear": {
+            "description": "Optional. The month and year to get resource usage for (e.g., \"2024-01\").",
             "type": "string"
           },
           "siteId": {
+            "description": "Required. The unique identifier of the site.",
             "type": "string"
           }
         },
+        "required": [
+          "siteId"
+        ],
+        "title": "GetSiteResourceUsagesRequest",
         "type": "object"
       },
       "v1GetSiteResourceUsagesResponse": {
+        "description": "Response containing the resource usage data for a WordPress site.",
         "properties": {
           "siteResourceUsages": {
             "$ref": "#/components/schemas/v1SiteResourceUsages"
           }
         },
+        "title": "GetSiteResourceUsagesResponse",
         "type": "object"
       },
       "v1ListPluginsRequest": {
+        "description": "Request to list plugins installed on a WordPress site with pagination.",
         "properties": {
           "cursor": {
+            "description": "Optional. The cursor for pagination. Use the next_cursor from a previous response.",
             "type": "string"
           },
           "pageSize": {
+            "description": "Optional. The number of plugins to return per page.",
             "format": "int64",
             "type": "string"
           },
           "siteId": {
+            "description": "Required. The unique identifier of the site.",
             "type": "string"
           }
         },
+        "required": [
+          "siteId"
+        ],
+        "title": "ListPluginsRequest",
         "type": "object"
       },
       "v1ListPluginsResponse": {
+        "description": "Response containing a paginated list of plugins installed on a WordPress site.",
         "properties": {
           "hasMore": {
+            "description": "Output only. Whether or not more results exist.",
+            "readOnly": true,
             "type": "boolean"
           },
           "nextCursor": {
+            "description": "Output only. The cursor to use for the next page of results.",
+            "readOnly": true,
             "type": "string"
           },
           "plugins": {
+            "description": "Output only. The list of plugins.",
             "items": {
               "$ref": "#/components/schemas/v1Plugin"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "ListPluginsResponse",
         "type": "object"
       },
       "v1Plugin": {
@@ -201,6 +252,7 @@
               }
             }
           },
+          "description": "Request to generate a chat completion response.",
           "required": true
         },
         "responses": {
@@ -249,6 +301,7 @@
               }
             }
           },
+          "description": "Request to list plugins installed on a WordPress site with pagination.",
           "required": true
         },
         "responses": {
@@ -297,6 +350,7 @@
               }
             }
           },
+          "description": "Request to activate one or more plugins on a WordPress site.",
           "required": true
         },
         "responses": {
@@ -345,6 +399,7 @@
               }
             }
           },
+          "description": "Request to deactivate one or more plugins on a WordPress site.",
           "required": true
         },
         "responses": {
@@ -393,6 +448,7 @@
               }
             }
           },
+          "description": "Request to get resource usage data for a WordPress site.",
           "required": true
         },
         "responses": {

@@ -29,38 +29,54 @@
         "type": "object"
       },
       "v1FetchUptimeDataRequest": {
+        "description": "Request to fetch uptime data for a specific account within a date range.",
         "properties": {
           "accountId": {
+            "description": "Required. The account ID to fetch uptime data for.",
             "type": "string"
           },
           "end": {
+            "description": "Optional. The end of the date range for uptime data.",
             "format": "date-time",
             "type": "string"
           },
           "start": {
+            "description": "Optional. The start of the date range for uptime data.",
             "format": "date-time",
             "type": "string"
           }
         },
+        "required": [
+          "accountId"
+        ],
+        "title": "FetchUptimeDataRequest",
         "type": "object"
       },
       "v1FetchUptimeDataResponse": {
+        "description": "Response containing uptime events and uptime percentages for the requested period.",
         "properties": {
           "currentUptime": {
+            "description": "Output only. The current uptime percentage for the requested period.",
             "format": "int32",
+            "readOnly": true,
             "type": "integer"
           },
           "events": {
+            "description": "Output only. The list of uptime events within the requested date range.",
             "items": {
               "$ref": "#/components/schemas/v1UptimeEvent"
             },
+            "readOnly": true,
             "type": "array"
           },
           "previousUptime": {
+            "description": "Output only. The previous uptime percentage for comparison.",
             "format": "int32",
+            "readOnly": true,
             "type": "integer"
           }
         },
+        "title": "FetchUptimeDataResponse",
         "type": "object"
       },
       "v1SiteHealths": {
@@ -121,40 +137,56 @@
         "type": "object"
       },
       "v1UptimeEvent": {
+        "description": "A single uptime event data point with timestamp and value.",
         "properties": {
           "dateTime": {
+            "description": "Output only. The date and time of the uptime event.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "value": {
+            "description": "Output only. The uptime value at this point in time.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "UptimeEvent",
         "type": "object"
       },
       "v1UptimeSearchRequest": {
+        "description": "Request to search for WordPress site uptime data for a partner.",
         "properties": {
           "partnerId": {
+            "description": "Required. The partner ID to search uptime data for.",
             "type": "string"
           }
         },
+        "required": [
+          "partnerId"
+        ],
+        "title": "UptimeSearchRequest",
         "type": "object"
       },
       "v1UptimeSearchResponse": {
+        "description": "Response containing uptime and health data for WordPress sites.",
         "properties": {
           "siteHealths": {
+            "description": "Output only. The list of site health records.",
             "items": {
               "$ref": "#/components/schemas/v1SiteHealths"
             },
-            "title": "The cursor to use for the next healthcheckData",
+            "readOnly": true,
             "type": "array"
           },
           "totalResults": {
+            "description": "Output only. The total number of results for this query across all pages.",
             "format": "int64",
-            "title": "The total number of results for this query across all pages",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "UptimeSearchResponse",
         "type": "object"
       }
     },
@@ -190,6 +222,7 @@
               }
             }
           },
+          "description": "Request to search for WordPress site uptime data for a partner.",
           "required": true
         },
         "responses": {
@@ -231,6 +264,7 @@
               }
             }
           },
+          "description": "Request to fetch uptime data for a specific account within a date range.",
           "required": true
         },
         "responses": {

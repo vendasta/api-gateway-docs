@@ -38,31 +38,39 @@
         "type": "object"
       },
       "v1CanRespondToReviewRequest": {
+        "description": "Request message for checking whether a review supports responses.",
         "properties": {
           "businessId": {
-            "title": "The ID of the business owning the review",
+            "description": "Required. The ID of the business owning the review.",
             "type": "string"
           },
           "reviewId": {
-            "title": "The ID of the review being responded to",
+            "description": "Required. The ID of the review being responded to.",
             "type": "string"
           }
         },
-        "title": "The request message for ReviewService.CanRespondToReview",
+        "required": [
+          "businessId",
+          "reviewId"
+        ],
+        "title": "Can Respond To Review Request",
         "type": "object"
       },
       "v1CanRespondToReviewResponse": {
-        "description": "The response message for ReviewService.CanRespondToReview.",
+        "description": "Response message indicating whether a review supports responses.",
         "properties": {
           "canRespond": {
-            "title": "Represents whether or not the response is supported",
+            "description": "Output only. Represents whether or not the response is supported.",
+            "readOnly": true,
             "type": "boolean"
           },
           "unsupportedReason": {
-            "title": "A message with the reason the review doesn't support responses",
+            "description": "Output only. A message with the reason the review doesn't support responses.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Can Respond To Review Response",
         "type": "object"
       },
       "v1CommunicationChannel": {
@@ -97,130 +105,172 @@
         "type": "object"
       },
       "v1CreateReviewCommentRequest": {
+        "description": "Request message for creating a comment on a review.",
         "properties": {
           "commentText": {
+            "description": "Required. The text content of the comment.",
             "type": "string"
           },
           "commenterEmail": {
+            "description": "Optional. The email of the commenter.",
             "type": "string"
           },
           "commenterName": {
+            "description": "Optional. The name of the commenter.",
             "type": "string"
           },
           "postedByDigitalAgent": {
+            "description": "Optional. Whether this comment is posted by a digital agent.",
             "type": "boolean"
           },
           "postedByOwner": {
+            "description": "Optional. Whether this comment is posted by the listing owner.",
             "type": "boolean"
           },
           "reviewId": {
             "$ref": "#/components/schemas/v1ReviewIdentifier"
           },
           "shouldPublish": {
+            "description": "Optional. Whether the comment should be published immediately.",
             "type": "boolean"
           }
         },
-        "title": "The request message for ReviewService.CreateReviewComment",
+        "required": [
+          "reviewId",
+          "commentText"
+        ],
+        "title": "Create Review Comment Request",
         "type": "object"
       },
       "v1CreateReviewCommentResponse": {
+        "description": "Response message containing the created review comment details.",
         "properties": {
           "commentId": {
+            "description": "Output only. The ID of the created comment.",
+            "readOnly": true,
             "type": "string"
           },
           "commentText": {
-            "title": "Comment text",
+            "description": "Output only. The text content of the comment.",
+            "readOnly": true,
             "type": "string"
           },
           "commenterName": {
-            "title": "Commenter name",
+            "description": "Output only. The name of the commenter.",
+            "readOnly": true,
             "type": "string"
           },
           "created": {
+            "description": "Output only. The creation date of the comment.",
             "format": "date-time",
-            "title": "Creation date of the comment",
+            "readOnly": true,
             "type": "string"
           },
           "postedByOwner": {
-            "title": "Whether this comment is a post by the owner of the listing being reviewed",
+            "description": "Output only. Whether this comment is a post by the owner of the listing being reviewed.",
+            "readOnly": true,
             "type": "boolean"
           },
           "published": {
+            "description": "Output only. The published date of the comment.",
             "format": "date-time",
-            "title": "Published date of the comment",
+            "readOnly": true,
             "type": "string"
           }
         },
-        "title": "The response message for ReviewService.CreateReviewComment",
+        "title": "Create Review Comment Response",
         "type": "object"
       },
       "v1ForceRefreshListingRequest": {
+        "description": "Request message to force refresh a specific listing.",
         "properties": {
           "accountGroupId": {
-            "title": "account group id which the listing belongs to",
+            "description": "Required. The account group ID which the listing belongs to.",
             "type": "string"
           },
           "listingId": {
-            "title": "id of the listing which needs to be force refreshed",
+            "description": "Required. The ID of the listing which needs to be force refreshed.",
             "type": "string"
           },
           "listingUrl": {
-            "title": "url of the listing which needs to be force refreshed",
+            "description": "Optional. The URL of the listing which needs to be force refreshed.",
             "type": "string"
           },
           "sourceId": {
+            "description": "Optional. The source of the listing.",
             "format": "int64",
-            "title": "source of the listing",
             "type": "string"
           }
         },
+        "required": [
+          "accountGroupId",
+          "listingId"
+        ],
+        "title": "Force Refresh Listing Request",
         "type": "object"
       },
       "v1GetListingsRequest": {
+        "description": "Request message for retrieving a set of listings by their identifiers.",
         "properties": {
           "listingIds": {
+            "description": "Required. A set of listing identifiers to retrieve.",
             "items": {
               "$ref": "#/components/schemas/v1ListingIdentifier"
             },
-            "title": "A set of listing identifiers to retrieve",
             "type": "array"
           }
         },
-        "title": "The request message for ListingService.GetListings",
+        "required": [
+          "listingIds"
+        ],
+        "title": "Get Listings Request",
         "type": "object"
       },
       "v1GetListingsResponse": {
+        "description": "Response message containing the retrieved listings.",
         "properties": {
           "listings": {
+            "description": "Output only. The retrieved listings.",
             "items": {
               "$ref": "#/components/schemas/v1Listing"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
-        "title": "The response message for ListingService.GetListings",
+        "title": "Get Listings Response",
         "type": "object"
       },
       "v1GetMultiThirdPartyReviewPublishSettingsRequest": {
+        "description": "Request message for retrieving third-party review publish settings for multiple account groups.",
         "properties": {
           "accountGroupIds": {
+            "description": "Required. The account group IDs to retrieve publish settings for.",
             "items": {
               "type": "string"
             },
             "type": "array"
           }
         },
+        "required": [
+          "accountGroupIds"
+        ],
+        "title": "Get Multi Third Party Review Publish Settings Request",
         "type": "object"
       },
       "v1GetMultiThirdPartyReviewPublishSettingsResponse": {
+        "description": "Response message containing third-party review publish settings keyed by account group ID.",
         "properties": {
           "thirdPartyReviewPublishSettings": {
             "additionalProperties": {
               "$ref": "#/components/schemas/v1ThirdPartyReviewPublishSettings"
             },
+            "description": "Output only. The third-party review publish settings keyed by account group ID.",
+            "readOnly": true,
             "type": "object"
           }
         },
+        "title": "Get Multi Third Party Review Publish Settings Response",
         "type": "object"
       },
       "v1GetNetPromoterScoreDetailsRequest": {
@@ -319,32 +369,39 @@
         "type": "object"
       },
       "v1GetReviewsRequest": {
+        "description": "Request message for retrieving a set of reviews by their identifiers.",
         "properties": {
           "includeComments": {
-            "title": "Whether or not to include comments on the reviews",
+            "description": "Optional. Whether or not to include comments on the reviews.",
             "type": "boolean"
           },
           "reviewIds": {
+            "description": "Required. The set of review IDs to retrieve.",
             "items": {
               "$ref": "#/components/schemas/v1ReviewIdentifier"
             },
-            "title": "The set of review ids to retrieve",
             "type": "array"
           }
         },
-        "title": "The request message for ReviewService.GetReviewsRequest",
+        "required": [
+          "reviewIds"
+        ],
+        "title": "Get Reviews Request",
         "type": "object"
       },
       "v1GetReviewsResponse": {
+        "description": "Response message containing the retrieved reviews.",
         "properties": {
           "reviews": {
+            "description": "Output only. The retrieved reviews.",
             "items": {
               "$ref": "#/components/schemas/v1Review"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
-        "title": "The response message for ReviewService.GetReviews",
+        "title": "Get Reviews Response",
         "type": "object"
       },
       "v1ImportNPSRequest": {
@@ -581,28 +638,34 @@
         "type": "object"
       },
       "v1Listing": {
+        "description": "Represents a business listing on an external source, including NAP data, match quality, and timestamps.",
         "properties": {
           "created": {
+            "description": "Output only. When the listing was created in the system.",
             "format": "date-time",
-            "title": "When the listing was created in the system",
+            "readOnly": true,
             "type": "string"
           },
           "domain": {
-            "title": "The domain of the listing URL",
+            "description": "Output only. The domain of the listing URL.",
+            "readOnly": true,
             "type": "string"
           },
           "externalId": {
-            "title": "The external ID of the listing",
+            "description": "Output only. The external ID of the listing.",
+            "readOnly": true,
             "type": "string"
           },
           "lastScraped": {
+            "description": "Output only. When the listing was last scraped by the system.",
             "format": "date-time",
-            "title": "When the listing was last scraped by the system",
+            "readOnly": true,
             "type": "string"
           },
           "lastUserRefresh": {
+            "description": "Output only. When the listing was refreshed by the user.",
             "format": "date-time",
-            "title": "When the listing was refreshed by the user",
+            "readOnly": true,
             "type": "string"
           },
           "listingIdentifier": {
@@ -612,87 +675,112 @@
             "$ref": "#/components/schemas/ListingMatchQuality"
           },
           "matches": {
+            "description": "Output only. A list of which fields match the business's NAP data (companyName, city, state).",
             "items": {
               "type": "string"
             },
-            "title": "A list of which fields match the businesses NAP data (companyName, city, state)",
+            "readOnly": true,
             "type": "array"
           },
           "missing": {
-            "title": "Indicates if the listing is missing from the sources site",
+            "description": "Output only. Indicates if the listing is missing from the source's site.",
+            "readOnly": true,
             "type": "boolean"
           },
           "missingOn": {
+            "description": "Output only. When the listing was found missing by the system.",
             "format": "date-time",
-            "title": "When the listing was found missing by the system",
+            "readOnly": true,
             "type": "string"
           },
           "modified": {
+            "description": "Output only. When the listing was last modified by the system.",
             "format": "date-time",
-            "title": "When the listing was last modified by the system",
+            "readOnly": true,
             "type": "string"
           },
           "nap": {
             "$ref": "#/components/schemas/v1NAP"
           },
           "score": {
+            "description": "Output only. The score of the listing.",
             "format": "int64",
-            "title": "The score of the listing",
+            "readOnly": true,
             "type": "string"
           },
           "sourceId": {
+            "description": "Output only. The source that the listing belongs to.",
             "format": "int64",
-            "title": "The source that the listing belongs to",
+            "readOnly": true,
             "type": "string"
           },
           "url": {
-            "title": "The URL of the listing",
+            "description": "Output only. The URL of the listing.",
+            "readOnly": true,
             "type": "string"
           },
           "userSubmitted": {
-            "title": "Indicates if the listing was submitted by the user",
+            "description": "Output only. Indicates if the listing was submitted by the user.",
+            "readOnly": true,
             "type": "boolean"
           },
           "verified": {
-            "title": "Indicates if the listing was marked verified by the user",
+            "description": "Output only. Indicates if the listing was marked verified by the user.",
+            "readOnly": true,
             "type": "boolean"
           }
         },
+        "title": "Listing",
         "type": "object"
       },
       "v1ListingIdentifier": {
+        "description": "Uniquely identifies a listing by its account group and listing ID.",
         "properties": {
           "accountGroupId": {
+            "description": "Required. The account group ID that owns the listing.",
             "type": "string"
           },
           "listingId": {
+            "description": "Required. The unique listing ID.",
             "type": "string"
           }
         },
-        "title": "Uniquely identifies a listing",
+        "required": [
+          "accountGroupId",
+          "listingId"
+        ],
+        "title": "Listing Identifier",
         "type": "object"
       },
       "v1LookupListingsRequest": {
+        "description": "Request message for looking up listings for a business, with filtering options by source and match quality.",
         "properties": {
           "businessId": {
+            "description": "Required. The business ID to look up listings for.",
             "type": "string"
           },
           "includeAnchorDataMatches": {
+            "description": "Optional. Whether to include anchor data matches.",
             "type": "boolean"
           },
           "includeGoodListings": {
+            "description": "Optional. Whether to include good listings.",
             "type": "boolean"
           },
           "includeInternetProviderListings": {
+            "description": "Optional. Whether to include internet provider listings.",
             "type": "boolean"
           },
           "includeNotDoneListings": {
+            "description": "Optional. Whether to include not-done listings.",
             "type": "boolean"
           },
           "includePoorListings": {
+            "description": "Optional. Whether to include poor listings.",
             "type": "boolean"
           },
           "sourceIds": {
+            "description": "Optional. The source IDs to filter listings by.",
             "items": {
               "format": "int64",
               "type": "string"
@@ -700,50 +788,72 @@
             "type": "array"
           }
         },
+        "required": [
+          "businessId"
+        ],
+        "title": "Lookup Listings Request",
         "type": "object"
       },
       "v1LookupListingsResponse": {
+        "description": "Response message containing listings grouped by source.",
         "properties": {
           "listingsBySource": {
+            "description": "Output only. The listings grouped by source.",
             "items": {
               "$ref": "#/components/schemas/v1LookupResponseForSource"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "Lookup Listings Response",
         "type": "object"
       },
       "v1LookupResponseForSource": {
+        "description": "Listings grouped by match quality for a single source.",
         "properties": {
           "goodListings": {
+            "description": "Output only. Listings with good match quality.",
             "items": {
               "$ref": "#/components/schemas/v1Listing"
             },
+            "readOnly": true,
             "type": "array"
           },
           "notDoneListings": {
+            "description": "Output only. Listings that are not yet done.",
             "items": {
               "$ref": "#/components/schemas/v1Listing"
             },
+            "readOnly": true,
             "type": "array"
           },
           "poorListings": {
+            "description": "Output only. Listings with poor match quality.",
             "items": {
               "$ref": "#/components/schemas/v1Listing"
             },
+            "readOnly": true,
             "type": "array"
           },
           "sourceId": {
+            "description": "Output only. The source ID.",
             "format": "int64",
+            "readOnly": true,
             "type": "string"
           },
           "sourceName": {
+            "description": "Output only. The source name.",
+            "readOnly": true,
             "type": "string"
           },
           "userFriendlySourceName": {
+            "description": "Output only. The user-friendly source name.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Lookup Response For Source",
         "type": "object"
       },
       "v1MetricsForSource": {
@@ -825,41 +935,42 @@
         "type": "object"
       },
       "v1NAP": {
+        "description": "Name, Address, and Phone (NAP) information of a listing.",
         "properties": {
           "address": {
-            "title": "The listings address",
+            "description": "Optional. The listing's address.",
             "type": "string"
           },
           "city": {
-            "title": "The listings city",
+            "description": "Optional. The listing's city.",
             "type": "string"
           },
           "companyName": {
-            "title": "The listings company name",
+            "description": "Optional. The listing's company name.",
             "type": "string"
           },
           "country": {
-            "title": "The listings country",
+            "description": "Optional. The listing's country.",
             "type": "string"
           },
           "phone": {
-            "title": "The listings phone",
+            "description": "Optional. The listing's phone.",
             "type": "string"
           },
           "state": {
-            "title": "The listings state",
+            "description": "Optional. The listing's state.",
             "type": "string"
           },
           "website": {
-            "title": "The listings website",
+            "description": "Optional. The listing's website.",
             "type": "string"
           },
           "zip": {
-            "title": "The listings zip",
+            "description": "Optional. The listing's zip.",
             "type": "string"
           }
         },
-        "title": "NAP information of a listing",
+        "title": "NAP",
         "type": "object"
       },
       "v1NPSProviderDetails": {
@@ -1366,22 +1477,32 @@
         "type": "object"
       },
       "v1ReviewHistoryRequest": {
+        "description": "Request message for retrieving the history of a review.",
         "properties": {
           "reviewId": {
+            "description": "Required. The ID of the review to retrieve history for.",
             "type": "string"
           }
         },
+        "required": [
+          "reviewId"
+        ],
+        "title": "Review History Request",
         "type": "object"
       },
       "v1ReviewHistoryResponse": {
+        "description": "Response message containing the history entries for a review.",
         "properties": {
           "reviewHistory": {
+            "description": "Output only. The history entries for the review.",
             "items": {
               "$ref": "#/components/schemas/v1ReviewHistory"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "Review History Response",
         "type": "object"
       },
       "v1ReviewIdentifier": {
@@ -1653,27 +1774,36 @@
         "type": "object"
       },
       "v1UpdateReviewCommentRequest": {
+        "description": "Request message for updating the text of a review comment.",
         "properties": {
           "reviewCommentContent": {
+            "description": "Required. The updated content of the review comment.",
             "type": "string"
           },
           "reviewCommentId": {
+            "description": "Required. The ID of the review comment to update.",
             "type": "string"
           }
         },
-        "title": "The request message for ReviewService.UpdateReviewComment",
+        "required": [
+          "reviewCommentId",
+          "reviewCommentContent"
+        ],
+        "title": "Update Review Comment Request",
         "type": "object"
       },
       "v1UpdateReviewCommentResponse": {
-        "description": "The response message for ReviewService.UpdateReviewComment.",
+        "description": "Response message containing the updated review comment.",
         "properties": {
           "reviewComment": {
             "$ref": "#/components/schemas/v1ReviewComment"
           }
         },
+        "title": "Update Review Comment Response",
         "type": "object"
       },
       "v1UpdateReviewRequest": {
+        "description": "Request message for updating a review's action status and publish settings.",
         "properties": {
           "actionStatus": {
             "$ref": "#/components/schemas/v1ReviewActionStatus"
@@ -1682,45 +1812,64 @@
             "$ref": "#/components/schemas/vendastatypesFieldMask"
           },
           "isPublished": {
+            "description": "Optional. Whether the review is published.",
             "type": "boolean"
           },
           "isPublishedThirdPartyReview": {
+            "description": "Optional. Whether the review is a published third-party review.",
             "type": "boolean"
           },
           "isSharedByReviewer": {
+            "description": "Optional. Whether the review is shared by the reviewer.",
             "type": "boolean"
           },
           "newComment": {
+            "description": "Optional. Whether there is a new comment on the review.",
             "type": "boolean"
           },
           "reviewId": {
             "$ref": "#/components/schemas/v1ReviewIdentifier"
           }
         },
-        "title": "The request message for ReviewService.UpdateReview",
+        "required": [
+          "reviewId"
+        ],
+        "title": "Update Review Request",
         "type": "object"
       },
       "v1UpdateReviewResponse": {
+        "description": "Response message containing the ID of the updated review.",
         "properties": {
           "reviewId": {
+            "description": "Output only. The ID of the updated review.",
+            "readOnly": true,
             "type": "string"
           }
         },
-        "title": "The response message for ReviewService.UpdateReview",
+        "title": "Update Review Response",
         "type": "object"
       },
       "v1UpdateReviewUserDeletedInfoRequest": {
+        "description": "Request message for updating the user-deleted status on a review.",
         "properties": {
           "deletedStatus": {
             "$ref": "#/components/schemas/v1ReviewDeletedStatus"
           },
           "reviewId": {
+            "description": "Required. The ID of the review to update.",
             "type": "string"
           },
           "userId": {
+            "description": "Required. The ID of the user performing the action.",
             "type": "string"
           }
         },
+        "required": [
+          "reviewId",
+          "userId",
+          "deletedStatus"
+        ],
+        "title": "Update Review User Deleted Info Request",
         "type": "object"
       },
       "vendastatypesFieldMask": {
@@ -1773,6 +1922,7 @@
               }
             }
           },
+          "description": "Request message to force refresh a specific listing.",
           "required": true
         },
         "responses": {
@@ -1821,6 +1971,7 @@
               }
             }
           },
+          "description": "Request message for retrieving a set of listings by their identifiers.",
           "required": true
         },
         "responses": {
@@ -1862,6 +2013,7 @@
               }
             }
           },
+          "description": "Request message for looking up listings for a business, with filtering options by source and match quality.",
           "required": true
         },
         "responses": {
@@ -2081,6 +2233,7 @@
               }
             }
           },
+          "description": "Request message for checking whether a review supports responses.",
           "required": true
         },
         "responses": {
@@ -2129,6 +2282,7 @@
               }
             }
           },
+          "description": "Request message for creating a comment on a review.",
           "required": true
         },
         "responses": {
@@ -2177,6 +2331,7 @@
               }
             }
           },
+          "description": "Request message for updating the text of a review comment.",
           "required": true
         },
         "responses": {
@@ -2225,6 +2380,7 @@
               }
             }
           },
+          "description": "Request message for retrieving a set of reviews by their identifiers.",
           "required": true
         },
         "responses": {
@@ -2273,6 +2429,7 @@
               }
             }
           },
+          "description": "Request message for retrieving the history of a review.",
           "required": true
         },
         "responses": {
@@ -2425,6 +2582,7 @@
               }
             }
           },
+          "description": "Request message for retrieving third-party review publish settings for multiple account groups.",
           "required": true
         },
         "responses": {
@@ -2473,6 +2631,7 @@
               }
             }
           },
+          "description": "Request message for updating a review's action status and publish settings.",
           "required": true
         },
         "responses": {
@@ -2521,6 +2680,7 @@
               }
             }
           },
+          "description": "Request message for updating the user-deleted status on a review.",
           "required": true
         },
         "responses": {

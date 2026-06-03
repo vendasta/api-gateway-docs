@@ -122,23 +122,24 @@
         "type": "object"
       },
       "v1CreateDraftRequest": {
+        "description": "Request message for creating a new social draft.",
         "properties": {
           "accountGroupId": {
-            "description": "Unique id signifying account group this belongs to.",
+            "description": "Required. Unique id signifying account group this belongs to.",
             "type": "string"
           },
           "blogPostCustomization": {
             "$ref": "#/components/schemas/v1BlogPostCustomization"
           },
           "brandId": {
-            "title": "to store the brand id of the draft",
+            "description": "Optional. The brand id of the draft.",
             "type": "string"
           },
           "campaignCustomization": {
             "$ref": "#/components/schemas/v1CampaignCustomization"
           },
           "draftText": {
-            "description": "Raw text of the draft.",
+            "description": "Optional. Raw text of the draft.",
             "type": "string"
           },
           "draftType": {
@@ -148,10 +149,11 @@
             "$ref": "#/components/schemas/v1GMBPostCustomization"
           },
           "isHidden": {
+            "description": "Optional. Whether the draft is hidden.",
             "type": "boolean"
           },
           "media": {
-            "description": "List of the media attached to the draft.",
+            "description": "Optional. List of the media attached to the draft.",
             "items": {
               "$ref": "#/components/schemas/v1Media"
             },
@@ -161,42 +163,42 @@
             "items": {
               "$ref": "#/components/schemas/v1MetaData"
             },
-            "title": "Any metadata associated with this draft (source, last raised exception, etc)",
+            "title": "Optional. Any metadata associated with this draft (source, last raised exception, etc)",
             "type": "array"
           },
           "multilocationPostId": {
-            "title": "to store the multilocation post id of the draft",
+            "description": "Optional. The multilocation post id of the draft.",
             "type": "string"
           },
           "options": {
-            "description": "Special configurations options for the composer.",
+            "description": "Optional. Special configurations options for the composer.",
             "items": {
               "type": "string"
             },
             "type": "array"
           },
           "postDateTime": {
-            "description": "Time the draft is set to be posted at.",
+            "description": "Optional. Time the draft is set to be posted at.",
             "format": "date-time",
             "type": "string"
           },
           "previews": {
-            "description": "Preview link for shortened URL Links.",
+            "description": "Optional. Preview link for shortened URL Links.",
             "type": "string"
           },
           "socialNetworkIdentifier": {
-            "description": "Identifier for the social network platform (e.g., LinkedIn Profile URL).\nUsed to track drafts associated with specific social network profiles,\nparticularly when connections are disconnected and posts move to drafts.",
+            "description": "Optional. Identifier for the social network platform (e.g., LinkedIn Profile URL).\nUsed to track drafts associated with specific social network profiles,\nparticularly when connections are disconnected and posts move to drafts.",
             "type": "string"
           },
           "ssidDraftTypes": {
-            "description": "The ssid draft type map.",
+            "description": "Optional. The ssid draft type map.",
             "items": {
               "$ref": "#/components/schemas/v1SSIDDraftType"
             },
             "type": "array"
           },
           "ssids": {
-            "description": "Social Service ids used in this draft.",
+            "description": "Optional. Social Service ids used in this draft.",
             "items": {
               "type": "string"
             },
@@ -209,49 +211,71 @@
             "$ref": "#/components/schemas/v1YoutubeCustomization"
           }
         },
+        "required": [
+          "accountGroupId"
+        ],
+        "title": "CreateDraftRequest",
         "type": "object"
       },
       "v1CreateDraftResponse": {
+        "description": "Response message containing the newly created draft.",
         "properties": {
           "draft": {
             "$ref": "#/components/schemas/v1Draft"
           }
         },
+        "title": "CreateDraftResponse",
         "type": "object"
       },
       "v1CreateMultiDraftsRequest": {
+        "description": "Request message for creating multiple social drafts at once.",
         "properties": {
           "drafts": {
+            "description": "Required. The list of drafts to create.",
             "items": {
               "$ref": "#/components/schemas/v1CreateDraftRequest"
             },
             "type": "array"
           }
         },
+        "required": [
+          "drafts"
+        ],
+        "title": "CreateMultiDraftsRequest",
         "type": "object"
       },
       "v1CreateMultiDraftsResponse": {
+        "description": "Response message containing the newly created drafts.",
         "properties": {
           "drafts": {
+            "description": "Output only. The list of newly created drafts.",
             "items": {
               "$ref": "#/components/schemas/v1Draft"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "CreateMultiDraftsResponse",
         "type": "object"
       },
       "v1DeleteDraftRequest": {
+        "description": "Request message for deleting a social draft.",
         "properties": {
           "accountGroupId": {
-            "title": "The account group id",
+            "description": "Required. The account group id.",
             "type": "string"
           },
           "draftId": {
-            "title": "The internal id of the draft",
+            "description": "Required. The internal id of the draft.",
             "type": "string"
           }
         },
+        "required": [
+          "accountGroupId",
+          "draftId"
+        ],
+        "title": "DeleteDraftRequest",
         "type": "object"
       },
       "v1Draft": {
@@ -423,86 +447,104 @@
         "type": "object"
       },
       "v1GetDraftRequest": {
+        "description": "Request message for retrieving a single social draft.",
         "properties": {
           "accountGroupId": {
-            "description": "The account group id of te draft.",
+            "description": "Required. The account group id of the draft.",
             "type": "string"
           },
           "draftId": {
-            "title": "The internal id of the draft",
+            "description": "Required. The internal id of the draft.",
             "type": "string"
           }
         },
+        "required": [
+          "accountGroupId",
+          "draftId"
+        ],
+        "title": "GetDraftRequest",
         "type": "object"
       },
       "v1GetDraftResponse": {
+        "description": "Response message containing the requested draft.",
         "properties": {
           "draft": {
             "$ref": "#/components/schemas/v1Draft"
           }
         },
+        "title": "GetDraftResponse",
         "type": "object"
       },
       "v1ListDraftsRequest": {
+        "description": "Request message for listing social drafts for a given account group.",
         "properties": {
           "accountGroupId": {
-            "title": "The account group id",
+            "description": "Required. The account group id.",
             "type": "string"
           },
           "cursor": {
-            "title": "Cursor to more drafts if it is greater then the page size",
+            "description": "Optional. Cursor to more drafts if it is greater then the page size.",
             "type": "string"
           },
           "end": {
+            "description": "Optional. If an end time is provided, a page of the drafts older than it will be returned.",
             "format": "date-time",
-            "title": "If an end time is provided, a page of the drafts older than it will be returned",
             "type": "string"
           },
           "networks": {
+            "description": "Optional. Should filter on basis of networks ssids.",
             "items": {
               "type": "string"
             },
-            "title": "Should filter on basis of networks ssids",
             "type": "array"
           },
           "pageSize": {
+            "description": "Optional. Number of results to grab.",
             "format": "int64",
-            "title": "Number of results to grab",
             "type": "string"
           },
           "searchTerm": {
-            "title": "Including searching in draft",
+            "description": "Optional. Including searching in draft.",
             "type": "string"
           },
           "start": {
+            "description": "Optional. If a start time is provided, a page of the drafts that are newer than it will be returned.",
             "format": "date-time",
-            "title": "If a start time is provided, a page of the drafts that are newer than it will be returned",
             "type": "string"
           },
           "visibilityType": {
             "$ref": "#/components/schemas/v1VisibilityType"
           }
         },
+        "required": [
+          "accountGroupId"
+        ],
+        "title": "ListDraftsRequest",
         "type": "object"
       },
       "v1ListDraftsResponse": {
+        "description": "Response message containing a page of social drafts.",
         "properties": {
           "drafts": {
-            "description": "List of obtained drafts.",
+            "description": "Output only. List of obtained drafts.",
             "items": {
               "$ref": "#/components/schemas/v1Draft"
             },
+            "readOnly": true,
             "type": "array"
           },
           "hasMore": {
-            "title": "Boolean if there are more drafts to get",
+            "description": "Output only. Boolean if there are more drafts to get.",
+            "readOnly": true,
             "type": "boolean"
           },
           "nextCursor": {
-            "title": "Cursor to more drafts if it is greater then the page size",
+            "description": "Output only. Cursor to more drafts if it is greater then the page size.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "ListDraftsResponse",
         "type": "object"
       },
       "v1Media": {
@@ -577,19 +619,25 @@
         "type": "object"
       },
       "v1MultiDeleteMLDraftPostsRequest": {
+        "description": "Request message for deleting multiple multilocation draft posts.",
         "properties": {
           "brandId": {
-            "title": "brandId of the all multilocation draft posts",
+            "description": "Required. Brand id of all multilocation draft posts.",
             "type": "string"
           },
           "mlDraftPosts": {
+            "description": "Required. List of multilocation draft Posts.",
             "items": {
               "$ref": "#/components/schemas/v1MlDraftPost"
             },
-            "title": "List of multilocation draft Posts",
             "type": "array"
           }
         },
+        "required": [
+          "mlDraftPosts",
+          "brandId"
+        ],
+        "title": "MultiDeleteMLDraftPostsRequest",
         "type": "object"
       },
       "v1SSIDDraftType": {
@@ -638,27 +686,28 @@
         "type": "object"
       },
       "v1UpdateDraftRequest": {
+        "description": "Request message for updating an existing social draft.",
         "properties": {
           "accountGroupId": {
-            "description": "Unique id signifying account group this belongs to.",
+            "description": "Required. Unique id signifying account group this belongs to.",
             "type": "string"
           },
           "blogPostCustomization": {
             "$ref": "#/components/schemas/v1BlogPostCustomization"
           },
           "brandId": {
-            "title": "to store the brand id of the draft",
+            "description": "Optional. The brand id of the draft.",
             "type": "string"
           },
           "campaignCustomization": {
             "$ref": "#/components/schemas/v1CampaignCustomization"
           },
           "draftId": {
-            "description": "Unique id for the draft.",
+            "description": "Required. Unique id for the draft.",
             "type": "string"
           },
           "draftText": {
-            "description": "Raw text of the draft.",
+            "description": "Optional. Raw text of the draft.",
             "type": "string"
           },
           "draftType": {
@@ -668,10 +717,11 @@
             "$ref": "#/components/schemas/v1GMBPostCustomization"
           },
           "isHidden": {
+            "description": "Optional. Whether the draft is hidden.",
             "type": "boolean"
           },
           "media": {
-            "description": "List of media attached to the draft.",
+            "description": "Optional. List of media attached to the draft.",
             "items": {
               "$ref": "#/components/schemas/v1Media"
             },
@@ -681,42 +731,42 @@
             "items": {
               "$ref": "#/components/schemas/v1MetaData"
             },
-            "title": "Any metadata associated with this draft (source, last raised exception, etc)",
+            "title": "Optional. Any metadata associated with this draft (source, last raised exception, etc)",
             "type": "array"
           },
           "multilocationPostId": {
-            "title": "to store the multilocation post id of the draft",
+            "description": "Optional. The multilocation post id of the draft.",
             "type": "string"
           },
           "options": {
-            "description": "Special configurations options for the composer.",
+            "description": "Optional. Special configurations options for the composer.",
             "items": {
               "type": "string"
             },
             "type": "array"
           },
           "postDateTime": {
-            "description": "Time the draft is set to be posted at.",
+            "description": "Optional. Time the draft is set to be posted at.",
             "format": "date-time",
             "type": "string"
           },
           "previews": {
-            "description": "Preview link for shortened URL Links.",
+            "description": "Optional. Preview link for shortened URL Links.",
             "type": "string"
           },
           "socialNetworkIdentifier": {
-            "description": "Identifier for the social network platform (e.g., LinkedIn Profile URL).\nUsed to track drafts associated with specific social network profiles,\nparticularly when connections are disconnected and posts move to drafts.",
+            "description": "Optional. Identifier for the social network platform (e.g., LinkedIn Profile URL).\nUsed to track drafts associated with specific social network profiles,\nparticularly when connections are disconnected and posts move to drafts.",
             "type": "string"
           },
           "ssidDraftTypes": {
-            "description": "The ssid draft type map.",
+            "description": "Optional. The ssid draft type map.",
             "items": {
               "$ref": "#/components/schemas/v1SSIDDraftType"
             },
             "type": "array"
           },
           "ssids": {
-            "description": "Social Service ids used in this draft.",
+            "description": "Optional. Social Service ids used in this draft.",
             "items": {
               "type": "string"
             },
@@ -729,26 +779,38 @@
             "$ref": "#/components/schemas/v1YoutubeCustomization"
           }
         },
+        "required": [
+          "accountGroupId",
+          "draftId"
+        ],
+        "title": "UpdateDraftRequest",
         "type": "object"
       },
       "v1UpdateDraftResponse": {
+        "description": "Response message containing the updated draft.",
         "properties": {
           "draft": {
             "$ref": "#/components/schemas/v1Draft"
           }
         },
+        "title": "UpdateDraftResponse",
         "type": "object"
       },
       "v1UpdateMultiMLDraftsRequest": {
+        "description": "Request message for updating multiple multilocation drafts at once.",
         "properties": {
           "drafts": {
+            "description": "Required. Array of UpdateDraftRequest.",
             "items": {
               "$ref": "#/components/schemas/v1UpdateDraftRequest"
             },
-            "title": "Array of UpdateDraftRequest",
             "type": "array"
           }
         },
+        "required": [
+          "drafts"
+        ],
+        "title": "UpdateMultiMLDraftsRequest",
         "type": "object"
       },
       "v1VisibilityType": {
@@ -806,6 +868,7 @@
               }
             }
           },
+          "description": "Request message for creating a new social draft.",
           "required": true
         },
         "responses": {
@@ -847,6 +910,7 @@
               }
             }
           },
+          "description": "Request message for creating multiple social drafts at once.",
           "required": true
         },
         "responses": {
@@ -888,6 +952,7 @@
               }
             }
           },
+          "description": "Request message for deleting a social draft.",
           "required": true
         },
         "responses": {
@@ -929,6 +994,7 @@
               }
             }
           },
+          "description": "Request message for deleting multiple multilocation draft posts.",
           "required": true
         },
         "responses": {
@@ -970,6 +1036,7 @@
               }
             }
           },
+          "description": "Request message for retrieving a single social draft.",
           "required": true
         },
         "responses": {
@@ -1011,6 +1078,7 @@
               }
             }
           },
+          "description": "Request message for listing social drafts for a given account group.",
           "required": true
         },
         "responses": {
@@ -1052,6 +1120,7 @@
               }
             }
           },
+          "description": "Request message for updating an existing social draft.",
           "required": true
         },
         "responses": {
@@ -1093,6 +1162,7 @@
               }
             }
           },
+          "description": "Request message for updating multiple multilocation drafts at once.",
           "required": true
         },
         "responses": {

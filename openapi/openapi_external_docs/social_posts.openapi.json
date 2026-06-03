@@ -187,16 +187,22 @@
         "type": "string"
       },
       "v1DeleteSocialPostRequest": {
+        "description": "Request message for deleting a social post.",
         "properties": {
           "businessId": {
-            "title": "The business to delete the social post for",
+            "description": "Required. The business to delete the social post for.",
             "type": "string"
           },
           "socialPostId": {
-            "title": "The post id that going to delete",
+            "description": "Required. The post id that is going to be deleted.",
             "type": "string"
           }
         },
+        "required": [
+          "businessId",
+          "socialPostId"
+        ],
+        "title": "DeleteSocialPostRequest",
         "type": "object"
       },
       "v1Error": {
@@ -241,97 +247,116 @@
         "type": "object"
       },
       "v1GetMultiSocialPostsRequest": {
+        "description": "Request message for retrieving multiple social posts by their IDs.",
         "properties": {
           "businessId": {
-            "title": "The business ID",
+            "description": "Required. The business ID.",
             "type": "string"
           },
           "internalPostIds": {
+            "description": "Required. The internal post IDs.",
             "items": {
               "type": "string"
             },
-            "title": "The internal post IDs",
             "type": "array"
           }
         },
+        "required": [
+          "businessId",
+          "internalPostIds"
+        ],
+        "title": "GetMultiSocialPostsRequest",
         "type": "object"
       },
       "v1GetMultiSocialPostsResponse": {
+        "description": "Response message containing the requested social posts.",
         "properties": {
           "socialPosts": {
+            "description": "Output only. The requested social posts.",
             "items": {
               "$ref": "#/components/schemas/v1SocialPost"
             },
-            "title": "The requested social posts",
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "GetMultiSocialPostsResponse",
         "type": "object"
       },
       "v1ListSocialPostsRequest": {
+        "description": "Request message for listing social posts for a business.",
         "properties": {
           "businessId": {
-            "title": "The business to list the social posts for",
+            "description": "Required. The business to list the social posts for.",
             "type": "string"
           },
           "cursor": {
-            "title": "A cursor that can be provided to retrieve the next page of results",
+            "description": "Optional. A cursor that can be provided to retrieve the next page of results.",
             "type": "string"
           },
           "end": {
+            "description": "Optional. If an end time is provided, a page of the posts older than it will be\nreturned. If an end time of the current date time is provided you will not\nget any posts that are scheduled to be posted.",
             "format": "date-time",
-            "title": "If an end time is provided, a page of the posts older than it will be\nreturned If an end time of the current date time is provided you will not\nget any posts that are scheduled to be posted",
             "type": "string"
           },
           "pageSize": {
+            "description": "Optional. Number of results to grab.",
             "format": "int64",
-            "title": "Number of results to grab",
             "type": "string"
           },
           "partnerId": {
-            "title": "The partner the social posts belong to",
+            "description": "Optional. The partner the social posts belong to.",
             "type": "string"
           },
           "socialServiceIds": {
+            "description": "Optional. A list of social service IDs to request posts for.",
             "items": {
               "type": "string"
             },
-            "title": "A list of social service IDs to request posts for",
             "type": "array"
           },
           "start": {
+            "description": "Optional. If a start time is provided, a page of the posts that are newer than it\nwill be returned. If a start time of the current date time is provided you\nwill get a page of posts that are scheduled to be posted.",
             "format": "date-time",
-            "title": "If a start time is provided, a page of the posts that are newer than it\nwill be returned If a start time of the current date time is provided you\nwill get a page of posts that are scheduled to be posted",
             "type": "string"
           },
           "tags": {
+            "description": "Optional. A list of tags to request posts for.",
             "items": {
               "type": "string"
             },
-            "title": "A list of tags to request posts for",
             "type": "array"
           }
         },
+        "required": [
+          "businessId"
+        ],
+        "title": "ListSocialPostsRequest",
         "type": "object"
       },
       "v1ListSocialPostsResponse": {
+        "description": "Response message containing a page of social posts.",
         "properties": {
           "hasMore": {
-            "title": "Whether or not more results exist",
+            "description": "Output only. Whether or not more results exist.",
+            "readOnly": true,
             "type": "boolean"
           },
           "nextCursor": {
-            "title": "A cursor that can be provided to retrieve the next page of results",
+            "description": "Output only. A cursor that can be provided to retrieve the next page of results.",
+            "readOnly": true,
             "type": "string"
           },
           "socialPosts": {
+            "description": "Output only. A page of social posts.",
             "items": {
               "$ref": "#/components/schemas/v1SocialPost"
             },
-            "title": "A page of social posts",
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "ListSocialPostsResponse",
         "type": "object"
       },
       "v1MediaEntry": {
@@ -827,17 +852,26 @@
         "type": "object"
       },
       "v2DeleteBlogPostRequest": {
+        "description": "Request message for deleting a blog post.",
         "properties": {
           "businessId": {
+            "description": "Required. The business id.",
             "type": "string"
           },
           "internalPostId": {
+            "description": "Required. The internal post id of the blog post to delete.",
             "type": "string"
           },
           "parentPostId": {
+            "description": "Optional. The parent post id, if applicable.",
             "type": "string"
           }
         },
+        "required": [
+          "businessId",
+          "internalPostId"
+        ],
+        "title": "DeleteBlogPostRequest",
         "type": "object"
       },
       "v2LinkV2": {
@@ -875,24 +909,32 @@
         "type": "object"
       },
       "v2ListPostableSocialServiceRequest": {
+        "description": "Request message for listing postable social services for a business.",
         "properties": {
           "businessId": {
-            "title": "The business id of the account",
+            "description": "Required. The business id of the account.",
             "type": "string"
           }
         },
+        "required": [
+          "businessId"
+        ],
+        "title": "ListPostableSocialServiceRequest",
         "type": "object"
       },
       "v2ListPostableSocialServiceResponse": {
+        "description": "Response message containing the list of postable social services.",
         "properties": {
           "postableSocialService": {
+            "description": "Output only. List of postable social services.",
             "items": {
               "$ref": "#/components/schemas/v2SocialService"
             },
-            "title": "List of postable social services",
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "ListPostableSocialServiceResponse",
         "type": "object"
       },
       "v2MediaProperty": {
@@ -1082,120 +1124,134 @@
         "type": "string"
       },
       "v2PublishPostRequest": {
+        "description": "Request message for publishing a blog post to a WordPress site.",
         "properties": {
           "author": {
             "$ref": "#/components/schemas/socialpostsv2Author"
           },
           "businessId": {
-            "title": "The business id of the blog post connection",
+            "description": "Required. The business id of the blog post connection.",
             "type": "string"
           },
           "categories": {
+            "description": "Optional. The categories of the blog post.",
             "items": {
               "$ref": "#/components/schemas/socialpostsv2Category"
             },
-            "title": "The categories of the blog post",
             "type": "array"
           },
           "content": {
-            "title": "The content of the blog post",
+            "description": "Required. The content of the blog post.",
             "type": "string"
           },
           "createdBy": {
-            "description": "Identifier of who created this blog post.\nIn automation flow it will be an assistant ID.\nIn chat flow it will be a user ID.",
+            "description": "Optional. Identifier of who created this blog post.\nIn automation flow it will be an assistant ID.\nIn chat flow it will be a user ID.",
             "type": "string"
           },
           "images": {
+            "description": "Optional. The images of the blog post.",
             "items": {
               "$ref": "#/components/schemas/v2BlogImage"
             },
-            "title": "The images of the blog post",
             "type": "array"
           },
           "internalPostId": {
-            "title": "The internal post id of the blog post",
+            "description": "Optional. The internal post id of the blog post.",
             "type": "string"
           },
           "metadata": {
+            "description": "Optional. Key/value metadata associated with the blog post (e.g. assistant_type, workflow_type, workflow_source).",
             "items": {
               "$ref": "#/components/schemas/v2MetadataV2"
             },
-            "title": "Key/value metadata associated with the blog post (e.g. assistant_type, workflow_type, workflow_source)",
             "type": "array"
           },
           "partnerId": {
-            "title": "The partner id of the blog post",
+            "description": "Optional. The partner id of the blog post.",
             "type": "string"
           },
           "postDateTime": {
+            "description": "Optional. The post date time of the blog post.",
             "format": "date-time",
-            "title": "The post date time of the blog post",
             "type": "string"
           },
           "postTags": {
+            "description": "Optional. The post tags of the blog post.",
             "items": {
               "type": "string"
             },
-            "title": "The post tags of the blog post",
             "type": "array"
           },
           "siteType": {
-            "title": "The site type of the blog post",
+            "description": "Optional. The site type of the blog post.",
             "type": "string"
           },
           "socialServiceId": {
-            "title": "The service id of the connection",
+            "description": "Required. The service id of the connection.",
             "type": "string"
           },
           "tags": {
+            "description": "Optional. The tags of the blog post.",
             "items": {
               "type": "string"
             },
-            "title": "The tags of the blog post",
             "type": "array"
           },
           "title": {
-            "title": "The title of the blog post",
+            "description": "Required. The title of the blog post.",
             "type": "string"
           },
           "userId": {
-            "title": "The user id of the blog post",
+            "description": "Optional. The user id of the blog post.",
             "type": "string"
           },
           "userName": {
-            "title": "The user name of the blog post",
+            "description": "Optional. The user name of the blog post.",
             "type": "string"
           },
           "videos": {
+            "description": "Optional. The videos of the blog post.",
             "items": {
               "$ref": "#/components/schemas/v2BlogVideo"
             },
-            "title": "The videos of the blog post",
             "type": "array"
           }
         },
+        "required": [
+          "businessId",
+          "socialServiceId",
+          "title",
+          "content"
+        ],
+        "title": "PublishPostRequest",
         "type": "object"
       },
       "v2PublishPostResponse": {
+        "description": "Response message containing the internal ID of the published blog post.",
         "properties": {
           "internalPostId": {
-            "title": "Internal ID of the post",
+            "description": "Output only. Internal ID of the post.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "PublishPostResponse",
         "type": "object"
       },
       "v2SocialPostOutput": {
+        "description": "A scheduled or created social post with its internal identifier and status.",
         "properties": {
           "internalPostId": {
-            "title": "Internal identifier of the post",
+            "description": "Output only. Internal identifier of the post.",
+            "readOnly": true,
             "type": "string"
           },
           "metadata": {
+            "description": "Output only. Contains metadata if any associated with the post.",
             "items": {
               "$ref": "#/components/schemas/v2MetadataV2"
             },
-            "title": "Contains metadata if any associated with the post",
+            "readOnly": true,
             "type": "array"
           },
           "socialPost": {
@@ -1205,37 +1261,44 @@
             "$ref": "#/components/schemas/v2PostStatusV2"
           },
           "statusMessage": {
-            "title": "A message related to the post. Can be the error message in case of an error status, for example",
+            "description": "Output only. A message related to the post. Can be the error message in case of an error status, for example.",
+            "readOnly": true,
             "type": "string"
           }
         },
-        "title": "Contains all the information of a post plus internal identifier and metadata",
+        "title": "SocialPostOutput",
         "type": "object"
       },
       "v2SocialPostRequest": {
+        "description": "Request message for scheduling one or more social posts.",
         "properties": {
           "socialPosts": {
+            "description": "Required. List of posts to be created and scheduled.",
             "items": {
               "$ref": "#/components/schemas/v2SocialPostV2"
             },
-            "title": "List of posts to be created and scheduled",
             "type": "array"
           }
         },
-        "title": "The complete request of the ScheduleSocialPosts RPC",
+        "required": [
+          "socialPosts"
+        ],
+        "title": "SocialPostRequest",
         "type": "object"
       },
       "v2SocialPostResponse": {
+        "description": "Response message containing the created or scheduled social posts.",
         "properties": {
           "socialPosts": {
+            "description": "Output only. List of the created/scheduled posts containing internal identifiers.",
             "items": {
               "$ref": "#/components/schemas/v2SocialPostOutput"
             },
-            "title": "List of the created/scheduled posts containing internal identifiers",
+            "readOnly": true,
             "type": "array"
           }
         },
-        "title": "The complete response of the ScheduleSocialPosts RPC",
+        "title": "SocialPostResponse",
         "type": "object"
       },
       "v2SocialPostV2": {
@@ -1326,83 +1389,103 @@
         "type": "object"
       },
       "v2SocialService": {
+        "description": "A social service connection that can be used for posting.",
         "properties": {
           "accountGroupId": {
-            "title": "Account group ID",
+            "description": "Output only. Account group ID.",
+            "readOnly": true,
             "type": "string"
           },
           "clientTags": {
-            "description": "Tags associated with the client, eg: \"SM\", \"RM\", etc.",
+            "description": "Output only. Tags associated with the client, eg: \"SM\", \"RM\", etc.",
             "items": {
               "type": "string"
             },
+            "readOnly": true,
             "type": "array"
           },
           "collectPostsFlag": {
-            "title": "Whether to collect posts",
+            "description": "Output only. Whether to collect posts.",
+            "readOnly": true,
             "type": "boolean"
           },
           "collectStatsFlag": {
-            "title": "Whether to collect stats",
+            "description": "Output only. Whether to collect stats.",
+            "readOnly": true,
             "type": "boolean"
           },
           "fullName": {
-            "title": "For Twitter, this will be the User display name, otherwise this will be same as the name",
+            "description": "Output only. For Twitter, this will be the User display name, otherwise this will be same as the name.",
+            "readOnly": true,
             "type": "string"
           },
           "googleUserId": {
-            "title": "Google UserId for GMB services",
+            "description": "Output only. Google UserId for GMB services.",
+            "readOnly": true,
             "type": "string"
           },
           "isAuthenticated": {
-            "title": "Whether the service is authenticated",
+            "description": "Output only. Whether the service is authenticated.",
+            "readOnly": true,
             "type": "boolean"
           },
           "isDisabledFlag": {
-            "title": "Whether the service is disabled",
+            "description": "Output only. Whether the service is disabled.",
+            "readOnly": true,
             "type": "boolean"
           },
           "isSyncing": {
-            "title": "Whether the service is currently syncing",
+            "description": "Output only. Whether the service is currently syncing.",
+            "readOnly": true,
             "type": "boolean"
           },
           "name": {
-            "title": "For Twitter, this will be the Twitter handle, otherwise this will be just the name",
+            "description": "Output only. For Twitter, this will be the Twitter handle, otherwise this will be just the name.",
+            "readOnly": true,
             "type": "string"
           },
           "profileImageUrl": {
-            "title": "Profile image URL",
+            "description": "Output only. Profile image URL.",
+            "readOnly": true,
             "type": "string"
           },
           "profileUrl": {
-            "title": "Profile URL",
+            "description": "Output only. Profile URL.",
+            "readOnly": true,
             "type": "string"
           },
           "serviceId": {
-            "title": "Service identifier",
+            "description": "Output only. Service identifier.",
+            "readOnly": true,
             "type": "string"
           },
           "serviceType": {
-            "description": "Type of the social service, eg: TW_USER, FB_PAGE, LI_COMPANY, etc.",
+            "description": "Output only. Type of the social service, eg: TW_USER, FB_PAGE, LI_COMPANY, etc.",
+            "readOnly": true,
             "type": "string"
           },
           "socialProfileId": {
-            "title": "Social profile identifier",
+            "description": "Output only. Social profile identifier.",
+            "readOnly": true,
             "type": "string"
           },
           "socialTokenBroken": {
-            "title": "Whether the social token is broken",
+            "description": "Output only. Whether the social token is broken.",
+            "readOnly": true,
             "type": "boolean"
           },
           "spid": {
-            "title": "Social profile ID",
+            "description": "Output only. Social profile ID.",
+            "readOnly": true,
             "type": "string"
           },
           "ssid": {
-            "title": "Social service ID",
+            "description": "Output only. Social service ID.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "SocialService",
         "type": "object"
       },
       "v2TikTokCustomizationV2": {
@@ -1433,11 +1516,16 @@
         "type": "object"
       },
       "v2UpdateBlogPostRequest": {
+        "description": "Request message for updating an existing blog post.",
         "properties": {
           "blogPost": {
             "$ref": "#/components/schemas/v2BlogPost"
           }
         },
+        "required": [
+          "blogPost"
+        ],
+        "title": "UpdateBlogPostRequest",
         "type": "object"
       },
       "v2YoutubeCustomizationV2": {
@@ -1483,6 +1571,7 @@
               }
             }
           },
+          "description": "Request message for deleting a social post.",
           "required": true
         },
         "responses": {
@@ -1531,6 +1620,7 @@
               }
             }
           },
+          "description": "Request message for retrieving multiple social posts by their IDs.",
           "required": true
         },
         "responses": {
@@ -1572,6 +1662,7 @@
               }
             }
           },
+          "description": "Request message for listing social posts for a business.",
           "required": true
         },
         "responses": {
@@ -1620,6 +1711,7 @@
               }
             }
           },
+          "description": "Request message for publishing a blog post to a WordPress site.",
           "required": true
         },
         "responses": {
@@ -1661,6 +1753,7 @@
               }
             }
           },
+          "description": "Request message for deleting a blog post.",
           "required": true
         },
         "responses": {
@@ -1702,6 +1795,7 @@
               }
             }
           },
+          "description": "Request message for updating an existing blog post.",
           "required": true
         },
         "responses": {
@@ -1743,6 +1837,7 @@
               }
             }
           },
+          "description": "Request message for listing postable social services for a business.",
           "required": true
         },
         "responses": {
@@ -1791,6 +1886,7 @@
               }
             }
           },
+          "description": "Request message for scheduling one or more social posts.",
           "required": true
         },
         "responses": {

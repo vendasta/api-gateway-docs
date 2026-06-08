@@ -150,6 +150,9 @@ To get a sandbox environment for testing, contact support@vendasta.com.
 
 ## What's Next?
 
+- **[API Architecture](APIArchitecture.md)** — Understand the two API layers and which to use
+- **[Request Format](RequestFormat.md)** — JSON:API conventions, pagination, filtering, and sorting
+- **[Error Handling](Errors.md)** — Error codes, HTTP statuses, and retry strategies
 - **[Authorization deep dive](../Authorization/Authorization.md)** — Learn about 3-legged OAuth and scopes
 - **[Create an account](../Guides/Accounts.md)** — Create and manage business accounts
 - **[Sell products](../Guides/Sell/Overview.md)** — Activate products for your accounts via API

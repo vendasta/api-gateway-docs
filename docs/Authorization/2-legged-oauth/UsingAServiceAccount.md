@@ -413,7 +413,7 @@ public class ServiceAccountSample {
             // The request scope for the token
             Scope scope = new Scope("profile", "email");
             // The token endpoint
-            URI tokenEndpoint = new URI((string)credentials.get("token_uri");
+            URI tokenEndpoint = new URI((String)credentials.get("token_uri"));
             // Make the token request
             TokenRequest request = new TokenRequest(tokenEndpoint, bearerGrant, scope);
             TokenResponse response = TokenResponse.parse(request.toHTTPRequest().send());

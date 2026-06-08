@@ -25,7 +25,7 @@ Create, update and remove user profiles and permissions in the Vendasta platform
 [Learn to sync users with your IDP](IDP-User-Sync.md)
 
 
-## User Lifecycel Management for marketplace apps
+## User Lifecycle Management for marketplace apps
 Create, update and remove user profiles in your marketplace apps based on changes in the Vendasta platform.
 
 [Vendor SSO user syncing](https://developers.vendasta.com/vendor/d191b96068b71-sso-o-auth2-3-legged-flow#user-syncing)

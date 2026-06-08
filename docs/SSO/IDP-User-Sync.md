@@ -60,7 +60,7 @@ If the contact information you provide is valid, it will create a new customer r
   "data": [
     {
       "type": "users",
-      "id": "U-a1654fed-78d3-4 bd 4-bf39-80203ca5273a",
+      "id": "U-a1654fed-78d3-4bd4-bf39-80203ca5273a",
       "attributes": {
         "givenName": "Chris",
         "familyName": "Green",

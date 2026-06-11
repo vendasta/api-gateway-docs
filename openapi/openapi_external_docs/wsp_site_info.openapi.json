@@ -29,257 +29,322 @@
         "type": "object"
       },
       "v1InvalidateCacheRequest": {
+        "description": "Request to invalidate page cache, object cache, and CDN for a WordPress site.",
         "properties": {
           "siteId": {
+            "description": "Required. The unique identifier of the site whose cache should be invalidated.",
             "type": "string"
           }
         },
-        "title": "InvalidateCacheRequest supports invalidating the cache of a site",
+        "required": [
+          "siteId"
+        ],
+        "title": "InvalidateCacheRequest",
         "type": "object"
       },
       "v1ListRequest": {
+        "description": "Request to list WordPress sites with pagination support.",
         "properties": {
           "cursor": {
+            "description": "Optional. The cursor specifying the page to return. Use the next_cursor from a previous response to paginate.",
             "format": "int32",
             "type": "integer"
           },
           "pageSize": {
+            "description": "Optional. The number of sites to return per page.",
             "format": "int32",
             "type": "integer"
           }
         },
-        "title": "ListRequest is the structure of the request that is passed to the List endpoint. It contains a cursor, which\nspecifies the \"page\" to return, and a page size that dictates how many sites to return per List call",
+        "title": "ListRequest",
         "type": "object"
       },
       "v1ListResponse": {
+        "description": "Response containing a paginated list of WordPress sites.",
         "properties": {
           "invalidSiteIds": {
+            "description": "Output only. Site IDs that could not be retrieved.",
             "items": {
               "type": "string"
             },
+            "readOnly": true,
             "type": "array"
           },
           "nextCursor": {
+            "description": "Output only. The cursor to use for the next page of results.",
             "format": "int32",
+            "readOnly": true,
             "type": "integer"
           },
           "validSites": {
+            "description": "Output only. The list of valid sites for the current page.",
             "items": {
               "$ref": "#/components/schemas/v1Site"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
-        "title": "ListResponse is the structure of the List endpoint response. It contains a list of sites that are returned per List\ncall, for the corresponding cursor and page size that are passed through the request",
+        "title": "ListResponse",
         "type": "object"
       },
       "v1Site": {
+        "description": "The canonical representation of a WordPress site, including configuration, domains, and status.",
         "properties": {
           "accountId": {
+            "description": "Output only. The account ID associated with this site.",
+            "readOnly": true,
             "type": "string"
           },
           "activatedCount": {
+            "description": "Output only. The activated count of subsites for the site.",
             "format": "int32",
-            "title": "activated count of subsites for the site",
+            "readOnly": true,
             "type": "integer"
           },
           "alternateDomains": {
+            "description": "Output only. A list of alternate domains for the site.",
             "items": {
               "type": "string"
             },
-            "title": "alternate_domains is a list of alternate domains for the site",
+            "readOnly": true,
             "type": "array"
           },
           "cdnVersion": {
-            "title": "cdn_version is the version of the CDN for the site",
+            "description": "Output only. The version of the CDN for the site.",
+            "readOnly": true,
             "type": "string"
           },
           "dbHost": {
-            "title": "db_host is the IP of the CloudSQL database of the site",
+            "description": "Output only. The IP of the CloudSQL database of the site.",
+            "readOnly": true,
             "type": "string"
           },
           "dbName": {
-            "title": "db_name is the main database name of the site from CloudSQL",
+            "description": "Output only. The main database name of the site from CloudSQL.",
+            "readOnly": true,
             "type": "string"
           },
           "dbPass": {
-            "title": "db_pass is the password of the main user of the database",
+            "description": "Output only. The password of the main user of the database.",
+            "readOnly": true,
             "type": "string"
           },
           "dbUser": {
-            "title": "db_user is the main user of the database",
+            "description": "Output only. The main user of the database.",
+            "readOnly": true,
             "type": "string"
           },
           "deactivated": {
-            "title": "deactivated is an indicator of whether the site is deactivated",
+            "description": "Output only. Whether the site is deactivated.",
+            "readOnly": true,
             "type": "boolean"
           },
           "developerModeEnabled": {
-            "title": "Enable developer mode toggle in support tools",
+            "description": "Output only. Whether developer mode is enabled.",
+            "readOnly": true,
             "type": "boolean"
           },
           "domain": {
-            "title": "domain is the primary domain of the site",
+            "description": "Output only. The primary domain of the site.",
+            "readOnly": true,
             "type": "string"
           },
           "editionId": {
-            "title": "edition_id is the edition indicator, express (has an ID) or pro",
+            "description": "Output only. The edition indicator, express (has an ID) or pro.",
+            "readOnly": true,
             "type": "string"
           },
           "exposeWpLogin": {
-            "title": "expose_wp_login is a boolean indicator of whether the site should expose its WP Login page",
+            "description": "Output only. Whether the WP Login page is exposed.",
+            "readOnly": true,
             "type": "boolean"
           },
           "gaTrackingId": {
-            "title": "ga_tracking_id is the Google Analytics tracking ID injected into the site to be used for GA traffic tracking",
+            "description": "Output only. The Google Analytics tracking ID injected into the site.",
+            "readOnly": true,
             "type": "string"
           },
           "googleAnalyticsEnabled": {
-            "title": "GoogleAnalyticsEnabled is used for enabling/Disabling the GoogleANalytics by the siteID specified",
+            "description": "Output only. Whether Google Analytics is enabled for the site.",
+            "readOnly": true,
             "type": "boolean"
           },
           "id": {
-            "title": "ID represents the unique 64 characters identifier of the site",
+            "description": "Output only. The unique 64-character identifier of the site.",
+            "readOnly": true,
             "type": "string"
           },
           "ignoreCacheHeaders": {
-            "title": "ignore_cache_headers is an indicator of whether the cache headers of requests issued to the site identified\nby the site ID should be ignored",
+            "description": "Output only. Whether cache headers should be ignored for the site.",
+            "readOnly": true,
             "type": "boolean"
           },
           "isObjectCache": {
-            "title": "Redis object cache enable/disable via support tools",
+            "description": "Output only. Redis object cache enable/disable status.",
+            "readOnly": true,
             "type": "string"
           },
           "isPhpUpgraded": {
-            "title": "php upgraded boolean",
+            "description": "Output only. Whether PHP has been upgraded.",
+            "readOnly": true,
             "type": "boolean"
           },
           "mountPath": {
-            "title": "mount_path is the filesystem mount path where the site files are located",
+            "description": "Output only. The filesystem mount path where the site files are located.",
+            "readOnly": true,
             "type": "string"
           },
           "multiSite": {
-            "title": "multi_site is an indicator of whether the site is a multi-site (structured with subdomains)",
+            "description": "Output only. Whether the site is a multi-site (structured with subdomains).",
+            "readOnly": true,
             "type": "boolean"
           },
           "objectCacheVersion": {
-            "title": "object_cache_version is the version of the object cache, similar to CDN",
+            "description": "Output only. The version of the object cache.",
+            "readOnly": true,
             "type": "string"
           },
           "partnerId": {
+            "description": "Output only. The partner ID that owns this site.",
+            "readOnly": true,
             "type": "string"
           },
           "phpVersion": {
+            "description": "Deprecated. PHP version used for running the site.",
             "format": "int32",
-            "title": "PHP version used for running the site\nfield deprecated",
             "type": "integer"
           },
           "siteHosting": {
-            "description": "site_hosting backend: \"\" / \"wsp\" (legacy) | \"wpcloud\" (migrated).",
+            "description": "Output only. The site hosting backend: \"\" / \"wsp\" (legacy) | \"wpcloud\" (migrated).",
+            "readOnly": true,
             "type": "string"
           },
           "sitePhpVersion": {
-            "title": "New field for php_version",
+            "description": "Output only. The PHP version string for the site.",
+            "readOnly": true,
             "type": "string"
           },
           "skipUpgradingHttp": {
-            "title": "skip_upgrading_http is an indicator of whether the site should skip upgrading HTTP requests to HTTPS",
+            "description": "Output only. Whether the site should skip upgrading HTTP requests to HTTPS.",
+            "readOnly": true,
             "type": "boolean"
           },
           "stagingDbName": {
-            "title": "staging_db_name is the database name for the staging instance of the site",
+            "description": "Output only. The database name for the staging instance of the site.",
+            "readOnly": true,
             "type": "string"
           },
           "stagingDomain": {
-            "title": "staging_domain is the primary domain of the staging site",
+            "description": "Output only. The primary domain of the staging site.",
+            "readOnly": true,
             "type": "string"
           },
           "stagingPhpVersion": {
+            "description": "Deprecated. Staging PHP version used for running the site.",
             "format": "int32",
-            "title": "Staging PHP version used for running the site\nfield deprecated",
             "type": "integer"
           },
           "stagingSitePhpVersion": {
-            "title": "New field for staging_php_version",
+            "description": "Output only. The staging PHP version string for the site.",
+            "readOnly": true,
             "type": "string"
           },
           "stagingWpDebugEnabled": {
-            "title": "staging_wp_debug_enabled is the boolean indicator of whether WP debug is enabled or not for a site",
+            "description": "Output only. Whether WP debug is enabled on the staging site.",
+            "readOnly": true,
             "type": "boolean"
           },
           "subscribedCount": {
+            "description": "Output only. The subscribed count of subsites for the site.",
             "format": "int32",
-            "title": "subscribed count of subsites for the site",
+            "readOnly": true,
             "type": "integer"
           },
           "subsites": {
+            "description": "Output only. Subsite details for multisite installations.",
             "items": {
               "$ref": "#/components/schemas/v1SubsiteInfo"
             },
-            "title": "subsite_info contains subsite details for multi_site",
+            "readOnly": true,
             "type": "array"
           },
           "template": {
-            "title": "template is an indicator of whether the site is a template or not",
+            "description": "Output only. Whether the site is a template.",
+            "readOnly": true,
             "type": "boolean"
           },
           "uid": {
+            "description": "Output only. The unique numeric identifier of the site.",
             "format": "int32",
-            "title": "UID is the unique identifier of the site",
+            "readOnly": true,
             "type": "integer"
           },
           "userId": {
-            "title": "user_id is the identifier of the user performing site actions",
+            "description": "Output only. The identifier of the user performing site actions.",
+            "readOnly": true,
             "type": "string"
           },
           "version": {
-            "title": "version is used for versioning sites that are templates (template = true)",
+            "description": "Output only. The version used for template sites.",
+            "readOnly": true,
             "type": "string"
           },
           "wpDebugEnabled": {
-            "title": "wp_debug_enabled is the boolean indicator of whether WP debug is enabled or not",
+            "description": "Output only. Whether WP debug is enabled on the live site.",
+            "readOnly": true,
             "type": "boolean"
           },
           "wpOption": {
-            "title": "WpOption allows a caller to set the wp option value of the site identified by the site ID specified",
+            "description": "Output only. The WP option value set on the site.",
+            "readOnly": true,
             "type": "string"
           }
         },
-        "title": "Site is the canonical representation of a site",
+        "title": "Site",
         "type": "object"
       },
       "v1SubsiteInfo": {
+        "description": "Information about a subsite within a WordPress multisite installation.",
         "properties": {
           "blogId": {
-            "description": "blog_id represents the unique integer id of the subsite.",
+            "description": "Output only. The unique integer ID of the subsite.",
             "format": "int64",
+            "readOnly": true,
             "type": "string"
           },
           "blogName": {
-            "title": "blog_name represents the title description of the subsite added by user",
+            "description": "Output only. The title description of the subsite added by the user.",
+            "readOnly": true,
             "type": "string"
           },
           "createdAt": {
-            "title": "subsite created time",
+            "description": "Output only. The time when the subsite was created.",
+            "readOnly": true,
             "type": "string"
           },
           "lastUpdated": {
-            "title": "subsite last updated time",
+            "description": "Output only. The time when the subsite was last updated.",
+            "readOnly": true,
             "type": "string"
           },
           "metadata": {
-            "title": "subsite metadata",
+            "description": "Output only. The subsite metadata.",
+            "readOnly": true,
             "type": "string"
           },
           "path": {
-            "title": "path represents the path of the subsite in url after domain",
+            "description": "Output only. The path of the subsite in the URL after the domain.",
+            "readOnly": true,
             "type": "string"
           },
           "status": {
-            "title": "subsite status",
+            "description": "Output only. The status of the subsite.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "SubsiteInfo",
         "type": "object"
       }
     },
@@ -313,6 +378,7 @@
               }
             }
           },
+          "description": "Request to list WordPress sites with pagination support.",
           "required": true
         },
         "responses": {
@@ -354,6 +420,7 @@
               }
             }
           },
+          "description": "Request to invalidate page cache, object cache, and CDN for a WordPress site.",
           "required": true
         },
         "responses": {

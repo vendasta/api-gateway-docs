@@ -29,162 +29,247 @@
         "type": "object"
       },
       "v1GetHealthCheckRequest": {
+        "description": "Request to get health check data for one or more sites.",
         "properties": {
           "siteId": {
+            "description": "Required. The site IDs to get health check data for.",
             "items": {
               "type": "string"
             },
             "type": "array"
           }
         },
+        "required": [
+          "siteId"
+        ],
+        "title": "GetHealthCheckRequest",
         "type": "object"
       },
       "v1GetHealthCheckResponse": {
+        "description": "Response containing site health check data with pagination.",
         "properties": {
           "hasMore": {
-            "title": "Whether or not more results exist",
+            "description": "Output only. Whether or not more results exist.",
+            "readOnly": true,
             "type": "boolean"
           },
           "siteHealths": {
+            "description": "Output only. The list of site health records.",
             "items": {
               "$ref": "#/components/schemas/v1SiteHealths"
             },
-            "title": "The cursor to use for the next healthcheckData",
+            "readOnly": true,
             "type": "array"
           },
           "totalResults": {
+            "description": "Output only. The total number of results for this query across all pages.",
             "format": "int64",
-            "title": "The total number of results for this query across all pages",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "GetHealthCheckResponse",
         "type": "object"
       },
       "v1GetPluginUpdatesCountRequest": {
+        "description": "Request to get the count of plugins that need updating for a partner.",
         "properties": {
           "partnerId": {
+            "description": "Required. The partner ID to get plugin update counts for.",
             "type": "string"
           }
         },
+        "required": [
+          "partnerId"
+        ],
+        "title": "GetPluginUpdatesCountRequest",
         "type": "object"
       },
       "v1GetPluginUpdatesCountResponse": {
+        "description": "Response containing the total count of plugins that need updating.",
         "properties": {
           "totalCount": {
+            "description": "Output only. The total number of plugins that need updating.",
             "format": "int64",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "GetPluginUpdatesCountResponse",
         "type": "object"
       },
       "v1HealthCheckValues": {
+        "description": "A single health check data point with state and timestamps.",
         "properties": {
           "created": {
+            "description": "Output only. The time the health check was created.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "state": {
+            "description": "Output only. The state of the health check (e.g., up, down).",
+            "readOnly": true,
             "type": "string"
           },
           "updated": {
+            "description": "Output only. The time the health check was last updated.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "HealthCheckValues",
         "type": "object"
       },
       "v1SiteHealths": {
+        "description": "Health and uptime status information for a WordPress site.",
         "properties": {
           "accountId": {
+            "description": "Output only. The account ID associated with this site.",
+            "readOnly": true,
             "type": "string"
           },
           "currentHealth": {
+            "description": "Output only. The current health state of the site.",
+            "readOnly": true,
             "type": "string"
           },
           "healthCheckValues": {
+            "description": "Output only. The list of health check data points.",
             "items": {
               "$ref": "#/components/schemas/v1HealthCheckValues"
             },
+            "readOnly": true,
             "type": "array"
           },
           "partnerId": {
+            "description": "Output only. The partner ID that owns this site.",
+            "readOnly": true,
             "type": "string"
           },
           "primaryDomain": {
+            "description": "Output only. The primary domain of the site.",
+            "readOnly": true,
             "type": "string"
           },
           "siteId": {
+            "description": "Output only. The unique identifier of the site.",
+            "readOnly": true,
             "type": "string"
           },
           "statusCode": {
+            "description": "Output only. The HTTP status code from the latest health check.",
+            "readOnly": true,
             "type": "string"
           },
           "uptime1day": {
+            "description": "Output only. The uptime percentage over the last 1 day.",
+            "readOnly": true,
             "type": "string"
           },
           "uptime30days": {
+            "description": "Output only. The uptime percentage over the last 30 days.",
+            "readOnly": true,
             "type": "string"
           },
           "uptime7days": {
+            "description": "Output only. The uptime percentage over the last 7 days.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "SiteHealths",
         "type": "object"
       },
       "v1UpdateCoreRequest": {
+        "description": "Request to update a WordPress site with the latest core version information.",
         "properties": {
           "coreCurrentVersion": {
+            "description": "Required. The current WordPress core version.",
             "type": "string"
           },
           "coreLatestVersion": {
+            "description": "Required. The latest available WordPress core version.",
             "type": "string"
           },
           "siteId": {
+            "description": "Required. The unique identifier of the site to update.",
             "type": "string"
           }
         },
+        "required": [
+          "siteId",
+          "coreCurrentVersion",
+          "coreLatestVersion"
+        ],
+        "title": "UpdateCoreRequest",
         "type": "object"
       },
       "v1UpdatePluginsRequest": {
+        "description": "Request to update a WordPress site with the latest plugin information.",
         "properties": {
           "method": {
+            "description": "Optional. The update method to use.",
             "type": "string"
           },
           "plugins": {
+            "description": "Required. The list of plugins to update.",
             "items": {
               "$ref": "#/components/schemas/v1WordPressAddon"
             },
             "type": "array"
           },
           "siteId": {
+            "description": "Required. The unique identifier of the site to update.",
             "type": "string"
           }
         },
+        "required": [
+          "siteId",
+          "plugins"
+        ],
+        "title": "UpdatePluginsRequest",
         "type": "object"
       },
       "v1UpdateThemeRequest": {
+        "description": "Request to update a WordPress site with the latest theme information.",
         "properties": {
           "siteId": {
+            "description": "Required. The unique identifier of the site to update.",
             "type": "string"
           },
           "theme": {
             "$ref": "#/components/schemas/v1WordPressAddon"
           }
         },
+        "required": [
+          "siteId",
+          "theme"
+        ],
+        "title": "UpdateThemeRequest",
         "type": "object"
       },
       "v1WordPressAddon": {
+        "description": "A WordPress plugin or theme, including current and latest version information.",
         "properties": {
           "currentVersion": {
+            "description": "Optional. The current installed version of the addon.",
             "type": "string"
           },
           "id": {
+            "description": "Required. The unique identifier of the addon (plugin slug or theme slug).",
             "type": "string"
           },
           "latestVersion": {
+            "description": "Optional. The latest available version of the addon.",
             "type": "string"
           }
         },
+        "required": [
+          "id"
+        ],
+        "title": "WordPressAddon",
         "type": "object"
       }
     },
@@ -220,6 +305,7 @@
               }
             }
           },
+          "description": "Request to get the count of plugins that need updating for a partner.",
           "required": true
         },
         "responses": {
@@ -268,6 +354,7 @@
               }
             }
           },
+          "description": "Request to get health check data for one or more sites.",
           "required": true
         },
         "responses": {
@@ -316,6 +403,7 @@
               }
             }
           },
+          "description": "Request to update a WordPress site with the latest core version information.",
           "required": true
         },
         "responses": {
@@ -357,6 +445,7 @@
               }
             }
           },
+          "description": "Request to update a WordPress site with the latest plugin information.",
           "required": true
         },
         "responses": {
@@ -398,6 +487,7 @@
               }
             }
           },
+          "description": "Request to update a WordPress site with the latest theme information.",
           "required": true
         },
         "responses": {

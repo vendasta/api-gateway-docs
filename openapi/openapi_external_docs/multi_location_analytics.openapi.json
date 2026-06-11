@@ -303,7 +303,7 @@
         "type": "object"
       },
       "v1GetAvailableMetricsRequest": {
-        "description": "Request for GetAvailableMetrics. Returns the metric catalog scoped to the audience\ntier appropriate for the resource(s).",
+        "description": "Request to retrieve the catalog of available analytics metrics for the given resources.",
         "properties": {
           "partnerId": {
             "description": "Required. The partner ID.",
@@ -317,19 +317,26 @@
             "type": "array"
           }
         },
+        "required": [
+          "resourceIds",
+          "partnerId"
+        ],
+        "title": "GetAvailableMetricsRequest",
         "type": "object"
       },
       "v1GetAvailableMetricsResponse": {
-        "description": "Response for GetAvailableMetrics. Contains the full catalog of metrics that can be queried.",
+        "description": "The catalog of available analytics metrics with their schemas.",
         "properties": {
           "metrics": {
-            "description": "All available metrics with their schemas. Use this to discover valid metric names,\nmeasures, and dimensions for building QueryMetricsRequest messages.",
+            "description": "Output only. All available metrics with their schemas. Use this to discover valid metric names,\nmeasures, and dimensions for building QueryMetricsRequest messages.",
             "items": {
               "$ref": "#/components/schemas/v1MetricDescription"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "GetAvailableMetricsResponse",
         "type": "object"
       },
       "v1GroupBy": {
@@ -415,54 +422,63 @@
         "type": "object"
       },
       "v1MetricDescription": {
-        "description": "Describes a single queryable metric, including its available measures, dimensions, and time field.\nUse this information to construct valid QueryMetricsRequest messages.",
+        "description": "Description of a queryable analytics metric, including its available measures, dimensions, and time field.",
         "properties": {
           "description": {
-            "description": "A human-readable description of what this metric measures.",
+            "description": "Output only. A human-readable description of what this metric measures.",
+            "readOnly": true,
             "type": "string"
           },
           "dimensions": {
             "items": {
               "type": "string"
             },
-            "title": "The dimension fields available for this metric. These can be used in QueryMetricsRequest.group_by\nand QueryMetricsRequest.filter. Examples: \"source_id\", \"rating\", \"account_group_id\"",
+            "readOnly": true,
+            "title": "Output only. The dimension fields available for this metric. These can be used in QueryMetricsRequest.group_by\nand QueryMetricsRequest.filter. Examples: \"source_id\", \"rating\", \"account_group_id\"",
             "type": "array"
           },
           "measures": {
             "items": {
               "type": "string"
             },
-            "title": "The measure fields available for this metric. These can be used in QueryMetricsRequest.measures\nfor selection or aggregation. Examples: \"scaled_stars\", \"review_count\", \"likes\"",
+            "readOnly": true,
+            "title": "Output only. The measure fields available for this metric. These can be used in QueryMetricsRequest.measures\nfor selection or aggregation. Examples: \"scaled_stars\", \"review_count\", \"likes\"",
             "type": "array"
           },
           "name": {
-            "title": "The unique identifier for this metric. Pass this as QueryMetricsRequest.metric_name.\nExamples: \"reviews\", \"activation_counts\", \"facebook_post_stats\"",
+            "readOnly": true,
+            "title": "Output only. The unique identifier for this metric. Pass this as QueryMetricsRequest.metric_name.\nExamples: \"reviews\", \"activation_counts\", \"facebook_post_stats\"",
             "type": "string"
           },
           "timeField": {
-            "description": "The primary time field used for date range filtering and time alignment.\nThis is the field that alignment_period and time_range operate on.",
+            "description": "Output only. The primary time field used for date range filtering and time alignment.\nThis is the field that alignment_period and time_range operate on.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "MetricDescription",
         "type": "object"
       },
       "v1MetricResult": {
-        "description": "A single row of metric data. Results are hierarchically nested by the group_by dimensions.\nThe dimension value identifies which group this row belongs to, and measures contains the values\nin the same order as the measures_schema in the parent ResourceMetricResult.",
+        "description": "A single row of metric data with dimension value, measure values, and optional nested results.",
         "properties": {
           "dimension": {
-            "description": "The value of the dimension for this row (e.g., a date string, source ID, or rating value).\nWhen alignment is used, the outermost dimension is the time bucket start timestamp."
+            "description": "Output only. The value of the dimension for this row (e.g., a date string, source ID, or rating value).\nWhen alignment is used, the outermost dimension is the time bucket start timestamp.",
+            "readOnly": true
           },
           "measures": {
-            "description": "The measure values for this row, in the same order as measures_schema.properties.\nEach value corresponds to the property at the same index in the schema.",
+            "description": "Output only. The measure values for this row, in the same order as measures_schema.properties.\nEach value corresponds to the property at the same index in the schema.",
             "items": {
               "type": "object"
             },
+            "readOnly": true,
             "type": "array"
           },
           "results": {
             "$ref": "#/components/schemas/v1Metrics"
           }
         },
+        "title": "MetricResult",
         "type": "object"
       },
       "v1Metrics": {
@@ -497,7 +513,7 @@
         "type": "object"
       },
       "v1QueryMetricsRequest": {
-        "description": "QueryMetricsRequest queries a single named metric with full control over measures, dimensions,\ntime alignment, filtering, grouping, ordering, and pagination.\n\nIMPORTANT: Call GetAvailableMetrics first to discover valid metric_name values and their\navailable measures, dimensions, and time fields.\n\n## How to build a query\n\n1. Set partner_id (required) and at least one resource_id to scope the query.\n2. Set metric_name to one of the values returned by GetAvailableMetrics.\n3. Use time_range (not the deprecated date_range) to define the time window.\n4. Optionally set alignment + alignment_period to bucket results into time series\n   (e.g., ALIGN_DELTA with CALENDAR_MONTH for monthly deltas).\n5. Optionally add measures to select or aggregate specific fields.\n   If omitted, all default measures for the metric are returned.\n6. Optionally add group_by to break results down by dimensions.\n7. Optionally add filter to narrow results (e.g., filter by source_id or rating).\n\n## Common query patterns\n\n### Get total reviews for a business over the last 90 days\n{\n  \"partner_id\": \"PARTNER-ID\",\n  \"metric_name\": \"reviews\",\n  \"resource_ids\": [{\"business_id\": {\"business_id\": \"AG-XXXXXXXX\"}}],\n  \"time_range\": {\"start\": \"2025-12-01T00:00:00Z\", \"end_exclusive\": \"2026-03-01T00:00:00Z\"},\n  \"alignment\": \"ALIGN_DELTA\",\n  \"alignment_period\": {\"calendar\": \"CALENDAR_MONTH\"}\n}\n\n### Get review breakdown by star rating\n{\n  \"partner_id\": \"PARTNER-ID\",\n  \"metric_name\": \"reviews\",\n  \"resource_ids\": [{\"business_id\": {\"business_id\": \"AG-XXXXXXXX\"}}],\n  \"time_range\": {\"start\": \"2025-01-01T00:00:00Z\", \"end\": \"2025-12-31T23:59:59Z\"},\n  \"alignment\": \"ALIGN_DELTA\",\n  \"alignment_period\": {\"calendar\": \"CALENDAR_MONTH\"},\n  \"group_by\": {\"dimension\": [{\"dimension\": \"rating\"}]}\n}\n\n### Get activation counts across all markets for a partner\n{\n  \"partner_id\": \"PARTNER-ID\",\n  \"metric_name\": \"activation_counts\",\n  \"resource_ids\": [{\"market_id\": {\"market_ids\": []}}],\n  \"time_range\": {\"start\": \"2026-01-01T00:00:00Z\", \"end_exclusive\": \"2026-04-01T00:00:00Z\"},\n  \"alignment\": \"ALIGN_EXACT\",\n  \"alignment_period\": {\"calendar\": \"CALENDAR_MONTH\"}\n}\n\n## Available metric categories\n\n- Reviews \u0026 Reputation: \"reviews\", \"all_reviews\", \"net_promoter_score\", \"multi_location_net_promoter_score\"\n- Social Media: \"facebook_post_stats\", \"facebook_post_posts\", \"instagram_post_stats\", \"instagram_post_posts\",\n  \"linkedin_post_stats\", \"linkedin_post_posts\", \"twitter_post_stats\", \"twitter_post_posts\",\n  \"gmb_post_stats\", \"gmb_post_posts\"\n- Enhanced Social: \"new_sm_facebook_post_stats_enhanced\", \"new_sm_instagram_post_stats_enhanced\",\n  \"new_sm_linkedin_post_stats_enhanced\", \"new_sm_twitter_post_stats_enhanced\"\n- Listings: \"listings\", \"listing_score\", \"listing_presence_over_time\"\n- Contacts \u0026 Conversations: \"contact_source_v2\", \"contact_source_market\", \"conversation_source\",\n  \"widget_visits\", \"inbox_messages\"\n- Accounts \u0026 Activation: \"account_company\", \"account_group\", \"activation_counts\",\n  \"activation_history\", \"activation_history_unaligned\", \"paid_activation_counts\",\n  \"deactivation_reasons\", \"sm_account_group_editions\"\n- Connections: \"social_connections\"\n- Sales: \"sales_opportunities\"\n\nCall GetAvailableMetrics for the full up-to-date list with measures and dimensions.",
+        "description": "Request to query analytics metrics for multi-location businesses with flexible measures, dimensions, time alignment, filtering, grouping, and pagination.",
         "properties": {
           "alignment": {
             "$ref": "#/components/schemas/v1Alignment"
@@ -555,19 +571,27 @@
             "$ref": "#/components/schemas/v1DateRange"
           }
         },
+        "required": [
+          "partnerId",
+          "metricName",
+          "resourceIds"
+        ],
+        "title": "QueryMetricsRequest",
         "type": "object"
       },
       "v1QueryMetricsResponse": {
-        "description": "Response for QueryMetrics. Contains one ResourceMetricResult per requested resource ID.",
+        "description": "Response containing analytics metric results for each requested resource.",
         "properties": {
           "metricResults": {
-            "description": "Results for each requested resource, in the same order as the request's resource_ids.",
+            "description": "Output only. Results for each requested resource, in the same order as the request's resource_ids.",
             "items": {
               "$ref": "#/components/schemas/v1ResourceMetricResult"
             },
+            "readOnly": true,
             "type": "array"
           }
         },
+        "title": "QueryMetricsResponse",
         "type": "object"
       },
       "v1ResourceId": {
@@ -592,10 +616,11 @@
         "type": "object"
       },
       "v1ResourceMetricResult": {
-        "description": "The result for a single resource ID in a QueryMetrics response.\nContains the data along with schemas describing the structure of measures and dimensions.",
+        "description": "Analytics result for a single resource, including data, schemas, and pagination cursor.",
         "properties": {
           "cursor": {
-            "description": "Pagination cursor. Pass this value as QueryMetricsRequest.cursor to fetch the next page.\nEmpty when there are no more results.",
+            "description": "Output only. Pagination cursor. Pass this value as QueryMetricsRequest.cursor to fetch the next page.\nEmpty when there are no more results.",
+            "readOnly": true,
             "type": "string"
           },
           "dimensionsSchema": {
@@ -614,6 +639,7 @@
             "$ref": "#/components/schemas/v1ResourceId"
           }
         },
+        "title": "ResourceMetricResult",
         "type": "object"
       },
       "v1SalesTeam": {
@@ -756,7 +782,7 @@
               }
             }
           },
-          "description": "Request for GetAvailableMetrics. Returns the metric catalog scoped to the audience\ntier appropriate for the resource(s).",
+          "description": "Request to retrieve the catalog of available analytics metrics for the given resources.",
           "required": true
         },
         "responses": {
@@ -806,7 +832,7 @@
               }
             }
           },
-          "description": "QueryMetricsRequest queries a single named metric with full control over measures, dimensions,\ntime alignment, filtering, grouping, ordering, and pagination.\n\nIMPORTANT: Call GetAvailableMetrics first to discover valid metric_name values and their\navailable measures, dimensions, and time fields.\n\n## How to build a query\n\n1. Set partner_id (required) and at least one resource_id to scope the query.\n2. Set metric_name to one of the values returned by GetAvailableMetrics.\n3. Use time_range (not the deprecated date_range) to define the time window.\n4. Optionally set alignment + alignment_period to bucket results into time series\n   (e.g., ALIGN_DELTA with CALENDAR_MONTH for monthly deltas).\n5. Optionally add measures to select or aggregate specific fields.\n   If omitted, all default measures for the metric are returned.\n6. Optionally add group_by to break results down by dimensions.\n7. Optionally add filter to narrow results (e.g., filter by source_id or rating).\n\n## Common query patterns\n\n### Get total reviews for a business over the last 90 days\n{\n  \"partner_id\": \"PARTNER-ID\",\n  \"metric_name\": \"reviews\",\n  \"resource_ids\": [{\"business_id\": {\"business_id\": \"AG-XXXXXXXX\"}}],\n  \"time_range\": {\"start\": \"2025-12-01T00:00:00Z\", \"end_exclusive\": \"2026-03-01T00:00:00Z\"},\n  \"alignment\": \"ALIGN_DELTA\",\n  \"alignment_period\": {\"calendar\": \"CALENDAR_MONTH\"}\n}\n\n### Get review breakdown by star rating\n{\n  \"partner_id\": \"PARTNER-ID\",\n  \"metric_name\": \"reviews\",\n  \"resource_ids\": [{\"business_id\": {\"business_id\": \"AG-XXXXXXXX\"}}],\n  \"time_range\": {\"start\": \"2025-01-01T00:00:00Z\", \"end\": \"2025-12-31T23:59:59Z\"},\n  \"alignment\": \"ALIGN_DELTA\",\n  \"alignment_period\": {\"calendar\": \"CALENDAR_MONTH\"},\n  \"group_by\": {\"dimension\": [{\"dimension\": \"rating\"}]}\n}\n\n### Get activation counts across all markets for a partner\n{\n  \"partner_id\": \"PARTNER-ID\",\n  \"metric_name\": \"activation_counts\",\n  \"resource_ids\": [{\"market_id\": {\"market_ids\": []}}],\n  \"time_range\": {\"start\": \"2026-01-01T00:00:00Z\", \"end_exclusive\": \"2026-04-01T00:00:00Z\"},\n  \"alignment\": \"ALIGN_EXACT\",\n  \"alignment_period\": {\"calendar\": \"CALENDAR_MONTH\"}\n}\n\n## Available metric categories\n\n- Reviews \u0026 Reputation: \"reviews\", \"all_reviews\", \"net_promoter_score\", \"multi_location_net_promoter_score\"\n- Social Media: \"facebook_post_stats\", \"facebook_post_posts\", \"instagram_post_stats\", \"instagram_post_posts\",\n  \"linkedin_post_stats\", \"linkedin_post_posts\", \"twitter_post_stats\", \"twitter_post_posts\",\n  \"gmb_post_stats\", \"gmb_post_posts\"\n- Enhanced Social: \"new_sm_facebook_post_stats_enhanced\", \"new_sm_instagram_post_stats_enhanced\",\n  \"new_sm_linkedin_post_stats_enhanced\", \"new_sm_twitter_post_stats_enhanced\"\n- Listings: \"listings\", \"listing_score\", \"listing_presence_over_time\"\n- Contacts \u0026 Conversations: \"contact_source_v2\", \"contact_source_market\", \"conversation_source\",\n  \"widget_visits\", \"inbox_messages\"\n- Accounts \u0026 Activation: \"account_company\", \"account_group\", \"activation_counts\",\n  \"activation_history\", \"activation_history_unaligned\", \"paid_activation_counts\",\n  \"deactivation_reasons\", \"sm_account_group_editions\"\n- Connections: \"social_connections\"\n- Sales: \"sales_opportunities\"\n\nCall GetAvailableMetrics for the full up-to-date list with measures and dimensions.",
+          "description": "Request to query analytics metrics for multi-location businesses with flexible measures, dimensions, time alignment, filtering, grouping, and pagination.",
           "required": true
         },
         "responses": {

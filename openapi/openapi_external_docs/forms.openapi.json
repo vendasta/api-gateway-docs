@@ -59,9 +59,13 @@
       "ListFormsRequestFilters": {
         "properties": {
           "namespace": {
+            "description": "Required. The namespace to list forms for.",
             "type": "string"
           }
         },
+        "required": [
+          "namespace"
+        ],
         "type": "object"
       },
       "ListFormsResponseFormRow": {
@@ -70,7 +74,9 @@
             "$ref": "#/components/schemas/v1FormConfig"
           },
           "numberOfSubmissions": {
+            "description": "Output only. The total number of submissions for this form.",
             "format": "int64",
+            "readOnly": true,
             "type": "string"
           },
           "recentProcessingStatus": {
@@ -154,30 +160,41 @@
         "type": "string"
       },
       "v1CreateFormRequest": {
+        "description": "Request to create a new form with the provided configuration.",
         "properties": {
           "formConfig": {
             "$ref": "#/components/schemas/v1FormConfig"
           }
         },
-        "title": "CreateFormRequest - new form request",
+        "required": [
+          "formConfig"
+        ],
+        "title": "CreateFormRequest",
         "type": "object"
       },
       "v1CreateFormResponse": {
+        "description": "Response containing the newly generated form ID, version, and any validation errors.",
         "properties": {
           "errors": {
+            "description": "Output only. Any validation errors encountered during form creation.",
             "items": {
               "$ref": "#/components/schemas/v1ValidationError"
             },
+            "readOnly": true,
             "type": "array"
           },
           "formId": {
+            "description": "Output only. The unique identifier assigned to the newly created form.",
+            "readOnly": true,
             "type": "string"
           },
           "version": {
+            "description": "Output only. The version identifier for the newly created form.",
+            "readOnly": true,
             "type": "string"
           }
         },
-        "title": "CreateFormResponse - returns the newly generated form_id and version",
+        "title": "CreateFormResponse",
         "type": "object"
       },
       "v1DateDefault": {
@@ -368,171 +385,218 @@
         "type": "object"
       },
       "v1FormConfig": {
-        "description": "Information about a form needed to display it on a partner's website,\nto validate submissions to that form, or\nshow it in the form-builder for modification.",
+        "description": "Complete configuration for a form, including fields, styles, and metadata.",
         "properties": {
           "createInboxConversation": {
-            "title": "On form submission, create a conversation in the inbox or associate submission with an existing conversation",
+            "description": "Optional. On form submission, create a conversation in the inbox or associate submission with an existing conversation.",
             "type": "boolean"
           },
           "created": {
+            "description": "Output only. The timestamp when the form was created.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "description": {
-            "title": "short description for the purpose of a form",
+            "description": "Optional. Short description for the purpose of a form.",
             "type": "string"
           },
           "fields": {
+            "description": "Optional. The list of fields in the form.",
             "items": {
               "$ref": "#/components/schemas/FormConfigField"
             },
             "type": "array"
           },
           "formId": {
+            "description": "The unique identifier for this form. Assigned by the system on create; must be provided on update.",
             "type": "string"
           },
           "formType": {
-            "title": "the type of the form, 'template' string is special\nand makes the form a template",
+            "description": "Optional. The type of the form. The value 'template' makes the form a template.",
             "type": "string"
           },
           "mostRecent": {
+            "description": "Output only. Whether this is the most recent version of the form.",
+            "readOnly": true,
             "type": "boolean"
           },
           "name": {
+            "description": "Optional. The display name for the form.",
             "type": "string"
           },
           "namespace": {
-            "title": "namespace basically tells who owns this form",
+            "description": "Required. The namespace that owns this form.",
             "type": "string"
           },
           "recaptchaEnterprise": {
             "$ref": "#/components/schemas/v1RecaptchaEnterpriseConfig"
           },
           "recaptchaSecretKey": {
-            "description": "This will be redacted but non-empty when retrieving an existing form.\nAn empty value indicates the form was created before we started\nadding recaptcha, and a value must be provided in order to update the form.",
+            "description": "Optional. This will be redacted but non-empty when retrieving an existing form.\nAn empty value indicates the form was created before we started\nadding recaptcha, and a value must be provided in order to update the form.",
             "type": "string"
           },
           "recaptchaSiteKey": {
+            "description": "Optional. The reCAPTCHA site key for legacy reCAPTCHA integration.",
             "type": "string"
           },
           "redirectUrl": {
+            "description": "Optional. URL to redirect to after successful form submission.",
             "type": "string"
           },
           "styles": {
             "$ref": "#/components/schemas/v1Styles"
           },
           "submitButtonLabel": {
+            "description": "Optional. Custom label for the form's submit button.",
             "type": "string"
           },
           "successPage": {
             "$ref": "#/components/schemas/v1SuccessPage"
           },
           "tags": {
+            "description": "Optional. Tags used to categorize forms.",
             "items": {
               "type": "string"
             },
-            "title": "tags used to categorize forms",
             "type": "array"
           },
           "templateSetupSettings": {
             "$ref": "#/components/schemas/FormConfigTemplateSetupSettings"
           },
           "updated": {
+            "description": "Output only. The timestamp when the form was last updated.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "version": {
+            "description": "Output only. The version identifier for this form configuration.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "required": [
+          "namespace"
+        ],
+        "title": "FormConfig",
         "type": "object"
       },
       "v1GenerateCustomCSSRequest": {
+        "description": "Request to use AI to generate custom CSS styling for a form based on a text prompt and optional visual references.",
         "properties": {
           "currentCss": {
             "$ref": "#/components/schemas/v1Styles"
           },
           "formId": {
+            "description": "Optional. The unique identifier of the form to generate CSS for.",
             "type": "string"
           },
           "htmlTemplate": {
+            "description": "Optional. HTML template to apply the generated CSS to.",
             "type": "string"
           },
           "imageUrls": {
+            "description": "Optional. URLs of images to use as visual references for the styling.",
             "items": {
               "type": "string"
             },
             "type": "array"
           },
           "namespace": {
+            "description": "Required. The namespace of the form.",
             "type": "string"
           },
           "prompt": {
+            "description": "Required. A text prompt describing the desired styling, e.g. \"Make the form match a modern dark theme with rounded corners\".",
             "type": "string"
           }
         },
+        "required": [
+          "namespace",
+          "prompt"
+        ],
+        "title": "GenerateCustomCSSRequest",
         "type": "object"
       },
       "v1GenerateCustomCSSResponse": {
+        "description": "Response containing the AI-generated CSS styles that can be applied to a form via UpdateForm.",
         "properties": {
           "generatedCss": {
             "$ref": "#/components/schemas/v1Styles"
           }
         },
+        "title": "GenerateCustomCSSResponse",
         "type": "object"
       },
       "v1GetEmbedCodeRequest": {
+        "description": "Request to fetch the HTML/JavaScript embed code for a form.",
         "properties": {
           "formId": {
-            "title": "form unique identifier",
+            "description": "Required. The unique identifier of the form to retrieve embed code for.",
             "type": "string"
           }
         },
-        "title": "Request to fetch an embed code of a custom form",
+        "required": [
+          "formId"
+        ],
+        "title": "GetEmbedCodeRequest",
         "type": "object"
       },
       "v1GetEmbedCodeResponse": {
+        "description": "Response containing the HTML/JavaScript embed code that can be added to any webpage to display the form.",
         "properties": {
           "embedCode": {
-            "title": "Form's HTML embed code",
+            "description": "Output only. The HTML embed code for the form.",
+            "readOnly": true,
             "type": "string"
           }
         },
-        "title": "Response for a embed form code",
+        "title": "GetEmbedCodeResponse",
         "type": "object"
       },
       "v1GetFormRequest": {
+        "description": "Request to retrieve the most recent version of a form's style, schema, and UI configuration.",
         "properties": {
           "formId": {
-            "title": "form unique identifier",
+            "description": "Required. The unique identifier of the form to retrieve.",
             "type": "string"
           },
           "locale": {
-            "description": "locale of the user, e.g. \"en\", \"de\", \"fr\", \"it\", \"nl\", \"pt\". Empty defaults to English.",
+            "description": "Optional. Locale of the user, e.g. \"en\", \"de\", \"fr\", \"it\", \"nl\", \"pt\". Empty defaults to English.",
             "type": "string"
           }
         },
-        "title": "Request to load style, schema and UI config",
+        "required": [
+          "formId"
+        ],
+        "title": "GetFormRequest",
         "type": "object"
       },
       "v1GetFormResponse": {
+        "description": "Response containing the most recent version of FormConfig for the requested form.",
         "properties": {
           "formConfig": {
             "$ref": "#/components/schemas/v1FormConfig"
           }
         },
-        "title": "returns the most recent version of FormConfig for a specific form_id",
+        "title": "GetFormResponse",
         "type": "object"
       },
       "v1HasEnterpriseAPIKeyInNamespaceResponse": {
+        "description": "Response indicating whether the namespace has a platform-level reCAPTCHA Enterprise API key.",
         "properties": {
           "hasApiKey": {
+            "description": "Output only. Whether the namespace has an enterprise reCAPTCHA API key configured.",
+            "readOnly": true,
             "type": "boolean"
           }
         },
+        "title": "HasEnterpriseAPIKeyInNamespaceResponse",
         "type": "object"
       },
       "v1ListFormsRequest": {
+        "description": "Request to list forms with optional filters, pagination, and search.",
         "properties": {
           "filters": {
             "$ref": "#/components/schemas/ListFormsRequestFilters"
@@ -541,30 +605,36 @@
             "$ref": "#/components/schemas/v1FilterGroup"
           },
           "locale": {
-            "description": "locale of the user, e.g. \"en\", \"de\", \"fr\", \"it\", \"nl\", \"pt\". Empty defaults to English.",
+            "description": "Optional. Locale of the user, e.g. \"en\", \"de\", \"fr\", \"it\", \"nl\", \"pt\". Empty defaults to English.",
             "type": "string"
           },
           "pagingOptions": {
             "$ref": "#/components/schemas/vendastatypesPagedRequestOptions"
           },
           "searchTerm": {
+            "description": "Optional. Search term to filter forms by name or description.",
             "type": "string"
           }
         },
+        "title": "ListFormsRequest",
         "type": "object"
       },
       "v1ListFormsResponse": {
+        "description": "Response containing a paginated list of forms with submission counts and processing status.",
         "properties": {
           "formRows": {
+            "description": "Output only. The list of form rows matching the filter criteria.",
             "items": {
               "$ref": "#/components/schemas/ListFormsResponseFormRow"
             },
+            "readOnly": true,
             "type": "array"
           },
           "pagingMetadata": {
             "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
           }
         },
+        "title": "ListFormsResponse",
         "type": "object"
       },
       "v1ListFormsResponseProcessResultStatus": {
@@ -579,42 +649,54 @@
         "type": "string"
       },
       "v1ListMappedFieldSchemaRequest": {
+        "description": "Request to list available CRM fields that can be mapped in forms.",
         "properties": {
           "crmObjectSubtype": {
+            "description": "Deprecated. Use mapped_to_resource instead.",
             "type": "string"
           },
           "crmObjectType": {
-            "title": "dont tie this to crm",
+            "description": "Deprecated. Use mapped_to_resource instead.",
             "type": "string"
           },
           "locale": {
-            "title": "locale of the user such as \"af\", \"cs\", \"de\", \"en\", \"es-419\", \"fr\", \"it\", \"nl\", \"pt\", \"ru\"",
+            "description": "Optional. Locale of the user such as \"af\", \"cs\", \"de\", \"en\", \"es-419\", \"fr\", \"it\", \"nl\", \"pt\", \"ru\".",
             "type": "string"
           },
           "mappedToResource": {
+            "description": "Optional. The resource type to filter mapped fields by, e.g. \"crm_contact\", \"crm_company\", \"utm_attribute\", \"special_attribute\".",
             "type": "string"
           },
           "namespace": {
+            "description": "Required. The namespace to list mapped field schemas for.",
             "type": "string"
           },
           "pagingOptions": {
             "$ref": "#/components/schemas/vendastatypesPagedRequestOptions"
           }
         },
+        "required": [
+          "namespace"
+        ],
+        "title": "ListMappedFieldSchemaRequest",
         "type": "object"
       },
       "v1ListMappedFieldSchemaResponse": {
+        "description": "Response containing available CRM field schemas that can be used when creating or updating forms.",
         "properties": {
           "fieldSchemas": {
+            "description": "Output only. The list of available mapped field schemas.",
             "items": {
               "$ref": "#/components/schemas/v1MappedField"
             },
+            "readOnly": true,
             "type": "array"
           },
           "pagingMetadata": {
             "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
           }
         },
+        "title": "ListMappedFieldSchemaResponse",
         "type": "object"
       },
       "v1MappedField": {
@@ -691,25 +773,34 @@
         "type": "object"
       },
       "v1ProvisionRecaptchaEnterpriseRequest": {
+        "description": "Request to create a reCAPTCHA Enterprise site for a specific form and domain.",
         "properties": {
           "domain": {
-            "description": "The domain to register in the reCAPTCHA Enterprise site (e.g. \"example.com\").",
+            "description": "Required. The domain to register in the reCAPTCHA Enterprise site (e.g. \"example.com\").",
             "type": "string"
           },
           "formId": {
-            "description": "The ID of the form to provision reCAPTCHA Enterprise for.\nEach form gets its own reCAPTCHA Enterprise site so different forms\nunder the same namespace can have different domains.",
+            "description": "Required. The ID of the form to provision reCAPTCHA Enterprise for.\nEach form gets its own reCAPTCHA Enterprise site so different forms\nunder the same namespace can have different domains.",
             "type": "string"
           }
         },
+        "required": [
+          "formId",
+          "domain"
+        ],
+        "title": "ProvisionRecaptchaEnterpriseRequest",
         "type": "object"
       },
       "v1ProvisionRecaptchaEnterpriseResponse": {
+        "description": "Response containing the site key of the newly provisioned reCAPTCHA Enterprise site.",
         "properties": {
           "siteKey": {
-            "description": "The site key of the provisioned reCAPTCHA Enterprise site.",
+            "description": "Output only. The site key of the provisioned reCAPTCHA Enterprise site.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "ProvisionRecaptchaEnterpriseResponse",
         "type": "object"
       },
       "v1RecaptchaEnterpriseConfig": {
@@ -890,27 +981,36 @@
         "type": "object"
       },
       "v1UpdateFormRequest": {
+        "description": "Request to update an existing form, creating a new version in the version chain.",
         "properties": {
           "formConfig": {
             "$ref": "#/components/schemas/v1FormConfig"
           }
         },
-        "title": "UpdateFormRequest - new form version request",
+        "required": [
+          "formConfig"
+        ],
+        "title": "UpdateFormRequest",
         "type": "object"
       },
       "v1UpdateFormResponse": {
+        "description": "Response containing the newly generated version identifier and any validation errors.",
         "properties": {
           "errors": {
+            "description": "Output only. Any validation errors encountered during form update.",
             "items": {
               "$ref": "#/components/schemas/v1ValidationError"
             },
+            "readOnly": true,
             "type": "array"
           },
           "version": {
+            "description": "Output only. The version identifier for the newly created form version.",
+            "readOnly": true,
             "type": "string"
           }
         },
-        "title": "UpdateFormResponse - returns the newly generated version",
+        "title": "UpdateFormResponse",
         "type": "object"
       },
       "v1ValidationError": {
@@ -991,6 +1091,7 @@
               }
             }
           },
+          "description": "Request to create a new form with the provided configuration.",
           "required": true
         },
         "responses": {
@@ -1040,6 +1141,7 @@
               }
             }
           },
+          "description": "Request to fetch the HTML/JavaScript embed code for a form.",
           "required": true
         },
         "responses": {
@@ -1089,6 +1191,7 @@
               }
             }
           },
+          "description": "Request to use AI to generate custom CSS styling for a form based on a text prompt and optional visual references.",
           "required": true
         },
         "responses": {
@@ -1137,6 +1240,7 @@
               }
             }
           },
+          "description": "Request to retrieve the most recent version of a form's style, schema, and UI configuration.",
           "required": true
         },
         "responses": {
@@ -1179,9 +1283,10 @@
         "operationId": "Forms_HasEnterpriseAPIKeyInNamespace",
         "parameters": [
           {
-            "description": "The namespace to check for an enterprise reCAPTCHA API key.",
+            "description": "Required. The namespace to check for an enterprise reCAPTCHA API key.",
             "in": "query",
             "name": "namespace",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -1233,6 +1338,7 @@
               }
             }
           },
+          "description": "Request to list forms with optional filters, pagination, and search.",
           "required": true
         },
         "responses": {
@@ -1282,6 +1388,7 @@
               }
             }
           },
+          "description": "Request to list available CRM fields that can be mapped in forms.",
           "required": true
         },
         "responses": {
@@ -1330,6 +1437,7 @@
               }
             }
           },
+          "description": "Request to create a reCAPTCHA Enterprise site for a specific form and domain.",
           "required": true
         },
         "responses": {
@@ -1378,6 +1486,7 @@
               }
             }
           },
+          "description": "Request to update an existing form, creating a new version in the version chain.",
           "required": true
         },
         "responses": {

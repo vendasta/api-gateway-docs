@@ -29,75 +29,95 @@
         "type": "object"
       },
       "v1GetScoreRequest": {
+        "description": "Request to retrieve the Google Page Speed score for a site by domain and device type.",
         "properties": {
           "device": {
-            "title": "device should be mobile or desktop",
+            "description": "Required. The device type to get the score for. Should be \"mobile\" or \"desktop\".",
             "type": "string"
           },
           "domain": {
-            "title": "site_id represents the identifier of the site for which the desktop and mobile scores will be get",
+            "description": "Required. The domain of the site to get the Page Speed score for.",
             "type": "string"
           }
         },
-        "title": "GetScoreRequest defines the request structure for calling the GetScore API. The request contains a site identifier,\nand a desktop and mobile score to obtain",
+        "required": [
+          "domain",
+          "device"
+        ],
+        "title": "GetScoreRequest",
         "type": "object"
       },
       "v1GetScoreResponse": {
+        "description": "Response containing the Google Page Speed score and raw API response.",
         "properties": {
           "response": {
-            "title": "google pagespeed insight api response",
+            "description": "Output only. The raw Google PageSpeed Insights API response.",
+            "readOnly": true,
             "type": "string"
           },
           "success": {
-            "title": "success informs the caller whether the score was set successfully or not",
+            "description": "Output only. Whether the score was retrieved successfully.",
+            "readOnly": true,
             "type": "boolean"
           }
         },
-        "title": "SetScoreResponse defines the response for calling the SetScore API. The response contains a success flag, which\nindicates whether the call to SetScore was executed successfully",
+        "title": "GetScoreResponse",
         "type": "object"
       },
       "v1GetSiteUpdateRequest": {
+        "description": "Request to retrieve update information for a WordPress site including PHP version, core version, and available plugin updates.",
         "properties": {
           "siteId": {
-            "title": "site_id represents the identifier of the site to retrieve",
+            "description": "Required. The unique identifier of the site to retrieve update information for.",
             "type": "string"
           },
           "staging": {
+            "description": "Optional. Whether to retrieve update information for the staging site.",
             "type": "boolean"
           }
         },
-        "title": "GetSiteUpdateRequest is the request structure of GetSiteUpdate rpc",
+        "required": [
+          "siteId"
+        ],
+        "title": "GetSiteUpdateRequest",
         "type": "object"
       },
       "v1GetSiteUpdateResponse": {
+        "description": "Response containing update information for a WordPress site.",
         "properties": {
           "update": {
             "$ref": "#/components/schemas/v1SiteUpdate"
           }
         },
-        "title": "GetSiteUpdateResponse is the response structure of GetSiteUpdate rpc",
+        "title": "GetSiteUpdateResponse",
         "type": "object"
       },
       "v1SiteUpdate": {
+        "description": "Version and update information for a WordPress site, including PHP version, core version, and available plugin updates.",
         "properties": {
           "coreVersion": {
-            "title": "core_version the current WordPress version",
+            "description": "Output only. The current WordPress core version.",
+            "readOnly": true,
             "type": "string"
           },
           "latestCoreVersion": {
-            "title": "latest_core_version the latest WordPress version available",
+            "description": "Output only. The latest available WordPress core version.",
+            "readOnly": true,
             "type": "string"
           },
           "numOfPluginUpdates": {
+            "description": "Output only. The number of plugins that have newer versions available.",
             "format": "int64",
-            "title": "num_of_plugin_updates the number of plugins that has more recent versions available to update",
+            "readOnly": true,
             "type": "string"
           },
           "phpVersion": {
-            "title": "php_version the current PHP version",
+            "description": "Output only. The current PHP version running on the site.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "SiteUpdate",
         "type": "object"
       }
     },
@@ -131,6 +151,7 @@
               }
             }
           },
+          "description": "Request to retrieve the Google Page Speed score for a site by domain and device type.",
           "required": true
         },
         "responses": {
@@ -172,6 +193,7 @@
               }
             }
           },
+          "description": "Request to retrieve update information for a WordPress site including PHP version, core version, and available plugin updates.",
           "required": true
         },
         "responses": {

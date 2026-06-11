@@ -102,20 +102,23 @@
         "type": "string"
       },
       "v1AddonActivation": {
+        "description": "A single addon and its corresponding activation status within an order.",
         "properties": {
           "activationStatus": {
             "$ref": "#/components/schemas/v1ActivationStatus"
           },
           "addonId": {
-            "title": "Unique identifier of a single addon that is going through the activation process",
+            "description": "Output only. Unique identifier of the addon that is going through the activation process.",
+            "readOnly": true,
             "type": "string"
           },
           "appId": {
-            "title": "Unique identifier of the parent app for the addon that is going through the activation process",
+            "description": "Output only. Unique identifier of the parent app for the addon.",
+            "readOnly": true,
             "type": "string"
           }
         },
-        "title": "Represents a single addon with its corresponding activation status",
+        "title": "Addon Activation",
         "type": "object"
       },
       "v1AddonKey": {
@@ -132,34 +135,46 @@
         "type": "object"
       },
       "v1Agreement": {
+        "description": "A terms of service agreement that a customer has accepted or declined on an order.",
         "properties": {
           "agreed": {
-            "title": "Whether or not the user agreed",
+            "description": "Required. Whether or not the user agreed.",
             "type": "boolean"
           },
           "term": {
-            "title": "The term that the user may have agreed to",
+            "description": "Required. The term that the user may have agreed to.",
             "type": "string"
           },
           "userId": {
-            "title": "The user who may have agreed to this agreement",
+            "description": "Required. The user who may have agreed to this agreement.",
             "type": "string"
           }
         },
+        "required": [
+          "userId",
+          "term",
+          "agreed"
+        ],
+        "title": "Agreement",
         "type": "object"
       },
       "v1Attachment": {
+        "description": "A file attachment associated with an order.",
         "properties": {
           "name": {
-            "title": "The name of the attachment",
+            "description": "Required. The name of the attachment.",
             "type": "string"
           },
           "url": {
-            "title": "The url to the attachment",
+            "description": "Required. The URL to the attachment.",
             "type": "string"
           }
         },
-        "title": "Represents an attachment on an order",
+        "required": [
+          "name",
+          "url"
+        ],
+        "title": "Attachment",
         "type": "object"
       },
       "v1AuxiliaryDataFieldSchema": {
@@ -239,61 +254,84 @@
         "type": "object"
       },
       "v1Business": {
+        "description": "Details about the business that an order is associated with.",
         "properties": {
           "address": {
+            "description": "Output only. The primary address of the business.",
+            "readOnly": true,
             "type": "string"
           },
           "address2": {
+            "description": "Output only. The secondary address line of the business.",
+            "readOnly": true,
             "type": "string"
           },
           "city": {
+            "description": "Output only. The city of the business.",
+            "readOnly": true,
             "type": "string"
           },
           "companyName": {
+            "description": "Output only. The company name of the business.",
+            "readOnly": true,
             "type": "string"
           },
           "country": {
+            "description": "Output only. The country of the business.",
+            "readOnly": true,
             "type": "string"
           },
           "deleted": {
+            "description": "Output only. Whether the business has been deleted.",
+            "readOnly": true,
             "type": "boolean"
           },
           "phoneNumber": {
+            "description": "Output only. The phone number of the business.",
+            "readOnly": true,
             "type": "string"
           },
           "state": {
+            "description": "Output only. The state or province of the business.",
+            "readOnly": true,
             "type": "string"
           },
           "website": {
+            "description": "Output only. The website URL of the business.",
+            "readOnly": true,
             "type": "string"
           },
           "zip": {
+            "description": "Output only. The postal or zip code of the business.",
+            "readOnly": true,
             "type": "string"
           }
         },
+        "title": "Business",
         "type": "object"
       },
       "v1CommonField": {
+        "description": "A field answer that may be shared across multiple products or addons.",
         "properties": {
           "addonKeys": {
+            "description": "Optional. List of addon keys that share the common field.",
             "items": {
               "$ref": "#/components/schemas/v1AddonKey"
             },
-            "title": "List of addon keys that share the common field",
             "type": "array"
           },
           "field": {
             "$ref": "#/components/schemas/v1Field"
           },
           "productIds": {
+            "description": "Optional. List of unique product identifiers that share the common field.",
             "items": {
               "type": "string"
             },
-            "title": "List of unique product identifiers that share the common field",
             "type": "array"
           }
         },
-        "title": "Represents the answer to a common field may be shared between products",
+        "title": "Common Field",
         "type": "object"
       },
       "v1Cost": {
@@ -463,23 +501,24 @@
         "type": "string"
       },
       "v1CustomField": {
+        "description": "A set of custom field answers that are unique to a specific product or addon.",
         "properties": {
           "addonKey": {
             "$ref": "#/components/schemas/v1AddonKey"
           },
           "fields": {
+            "description": "Optional. List of custom fields for a given product.",
             "items": {
               "$ref": "#/components/schemas/v1Field"
             },
-            "title": "List of custom fields for a given product",
             "type": "array"
           },
           "productId": {
-            "title": "Unique identifier of a single product that the custom questions belong to, and will not be provided if the custom field belongs to an addon",
+            "description": "Optional. Unique identifier of the product that the custom questions belong to. Will not be provided if the custom field belongs to an addon.",
             "type": "string"
           }
         },
-        "title": "Represents the answer(s) to a custom field that is unique to a product",
+        "title": "Custom Field",
         "type": "object"
       },
       "v1CustomPriceMapping": {
@@ -498,21 +537,25 @@
         "type": "object"
       },
       "v1CustomerRecipient": {
+        "description": "Details about the customer who receives the order.",
         "properties": {
           "firstName": {
-            "title": "The user's first name",
+            "description": "Output only. The user's first name.",
+            "readOnly": true,
             "type": "string"
           },
           "lastName": {
-            "title": "The user's last name",
+            "description": "Output only. The user's last name.",
+            "readOnly": true,
             "type": "string"
           },
           "userId": {
-            "title": "The ID of the user",
+            "description": "Output only. The ID of the user.",
+            "readOnly": true,
             "type": "string"
           }
         },
-        "title": "The customer who receives the order",
+        "title": "Customer Recipient",
         "type": "object"
       },
       "v1DropdownOption": {
@@ -538,44 +581,48 @@
         "type": "string"
       },
       "v1Field": {
+        "description": "An information field pertaining to a product, containing a question and its answer.",
         "properties": {
           "answer": {
-            "title": "Response related to the question of the field_id",
+            "description": "Optional. Response related to the question of the field_id.",
             "type": "string"
           },
           "description": {
-            "title": "The description of the field",
+            "description": "Optional. The description of the field.",
             "type": "string"
           },
           "fieldId": {
-            "title": "Unique identifier of a custom or common field",
+            "description": "Required. Unique identifier of a custom or common field.",
             "type": "string"
           },
           "fieldType": {
             "$ref": "#/components/schemas/v1FieldType"
           },
           "label": {
-            "title": "The question for the custom or common field",
+            "description": "Optional. The question for the custom or common field.",
             "type": "string"
           },
           "prefix": {
-            "title": "For textbox fields, this string will be displayed in front of the textbox",
+            "description": "Optional. For textbox fields, this string will be displayed in front of the textbox.",
             "type": "string"
           },
           "regexErrorMessage": {
-            "title": "The error message displayed if the regex_validator does not match the answer",
+            "description": "Optional. The error message displayed if the regex_validator does not match the answer.",
             "type": "string"
           },
           "regexValidator": {
-            "title": "A regex string used to validate a fields answer",
+            "description": "Optional. A regex string used to validate a field's answer.",
             "type": "string"
           },
           "suffix": {
-            "title": "For textbox fields, this string will be displayed behind the textbox",
+            "description": "Optional. For textbox fields, this string will be displayed behind the textbox.",
             "type": "string"
           }
         },
-        "title": "Represents an information field pertaining to a product",
+        "required": [
+          "fieldId"
+        ],
+        "title": "Field",
         "type": "object"
       },
       "v1FieldSchemaIdentifier": {
@@ -949,66 +996,70 @@
         "type": "object"
       },
       "v1Order": {
+        "description": "A sales order representing a request to activate products for a business.",
         "properties": {
           "addonActivations": {
+            "description": "Output only. The list of addons with their corresponding activation status.",
             "items": {
               "$ref": "#/components/schemas/v1AddonActivation"
             },
-            "title": "The list of addons with their corresponding activation status",
+            "readOnly": true,
             "type": "array"
           },
           "agreements": {
+            "description": "Output only. The terms that a customer has agreed to for this order.",
             "items": {
               "$ref": "#/components/schemas/v1Agreement"
             },
-            "title": "The terms that a customer has agreed to for this order",
+            "readOnly": true,
             "type": "array"
           },
           "attachments": {
+            "description": "Optional. Attachments on the order.",
             "items": {
               "$ref": "#/components/schemas/v1Attachment"
             },
-            "title": "Attachments on the order",
             "type": "array"
           },
           "business": {
             "$ref": "#/components/schemas/v1Business"
           },
           "businessId": {
-            "title": "The business the order is being made for",
+            "description": "Required. The business the order is being made for.",
             "type": "string"
           },
           "commonFields": {
+            "description": "Optional. Common field answers for the packages.",
             "items": {
               "$ref": "#/components/schemas/v1CommonField"
             },
-            "title": "Common field answers for the packages",
             "type": "array"
           },
           "contractDuration": {
             "$ref": "#/components/schemas/salesv1Duration"
           },
           "created": {
+            "description": "Output only. Time the order was submitted by a salesperson.",
             "format": "date-time",
-            "title": "Time the order was submitted by a salesperson",
+            "readOnly": true,
             "type": "string"
           },
           "customFields": {
+            "description": "Optional. Custom field answers for the packages.",
             "items": {
               "$ref": "#/components/schemas/v1CustomField"
             },
-            "title": "Custom field answers for the packages",
             "type": "array"
           },
           "customerAttachments": {
+            "description": "Optional. Customer attachments on the order.",
             "items": {
               "$ref": "#/components/schemas/v1Attachment"
             },
-            "title": "Customer attachments on the order",
             "type": "array"
           },
           "customerNotes": {
-            "title": "Notes for the customer from the salesperson/admin",
+            "description": "Optional. Notes for the customer from the salesperson/admin.",
             "type": "string"
           },
           "customerRecipient": {
@@ -1019,39 +1070,43 @@
             "type": "string"
           },
           "enforceContractTerm": {
-            "title": "Indicates whether to enforce the contract term",
+            "description": "Optional. Indicates whether to enforce the contract term.",
             "type": "boolean"
           },
           "expiryDate": {
+            "description": "Output only. The expiry date for the order.",
             "format": "date-time",
-            "title": "The requested activation date for the order's products",
+            "readOnly": true,
             "type": "string"
           },
           "extraFields": {
+            "description": "Optional. Extra fields are the fields that a partner (or market) admin has added to their orders by default to be filled.",
             "items": {
               "$ref": "#/components/schemas/v1Field"
             },
-            "title": "Extra fields are the fields that a partner (or market) admin has added to their orders by default to be filled",
             "type": "array"
           },
           "finalizedAt": {
+            "description": "Output only. When the order's totals and taxes were locked in, used as the invoice issued date.",
             "format": "date-time",
-            "title": "When the order's totals and taxes were locked in, used as the invoice issued date",
+            "readOnly": true,
             "type": "string"
           },
           "fulfillmentStatus": {
             "$ref": "#/components/schemas/v1FulfillmentOrderStatus"
           },
           "hasFulfillment": {
-            "title": "Determines if the sales order has any fulfillment forms associated with it",
+            "description": "Output only. Determines if the sales order has any fulfillment forms associated with it.",
+            "readOnly": true,
             "type": "boolean"
           },
           "idempotencyKey": {
-            "title": "Optional key used to prevent request duplication and allows safety when retrying requests",
+            "description": "Optional. Key used to prevent request duplication and allows safety when retrying requests.",
             "type": "string"
           },
           "invoiceId": {
-            "title": "The billing invoice ID created from this order during the charge workflow",
+            "description": "Output only. The billing invoice ID created from this order during the charge workflow.",
+            "readOnly": true,
             "type": "string"
           },
           "leasedToAutomations": {
@@ -1060,38 +1115,40 @@
             "type": "string"
           },
           "lineItems": {
+            "description": "Optional. Line items that make up the order.",
             "items": {
               "$ref": "#/components/schemas/v1LineItem"
             },
-            "title": "Line items that make up the order",
             "type": "array"
           },
           "marketId": {
-            "title": "The market the order is being made under",
+            "description": "Optional. The market the order is being made under.",
             "type": "string"
           },
           "notes": {
-            "title": "Notes for the partner administrator from the salesperson",
+            "description": "Optional. Notes for the partner administrator from the salesperson.",
             "type": "string"
           },
           "offerExpiry": {
-            "description": "The most recently added date that the customer must approve this order by. This cannot be set on creation and only\nwhen sending the order to a customer. It is valid that this is in the past for expired orders, or orders that have\nmade it through the customer approval stage.",
+            "description": "Output only. The most recently added date that the customer must approve this order by. This cannot be set on creation and only\nwhen sending the order to a customer. It is valid that this is in the past for expired orders, or orders that have\nmade it through the customer approval stage.",
             "format": "date-time",
+            "readOnly": true,
             "type": "string"
           },
           "opportunityIds": {
+            "description": "Optional. The opportunities that are being used for the order.",
             "items": {
               "type": "string"
             },
-            "title": "The opportunities that are being used for the order",
             "type": "array"
           },
           "orderId": {
-            "title": "The unique identifier of the order",
+            "description": "Output only. The unique identifier of the order.",
+            "readOnly": true,
             "type": "string"
           },
           "orderIsSmbPayable": {
-            "title": "Indicates whether the order should be charged to the SMB or not",
+            "description": "Optional. Indicates whether the order should be charged to the SMB or not.",
             "type": "boolean"
           },
           "origin": {
@@ -1105,18 +1162,19 @@
             "type": "array"
           },
           "partnerId": {
-            "title": "The partner the order is being made under",
+            "description": "Required. The partner the order is being made under.",
             "type": "string"
           },
           "paymentMethodToken": {
-            "title": "An id used by BIY sales orders to associate a payment method",
+            "description": "Optional. An id used by BIY sales orders to associate a payment method.",
             "type": "string"
           },
           "productActivations": {
+            "description": "Output only. The list of products with their corresponding activation status.",
             "items": {
               "$ref": "#/components/schemas/v1ProductActivation"
             },
-            "title": "The list of products with their corresponding activation status",
+            "readOnly": true,
             "type": "array"
           },
           "products": {
@@ -1127,54 +1185,62 @@
             "type": "array"
           },
           "quoteId": {
-            "title": "The id of the quote associated to the order if the order was created from a quote",
+            "description": "Optional. The id of the quote associated to the order if the order was created from a quote.",
             "type": "string"
           },
           "requestedActivation": {
+            "description": "Optional. The requested activation date for the order's products.",
             "format": "date-time",
-            "title": "The requested activation date for the order's products",
             "type": "string"
           },
           "retailSubscriptionGroups": {
             "additionalProperties": {
               "$ref": "#/components/schemas/v1RetailSubscriptionGroup"
             },
-            "title": "The retail subscription groups on the order",
+            "description": "Output only. The retail subscription groups on the order.",
+            "readOnly": true,
             "type": "object"
           },
           "salesperson": {
             "$ref": "#/components/schemas/v1Salesperson"
           },
           "salespersonId": {
-            "title": "Salesperson who submitted the order",
+            "description": "Required. The salesperson who submitted the order.",
             "type": "string"
           },
           "status": {
             "$ref": "#/components/schemas/salesordersv1Status"
           },
           "statusHistory": {
+            "description": "Output only. The historical list of status updates that have taken place on the order.",
             "items": {
               "$ref": "#/components/schemas/v1StatusHistoryItem"
             },
-            "title": "The historical list of status updates that have taken place on the order",
+            "readOnly": true,
             "type": "array"
           },
           "tags": {
+            "description": "Optional. Tags for orders.",
             "items": {
               "type": "string"
             },
-            "title": "Tags for orders",
             "type": "array"
           },
           "taxOptions": {
+            "description": "Output only. Options for adding tax to orders.",
             "items": {
               "$ref": "#/components/schemas/v1TaxOptions"
             },
-            "title": "Options for adding tax to orders",
+            "readOnly": true,
             "type": "array"
           }
         },
-        "title": "Data representing an order form submitted by a salesperson",
+        "required": [
+          "salespersonId",
+          "partnerId",
+          "businessId"
+        ],
+        "title": "Order",
         "type": "object"
       },
       "v1Origin": {
@@ -1254,36 +1320,43 @@
         "type": "object"
       },
       "v1ProductActivation": {
+        "description": "A single product and its corresponding activation status within an order.",
         "properties": {
           "activationId": {
-            "title": "Identifies the existing activation of a product if it was activated before the order was completed",
+            "description": "Output only. Identifies the existing activation of a product if it was activated before the order was completed.",
+            "readOnly": true,
             "type": "string"
           },
           "activationStatus": {
             "$ref": "#/components/schemas/v1ActivationStatus"
           },
           "editionId": {
-            "title": "Identifies the (optional) edition of that product that is going through the activation process",
+            "description": "Output only. Identifies the edition of that product that is going through the activation process.",
+            "readOnly": true,
             "type": "string"
           },
           "isEditionChange": {
-            "title": "Identifies whether or not this activation is an edition change or not",
+            "description": "Output only. Identifies whether or not this activation is an edition change.",
+            "readOnly": true,
             "type": "boolean"
           },
           "previousEditionId": {
-            "title": "Identifies the previous edition id of that product if this activation is an edition change (optional)",
+            "description": "Output only. Identifies the previous edition id of that product if this activation is an edition change.",
+            "readOnly": true,
             "type": "string"
           },
           "productId": {
-            "title": "Identifier of a single product that is going through the activation process",
+            "description": "Output only. Identifier of the product that is going through the activation process.",
+            "readOnly": true,
             "type": "string"
           },
           "uniqueId": {
-            "title": "Unique identifier for this product activation, it is possible for this to be empty (historical activations, activations not fully processed, etc)",
+            "description": "Output only. Unique identifier for this product activation. It is possible for this to be empty (historical activations, activations not fully processed, etc).",
+            "readOnly": true,
             "type": "string"
           }
         },
-        "title": "Represents a single product with its corresponding activation status",
+        "title": "Product Activation",
         "type": "object"
       },
       "v1RetailSubscriptionGroup": {
@@ -1371,21 +1444,30 @@
         "type": "object"
       },
       "v1Salesperson": {
+        "description": "Details about the salesperson who submitted the order.",
         "properties": {
           "email": {
+            "description": "Output only. The email address of the salesperson.",
+            "readOnly": true,
             "type": "string"
           },
           "firstName": {
+            "description": "Output only. The first name of the salesperson.",
+            "readOnly": true,
             "type": "string"
           },
           "lastName": {
+            "description": "Output only. The last name of the salesperson.",
+            "readOnly": true,
             "type": "string"
           },
           "phoneNumber": {
+            "description": "Output only. The phone number of the salesperson.",
+            "readOnly": true,
             "type": "string"
           }
         },
-        "title": "A User is the information about a user",
+        "title": "Salesperson",
         "type": "object"
       },
       "v1Source": {
@@ -1398,22 +1480,27 @@
         "type": "string"
       },
       "v1StatusHistoryItem": {
+        "description": "A record of a status change on an order, including who made the change and when.",
         "properties": {
           "created": {
+            "description": "Output only. The time the status was created.",
             "format": "date-time",
-            "title": "The time the status was created",
+            "readOnly": true,
             "type": "string"
           },
           "email": {
-            "description": "The email fo the user that updated the status.",
+            "description": "Output only. The email of the user that updated the status.",
+            "readOnly": true,
             "type": "string"
           },
           "metadata": {
-            "title": "The metadata is freeform json about the status history item. It's structure depends on the status",
+            "description": "Output only. The metadata is freeform JSON about the status history item. Its structure depends on the status.",
+            "readOnly": true,
             "type": "string"
           },
           "name": {
-            "title": "The name or email of the user",
+            "description": "Output only. The name or email of the user.",
+            "readOnly": true,
             "type": "string"
           },
           "source": {
@@ -1423,14 +1510,15 @@
             "$ref": "#/components/schemas/salesordersv1Status"
           },
           "userId": {
-            "title": "The unique identifier of the user that updated the status",
+            "description": "Output only. The unique identifier of the user that updated the status.",
+            "readOnly": true,
             "type": "string"
           },
           "userRole": {
             "$ref": "#/components/schemas/v1UserRole"
           }
         },
-        "title": "Represents a status change on the order to determine who it was updated by and what time it was updated",
+        "title": "Status History Item",
         "type": "object"
       },
       "v1TaxOptions": {

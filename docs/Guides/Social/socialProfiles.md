@@ -113,7 +113,7 @@ title: Example Response
    "links":{
       "first":"https://prod.apigateway.co/products/social/socialProfiles?filter[businessLocation.id]=AG-F7GHCJ4QCX&page[cursor]=eyJidXNpbmVzc0xvY2F0aW9uIjoiQUctRjdHSENKNFFDWCIsIm9mZnNldCI6MH0=&page[limit]=3",
       "next":"https://prod.apigateway.co/products/social/socialProfiles?filter[businessLocation.id]=AG-F7GHCJ4QCX&page[cursor]=eyJidXNpbmVzc0xvY2F0aW9uIjoiQUctRjdHSENKNFFDWCIsIm9mZnNldCI6MX0=&page[limit]=3"
-   },
+   }
 }
 ```
 <!--

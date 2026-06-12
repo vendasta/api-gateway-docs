@@ -37,7 +37,7 @@ In the body of responses you will find links to related actions and helpful deta
 Every request requires an OAuth2 bearer authorization header that was issued by the API Gateway. [Learn to create them](../Authorization/Authorization.md) 
 
 ### Localization
-Translating the content in the platform is crowed sourced and will improve over time. You are encouraged to provide a list of languages that the user can read using the [Accept-Language](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language) request header. Web browsers will often set this for you by default. If not set `en-US` will be used. 
+Translating the content in the platform is crowd sourced and will improve over time. You are encouraged to provide a list of languages that the user can read using the [Accept-Language](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language) request header. Web browsers will often set this for you by default. If not set `en-US` will be used. 
 
 We will pick the most appropriate locale based on the header and available translations. Resource attributes representing an enum will have both an untranslated `{attribute}Code` and a translated `{attribute}Name` option. Look for the `x-translateable` flag in the documentation. Translatable fields are readonly over API.
 
@@ -100,7 +100,7 @@ Content-Type: application/vnd.api+json
 
 
 ### Filters
-Most operations that return on a list of data allow you to filter the list using query params in the form of `&filter[fieledName1]=value1&filter[sub.fieledName3]=value2`.
+Most operations that return on a list of data allow you to filter the list using query params in the form of `&filter[fieldName1]=value1&filter[sub.fieldName3]=value2`.
 
 ### Paging
 All operations that return a list of data will let you specify a query param of `page[limit]` to indicate the max number of records you would like returned in a single batch. The body of the response will provide links that you can use to get the next batch without needing to send the filters again. The link will be omitted if not available. 

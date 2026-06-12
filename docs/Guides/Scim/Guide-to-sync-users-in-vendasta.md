@@ -121,7 +121,7 @@ If the user already exists then it will throw an error.
       {
         "type": "work",
         "streetAddress": "100 Universal City Plaza",
-        "locality\"": "Hollywood",
+        "locality": "Hollywood",
         "region": "CA-SK",
         "postalCode": "91608",
         "country": "CA",
@@ -316,7 +316,7 @@ If there is no user with the given ID then it would throw an error.
       {
         "type": "work",
         "streetAddress": "100 Universal City Plaza",
-        "locality\"": "Hollywood",
+        "locality": "Hollywood",
         "region": "CA-SK",
         "postalCode": "91608",
         "country": "CA",

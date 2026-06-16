@@ -1558,6 +1558,44 @@
         "title": "List Field Options Response",
         "type": "object"
       },
+      "v1ListFieldSchemaCustomizationRequest": {
+        "description": "Request to list field schema customizations within a namespace, optionally filtered by CRM object type.",
+        "properties": {
+          "crmObjectType": {
+            "description": "Optional. The CRM object type to filter by (e.g. \"contact\", \"company\", \"opportunity\"). Use \"*\" to return customizations for all object types.",
+            "type": "string"
+          },
+          "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) to list customizations for.",
+            "type": "string"
+          },
+          "pagingOptions": {
+            "$ref": "#/components/schemas/vendastatypesPagedRequestOptions"
+          }
+        },
+        "required": [
+          "namespace"
+        ],
+        "title": "List Field Schema Customization Request",
+        "type": "object"
+      },
+      "v1ListFieldSchemaCustomizationResponse": {
+        "description": "Response containing a page of field schema customizations matching the request criteria.",
+        "properties": {
+          "fieldSchemaCustomizations": {
+            "description": "The field schema customizations matching the request criteria for this page.",
+            "items": {
+              "$ref": "#/components/schemas/v1FieldSchemaCustomization"
+            },
+            "type": "array"
+          },
+          "pagingMetadata": {
+            "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
+          }
+        },
+        "title": "List Field Schema Customization Response",
+        "type": "object"
+      },
       "v1ListFieldSchemaRequest": {
         "description": "Request to list field schemas for a CRM object type within a namespace, optionally filtered by subtype, namespace, archive status, or search term.",
         "properties": {
@@ -3761,6 +3799,56 @@
           }
         ],
         "summary": "Get Multi Field Schema Customization",
+        "tags": [
+          "CRMFieldSchemaCustomizationService"
+        ]
+      }
+    },
+    "/v1/crm/field-schema-customization/list": {
+      "post": {
+        "operationId": "CRMFieldSchemaCustomizationService_ListFieldSchemaCustomization",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ListFieldSchemaCustomizationRequest"
+              }
+            }
+          },
+          "description": "Request to list field schema customizations within a namespace, optionally filtered by CRM object type.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ListFieldSchemaCustomizationResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "crm",
+              "crm.schema:read"
+            ]
+          }
+        ],
+        "summary": "List Field Schema Customization",
         "tags": [
           "CRMFieldSchemaCustomizationService"
         ]

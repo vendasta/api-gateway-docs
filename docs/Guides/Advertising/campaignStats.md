@@ -65,7 +65,7 @@ title: Example Response
         "costMicros": 47000000,
         "averageCostPerClickMicros": 712121,
         "clickThroughRate": 0.012828,
-        "currencyCode": "CAD",
+        "currencyCode": "CAD"
       }
     }
   ]
@@ -94,7 +94,7 @@ title: Request
     "Content-Type": "application/vnd.api+json"
   },
   "query": {
-    "connectedAccount.id": "AG-X5FZQG6T25:google:1324354698"
+    "connectedAccount.id": "AG-X5FZQG6T25:google:1324354698",
     "startAt": "2021-01-01T00:00:00Z",
     "endAt": "2021-02-01T00:00:00Z"
   }

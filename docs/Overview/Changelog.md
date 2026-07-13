@@ -2,6 +2,9 @@
 
 The Vendasta Platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2025-07-14
+Update references from "Social Marketing" to "Social AI"
+
 ## 2025-11-18
 Removed get and create sales contacts (/platform/salesContacts). They have been replaced with CRM contacts.
 Removed proposal builder APIs. The product is no longer supported.

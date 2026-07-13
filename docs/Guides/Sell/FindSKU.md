@@ -22,7 +22,7 @@ Inbox Pro — AI-assisted web chat lead capture | MP-DKT6XHPM6NCCDNK2TPDPVD3PG3V
 Campaigns Pro | MP-ZGJ6V4QRP77WPMDKXS6VDRNX58Q42P7P | MP-WF5KS7FHTGV4LR5DBQ4D6XKCCDB5B6G7
 Local SEO Pro | MS:EDITION-CFH5CKHC | MS:EDITION-MXWLTQPN
 Reputation AI Premium | RM:EDITION-JFRPLQPN | RM:EDITION-BFXF8W8Q
-Social Marketing Pro | SM | SM
+Social AI Pro | SM | SM
 
 
 ### Reputation AI
@@ -57,7 +57,7 @@ United States - SMS 200 | A-NBZXMTZR3D | N/A
 United States - SMS 50 | A-FL4L4THJZV | N/A
 United States - SMS 500 | A-4GTDC7X8V2 | N/A
 
-### Social Marketing
+### Social AI
 
 Product | Production SKU | Demo SKU
 --------|----------------|---------

@@ -17,7 +17,7 @@ that will send users to pages in the Vendasta platform and marketplace products.
 >
 > Advertising Intelligence  -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=MP-94072e44d5364872b672d7ab4fc7a7e8&account_id=AG-1234567`
 >
-> Social Marketing -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=SM&account_id=AG-1234567`
+> Social AI -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=SM&account_id=AG-1234567`
 >
 > Customer Voice -> `https://sso-api-prod.apigateway.co/service-gateway?serviceProviderId=MP-c4974d390a044c28aec31e421aa662b2&account_id=AG-1234567`
 >

@@ -29,10 +29,10 @@
         "type": "object"
       },
       "v1KnowledgeConfigType": {
-        "default": "KNOWLEDGE_CONFIG_TYPE_UNSPECIFIED",
+        "default": "KNOWLEDGE_CONFIG_TYPE_INVALID",
         "description": "The kind of content backing a knowledge source.\n\n - KNOWLEDGE_CONFIG_TYPE_BUSINESS_PROFILE: Structured business profile data managed by the platform, such as the\nwell-known business-profile knowledge source created for an account.\n - KNOWLEDGE_CONFIG_TYPE_CUSTOM_DATA: Free-form text content supplied directly by a user or integration.\n - KNOWLEDGE_CONFIG_TYPE_WEBSITE: Content scraped from a website.\n - KNOWLEDGE_CONFIG_TYPE_FILE: Content extracted from an uploaded file.",
         "enum": [
-          "KNOWLEDGE_CONFIG_TYPE_UNSPECIFIED",
+          "KNOWLEDGE_CONFIG_TYPE_INVALID",
           "KNOWLEDGE_CONFIG_TYPE_BUSINESS_PROFILE",
           "KNOWLEDGE_CONFIG_TYPE_CUSTOM_DATA",
           "KNOWLEDGE_CONFIG_TYPE_WEBSITE",
@@ -87,7 +87,7 @@
             "type": "string"
           },
           "assistantId": {
-            "description": "Optional. When set, only knowledge sources attached to this AI assistant\nare returned. Accepts the assistant id as returned by the AI Assistant\nAPIs, with or without the \"ASSISTANT-\" prefix. An unknown assistant id\nreturns an empty list.",
+            "description": "Optional. When set, only knowledge sources attached to this AI assistant\nare returned. Supply the assistant id exactly as issued by the AI\nAssistant APIs (format: \"ASSISTANT-XXXX\"; a bare id without the\n\"ASSISTANT-\" prefix is also accepted). Internal application ids are not\npart of this contract and are not accepted. An unknown assistant id\nreturns an empty list.",
             "type": "string"
           },
           "pagingOptions": {
@@ -118,20 +118,20 @@
         "type": "object"
       },
       "v1TrainingErrorCode": {
-        "default": "TRAINING_ERROR_CODE_UNSPECIFIED",
-        "description": "Machine-readable reason a knowledge source failed processing.\n\n - TRAINING_ERROR_CODE_LARGE_FILE_CONTENT: The file content exceeds the maximum size that can be processed.\n - TRAINING_ERROR_CODE_UNPROCESSABLE_FILE_CONTENT: The file content could not be parsed or processed.",
+        "default": "TRAINING_ERROR_CODE_INVALID",
+        "description": "Machine-readable reason a knowledge source failed processing.\n\n - TRAINING_ERROR_CODE_INVALID: No error recorded. This is the value when the source has not failed\nprocessing (state is not TRAINING_STATE_ERRORED).\n - TRAINING_ERROR_CODE_LARGE_FILE_CONTENT: The file content exceeds the maximum size that can be processed.\n - TRAINING_ERROR_CODE_UNPROCESSABLE_FILE_CONTENT: The file content could not be parsed or processed.",
         "enum": [
-          "TRAINING_ERROR_CODE_UNSPECIFIED",
+          "TRAINING_ERROR_CODE_INVALID",
           "TRAINING_ERROR_CODE_LARGE_FILE_CONTENT",
           "TRAINING_ERROR_CODE_UNPROCESSABLE_FILE_CONTENT"
         ],
         "type": "string"
       },
       "v1TrainingState": {
-        "default": "TRAINING_STATE_UNSPECIFIED",
+        "default": "TRAINING_STATE_INVALID",
         "description": "The processing state of a knowledge source's content.\n\n - TRAINING_STATE_QUEUED: Queued for processing; the content is not yet available to assistants.\n - TRAINING_STATE_IN_PROGRESS: Processing is underway.\n - TRAINING_STATE_DONE: Processing completed successfully; the content is available to assistants.\n - TRAINING_STATE_ERRORED: Processing failed; see the error_code on TrainingStatus for the reason.",
         "enum": [
-          "TRAINING_STATE_UNSPECIFIED",
+          "TRAINING_STATE_INVALID",
           "TRAINING_STATE_QUEUED",
           "TRAINING_STATE_IN_PROGRESS",
           "TRAINING_STATE_DONE",
@@ -221,7 +221,7 @@
     "/v1/knowledge/list": {
       "post": {
         "description": "List the knowledge sources in an account's or partner's knowledge base, with pagination.\n\nRequired OAuth2 scopes: `knowledge` or `knowledge:read`",
-        "operationId": "KnowledgeService_ListKnowledge",
+        "operationId": "Knowledge_ListKnowledge",
         "requestBody": {
           "content": {
             "application/json": {
@@ -274,6 +274,11 @@
     {
       "description": "Production",
       "url": "https://prod.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Knowledge"
     }
   ]
 }

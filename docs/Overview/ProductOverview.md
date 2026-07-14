@@ -39,7 +39,7 @@ See what your clients' customers are saying across 50+ review sources
 <img src="https://raw.githubusercontent.com/vendasta/api-gateway-docs/master/docs/Overview/logos/logoSM.png" alt="Social Media Management" class="sl-image" style="width:75px"/>
 </td><td>
 
-## Social Marketing
+## Social AI
 
 ### Social Connections
 

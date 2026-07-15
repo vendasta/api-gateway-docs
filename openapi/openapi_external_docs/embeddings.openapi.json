@@ -1,0 +1,284 @@
+{
+  "components": {
+    "schemas": {
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "rpcStatus": {
+        "properties": {
+          "code": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            },
+            "type": "array"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1KnowledgeConfigType": {
+        "default": "KNOWLEDGE_CONFIG_TYPE_INVALID",
+        "description": "The kind of content backing a knowledge source.\n\n - KNOWLEDGE_CONFIG_TYPE_BUSINESS_PROFILE: Structured business profile data managed by the platform, such as the\nwell-known business-profile knowledge source created for an account.\n - KNOWLEDGE_CONFIG_TYPE_CUSTOM_DATA: Free-form text content supplied directly by a user or integration.\n - KNOWLEDGE_CONFIG_TYPE_WEBSITE: Content scraped from a website.\n - KNOWLEDGE_CONFIG_TYPE_FILE: Content extracted from an uploaded file.",
+        "enum": [
+          "KNOWLEDGE_CONFIG_TYPE_INVALID",
+          "KNOWLEDGE_CONFIG_TYPE_BUSINESS_PROFILE",
+          "KNOWLEDGE_CONFIG_TYPE_CUSTOM_DATA",
+          "KNOWLEDGE_CONFIG_TYPE_WEBSITE",
+          "KNOWLEDGE_CONFIG_TYPE_FILE"
+        ],
+        "type": "string"
+      },
+      "v1KnowledgeSourceSummary": {
+        "description": "A summary of a single knowledge source within an account's knowledge base:\nidentity, content type, processing status, and timestamps.",
+        "properties": {
+          "configType": {
+            "$ref": "#/components/schemas/v1KnowledgeConfigType"
+          },
+          "created": {
+            "description": "When the knowledge source was created.",
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "fileName": {
+            "description": "The original file name of the uploaded file. Only set when config_type is\nKNOWLEDGE_CONFIG_TYPE_FILE.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "knowledgeSourceId": {
+            "description": "The unique identifier of the knowledge source within its namespace.\nStore this id to update or remove the source later; it is the selector\nused by the other Knowledge APIs.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "name": {
+            "description": "The display name of the knowledge source.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/v1TrainingStatus"
+          },
+          "updated": {
+            "description": "When the knowledge source was last updated.",
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListKnowledgeRequest": {
+        "description": "Request to list the knowledge sources in a namespace's knowledge base,\noptionally filtered to one AI assistant.",
+        "properties": {
+          "accountGroupId": {
+            "description": "The account group whose knowledge to list (format: \"AG-XXXXXXXXXX\").\nThe calling partner must own this account.",
+            "type": "string"
+          },
+          "assistantId": {
+            "description": "Optional. When set, only knowledge sources attached to this AI assistant\nare returned. Supply the assistant id exactly as issued by the AI\nAssistant APIs (format: \"ASSISTANT-XXXX\"; a bare id without the\n\"ASSISTANT-\" prefix is also accepted). Internal application ids are not\npart of this contract and are not accepted. An unknown assistant id\nreturns an empty list.",
+            "type": "string"
+          },
+          "pagingOptions": {
+            "$ref": "#/components/schemas/vendastatypesPagedRequestOptions"
+          },
+          "partnerId": {
+            "description": "The partner namespace whose knowledge to list. Must be the calling\npartner's own partner id.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListKnowledgeResponse": {
+        "description": "A page of knowledge sources with pagination metadata.",
+        "properties": {
+          "knowledgeSources": {
+            "description": "The knowledge sources on this page.",
+            "items": {
+              "$ref": "#/components/schemas/v1KnowledgeSourceSummary"
+            },
+            "readOnly": true,
+            "type": "array"
+          },
+          "pagingMetadata": {
+            "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
+          }
+        },
+        "type": "object"
+      },
+      "v1TrainingErrorCode": {
+        "default": "TRAINING_ERROR_CODE_INVALID",
+        "description": "Machine-readable reason a knowledge source failed processing.\n\n - TRAINING_ERROR_CODE_INVALID: No error recorded. This is the value when the source has not failed\nprocessing (state is not TRAINING_STATE_ERRORED).\n - TRAINING_ERROR_CODE_LARGE_FILE_CONTENT: The file content exceeds the maximum size that can be processed.\n - TRAINING_ERROR_CODE_UNPROCESSABLE_FILE_CONTENT: The file content could not be parsed or processed.",
+        "enum": [
+          "TRAINING_ERROR_CODE_INVALID",
+          "TRAINING_ERROR_CODE_LARGE_FILE_CONTENT",
+          "TRAINING_ERROR_CODE_UNPROCESSABLE_FILE_CONTENT"
+        ],
+        "type": "string"
+      },
+      "v1TrainingState": {
+        "default": "TRAINING_STATE_INVALID",
+        "description": "The processing state of a knowledge source's content.\n\n - TRAINING_STATE_QUEUED: Queued for processing; the content is not yet available to assistants.\n - TRAINING_STATE_IN_PROGRESS: Processing is underway.\n - TRAINING_STATE_DONE: Processing completed successfully; the content is available to assistants.\n - TRAINING_STATE_ERRORED: Processing failed; see the error_code on TrainingStatus for the reason.",
+        "enum": [
+          "TRAINING_STATE_INVALID",
+          "TRAINING_STATE_QUEUED",
+          "TRAINING_STATE_IN_PROGRESS",
+          "TRAINING_STATE_DONE",
+          "TRAINING_STATE_ERRORED"
+        ],
+        "type": "string"
+      },
+      "v1TrainingStatus": {
+        "description": "The processing status of a knowledge source, including progress counters\nand any terminal error.",
+        "properties": {
+          "completedUnits": {
+            "description": "The number of units processed successfully so far. Equal to total_units\nwhen processing is complete.",
+            "format": "int64",
+            "readOnly": true,
+            "type": "string"
+          },
+          "errorCode": {
+            "$ref": "#/components/schemas/v1TrainingErrorCode"
+          },
+          "state": {
+            "$ref": "#/components/schemas/v1TrainingState"
+          },
+          "totalUnits": {
+            "description": "The total number of units the source's content was divided into for\nprocessing. 0 when the source has not been processed in units.",
+            "format": "int64",
+            "readOnly": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "vendastatypesPagedRequestOptions": {
+        "properties": {
+          "cursor": {
+            "description": "Optional. An opaque token from a previous response's next_cursor to retrieve the next page of results. Omit or leave empty for the first page.",
+            "type": "string"
+          },
+          "pageSize": {
+            "description": "Optional. The maximum number of items to return per page.",
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "vendastatypesPagedResponseMetadata": {
+        "properties": {
+          "hasMore": {
+            "title": "Whether or not more results exist",
+            "type": "boolean"
+          },
+          "nextCursor": {
+            "title": "A cursor that can be provided to retrieve the next page of results",
+            "type": "string"
+          },
+          "totalResults": {
+            "format": "int64",
+            "title": "The total number of results. This is not supported on all paged apis and will be 0 if it is not supported",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "scopes": {
+              "knowledge": "Allows the application to manage the knowledge available to AI assistants on your accounts",
+              "knowledge:read": "Allows the application view-only access to the knowledge available to AI assistants on your accounts"
+            },
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "title": "Embeddings OpenAPI Documentation",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/knowledge/list": {
+      "post": {
+        "description": "List the knowledge sources in an account's or partner's knowledge base, with pagination.\n\nRequired OAuth2 scopes: `knowledge` or `knowledge:read`",
+        "operationId": "Knowledge_ListKnowledge",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ListKnowledgeRequest"
+              }
+            }
+          },
+          "description": "Request to list the knowledge sources in a namespace's knowledge base,\noptionally filtered to one AI assistant.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ListKnowledgeResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "knowledge",
+              "knowledge:read"
+            ]
+          }
+        ],
+        "summary": "List Knowledge",
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://prod.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Knowledge"
+    }
+  ]
+}

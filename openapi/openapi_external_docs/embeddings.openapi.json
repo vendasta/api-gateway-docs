@@ -28,6 +28,27 @@
         },
         "type": "object"
       },
+      "v1FileContent": {
+        "description": "A file to be processed into knowledge. The bytes are not sent inline;\ninstead supply the upload_handle obtained from the file-upload flow.",
+        "properties": {
+          "fileName": {
+            "description": "The original file name to display for the source (for example,\n\"handbook.pdf\").",
+            "type": "string"
+          },
+          "mimeType": {
+            "description": "The MIME type of the uploaded file (for example, \"application/pdf\").",
+            "type": "string"
+          },
+          "uploadHandle": {
+            "description": "A signed, single-use handle identifying the uploaded file to ingest, as\nissued by the knowledge file-upload flow. Required when supplying new file\ncontent.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "uploadHandle"
+        ],
+        "type": "object"
+      },
       "v1KnowledgeConfigType": {
         "default": "KNOWLEDGE_CONFIG_TYPE_INVALID",
         "description": "The kind of content backing a knowledge source.\n\n - KNOWLEDGE_CONFIG_TYPE_BUSINESS_PROFILE: Structured business profile data managed by the platform, such as the\nwell-known business-profile knowledge source created for an account.\n - KNOWLEDGE_CONFIG_TYPE_CUSTOM_DATA: Free-form text content supplied directly by a user or integration.\n - KNOWLEDGE_CONFIG_TYPE_WEBSITE: Content scraped from a website.\n - KNOWLEDGE_CONFIG_TYPE_FILE: Content extracted from an uploaded file.",
@@ -39,6 +60,18 @@
           "KNOWLEDGE_CONFIG_TYPE_FILE"
         ],
         "type": "string"
+      },
+      "v1KnowledgeContent": {
+        "description": "The content to store for a knowledge source when creating or updating it.\nExactly one variant must be set, and it determines the source's config_type.\nOn update, the variant must match the existing source's config_type; the\nconfig_type of a source cannot be changed after creation.",
+        "properties": {
+          "file": {
+            "$ref": "#/components/schemas/v1FileContent"
+          },
+          "text": {
+            "$ref": "#/components/schemas/v1TextContent"
+          }
+        },
+        "type": "object"
       },
       "v1KnowledgeSourceSummary": {
         "description": "A summary of a single knowledge source within an account's knowledge base:\nidentity, content type, processing status, and timestamps.",
@@ -117,6 +150,19 @@
         },
         "type": "object"
       },
+      "v1TextContent": {
+        "description": "Free-form text content supplied directly by an integration.",
+        "properties": {
+          "text": {
+            "description": "The text to store as knowledge.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "type": "object"
+      },
       "v1TrainingErrorCode": {
         "default": "TRAINING_ERROR_CODE_INVALID",
         "description": "Machine-readable reason a knowledge source failed processing.\n\n - TRAINING_ERROR_CODE_INVALID: No error recorded. This is the value when the source has not failed\nprocessing (state is not TRAINING_STATE_ERRORED).\n - TRAINING_ERROR_CODE_LARGE_FILE_CONTENT: The file content exceeds the maximum size that can be processed.\n - TRAINING_ERROR_CODE_UNPROCESSABLE_FILE_CONTENT: The file content could not be parsed or processed.",
@@ -157,6 +203,50 @@
           "totalUnits": {
             "description": "The total number of units the source's content was divided into for\nprocessing. 0 when the source has not been processed in units.",
             "format": "int64",
+            "readOnly": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1UpsertKnowledgeRequest": {
+        "description": "Request to create or update a knowledge source and optionally link it to an\nAI Employee.",
+        "properties": {
+          "accountGroupId": {
+            "description": "The account group whose knowledge base the source belongs to (format:\n\"AG-XXXXXXXXXX\"). The calling partner must own this account.",
+            "type": "string"
+          },
+          "assistantId": {
+            "description": "Optional. When set, the knowledge source is linked to this AI Employee so\nits content is available to the employee. Supply the AI Employee's assistant id exactly\nas issued by the AI Assistant APIs (format: \"ASSISTANT-XXXX\"; a bare id\nwithout the \"ASSISTANT-\" prefix is also accepted). Linking is additive and\nidempotent; omit to leave the source's existing assistant links untouched.",
+            "type": "string"
+          },
+          "content": {
+            "$ref": "#/components/schemas/v1KnowledgeContent"
+          },
+          "description": {
+            "title": "The description of the knowledge source.  On update,\nomit to leave the existing content unchanged",
+            "type": "string"
+          },
+          "knowledgeSourceId": {
+            "description": "Optional. The id of the knowledge source to update. Omit to create a new\nsource; the server generates and returns its id. When set, the source\nmust already exist in the namespace.",
+            "type": "string"
+          },
+          "name": {
+            "description": "The display name of the knowledge source. Required on create. On update,\nleave empty to keep the current name.",
+            "type": "string"
+          },
+          "partnerId": {
+            "description": "The partner namespace whose knowledge base the source belongs to. Must\nbe the calling partner's own partner id.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1UpsertKnowledgeResponse": {
+        "description": "The result of an UpsertKnowledge call.",
+        "properties": {
+          "knowledgeSourceId": {
+            "description": "The id of the created or updated knowledge source. Store this id to update\nor link the source in later calls; it is the selector used by the other\nKnowledge APIs.",
             "readOnly": true,
             "type": "string"
           }
@@ -215,7 +305,7 @@
   "info": {
     "description": "Manage the knowledge available to AI Employees on your accounts.",
     "title": "AI Knowledge",
-    "version": "1.0.1"
+    "version": "1.1.0"
   },
   "openapi": "3.0.0",
   "paths": {
@@ -265,6 +355,56 @@
           }
         ],
         "summary": "List Knowledge",
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/v1/knowledge/upsert": {
+      "post": {
+        "description": "Create or update a knowledge source in an account's or partner's knowledge base, and optionally link it to an AI assistant.\n\nRequired OAuth2 scopes: `knowledge`",
+        "operationId": "Knowledge_UpsertKnowledge",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1UpsertKnowledgeRequest"
+              }
+            }
+          },
+          "description": "Request to create or update a knowledge source and optionally link it to an\nAI Employee.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1UpsertKnowledgeResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "knowledge"
+            ]
+          }
+        ],
+        "summary": "Upsert Knowledge",
         "tags": [
           "Knowledge"
         ]

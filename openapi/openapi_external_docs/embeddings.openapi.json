@@ -80,14 +80,14 @@
         "type": "object"
       },
       "v1ListKnowledgeRequest": {
-        "description": "Request to list the knowledge sources in a namespace's knowledge base,\noptionally filtered to one AI assistant.",
+        "description": "Request to list the knowledge sources in a namespace's knowledge base,\noptionally filtered to one AI Employee.",
         "properties": {
           "accountGroupId": {
             "description": "The account group whose knowledge to list (format: \"AG-XXXXXXXXXX\").\nThe calling partner must own this account.",
             "type": "string"
           },
           "assistantId": {
-            "description": "Optional. When set, only knowledge sources attached to this AI assistant\nare returned. Supply the assistant id exactly as issued by the AI\nAssistant APIs (format: \"ASSISTANT-XXXX\"; a bare id without the\n\"ASSISTANT-\" prefix is also accepted). Internal application ids are not\npart of this contract and are not accepted. An unknown assistant id\nreturns an empty list.",
+            "description": "Optional. When set, only knowledge sources attached to this AI Employee\nare returned. Supply the AI Employee's assistant id (format:\n\"ASSISTANT-XXXX\"; a bare id without the \"ASSISTANT-\" prefix is also\naccepted). Internal application ids are not part of this contract and are\nnot accepted. An unknown assistant id returns an empty list.",
             "type": "string"
           },
           "pagingOptions": {
@@ -129,7 +129,7 @@
       },
       "v1TrainingState": {
         "default": "TRAINING_STATE_INVALID",
-        "description": "The processing state of a knowledge source's content.\n\n - TRAINING_STATE_QUEUED: Queued for processing; the content is not yet available to assistants.\n - TRAINING_STATE_IN_PROGRESS: Processing is underway.\n - TRAINING_STATE_DONE: Processing completed successfully; the content is available to assistants.\n - TRAINING_STATE_ERRORED: Processing failed; see the error_code on TrainingStatus for the reason.",
+        "description": "The processing state of a knowledge source's content.\n\n - TRAINING_STATE_QUEUED: Queued for processing; the content is not yet available to AI Employees.\n - TRAINING_STATE_IN_PROGRESS: Processing is underway.\n - TRAINING_STATE_DONE: Processing completed successfully; the content is available to AI Employees.\n - TRAINING_STATE_ERRORED: Processing failed; see the error_code on TrainingStatus for the reason.",
         "enum": [
           "TRAINING_STATE_INVALID",
           "TRAINING_STATE_QUEUED",
@@ -202,8 +202,8 @@
           "authorizationCode": {
             "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
             "scopes": {
-              "knowledge": "Allows the application to manage the knowledge available to AI assistants on your accounts",
-              "knowledge:read": "Allows the application view-only access to the knowledge available to AI assistants on your accounts"
+              "knowledge": "Allows the application to manage the knowledge available to AI Employees on your accounts",
+              "knowledge:read": "Allows the application view-only access to the knowledge available to AI Employees on your accounts"
             },
             "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
           }
@@ -213,8 +213,9 @@
     }
   },
   "info": {
-    "title": "Embeddings OpenAPI Documentation",
-    "version": "1.0.0"
+    "description": "Manage the knowledge available to AI Employees on your accounts.",
+    "title": "AI Knowledge",
+    "version": "1.0.1"
   },
   "openapi": "3.0.0",
   "paths": {
@@ -230,7 +231,7 @@
               }
             }
           },
-          "description": "Request to list the knowledge sources in a namespace's knowledge base,\noptionally filtered to one AI assistant.",
+          "description": "Request to list the knowledge sources in a namespace's knowledge base,\noptionally filtered to one AI Employee.",
           "required": true
         },
         "responses": {

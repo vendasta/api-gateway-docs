@@ -28,6 +28,10 @@
         },
         "type": "object"
       },
+      "v1DeleteMode": {
+        "description": "Selects deletion of the knowledge source. Carries no fields; its presence in\nthe mode oneof is the instruction to delete.",
+        "type": "object"
+      },
       "v1FileContent": {
         "description": "A file to be processed into knowledge. The bytes are not sent inline;\ninstead supply the upload_handle obtained from the file-upload flow.",
         "properties": {
@@ -180,6 +184,37 @@
         },
         "type": "object"
       },
+      "v1RemoveKnowledgeRequest": {
+        "description": "Request to remove a knowledge source from a namespace's knowledge base,\neither by deleting it or by unlinking it from specific AI Employees.",
+        "properties": {
+          "accountGroupId": {
+            "description": "The account group that owns the knowledge source (format:\n\"AG-XXXXXXXXXX\"). The calling partner must own this account.",
+            "type": "string"
+          },
+          "deleteSource": {
+            "$ref": "#/components/schemas/v1DeleteMode"
+          },
+          "knowledgeSourceId": {
+            "description": "The id of the knowledge source to remove, as returned by UpsertKnowledge\nor ListKnowledge. The source must exist in the namespace.",
+            "type": "string"
+          },
+          "partnerId": {
+            "description": "The partner namespace that owns the knowledge source. Must be the\ncalling partner's own partner id.",
+            "type": "string"
+          },
+          "unlink": {
+            "$ref": "#/components/schemas/v1UnlinkMode"
+          }
+        },
+        "required": [
+          "knowledgeSourceId"
+        ],
+        "type": "object"
+      },
+      "v1RemoveKnowledgeResponse": {
+        "description": "The result of a RemoveKnowledge call.",
+        "type": "object"
+      },
       "v1TextContent": {
         "description": "Free-form text content supplied directly by an integration.",
         "properties": {
@@ -237,6 +272,22 @@
             "type": "string"
           }
         },
+        "type": "object"
+      },
+      "v1UnlinkMode": {
+        "description": "Selects unlinking the knowledge source from specific AI Employees without\ndeleting it.",
+        "properties": {
+          "assistantIds": {
+            "description": "The AI Employees to unlink the source from. Supply each AI Employee's\nassistant id exactly as issued by the AI Assistant APIs (format:\n\"ASSISTANT-XXXX\"; a bare id without the \"ASSISTANT-\" prefix is also\naccepted). Internal application ids are not part of this contract and are\nrejected. At least one id is required.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "assistantIds"
+        ],
         "type": "object"
       },
       "v1UpsertKnowledgeRequest": {
@@ -335,7 +386,7 @@
   "info": {
     "description": "Manage the knowledge available to AI Employees on your accounts.",
     "title": "AI Knowledge",
-    "version": "1.2.1"
+    "version": "1.3.0"
   },
   "openapi": "3.0.0",
   "paths": {
@@ -385,6 +436,56 @@
           }
         ],
         "summary": "List Knowledge",
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/v1/knowledge/remove": {
+      "post": {
+        "description": "Delete a knowledge source, or unlink it from specific AI Employees, in an account's or partner's knowledge base.\n\nRequired OAuth2 scopes: `knowledge`",
+        "operationId": "Knowledge_RemoveKnowledge",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1RemoveKnowledgeRequest"
+              }
+            }
+          },
+          "description": "Request to remove a knowledge source from a namespace's knowledge base,\neither by deleting it or by unlinking it from specific AI Employees.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1RemoveKnowledgeResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "knowledge"
+            ]
+          }
+        ],
+        "summary": "Remove Knowledge",
         "tags": [
           "Knowledge"
         ]

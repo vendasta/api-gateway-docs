@@ -49,6 +49,36 @@
         ],
         "type": "object"
       },
+      "v1GetKnowledgeStatusRequest": {
+        "description": "Request to look up the processing status of a single knowledge source.",
+        "properties": {
+          "accountGroupId": {
+            "description": "The account group that owns the knowledge source (format:\n\"AG-XXXXXXXXXX\"). The calling partner must own this account.",
+            "type": "string"
+          },
+          "knowledgeSourceId": {
+            "description": "The id of the knowledge source to look up, as returned by UpsertKnowledge\nor ListKnowledge. The source must exist in the namespace.",
+            "type": "string"
+          },
+          "partnerId": {
+            "description": "The partner namespace that owns the knowledge source. Must be the\ncalling partner's own partner id.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "knowledgeSourceId"
+        ],
+        "type": "object"
+      },
+      "v1GetKnowledgeStatusResponse": {
+        "description": "The processing status of the requested knowledge source.",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/v1TrainingStatus"
+          }
+        },
+        "type": "object"
+      },
       "v1KnowledgeConfigType": {
         "default": "KNOWLEDGE_CONFIG_TYPE_INVALID",
         "description": "The kind of content backing a knowledge source.\n\n - KNOWLEDGE_CONFIG_TYPE_BUSINESS_PROFILE: Structured business profile data managed by the platform, such as the\nwell-known business-profile knowledge source created for an account.\n - KNOWLEDGE_CONFIG_TYPE_CUSTOM_DATA: Free-form text content supplied directly by a user or integration.\n - KNOWLEDGE_CONFIG_TYPE_WEBSITE: Content scraped from a website.\n - KNOWLEDGE_CONFIG_TYPE_FILE: Content extracted from an uploaded file.",
@@ -305,7 +335,7 @@
   "info": {
     "description": "Manage the knowledge available to AI Employees on your accounts.",
     "title": "AI Knowledge",
-    "version": "1.1.0"
+    "version": "1.2.0"
   },
   "openapi": "3.0.0",
   "paths": {
@@ -355,6 +385,57 @@
           }
         ],
         "summary": "List Knowledge",
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
+    "/v1/knowledge/status": {
+      "post": {
+        "description": "Get the processing status of a single knowledge source in an account's or partner's knowledge base.\n\nRequired OAuth2 scopes: `knowledge` or `knowledge:read`",
+        "operationId": "Knowledge_GetKnowledgeStatus",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetKnowledgeStatusRequest"
+              }
+            }
+          },
+          "description": "Request to look up the processing status of a single knowledge source.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetKnowledgeStatusResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "knowledge",
+              "knowledge:read"
+            ]
+          }
+        ],
+        "summary": "Get Knowledge Status",
         "tags": [
           "Knowledge"
         ]

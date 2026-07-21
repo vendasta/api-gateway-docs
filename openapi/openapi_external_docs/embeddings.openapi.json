@@ -28,6 +28,62 @@
         },
         "type": "object"
       },
+      "v1CreateKnowledgeFileUploadRequest": {
+        "description": "Request to issue a signed URL and handle for uploading a single knowledge\nfile directly to storage.",
+        "properties": {
+          "accountGroupId": {
+            "description": "The account group whose knowledge base the file is for (format:\n\"AG-XXXXXXXXXX\"). The calling partner must own this account.",
+            "type": "string"
+          },
+          "contentType": {
+            "title": "The MIME type of the file to upload (for example, \"application/pdf\"). The\nsigned URL constrains the upload to this type, so the PUT must send a\nmatching Content-Type header. Must be one of the supported MIME types:\n  - application/pdf (.pdf)\n  - application/vnd.openxmlformats-officedocument.wordprocessingml.document (.docx)\n  - application/vnd.openxmlformats-officedocument.presentationml.presentation (.pptx)\n  - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet (.xlsx)\n  - application/vnd.ms-excel (.xls)\n  - image/jpeg (.jpg, .jpeg)\n  - image/png (.png)\n  - text/html (.html, .htm)\n  - text/plain (.txt, .text)\n  - text/markdown (.md, .markdown)\n  - text/csv (.csv)\n  - application/json (.json)\n  - application/jsonl (.jsonl)",
+            "type": "string"
+          },
+          "fileName": {
+            "title": "The original file name, including its extension (for example,\n\"handbook.pdf\"). Used as the display name of the file",
+            "type": "string"
+          },
+          "partnerId": {
+            "description": "The partner namespace whose knowledge base the file is for. Must be the\ncalling partner's own partner id.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "fileName",
+          "contentType"
+        ],
+        "type": "object"
+      },
+      "v1CreateKnowledgeFileUploadResponse": {
+        "description": "The signed URL and handle for uploading a single knowledge file.",
+        "properties": {
+          "expiresAt": {
+            "description": "When the upload_url and upload_handle expire. Upload the bytes and reference\nthe handle in UpsertKnowledge before this time.",
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "requiredHeaders": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "The HTTP headers that must be sent, verbatim, with the PUT to upload_url —\nincluding the Content-Type and Content-Length the URL was signed against.\nA PUT whose headers do not match is rejected by storage.",
+            "readOnly": true,
+            "type": "object"
+          },
+          "uploadHandle": {
+            "description": "The upload handle identifying the uploaded bytes. Pass it as the\nupload_handle in FileContent on a following UpsertKnowledge call to ingest\nthe file. Bound to this request's namespace and caller, single-use, and\nexpiring; presenting it after expires_at or under another namespace is\nrejected.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "uploadUrl": {
+            "description": "The signed URL to upload the file bytes to with an HTTP PUT. Single-use and\nvalid only until expires_at.",
+            "readOnly": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "v1DeleteMode": {
         "description": "Selects deletion of the knowledge source. Carries no fields; its presence in\nthe mode oneof is the instruction to delete.",
         "type": "object"
@@ -386,10 +442,60 @@
   "info": {
     "description": "Manage the knowledge available to AI Employees on your accounts.",
     "title": "AI Knowledge",
-    "version": "1.3.0"
+    "version": "1.4.0"
   },
   "openapi": "3.0.0",
   "paths": {
+    "/v1/knowledge/file-upload": {
+      "post": {
+        "description": "Issue a signed URL and upload handle for uploading a file directly to storage, to then ingest as knowledge via Upsert Knowledge.\n\nRequired OAuth2 scopes: `knowledge`",
+        "operationId": "Knowledge_CreateKnowledgeFileUpload",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1CreateKnowledgeFileUploadRequest"
+              }
+            }
+          },
+          "description": "Request to issue a signed URL and handle for uploading a single knowledge\nfile directly to storage.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1CreateKnowledgeFileUploadResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "knowledge"
+            ]
+          }
+        ],
+        "summary": "Create Knowledge File Upload",
+        "tags": [
+          "Knowledge"
+        ]
+      }
+    },
     "/v1/knowledge/list": {
       "post": {
         "description": "List the knowledge sources in an account's or partner's knowledge base, with pagination.\n\nRequired OAuth2 scopes: `knowledge` or `knowledge:read`",

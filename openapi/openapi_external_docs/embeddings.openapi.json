@@ -67,17 +67,17 @@
             "additionalProperties": {
               "type": "string"
             },
-            "description": "The HTTP headers that must be sent, verbatim, with the PUT to upload_url —\nincluding the Content-Type and Content-Length the URL was signed against.\nA PUT whose headers do not match is rejected by storage.",
+            "description": "The HTTP headers that must be sent, verbatim, with the PUT to upload_url —\nincluding the Content-Type and X-Goog-Content-Length-Range the URL was signed against.\nA PUT whose headers do not match is rejected by storage.",
             "readOnly": true,
             "type": "object"
           },
           "uploadHandle": {
-            "description": "The upload handle identifying the uploaded bytes. Pass it as the\nupload_handle in FileContent on a following UpsertKnowledge call to ingest\nthe file. Bound to this request's namespace and caller, single-use, and\nexpiring; presenting it after expires_at or under another namespace is\nrejected.",
+            "description": "The upload handle identifying the uploaded bytes. Pass it as the\nupload_handle in FileContent on a following UpsertKnowledge call to ingest\nthe file. Bound to this request's namespace and caller, and expiring;\npresenting it after expires_at or under another namespace is rejected.",
             "readOnly": true,
             "type": "string"
           },
           "uploadUrl": {
-            "description": "The signed URL to upload the file bytes to with an HTTP PUT. Single-use and\nvalid only until expires_at.",
+            "description": "The signed URL to upload the file bytes to with an HTTP PUT. Valid only until expires_at.",
             "readOnly": true,
             "type": "string"
           }
@@ -100,7 +100,7 @@
             "type": "string"
           },
           "uploadHandle": {
-            "description": "A signed, single-use handle identifying the uploaded file to ingest, as\nissued by the knowledge file-upload flow. Required when supplying new file\ncontent.",
+            "description": "A signed handle identifying the uploaded file to ingest, as\nissued by the knowledge file-upload flow. Required when supplying new file\ncontent.",
             "type": "string"
           }
         },
@@ -442,7 +442,7 @@
   "info": {
     "description": "Manage the knowledge available to AI Employees on your accounts.",
     "title": "AI Knowledge",
-    "version": "1.4.0"
+    "version": "1.4.1"
   },
   "openapi": "3.0.0",
   "paths": {

@@ -1,0 +1,205 @@
+{
+  "components": {
+    "schemas": {
+      "ai_assistantsv1Assistant": {
+        "description": "An AI Employee available on an account.",
+        "properties": {
+          "assistantId": {
+            "description": "The canonical id of the AI Employee (format: \"ASSISTANT-XXXX\"). This is the\nid used to address the AI Employee across Vendasta's AI APIs, such as\nscoping knowledge to it through the AI Knowledge API.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "assistantType": {
+            "description": "The kind of AI Employee. Distinguishes otherwise similarly-named AI\nEmployees and is stable to branch on.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "name": {
+            "description": "The display name of the AI Employee.",
+            "readOnly": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "googlerpcStatus": {
+        "properties": {
+          "code": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            },
+            "type": "array"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListAssistantsRequest": {
+        "description": "Request to list the AI Employees on an account.",
+        "properties": {
+          "accountGroupId": {
+            "description": "The account group whose AI Employees to list (format: \"AG-XXXXXXXXXX\").\nThe calling partner must own this account.",
+            "type": "string"
+          },
+          "pagingOptions": {
+            "$ref": "#/components/schemas/vendastatypesPagedRequestOptions"
+          },
+          "partnerId": {
+            "description": "The partner namespace whose AI Employees to list. Must be the calling\npartner's own partner id.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListAssistantsResponse": {
+        "description": "A page of AI Employees with pagination metadata.",
+        "properties": {
+          "assistants": {
+            "description": "The AI Employees on this page.",
+            "items": {
+              "$ref": "#/components/schemas/ai_assistantsv1Assistant"
+            },
+            "readOnly": true,
+            "type": "array"
+          },
+          "pagingMetadata": {
+            "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
+          }
+        },
+        "type": "object"
+      },
+      "vendastatypesPagedRequestOptions": {
+        "properties": {
+          "cursor": {
+            "description": "Optional. An opaque token from a previous response's next_cursor to retrieve the next page of results. Omit or leave empty for the first page.",
+            "type": "string"
+          },
+          "pageSize": {
+            "description": "Optional. The maximum number of items to return per page.",
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "vendastatypesPagedResponseMetadata": {
+        "properties": {
+          "hasMore": {
+            "title": "Whether or not more results exist",
+            "type": "boolean"
+          },
+          "nextCursor": {
+            "title": "A cursor that can be provided to retrieve the next page of results",
+            "type": "string"
+          },
+          "totalResults": {
+            "format": "int64",
+            "title": "The total number of results. This is not supported on all paged apis and will be 0 if it is not supported",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "scopes": {
+              "ai-assistant": "Allows the application to manage your AI assistants",
+              "ai-assistant:read": "Allows the application view-only access to your AI Assistants"
+            },
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "description": "Discover the AI Employees on your accounts.",
+    "title": "AI Employees",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/assistants/list": {
+      "post": {
+        "description": "List the AI Employees on an account, with pagination.\n\nRequired OAuth2 scopes: `ai-assistant` or `ai-assistant:read`",
+        "operationId": "Assistants_ListAssistants",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ListAssistantsRequest"
+              }
+            }
+          },
+          "description": "Request to list the AI Employees on an account.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ListAssistantsResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/googlerpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "ai-assistant",
+              "ai-assistant:read"
+            ]
+          }
+        ],
+        "summary": "List Assistants",
+        "tags": [
+          "Assistants"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://prod.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Assistants"
+    }
+  ]
+}

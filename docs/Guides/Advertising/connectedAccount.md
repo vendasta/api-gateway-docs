@@ -94,8 +94,7 @@ title: Request
   },
   "query": {
     "businessLocation.id": "AG-JT87JWQ7KN",
-    "filter[provider]": "google",
-    "filter[provider]": "facebook"
+    "filter[provider]": "google"
   }
 }
 ```

@@ -4,9 +4,11 @@ tags: [ai-employees, knowledge, assistants, embeddings]
 
 # Manage AI Employee Knowledge
 
-An **AI Employee** is an AI assistant that works inside a business's account &mdash; answering questions, drafting replies, and helping staff and customers on that business's behalf. An AI Employee is only as good as what it knows. You can teach it by giving it **knowledge sources**: pieces of reference material such as a product FAQ, a returns policy, a price list, or a company handbook.
+An **AI Employee** is an AI assistant that works inside a business's account — answering questions, drafting replies, and helping staff and customers on that business's behalf. An AI Employee is only as good as what it knows. You can teach it by giving it **knowledge sources**: pieces of reference material such as a product FAQ, a returns policy, a price list, or a company handbook.
 
-This guide is for teams who already keep that reference material somewhere else &mdash; a CMS, a help desk, a shared drive, your own product database &mdash; and want to keep the AI Employees in Vendasta in sync with it automatically, without anyone copying and pasting into the dashboard. By the end you will be able to:
+It helps to know how that knowledge is used. When someone interacts with an AI Employee, it does not read its whole knowledge base at once — it runs a **semantic search** over the knowledge sources and sees only the few passages most relevant to the question at hand. That makes knowledge a great fit for factual reference material (policies, price lists, FAQs, product details): the relevant passage surfaces exactly when a related question comes up. It makes knowledge a poor fit for *instructions about how the AI Employee should behave* ("always greet customers with...", "never discuss competitors") — an instruction buried in a knowledge source only takes effect if it happens to be retrieved. Behavioral rules belong in the AI Employee's configuration, not in its knowledge.
+
+This guide is for teams who already keep that reference material somewhere else — a CMS, a help desk, a shared drive, your own product database — and want to keep the AI Employees in Vendasta in sync with it automatically, without anyone copying and pasting into the dashboard. By the end you will be able to:
 
 - discover the businesses and AI Employees in your Vendasta account,
 - push knowledge to an AI Employee as plain text or as an uploaded file,
@@ -32,12 +34,12 @@ A business's knowledge base is a **shared space**. It can contain:
 When you create a knowledge source, the API returns a `knowledgeSourceId`. **That id is your only reliable handle on the thing you created.** The rules that follow all come from that one fact:
 
 - **Store every `knowledgeSourceId` you get back**, alongside whatever it maps to in your own system (the help-desk article id, the file path, etc.).
-- **Updating knowledge &mdash; text or file &mdash; requires the stored id.** There is no "find the one I made last time" on the server. If you push again *without* the id, you always create a **brand-new, duplicate** source. This is true even if the name or file name is identical.
-- **Only touch ids you created.** Never update or remove an id you do not recognize. The human-created and platform-created sources are not yours to manage, and clobbering them will break the AI Employee for the business.
-- If you ever **lose an id** (a crashed script, a dropped response) or **accidentally create a duplicate**, you recover by [listing the knowledge base and matching by name or file name](#step-8-recover-a-lost-id-or-clean-up-a-duplicate) &mdash; then update-or-delete by id.
+- **Updating knowledge — text or file — requires the stored id.** There is no "find the one I made last time" on the server. If you push again *without* the id, you always create a **brand-new, duplicate** source. This is true even if the name or file name is identical.
+- **Only touch ids you created.** Never update or remove an id you do not recognize. The platform-managed sources are protected by the API itself (see [Knowledge you cannot manage](#knowledge-you-cannot-manage)), but human-created sources are not — the API cannot tell them apart from yours, and clobbering them will break the AI Employee for the business.
+- If you ever **lose an id** (a crashed script, a dropped response) or **accidentally create a duplicate**, you recover by [listing the knowledge base and matching by name or file name](#step-8-recover-a-lost-id-or-clean-up-a-duplicate) — then update-or-delete by id.
 - **Offboarding is just the reverse:** list the knowledge base and remove the ids your integration created. Nothing else.
 
-Keep a small mapping table in your own database from the start &mdash; `your_record_id → vendasta_knowledge_source_id` &mdash; and this integration stays simple. Skip it, and you will eventually create duplicates you cannot cleanly find.
+Keep a small mapping table in your own database from the start — `your_record_id → vendasta_knowledge_source_id` — and this integration stays simple. Skip it, and you will eventually create duplicates you cannot cleanly find.
 
 ---
 
@@ -131,7 +133,7 @@ List the AI Employees on an account group with **List Assistants**. From here on
 }
 ```
 
-The response lists the AI Employees on the account. Note the `assistantId` &mdash; that is the value you pass when attaching knowledge.
+The response lists the AI Employees on the account. Note the `assistantId` — that is the value you pass when attaching knowledge.
 
 ```json
 {
@@ -150,15 +152,17 @@ The response lists the AI Employees on the account. Note the `assistantId` &mdas
 }
 ```
 
-> **Use the id exactly as returned.** The Knowledge API accepts the canonical `ASSISTANT-XXXX` spelling (and, for convenience, the bare id without the `ASSISTANT-` prefix). Internal application ids &mdash; anything starting with `APP-` &mdash; are **not** part of this API and will be rejected. Do not construct assistant ids yourself; always take them from this endpoint.
+> **Use the id exactly as returned.** The Knowledge API accepts only the canonical `ASSISTANT-XXXX` spelling. Anything else is rejected — the bare id without its `ASSISTANT-` prefix, and internal application ids (anything starting with `APP-`), which are not part of this API. Do not construct assistant ids yourself; always take them from this endpoint.
 
-This endpoint is paged the same way as the knowledge endpoints. See [Paging through long lists](#paging-through-long-lists) below &mdash; the exact same loop applies here.
+The default AI Employees have stable, recognizable ids — for example `ASSISTANT-chat-receptionist` (the Chat Receptionist) and `ASSISTANT-voice-receptionist` (the Voice Receptionist) — so expect values like these. Which AI Employees are actually present varies by account, so always confirm with this endpoint rather than assuming.
+
+This endpoint is paged the same way as the knowledge endpoints. See [Paging through long lists](#paging-through-long-lists) below — the exact same loop applies here.
 
 ---
 
 ## Step 4: Add knowledge as text
 
-The simplest knowledge source is a piece of text &mdash; an FAQ answer, a policy paragraph, a set of talking points. Create one with **Upsert Knowledge**, setting the `text` content and giving the source a human-readable `name`. Set `assistantId` to link it to the AI Employee that should be able to use it.
+The simplest knowledge source is a piece of text — an FAQ answer, a policy paragraph, a set of talking points. Create one with **Upsert Knowledge**, setting the `text` content and giving the source a human-readable `name`. Set `assistantId` to link it to the AI Employee that should be able to use it.
 
 ```json http
 {
@@ -192,13 +196,13 @@ Because you did **not** send a `knowledgeSourceId`, this call **creates** a new 
 
 **Store `KS-7f3c1a90` now**, mapped to whatever this text represents in your own system. You will need it to update or remove this source later, and there is no other way to reliably find it again. (See [the one rule](#the-one-rule-that-keeps-this-integration-safe).)
 
-**How linking to an AI Employee works.** Setting `assistantId` on an upsert *adds* a link between this source and that AI Employee. Linking is **additive and idempotent**: sending the same link again changes nothing, and omitting `assistantId` on a later update leaves the source's existing links untouched. Upsert never *removes* a link &mdash; to detach a source from an AI Employee, use [Remove Knowledge in unlink mode](#step-9-remove-knowledge-and-offboard).
+**How linking to an AI Employee works.** Setting `assistantId` on an upsert *adds* a link between this source and that AI Employee. Linking is **additive and idempotent**: sending the same link again changes nothing, and omitting `assistantId` on a later update leaves the source's existing links untouched. Upsert never *removes* a link — to detach a source from an AI Employee, use [Remove Knowledge in unlink mode](#step-9-remove-knowledge-and-offboard).
 
 ---
 
 ## Step 5: Add knowledge as a file
 
-Most reference material starts life as a document &mdash; a PDF handbook, a spreadsheet price list, a Word policy. Files are not sent inline. There are **three steps**, and it helps to understand up front why:
+Most reference material starts life as a document — a PDF handbook, a spreadsheet price list, a Word policy. Files are not sent inline. There are **three steps**, and it helps to understand up front why:
 
 1. **Ask Vendasta for a place to put the file.** You call **Create Knowledge File Upload** and get back a temporary, secure upload URL and an **upload handle**.
 2. **Upload the file's bytes directly to that URL** with an HTTP `PUT`. The bytes go straight to storage, not through the API.
@@ -240,13 +244,13 @@ The response contains everything you need for the next step:
 }
 ```
 
-- `uploadUrl` &mdash; where you `PUT` the bytes in step 5b.
-- `uploadHandle` &mdash; the token you reference in step 5c. It is tied to this account group and to your credentials, and it **expires** at `expiresAt`.
-- `requiredHeaders` &mdash; headers you must send with the `PUT`, **verbatim**. They are baked into the signed URL; a `PUT` whose headers don't match is rejected by storage.
+- `uploadUrl` — where you `PUT` the bytes in step 5b.
+- `uploadHandle` — the token you reference in step 5c. It is tied to this account group and to your credentials, and it **expires** at `expiresAt`.
+- `requiredHeaders` — headers you must send with the `PUT`, **verbatim**. They are baked into the signed URL; a `PUT` whose headers don't match is rejected by storage.
 
 ### 5b. Upload the bytes
 
-`PUT` the raw file to `uploadUrl`, sending each header from `requiredHeaders` exactly as given. This request goes to Google Cloud Storage, not to `prod.apigateway.co`, and it carries **no** `Authorization` header &mdash; the signed URL is the authorization.
+`PUT` the raw file to `uploadUrl`, sending each header from `requiredHeaders` exactly as given. This request goes to Google Cloud Storage, not to `prod.apigateway.co`, and it carries **no** `Authorization` header — the signed URL is the authorization.
 
 ```bash
 curl -X PUT \
@@ -325,12 +329,12 @@ Creating a source starts processing in the background; the content is **not** av
 | --- | --- |
 | `TRAINING_STATE_QUEUED` | Accepted, not started yet. |
 | `TRAINING_STATE_IN_PROGRESS` | Processing; `completedUnits` / `totalUnits` show progress. |
-| `TRAINING_STATE_DONE` | Ready &mdash; the AI Employee can use it. |
-| `TRAINING_STATE_ERRORED` | Failed &mdash; read `errorCode` for why. |
+| `TRAINING_STATE_DONE` | Ready — the AI Employee can use it. |
+| `TRAINING_STATE_ERRORED` | Failed — read `errorCode` for why. |
 
-`errorCode` is only meaningful when `state` is `TRAINING_STATE_ERRORED`; ignore it otherwise. The two file-processing failures you may see are `TRAINING_ERROR_CODE_LARGE_FILE_CONTENT` (the content is too large to process) and `TRAINING_ERROR_CODE_UNPROCESSABLE_CONTENT` (the content couldn't be parsed &mdash; for example a corrupt or empty file).
+`errorCode` is only meaningful when `state` is `TRAINING_STATE_ERRORED`; ignore it otherwise. The two file-processing failures you may see are `TRAINING_ERROR_CODE_LARGE_FILE_CONTENT` (the content is too large to process) and `TRAINING_ERROR_CODE_UNPROCESSABLE_CONTENT` (the content couldn't be parsed — for example a corrupt or empty file).
 
-To wait for readiness, **poll**: call this endpoint every few seconds until `state` is `TRAINING_STATE_DONE` or `TRAINING_STATE_ERRORED`. Don't poll in a tight loop &mdash; a short delay between checks is plenty.
+To wait for readiness, **poll**: call this endpoint every few seconds until `state` is `TRAINING_STATE_DONE` or `TRAINING_STATE_ERRORED`. Don't poll in a tight loop — a short delay between checks is plenty.
 
 ---
 
@@ -364,7 +368,7 @@ Updating a file works the same way: run the [file upload flow](#step-5-add-knowl
 
 A few things to know when updating:
 
-- **The id is mandatory for an update.** An upsert *without* `knowledgeSourceId` always creates a new source &mdash; even if the `name` or file name is identical to one that already exists. There is no server-side de-duplication. An id-less re-push is how accidental duplicates happen.
+- **The id is mandatory for an update.** An upsert *without* `knowledgeSourceId` always creates a new source — even if the `name` or file name is identical to one that already exists. There is no server-side de-duplication. An id-less re-push is how accidental duplicates happen.
 - **A source's kind is fixed.** A source created as text stays text; one created from a file stays a file. The `content` you send on update must match the kind it was created with.
 - **Omitted fields are left unchanged.** Leave `name` empty to keep the current name; omit `content` to change only, say, the links (see below). Omit `assistantId` to leave the existing AI Employee links untouched.
 
@@ -372,7 +376,7 @@ A few things to know when updating:
 
 ## Step 8: Recover a lost id, or clean up a duplicate
 
-If a script crashes between creating a source and storing its id &mdash; or you discover a duplicate &mdash; you recover through **List Knowledge**, which returns every knowledge source in the account's knowledge base.
+If a script crashes between creating a source and storing its id — or you discover a duplicate — you recover through **List Knowledge**, which returns every knowledge source in the account's knowledge base.
 
 ```json http
 {
@@ -420,9 +424,9 @@ If a script crashes between creating a source and storing its id &mdash; or you 
 
 To find a source you lost the id for, match on the `name` you gave it (text sources) or the `fileName` (file sources). Once you have the `knowledgeSourceId`, you can [update](#step-7-update-existing-knowledge) it or [remove](#step-9-remove-knowledge-and-offboard) the duplicate.
 
-You can also narrow the list to a single AI Employee by adding an `assistantId` to the request body &mdash; only sources linked to that AI Employee are returned.
+You can also narrow the list to a single AI Employee by adding an `assistantId` to the request body — only sources linked to that AI Employee are returned.
 
-> **`configType`** tells you what kind of source each entry is: `KNOWLEDGE_CONFIG_TYPE_CUSTOM_DATA` (text you supplied), `KNOWLEDGE_CONFIG_TYPE_FILE` (an uploaded file), `KNOWLEDGE_CONFIG_TYPE_WEBSITE` (scraped from a website), and `KNOWLEDGE_CONFIG_TYPE_BUSINESS_PROFILE` (the platform-managed Business Profile). The list returns **all** of these, including sources created by hand in the dashboard and the built-in Business Profile. Reconcile against your own stored ids &mdash; **manage only the ones you created.**
+> **`configType`** tells you what kind of source each entry is: `KNOWLEDGE_CONFIG_TYPE_CUSTOM_DATA` (text you supplied), `KNOWLEDGE_CONFIG_TYPE_FILE` (an uploaded file), `KNOWLEDGE_CONFIG_TYPE_WEBSITE` (scraped from a website), and `KNOWLEDGE_CONFIG_TYPE_BUSINESS_PROFILE` (the platform-managed Business Profile). The list returns **all** of these, including sources created by hand in the dashboard and the built-in Business Profile. Reconcile against your own stored ids — **manage only the ones you created.**
 
 ---
 
@@ -468,17 +472,17 @@ You can also narrow the list to a single AI Employee by adding an `assistantId` 
 }
 ```
 
-`deleteSource` is an empty object &mdash; its **presence** is the instruction to delete. Send exactly one of `unlink` or `deleteSource` per request.
+`deleteSource` is an empty object — its **presence** is the instruction to delete. Send exactly one of `unlink` or `deleteSource` per request.
 
-> Deletion happens in more than one step internally. If a remove call fails partway, don't blindly retry &mdash; [list the knowledge base](#step-8-recover-a-lost-id-or-clean-up-a-duplicate) first to see the current state, then act on what's actually there.
+> Deletion happens in more than one step internally. If a remove call fails partway, don't blindly retry — [list the knowledge base](#step-8-recover-a-lost-id-or-clean-up-a-duplicate) first to see the current state, then act on what's actually there.
 
 ### Offboarding a customer
 
 When you stop managing a business, remove **only what your integration created**:
 
-1. Call **List Knowledge** for the account group (paging through every page &mdash; see below).
+1. Call **List Knowledge** for the account group (paging through every page — see below).
 2. For each returned source whose `knowledgeSourceId` is in your own mapping table, call **Remove Knowledge** with `deleteSource`.
-3. Ignore every id you don't recognise. Human-created sources and the platform's Business Profile are not yours to delete.
+3. Ignore every id you don't recognise. Human-created sources are not yours to delete — and the API cannot tell yours from theirs, only your mapping table can. Platform-managed sources are rejected by the API outright (see [Knowledge you cannot manage](#knowledge-you-cannot-manage)).
 
 That is the whole offboarding loop: list, then remove your own ids.
 
@@ -522,20 +526,51 @@ To read every page:
 }
 ```
 
-> **Stop on `hasMore`, not on page size.** A page may come back with fewer items than you asked for and *still* have `hasMore: true`. If you stop as soon as a short page arrives, you will silently miss knowledge sources. The only correct signal that you've reached the end is `hasMore: false`. Likewise, don't treat `totalResults` as authoritative &mdash; it is `0` on APIs that don't compute a total.
+> **Stop on `hasMore`, not on page size.** A page may come back with fewer items than you asked for and *still* have `hasMore: true`. If you stop as soon as a short page arrives, you will silently miss knowledge sources. The only correct signal that you've reached the end is `hasMore: false`. Likewise, don't treat `totalResults` as authoritative — it is `0` on APIs that don't compute a total.
 
 ---
 
 ## Knowledge you cannot manage
 
-One kind of knowledge is deliberately **not** reachable through this API: knowledge that was **shared in** to the account by a partner (rather than created on the account itself). This is by design &mdash; an integration can never reach across and change content another party owns.
+Two kinds of knowledge are deliberately **not** manageable through this API.
 
-Concretely:
+**Platform-managed sources.** The platform automatically creates and maintains a Business Profile source (and, where configured, a business-website source) on each account. These **do** appear in List Knowledge — their ids begin with `KS-business-profile-` or `KS-business-website-` — so you can see the AI Employee's full working set. But they cannot be changed: an upsert or a remove (delete **or** unlink) against one is rejected with an `InvalidArgument` error explaining the source is platform-managed. You never need to do anything with them except leave them alone; the API enforces that.
+
+**Knowledge shared in by a partner.** Knowledge shared in to the account by a partner (rather than created on the account itself) is not reachable at all — an integration can never reach across and change content another party owns. Concretely:
 
 - **List Knowledge omits shared-in sources.** They won't appear in the list, so the offboarding loop never sees an id it isn't allowed to touch.
-- **Trying to mutate one returns `NotFound`.** If you somehow reference a shared-in source's id in an upsert, status, or remove call, you'll get a `NotFound` error. That is expected &mdash; it is not a bug and not a sign the source is missing.
+- **Trying to mutate one returns `NotFound`.** If you somehow reference a shared-in source's id in an upsert, status, or remove call, you'll get a `NotFound` error. That is expected — it is not a bug and not a sign the source is missing.
 
-Everything else in this guide &mdash; text, files, updates, removal &mdash; applies only to sources that live directly on the account, which are the ones your integration creates and the ones List Knowledge returns.
+Everything else in this guide — text, files, updates, removal — applies to sources that live directly on the account: the ones your integration creates, the ones humans create in the dashboard, and the platform-managed pair described above.
+
+---
+
+## Putting it all together
+
+The whole integration is one loop, plus an offboarding path. Everything above fits in this picture:
+
+```mermaid
+flowchart TD
+    A[Reference material changes<br/>in your system] --> B{Is its knowledgeSourceId<br/>in your mapping table?}
+    B -- no --> C[Upsert Knowledge<br/>without knowledgeSourceId]
+    C --> D[Store the returned id in<br/>your mapping table]
+    B -- yes --> E[Upsert Knowledge<br/>with the stored knowledgeSourceId]
+    D --> F[Poll Get Knowledge Status]
+    E --> F
+    F --> G{state}
+    G -- QUEUED /<br/>IN_PROGRESS --> F
+    G -- DONE --> H[Knowledge is live<br/>for the AI Employee]
+    G -- ERRORED --> I[Read errorCode,<br/>fix the source material]
+    I --> A
+
+    J[Customer offboards] --> K[List Knowledge,<br/>every page]
+    K --> L{Id in your<br/>mapping table?}
+    L -- yes --> M[Remove Knowledge<br/>with deleteSource]
+    L -- no --> N[Leave it alone]
+    M --> O[Delete the row from<br/>your mapping table]
+```
+
+For file sources, the "Upsert Knowledge" boxes are preceded by the [three-step upload flow](#step-5-add-knowledge-as-a-file) (request an upload URL, `PUT` the bytes, then upsert with the `uploadHandle`). If a create ever succeeds but you fail to store the returned id, recover through [Step 8](#step-8-recover-a-lost-id-or-clean-up-a-duplicate) before pushing again.
 
 ---
 

@@ -210,7 +210,7 @@
             "type": "string"
           },
           "assistantId": {
-            "description": "Optional. When set, only knowledge sources attached to this AI Employee\nare returned. Supply the AI Employee's assistant id (format:\n\"ASSISTANT-XXXX\"; a bare id without the \"ASSISTANT-\" prefix is also\naccepted). Internal application ids are not part of this contract and are\nnot accepted. An unknown assistant id returns an empty list.",
+            "description": "Optional. When set, only knowledge sources attached to this AI Employee\nare returned. Supply the AI Employee's assistant id exactly as returned\nby List Assistants (format: \"ASSISTANT-XXXX\"). Any other spelling,\nincluding the bare id without the \"ASSISTANT-\" prefix and internal\napplication ids, is rejected. An unknown assistant id returns an empty\nlist.",
             "type": "string"
           },
           "pagingOptions": {
@@ -334,7 +334,7 @@
         "description": "Selects unlinking the knowledge source from specific AI Employees without\ndeleting it.",
         "properties": {
           "assistantIds": {
-            "description": "The AI Employees to unlink the source from. Supply each AI Employee's\nassistant id exactly as issued by the AI Assistant APIs (format:\n\"ASSISTANT-XXXX\"; a bare id without the \"ASSISTANT-\" prefix is also\naccepted). Internal application ids are not part of this contract and are\nrejected. At least one id is required.",
+            "description": "The AI Employees to unlink the source from. Supply each AI Employee's\nassistant id exactly as returned by List Assistants (format:\n\"ASSISTANT-XXXX\"). Any other spelling, including the bare id without the\n\"ASSISTANT-\" prefix and internal application ids, is rejected. At least\none id is required.",
             "items": {
               "type": "string"
             },
@@ -354,7 +354,7 @@
             "type": "string"
           },
           "assistantId": {
-            "description": "Optional. When set, the knowledge source is linked to this AI Employee so\nits content is available to the employee. Supply the AI Employee's assistant id exactly\nas issued by the AI Assistant APIs (format: \"ASSISTANT-XXXX\"; a bare id\nwithout the \"ASSISTANT-\" prefix is also accepted). Linking is additive and\nidempotent; omit to leave the source's existing assistant links untouched.",
+            "description": "Optional. When set, the knowledge source is linked to this AI Employee so\nits content is available to the employee. Supply the AI Employee's\nassistant id exactly as returned by List Assistants (format:\n\"ASSISTANT-XXXX\"). Any other spelling, including the bare id without the\n\"ASSISTANT-\" prefix and internal application ids, is rejected. Linking is\nadditive and idempotent; omit to leave the source's existing assistant\nlinks untouched.",
             "type": "string"
           },
           "content": {
@@ -442,7 +442,7 @@
   "info": {
     "description": "Manage the knowledge available to AI Employees on your accounts.",
     "title": "AI Knowledge",
-    "version": "1.4.1"
+    "version": "1.4.2"
   },
   "openapi": "3.0.0",
   "paths": {

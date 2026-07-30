@@ -36,11 +36,11 @@
             "type": "string"
           },
           "contentType": {
-            "title": "The MIME type of the file to upload (for example, \"application/pdf\"). The\nsigned URL constrains the upload to this type, so the PUT must send a\nmatching Content-Type header. Must be one of the supported MIME types:\n  - application/pdf (.pdf)\n  - application/vnd.openxmlformats-officedocument.wordprocessingml.document (.docx)\n  - application/vnd.openxmlformats-officedocument.presentationml.presentation (.pptx)\n  - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet (.xlsx)\n  - application/vnd.ms-excel (.xls)\n  - image/jpeg (.jpg, .jpeg)\n  - image/png (.png)\n  - text/html (.html, .htm)\n  - text/plain (.txt, .text)\n  - text/markdown (.md, .markdown)\n  - text/csv (.csv)\n  - application/json (.json)\n  - application/jsonl (.jsonl)",
+            "title": "The MIME type of the file to upload (for example, \"application/pdf\").\nThe signed URL constrains the upload to this type. The PUT must send a\nContent-Type header with the same value. Must be one of the supported\nMIME types:\n  - application/pdf (.pdf)\n  - application/vnd.openxmlformats-officedocument.wordprocessingml.document (.docx)\n  - application/vnd.openxmlformats-officedocument.presentationml.presentation (.pptx)\n  - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet (.xlsx)\n  - application/vnd.ms-excel (.xls)\n  - image/jpeg (.jpg, .jpeg)\n  - image/png (.png)\n  - text/html (.html, .htm)\n  - text/plain (.txt, .text)\n  - text/markdown (.md, .markdown)\n  - text/csv (.csv)\n  - application/json (.json)\n  - application/jsonl (.jsonl)",
             "type": "string"
           },
           "fileName": {
-            "title": "The original file name, including its extension (for example,\n\"handbook.pdf\"). Used as the display name of the file",
+            "description": "The original file name, including its extension (for example,\n\"handbook.pdf\"). Used as the display name of the file. At most 255\ncharacters.",
             "type": "string"
           },
           "partnerId": {
@@ -58,7 +58,7 @@
         "description": "The signed URL and handle for uploading a single knowledge file.",
         "properties": {
           "expiresAt": {
-            "description": "When the upload_url and upload_handle expire. Upload the bytes and reference\nthe handle in UpsertKnowledge before this time.",
+            "description": "The time when the upload_url and the upload_handle expire. Upload the\nbytes, and use the handle in UpsertKnowledge, before this time.",
             "format": "date-time",
             "readOnly": true,
             "type": "string"
@@ -67,17 +67,17 @@
             "additionalProperties": {
               "type": "string"
             },
-            "description": "The HTTP headers that must be sent, verbatim, with the PUT to upload_url —\nincluding the Content-Type and X-Goog-Content-Length-Range the URL was signed against.\nA PUT whose headers do not match is rejected by storage.",
+            "description": "The HTTP headers that the PUT to upload_url must send, with no changes.\nThey include the Content-Type and the X-Goog-Content-Length-Range that\nare part of the signature. Storage rejects a PUT whose headers do not\nmatch.",
             "readOnly": true,
             "type": "object"
           },
           "uploadHandle": {
-            "description": "The upload handle identifying the uploaded bytes. Pass it as the\nupload_handle in FileContent on a following UpsertKnowledge call to ingest\nthe file. Bound to this request's namespace and caller, and expiring;\npresenting it after expires_at or under another namespace is rejected.",
+            "description": "The handle that identifies the uploaded bytes. To ingest the file, pass\nthis value as the upload_handle in FileContent on a subsequent\nUpsertKnowledge call. The handle is bound to the namespace and to the\ncaller of this request. The API rejects the handle after expires_at,\nand under a different namespace.",
             "readOnly": true,
             "type": "string"
           },
           "uploadUrl": {
-            "description": "The signed URL to upload the file bytes to with an HTTP PUT. Valid only until expires_at.",
+            "description": "The signed URL for the upload. PUT the file bytes to this URL. The URL\nis valid only until expires_at.",
             "readOnly": true,
             "type": "string"
           }
@@ -85,22 +85,22 @@
         "type": "object"
       },
       "v1DeleteMode": {
-        "description": "Selects deletion of the knowledge source. Carries no fields; its presence in\nthe mode oneof is the instruction to delete.",
+        "description": "Selects the deletion of the knowledge source. This message has no fields.\nIts presence in the mode oneof is the instruction to delete.",
         "type": "object"
       },
       "v1FileContent": {
-        "description": "A file to be processed into knowledge. The bytes are not sent inline;\ninstead supply the upload_handle obtained from the file-upload flow.",
+        "description": "A file to process into knowledge. Do not send the bytes in this message.\nSupply the upload_handle from the file-upload flow.",
         "properties": {
           "fileName": {
-            "description": "The original file name to display for the source (for example,\n\"handbook.pdf\").",
+            "description": "The original file name to display for the source (for example,\n\"handbook.pdf\"). At most 255 characters.",
             "type": "string"
           },
           "mimeType": {
-            "description": "The MIME type of the uploaded file (for example, \"application/pdf\").",
+            "description": "The MIME type of the uploaded file (for example, \"application/pdf\"). At\nmost 100 characters.",
             "type": "string"
           },
           "uploadHandle": {
-            "description": "A signed handle identifying the uploaded file to ingest, as\nissued by the knowledge file-upload flow. Required when supplying new file\ncontent.",
+            "description": "The handle that identifies the uploaded file to ingest, as the\nknowledge file-upload flow issued it. Required when you supply new file\ncontent.",
             "type": "string"
           }
         },
@@ -117,7 +117,7 @@
             "type": "string"
           },
           "knowledgeSourceId": {
-            "description": "The id of the knowledge source to look up, as returned by UpsertKnowledge\nor ListKnowledge. The source must exist in the namespace.",
+            "description": "The id of the knowledge source to examine, as UpsertKnowledge or\nListKnowledge returned it. The source must exist in the namespace.",
             "type": "string"
           },
           "partnerId": {
@@ -141,7 +141,7 @@
       },
       "v1KnowledgeConfigType": {
         "default": "KNOWLEDGE_CONFIG_TYPE_INVALID",
-        "description": "The kind of content backing a knowledge source.\n\n - KNOWLEDGE_CONFIG_TYPE_BUSINESS_PROFILE: Structured business profile data managed by the platform, such as the\nwell-known business-profile knowledge source created for an account.\n - KNOWLEDGE_CONFIG_TYPE_CUSTOM_DATA: Free-form text content supplied directly by a user or integration.\n - KNOWLEDGE_CONFIG_TYPE_WEBSITE: Content scraped from a website.\n - KNOWLEDGE_CONFIG_TYPE_FILE: Content extracted from an uploaded file.",
+        "description": "The kind of content backing a knowledge source.\n\n - KNOWLEDGE_CONFIG_TYPE_BUSINESS_PROFILE: Structured business-profile data that the platform manages, such as\nthe well-known business-profile knowledge source of an account.\n - KNOWLEDGE_CONFIG_TYPE_CUSTOM_DATA: Free-form text that a user or an integration supplied directly.\n - KNOWLEDGE_CONFIG_TYPE_WEBSITE: Content that the platform collected from a website.\n - KNOWLEDGE_CONFIG_TYPE_FILE: Content that the platform extracted from an uploaded file.",
         "enum": [
           "KNOWLEDGE_CONFIG_TYPE_INVALID",
           "KNOWLEDGE_CONFIG_TYPE_BUSINESS_PROFILE",
@@ -152,7 +152,7 @@
         "type": "string"
       },
       "v1KnowledgeContent": {
-        "description": "The content to store for a knowledge source when creating or updating it.\nExactly one variant must be set, and it determines the source's config_type.\nOn update, the variant must match the existing source's config_type; the\nconfig_type of a source cannot be changed after creation.",
+        "description": "The content to store for a knowledge source on create or update. Exactly\none variant must be set. The variant determines the config_type of the\nsource. On update, the variant must match the config_type of the current\nsource. The config_type of a source cannot change after creation.",
         "properties": {
           "file": {
             "$ref": "#/components/schemas/v1FileContent"
@@ -164,7 +164,7 @@
         "type": "object"
       },
       "v1KnowledgeSourceSummary": {
-        "description": "A summary of a single knowledge source within an account's knowledge base:\nidentity, content type, processing status, and timestamps.",
+        "description": "A summary of one knowledge source in an account's knowledge base:\nidentity, content type, processing status, and timestamps.",
         "properties": {
           "configType": {
             "$ref": "#/components/schemas/v1KnowledgeConfigType"
@@ -176,12 +176,12 @@
             "type": "string"
           },
           "fileName": {
-            "description": "The original file name of the uploaded file. Only set when config_type is\nKNOWLEDGE_CONFIG_TYPE_FILE.",
+            "description": "The original file name of the uploaded file. Set only when config_type\nis KNOWLEDGE_CONFIG_TYPE_FILE.",
             "readOnly": true,
             "type": "string"
           },
           "knowledgeSourceId": {
-            "description": "The unique identifier of the knowledge source within its namespace.\nStore this id to update or remove the source later; it is the selector\nused by the other Knowledge APIs.",
+            "description": "The unique identifier of the knowledge source in its namespace. Keep\nthis id. You use it to update or remove the source later. The other\nKnowledge APIs select the source by this id.",
             "readOnly": true,
             "type": "string"
           },
@@ -210,7 +210,7 @@
             "type": "string"
           },
           "assistantId": {
-            "description": "Optional. When set, only knowledge sources attached to this AI Employee\nare returned. Supply the AI Employee's assistant id (format:\n\"ASSISTANT-XXXX\"; a bare id without the \"ASSISTANT-\" prefix is also\naccepted). Internal application ids are not part of this contract and are\nnot accepted. An unknown assistant id returns an empty list.",
+            "description": "Optional. When set, the response contains only the knowledge sources\nattached to this AI Employee. Supply the assistant id exactly as List\nAssistants returns it (format: \"ASSISTANT-XXXX\"). The API rejects all\nother formats, including the bare id without the \"ASSISTANT-\" prefix\nand internal application ids. An unknown assistant id returns an empty\nlist.",
             "type": "string"
           },
           "pagingOptions": {
@@ -251,7 +251,7 @@
             "$ref": "#/components/schemas/v1DeleteMode"
           },
           "knowledgeSourceId": {
-            "description": "The id of the knowledge source to remove, as returned by UpsertKnowledge\nor ListKnowledge. The source must exist in the namespace.",
+            "description": "The id of the knowledge source to remove, as UpsertKnowledge or\nListKnowledge returned it. The source must exist in the namespace.",
             "type": "string"
           },
           "partnerId": {
@@ -272,10 +272,10 @@
         "type": "object"
       },
       "v1TextContent": {
-        "description": "Free-form text content supplied directly by an integration.",
+        "description": "Free-form text content that an integration supplies directly.",
         "properties": {
           "text": {
-            "description": "The text to store as knowledge.",
+            "description": "The text to store as knowledge. At most 100,000 characters. The count\nis in Unicode characters, not bytes. For larger reference material,\nupload a file instead.",
             "type": "string"
           }
         },
@@ -286,7 +286,7 @@
       },
       "v1TrainingErrorCode": {
         "default": "TRAINING_ERROR_CODE_INVALID",
-        "description": "Machine-readable reason a knowledge source failed processing.\n\n - TRAINING_ERROR_CODE_INVALID: No error recorded. This is the value when the source has not failed\nprocessing (state is not TRAINING_STATE_ERRORED).\n - TRAINING_ERROR_CODE_LARGE_FILE_CONTENT: The file content exceeds the maximum size that can be processed.\n - TRAINING_ERROR_CODE_UNPROCESSABLE_CONTENT: The content could not be parsed or processed.",
+        "description": "Machine-readable reason a knowledge source failed processing.\n\n - TRAINING_ERROR_CODE_INVALID: No error is recorded. This is the value when the processing of the\nsource did not fail (state is not TRAINING_STATE_ERRORED).\n - TRAINING_ERROR_CODE_LARGE_FILE_CONTENT: The content of the file is too large for processing.\n - TRAINING_ERROR_CODE_UNPROCESSABLE_CONTENT: The parse or the processing of the content failed. A possible cause is\na file that is defective or empty.",
         "enum": [
           "TRAINING_ERROR_CODE_INVALID",
           "TRAINING_ERROR_CODE_LARGE_FILE_CONTENT",
@@ -296,7 +296,7 @@
       },
       "v1TrainingState": {
         "default": "TRAINING_STATE_INVALID",
-        "description": "The processing state of a knowledge source's content.\n\n - TRAINING_STATE_QUEUED: Queued for processing; the content is not yet available to AI Employees.\n - TRAINING_STATE_IN_PROGRESS: Processing is underway.\n - TRAINING_STATE_DONE: Processing completed successfully; the content is available to AI Employees.\n - TRAINING_STATE_ERRORED: Processing failed; see the error_code on TrainingStatus for the reason.",
+        "description": "The processing state of a knowledge source's content.\n\n - TRAINING_STATE_QUEUED: The content is queued for processing. It is not yet available to AI\nEmployees.\n - TRAINING_STATE_IN_PROGRESS: Processing started and is not complete.\n - TRAINING_STATE_DONE: Processing completed successfully. The content is available to AI\nEmployees.\n - TRAINING_STATE_ERRORED: Processing failed. See the error_code on TrainingStatus for the reason.",
         "enum": [
           "TRAINING_STATE_INVALID",
           "TRAINING_STATE_QUEUED",
@@ -310,7 +310,7 @@
         "description": "The processing status of a knowledge source, including progress counters\nand any terminal error.",
         "properties": {
           "completedUnits": {
-            "description": "The number of units processed successfully so far. Equal to total_units\nwhen processing is complete.",
+            "description": "The number of units that completed their processing. The value is equal\nto total_units when the processing is complete.",
             "format": "int64",
             "readOnly": true,
             "type": "string"
@@ -322,7 +322,7 @@
             "$ref": "#/components/schemas/v1TrainingState"
           },
           "totalUnits": {
-            "description": "The total number of units the source's content was divided into for\nprocessing. 0 when the source has not been processed in units.",
+            "description": "The total number of units that the processing divided the content into.\nThe value is 0 when the processing of the source does not use units.",
             "format": "int64",
             "readOnly": true,
             "type": "string"
@@ -334,7 +334,7 @@
         "description": "Selects unlinking the knowledge source from specific AI Employees without\ndeleting it.",
         "properties": {
           "assistantIds": {
-            "description": "The AI Employees to unlink the source from. Supply each AI Employee's\nassistant id exactly as issued by the AI Assistant APIs (format:\n\"ASSISTANT-XXXX\"; a bare id without the \"ASSISTANT-\" prefix is also\naccepted). Internal application ids are not part of this contract and are\nrejected. At least one id is required.",
+            "description": "The AI Employees to unlink the source from. Supply each assistant id\nexactly as List Assistants returns it (format: \"ASSISTANT-XXXX\"). The\nAPI rejects all other formats, including the bare id without the\n\"ASSISTANT-\" prefix and internal application ids. At least one id is\nrequired. The maximum is 100 ids in one request.",
             "items": {
               "type": "string"
             },
@@ -354,22 +354,22 @@
             "type": "string"
           },
           "assistantId": {
-            "description": "Optional. When set, the knowledge source is linked to this AI Employee so\nits content is available to the employee. Supply the AI Employee's assistant id exactly\nas issued by the AI Assistant APIs (format: \"ASSISTANT-XXXX\"; a bare id\nwithout the \"ASSISTANT-\" prefix is also accepted). Linking is additive and\nidempotent; omit to leave the source's existing assistant links untouched.",
+            "description": "Optional. When set, the API links the knowledge source to this AI\nEmployee. The AI Employee can then use the content. Supply the\nassistant id exactly as List Assistants returns it (format:\n\"ASSISTANT-XXXX\"). The API rejects all other formats, including the\nbare id without the \"ASSISTANT-\" prefix and internal application ids.\nLinks are additive and idempotent. Omit this field to keep the current\nlinks of the source.",
             "type": "string"
           },
           "content": {
             "$ref": "#/components/schemas/v1KnowledgeContent"
           },
           "description": {
-            "title": "The description of the knowledge source.  On update,\nomit to leave the existing content unchanged",
+            "description": "The description of the knowledge source. On update, omit to keep the\ncurrent description. At most 2,000 characters.",
             "type": "string"
           },
           "knowledgeSourceId": {
-            "description": "Optional. The id of the knowledge source to update. Omit to create a new\nsource; the server generates and returns its id. When set, the source\nmust already exist in the namespace.",
+            "description": "Optional. The id of the knowledge source to update. Omit this field to\ncreate a new source. The server generates the id of a new source and\nreturns it. When set, the source must already exist in the namespace.",
             "type": "string"
           },
           "name": {
-            "description": "The display name of the knowledge source. Required on create. On update,\nleave empty to keep the current name.",
+            "description": "The display name of the knowledge source. Required on create. On update,\nleave empty to keep the current name. At most 500 characters.",
             "type": "string"
           },
           "partnerId": {
@@ -383,7 +383,7 @@
         "description": "The result of an UpsertKnowledge call.",
         "properties": {
           "knowledgeSourceId": {
-            "description": "The id of the created or updated knowledge source. Store this id to update\nor link the source in later calls; it is the selector used by the other\nKnowledge APIs.",
+            "description": "The id of the created or updated knowledge source. Keep this id. You\nuse it to update, link, or remove the source in subsequent calls. The\nother Knowledge APIs select the source by this id.",
             "readOnly": true,
             "type": "string"
           }
@@ -442,13 +442,13 @@
   "info": {
     "description": "Manage the knowledge available to AI Employees on your accounts.",
     "title": "AI Knowledge",
-    "version": "1.4.1"
+    "version": "1.4.3"
   },
   "openapi": "3.0.0",
   "paths": {
     "/v1/knowledge/file-upload": {
       "post": {
-        "description": "Issue a signed URL and upload handle for uploading a file directly to storage, to then ingest as knowledge via Upsert Knowledge.\n\nRequired OAuth2 scopes: `knowledge`",
+        "description": "Get a signed URL and an upload handle for a direct upload of one file to storage. Then use Upsert Knowledge to ingest the file as knowledge.\n\nAll write requests (Upsert Knowledge, Create Knowledge File Upload, and Remove Knowledge together) share one rate limit. The write budget of each account group refills continuously, at 10 requests per minute. A partner-wide ceiling of 100 requests per minute applies to all account groups together. A request over either limit fails with HTTP 429. Writes to the partner's own knowledge base count only against the partner-wide ceiling.\n\nRequired OAuth2 scopes: `knowledge`",
         "operationId": "Knowledge_CreateKnowledgeFileUpload",
         "requestBody": {
           "content": {
@@ -549,7 +549,7 @@
     },
     "/v1/knowledge/remove": {
       "post": {
-        "description": "Delete a knowledge source, or unlink it from specific AI Employees, in an account's or partner's knowledge base.\n\nRequired OAuth2 scopes: `knowledge`",
+        "description": "Delete a knowledge source in an account's or partner's knowledge base, or unlink the source from the specified AI Employees.\n\nAll write requests (Upsert Knowledge, Create Knowledge File Upload, and Remove Knowledge together) share one rate limit. The write budget of each account group refills continuously, at 10 requests per minute. A partner-wide ceiling of 100 requests per minute applies to all account groups together. A request over either limit fails with HTTP 429. Writes to the partner's own knowledge base count only against the partner-wide ceiling.\n\nRequired OAuth2 scopes: `knowledge`",
         "operationId": "Knowledge_RemoveKnowledge",
         "requestBody": {
           "content": {
@@ -650,7 +650,7 @@
     },
     "/v1/knowledge/upsert": {
       "post": {
-        "description": "Create or update a knowledge source in an account's or partner's knowledge base, and optionally link it to an AI assistant.\n\nRequired OAuth2 scopes: `knowledge`",
+        "description": "Create or update a knowledge source in an account's or partner's knowledge base. You can also link the source to an AI Employee.\n\nAll write requests (Upsert Knowledge, Create Knowledge File Upload, and Remove Knowledge together) share one rate limit. The write budget of each account group refills continuously, at 10 requests per minute. A partner-wide ceiling of 100 requests per minute applies to all account groups together. A request over either limit fails with HTTP 429. Writes to the partner's own knowledge base count only against the partner-wide ceiling.\n\nRequired OAuth2 scopes: `knowledge`",
         "operationId": "Knowledge_UpsertKnowledge",
         "requestBody": {
           "content": {

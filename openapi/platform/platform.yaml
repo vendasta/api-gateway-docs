@@ -12,6 +12,121 @@ servers:
   - url: 'http://localhost:11001/platform'
     description: Localhost
 paths:
+  '/userPermissions/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 'Composite id of the form <partnerId>:<userId>, e.g. VUNI:U-2a7aa9dd-e435-46c4-b3b8-d4c53b664ed6'
+    get:
+      summary: Get User Permissions
+      operationId: get-userPermissions-id
+      tags:
+        - User Permissions
+      description: |-
+        Returns a platform user's CRM permission scopes (which contacts, companies, etc. the user can see and edit).
+      x-lifecycle:
+        status: trustedTester
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token. Requires the partner.user.admin (or user.admin) scope.
+          required: true
+      security:
+        - OAuth2Demo:
+            - user.admin
+            - partner.user.admin
+        - OAuth2Prod:
+            - user.admin
+            - partner.user.admin
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/userPermissions'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+    options:
+      operationId: options-userPermissions-id
+      summary: 'List valid HTTP verbs for /userPermissions/{id}'
+      description: 'Used solely for CORS. You should not call this operation directly.'
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - Options
+        - User Permissions
+    patch:
+      summary: Update User Permissions
+      operationId: patch-userPermissions-id
+      tags:
+        - User Permissions
+      description: |-
+        Updates a user's CRM permission scopes. Only the object types included in the request body are changed; omitted object types keep their current value.
+      x-lifecycle:
+        status: trustedTester
+      parameters:
+        - schema:
+            type: string
+            example: Bearer <Access Token>
+            pattern: ^Bearer\s\S+
+          in: header
+          name: Authorization
+          description: A Bearer access token. Requires the partner.user.admin (or user.admin) scope.
+          required: true
+        - schema:
+            type: string
+            default: application/vnd.api+json
+            enum:
+              - application/vnd.api+json
+          in: header
+          name: Content-Type
+          required: true
+          description: Indicates the format of the request body being sent.
+      security:
+        - OAuth2Demo:
+            - user.admin
+            - partner.user.admin
+        - OAuth2Prod:
+            - user.admin
+            - partner.user.admin
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/userPermissions'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/userPermissions'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
   /businessLocations:
     post:
       summary: Create Business Location
@@ -4973,6 +5088,70 @@ components:
             'automation:read': Read only access to automations
           refreshUrl: ''
   schemas:
+    userPermissions:
+      title: User Permissions
+      type: object
+      x-lifecycle:
+        status: trustedTester
+      description: |-
+        A platform user's CRM permission scopes. Each object type (contacts, companies, etc.) has read, write, and manage scopes, each one of: none, own, ownUnowned, all.
+      x-tags:
+        - User Permissions
+      properties:
+        id:
+          type: string
+          example: VUNI:U-2a7aa9dd-e435-46c4-b3b8-d4c53b664ed6
+          description: 'Composite id of the form <partnerId>:<userId>.'
+        type:
+          type: string
+          default: userPermissions
+          enum:
+            - userPermissions
+        attributes:
+          type: object
+          properties:
+            partnerId:
+              type: string
+              readOnly: true
+            userId:
+              type: string
+              readOnly: true
+            contacts:
+              $ref: '#/components/schemas/objectScopes'
+            companies:
+              $ref: '#/components/schemas/objectScopes'
+            opportunities:
+              $ref: '#/components/schemas/objectScopes'
+            customObjects:
+              $ref: '#/components/schemas/objectScopes'
+            activities:
+              $ref: '#/components/schemas/objectScopes'
+    objectScopes:
+      title: Object Scopes
+      type: object
+      description: 'Read, write, and manage scopes for a single CRM object type.'
+      properties:
+        readScope:
+          type: string
+          enum:
+            - none
+            - own
+            - ownUnowned
+            - all
+        writeScope:
+          type: string
+          enum:
+            - none
+            - own
+            - ownUnowned
+            - all
+        manageScope:
+          type: string
+          enum:
+            - none
+            - own
+            - ownUnowned
+            - all
     businessLocations:
       title: Business Location
       type: object

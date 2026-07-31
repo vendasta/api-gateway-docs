@@ -40,7 +40,7 @@ Poll `GetPermissions` until it returns a permissions object. Treat a `404` as
 ```json http
 {
   "method": "post",
-  "url": "https://platform-users-prod.apigateway.co/platformusers.v1.PermissionsService/GetPermissions",
+  "url": "https://prod.apigateway.co/grpc/platformusers.v1.PermissionsService/GetPermissions",
   "headers": {
     "Authorization": "Bearer <partner service account access token>",
     "Content-Type": "application/json"
@@ -64,7 +64,7 @@ write to only the fields you name, leaving everything else untouched.
 ```json http
 {
   "method": "post",
-  "url": "https://platform-users-prod.apigateway.co/platformusers.v1.PermissionsService/UpdatePermissions",
+  "url": "https://prod.apigateway.co/grpc/platformusers.v1.PermissionsService/UpdatePermissions",
   "headers": {
     "Authorization": "Bearer <partner service account access token>",
     "Content-Type": "application/json"

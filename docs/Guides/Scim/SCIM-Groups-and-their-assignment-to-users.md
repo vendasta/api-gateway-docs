@@ -73,6 +73,26 @@ Here is the list of available groups you can assign to a partner user.
 
 The same groups are shown in below image on how it reflects in Vendasta
 
+#### CRM permission groups
+You can also control how much of the CRM a user can see and edit by assigning **CRM permission groups**. These follow the form `crm:<object>:<operation>:<scope>` where the object is `contacts` or `companies`, the operation is `read`, `write` or `manage`, and the scope is `own` (only records the user owns), `ownunowned` (owned records plus records with no owner), or `all` (every record).
+
+| id                              | display name                        | type            |
+| ------------------------------- | ----------------------------------- | --------------- |
+| crm:contacts:read:own           | Read own contacts                   | platformFeature |
+| crm:contacts:read:ownunowned    | Read own and unowned contacts       | platformFeature |
+| crm:contacts:read:all           | Read all contacts                   | platformFeature |
+| crm:contacts:write:own          | Edit own contacts                   | platformFeature |
+| crm:contacts:write:ownunowned   | Edit own and unowned contacts       | platformFeature |
+| crm:contacts:write:all          | Edit all contacts                   | platformFeature |
+| crm:companies:read:own          | Read own companies                  | platformFeature |
+| crm:companies:read:ownunowned   | Read own and unowned companies      | platformFeature |
+| crm:companies:read:all          | Read all companies                  | platformFeature |
+| crm:companies:write:own         | Edit own companies                  | platformFeature |
+| crm:companies:write:ownunowned  | Edit own and unowned companies      | platformFeature |
+| crm:companies:write:all         | Edit all companies                  | platformFeature |
+
+> **One group per set.** A user can be a member of at most one CRM group for a given object and operation. For example, a user cannot be in both `crm:contacts:read:own` and `crm:contacts:read:all`. Add the group for the scope you want; leaving it out means no extra CRM grant for that pairing. (`manage` groups exist as well and follow the same pattern.)
+
 To see this permission in partner centre go to **[partners.vendasta.com](https://partners.vendasta.com)** > **Administration** > **My Team** > Click **Kebab Menu**(3 vertical dot) on an user > **Edit Member**
 
 ![Groups for platform users](../../../assets/images/platform-groups-1.png)
@@ -102,6 +122,24 @@ For example we want to make the user `Platform Admin`, the group id for this is 
 
 **Request**
 `PATCH /Groups/pc%3Aaccess HTTP/1.1`
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [{
+        "op": "Add",
+        "path": "members",
+        "value": [{
+            "value": "U-e6d11318-2e15-e44c-bc82-77c6b7fc4fac"
+        }]
+    }]
+}
+```
+
+### Provide user a CRM scope
+For example we want the user to read only the contacts they own. The group id for this is `crm:contacts:read:own` (URL-encoded as `crm%3Acontacts%3Aread%3Aown`).
+
+**Request**
+`PATCH /Groups/crm%3Acontacts%3Aread%3Aown HTTP/1.1`
 ```json
 {
     "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],

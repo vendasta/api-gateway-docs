@@ -69,16 +69,6 @@
       }
     },
     "schemas": {
-      "ValidateCrmObjectResponseFieldUniqueness": {
-        "default": "FIELD_UNIQUENESS_INVALID",
-        "enum": [
-          "FIELD_UNIQUENESS_INVALID",
-          "FIELD_UNIQUENESS_NONE",
-          "FIELD_UNIQUENESS_WARNING",
-          "FIELD_UNIQUENESS_ENFORCED"
-        ],
-        "type": "string"
-      },
       "ValidateCrmObjectResponseUniquenessCheck": {
         "properties": {
           "existingCrmObjectIds": {
@@ -95,7 +85,7 @@
             "type": "string"
           },
           "uniqueness": {
-            "$ref": "#/components/schemas/ValidateCrmObjectResponseFieldUniqueness"
+            "$ref": "#/components/schemas/v1ValidateCrmObjectResponseFieldUniqueness"
           }
         },
         "type": "object"
@@ -122,6 +112,16 @@
           "VALIDATION_ERROR_SEVERITY_UNKNOWN",
           "VALIDATION_ERROR_SEVERITY_INVALID",
           "VALIDATION_ERROR_SEVERITY_WARNING"
+        ],
+        "type": "string"
+      },
+      "crmv1FieldUniqueness": {
+        "default": "FIELD_UNIQUENESS_NONE",
+        "description": "FieldUniqueness describes whether values in a field must be unique across a namespace's\nobjects of the same type. It is surfaced read-only on FieldSchema; it cannot be set or\nchanged through the CRM API.\n\n - FIELD_UNIQUENESS_NONE: No uniqueness constraint (the default for most fields).\n - FIELD_UNIQUENESS_WARNING: Duplicates are allowed but surfaced as a warning (e.g. phone-number fields).\n - FIELD_UNIQUENESS_ENFORCED: Duplicates are rejected / deduplicated — the enforced key field (e.g. email).",
+        "enum": [
+          "FIELD_UNIQUENESS_NONE",
+          "FIELD_UNIQUENESS_WARNING",
+          "FIELD_UNIQUENESS_ENFORCED"
         ],
         "type": "string"
       },
@@ -775,6 +775,9 @@
           "skipAutomation": {
             "description": "Optional. When true, value changes to this field on a CRM object will not trigger automations. Default false.",
             "type": "boolean"
+          },
+          "uniqueness": {
+            "$ref": "#/components/schemas/crmv1FieldUniqueness"
           },
           "updated": {
             "description": "Output only. The time the schema was last updated.",
@@ -2097,6 +2100,16 @@
         "title": "Validate CRM Object Response",
         "type": "object"
       },
+      "v1ValidateCrmObjectResponseFieldUniqueness": {
+        "default": "FIELD_UNIQUENESS_INVALID",
+        "enum": [
+          "FIELD_UNIQUENESS_INVALID",
+          "FIELD_UNIQUENESS_NONE",
+          "FIELD_UNIQUENESS_WARNING",
+          "FIELD_UNIQUENESS_ENFORCED"
+        ],
+        "type": "string"
+      },
       "v1ValidateCrmObjectResponseValidationError": {
         "properties": {
           "details": {
@@ -2194,7 +2207,7 @@
   },
   "info": {
     "title": "CRM",
-    "version": "0.155.0"
+    "version": "0.156.0"
   },
   "openapi": "3.0.0",
   "paths": {

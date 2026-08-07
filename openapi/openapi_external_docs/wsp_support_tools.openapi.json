@@ -29,7 +29,7 @@
         "type": "object"
       },
       "v1ActivatePluginRequest": {
-        "description": "Request to activate one or more plugins on a WordPress site.",
+        "description": "ActivatePluginRequest is the request message for ActivatePlugin.",
         "properties": {
           "pluginIds": {
             "description": "Required. The list of plugin IDs to activate.",
@@ -47,11 +47,10 @@
           "siteId",
           "pluginIds"
         ],
-        "title": "ActivatePluginRequest",
         "type": "object"
       },
       "v1ChatCompletionRequest": {
-        "description": "Request to generate a chat completion response.",
+        "description": "ChatCompletionRequest is the request message for ChatCompletion.",
         "properties": {
           "text": {
             "description": "Required. The input text for the chat completion.",
@@ -61,11 +60,10 @@
         "required": [
           "text"
         ],
-        "title": "ChatCompletionRequest",
         "type": "object"
       },
       "v1ChatCompletionResponse": {
-        "description": "Response containing the generated chat completion.",
+        "description": "ChatCompletionResponse is the response message for ChatCompletion.",
         "properties": {
           "resp": {
             "description": "Output only. The generated response text.",
@@ -73,11 +71,10 @@
             "type": "string"
           }
         },
-        "title": "ChatCompletionResponse",
         "type": "object"
       },
       "v1DeactivatePluginRequest": {
-        "description": "Request to deactivate one or more plugins on a WordPress site.",
+        "description": "DeactivatePluginRequest is the request message for DeactivatePlugin.",
         "properties": {
           "pluginIds": {
             "description": "Required. The list of plugin IDs to deactivate.",
@@ -95,11 +92,10 @@
           "siteId",
           "pluginIds"
         ],
-        "title": "DeactivatePluginRequest",
         "type": "object"
       },
       "v1GetSiteResourceUsagesRequest": {
-        "description": "Request to get resource usage data for a WordPress site.",
+        "description": "GetSiteResourceUsagesRequest is the request message for GetSiteResourceUsagesSummary.",
         "properties": {
           "monthYear": {
             "description": "Optional. The month and year to get resource usage for (e.g., \"2024-01\").",
@@ -113,21 +109,19 @@
         "required": [
           "siteId"
         ],
-        "title": "GetSiteResourceUsagesRequest",
         "type": "object"
       },
       "v1GetSiteResourceUsagesResponse": {
-        "description": "Response containing the resource usage data for a WordPress site.",
+        "description": "GetSiteResourceUsagesResponse is the response message for GetSiteResourceUsagesSummary.",
         "properties": {
           "siteResourceUsages": {
             "$ref": "#/components/schemas/v1SiteResourceUsages"
           }
         },
-        "title": "GetSiteResourceUsagesResponse",
         "type": "object"
       },
       "v1ListPluginsRequest": {
-        "description": "Request to list plugins installed on a WordPress site with pagination.",
+        "description": "ListPluginsRequest is the request message for ListPlugins.",
         "properties": {
           "cursor": {
             "description": "Optional. The cursor for pagination. Use the next_cursor from a previous response.",
@@ -146,11 +140,10 @@
         "required": [
           "siteId"
         ],
-        "title": "ListPluginsRequest",
         "type": "object"
       },
       "v1ListPluginsResponse": {
-        "description": "Response containing a paginated list of plugins installed on a WordPress site.",
+        "description": "ListPluginsResponse is the response message for ListPlugins.",
         "properties": {
           "hasMore": {
             "description": "Output only. Whether or not more results exist.",
@@ -171,11 +164,10 @@
             "type": "array"
           }
         },
-        "title": "ListPluginsResponse",
         "type": "object"
       },
       "v1Plugin": {
-        "description": "A WordPress plugin installed on a site, including version and status.",
+        "description": "Plugin represents a WordPress plugin installed on a site.",
         "properties": {
           "id": {
             "description": "Output only. The unique identifier of the WordPress plugin.",
@@ -198,11 +190,10 @@
             "type": "string"
           }
         },
-        "title": "Plugin",
         "type": "object"
       },
       "v1SiteResourceUsages": {
-        "description": "Resource usage data for a WordPress site, including bandwidth and visitor counts.",
+        "description": "SiteResourceUsages contains resource usage data for a WordPress site.",
         "properties": {
           "bandwidth": {
             "description": "Output only. The bandwidth usage of the site.",
@@ -215,7 +206,6 @@
             "type": "string"
           }
         },
-        "title": "SiteResourceUsages",
         "type": "object"
       }
     },
@@ -236,8 +226,8 @@
     }
   },
   "info": {
-    "title": "WSP Support Tools",
-    "version": "0.5.1"
+    "title": "Wsp Support Tools",
+    "version": "0.6.0"
   },
   "openapi": "3.0.0",
   "paths": {
@@ -252,7 +242,7 @@
               }
             }
           },
-          "description": "Request to generate a chat completion response.",
+          "description": "ChatCompletionRequest is the request message for ChatCompletion.",
           "required": true
         },
         "responses": {
@@ -284,7 +274,7 @@
             ]
           }
         ],
-        "summary": "Chat Completion",
+        "summary": "ChatCompletion",
         "tags": [
           "SiteManager"
         ]
@@ -301,7 +291,7 @@
               }
             }
           },
-          "description": "Request to list plugins installed on a WordPress site with pagination.",
+          "description": "ListPluginsRequest is the request message for ListPlugins.",
           "required": true
         },
         "responses": {
@@ -333,7 +323,7 @@
             ]
           }
         ],
-        "summary": "List Plugins",
+        "summary": "ListPlugins represents a method for returning a list of plugins that the specified site has installed",
         "tags": [
           "SiteManager"
         ]
@@ -350,7 +340,7 @@
               }
             }
           },
-          "description": "Request to activate one or more plugins on a WordPress site.",
+          "description": "ActivatePluginRequest is the request message for ActivatePlugin.",
           "required": true
         },
         "responses": {
@@ -382,7 +372,7 @@
             ]
           }
         ],
-        "summary": "Activate Plugin",
+        "summary": "ActivatePlugins represents a method for activating a list of plugins for the specified site",
         "tags": [
           "SiteManager"
         ]
@@ -399,7 +389,7 @@
               }
             }
           },
-          "description": "Request to deactivate one or more plugins on a WordPress site.",
+          "description": "DeactivatePluginRequest is the request message for DeactivatePlugin.",
           "required": true
         },
         "responses": {
@@ -431,7 +421,7 @@
             ]
           }
         ],
-        "summary": "Deactivate Plugin",
+        "summary": "DeactivatePlugins represents a method for deactivating a list of plugins for the site",
         "tags": [
           "SiteManager"
         ]
@@ -448,7 +438,7 @@
               }
             }
           },
-          "description": "Request to get resource usage data for a WordPress site.",
+          "description": "GetSiteResourceUsagesRequest is the request message for GetSiteResourceUsagesSummary.",
           "required": true
         },
         "responses": {
@@ -480,7 +470,7 @@
             ]
           }
         ],
-        "summary": "Get Site Resource Usages Summary",
+        "summary": "GetSiteSummary represents a method for getting the site details given an account id",
         "tags": [
           "SiteManager"
         ]

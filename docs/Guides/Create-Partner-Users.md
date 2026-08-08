@@ -82,6 +82,38 @@ Creating a user by API does **not** send out a welcome email. You may build your
 > The number of partner users you can have before needing to pay for extra seats depends on your subscription, so be aware of your limits prior to adding new seats over API. 
 
 
+## Set a user's CRM permissions
+
+Alongside the platform feature IDs above, you can control how much of the CRM a user can see and edit by adding **CRM permission tags** to `platformAccess`. This is useful when you want an agent to work only with the contacts and companies they own, instead of the whole CRM.
+
+A CRM tag has the form `crm:<object>:<operation>:<scope>`:
+
+| Part | Values | Meaning |
+|------|--------|---------|
+| object | `contacts`, `companies` | Which CRM record type the tag applies to |
+| operation | `read`, `write`, `manage` | `read` = view, `write` = view + edit, `manage` = full control |
+| scope | `own`, `ownunowned`, `all` | `own` = only records the user owns, `ownunowned` = owned records plus records that have no owner, `all` = every record in the CRM |
+
+For example, `crm:contacts:read:own` lets the user read only the contacts they own, and `crm:companies:write:all` lets them view and edit every company.
+
+> **One scope per object and operation.** A user can hold at most one scope for a given object + operation. Sending both `crm:contacts:read:own` and `crm:contacts:read:all` in the same request is rejected. Leaving a tag out means the user gets no extra CRM grant for that pairing.
+
+CRM tags go in the same `platformAccess` list as the feature IDs:
+
+```json
+"platformAccess": {
+  "data": [
+    { "type": "appFeatures", "id": "pc:access" },
+    { "type": "appFeatures", "id": "crm:contacts:read:own" },
+    { "type": "appFeatures", "id": "crm:contacts:write:own" },
+    { "type": "appFeatures", "id": "crm:companies:read:all" }
+  ]
+}
+```
+
+A `GET` on the user returns the same `crm:*` tags in `platformAccess`, so you can read back a user's current CRM scope.
+
+
 ## Check for an existing user
 If another user already exists within your platform with the same email address you will get an error when trying to create a new user. You can search for an existing user by email with the following request.
 

@@ -28,7 +28,7 @@
         },
         "type": "object"
       },
-      "v1CreateKnowledgeFileUploadRequest": {
+      "v2CreateKnowledgeFileUploadRequest": {
         "description": "Request to issue a signed URL and handle for uploading a single knowledge\nfile directly to storage.",
         "properties": {
           "accountGroupId": {
@@ -54,7 +54,7 @@
         ],
         "type": "object"
       },
-      "v1CreateKnowledgeFileUploadResponse": {
+      "v2CreateKnowledgeFileUploadResponse": {
         "description": "The signed URL and handle for uploading a single knowledge file.",
         "properties": {
           "expiresAt": {
@@ -84,11 +84,11 @@
         },
         "type": "object"
       },
-      "v1DeleteMode": {
+      "v2DeleteMode": {
         "description": "Selects the deletion of the knowledge source. This message has no fields.\nIts presence in the mode oneof is the instruction to delete.",
         "type": "object"
       },
-      "v1FileContent": {
+      "v2FileContent": {
         "description": "A file to process into knowledge. Do not send the bytes in this message.\nSupply the upload_handle from the file-upload flow.",
         "properties": {
           "fileName": {
@@ -109,7 +109,7 @@
         ],
         "type": "object"
       },
-      "v1GetKnowledgeStatusRequest": {
+      "v2GetKnowledgeStatusRequest": {
         "description": "Request to look up the processing status of a single knowledge source.",
         "properties": {
           "accountGroupId": {
@@ -130,16 +130,16 @@
         ],
         "type": "object"
       },
-      "v1GetKnowledgeStatusResponse": {
+      "v2GetKnowledgeStatusResponse": {
         "description": "The processing status of the requested knowledge source.",
         "properties": {
           "status": {
-            "$ref": "#/components/schemas/v1TrainingStatus"
+            "$ref": "#/components/schemas/v2TrainingStatus"
           }
         },
         "type": "object"
       },
-      "v1KnowledgeConfigType": {
+      "v2KnowledgeConfigType": {
         "default": "KNOWLEDGE_CONFIG_TYPE_INVALID",
         "description": "The kind of content backing a knowledge source.\n\n - KNOWLEDGE_CONFIG_TYPE_BUSINESS_PROFILE: Structured business-profile data that the platform manages, such as\nthe well-known business-profile knowledge source of an account.\n - KNOWLEDGE_CONFIG_TYPE_CUSTOM_DATA: Free-form text that a user or an integration supplied directly.\n - KNOWLEDGE_CONFIG_TYPE_WEBSITE: Content that the platform collected from a website.\n - KNOWLEDGE_CONFIG_TYPE_FILE: Content that the platform extracted from an uploaded file.",
         "enum": [
@@ -151,23 +151,23 @@
         ],
         "type": "string"
       },
-      "v1KnowledgeContent": {
+      "v2KnowledgeContent": {
         "description": "The content to store for a knowledge source on create or update. Exactly\none variant must be set. The variant determines the config_type of the\nsource. On update, the variant must match the config_type of the current\nsource. The config_type of a source cannot change after creation.",
         "properties": {
           "file": {
-            "$ref": "#/components/schemas/v1FileContent"
+            "$ref": "#/components/schemas/v2FileContent"
           },
           "text": {
-            "$ref": "#/components/schemas/v1TextContent"
+            "$ref": "#/components/schemas/v2TextContent"
           }
         },
         "type": "object"
       },
-      "v1KnowledgeSourceSummary": {
+      "v2KnowledgeSourceSummary": {
         "description": "A summary of one knowledge source in an account's knowledge base:\nidentity, content type, processing status, and timestamps.",
         "properties": {
           "configType": {
-            "$ref": "#/components/schemas/v1KnowledgeConfigType"
+            "$ref": "#/components/schemas/v2KnowledgeConfigType"
           },
           "created": {
             "description": "When the knowledge source was created.",
@@ -191,7 +191,7 @@
             "type": "string"
           },
           "status": {
-            "$ref": "#/components/schemas/v1TrainingStatus"
+            "$ref": "#/components/schemas/v2TrainingStatus"
           },
           "updated": {
             "description": "When the knowledge source was last updated.",
@@ -202,7 +202,7 @@
         },
         "type": "object"
       },
-      "v1ListKnowledgeRequest": {
+      "v2ListKnowledgeRequest": {
         "description": "Request to list the knowledge sources in a namespace's knowledge base,\noptionally filtered to one AI Employee.",
         "properties": {
           "accountGroupId": {
@@ -223,13 +223,13 @@
         },
         "type": "object"
       },
-      "v1ListKnowledgeResponse": {
+      "v2ListKnowledgeResponse": {
         "description": "A page of knowledge sources with pagination metadata.",
         "properties": {
           "knowledgeSources": {
             "description": "The knowledge sources on this page.",
             "items": {
-              "$ref": "#/components/schemas/v1KnowledgeSourceSummary"
+              "$ref": "#/components/schemas/v2KnowledgeSourceSummary"
             },
             "readOnly": true,
             "type": "array"
@@ -240,7 +240,7 @@
         },
         "type": "object"
       },
-      "v1RemoveKnowledgeRequest": {
+      "v2RemoveKnowledgeRequest": {
         "description": "Request to remove a knowledge source from a namespace's knowledge base,\neither by deleting it or by unlinking it from specific AI Employees.",
         "properties": {
           "accountGroupId": {
@@ -248,7 +248,7 @@
             "type": "string"
           },
           "deleteSource": {
-            "$ref": "#/components/schemas/v1DeleteMode"
+            "$ref": "#/components/schemas/v2DeleteMode"
           },
           "knowledgeSourceId": {
             "description": "The id of the knowledge source to remove, as UpsertKnowledge or\nListKnowledge returned it. The source must exist in the namespace.",
@@ -259,7 +259,7 @@
             "type": "string"
           },
           "unlink": {
-            "$ref": "#/components/schemas/v1UnlinkMode"
+            "$ref": "#/components/schemas/v2UnlinkMode"
           }
         },
         "required": [
@@ -267,11 +267,11 @@
         ],
         "type": "object"
       },
-      "v1RemoveKnowledgeResponse": {
+      "v2RemoveKnowledgeResponse": {
         "description": "The result of a RemoveKnowledge call.",
         "type": "object"
       },
-      "v1TextContent": {
+      "v2TextContent": {
         "description": "Free-form text content that an integration supplies directly.",
         "properties": {
           "text": {
@@ -284,7 +284,7 @@
         ],
         "type": "object"
       },
-      "v1TrainingErrorCode": {
+      "v2TrainingErrorCode": {
         "default": "TRAINING_ERROR_CODE_INVALID",
         "description": "Machine-readable reason a knowledge source failed processing.\n\n - TRAINING_ERROR_CODE_INVALID: No error is recorded. This is the value when the processing of the\nsource did not fail (state is not TRAINING_STATE_ERRORED).\n - TRAINING_ERROR_CODE_LARGE_FILE_CONTENT: The content of the file is too large for processing.\n - TRAINING_ERROR_CODE_UNPROCESSABLE_CONTENT: The parse or the processing of the content failed. A possible cause is\na file that is defective or empty.",
         "enum": [
@@ -294,7 +294,7 @@
         ],
         "type": "string"
       },
-      "v1TrainingState": {
+      "v2TrainingState": {
         "default": "TRAINING_STATE_INVALID",
         "description": "The processing state of a knowledge source's content.\n\n - TRAINING_STATE_QUEUED: The content is queued for processing. It is not yet available to AI\nEmployees.\n - TRAINING_STATE_IN_PROGRESS: Processing started and is not complete.\n - TRAINING_STATE_DONE: Processing completed successfully. The content is available to AI\nEmployees.\n - TRAINING_STATE_ERRORED: Processing failed. See the error_code on TrainingStatus for the reason.",
         "enum": [
@@ -306,7 +306,7 @@
         ],
         "type": "string"
       },
-      "v1TrainingStatus": {
+      "v2TrainingStatus": {
         "description": "The processing status of a knowledge source, including progress counters\nand any terminal error.",
         "properties": {
           "completedUnits": {
@@ -316,10 +316,10 @@
             "type": "string"
           },
           "errorCode": {
-            "$ref": "#/components/schemas/v1TrainingErrorCode"
+            "$ref": "#/components/schemas/v2TrainingErrorCode"
           },
           "state": {
-            "$ref": "#/components/schemas/v1TrainingState"
+            "$ref": "#/components/schemas/v2TrainingState"
           },
           "totalUnits": {
             "description": "The total number of units that the processing divided the content into.\nThe value is 0 when the processing of the source does not use units.",
@@ -330,7 +330,7 @@
         },
         "type": "object"
       },
-      "v1UnlinkMode": {
+      "v2UnlinkMode": {
         "description": "Selects unlinking the knowledge source from specific AI Employees without\ndeleting it.",
         "properties": {
           "assistantIds": {
@@ -346,7 +346,7 @@
         ],
         "type": "object"
       },
-      "v1UpsertKnowledgeRequest": {
+      "v2UpsertKnowledgeRequest": {
         "description": "Request to create or update a knowledge source and optionally link it to an\nAI Employee.",
         "properties": {
           "accountGroupId": {
@@ -358,7 +358,7 @@
             "type": "string"
           },
           "content": {
-            "$ref": "#/components/schemas/v1KnowledgeContent"
+            "$ref": "#/components/schemas/v2KnowledgeContent"
           },
           "description": {
             "description": "The description of the knowledge source. On update, omit to keep the\ncurrent description. At most 2,000 characters.",
@@ -379,7 +379,7 @@
         },
         "type": "object"
       },
-      "v1UpsertKnowledgeResponse": {
+      "v2UpsertKnowledgeResponse": {
         "description": "The result of an UpsertKnowledge call.",
         "properties": {
           "knowledgeSourceId": {
@@ -442,7 +442,7 @@
   "info": {
     "description": "Manage the knowledge available to AI Employees on your accounts.",
     "title": "AI Knowledge",
-    "version": "1.4.3"
+    "version": "2.0.0"
   },
   "openapi": "3.0.0",
   "paths": {
@@ -454,7 +454,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/v1CreateKnowledgeFileUploadRequest"
+                "$ref": "#/components/schemas/v2CreateKnowledgeFileUploadRequest"
               }
             }
           },
@@ -466,7 +466,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/v1CreateKnowledgeFileUploadResponse"
+                  "$ref": "#/components/schemas/v2CreateKnowledgeFileUploadResponse"
                 }
               }
             },
@@ -504,7 +504,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/v1ListKnowledgeRequest"
+                "$ref": "#/components/schemas/v2ListKnowledgeRequest"
               }
             }
           },
@@ -516,7 +516,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/v1ListKnowledgeResponse"
+                  "$ref": "#/components/schemas/v2ListKnowledgeResponse"
                 }
               }
             },
@@ -555,7 +555,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/v1RemoveKnowledgeRequest"
+                "$ref": "#/components/schemas/v2RemoveKnowledgeRequest"
               }
             }
           },
@@ -567,7 +567,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/v1RemoveKnowledgeResponse"
+                  "$ref": "#/components/schemas/v2RemoveKnowledgeResponse"
                 }
               }
             },
@@ -605,7 +605,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/v1GetKnowledgeStatusRequest"
+                "$ref": "#/components/schemas/v2GetKnowledgeStatusRequest"
               }
             }
           },
@@ -617,7 +617,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/v1GetKnowledgeStatusResponse"
+                  "$ref": "#/components/schemas/v2GetKnowledgeStatusResponse"
                 }
               }
             },
@@ -656,7 +656,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/v1UpsertKnowledgeRequest"
+                "$ref": "#/components/schemas/v2UpsertKnowledgeRequest"
               }
             }
           },
@@ -668,7 +668,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/v1UpsertKnowledgeResponse"
+                  "$ref": "#/components/schemas/v2UpsertKnowledgeResponse"
                 }
               }
             },

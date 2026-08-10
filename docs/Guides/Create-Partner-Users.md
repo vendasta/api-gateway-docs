@@ -84,19 +84,28 @@ Creating a user by API does **not** send out a welcome email. You may build your
 
 ## Set a user's CRM permissions
 
-Alongside the platform feature IDs above, you can control how much of the CRM a user can see and edit by adding **CRM permission tags** to `platformAccess`. This is useful when you want an agent to work only with the contacts and companies they own, instead of the whole CRM.
+Alongside the platform feature IDs above, you can control how much of the CRM a user can see and edit by adding **CRM permission tags** to `platformAccess`. These mirror the CRM permission controls shown in the platform UI, so an agent can be limited to just the records they own.
 
-A CRM tag has the form `crm:<object>:<operation>:<scope>`:
+There are two kinds of CRM tag per object (`contacts`, `companies`, `custom_objects`):
 
-| Part | Values | Meaning |
-|------|--------|---------|
-| object | `contacts`, `companies` | Which CRM record type the tag applies to |
-| operation | `read`, `write`, `manage` | `read` = view, `write` = view + edit, `manage` = full control |
-| scope | `own`, `ownunowned`, `all` | `own` = only records the user owns, `ownunowned` = owned records plus records that have no owner, `all` = every record in the CRM |
+| Tag | Matches the UI control | Meaning |
+|-----|------------------------|---------|
+| `crm:<object>:write:<scope>` | "Can view and edit &lt;object&gt;" + its scope | Lets the user view and edit the object, limited to `<scope>` |
+| `crm:<object>:manage` | "Can manage &lt;object&gt; fields" | Lets the user manage the object's fields (on/off, no scope) |
 
-For example, `crm:contacts:read:own` lets the user read only the contacts they own, and `crm:companies:write:all` lets them view and edit every company.
+`<scope>` is one of:
 
-> **One scope per object and operation.** A user can hold at most one scope for a given object + operation. Sending both `crm:contacts:read:own` and `crm:contacts:read:all` in the same request is rejected. Leaving a tag out means the user gets no extra CRM grant for that pairing.
+| Scope | UI label | Meaning |
+|-------|----------|---------|
+| `own` | Records assigned to the user | Only records the user owns |
+| `ownunowned` | Records assigned to the user and unassigned records | Owned records plus records with no owner |
+| `all` | All records | Every record in the CRM |
+
+For example, `crm:contacts:write:own` lets the user view and edit only the contacts they own, and `crm:companies:write:all` lets them view and edit every company.
+
+> **One write scope per object.** A user can hold at most one `write` scope for a given object. Sending both `crm:contacts:write:own` and `crm:contacts:write:all` in the same request is rejected. `manage` is a plain on/off tag with no scope.
+>
+> **Tags are the full CRM state.** When a request includes `platformAccess`, the CRM tags it contains are the user's complete CRM permissions. Leaving a tag out **removes** that access. To remove all CRM access, send `platformAccess` with no `crm:*` tags.
 
 CRM tags go in the same `platformAccess` list as the feature IDs:
 
@@ -104,14 +113,14 @@ CRM tags go in the same `platformAccess` list as the feature IDs:
 "platformAccess": {
   "data": [
     { "type": "appFeatures", "id": "pc:access" },
-    { "type": "appFeatures", "id": "crm:contacts:read:own" },
     { "type": "appFeatures", "id": "crm:contacts:write:own" },
-    { "type": "appFeatures", "id": "crm:companies:read:all" }
+    { "type": "appFeatures", "id": "crm:contacts:manage" },
+    { "type": "appFeatures", "id": "crm:companies:write:all" }
   ]
 }
 ```
 
-A `GET` on the user returns the same `crm:*` tags in `platformAccess`, so you can read back a user's current CRM scope.
+A `GET` on the user returns the same `crm:*` tags in `platformAccess`, so you can read back a user's current CRM permissions.
 
 
 ## Check for an existing user

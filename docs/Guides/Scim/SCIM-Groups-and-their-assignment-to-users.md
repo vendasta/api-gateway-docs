@@ -73,6 +73,31 @@ Here is the list of available groups you can assign to a partner user.
 
 The same groups are shown in below image on how it reflects in Vendasta
 
+#### CRM permission groups
+You can also control how much of the CRM a user can see and edit by assigning **CRM permission groups**. These mirror the CRM permission controls in the platform UI. For each object (`contacts`, `companies`, `custom_objects`) there are two kinds of group:
+
+- `crm:<object>:write:<scope>` — "Can view and edit" the object, limited to `<scope>`.
+- `crm:<object>:manage` — "Can manage the object's fields" (on/off, no scope).
+
+`<scope>` is `own` (records assigned to the user), `ownunowned` (assigned to the user plus unassigned), or `all` (every record).
+
+| id                                   | display name                              | type            |
+| ------------------------------------ | ----------------------------------------- | --------------- |
+| crm:contacts:write:own               | Can view and edit assigned contacts       | platformFeature |
+| crm:contacts:write:ownunowned        | Can view and edit assigned/unassigned contacts | platformFeature |
+| crm:contacts:write:all               | Can view and edit all contacts            | platformFeature |
+| crm:contacts:manage                  | Can manage contact fields                 | platformFeature |
+| crm:companies:write:own              | Can view and edit assigned companies      | platformFeature |
+| crm:companies:write:ownunowned       | Can view and edit assigned/unassigned companies | platformFeature |
+| crm:companies:write:all              | Can view and edit all companies           | platformFeature |
+| crm:companies:manage                 | Can manage company fields                 | platformFeature |
+| crm:custom_objects:write:own         | Can view and edit assigned custom objects | platformFeature |
+| crm:custom_objects:write:ownunowned  | Can view and edit assigned/unassigned custom objects | platformFeature |
+| crm:custom_objects:write:all         | Can view and edit all custom objects      | platformFeature |
+| crm:custom_objects:manage            | Can manage custom object fields           | platformFeature |
+
+> **One write group per object.** A user can be a member of at most one `write` group for a given object. For example, a user cannot be in both `crm:contacts:write:own` and `crm:contacts:write:all`. `manage` is a plain on/off group with no scope.
+
 To see this permission in partner centre go to **[partners.vendasta.com](https://partners.vendasta.com)** > **Administration** > **My Team** > Click **Kebab Menu**(3 vertical dot) on an user > **Edit Member**
 
 ![Groups for platform users](../../../assets/images/platform-groups-1.png)
@@ -102,6 +127,24 @@ For example we want to make the user `Platform Admin`, the group id for this is 
 
 **Request**
 `PATCH /Groups/pc%3Aaccess HTTP/1.1`
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [{
+        "op": "Add",
+        "path": "members",
+        "value": [{
+            "value": "U-e6d11318-2e15-e44c-bc82-77c6b7fc4fac"
+        }]
+    }]
+}
+```
+
+### Provide user a CRM scope
+For example we want the user to view and edit only the contacts they own. The group id for this is `crm:contacts:write:own` (URL-encoded as `crm%3Acontacts%3Awrite%3Aown`).
+
+**Request**
+`PATCH /Groups/crm%3Acontacts%3Awrite%3Aown HTTP/1.1`
 ```json
 {
     "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],

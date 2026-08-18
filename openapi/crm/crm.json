@@ -743,6 +743,36 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "409": {
+            "description": "Conflict. A submitted value is already used by a different CRM record in a field the CRM enforces as unique. The response names the fields responsible and the records that hold the values, so the request can be retried without them.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UniquenessConflictError"
+                },
+                "examples": {
+                  "Email and external_id owned by two different records": {
+                    "value": {
+                      "error": "The following field values are already used by other records in AG-EXAMPLE. Remove them from the request to continue.",
+                      "fieldViolations": {
+                        "uniqueness": {
+                          "description": "Values that violate a unique constraint and must be removed to proceed.",
+                          "values": [
+                            "external_id",
+                            "standard__email"
+                          ]
+                        }
+                      },
+                      "metadata": {
+                        "external_id": "Already used by: ContactID-00000000-0000-4000-8000-000000000001.",
+                        "standard__email": "Already used by: ContactID-00000000-0000-4000-8000-000000000002."
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -798,6 +828,36 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "409": {
+            "description": "Conflict. A submitted value is already used by a different CRM record in a field the CRM enforces as unique. The response names the fields responsible and the records that hold the values, so the request can be retried without them.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UniquenessConflictError"
+                },
+                "examples": {
+                  "Email and external_id owned by two different records": {
+                    "value": {
+                      "error": "The following field values are already used by other records in AG-EXAMPLE. Remove them from the request to continue.",
+                      "fieldViolations": {
+                        "uniqueness": {
+                          "description": "Values that violate a unique constraint and must be removed to proceed.",
+                          "values": [
+                            "external_id",
+                            "standard__email"
+                          ]
+                        }
+                      },
+                      "metadata": {
+                        "external_id": "Already used by: ContactID-00000000-0000-4000-8000-000000000001.",
+                        "standard__email": "Already used by: ContactID-00000000-0000-4000-8000-000000000002."
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -1004,6 +1064,36 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "409": {
+            "description": "Conflict. A submitted value is already used by a different CRM record in a field the CRM enforces as unique. The response names the fields responsible and the records that hold the values, so the request can be retried without them.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UniquenessConflictError"
+                },
+                "examples": {
+                  "Email and external_id owned by two different records": {
+                    "value": {
+                      "error": "The following field values are already used by other records in AG-EXAMPLE. Remove them from the request to continue.",
+                      "fieldViolations": {
+                        "uniqueness": {
+                          "description": "Values that violate a unique constraint and must be removed to proceed.",
+                          "values": [
+                            "external_id",
+                            "standard__email"
+                          ]
+                        }
+                      },
+                      "metadata": {
+                        "external_id": "Already used by: ContactID-00000000-0000-4000-8000-000000000001.",
+                        "standard__email": "Already used by: ContactID-00000000-0000-4000-8000-000000000002."
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -4113,6 +4203,46 @@
             }
           }
         ]
+      },
+      "UniquenessConflictError": {
+        "type": "object",
+        "title": "Uniqueness Conflict Error",
+        "description": "Returned when a submitted value is already held by a different CRM record in a field the CRM enforces as unique. Only fields with *enforced* uniqueness are reported — fields with warning-level uniqueness, such as `standard__phone_number`, are never the cause of this error and are never listed. To recover, remove the reported fields from the request and send it again; the rest of the record is written normally.",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Human readable summary of the conflict."
+          },
+          "fieldViolations": {
+            "type": "object",
+            "description": "Groups the conflict by section. Uniqueness conflicts use the `uniqueness` key.",
+            "properties": {
+              "uniqueness": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "description": "Explains what the listed values have in common."
+                  },
+                  "values": {
+                    "type": "array",
+                    "description": "Field IDs that must be removed from the request. Uses the same field IDs you submitted, including root fields such as `external_id`.",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "metadata": {
+            "type": "object",
+            "description": "One entry per conflicting field, naming the existing CRM records that already hold the submitted value. Use these IDs to decide whether the records should be merged.",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
       }
     },
     "securitySchemes": {

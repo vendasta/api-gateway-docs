@@ -189,6 +189,48 @@ The API performs several levels of validation:
     *   **Phones:** Should follow E.164 format for best results.
 3.  **Dropdown Validation:** Values for dropdown fields must match one of the valid options returned by the **Get field options** endpoint.
 
+### Unique field conflicts (`409`)
+
+Some fields are **enforced as unique** within a namespace — no two records may hold the same value. Writing a value that another record already owns is rejected with `409 Conflict`, and **no part of the request is applied**.
+
+The most common cause is a person or company existing as two records that have split their identifying fields between them. For example, one contact holds the email address while a second holds the `external_id`. Sending both values in one request matches the first record and then collides with the second.
+
+The response names the fields responsible and the records that already hold each value:
+
+```json
+{
+  "error": "The following field values are already used by other records in AG-EXAMPLE. Remove them from the request to continue.",
+  "fieldViolations": {
+    "uniqueness": {
+      "description": "Values that violate a unique constraint and must be removed to proceed.",
+      "values": ["external_id", "standard__email"]
+    }
+  },
+  "metadata": {
+    "external_id": "Already used by: ContactID-bbbbbbbb-....",
+    "standard__email": "Already used by: ContactID-aaaaaaaa-...."
+  }
+}
+```
+
+#### Recovering from a conflict
+
+1.  Read the field IDs from `fieldViolations.uniqueness.values`.
+2.  **Remove those fields** from your `fields` array.
+3.  Resend the request. The remaining fields are written normally.
+
+You keep the update, at the cost of not setting the conflicting identifier on that record.
+
+#### Which fields can cause a `409`
+
+Only fields with **enforced** uniqueness. Fields with *warning-level* uniqueness — notably `standard__phone_number` — are never the cause and never appear in the response.
+
+**Key takeaway:** Never drop a phone number in response to a `409`. It cannot be the field that caused the conflict, and removing it loses the ability to contact the customer.
+
+#### Treat the cause, not just the symptom
+
+A `409` is a signal that two records describe the same real-world entity. The IDs in `metadata` tell you which ones. Dropping fields keeps your sync running, but the duplicates remain and the same request will conflict again next time. Use those IDs to merge or reconcile the records so the conflict stops recurring.
+
 ### Limitations
 
 -   **String Length:** Standard text fields typically have a 255-character limit unless otherwise specified in the schema.

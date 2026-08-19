@@ -56,6 +56,17 @@
         "description": "Request to list the valid values for a string-based field type on a CRM object.",
         "required": true
       },
+      "v1RestoreCrmObjectRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/v1RestoreCrmObjectRequest"
+            }
+          }
+        },
+        "description": "Request to restore a previously soft-deleted CRM object within a namespace.",
+        "required": true
+      },
       "v1UpdateCrmObjectRequest": {
         "content": {
           "application/json": {
@@ -1864,6 +1875,25 @@
         ],
         "type": "string"
       },
+      "v1RestoreCrmObjectRequest": {
+        "description": "Request to restore a previously soft-deleted CRM object within a namespace.",
+        "properties": {
+          "crmObjectId": {
+            "description": "Required. The identifier of the CRM object to restore.",
+            "type": "string"
+          },
+          "namespace": {
+            "description": "Required. The namespace (partner ID or account group ID) the object belongs to.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "namespace",
+          "crmObjectId"
+        ],
+        "title": "Restore CRM Object Request",
+        "type": "object"
+      },
       "v1SortBy": {
         "properties": {
           "fieldId": {
@@ -2207,7 +2237,7 @@
   },
   "info": {
     "title": "CRM",
-    "version": "0.157.0"
+    "version": "0.158.0"
   },
   "openapi": "3.0.0",
   "paths": {
@@ -2719,6 +2749,48 @@
         ]
       }
     },
+    "/v1/crm/company/restore": {
+      "post": {
+        "operationId": "CRMCompanyService_RestoreCompany",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/v1RestoreCrmObjectRequest"
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "crm",
+              "crm.company"
+            ]
+          }
+        ],
+        "summary": "Restore Company",
+        "tags": [
+          "CRMCompanyService"
+        ]
+      }
+    },
     "/v1/crm/company/update": {
       "post": {
         "operationId": "CRMCompanyService_UpdateCompany",
@@ -2969,6 +3041,48 @@
           }
         ],
         "summary": "List Contacts",
+        "tags": [
+          "CRMService"
+        ]
+      }
+    },
+    "/v1/crm/contact/restore": {
+      "post": {
+        "operationId": "CRMService_RestoreContact",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/v1RestoreCrmObjectRequest"
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "crm",
+              "crm.contact"
+            ]
+          }
+        ],
+        "summary": "Restore Contact",
         "tags": [
           "CRMService"
         ]
@@ -3570,6 +3684,48 @@
           }
         ],
         "summary": "List Custom Object Filters",
+        "tags": [
+          "CRMCustomObjectService"
+        ]
+      }
+    },
+    "/v1/crm/custom-object/restore": {
+      "post": {
+        "operationId": "CRMCustomObjectService_RestoreCustomObject",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/v1RestoreCrmObjectRequest"
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "crm",
+              "crm.custom-object"
+            ]
+          }
+        ],
+        "summary": "Restore Custom Object",
         "tags": [
           "CRMCustomObjectService"
         ]
@@ -4375,6 +4531,48 @@
           }
         ],
         "summary": "List Opportunities",
+        "tags": [
+          "CRMOpportunityService"
+        ]
+      }
+    },
+    "/v1/crm/opportunity/restore": {
+      "post": {
+        "operationId": "CRMOpportunityService_RestoreOpportunity",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/v1RestoreCrmObjectRequest"
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "crm",
+              "crm.opportunity"
+            ]
+          }
+        ],
+        "summary": "Restore Opportunity",
         "tags": [
           "CRMOpportunityService"
         ]

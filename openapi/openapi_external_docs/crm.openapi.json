@@ -1922,7 +1922,7 @@
             "$ref": "#/components/schemas/v1FilterGroup"
           },
           "mutations": {
-            "description": "Field value mutations applied to an object when it enters this stage, ensuring it satisfies the stage filters. Required: creating a stage without mutations is rejected. Note: unlike CrmObject field writes elsewhere (where externalId is accepted and fieldId takes precedence), a stage mutation must reference the field by fieldId.",
+            "description": "Field value mutations applied to an object when it enters this stage, ensuring it satisfies the stage filters. The server rejects a stage created without mutations. Note: unlike CrmObject field writes elsewhere (where externalId is accepted and fieldId takes precedence), a stage mutation must reference the field by fieldId.",
             "items": {
               "$ref": "#/components/schemas/v1FieldValue"
             },
@@ -2237,7 +2237,7 @@
   },
   "info": {
     "title": "CRM",
-    "version": "0.160.1"
+    "version": "0.161.0"
   },
   "openapi": "3.0.0",
   "paths": {
@@ -2446,7 +2446,7 @@
     },
     "/v1/crm/association/list": {
       "post": {
-        "description": "Lists associations in a namespace. Use this to discover a record's relationships; for example an opportunity related company or contact is represented only as an association, not as a field on the opportunity. Pagination: set pagingOptions.pageSize explicitly; the default page size is 0 and returns no rows even when totalResults is nonzero.",
+        "description": "Lists associations in a namespace. Use this to discover a record's relationships; for example an opportunity related company or contact is represented only as an association, not as a field on the opportunity.",
         "operationId": "CRMAssociationService_ListAssociation",
         "requestBody": {
           "content": {
@@ -2710,7 +2710,6 @@
     },
     "/v1/crm/company/list": {
       "post": {
-        "description": "Pagination: set pagingOptions.pageSize explicitly; the default page size is 0 and returns no rows even when totalResults is nonzero.",
         "operationId": "CRMCompanyService_ListCompanies",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1ListCrmObjectsRequest"
@@ -3008,7 +3007,6 @@
     },
     "/v1/crm/contact/list": {
       "post": {
-        "description": "Pagination: set pagingOptions.pageSize explicitly; the default page size is 0 and returns no rows even when totalResults is nonzero.",
         "operationId": "CRMService_ListContacts",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1ListCrmObjectsRequest"
@@ -4229,7 +4227,6 @@
     },
     "/v1/crm/field-schema/list": {
       "post": {
-        "description": "Pagination: set pagingOptions.pageSize explicitly; the default page size is 0 and returns no rows even when totalResults is nonzero.",
         "operationId": "CRMFieldSchemaService_ListFieldSchema",
         "requestBody": {
           "content": {
@@ -4330,7 +4327,7 @@
     },
     "/v1/crm/opportunity/create": {
       "post": {
-        "description": "Requires the standard__opportunity_pipeline_id field (get a valid pipeline id from the List Pipelines endpoint) and standard__opportunity_name. The opportunity stage (standard__opportunity_calculated_stage_id) cannot be set directly; it is calculated from the opportunity field values. To place a deal in a stage, set standard__opportunity_status (for example Open, Closed Won, or Closed Lost) and standard__opportunity_probability (a float from 0 to 1) so the opportunity matches that stage filter (see the pipeline stages). standard__opportunity_amount is a currency value. Discover the exact standard__ field externalIds via the field schema for object type Opportunity.",
+        "description": "Requires the standard__opportunity_pipeline_id field (get a valid pipeline id from the List Pipelines endpoint) and standard__opportunity_name. The opportunity stage (standard__opportunity_calculated_stage_id) cannot be set directly; it is calculated from the opportunity field values. To place a deal in a stage, set standard__opportunity_status (for example Open, Closed Won, or Closed Lost) and standard__opportunity_probability (a float from 0 to 1) so the opportunity matches that stage filter (see the pipeline stages). standard__opportunity_amount is a currency value. Discover the exact standard__ field external IDs via the field schema for object type Opportunity.",
         "operationId": "CRMOpportunityService_CreateOpportunity",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1CreateCrmObjectRequest"
@@ -4502,7 +4499,7 @@
     },
     "/v1/crm/opportunity/list": {
       "post": {
-        "description": "Lists opportunities in a namespace with optional filtering, sorting, and pagination. An opportunity related company and contact are not fields on the opportunity; they are modeled as associations, so use the association endpoints to find them. Pagination: set pagingOptions.pageSize explicitly; the default page size is 0 and returns no rows even when totalResults is nonzero.",
+        "description": "Lists opportunities in a namespace with optional filtering, sorting, and pagination. An opportunity related company and contact are not fields on the opportunity; they are modeled as associations, so use the association endpoints to find them.",
         "operationId": "CRMOpportunityService_ListOpportunities",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1ListCrmObjectsRequest"
@@ -4631,7 +4628,7 @@
     },
     "/v1/crm/pipeline/create": {
       "post": {
-        "description": "Creates a pipeline that drives stage calculation for its object type (usually Opportunity). Provide stages in order; each stage needs a unique stageId, a name, a filterGroup, and mutations. A stage filterGroup determines membership from the object field values (for opportunities, typically standard__opportunity_status and standard__opportunity_probability, for example status Open with probability greater than 0.2 and at most 0.3). Stages should cover the probability range 0 to 1 with no gaps or overlaps. An object calculated stage is derived by matching its field values against these filters; the stage is never set directly on the object. Stage mutations are applied on stage entry and are required. Changing a pipeline affects stage calculation for every object in it. For opportunity pipelines, standard__opportunity_status is typically Open, Closed Won, or Closed Lost. Stage mutations must reference fields by fieldId, not externalId.",
+        "description": "Creates a pipeline that drives stage calculation for its object type (usually Opportunity). Provide stages in order; each stage needs a unique stageId, a name, and mutations. A stage filterGroup determines membership from the object field values (for opportunities, typically standard__opportunity_status and standard__opportunity_probability, for example status Open with probability greater than 0.2 and at most 0.3). Stages should cover the probability range 0 to 1 with no gaps or overlaps. An object calculated stage is derived by matching its field values against these filters; the stage is never set directly on the object. Stage mutations are applied on stage entry and are required. Changing a pipeline affects stage calculation for every object in it. For opportunity pipelines, standard__opportunity_status is typically Open, Closed Won, or Closed Lost. Stage mutations must reference fields by fieldId, not externalId.",
         "operationId": "Pipelines_CreatePipeline",
         "requestBody": {
           "content": {

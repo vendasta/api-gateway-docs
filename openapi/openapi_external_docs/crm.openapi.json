@@ -209,7 +209,7 @@
             "type": "string"
           },
           "associationType": {
-            "description": "Required. The type of association (e.g. \"contact_to_company\", \"opportunity_to_contact\"). Determines the relationship semantics.",
+            "description": "Required. The association type, from a fixed set with a fixed direction (from -\u003e to): Contact-Company, Company-Company, Company-Opportunity, Contact-Opportunity, Contact-CustomObject, Company-CustomObject, Opportunity-CustomObject, CustomObject-CustomObject, Contact-File, Company-File, Opportunity-File, CustomObject-File. The order is significant (for example Contact-Company, not Company-Contact). Exception: for CustomObject-CustomObject the server normalizes the from/to order by object subtype, so the stored direction may differ from the request.",
             "type": "string"
           },
           "created": {
@@ -254,6 +254,11 @@
             "type": "string"
           }
         },
+        "required": [
+          "associationType",
+          "fromId",
+          "toId"
+        ],
         "title": "Association",
         "type": "object"
       },
@@ -1922,7 +1927,7 @@
             "$ref": "#/components/schemas/v1FilterGroup"
           },
           "mutations": {
-            "description": "Optional. Field value mutations applied to an object when it enters this stage, ensuring it satisfies the stage filters.",
+            "description": "Required. Field value mutations applied to an object when it enters this stage, ensuring it satisfies the stage filters. The server rejects a stage created without mutations. Note: unlike CrmObject field writes elsewhere (where externalId is accepted and fieldId takes precedence), a stage mutation must reference the field by fieldId.",
             "items": {
               "$ref": "#/components/schemas/v1FieldValue"
             },
@@ -1933,13 +1938,14 @@
             "type": "string"
           },
           "stageId": {
-            "description": "Required. The unique identifier of the stage within its pipeline.",
+            "description": "Optional. The unique identifier of the stage within its pipeline. Server-assigned on CreatePipeline (any supplied value is replaced); on UpdatePipeline, supply the id of an existing stage to modify it, or leave it empty to have a new one generated. On UpdatePipeline the stages list replaces the pipeline's stages entirely, so send the full set, reusing each existing stage's id for the stages you want to keep.",
             "type": "string"
           }
         },
         "required": [
-          "stageId",
-          "name"
+          "name",
+          "filterGroup",
+          "mutations"
         ],
         "title": "Stage",
         "type": "object"
@@ -2237,12 +2243,13 @@
   },
   "info": {
     "title": "CRM",
-    "version": "0.160.0"
+    "version": "0.161.0"
   },
   "openapi": "3.0.0",
   "paths": {
     "/v1/crm/association/create": {
       "post": {
+        "description": "Creates a directional association between two CRM objects. The association type must be one of the fixed values with the correct direction (see the association type field description). Creating a duplicate association (same type, fromId, and toId) returns an ALREADY_EXISTS error (HTTP 409).",
         "operationId": "CRMAssociationService_CreateAssociation",
         "requestBody": {
           "content": {
@@ -2445,6 +2452,7 @@
     },
     "/v1/crm/association/list": {
       "post": {
+        "description": "Lists associations in a namespace. Use this to discover a record's relationships; for example an opportunity related company or contact is represented only as an association, not as a field on the opportunity.",
         "operationId": "CRMAssociationService_ListAssociation",
         "requestBody": {
           "content": {
@@ -4325,6 +4333,7 @@
     },
     "/v1/crm/opportunity/create": {
       "post": {
+        "description": "Requires the standard__opportunity_pipeline_id field (get a valid pipeline id from the List Pipelines endpoint) and standard__opportunity_name. The opportunity stage (standard__opportunity_calculated_stage_id) cannot be set directly; it is calculated from the opportunity field values. To place a deal in a stage, set standard__opportunity_probability (a float from 0 to 1) so the opportunity matches that stage filter (see the pipeline stages); standard__opportunity_status is read-only and derived from probability (0 = Closed Lost, 1 = Closed Won, anything else = Open), and probability defaults to 0.1 when omitted. standard__opportunity_amount is a currency value. Discover the exact standard__ field external IDs via the field schema for object type Opportunity.",
         "operationId": "CRMOpportunityService_CreateOpportunity",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1CreateCrmObjectRequest"
@@ -4452,6 +4461,7 @@
     },
     "/v1/crm/opportunity/get-multi": {
       "post": {
+        "description": "Retrieves opportunities by id, including their field schemas. An opportunity related company and contact are associations, not fields, so use the association endpoints to resolve them.",
         "operationId": "CRMOpportunityService_GetMultiOpportunity",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1GetMultiCrmObjectRequest"
@@ -4495,6 +4505,7 @@
     },
     "/v1/crm/opportunity/list": {
       "post": {
+        "description": "Lists opportunities in a namespace with optional filtering, sorting, and pagination. An opportunity related company and contact are not fields on the opportunity; they are modeled as associations, so use the association endpoints to find them.",
         "operationId": "CRMOpportunityService_ListOpportunities",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1ListCrmObjectsRequest"
@@ -4580,6 +4591,7 @@
     },
     "/v1/crm/opportunity/update": {
       "post": {
+        "description": "The opportunity stage is calculated, not settable: to move an opportunity to another stage set standard__opportunity_probability (plus any other fields the target stage filter tests) so it matches the target stage filter (see the pipeline stages), and the calculated stage updates automatically. Send field_mask with the specific fields.\u003cfieldId\u003e paths being changed, and only those fields are touched — name and pipeline id need not be resent. Omitting field_mask replaces the whole field set, which is the only reason the required fields (name and pipeline id) must be present in that form.",
         "operationId": "CRMOpportunityService_UpdateOpportunity",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1UpdateCrmObjectRequest"
@@ -4622,6 +4634,7 @@
     },
     "/v1/crm/pipeline/create": {
       "post": {
+        "description": "Creates a pipeline that drives stage calculation for its object type (usually Opportunity). Provide stages in order; stageId should be omitted, it is assigned by the server on create. Each stage needs a name, a filterGroup with at least one filter and a valid filterGroupOperator, and mutations. A stage filterGroup determines membership from the object field values (for opportunities, typically standard__opportunity_status and standard__opportunity_probability, for example status Open with probability greater than 0.2 and at most 0.3). Stages should cover the probability range 0 to 1 with no gaps or overlaps. An object calculated stage is derived by matching its field values against these filters; the stage is never set directly on the object. Stage mutations are applied on stage entry and are required. Changing a pipeline affects stage calculation for every object in it. For opportunity pipelines, standard__opportunity_status is typically Open, Closed Won, or Closed Lost. Stage mutations must reference fields by fieldId, not externalId.",
         "operationId": "Pipelines_CreatePipeline",
         "requestBody": {
           "content": {
@@ -4726,6 +4739,7 @@
     },
     "/v1/crm/pipeline/get-multi": {
       "post": {
+        "description": "Retrieves pipelines by id, including their stages and each stage filterGroup (the rules that determine which objects belong to the stage).",
         "operationId": "Pipelines_GetMultiPipeline",
         "requestBody": {
           "content": {
@@ -4781,6 +4795,7 @@
     },
     "/v1/crm/pipeline/list": {
       "post": {
+        "description": "Lists pipelines and their stages. Each stage filterGroup defines which objects fall in that stage (for opportunities, conditions over status and probability). Use this to determine which field values place an opportunity in a given stage, and to obtain a valid pipeline id for creating an opportunity. Wrap all arguments in a listOptions object; namespace goes inside listOptions (unlike the other list endpoints).",
         "operationId": "Pipelines_ListPipelines",
         "requestBody": {
           "content": {

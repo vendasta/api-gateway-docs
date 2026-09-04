@@ -1,0 +1,224 @@
+{
+  "components": {
+    "schemas": {
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "rpcStatus": {
+        "properties": {
+          "code": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            },
+            "type": "array"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1AssociatedUser": {
+        "description": "A user associated with an account.",
+        "properties": {
+          "email": {
+            "description": "Output only. The user's email address.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "firstName": {
+            "description": "Output only. The user's given name. Empty when the user has no name on file.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "lastName": {
+            "description": "Output only. The user's family name. Empty when the user has no name on file.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "phone": {
+            "description": "Output only. The user's work phone number. Only phone numbers of type WORK\nare returned; empty when the user has none.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "profileImageUrl": {
+            "description": "Output only. The user's profile image URL; empty when unavailable.",
+            "readOnly": true,
+            "type": "string"
+          },
+          "userId": {
+            "description": "Output only. The user's identifier, in the form `U-\u003cuuid\u003e`\n(for example, `U-e3bbb42b-c464-4326-9c09-aa8cfc45e0b3`). Use this value\nwhen referring to the user in other APIs, such as SCIM group membership.",
+            "readOnly": true,
+            "type": "string"
+          }
+        },
+        "title": "Associated User",
+        "type": "object"
+      },
+      "v1ListUsersForBusinessV2Request": {
+        "description": "Request message for listing the users associated with a single account, one page at a time.",
+        "properties": {
+          "accountGroupId": {
+            "description": "Required. The account group whose associated users should be returned,\nin the form `AG-XXXXXXXX`.",
+            "type": "string"
+          },
+          "pagingOptions": {
+            "$ref": "#/components/schemas/vendastatypesPagedRequestOptions"
+          }
+        },
+        "required": [
+          "accountGroupId"
+        ],
+        "title": "List Users For Business Request",
+        "type": "object"
+      },
+      "v1ListUsersForBusinessV2Response": {
+        "description": "One page of users associated with the requested account.",
+        "properties": {
+          "associatedUsers": {
+            "description": "Output only. The users associated with the account for this page of results.",
+            "items": {
+              "$ref": "#/components/schemas/v1AssociatedUser"
+            },
+            "readOnly": true,
+            "type": "array"
+          },
+          "pagingMetadata": {
+            "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
+          }
+        },
+        "title": "List Users For Business Response",
+        "type": "object"
+      },
+      "vendastatypesPagedRequestOptions": {
+        "properties": {
+          "cursor": {
+            "description": "Optional. An opaque token from a previous response's next_cursor to retrieve the next page of results. Omit or leave empty for the first page.",
+            "type": "string"
+          },
+          "pageSize": {
+            "description": "Optional. The maximum number of items to return per page.",
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "vendastatypesPagedResponseMetadata": {
+        "properties": {
+          "hasMore": {
+            "title": "Whether or not more results exist",
+            "type": "boolean"
+          },
+          "nextCursor": {
+            "title": "A cursor that can be provided to retrieve the next page of results",
+            "type": "string"
+          },
+          "totalResults": {
+            "format": "int64",
+            "title": "The total number of results. This is not supported on all paged apis and will be 0 if it is not supported",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "scopes": {
+              "user": "Allows the application to manage users in the platform",
+              "user.business": "Allows the application to manage client business users, including creating them",
+              "user.business:read": "Allows the application view-only access to the users associated to the business"
+            },
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "title": "Business Center",
+    "version": "1.49.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/business-center/users/list": {
+      "post": {
+        "description": "Returns the users associated with an account, one page at a time.\n\nPass `paging_options.cursor` from the previous response's `paging_metadata.next_cursor` to retrieve subsequent pages, and stop when `has_more` is false.\n\nRequired OAuth2 scopes: `user`, `user.business`, or `user.business:read`",
+        "operationId": "User_ListUsersForBusinessV2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ListUsersForBusinessV2Request"
+              }
+            }
+          },
+          "description": "Request message for listing the users associated with a single account, one page at a time.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ListUsersForBusinessV2Response"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "user",
+              "user.business",
+              "user.business:read"
+            ]
+          }
+        ],
+        "summary": "List Users For Business",
+        "tags": [
+          "Account Users"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://prod.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "description": "Endpoints for reading the users associated with an account.",
+      "name": "Account Users"
+    }
+  ]
+}

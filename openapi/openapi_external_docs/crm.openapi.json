@@ -2243,7 +2243,7 @@
   },
   "info": {
     "title": "CRM",
-    "version": "0.162.0"
+    "version": "0.163.0"
   },
   "openapi": "3.0.0",
   "paths": {
@@ -2554,6 +2554,7 @@
     },
     "/v1/crm/company/create": {
       "post": {
+        "description": "Creates a company in the given namespace. The request message is shared by every CRM object type, so only company fields apply here; contacts, opportunities, and custom objects have their own create endpoints. Omit crmObjectId — the service assigns it and returns it in the response.",
         "operationId": "CRMCompanyService_CreateCompany",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1CreateCrmObjectRequest"
@@ -2673,6 +2674,7 @@
     },
     "/v1/crm/company/get-multi": {
       "post": {
+        "description": "Retrieves companies by id, including the field schemas for the fields present on them. Use fieldMask to limit which fields are returned. A company's related contacts and opportunities are associations rather than fields, so use the association endpoints to resolve them.",
         "operationId": "CRMCompanyService_GetMultiCompany",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1GetMultiCrmObjectRequest"
@@ -2716,6 +2718,7 @@
     },
     "/v1/crm/company/list": {
       "post": {
+        "description": "Lists companies in a namespace with optional free-text search, filtering, sorting, and pagination. A company's related contacts and opportunities are not fields on the company; they are modeled as associations, so use the association endpoints to resolve them.",
         "operationId": "CRMCompanyService_ListCompanies",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1ListCrmObjectsRequest"
@@ -2801,6 +2804,7 @@
     },
     "/v1/crm/company/update": {
       "post": {
+        "description": "Updates an existing company. Set crmObject.crmObjectId to identify it. Send fieldMask with the specific fields.\u003cfieldId\u003e paths being changed and only those fields are touched; omitting fieldMask replaces the whole field set. Field ids come from the field-schema list endpoint.",
         "operationId": "CRMCompanyService_UpdateCompany",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1UpdateCrmObjectRequest"
@@ -2843,6 +2847,7 @@
     },
     "/v1/crm/contact/create": {
       "post": {
+        "description": "Creates a contact in the given namespace. The request message is shared by every CRM object type, so only contact fields apply here; companies, opportunities, and custom objects have their own create endpoints. Omit crmObjectId — the service assigns it and returns it in the response.",
         "operationId": "CRMService_CreateContact",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1CreateCrmObjectRequest"
@@ -2970,6 +2975,7 @@
     },
     "/v1/crm/contact/get-multi": {
       "post": {
+        "description": "Retrieves contacts by id, including the field schemas for the fields present on them. Use fieldMask to limit which fields are returned. A contact's related companies and opportunities are associations rather than fields, so use the association endpoints to resolve them.",
         "operationId": "CRMService_GetMultiContact",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1GetMultiCrmObjectRequest"
@@ -3013,6 +3019,7 @@
     },
     "/v1/crm/contact/list": {
       "post": {
+        "description": "Lists contacts in a namespace with optional free-text search, filtering, sorting, and pagination. A contact's related companies and opportunities are not fields on the contact; they are modeled as associations, so use the association endpoints to resolve them.",
         "operationId": "CRMService_ListContacts",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1ListCrmObjectsRequest"
@@ -3098,6 +3105,7 @@
     },
     "/v1/crm/contact/update": {
       "post": {
+        "description": "Updates an existing contact. Set crmObject.crmObjectId to identify it. Send fieldMask with the specific fields.\u003cfieldId\u003e paths being changed and only those fields are touched; omitting fieldMask replaces the whole field set. Field ids come from the field-schema list endpoint.",
         "operationId": "CRMService_UpdateContact",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1UpdateCrmObjectRequest"
@@ -4233,6 +4241,7 @@
     },
     "/v1/crm/field-schema/list": {
       "post": {
+        "description": "Lists the field schemas for a CRM object type, including custom fields. Each schema carries the field id and external id needed to build fields.\u003cfieldId\u003e paths for update field masks and to interpret the fields returned by the get and list endpoints. Optionally filter by subtype, owning namespace, archive status, or a search term.",
         "operationId": "CRMFieldSchemaService_ListFieldSchema",
         "requestBody": {
           "content": {

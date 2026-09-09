@@ -2554,7 +2554,7 @@
     },
     "/v1/crm/company/create": {
       "post": {
-        "description": "Creates a company in the given namespace. The request message is shared by every CRM object type, so only company fields apply here; contacts, opportunities, and custom objects have their own create endpoints. Omit crmObjectId — the service assigns it and returns it in the response.",
+        "description": "Creates a company in the given namespace. The request message is shared with the contact, opportunity, and custom-object create endpoints, so only company fields apply here. Omit crmObject.crmObjectId — the service assigns the id and returns it as crmObjectId in the response.",
         "operationId": "CRMCompanyService_CreateCompany",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1CreateCrmObjectRequest"
@@ -2804,7 +2804,7 @@
     },
     "/v1/crm/company/update": {
       "post": {
-        "description": "Updates an existing company. Set crmObject.crmObjectId to identify it. Send fieldMask with the specific fields.\u003cfieldId\u003e paths being changed and only those fields are touched; omitting fieldMask replaces the whole field set. Field ids come from the field-schema list endpoint.",
+        "description": "Updates an existing company. Set crmObject.crmObjectId to identify it. Send fieldMask.paths with the specific fields.\u003cfieldId\u003e paths being changed, and only those fields are touched; omitting fieldMask replaces the whole field set. Top-level object properties such as ownerId use their own path rather than a fields. prefix. Field ids come from the field-schema list endpoint.",
         "operationId": "CRMCompanyService_UpdateCompany",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1UpdateCrmObjectRequest"
@@ -2847,7 +2847,7 @@
     },
     "/v1/crm/contact/create": {
       "post": {
-        "description": "Creates a contact in the given namespace. The request message is shared by every CRM object type, so only contact fields apply here; companies, opportunities, and custom objects have their own create endpoints. Omit crmObjectId — the service assigns it and returns it in the response.",
+        "description": "Creates a contact in the given namespace. The request message is shared with the company, opportunity, and custom-object create endpoints, so only contact fields apply here. Omit crmObject.crmObjectId — the service assigns the id and returns it as crmObjectId in the response.",
         "operationId": "CRMService_CreateContact",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1CreateCrmObjectRequest"
@@ -2975,7 +2975,7 @@
     },
     "/v1/crm/contact/get-multi": {
       "post": {
-        "description": "Retrieves contacts by id, including the field schemas for the fields present on them. Use fieldMask to limit which fields are returned. A contact's related companies and opportunities are associations rather than fields, so use the association endpoints to resolve them.",
+        "description": "Retrieves contacts by id, including the field schemas for the fields present on them. Use fieldMask to limit which fields are returned. A contact's opportunities are modeled as associations rather than fields, so use the association endpoints to resolve them.",
         "operationId": "CRMService_GetMultiContact",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1GetMultiCrmObjectRequest"
@@ -3019,7 +3019,7 @@
     },
     "/v1/crm/contact/list": {
       "post": {
-        "description": "Lists contacts in a namespace with optional free-text search, filtering, sorting, and pagination. A contact's related companies and opportunities are not fields on the contact; they are modeled as associations, so use the association endpoints to resolve them.",
+        "description": "Lists contacts in a namespace with optional free-text search, filtering, sorting, and pagination. A contact's opportunities are modeled as associations rather than fields, so use the association endpoints to resolve them.",
         "operationId": "CRMService_ListContacts",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1ListCrmObjectsRequest"
@@ -3105,7 +3105,7 @@
     },
     "/v1/crm/contact/update": {
       "post": {
-        "description": "Updates an existing contact. Set crmObject.crmObjectId to identify it. Send fieldMask with the specific fields.\u003cfieldId\u003e paths being changed and only those fields are touched; omitting fieldMask replaces the whole field set. Field ids come from the field-schema list endpoint.",
+        "description": "Updates an existing contact. Set crmObject.crmObjectId to identify it. Send fieldMask.paths with the specific fields.\u003cfieldId\u003e paths being changed, and only those fields are touched; omitting fieldMask replaces the whole field set. Top-level object properties such as ownerId use their own path rather than a fields. prefix. Field ids come from the field-schema list endpoint.",
         "operationId": "CRMService_UpdateContact",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1UpdateCrmObjectRequest"
@@ -4241,7 +4241,7 @@
     },
     "/v1/crm/field-schema/list": {
       "post": {
-        "description": "Lists the field schemas for a CRM object type, including custom fields. Each schema carries the field id and external id needed to build fields.\u003cfieldId\u003e paths for update field masks and to interpret the fields returned by the get and list endpoints. Optionally filter by subtype, owning namespace, archive status, or a search term.",
+        "description": "Lists the field schemas for a CRM object type, including custom fields. Each schema's field id is what builds the fields.\u003cfieldId\u003e paths used in update field masks and returned by the get and list endpoints; a schema's external id is a caller-supplied label accepted inside a FieldValue and is not a mask path.",
         "operationId": "CRMFieldSchemaService_ListFieldSchema",
         "requestBody": {
           "content": {
@@ -4600,7 +4600,7 @@
     },
     "/v1/crm/opportunity/update": {
       "post": {
-        "description": "The opportunity stage is calculated, not settable: to move an opportunity to another stage set standard__opportunity_probability (plus any other fields the target stage filter tests) so it matches the target stage filter (see the pipeline stages), and the calculated stage updates automatically. Send field_mask with the specific fields.\u003cfieldId\u003e paths being changed, and only those fields are touched — name and pipeline id need not be resent. Omitting field_mask replaces the whole field set, which is the only reason the required fields (name and pipeline id) must be present in that form.",
+        "description": "The opportunity stage is calculated, not settable: to move an opportunity to another stage set standard__opportunity_probability (plus any other fields the target stage filter tests) so it matches the target stage filter (see the pipeline stages), and the calculated stage updates automatically. Send fieldMask.paths with the specific fields.\u003cfieldId\u003e paths being changed, and only those fields are touched — name and pipeline id need not be resent. Omitting fieldMask replaces the whole field set, which is the only reason the required fields (name and pipeline id) must be present in that form.",
         "operationId": "CRMOpportunityService_UpdateOpportunity",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1UpdateCrmObjectRequest"

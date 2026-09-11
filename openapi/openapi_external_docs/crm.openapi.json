@@ -2554,7 +2554,7 @@
     },
     "/v1/crm/company/create": {
       "post": {
-        "description": "Creates a company in the given namespace. The request message is shared with the contact, opportunity, and custom-object create endpoints, so only company fields apply here. Omit crmObject.crmObjectId — the service assigns the id and returns it as crmObjectId in the response.",
+        "description": "Creates a company in the given namespace. The request message is shared with the contact, opportunity, and custom-object create endpoints, so only company fields apply here. Set values in crmObject.fields, each naming the field by fieldId (or by externalId, which for built-ins takes the form standard__*); discover both from the field-schema list endpoint for object type Company. Omit crmObject.crmObjectId — the service assigns the id and returns it as crmObjectId in the response. Two fields behave differently here than their own documentation suggests: idempotencyId is accepted but not stored for this object type, so it cannot be relied on to deduplicate a retried create; and ownerId defaults to the calling user, so a service-account caller that omits it creates a record with no owner, which owner-scoped list and query calls then cannot see.",
         "operationId": "CRMCompanyService_CreateCompany",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1CreateCrmObjectRequest"
@@ -2674,7 +2674,7 @@
     },
     "/v1/crm/company/get-multi": {
       "post": {
-        "description": "Retrieves companies by id, including the field schemas for the fields present on them. Use fieldMask to limit which fields are returned. A company's related contacts and opportunities are associations rather than fields, so use the association endpoints to resolve them.",
+        "description": "Retrieves companies by id, including the field schemas for the fields present on them. Use fieldMask.paths to limit which fields are returned, naming each as a fields.\u003cfieldId\u003e path. A company's related contacts and opportunities are associations rather than fields. List the namespace's associations and match on toId for Contact-Company, or on fromId for Company-Opportunity.",
         "operationId": "CRMCompanyService_GetMultiCompany",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1GetMultiCrmObjectRequest"
@@ -2718,7 +2718,7 @@
     },
     "/v1/crm/company/list": {
       "post": {
-        "description": "Lists companies in a namespace with optional free-text search, filtering, sorting, and pagination. A company's related contacts and opportunities are not fields on the company; they are modeled as associations, so use the association endpoints to resolve them.",
+        "description": "Lists companies in a namespace with optional free-text search, filtering, sorting, and pagination. filtersV2 and sortBy address fields by fieldId — a schema's external id is accepted too and resolved to the field id — which the field-schema list endpoint supplies; an id matching no schema is rejected with INVALID_ARGUMENT rather than ignored. A company's related contacts and opportunities are not fields on the company; they are associations. List the namespace's associations and match on toId for Contact-Company, or on fromId for Company-Opportunity.",
         "operationId": "CRMCompanyService_ListCompanies",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1ListCrmObjectsRequest"
@@ -2804,7 +2804,7 @@
     },
     "/v1/crm/company/update": {
       "post": {
-        "description": "Updates an existing company. Set crmObject.crmObjectId to identify it. Send fieldMask.paths with the specific fields.\u003cfieldId\u003e paths being changed, and only those fields are touched; omitting fieldMask replaces the whole field set. Top-level object properties such as ownerId use their own path rather than a fields. prefix. Field ids come from the field-schema list endpoint.",
+        "description": "Updates an existing company in the given namespace. Set crmObject.crmObjectId to identify it. Send fieldMask.paths with the specific fields.\u003cfieldId\u003e paths being changed, and only those fields are touched; omitting fieldMask replaces the whole field set. Top-level object properties such as ownerId use their own path rather than a fields. prefix. Field ids come from the field-schema list endpoint.",
         "operationId": "CRMCompanyService_UpdateCompany",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1UpdateCrmObjectRequest"
@@ -2847,7 +2847,7 @@
     },
     "/v1/crm/contact/create": {
       "post": {
-        "description": "Creates a contact in the given namespace. The request message is shared with the company, opportunity, and custom-object create endpoints, so only contact fields apply here. Omit crmObject.crmObjectId — the service assigns the id and returns it as crmObjectId in the response.",
+        "description": "Creates a contact in the given namespace. The request message is shared with the company, opportunity, and custom-object create endpoints, so only contact fields apply here. Set values in crmObject.fields, each naming the field by fieldId (or by externalId, which for built-ins takes the form standard__*); discover both from the field-schema list endpoint for object type Contact. Omit crmObject.crmObjectId — the service assigns the id and returns it as crmObjectId in the response. Two fields behave differently here than their own documentation suggests: idempotencyId is accepted but not stored for this object type, so it cannot be relied on to deduplicate a retried create; and ownerId defaults to the calling user, so a service-account caller that omits it creates a record with no owner, which owner-scoped list and query calls then cannot see.",
         "operationId": "CRMService_CreateContact",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1CreateCrmObjectRequest"
@@ -2975,7 +2975,7 @@
     },
     "/v1/crm/contact/get-multi": {
       "post": {
-        "description": "Retrieves contacts by id, including the field schemas for the fields present on them. Use fieldMask to limit which fields are returned. A contact's opportunities are modeled as associations rather than fields, so use the association endpoints to resolve them.",
+        "description": "Retrieves contacts by id, including the field schemas for the fields present on them. Use fieldMask.paths to limit which fields are returned, naming each as a fields.\u003cfieldId\u003e path. A contact's opportunities are modeled as associations rather than fields: list the namespace's associations and match on fromId, the association type naming the direction (Contact-Opportunity).",
         "operationId": "CRMService_GetMultiContact",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1GetMultiCrmObjectRequest"
@@ -3019,7 +3019,7 @@
     },
     "/v1/crm/contact/list": {
       "post": {
-        "description": "Lists contacts in a namespace with optional free-text search, filtering, sorting, and pagination. A contact's opportunities are modeled as associations rather than fields, so use the association endpoints to resolve them.",
+        "description": "Lists contacts in a namespace with optional free-text search, filtering, sorting, and pagination. filtersV2 and sortBy address fields by fieldId — a schema's external id is accepted too and resolved to the field id — which the field-schema list endpoint supplies; an id matching no schema is rejected with INVALID_ARGUMENT rather than ignored. A contact's opportunities are modeled as associations rather than fields: list the namespace's associations and match on fromId, the association type naming the direction (Contact-Opportunity).",
         "operationId": "CRMService_ListContacts",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1ListCrmObjectsRequest"
@@ -3105,7 +3105,7 @@
     },
     "/v1/crm/contact/update": {
       "post": {
-        "description": "Updates an existing contact. Set crmObject.crmObjectId to identify it. Send fieldMask.paths with the specific fields.\u003cfieldId\u003e paths being changed, and only those fields are touched; omitting fieldMask replaces the whole field set. Top-level object properties such as ownerId use their own path rather than a fields. prefix. Field ids come from the field-schema list endpoint.",
+        "description": "Updates an existing contact in the given namespace. Set crmObject.crmObjectId to identify it. Send fieldMask.paths with the specific fields.\u003cfieldId\u003e paths being changed, and only those fields are touched; omitting fieldMask replaces the whole field set. Top-level object properties such as ownerId use their own path rather than a fields. prefix. Field ids come from the field-schema list endpoint.",
         "operationId": "CRMService_UpdateContact",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1UpdateCrmObjectRequest"
@@ -4241,7 +4241,7 @@
     },
     "/v1/crm/field-schema/list": {
       "post": {
-        "description": "Lists the field schemas for a CRM object type, including custom fields. Each schema's field id is what builds the fields.\u003cfieldId\u003e paths used in update field masks and returned by the get and list endpoints; a schema's external id is a caller-supplied label accepted inside a FieldValue and is not a mask path.",
+        "description": "Lists the field schemas for a CRM object type, including custom fields. The object type is an optional filter — omit it to list the schemas for every object type in the namespace. Each schema's field id is what builds the fields.\u003cfieldId\u003e paths used in CRM object update field masks and returned by the get and list endpoints. A schema's external id is a second identifier for the same field, partner-defined for custom fields and of the form standard__* for Vendasta's built-ins; it can be sent in place of the field id inside a FieldValue (the field id wins when both are set), but it is not a fields.\u003c...\u003e path and so cannot appear in a CRM object update mask.",
         "operationId": "CRMFieldSchemaService_ListFieldSchema",
         "requestBody": {
           "content": {

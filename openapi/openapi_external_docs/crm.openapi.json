@@ -837,7 +837,7 @@
       },
       "v1FieldType": {
         "default": "FIELD_TYPE_INVALID",
-        "description": "- FIELD_TYPE_DROPDOWN: FIELD_TYPE_DROPDOWN is passed as a string in the field_value\n - FIELD_TYPE_CURRENCY: FIELD_TYPE_CURRENCY is passed as a Currency message containing a code and value\n - FIELD_TYPE_EMAIL: FIELD_TYPE_EMAIL is passed as a string in the field_value\n - FIELD_TYPE_PHONE: FIELD_TYPE_PHONE is passed as a string in the field_value\n - FIELD_TYPE_TAG: FIELD_TYPE_TAG is passed as a StringList in the field_value\n - FIELD_TYPE_GEOPOINT: FIELD_TYPE_GEOPOINT is passed as a Geopoint message containing lat and long fields in the field_value",
+        "description": " - FIELD_TYPE_DROPDOWN: FIELD_TYPE_DROPDOWN is passed as a string in the field_value\n - FIELD_TYPE_CURRENCY: FIELD_TYPE_CURRENCY is passed as a Currency message containing a code and value\n - FIELD_TYPE_EMAIL: FIELD_TYPE_EMAIL is passed as a string in the field_value\n - FIELD_TYPE_PHONE: FIELD_TYPE_PHONE is passed as a string in the field_value\n - FIELD_TYPE_TAG: FIELD_TYPE_TAG is passed as a StringList in the field_value\n - FIELD_TYPE_GEOPOINT: FIELD_TYPE_GEOPOINT is passed as a Geopoint message containing lat and long fields in the field_value\n - FIELD_TYPE_TIMER: FIELD_TYPE_TIMER is a countdown to a deadline, passed as a Timer message\nin the field_value.",
         "enum": [
           "FIELD_TYPE_INVALID",
           "FIELD_TYPE_STRING",
@@ -852,7 +852,8 @@
           "FIELD_TYPE_DATETIME",
           "FIELD_TYPE_STRING_LIST",
           "FIELD_TYPE_GEOPOINT",
-          "FIELD_TYPE_FLOAT"
+          "FIELD_TYPE_FLOAT",
+          "FIELD_TYPE_TIMER"
         ],
         "type": "string"
       },
@@ -905,6 +906,9 @@
           },
           "stringValues": {
             "$ref": "#/components/schemas/v1StringList"
+          },
+          "timerValue": {
+            "$ref": "#/components/schemas/v1Timer"
           }
         },
         "type": "object"
@@ -1962,6 +1966,54 @@
         },
         "type": "object"
       },
+      "v1Timer": {
+        "description": "Timer is the state of a countdown to a deadline.",
+        "properties": {
+          "currentEnd": {
+            "description": "The live deadline, when the timer will fire. Re-projected on every resume,\nso this is the value to sort, filter and tick the UI against. UTC.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "currentStart": {
+            "description": "When the run currently in flight began. Rewritten on every activation. UTC.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "duration": {
+            "description": "Seconds remaining before the timer fires.",
+            "format": "int64",
+            "type": "string"
+          },
+          "originalEnd": {
+            "description": "The deadline this timer would have had with no pauses. Written once at\nfirst activation and never rewritten. UTC.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "originalStart": {
+            "description": "When the timer first became ACTIVE. Written once, never rewritten.\nReporting only. UTC.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/v1TimerStatus"
+          }
+        },
+        "type": "object"
+      },
+      "v1TimerStatus": {
+        "default": "TIMER_STATUS_INVALID",
+        "description": "TimerStatus is the state of a Timer field value.\n\n - TIMER_STATUS_INVALID: Unset. A Timer whose status was never populated decodes to this; it is not\na state a timer is ever stored in.\n - TIMER_STATUS_INACTIVE: The clock has never run and no timestamps are stamped. Writers set this\nexplicitly on a newly created timer.\n - TIMER_STATUS_ACTIVE: The clock is running and current_end is live.\n - TIMER_STATUS_PAUSED: The clock is stopped and duration is frozen at the remaining amount.\n - TIMER_STATUS_EXPIRED: Duration reached 0 and the timer fired on its own.\n - TIMER_STATUS_STOPPED: Halted before firing. A new deadline may still be set afterwards.\n - TIMER_STATUS_TERMINATED: Terminal. The timer will not fire again.",
+        "enum": [
+          "TIMER_STATUS_INVALID",
+          "TIMER_STATUS_INACTIVE",
+          "TIMER_STATUS_ACTIVE",
+          "TIMER_STATUS_PAUSED",
+          "TIMER_STATUS_EXPIRED",
+          "TIMER_STATUS_STOPPED",
+          "TIMER_STATUS_TERMINATED"
+        ],
+        "type": "string"
+      },
       "v1UpdateAssociationRequest": {
         "description": "Request to update the tags on an existing association.",
         "properties": {
@@ -2243,7 +2295,7 @@
   },
   "info": {
     "title": "CRM",
-    "version": "0.162.0"
+    "version": "0.163.0"
   },
   "openapi": "3.0.0",
   "paths": {

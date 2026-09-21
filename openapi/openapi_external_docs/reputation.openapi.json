@@ -75,10 +75,12 @@
       },
       "v1CommunicationChannel": {
         "default": "COMMUNICATION_CHANNEL_UNSPECIFIED",
+        "description": " - COMMUNICATION_CHANNEL_TAP_CARD: The score came from a tap card, so there is no review request record behind it.",
         "enum": [
           "COMMUNICATION_CHANNEL_UNSPECIFIED",
           "COMMUNICATION_CHANNEL_EMAIL",
-          "COMMUNICATION_CHANNEL_SMS"
+          "COMMUNICATION_CHANNEL_SMS",
+          "COMMUNICATION_CHANNEL_TAP_CARD"
         ],
         "type": "string"
       },
@@ -1014,6 +1016,9 @@
             "readOnly": true,
             "type": "string"
           },
+          "communicationChannel": {
+            "$ref": "#/components/schemas/v1CommunicationChannel"
+          },
           "contact": {
             "$ref": "#/components/schemas/v1ContactDetails"
           },
@@ -1066,7 +1071,7 @@
             "type": "array"
           },
           "reviewRequestRecordId": {
-            "description": "Output only. ID of the review request for which the customer submitted this NPS feedback.",
+            "description": "Output only. ID of the review request the customer submitted this NPS feedback for. Empty for a tap card score.",
             "readOnly": true,
             "type": "string"
           },
@@ -1917,7 +1922,7 @@
   },
   "info": {
     "title": "Reputation",
-    "version": "4.37.0"
+    "version": "4.38.0"
   },
   "openapi": "3.0.0",
   "paths": {

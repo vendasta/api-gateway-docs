@@ -23,13 +23,43 @@ Here `{AG-ID}` is the `account group id` or `business location id`
 | ba:store:{AG-ID}            | Store for {AG-ID}              | businessFeature | Access to Store within the business location |
 | ba:customerList:{AG-ID}     | Customer List for {AG-ID}      | businessFeature | Access to Customer List within the business location |
 | ba:executiveReport:{AG-ID}  | Executive Report for {AG-ID}   | businessFeature | Access to Executive Report within the business location |
-| ba:guides:{AG-ID}           | Guides for {AG-ID}             | businessFeature | Access to Guides within the business location |
+| ba:guides:{AG-ID}           | Projects for {AG-ID}           | businessFeature | Access to Projects within the business location. Despite its id, this group grants the Projects tab, not Guides. Guides is `ba:contentLibrary`. |
 | ba:files:{AG-ID}            | Files for {AG-ID}              | businessFeature | Access to Files within the business location |
 | ba:businessProfile:{AG-ID}  | Business Profile for {AG-ID}   | businessFeature | Access to Business Profile within the business location |
 | ba:socialConnection:{AG-ID} | Social Connections for {AG-ID} | businessFeature | Access to Social Connections within the business location |
 | ba:orders:{AG-ID}           | Orders for {AG-ID}             | businessFeature | Access to Orders within the business location |
 | ba:invoices:{AG-ID}         | Invoices for {AG-ID}           | businessFeature | Access to Invoices within the business location |
 | ba:myProducts:{AG-ID}       | My Products for {AG-ID}        | businessFeature | Access to My Products within the business location |
+| ba:users:{AG-ID}            | User Management for {AG-ID}    | businessFeature | Access to User Management within the business location |
+| ba:ai:{AG-ID}               | AI for {AG-ID}                 | businessFeature | Access to AI within the business location |
+| ba:contentLibrary:{AG-ID}   | Guides (Content Library) for {AG-ID} | businessFeature | Access to Guides within the business location |
+| ba:recommendations:{AG-ID}  | Recommendations for {AG-ID}    | businessFeature | Access to Recommendations within the business location |
+| ba:automations:{AG-ID}      | Automations for {AG-ID}        | businessFeature | Access to Automations within the business location |
+| ba:administration:{AG-ID}   | Administration for {AG-ID}     | businessFeature | Access to Administration within the business location |
+
+:::info
+**A user with no business feature groups has access to every tab, not none.**
+
+Business App tab access is stored as a restriction list. While that list is empty the user is
+unrestricted: they see every tab the business location's configuration allows, including tabs added
+to Business App later. The first time you remove any business feature group from an unrestricted
+user, the implicit grant is written out as an explicit list and the user stops receiving new tabs
+automatically.
+
+Because of that, removing a group you did not intend to manage is not a no-op. If you want a user to
+have a specific set of tabs, add the groups for the tabs they should have and remove only the ones
+they should not.
+
+A user must keep at least one business feature group. Removing their last one is rejected; remove
+`ba:access:{AG-ID}` instead to revoke the business location entirely.
+:::
+
+:::caution
+`ba:getStarted` and `ba:inbox` grant tabs Business App no longer renders. They remain assignable so
+existing integrations do not start failing, but assigning them has no visible effect, and they are
+no longer reported as memberships for unrestricted users. Use `ba:messageInInbox` for the
+Conversations tab.
+:::
 
 For example if `{AG-ID}` is `AG-MXX5P286VP` then the table will look similar to this below
 

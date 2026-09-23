@@ -75,10 +75,12 @@
       },
       "v1CommunicationChannel": {
         "default": "COMMUNICATION_CHANNEL_UNSPECIFIED",
+        "description": " - COMMUNICATION_CHANNEL_TAP_CARD: The score came from a tap card, so there is no review request record behind it.",
         "enum": [
           "COMMUNICATION_CHANNEL_UNSPECIFIED",
           "COMMUNICATION_CHANNEL_EMAIL",
-          "COMMUNICATION_CHANNEL_SMS"
+          "COMMUNICATION_CHANNEL_SMS",
+          "COMMUNICATION_CHANNEL_TAP_CARD"
         ],
         "type": "string"
       },
@@ -1014,6 +1016,9 @@
             "readOnly": true,
             "type": "string"
           },
+          "communicationChannel": {
+            "$ref": "#/components/schemas/v1CommunicationChannel"
+          },
           "contact": {
             "$ref": "#/components/schemas/v1ContactDetails"
           },
@@ -1066,7 +1071,7 @@
             "type": "array"
           },
           "reviewRequestRecordId": {
-            "description": "Output only. ID of the review request for which the customer submitted this NPS feedback.",
+            "description": "Output only. ID of the review request the customer submitted this NPS feedback for. Empty for a tap card score.",
             "readOnly": true,
             "type": "string"
           },
@@ -1883,7 +1888,7 @@
         "type": "object"
       },
       "vendastatypesFieldMask": {
-        "description": "Selects a subset of a message's fields.\n\nOn a read, the mask names the fields to return; on an update, the fields\nto write — only the listed paths are touched and every other field is left\nas is. Omitting the mask entirely replaces the whole field set rather than\nselecting none of it.\n\nIn JSON this is an object with a `paths` array of strings, for example\n`{\"paths\": [\"ownerId\", \"fields.abc123\"]}`. It is a plain message, not\n`google.protobuf.FieldMask`, so protojson gives it no special treatment:\nthe single comma-separated string encoding documented for Google's type is\nnot accepted here.\n\nWhich paths are valid is defined by the RPC that takes the mask — see that\nmethod's own documentation.",
+        "description": "Selects a subset of a message's fields.\n\nOn a read, the mask names the fields to return; on an update, the fields\nto write — only the listed paths are touched and every other field is left\nas is. Omitting the mask means all fields rather than none — a read returns\nthe full resource, an update writes every field provided. Some RPCs narrow\nthat or reject a missing mask outright, so check the method's own\ndocumentation.\n\nIn JSON this is an object with a `paths` array of strings, for example\n`{\"paths\": [\"ownerId\", \"fields.abc123\"]}`. It is a plain message, not\n`google.protobuf.FieldMask`, so protojson gives it no special treatment:\nthe single comma-separated string encoding documented for Google's type is\nnot accepted here.\n\nWhich paths are valid is defined by the RPC that takes the mask — see that\nmethod's own documentation.",
         "properties": {
           "paths": {
             "description": "The set of field mask paths.",
@@ -1916,7 +1921,7 @@
   },
   "info": {
     "title": "Reputation",
-    "version": "4.37.0"
+    "version": "4.39.0"
   },
   "openapi": "3.0.0",
   "paths": {

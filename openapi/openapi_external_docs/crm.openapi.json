@@ -761,7 +761,7 @@
             "type": "array"
           },
           "externalId": {
-            "description": "Optional. A partner-defined alternate identifier for this field, used to map an external system's field name onto this schema. Has no effect on Vendasta storage or validation.",
+            "description": "Optional. A partner-defined alternate identifier for this field, used to map an external system's field name onto this schema.\nAccepted in place of `field_id` when addressing the field: inside a `FieldValue` (where `field_id` wins if both are set), in a CRM object update mask, in a get-multi read mask prefixed as `fields.\u003cexternal_id\u003e`, and in `filters_v2` on the list endpoints.",
             "type": "string"
           },
           "fieldDescription": {
@@ -1627,7 +1627,7 @@
             "type": "string"
           },
           "crmObjectType": {
-            "description": "Optional. The CRM object type to filter by. Valid values include \"Contact\", \"Activity\", \"Company\", \"Opportunity\", \"PotentialContact\", and the ID of any custom object type. If omitted, schemas across all object types are returned.",
+            "description": "The CRM object type to filter by. Valid values include \"Contact\", \"Activity\", \"Company\", \"Opportunity\", \"PotentialContact\", and the ID of any custom object type. Send the literal \"*\" to return schemas across all object types. Omitting it matches no schema and returns an empty list, so it is effectively required.",
             "type": "string"
           },
           "filters": {
@@ -1662,7 +1662,7 @@
             "type": "string"
           },
           "onlyArchived": {
-            "description": "Optional. When true, only archived field schemas are returned. When false or omitted, only non-archived schemas are returned.",
+            "description": "Optional. Not honoured by `ListFieldSchema`, which never returns archived schemas whatever this is set to. Only the repository layer supports it today.",
             "type": "boolean"
           }
         },
@@ -2294,7 +2294,7 @@
   },
   "info": {
     "title": "CRM",
-    "version": "0.163.0"
+    "version": "0.164.0"
   },
   "openapi": "3.0.0",
   "paths": {
@@ -2605,6 +2605,7 @@
     },
     "/v1/crm/company/create": {
       "post": {
+        "description": "Creates a company in the given namespace. The request message is shared with the contact, opportunity, and custom-object create endpoints, so only company fields apply here. Set values in crmObject.fields, each naming the field by fieldId (or by externalId, which for built-ins takes the form standard__*); discover both from the field-schema list endpoint for object type Company. Omit crmObject.crmObjectId — the service assigns the id and returns it as crmObjectId in the response. Two fields behave differently here than their own documentation suggests: idempotencyId is accepted but not stored for this object type, so it cannot be relied on to deduplicate a retried create; and ownerId defaults to the calling user, so a service-account caller that omits it creates a record with no owner, which owner-scoped list and query calls then cannot see. Such a caller can set the owner explicitly by putting a user id, or that user's email address, in crmObject.ownerId, and a value resolving to no user fails with INVALID_ARGUMENT. A user-token caller behaves differently: ownerId is resolved as a user id only, an email is not accepted, and anything that fails to resolve falls back to the calling user with no error.",
         "operationId": "CRMCompanyService_CreateCompany",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1CreateCrmObjectRequest"
@@ -2724,6 +2725,7 @@
     },
     "/v1/crm/company/get-multi": {
       "post": {
+        "description": "Retrieves companies by id, including the field schemas for the fields present on them. Use fieldMask.paths to limit which fields are returned, naming each as a fields.\u003cfieldId\u003e path (fields.\u003cexternalId\u003e is accepted too); a read mask requires the fields.\u003c...\u003e form, and a bare id matches nothing. A company's related contacts and opportunities are relationships held as associations, not fields on the company. Retrieve them from the association list endpoint, narrowing filtersV2 with a filter on field id association_type plus one naming the company: for value Contact-Company set field id to_id to the company id, and for value Company-Opportunity set field id from_id to the company id. These filter field ids are literal values, in snake_case, and are not camel-cased the way JSON property names are.",
         "operationId": "CRMCompanyService_GetMultiCompany",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1GetMultiCrmObjectRequest"
@@ -2767,6 +2769,7 @@
     },
     "/v1/crm/company/list": {
       "post": {
+        "description": "Lists companies in a namespace with optional free-text search, filtering, sorting, and pagination. filtersV2 and sortBy address fields by fieldId, which the field-schema list endpoint supplies. In filtersV2 a schema's external id is accepted in place of the field id and resolved to it, and an id matching no schema is rejected with INVALID_ARGUMENT rather than ignored. sortBy does not resolve external ids: it matches on fieldId alone, and a sort naming an external id or an id matching no schema is ignored rather than rejected. A company's related contacts and opportunities are relationships held as associations, not fields on the company. Retrieve them from the association list endpoint, narrowing filtersV2 with a filter on field id association_type plus one naming the company: for value Contact-Company set field id to_id to the company id, and for value Company-Opportunity set field id from_id to the company id. These filter field ids are literal values, in snake_case, and are not camel-cased the way JSON property names are.",
         "operationId": "CRMCompanyService_ListCompanies",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1ListCrmObjectsRequest"
@@ -2852,6 +2855,7 @@
     },
     "/v1/crm/company/update": {
       "post": {
+        "description": "Updates an existing company in the given namespace. Set crmObject.crmObjectId to identify it. Send fieldMask.paths with the specific fields.\u003cfieldId\u003e paths being changed, and only those fields are touched; omitting fieldMask replaces the whole field set but writes no top-level property, so changing ownerId always requires naming it in the mask. Top-level object properties such as ownerId use their own path rather than a fields. prefix. Field ids come from the field-schema list endpoint.",
         "operationId": "CRMCompanyService_UpdateCompany",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1UpdateCrmObjectRequest"
@@ -2894,6 +2898,7 @@
     },
     "/v1/crm/contact/create": {
       "post": {
+        "description": "Creates a contact in the given namespace. The request message is shared with the company, opportunity, and custom-object create endpoints, so only contact fields apply here. Set values in crmObject.fields, each naming the field by fieldId (or by externalId, which for built-ins takes the form standard__*); discover both from the field-schema list endpoint for object type Contact. Omit crmObject.crmObjectId — the service assigns the id and returns it as crmObjectId in the response. Two fields behave differently here than their own documentation suggests: idempotencyId is accepted but not stored for this object type, so it cannot be relied on to deduplicate a retried create; and ownerId defaults to the calling user, so a service-account caller that omits it creates a record with no owner, which owner-scoped list and query calls then cannot see. Such a caller can set the owner explicitly by putting a user id, or that user's email address, in crmObject.ownerId, and a value resolving to no user fails with INVALID_ARGUMENT. A user-token caller behaves differently: ownerId is resolved as a user id only, an email is not accepted, and anything that fails to resolve falls back to the calling user with no error.",
         "operationId": "CRMService_CreateContact",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1CreateCrmObjectRequest"
@@ -3021,6 +3026,7 @@
     },
     "/v1/crm/contact/get-multi": {
       "post": {
+        "description": "Retrieves contacts by id, including the field schemas for the fields present on them. Use fieldMask.paths to limit which fields are returned, naming each as a fields.\u003cfieldId\u003e path (fields.\u003cexternalId\u003e is accepted too); a read mask requires the fields.\u003c...\u003e form, and a bare id matches nothing. A contact's opportunities and companies are relationships held as associations, not fields on the contact. Retrieve them from the association list endpoint, narrowing filtersV2 with a filter on field id association_type (value Contact-Opportunity or Contact-Company) and one on field id from_id set to the contact id. These filter field ids are literal values, in snake_case, and are not camel-cased the way JSON property names are. The contact's primary company is additionally mirrored onto the standard__contact_primary_company_id field, but that field is a denormalized copy kept for filtering and covers only the primary company; the Contact-Company association remains the source of truth, so resolve or verify a contact's company through the association rather than the field alone.",
         "operationId": "CRMService_GetMultiContact",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1GetMultiCrmObjectRequest"
@@ -3064,6 +3070,7 @@
     },
     "/v1/crm/contact/list": {
       "post": {
+        "description": "Lists contacts in a namespace with optional free-text search, filtering, sorting, and pagination. filtersV2 and sortBy address fields by fieldId, which the field-schema list endpoint supplies. In filtersV2 a schema's external id is accepted in place of the field id and resolved to it, and an id matching no schema is rejected with INVALID_ARGUMENT rather than ignored. sortBy does not resolve external ids: it matches on fieldId alone, and a sort naming an external id or an id matching no schema is ignored rather than rejected. A contact's opportunities and companies are relationships held as associations, not fields on the contact. Retrieve them from the association list endpoint, narrowing filtersV2 with a filter on field id association_type (value Contact-Opportunity or Contact-Company) and one on field id from_id set to the contact id. These filter field ids are literal values, in snake_case, and are not camel-cased the way JSON property names are. The contact's primary company is additionally mirrored onto the standard__contact_primary_company_id field, but that field is a denormalized copy kept for filtering and covers only the primary company; the Contact-Company association remains the source of truth, so resolve or verify a contact's company through the association rather than the field alone.",
         "operationId": "CRMService_ListContacts",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1ListCrmObjectsRequest"
@@ -3149,6 +3156,7 @@
     },
     "/v1/crm/contact/update": {
       "post": {
+        "description": "Updates an existing contact in the given namespace. Set crmObject.crmObjectId to identify it. Send fieldMask.paths with the specific fields.\u003cfieldId\u003e paths being changed, and only those fields are touched; omitting fieldMask replaces the whole field set but writes no top-level property, so changing ownerId always requires naming it in the mask. Top-level object properties such as ownerId use their own path rather than a fields. prefix. Field ids come from the field-schema list endpoint.",
         "operationId": "CRMService_UpdateContact",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1UpdateCrmObjectRequest"
@@ -4284,6 +4292,7 @@
     },
     "/v1/crm/field-schema/list": {
       "post": {
+        "description": "Lists the field schemas for a CRM object type, including custom fields. Set crmObjectType: omitting it matches no schema and comes back as an empty list rather than an error. To list the schemas for every object type in the namespace, send the literal wildcard \"*\". Each schema's field id is what builds the fields.\u003cfieldId\u003e paths used in CRM object update field masks and returned by the get and list endpoints. A schema's external id is a second identifier for the same field, partner-defined for custom fields and of the form standard__* for Vendasta's built-ins; it can be sent in place of the field id inside a FieldValue (the field id wins when both are set), and a CRM object update mask accepts it as well: update masks match a bare field id, a bare external id, or either of those prefixed as fields.\u003c...\u003e. Read masks on the get endpoints are narrower and require the fields. prefix. Archived schemas are never returned by this endpoint. crmObjectSubtype and filters.namespace narrow the results further.",
         "operationId": "CRMFieldSchemaService_ListFieldSchema",
         "requestBody": {
           "content": {
@@ -4384,7 +4393,7 @@
     },
     "/v1/crm/opportunity/create": {
       "post": {
-        "description": "Requires the standard__opportunity_pipeline_id field (get a valid pipeline id from the List Pipelines endpoint) and standard__opportunity_name. The opportunity stage (standard__opportunity_calculated_stage_id) cannot be set directly; it is calculated from the opportunity field values. To place a deal in a stage, set standard__opportunity_probability (a float from 0 to 1) so the opportunity matches that stage filter (see the pipeline stages); standard__opportunity_status is read-only and derived from probability (0 = Closed Lost, 1 = Closed Won, anything else = Open), and probability defaults to 0.1 when omitted. standard__opportunity_amount is a currency value. Discover the exact standard__ field external IDs via the field schema for object type Opportunity.",
+        "description": "Requires the standard__opportunity_pipeline_id field (get a valid pipeline id from the List Pipelines endpoint) and standard__opportunity_name. The opportunity stage (standard__opportunity_calculated_stage_id) cannot be set directly; it is calculated from the opportunity field values. To place a deal in a stage, set standard__opportunity_probability (a float from 0 to 1) so the opportunity matches that stage filter (see the pipeline stages); standard__opportunity_status is read-only and derived from probability (0 = Closed Lost, 1 = Closed Won, anything else = Open), and probability defaults to 0.1 when omitted. standard__opportunity_amount is a currency value. Discover the exact standard__ field external IDs via the field schema for object type Opportunity. ownerId defaults to the calling user, so a service-account caller that omits it creates an opportunity with no owner, which owner-scoped list and query calls then cannot see; such a caller can set the owner explicitly by putting a user id, or that user's email address, in crmObject.ownerId, and a value resolving to no user fails with INVALID_ARGUMENT. A user-token caller behaves differently: ownerId is resolved as a user id only, an email is not accepted, and anything that fails to resolve falls back to the calling user with no error.",
         "operationId": "CRMOpportunityService_CreateOpportunity",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1CreateCrmObjectRequest"
@@ -4642,7 +4651,7 @@
     },
     "/v1/crm/opportunity/update": {
       "post": {
-        "description": "The opportunity stage is calculated, not settable: to move an opportunity to another stage set standard__opportunity_probability (plus any other fields the target stage filter tests) so it matches the target stage filter (see the pipeline stages), and the calculated stage updates automatically. Send field_mask with the specific fields.\u003cfieldId\u003e paths being changed, and only those fields are touched — name and pipeline id need not be resent. Omitting field_mask replaces the whole field set, which is the only reason the required fields (name and pipeline id) must be present in that form.",
+        "description": "The opportunity stage is calculated, not settable: to move an opportunity to another stage set standard__opportunity_probability (plus any other fields the target stage filter tests) so it matches the target stage filter (see the pipeline stages), and the calculated stage updates automatically. Send fieldMask.paths with the specific fields.\u003cfieldId\u003e paths being changed, and only those fields are touched — name and pipeline id need not be resent. Omitting fieldMask replaces the whole field set, which is the only reason the required fields (name and pipeline id) must be present in that form.",
         "operationId": "CRMOpportunityService_UpdateOpportunity",
         "requestBody": {
           "$ref": "#/components/requestBodies/v1UpdateCrmObjectRequest"

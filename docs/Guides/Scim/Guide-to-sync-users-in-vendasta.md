@@ -275,7 +275,7 @@ For full details on the available fields see [here](../../../openapi/scim/scim.y
 
 You can replace an existing user's profile by making a PUT request. Vendasta loads the stored user, overlays the profile attributes from your request body onto it, and saves the result.
 
-- **A profile attribute you omit is cleared.** That covers `name.familyName`, `nickName`, `preferredLanguage`, `timezone`, `addresses` and `phoneNumbers`. Send the complete profile on every PUT, or use PATCH to change one attribute without disturbing the rest.
+- **A profile attribute you omit is cleared.** That covers `name.givenName`, `name.familyName`, `nickName`, `preferredLanguage`, `timezone`, `addresses` and `phoneNumbers` — and `displayName` with them, since it is derived from the two name parts. Send the complete profile on every PUT, or use PATCH to change one attribute without disturbing the rest.
 - **Roles and group membership are preserved.** A PUT never grants or revokes access — platform features, business locations and business-feature access all survive unchanged, and a `groups` array in the body is ignored rather than applied.
 - **`userName` and `emails` are not replaced.** A PUT cannot change a user's email address.
 

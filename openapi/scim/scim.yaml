@@ -216,7 +216,7 @@ paths:
 
         Replace a user's profile. The stored user is loaded, the profile attributes from the body are overlaid onto it, and the result is saved.
 
-        **A profile attribute the body omits is cleared**, as required by [RFC 7644 §3.5.1](https://www.rfc-editor.org/rfc/rfc7644#section-3.5.1). That covers `name.familyName`, `nickName`, `preferredLanguage`, `timezone`, `addresses` and `phoneNumbers`. Send the complete profile on every `PUT`, or use `PATCH` to change one attribute without disturbing the others.
+        **A profile attribute the body omits is cleared**, as required by [RFC 7644 §3.5.1](https://www.rfc-editor.org/rfc/rfc7644#section-3.5.1). That covers `name.givenName`, `name.familyName`, `nickName`, `preferredLanguage`, `timezone`, `addresses` and `phoneNumbers` — and `displayName` with them, since it is derived from the two name parts. Send the complete profile on every `PUT`, or use `PATCH` to change one attribute without disturbing the others.
 
         **Roles and group membership are preserved.** A `PUT` neither grants nor revokes access: platform features, business locations and business-feature access all survive unchanged, and a `groups` array in the body is ignored rather than applied. Partner users are replaced through the same path as business users.
 
@@ -278,8 +278,6 @@ paths:
           description: Not authorized to delete this user.
         '404':
           description: The user does not exist, or is not present in this namespace.
-        '412':
-          description: The user's roles cannot be removed in their current state.
         '500':
           description: The deprovision did not finish. The operation is idempotent — retry it.
       operationId: scim-delete-user
@@ -324,9 +322,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ListResponseGroup'
         '400':
-          description: The filter is not supported.
+          description: The filter combines more than one expression.
         '501':
-          description: Filtering by `type eq "business"` or `type eq "businessFeature"` is not implemented.
+          description: The filter is not one of the supported expressions.
       operationId: scim-search-groups
       x-lifecycle:
         status: trustedTester
@@ -335,7 +333,7 @@ paths:
 
         List the groups that can be assigned to users, or look one up by `displayName`. Groups in Vendasta are predefined: they cannot be created, renamed or deleted, so this list is the same for every namespace. For what each group grants see [Groups and their assignment to users](https://developers.vendasta.com/platform/fdxg63veh82v5-groups-and-their-assignment-to-users).
 
-        Supported filters are `displayName eq "Platform Admin"` and `type eq "platformFeature"`. Any other filter is rejected, and `type eq "business"` / `type eq "businessFeature"` return `501`.
+        Only two filter expressions are supported: `displayName eq "Platform Admin"` and `type eq "platformFeature"`. Any other expression — including `type eq "business"` and `type eq "businessFeature"` — is rejected with `501`, and a filter combining more than one expression with `and` or `or` is rejected with `400`.
 
         Business groups are per business location, so an unfiltered list shows them against the placeholder account group `AG-1234567`. Substitute the real business location id when assigning one.
 
@@ -385,7 +383,7 @@ paths:
         '204':
           description: No Content
         '400':
-          description: The group id is not a valid identifier, the operation is not `add` or `remove`, or the member is not present in this namespace.
+          description: The operation is not `add` or `remove`, or the member is not present in this namespace.
       operationId: scim-update-group
       x-lifecycle:
         status: trustedTester
@@ -395,6 +393,8 @@ paths:
         Add members to or remove members from a group. Only `add` and `remove` on `members` are supported — groups themselves cannot be created, renamed or deleted, so the other operations are rejected with `400`.
 
         A member must already be present in `{namespace}`. Adding a user whose home namespace is another partner is rejected with `400`; create them here by email with `POST /{namespace}/Users` first.
+
+        Send a group id exactly as `GET /{namespace}/Groups` returns it. Use `GET /{namespace}/Groups/{id}` to confirm an id before granting it.
 
         Granting `pc:access` also grants the other `pc:` platform features.
 

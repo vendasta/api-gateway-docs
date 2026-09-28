@@ -71,7 +71,7 @@ Here is the list of available groups you can assign to a partner user.
 | tm:access                  | Can access Task Manager           | platformFeature |
 | tm:manage                  | Can manage Task Manager           | platformFeature |
 
-> **Granting `pc:access` grants the other `pc:` groups with it.** Assigning `Platform Admin` turns on every other ordinary `pc:` platform feature for the user. Assigning any other `pc:` group also turns on `pc:access`, since a partner user needs platform access to use the feature. Removing `pc:access` removes all of them.
+> **Granting `pc:access` grants the other `pc:` groups with it.** Assigning `Platform Admin` turns on every other `pc:` platform feature listed above. Assigning any other `pc:` group also turns on `pc:access`, since a partner user needs platform access to use the feature. Removing `pc:access` removes all of them.
 
 The same groups are shown in below image on how it reflects in Vendasta
 
@@ -180,9 +180,9 @@ For example we want the user to view and edit only the contacts they own. The gr
 }
 ```
 
-> **The member must already exist in your namespace.** Adding a user whose home namespace is another partner is rejected with a `400`. Create them in your namespace first with `POST /{namespace}/Users` using their email address.
+> **The member's home namespace must be yours.** Adding a user who belongs to another partner is rejected with a `400` — even if they already hold a role in your namespace and so are readable through `GET /{namespace}/Users/{id}`. Create them in your namespace first with `POST /{namespace}/Users` using their email address.
 
-The same membership changes can be made from the user side, with a `groups` operation on `PATCH /{namespace}/Users/{id}`:
+The same membership changes can be made from the user side, with a `groups` operation on `PATCH /{namespace}/Users/{id}`. **Prefer this path:** unlike `PATCH /Groups/{id}`, it preserves the member's `externalId`, which the group-side request clears.
 
 **Request**
 `PATCH /Users/U-e6d11318-2e15-e44c-bc82-77c6b7fc4fac HTTP/1.1`

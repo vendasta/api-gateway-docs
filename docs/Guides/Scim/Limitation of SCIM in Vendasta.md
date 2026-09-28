@@ -28,7 +28,7 @@ The accepted `addresses[].region` comprises of ISO 3166-1 alpha-2 of both countr
 The `phoneNumbers[].value` should match the region/country given in address. Example: `+1-306-555-1234`
 
 
-`Replace User` (PUT) is a full replace of the **profile** only: a profile attribute your request omits is cleared. Roles and group membership are preserved, and `userName` / `emails` cannot be changed.
+`Replace User` (PUT) is a full replace of the **profile** only: a profile attribute your request omits is cleared. Roles and group membership are preserved, and `userName` / `emails` cannot be changed. `externalId` is also taken from the body alone, so a PUT that omits it clears the stored mapping — always send it.
 
 Here is a list of supported/not-supported operations under Users resources
 Operation | Supported 
@@ -62,7 +62,7 @@ Operation | Supported
  Delete Group | No 
 
 
- > Search criteria is limited to `displayName` only.
+ > Search criteria is limited to `displayName eq "..."` and `type eq "platformFeature"`.
 
  > Update of groups are limited to adding or removing members through patch requests.
 

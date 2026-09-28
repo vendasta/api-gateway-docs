@@ -278,6 +278,7 @@ You can replace an existing user's profile by making a PUT request. Vendasta loa
 - **A profile attribute you omit is cleared.** That covers `name.givenName`, `name.familyName`, `nickName`, `preferredLanguage`, `timezone`, `addresses` and `phoneNumbers` — and `displayName` with them, since it is derived from the two name parts. Send the complete profile on every PUT, or use PATCH to change one attribute without disturbing the rest.
 - **Roles and group membership are preserved.** A PUT never grants or revokes access — platform features, business locations and business-feature access all survive unchanged, and a `groups` array in the body is ignored rather than applied.
 - **`userName` and `emails` are not replaced.** A PUT cannot change a user's email address.
+- **`externalId` is replaced, and omitting it clears it.** It is read from the body alone, so a PUT without an `externalId` blanks the mapping you use to find this user again. Always send it. PATCH does not behave this way — it leaves an untouched `externalId` alone.
 
 If there is no user with the given ID, or that user is not in your namespace, you will get a `404`.
 
@@ -356,11 +357,13 @@ You can remove a user from your namespace by making a DELETE request with their 
 **What this removes depends on whether your namespace is the user's home namespace** — the partner they were originally created under.
 
 - **Not their home namespace.** Only the roles the user holds in your namespace are removed — platform features, business locations and business-feature access, along with the Partner Center, Business App and Task Manager records behind them. Their profile, their access under other partners and their Vendasta account are all left intact. Afterwards the user is no longer in your namespace, so later reads there return `404`.
-- **Their home namespace.** This removes the user's Vendasta account. Their roles are stripped from every namespace they hold one in first, so no partner is left with orphaned records, and the account itself is then removed. The request is permission-checked and returns `403` when your service account is not allowed to delete users.
+- **Their home namespace.** This removes the user's Vendasta account. Their roles are stripped from every namespace they hold one in first, so no partner is left with orphaned records, and the account itself is then removed.
+
+Both paths are permission-checked and return `403` when your service account is not allowed to change the user in that namespace.
 
 If there is no user with the given ID, or that user is not in your namespace, you will get a `404` stating “Resource not found” — a delete is never silently accepted for a user who is not there.
 
-A `5xx` means the deprovision did not finish. It is safe to retry: the operation is idempotent and picks up where it left off.
+A `5xx` means the teardown did not finish. Retrying a delete in the user's home namespace picks it up again. Retrying a delete in another namespace may instead return `404` — the roles removed before the failure can be enough to make the user absent there — and the user may still hold access the failed step never revoked. Treat a `5xx` on that path as needing follow-up, not as a transient error to retry away.
 
 ```json http
 {

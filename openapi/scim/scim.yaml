@@ -220,7 +220,9 @@ paths:
 
         **Roles and group membership are preserved.** A `PUT` neither grants nor revokes access: platform features, business locations and business-feature access all survive unchanged, and a `groups` array in the body is ignored rather than applied. Partner users are replaced through the same path as business users.
 
-        **Identity attributes are not replaced.** `id` comes from the URL, and `userName` and `emails` keep their stored values — a `PUT` cannot change a user's email address. An `externalId` in the body is stored against this namespace.
+        **`userName` and `emails` are not replaced.** `id` comes from the URL, and the stored email is kept — a `PUT` cannot change a user's email address.
+
+        **`externalId` is replaced, and omitting it clears it.** It is taken from the body alone, so a `PUT` without an `externalId` blanks the stored mapping for this namespace. Send it on every `PUT`. This differs from `PATCH`, which leaves an untouched `externalId` alone.
 
         Returns `404` when the id does not exist or the user is not present in `{namespace}`.
       security:
@@ -290,11 +292,13 @@ paths:
 
         **A delete outside the home namespace removes the user's roles in this namespace only.** Those roles are stripped — platform features, business locations and business-feature access, along with the Partner Center, Business App and Task Manager records behind them. Their profile, their roles in every other namespace and their Vendasta account are all left intact. Afterwards they are no longer present here, so later reads in this namespace return `404`.
 
-        **A delete in the home namespace removes the account.** The user's roles are stripped from every namespace they hold one in first, so no partner is left with orphaned records, and the account itself is then removed. This is authorized against the caller's permission to delete users in the home namespace and returns `403` when that check fails.
+        **A delete in the home namespace removes the account.** The user's roles are stripped from every namespace they hold one in first, so no partner is left with orphaned records, and the account itself is then removed.
+
+        Both paths are permission-checked and return `403` when the caller is not allowed to change the user in that namespace.
 
         Deleting a user who is not present in `{namespace}` returns `404` rather than `204`, so a delete agrees with the reads ([RFC 7644 §3.6](https://www.rfc-editor.org/rfc/rfc7644#section-3.6)).
 
-        A `5xx` means the deprovision did not finish. It is safe to retry: the operation is idempotent and resumes where it left off.
+        A `5xx` means the teardown did not finish. Retrying a home-namespace delete resumes it. Retrying a delete in another namespace may instead return `404`, because the roles removed before the failure are enough to make the user absent from that namespace; if that happens the user may still hold access that the failed step never revoked, so treat a `5xx` here as needing follow-up rather than as a transient error to retry away.
       security:
         - OAuth2Demo:
             - user.admin
@@ -322,9 +326,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ListResponseGroup'
         '400':
-          description: The filter combines more than one expression.
+          description: The filter is not a single comparison, or a `displayName` search matched nothing.
         '501':
-          description: The filter is not one of the supported expressions.
+          description: The filter is a single comparison, but not one of the supported ones.
       operationId: scim-search-groups
       x-lifecycle:
         status: trustedTester
@@ -333,7 +337,9 @@ paths:
 
         List the groups that can be assigned to users, or look one up by `displayName`. Groups in Vendasta are predefined: they cannot be created, renamed or deleted, so this list is the same for every namespace. For what each group grants see [Groups and their assignment to users](https://developers.vendasta.com/platform/fdxg63veh82v5-groups-and-their-assignment-to-users).
 
-        Only two filter expressions are supported: `displayName eq "Platform Admin"` and `type eq "platformFeature"`. Any other expression — including `type eq "business"` and `type eq "businessFeature"` — is rejected with `501`, and a filter combining more than one expression with `and` or `or` is rejected with `400`.
+        Only two filter expressions are supported: `displayName eq "Platform Admin"` and `type eq "platformFeature"`. Any other single comparison — including `type eq "business"` and `type eq "businessFeature"` — is rejected with `501`. Anything that is not a single comparison, such as two expressions joined with `and`, a negation, or a bracketed value filter, is rejected with `400`.
+
+        A `displayName` search that matches no group is also a `400`, not an empty list. Match the display names in the group reference exactly.
 
         Business groups are per business location, so an unfiltered list shows them against the placeholder account group `AG-1234567`. Substitute the real business location id when assigning one.
 
@@ -359,16 +365,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/Group'
         '400':
-          description: The group id is not a valid identifier.
+          description: The group id is not one this operation resolves.
       operationId: scim-get-group
       x-lifecycle:
         status: trustedTester
       description: |
         [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Get a single group by id, for example `pc:access` or `ba:access:AG-MXX5P286VP`. Group ids contain `:`, so they must be URL-encoded in the path — `pc%3Aaccess`.
+        Get a single group by id, for example `pc:access` or `ba:access:AG-MXX5P286VP`. Group ids contain `:`; encoding it as `%3A` is accepted and so is sending it literally.
 
-        An id that is not a known platform or business group is rejected with `400`. Group membership is not returned: `members` is always absent.
+        This operation resolves platform groups (`pc:`, `ssc:`, `tm:`) and business groups (`ba:<feature>:<AG-ID>`) only. **CRM group ids are not resolved here** and return `400` even though `GET /{namespace}/Groups` lists them and they can be granted normally — use the group list to look those up instead. Group membership is not returned: `members` is always absent.
     patch:
       tags:
         - Group
@@ -383,7 +389,7 @@ paths:
         '204':
           description: No Content
         '400':
-          description: The operation is not `add` or `remove`, or the member is not present in this namespace.
+          description: The operation is not `add` or `remove`, or the member's home namespace is not this namespace.
       operationId: scim-update-group
       x-lifecycle:
         status: trustedTester
@@ -392,13 +398,13 @@ paths:
 
         Add members to or remove members from a group. Only `add` and `remove` on `members` are supported — groups themselves cannot be created, renamed or deleted, so the other operations are rejected with `400`.
 
-        A member must already be present in `{namespace}`. Adding a user whose home namespace is another partner is rejected with `400`; create them here by email with `POST /{namespace}/Users` first.
+        **The member's home namespace must be `{namespace}`.** This is stricter than the presence rule the read operations use: a user who merely holds a role here, while belonging to another partner, is readable at `GET /{namespace}/Users/{id}` but is rejected with `400` when added to a group. Create the user here by email with `POST /{namespace}/Users` first.
 
-        Send a group id exactly as `GET /{namespace}/Groups` returns it. Use `GET /{namespace}/Groups/{id}` to confirm an id before granting it.
+        Send a group id exactly as it appears in the [group reference](https://developers.vendasta.com/platform/fdxg63veh82v5-groups-and-their-assignment-to-users). An id outside that reference is not validated by this operation, so a typo can be accepted and applied as though it were a real group — check the id before granting it.
 
         Granting `pc:access` also grants the other `pc:` platform features.
 
-        The same membership changes can be made from the user side with `PATCH /{namespace}/Users/{id}`.
+        `PATCH /{namespace}/Users/{id}` changes the same memberships and is the preferred path: unlike this operation, it preserves the member's `externalId`. A membership change made here clears the `externalId` stored for that user in this namespace.
   '/{namespace}/ResourceTypes':
     parameters:
       - $ref: '#/components/parameters/namespace'

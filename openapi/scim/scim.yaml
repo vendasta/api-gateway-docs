@@ -5,6 +5,8 @@ info:
     System for Cross-domain Identity Management (SCIM) is designed to make managing user identities in cloud-based applications and services easier. It is an [open specification](https://www.simplecloud.info/) that is supported by many user management tools. 
 
     These pages document the specifics of Vendasta's implementation for partners who want to manage users in their own system and them push the changes to the Vendasta platform.
+
+    Every path is scoped to a `{namespace}`, the id of the partner whose users are being managed. A user is *present* in a namespace when they hold a role there, or when it is their *home namespace* — the partner they were originally created under. Operations that name a user who is not present return `404`. See the [namespace scoping rules](https://developers.vendasta.com/platform/1vx6kpuftqy26-limitation-of-scim-in-vendasta) for the details.
   version: 1.0.0
 servers:
   - url: 'https://prod.apigateway.co/scim'
@@ -66,19 +68,20 @@ paths:
           description: The 1-based index of the first query result
         - schema:
             type: integer
+            maximum: 100
+            default: 100
           in: query
           name: count
-          description: Specifies the desired maximum number of query results per page
+          description: Specifies the desired maximum number of query results per page. 100 is both the default and the maximum; a larger value is capped at 100.
         - schema:
             type: string
             enum:
-              - userName
-              - meta.created
-              - name. givenName
-              - name.familyName
+              - firstname
+              - lastname
+              - email
           in: query
           name: sortBy
-          description: The attribute to order the results based on
+          description: 'The attribute to order the results based on. Any other value, or no value at all, orders by the time the user was created.'
         - schema:
             type: string
             enum:
@@ -102,11 +105,13 @@ paths:
             <br>Only "userName" or "externalId" filter attribute supported.
             <br>There is some issue with provided attribute value.
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        This endpoint can be used to search users based on filter or list all user if filter criteria is ignored
+        List the users present in the namespace, or look a single user up with a `filter`.
+
+        Only users present in `{namespace}` are returned, and each user's `groups` lists only the roles they hold there. A lookup by `userName` or `externalId` for a user who is not present in the namespace returns an empty list — `totalResults` of `0` — rather than a `404`.
       operationId: scim-search-users
     post:
       tags:
@@ -132,11 +137,13 @@ paths:
           description: One or more of the attribute values are already in use or are reserved.
       operationId: scim-create-user
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Create User based on SCIM schema
+        Create a user in `{namespace}`. The user's home namespace is the namespace they are created in.
+
+        `groups` is read-only on create: a `groups` array in the body is ignored rather than applied. Assign group membership after creation with `PATCH /{namespace}/Users/{id}` or `PATCH /{namespace}/Groups/{id}`.
       security:
         - OAuth2Demo:
             - user.admin
@@ -163,14 +170,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         '404':
-          description: Resource not found
+          description: The user does not exist, or is not present in this namespace.
       x-internal: false
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Get an user when the user id is known
+        Get a single user when their Vendasta id is known.
+
+        Returns `404` both when the id does not exist and when the user is not present in `{namespace}` — for example after a delete in this namespace, or for a user who belongs only to another partner. `groups` lists only the roles held in this namespace.
       operationId: scim-get-user
       security:
         - OAuth2Demo:
@@ -182,7 +191,7 @@ paths:
         - User
       summary: Replace User
       requestBody:
-        description: Create a new user
+        description: The complete profile to store for the user
         content:
           application/scim+json:
             schema:
@@ -196,14 +205,24 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         '400':
-          description: Failed to create user.
+          description: Failed to update user.
+        '404':
+          description: The user does not exist, or is not present in this namespace.
       operationId: scim-replace-user
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        API to replace an user. All of the attributes will be replaced with provided value and attributes will be kept blank for which no value is specified
+        Replace a user's profile. The stored user is loaded, the profile attributes from the body are overlaid onto it, and the result is saved.
+
+        **A profile attribute the body omits is cleared**, as required by [RFC 7644 §3.5.1](https://www.rfc-editor.org/rfc/rfc7644#section-3.5.1). That covers `name.familyName`, `nickName`, `preferredLanguage`, `timezone`, `addresses` and `phoneNumbers`. Send the complete profile on every `PUT`, or use `PATCH` to change one attribute without disturbing the others.
+
+        **Roles and group membership are preserved.** A `PUT` neither grants nor revokes access: platform features, business locations and business-feature access all survive unchanged, and a `groups` array in the body is ignored rather than applied. Partner users are replaced through the same path as business users.
+
+        **Identity attributes are not replaced.** `id` comes from the URL, and `userName` and `emails` keep their stored values — a `PUT` cannot change a user's email address. An `externalId` in the body is stored against this namespace.
+
+        Returns `404` when the id does not exist or the user is not present in `{namespace}`.
       security:
         - OAuth2Demo:
             - user.admin
@@ -226,14 +245,22 @@ paths:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/User'
-        '405':
-          description: Invalid input
+        '400':
+          description: The request body did not conform to the request schema, the operation is not supported on the target attribute, or the group operation named a group or member that cannot be applied in this namespace.
+        '404':
+          description: The user does not exist, or is not present in this namespace.
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        Update an user's one or multiple attributes by providing operation path and value. Post update all other attributes will be unchanged apart from provided attributes.
+        Update one or more of a user's attributes by providing an operation path and value. Attributes that no operation names are left unchanged. For the supported paths and operation shapes see [SCIM Patch User supported operations](https://developers.vendasta.com/platform/9hnez08dsbpx9-scim-patch-user-supported-operations).
+
+        **Group membership** is managed here via `groups` add/remove operations, e.g. `{"op":"add","path":"groups","value":[{"value":"<groupId>"}]}` (and the equivalent `remove`, whose path takes a value filter: `groups[value eq "<groupId>"]`). The `groups` attribute is read-only on create/replace: any `groups` supplied to `POST`/`PUT` is ignored, not applied.
+
+        Adding a group to a user whose home namespace is not `{namespace}` is rejected with `400` — create the user here by email with `POST /{namespace}/Users` first.
+
+        A user's email address cannot be changed through SCIM. An operation targeting `emails` or `profileUrl` is rejected with `400`, and one targeting `userName` is ignored.
       operationId: scim-update-user
       security:
         - OAuth2Demo:
@@ -247,15 +274,29 @@ paths:
       responses:
         '204':
           description: No Content
-        '405':
-          description: Resource not found
+        '403':
+          description: Not authorized to delete this user.
+        '404':
+          description: The user does not exist, or is not present in this namespace.
+        '412':
+          description: The user's roles cannot be removed in their current state.
+        '500':
+          description: The deprovision did not finish. The operation is idempotent — retry it.
       operationId: scim-delete-user
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
-        API to delete an user
+        Remove a user from `{namespace}`. **What this removes depends on whether `{namespace}` is the user's home namespace** — the partner they were originally created under.
+
+        **A delete outside the home namespace removes the user's roles in this namespace only.** Those roles are stripped — platform features, business locations and business-feature access, along with the Partner Center, Business App and Task Manager records behind them. Their profile, their roles in every other namespace and their Vendasta account are all left intact. Afterwards they are no longer present here, so later reads in this namespace return `404`.
+
+        **A delete in the home namespace removes the account.** The user's roles are stripped from every namespace they hold one in first, so no partner is left with orphaned records, and the account itself is then removed. This is authorized against the caller's permission to delete users in the home namespace and returns `403` when that check fails.
+
+        Deleting a user who is not present in `{namespace}` returns `404` rather than `204`, so a delete agrees with the reads ([RFC 7644 §3.6](https://www.rfc-editor.org/rfc/rfc7644#section-3.6)).
+
+        A `5xx` means the deprovision did not finish. It is safe to retry: the operation is idempotent and resumes where it left off.
       security:
         - OAuth2Demo:
             - user.admin
@@ -269,15 +310,9 @@ paths:
         - Group
       summary: Search Groups
       parameters:
-        - name: excludedAttributes
-          in: query
-          description: Exclude members using `excludedAttributes=members`
-          required: false
-          schema:
-            type: string
         - name: filter
           in: query
-          description: Search group using `displayName eq "Platform Admin"`
+          description: 'Search groups using `displayName eq "Platform Admin"`, or list one category with `type eq "platformFeature"`'
           required: false
           schema:
             type: string
@@ -288,13 +323,23 @@ paths:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/ListResponseGroup'
-        '404':
-          description: User not found
-      operationId: ''
+        '400':
+          description: The filter is not supported.
+        '501':
+          description: Filtering by `type eq "business"` or `type eq "businessFeature"` is not implemented.
+      operationId: scim-search-groups
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Draft`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        List the groups that can be assigned to users, or look one up by `displayName`. Groups in Vendasta are predefined: they cannot be created, renamed or deleted, so this list is the same for every namespace. For what each group grants see [Groups and their assignment to users](https://developers.vendasta.com/platform/fdxg63veh82v5-groups-and-their-assignment-to-users).
+
+        Supported filters are `displayName eq "Platform Admin"` and `type eq "platformFeature"`. Any other filter is rejected, and `type eq "business"` / `type eq "businessFeature"` return `501`.
+
+        Business groups are per business location, so an unfiltered list shows them against the placeholder account group `AG-1234567`. Substitute the real business location id when assigning one.
+
+        Group membership is not returned here: `members` is always absent. Read a user to see the groups they belong to.
   '/{namespace}/Groups/{id}':
     parameters:
       - $ref: '#/components/parameters/namespace'
@@ -308,13 +353,6 @@ paths:
       tags:
         - Group
       summary: Get Group
-      parameters:
-        - name: excludedAttributes
-          in: query
-          description: Exclude members using `excludedAttributes=members`
-          required: false
-          schema:
-            type: string
       responses:
         '200':
           description: OK
@@ -322,12 +360,17 @@ paths:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/Group'
-        '404':
-          description: User not found
+        '400':
+          description: The group id is not a valid identifier.
+      operationId: scim-get-group
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Draft`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Get a single group by id, for example `pc:access` or `ba:access:AG-MXX5P286VP`. Group ids contain `:`, so they must be URL-encoded in the path — `pc%3Aaccess`.
+
+        An id that is not a known platform or business group is rejected with `400`. Group membership is not returned: `members` is always absent.
     patch:
       tags:
         - Group
@@ -341,12 +384,21 @@ paths:
       responses:
         '204':
           description: No Content
-        '405':
-          description: Invalid input
+        '400':
+          description: The group id is not a valid identifier, the operation is not `add` or `remove`, or the member is not present in this namespace.
+      operationId: scim-update-group
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Draft`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
+
+        Add members to or remove members from a group. Only `add` and `remove` on `members` are supported — groups themselves cannot be created, renamed or deleted, so the other operations are rejected with `400`.
+
+        A member must already be present in `{namespace}`. Adding a user whose home namespace is another partner is rejected with `400`; create them here by email with `POST /{namespace}/Users` first.
+
+        Granting `pc:access` also grants the other `pc:` platform features.
+
+        The same membership changes can be made from the user side with `PATCH /{namespace}/Users/{id}`.
   '/{namespace}/ResourceTypes':
     parameters:
       - $ref: '#/components/parameters/namespace'
@@ -376,9 +428,9 @@ paths:
         - $ref: '#/components/parameters/excludedAttributes'
       operationId: get-namespace-ResourceTypes
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Returns a list of the resource types that the server suppports. Example "Groups", "Users", "Contacts"
   '/{namespace}/ResourceTypes/{id}':
@@ -417,9 +469,9 @@ paths:
       parameters:
         - $ref: '#/components/parameters/Accept'
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Returns a list of the resource types that the server suppports. Example "Groups", "Users", "Contacts"
   '/{namespace}/Schemas':
@@ -451,9 +503,9 @@ paths:
         - $ref: '#/components/parameters/excludedAttributes'
       operationId: get-namespace-Schemas
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Lists the data schemas that may be used by the resource types
   '/{namespace}/Schemas/{id}':
@@ -490,9 +542,9 @@ paths:
           $ref: '#/components/responses/error'
       operationId: get-Schemas-id
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Lists the data schemas that may be used by the resource types
   '/{namespace}/Me':
@@ -503,14 +555,8 @@ paths:
       tags:
         - User
       responses:
-        '308':
-          description: Permanent Redirect (experiemental)
-          headers:
-            Location:
-              schema:
-                type: string
-                example: 'https://prod.apigateway.co/scim/VUNI/Users/U-123456'
-              description: The correct URI to make a request to
+        '501':
+          description: Not Implemented
       operationId: get-namespace-Me
       x-lifecycle:
         status: proposed
@@ -520,7 +566,7 @@ paths:
 
         The SCIM standard defines a special resource called "Me" that represents the user making the API request as identified by the access token. This is similar to the "/userinfo" endpoint defined in the OAuth2 spec. 
 
-        The Vendasta platform will respond to all requests with a redirect to the coorisponding '/Users' endpoint. This may result in a different namespace.
+        **This endpoint is not built yet and currently responds `501` to every request.** The proposed behaviour is a `308` redirect to the corresponding `/Users` endpoint, whose `Location` may be in a different namespace.
   '/{namespace}/ServiceProviderConfig':
     parameters:
       - $ref: '#/components/parameters/namespace'
@@ -541,9 +587,9 @@ paths:
         - $ref: '#/components/parameters/attributes'
         - $ref: '#/components/parameters/excludedAttributes'
       x-lifecycle:
-        status: proposed
+        status: trustedTester
       description: |-
-        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Proposed`
+        [Status](https://developers.vendasta.com/platform/ZG9jOjEwMTU2NTYy-versioning): `Trusted Tester`
 
         Provides details on the SCIM features supported by the Vendasta platform
   '/{namespace}/Bulk':
@@ -642,6 +688,9 @@ components:
             $ref: '#/components/schemas/Email'
         active:
           type: boolean
+          readOnly: true
+          description: |-
+            Whether the user is present in the namespace in the URL — they hold a role there, or it is their home namespace. This is not a global enabled/disabled flag, and it cannot be set through SCIM: a value sent on create or replace is ignored.
         password:
           type: string
           description: <b>This field currently NOT SUPPORTED</b>
@@ -658,8 +707,13 @@ components:
             $ref: '#/components/schemas/PhoneNumber'
         groups:
           type: array
+          readOnly: true
+          description: |-
+            The groups the user belongs to **in the namespace in the URL**. Roles the same user holds in other namespaces are never listed.
+
+            This attribute is read-only: a `groups` array sent to `POST` or `PUT` is ignored rather than applied. Change membership with `PATCH /{namespace}/Users/{id}` or `PATCH /{namespace}/Groups/{id}`.
           items:
-            $ref: '#/components/schemas/Member'
+            $ref: '#/components/schemas/UserGroup'
         meta:
           $ref: '#/components/schemas/Meta'
       required:
@@ -765,27 +819,62 @@ components:
             - 'urn:ietf:params:scim:schemas:core:2.0:Group'
         id:
           type: string
-          example: e9e30dba-f08f-4109-8486-d5c6a331660a
+          description: 'The group id. Platform groups are `<app>:<feature>`; business groups end in the business location id, `<app>:<feature>:<AG-ID>`.'
+          example: 'pc:access'
         displayName:
           type: string
-          example: Tour Guides
+          example: Platform Admin
+        type:
+          type: string
+          description: '`platformFeature` for a partner-level group, `business` for access to a business location, and `businessFeature` for one feature within a business location.'
+          enum:
+            - platformFeature
+            - business
+            - businessFeature
+          example: platformFeature
         members:
           type: array
+          description: 'Not returned by the Vendasta implementation: group reads never include membership. Read a user to see the groups they belong to.'
+          readOnly: true
           items:
             $ref: '#/components/schemas/Member'
         meta:
           $ref: '#/components/schemas/Meta'
       x-examples:
-        Example 1:
+        Platform group:
           schemas:
             - 'urn:ietf:params:scim:schemas:core:2.0:Group'
-          id: 'ba:getStarted:AG-1234567890'
-          displayName: Get Started for AG-1234567890
-          members:
-            - value: 2819c223-7f76-453a-919d-413861904646
-              display: Babs Jensen
+          id: 'pc:access'
+          displayName: Platform Admin
+          type: platformFeature
           meta:
             resourceType: Group
+        Business group:
+          schemas:
+            - 'urn:ietf:params:scim:schemas:core:2.0:Group'
+          id: 'ba:getStarted:AG-MXX5P286VP'
+          displayName: Get Started for AG-MXX5P286VP
+          type: businessFeature
+          meta:
+            resourceType: Group
+    UserGroup:
+      type: object
+      description: A group a user belongs to, as returned on the user resource. Note this is not the standard SCIM member representation - groups are identified by `id`, not `value`.
+      properties:
+        id:
+          type: string
+          description: The group id, the same id used at `/{namespace}/Groups/{id}`
+          example: 'pc:access'
+        displayName:
+          type: string
+          example: Platform Admin
+        type:
+          type: string
+          enum:
+            - platformFeature
+            - business
+            - businessFeature
+          example: platformFeature
     Member:
       type: object
       properties:

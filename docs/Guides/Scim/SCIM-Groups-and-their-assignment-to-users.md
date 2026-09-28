@@ -65,11 +65,13 @@ Here is the list of available groups you can assign to a partner user.
 | pc:canEnableApps           | Can Enable Products               | platformFeature |
 | pc:canAccessCompanyProfile | Can view and edit company profile | platformFeature |
 | pc:canAccessAutomations    | Can View and Edit Automations     | platformFeature |
-| pc:canManageRetailBilling  | Can manage retail billing         | platformFeature |
+| pc:canAccessRetailBilling  | Can manage retail billing         | platformFeature |
 | ssc:access                 | Can access Sales & Success Center | platformFeature |
 | ssc:manage                 | Is sales manager                  | platformFeature |
 | tm:access                  | Can access Task Manager           | platformFeature |
 | tm:manage                  | Can manage Task Manager           | platformFeature |
+
+> **Granting `pc:access` grants the other `pc:` groups with it.** Assigning `Platform Admin` turns on every other ordinary `pc:` platform feature for the user. Assigning any other `pc:` group also turns on `pc:access`, since a partner user needs platform access to use the feature. Removing `pc:access` removes all of them.
 
 The same groups are shown in below image on how it reflects in Vendasta
 
@@ -102,6 +104,26 @@ To see this permission in partner centre go to **[partners.vendasta.com](https:/
 
 ![Groups for platform users](../../../assets/images/platform-groups-1.png)
 ![Groups for platform users](../../../assets/images/platform-groups-2.png)
+
+## Reading a user's groups
+A user's group membership is returned on the user resource, under `groups`:
+
+```json
+{
+  "id": "U-e6d11318-2e15-e44c-bc82-77c6b7fc4fac",
+  "userName": "barbara@mail.com",
+  "groups": [
+    { "id": "pc:access", "displayName": "Platform Admin", "type": "platformFeature" },
+    { "id": "ba:access:AG-MXX5P286VP", "displayName": "AG-MXX5P286VP", "type": "business" }
+  ]
+}
+```
+
+Each entry is identified by `id` — the same id used at `/{namespace}/Groups/{id}` — rather than the `value` used by standard SCIM group members.
+
+`groups` lists the roles the user holds in the namespace in the URL. Roles the same user holds under another partner are never included.
+
+`groups` is read-only: a `groups` array sent to `POST /Users` or `PUT /Users/{id}` is ignored rather than applied. Membership is changed only through the `PATCH` requests below.
 
 ## Assigning a user to a group 
 ### Provide user access to a business location
@@ -157,6 +179,27 @@ For example we want the user to view and edit only the contacts they own. The gr
     }]
 }
 ```
+
+> **The member must already exist in your namespace.** Adding a user whose home namespace is another partner is rejected with a `400`. Create them in your namespace first with `POST /{namespace}/Users` using their email address.
+
+The same membership changes can be made from the user side, with a `groups` operation on `PATCH /{namespace}/Users/{id}`:
+
+**Request**
+`PATCH /Users/U-e6d11318-2e15-e44c-bc82-77c6b7fc4fac HTTP/1.1`
+```json
+{
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+    "Operations": [{
+        "op": "add",
+        "path": "groups",
+        "value": [{
+            "value": "pc:access"
+        }]
+    }]
+}
+```
+
+To remove a group this way, use a value filter on the path: `"op": "remove", "path": "groups[value eq \"pc:access\"]"`.
 
 ## Removing a user from a group 
 For example we want to remove `Platform Admin` role from the user

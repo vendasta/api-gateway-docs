@@ -2,6 +2,17 @@
 
 The Vendasta Platform is continuously evolving. This page lists the significant changes when they are announced. For more info on the statuses and release process see [Versioning](./Versioning.md)
 
+## 2026-09-28
+
+### SCIM user management
+The SCIM operations have moved from `Proposed` to `Trusted Tester`, and the documentation now matches the shipped behaviour of several of them:
+
+- `DELETE /scim/{namespace}/Users/{id}` is scoped to the namespace in the URL. A delete in a namespace that is not the user's home namespace removes only that namespace's roles; only a delete in their home namespace removes the Vendasta account.
+- `PUT /scim/{namespace}/Users/{id}` replaces the user's profile and preserves their roles and group membership. A profile attribute the request omits is still cleared, and `userName` / `emails` cannot be changed.
+- Reads, updates and deletes for a user who is not in the namespace return a typed `404`. A user's `groups` lists only the roles they hold in that namespace.
+
+See the [SCIM sync guide](../Guides/Scim/Guide-to-sync-users-in-vendasta.md) for the full rules.
+
 ## 2025-07-14
 Update references from "Social Marketing" to "Social AI"
 

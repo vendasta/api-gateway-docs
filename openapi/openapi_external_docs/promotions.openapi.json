@@ -1,0 +1,437 @@
+{
+  "components": {
+    "schemas": {
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "rpcStatus": {
+        "properties": {
+          "code": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/protobufAny"
+            },
+            "type": "array"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1DateDefault": {
+        "default": "DATE_DEFAULT_INVALID",
+        "enum": [
+          "DATE_DEFAULT_INVALID",
+          "DATE_DEFAULT_TODAY",
+          "DATE_DEFAULT_YESTERDAY",
+          "DATE_DEFAULT_TOMORROW",
+          "DATE_DEFAULT_THIS_WEEK",
+          "DATE_DEFAULT_LAST_WEEK",
+          "DATE_DEFAULT_NEXT_WEEK",
+          "DATE_DEFAULT_THIS_MONTH",
+          "DATE_DEFAULT_LAST_MONTH",
+          "DATE_DEFAULT_NEXT_MONTH",
+          "DATE_DEFAULT_THIS_QUARTER",
+          "DATE_DEFAULT_LAST_QUARTER",
+          "DATE_DEFAULT_NEXT_QUARTER",
+          "DATE_DEFAULT_THIS_YEAR",
+          "DATE_DEFAULT_LAST_YEAR",
+          "DATE_DEFAULT_NEXT_YEAR"
+        ],
+        "type": "string"
+      },
+      "v1DiscountType": {
+        "default": "DISCOUNT_TYPE_INVALID",
+        "description": "DiscountType is the type of discount offered by a promotion.\n\n - DISCOUNT_TYPE_PERCENT: Percentage discount (e.g., 15%)\n - DISCOUNT_TYPE_AMOUNT: Fixed amount discount (e.g., $10 off)\n - DISCOUNT_TYPE_VIP_PERK: VIP perk or special offer (e.g., free soda)",
+        "enum": [
+          "DISCOUNT_TYPE_INVALID",
+          "DISCOUNT_TYPE_PERCENT",
+          "DISCOUNT_TYPE_AMOUNT",
+          "DISCOUNT_TYPE_VIP_PERK"
+        ],
+        "type": "string"
+      },
+      "v1Filter": {
+        "properties": {
+          "fieldId": {
+            "type": "string"
+          },
+          "floatTolerance": {
+            "format": "float",
+            "type": "number"
+          },
+          "operator": {
+            "$ref": "#/components/schemas/v1FilterOperator"
+          },
+          "values": {
+            "items": {
+              "$ref": "#/components/schemas/v1FilterValue"
+            },
+            "title": "This is repeated to support operations that take zero or more than one value.\nFor example\n   isEmpty()\n   isAnyOf(a, b, c)\n   isBetween(date1, date2)",
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "v1FilterGroup": {
+        "properties": {
+          "filters": {
+            "items": {
+              "$ref": "#/components/schemas/v1Filter"
+            },
+            "type": "array"
+          },
+          "operator": {
+            "$ref": "#/components/schemas/v1FilterGroupOperator"
+          }
+        },
+        "type": "object"
+      },
+      "v1FilterGroupOperator": {
+        "default": "FILTER_GROUP_OPERATOR_INVALID",
+        "enum": [
+          "FILTER_GROUP_OPERATOR_INVALID",
+          "FILTER_GROUP_OPERATOR_AND",
+          "FILTER_GROUP_OPERATOR_OR"
+        ],
+        "type": "string"
+      },
+      "v1FilterOperator": {
+        "default": "FILTER_OPERATOR_INVALID",
+        "enum": [
+          "FILTER_OPERATOR_INVALID",
+          "FILTER_OPERATOR_IS_EMPTY",
+          "FILTER_OPERATOR_IS_NOT_EMPTY",
+          "FILTER_OPERATOR_IS",
+          "FILTER_OPERATOR_IS_NOT",
+          "FILTER_OPERATOR_IS_ANY",
+          "FILTER_OPERATOR_IS_NOT_ANY",
+          "FILTER_OPERATOR_IS_ALL",
+          "FILTER_OPERATOR_IS_NOT_ALL",
+          "FILTER_OPERATOR_CONTAINS",
+          "FILTER_OPERATOR_DOES_NOT_CONTAIN",
+          "FILTER_OPERATOR_IS_EQUAL_TO",
+          "FILTER_OPERATOR_IS_NOT_EQUAL_TO",
+          "FILTER_OPERATOR_IS_GREATER_THAN",
+          "FILTER_OPERATOR_IS_GREATER_THAN_OR_EQUAL_TO",
+          "FILTER_OPERATOR_IS_LESS_THAN",
+          "FILTER_OPERATOR_IS_LESS_THAN_OR_EQUAL_TO",
+          "FILTER_OPERATOR_IS_BEFORE",
+          "FILTER_OPERATOR_IS_BEFORE_OR_ON",
+          "FILTER_OPERATOR_IS_AFTER",
+          "FILTER_OPERATOR_IS_AFTER_OR_ON",
+          "FILTER_OPERATOR_IS_BETWEEN",
+          "FILTER_OPERATOR_IS_NOT_BETWEEN",
+          "FILTER_OPERATOR_IS_VALID",
+          "FILTER_OPERATOR_IS_NOT_VALID",
+          "FILTER_OPERATOR_ANNIVERSARY_IS"
+        ],
+        "type": "string"
+      },
+      "v1FilterValue": {
+        "properties": {
+          "boolean": {
+            "type": "boolean"
+          },
+          "date": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "dateDefault": {
+            "$ref": "#/components/schemas/v1DateDefault"
+          },
+          "float": {
+            "format": "float",
+            "type": "number"
+          },
+          "integer": {
+            "format": "int64",
+            "type": "string"
+          },
+          "phone": {
+            "$ref": "#/components/schemas/v1Phone"
+          },
+          "string": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1ListPromotionsRequest": {
+        "properties": {
+          "filters": {
+            "$ref": "#/components/schemas/v1FilterGroup"
+          },
+          "namespace": {
+            "description": "The namespace to list promotions for: an account group ID (e.g. \"AG-4F3SHDWR4Q\")\nor a partner ID.",
+            "type": "string"
+          },
+          "pagingOptions": {
+            "$ref": "#/components/schemas/vendastatypesPagedRequestOptions"
+          }
+        },
+        "required": [
+          "namespace"
+        ],
+        "title": "ListPromotionsRequest requests a paginated list of promotions",
+        "type": "object"
+      },
+      "v1ListPromotionsResponse": {
+        "properties": {
+          "pagingMetadata": {
+            "$ref": "#/components/schemas/vendastatypesPagedResponseMetadata"
+          },
+          "promotions": {
+            "items": {
+              "$ref": "#/components/schemas/v1Promotion"
+            },
+            "title": "List of promotions",
+            "type": "array"
+          }
+        },
+        "title": "ListPromotionsResponse returns a paginated list of promotions",
+        "type": "object"
+      },
+      "v1Phone": {
+        "properties": {
+          "extension": {
+            "type": "string"
+          },
+          "isoCountryCode": {
+            "title": "ISO country code is the 2 or 3 letter code for the country, example 'CA' for Canada",
+            "type": "string"
+          },
+          "nationalNumber": {
+            "type": "string"
+          }
+        },
+        "title": "This follows the E164 international standard specification for phone numbers",
+        "type": "object"
+      },
+      "v1Promotion": {
+        "description": "Promotion is the domain model for a marketing offer (e.g. discount, free item)\nthat can be redeemed by customers.",
+        "properties": {
+          "content": {
+            "$ref": "#/components/schemas/v1PromotionContent"
+          },
+          "created": {
+            "format": "date-time",
+            "readOnly": true,
+            "title": "When the promotion was created",
+            "type": "string"
+          },
+          "createdBy": {
+            "readOnly": true,
+            "title": "User ID who created the promotion",
+            "type": "string"
+          },
+          "discountCurrencyCode": {
+            "description": "ISO 4217 currency code (e.g., \"USD\", \"CAD\") for AMOUNT discounts.\nEmpty for PERCENT/VIP_PERK discounts, and for records predating this field.",
+            "type": "string"
+          },
+          "discountType": {
+            "$ref": "#/components/schemas/v1DiscountType"
+          },
+          "discountValue": {
+            "title": "Discount value (format depends on discount_type: \"15.00\" for percent, \"$10.00\" for amount, \"free soda\" for VIP perk)",
+            "type": "string"
+          },
+          "expirationDate": {
+            "format": "date-time",
+            "title": "Expiration date (optional, unset means no expiration)",
+            "type": "string"
+          },
+          "namespace": {
+            "title": "Namespace identifier (typically AG-ID or Partner ID)",
+            "type": "string"
+          },
+          "promotionCode": {
+            "title": "External promotion code (e.g., HOLIDAY2025, SUMMER25)",
+            "type": "string"
+          },
+          "promotionId": {
+            "title": "Unique identifier for the promotion",
+            "type": "string"
+          },
+          "startDate": {
+            "format": "date-time",
+            "title": "Start date when the promotion becomes available",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/v1PromotionStatus"
+          },
+          "updated": {
+            "format": "date-time",
+            "readOnly": true,
+            "title": "When the promotion was last updated",
+            "type": "string"
+          },
+          "updatedBy": {
+            "readOnly": true,
+            "title": "User ID who last updated the promotion",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1PromotionContent": {
+        "description": "PromotionContent groups the display/creative assets of a promotion.",
+        "properties": {
+          "description": {
+            "title": "Description of the promotion",
+            "type": "string"
+          },
+          "images": {
+            "items": {
+              "type": "string"
+            },
+            "title": "List of image URLs for the promotion",
+            "type": "array"
+          },
+          "title": {
+            "title": "Title of the promotion",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "v1PromotionStatus": {
+        "default": "PROMOTION_STATUS_INVALID",
+        "description": "PromotionStatus is the lifecycle status of a promotion.\n\n - PROMOTION_STATUS_ACTIVE: Promotion is active and can be used\n - PROMOTION_STATUS_DRAFT: Promotion is in draft state\n - PROMOTION_STATUS_CANCELLED: Promotion is cancelled\n - PROMOTION_STATUS_EXPIRED: Promotion is expired\n - PROMOTION_STATUS_SCHEDULED: Promotion is published but its start_date is in the future.\nDerived at read time and never stored; sending it on write is treated as ACTIVE.",
+        "enum": [
+          "PROMOTION_STATUS_INVALID",
+          "PROMOTION_STATUS_ACTIVE",
+          "PROMOTION_STATUS_DRAFT",
+          "PROMOTION_STATUS_CANCELLED",
+          "PROMOTION_STATUS_EXPIRED",
+          "PROMOTION_STATUS_SCHEDULED"
+        ],
+        "type": "string"
+      },
+      "vendastatypesPagedRequestOptions": {
+        "properties": {
+          "cursor": {
+            "description": "Optional. An opaque token from a previous response's next_cursor to retrieve the next page of results. Omit or leave empty for the first page.",
+            "type": "string"
+          },
+          "pageSize": {
+            "description": "Optional. The maximum number of items to return per page.",
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "vendastatypesPagedResponseMetadata": {
+        "properties": {
+          "hasMore": {
+            "title": "Whether or not more results exist",
+            "type": "boolean"
+          },
+          "nextCursor": {
+            "title": "A cursor that can be provided to retrieve the next page of results",
+            "type": "string"
+          },
+          "totalResults": {
+            "format": "int64",
+            "title": "The total number of results. This is not supported on all paged apis and will be 0 if it is not supported",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
+            "scopes": {
+              "promotions": "Allows the application to view and manage promotions and coupons"
+            },
+            "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "title": "Promotions",
+    "version": "0.7.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/promotions/list": {
+      "post": {
+        "description": "Lists an account's promotions, most recently updated first.\n\nFilter by status to count them: `pagingMetadata.totalResults` is the number of promotions matching the filter across all pages, so `pagingOptions.pageSize: 1` is enough to read the count.\n\nRequired OAuth2 scope: `promotions`",
+        "operationId": "PromotionsService_ListPromotions",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1ListPromotionsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1ListPromotionsResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "promotions"
+            ]
+          }
+        ],
+        "summary": "List Promotions",
+        "tags": [
+          "PromotionsService"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://prod.apigateway.co/grpc"
+    }
+  ],
+  "tags": [
+    {
+      "name": "PromotionsService"
+    }
+  ]
+}

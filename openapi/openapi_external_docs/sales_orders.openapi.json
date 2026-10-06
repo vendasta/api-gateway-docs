@@ -20,7 +20,7 @@
         },
         "type": "object"
       },
-      "googlerpcStatus": {
+      "googleRpcStatus": {
         "properties": {
           "code": {
             "format": "int32",
@@ -47,7 +47,20 @@
         },
         "type": "object"
       },
-      "salesordersv1Status": {
+      "salesV1Duration": {
+        "properties": {
+          "duration": {
+            "$ref": "#/components/schemas/v1DurationPeriod"
+          },
+          "value": {
+            "description": "Value for duration of time of a given operation.",
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "salesordersV1Status": {
         "default": "SUBMITTED",
         "description": "- SUBMITTED: Submitted is the status when an order is ready for admin approval\n - APPROVED: Approved is the status when an order is has been approved by an admin\n - DECLINED: Declined is the status when an order is has been declined by an admin or a smb\n - DRAFTED: Drafted is currently not used but would be the state the order can be created in before it's sent to someone else\n - FULFILLED: Fulfilled is the status when an order has had all of the products activated\n - PROCESSING: Processing is the status when an order is currently activating the products\n - ACTIVATION_ERRORS: ActivationErrors is the status when an order is has encountered an error when activating products\n - ARCHIVED: Archived is the status to use when hiding the orders from the ui unless explicitly asked for\n - SUBMITTED_FOR_CUSTOMER_APPROVAL: SubmittedForCustomerApproval is the status when an order has been sent to a SMB to approve\n - CANCELLATION_REQUESTED: CancellationRequested is the status when a sales person requests to cancel a full order\n - CANCELLED: Cancelled is the status when a after an admin has approved a Cancellation\n - SCHEDULED_ACTIVATION: ScheduledActivation is the status of an order after the admin requests to activate products on the contract start date\n - AWAITING_PAYMENT: AwaitingPayment is the status of a BIY order on creation before we attempt to charge\n - PROCESSING_PAYMENT: ProcessingPayment is the status of a BIY order while waiting on confirmation for the charge\n - RESUBMITTED: Resubmitted is the status of an order when it has been resubmitted for admin approval, after being submitted at least one other time in the past",
         "enum": [
@@ -69,19 +82,6 @@
         ],
         "title": "The different statuses representing any given state an order can be in",
         "type": "string"
-      },
-      "salesv1Duration": {
-        "properties": {
-          "duration": {
-            "$ref": "#/components/schemas/v1DurationPeriod"
-          },
-          "value": {
-            "description": "Value for duration of time of a given operation.",
-            "format": "int64",
-            "type": "string"
-          }
-        },
-        "type": "object"
       },
       "v1ActivationStatus": {
         "default": "PENDING",
@@ -237,7 +237,7 @@
       "v1BillingPeriod": {
         "properties": {
           "duration": {
-            "$ref": "#/components/schemas/salesv1Duration"
+            "$ref": "#/components/schemas/salesV1Duration"
           },
           "endDate": {
             "format": "date-time",
@@ -366,7 +366,7 @@
             "type": "array"
           },
           "contractDuration": {
-            "$ref": "#/components/schemas/salesv1Duration"
+            "$ref": "#/components/schemas/salesV1Duration"
           },
           "customFields": {
             "items": {
@@ -917,7 +917,7 @@
           },
           "statuses": {
             "items": {
-              "$ref": "#/components/schemas/salesordersv1Status"
+              "$ref": "#/components/schemas/salesordersV1Status"
             },
             "title": "Multiple status filter",
             "type": "array"
@@ -1036,7 +1036,7 @@
             "type": "array"
           },
           "contractDuration": {
-            "$ref": "#/components/schemas/salesv1Duration"
+            "$ref": "#/components/schemas/salesV1Duration"
           },
           "created": {
             "description": "Output only. Time the order was submitted by a salesperson.",
@@ -1209,7 +1209,7 @@
             "type": "string"
           },
           "status": {
-            "$ref": "#/components/schemas/salesordersv1Status"
+            "$ref": "#/components/schemas/salesordersV1Status"
           },
           "statusHistory": {
             "description": "Output only. The historical list of status updates that have taken place on the order.",
@@ -1507,7 +1507,7 @@
             "$ref": "#/components/schemas/v1Source"
           },
           "status": {
-            "$ref": "#/components/schemas/salesordersv1Status"
+            "$ref": "#/components/schemas/salesordersV1Status"
           },
           "userId": {
             "description": "Output only. The unique identifier of the user that updated the status.",
@@ -1637,7 +1637,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/googlerpcStatus"
+                  "$ref": "#/components/schemas/googleRpcStatus"
                 }
               }
             },
@@ -1685,7 +1685,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/googlerpcStatus"
+                  "$ref": "#/components/schemas/googleRpcStatus"
                 }
               }
             },
@@ -1726,7 +1726,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/googlerpcStatus"
+                  "$ref": "#/components/schemas/googleRpcStatus"
                 }
               }
             },
@@ -1767,7 +1767,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/googlerpcStatus"
+                  "$ref": "#/components/schemas/googleRpcStatus"
                 }
               }
             },
@@ -1816,7 +1816,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/googlerpcStatus"
+                  "$ref": "#/components/schemas/googleRpcStatus"
                 }
               }
             },

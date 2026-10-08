@@ -37,16 +37,7 @@
         ],
         "type": "string"
       },
-      "protobufAny": {
-        "additionalProperties": {},
-        "properties": {
-          "@type": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "rpcStatus": {
+      "googlerpcStatus": {
         "properties": {
           "code": {
             "format": "int32",
@@ -64,7 +55,16 @@
         },
         "type": "object"
       },
-      "socialpostsV1Author": {
+      "protobufAny": {
+        "additionalProperties": {},
+        "properties": {
+          "@type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "socialpostsv1Author": {
         "description": "The author of a blog post.",
         "properties": {
           "id": {
@@ -82,7 +82,7 @@
         "title": "Author",
         "type": "object"
       },
-      "socialpostsV1Category": {
+      "socialpostsv1Category": {
         "description": "A blog post category.",
         "properties": {
           "id": {
@@ -100,7 +100,7 @@
         "title": "Category",
         "type": "object"
       },
-      "socialpostsV2Author": {
+      "socialpostsv2Author": {
         "properties": {
           "id": {
             "format": "int64",
@@ -112,7 +112,7 @@
         },
         "type": "object"
       },
-      "socialpostsV2Category": {
+      "socialpostsv2Category": {
         "properties": {
           "id": {
             "format": "int64",
@@ -130,12 +130,12 @@
         "description": "Blog post-specific customization options, including author, categories, and tags.",
         "properties": {
           "author": {
-            "$ref": "#/components/schemas/socialpostsV1Author"
+            "$ref": "#/components/schemas/socialpostsv1Author"
           },
           "categories": {
             "description": "Output only. The categories of the blog post.",
             "items": {
-              "$ref": "#/components/schemas/socialpostsV1Category"
+              "$ref": "#/components/schemas/socialpostsv1Category"
             },
             "readOnly": true,
             "type": "array"
@@ -416,7 +416,6 @@
       },
       "v1PostType": {
         "default": "POST_TYPE_INVALID",
-        "description": " - POST_TYPE_SHORT: YouTube Shorts: short-form vertical video, published through the standard\nYouTube upload flow but tracked and permalinked (/shorts/{id}) as a Short.",
         "enum": [
           "POST_TYPE_INVALID",
           "POST_TYPE_IMAGE",
@@ -427,8 +426,7 @@
           "POST_TYPE_STORIES",
           "POST_TYPE_TEXT",
           "POST_TYPE_IMAGE_STORY",
-          "POST_TYPE_VIDEO_STORY",
-          "POST_TYPE_SHORT"
+          "POST_TYPE_VIDEO_STORY"
         ],
         "type": "string"
       },
@@ -709,7 +707,7 @@
       "v2BlogPost": {
         "properties": {
           "author": {
-            "$ref": "#/components/schemas/socialpostsV2Author"
+            "$ref": "#/components/schemas/socialpostsv2Author"
           },
           "businessId": {
             "title": "Business ID",
@@ -717,7 +715,7 @@
           },
           "categories": {
             "items": {
-              "$ref": "#/components/schemas/socialpostsV2Category"
+              "$ref": "#/components/schemas/socialpostsv2Category"
             },
             "title": "Category for a blog",
             "type": "array"
@@ -1111,7 +1109,6 @@
       },
       "v2PostTypeV2": {
         "default": "POST_TYPE_INVALID",
-        "description": "- POST_TYPE_SHORT: YouTube Shorts: short-form vertical video, published through the standard\nYouTube upload flow but tracked and permalinked (/shorts/{id}) as a Short.\nNOTE: numeric value differs from v1 PostType (POST_TYPE_SHORT = 10 there);\nbridge only via the named mapping functions, never numeric casts.",
         "enum": [
           "POST_TYPE_INVALID",
           "POST_TYPE_IMAGE",
@@ -1121,8 +1118,7 @@
           "POST_TYPE_TEXT",
           "POST_TYPE_STORIES",
           "POST_TYPE_IMAGE_STORY",
-          "POST_TYPE_VIDEO_STORY",
-          "POST_TYPE_SHORT"
+          "POST_TYPE_VIDEO_STORY"
         ],
         "title": "Represents the type of a post",
         "type": "string"
@@ -1131,7 +1127,7 @@
         "description": "Request message for publishing a blog post to a WordPress site.",
         "properties": {
           "author": {
-            "$ref": "#/components/schemas/socialpostsV2Author"
+            "$ref": "#/components/schemas/socialpostsv2Author"
           },
           "businessId": {
             "description": "Required. The business id of the blog post connection.",
@@ -1140,7 +1136,7 @@
           "categories": {
             "description": "Optional. The categories of the blog post.",
             "items": {
-              "$ref": "#/components/schemas/socialpostsV2Category"
+              "$ref": "#/components/schemas/socialpostsv2Category"
             },
             "type": "array"
           },
@@ -1560,7 +1556,7 @@
   },
   "info": {
     "title": "Social Posts",
-    "version": "2.84.0"
+    "version": "2.82.0"
   },
   "openapi": "3.0.0",
   "paths": {
@@ -1593,7 +1589,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/rpcStatus"
+                  "$ref": "#/components/schemas/googlerpcStatus"
                 }
               }
             },
@@ -1642,7 +1638,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/rpcStatus"
+                  "$ref": "#/components/schemas/googlerpcStatus"
                 }
               }
             },
@@ -1684,7 +1680,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/rpcStatus"
+                  "$ref": "#/components/schemas/googlerpcStatus"
                 }
               }
             },
@@ -1733,7 +1729,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/rpcStatus"
+                  "$ref": "#/components/schemas/googlerpcStatus"
                 }
               }
             },
@@ -1775,7 +1771,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/rpcStatus"
+                  "$ref": "#/components/schemas/googlerpcStatus"
                 }
               }
             },
@@ -1817,7 +1813,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/rpcStatus"
+                  "$ref": "#/components/schemas/googlerpcStatus"
                 }
               }
             },
@@ -1859,7 +1855,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/rpcStatus"
+                  "$ref": "#/components/schemas/googlerpcStatus"
                 }
               }
             },
@@ -1908,7 +1904,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/rpcStatus"
+                  "$ref": "#/components/schemas/googlerpcStatus"
                 }
               }
             },

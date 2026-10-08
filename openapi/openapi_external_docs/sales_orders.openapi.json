@@ -20,7 +20,7 @@
         },
         "type": "object"
       },
-      "googleRpcStatus": {
+      "googlerpcStatus": {
         "properties": {
           "code": {
             "format": "int32",
@@ -47,20 +47,7 @@
         },
         "type": "object"
       },
-      "salesV1Duration": {
-        "properties": {
-          "duration": {
-            "$ref": "#/components/schemas/v1DurationPeriod"
-          },
-          "value": {
-            "description": "Value for duration of time of a given operation.",
-            "format": "int64",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "salesordersV1Status": {
+      "salesordersv1Status": {
         "default": "SUBMITTED",
         "description": "- SUBMITTED: Submitted is the status when an order is ready for admin approval\n - APPROVED: Approved is the status when an order is has been approved by an admin\n - DECLINED: Declined is the status when an order is has been declined by an admin or a smb\n - DRAFTED: Drafted is currently not used but would be the state the order can be created in before it's sent to someone else\n - FULFILLED: Fulfilled is the status when an order has had all of the products activated\n - PROCESSING: Processing is the status when an order is currently activating the products\n - ACTIVATION_ERRORS: ActivationErrors is the status when an order is has encountered an error when activating products\n - ARCHIVED: Archived is the status to use when hiding the orders from the ui unless explicitly asked for\n - SUBMITTED_FOR_CUSTOMER_APPROVAL: SubmittedForCustomerApproval is the status when an order has been sent to a SMB to approve\n - CANCELLATION_REQUESTED: CancellationRequested is the status when a sales person requests to cancel a full order\n - CANCELLED: Cancelled is the status when a after an admin has approved a Cancellation\n - SCHEDULED_ACTIVATION: ScheduledActivation is the status of an order after the admin requests to activate products on the contract start date\n - AWAITING_PAYMENT: AwaitingPayment is the status of a BIY order on creation before we attempt to charge\n - PROCESSING_PAYMENT: ProcessingPayment is the status of a BIY order while waiting on confirmation for the charge\n - RESUBMITTED: Resubmitted is the status of an order when it has been resubmitted for admin approval, after being submitted at least one other time in the past",
         "enum": [
@@ -82,6 +69,19 @@
         ],
         "title": "The different statuses representing any given state an order can be in",
         "type": "string"
+      },
+      "salesv1Duration": {
+        "properties": {
+          "duration": {
+            "$ref": "#/components/schemas/v1DurationPeriod"
+          },
+          "value": {
+            "description": "Value for duration of time of a given operation.",
+            "format": "int64",
+            "type": "string"
+          }
+        },
+        "type": "object"
       },
       "v1ActivationStatus": {
         "default": "PENDING",
@@ -237,7 +237,7 @@
       "v1BillingPeriod": {
         "properties": {
           "duration": {
-            "$ref": "#/components/schemas/salesV1Duration"
+            "$ref": "#/components/schemas/salesv1Duration"
           },
           "endDate": {
             "format": "date-time",
@@ -334,15 +334,31 @@
         "title": "Common Field",
         "type": "object"
       },
-      "v1Cost": {
+      "v1CreateAndActivateOrderRequest": {
         "properties": {
-          "customPrice": {
-            "format": "int64",
-            "title": "The custom price of the order item. Can only be changed if the application supports custom pricing",
+          "order": {
+            "$ref": "#/components/schemas/v1Order"
+          },
+          "useCustomerPrice": {
+            "title": "Indicates whether or not to automatically resolve the line items' retail pricing.\nThe request's line items are expected to have nil revenue if this is set to true.\nFor more information and error scenarios, see Confluence docs:\nhttps://vendasta.jira.com/wiki/spaces/PSYC/pages/2211971323/New+use+customer+price+on+sales-orders+Create+APIs",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "order"
+        ],
+        "title": "Request for creating an order directly into activation state",
+        "type": "object"
+      },
+      "v1CreateAndActivateOrderResponse": {
+        "properties": {
+          "orderId": {
+            "readOnly": true,
+            "title": "Unique identifier of an order",
             "type": "string"
           }
         },
-        "title": "Cost represents the wholesale cost of an order",
+        "title": "Response for creating an order directly into activation state",
         "type": "object"
       },
       "v1CreateSalesOrderRequest": {
@@ -366,7 +382,7 @@
             "type": "array"
           },
           "contractDuration": {
-            "$ref": "#/components/schemas/salesV1Duration"
+            "$ref": "#/components/schemas/salesv1Duration"
           },
           "customFields": {
             "items": {
@@ -713,22 +729,8 @@
           "appKey": {
             "$ref": "#/components/schemas/LineItemAppKey"
           },
-          "autoBillable": {
-            "title": "DEPRECATED: use non_billable instead",
-            "type": "boolean"
-          },
-          "billToRecipientId": {
-            "description": "The billing recipient for this line item.\nWhen set to a partner_id, wholesale billing applies (default behavior).\nWhen set to an account_group_id, retail billing is triggered for that customer.\nWhen empty, defaults to the merchant (partner) paying wholesale.",
-            "type": "string"
-          },
           "billingPeriod": {
             "$ref": "#/components/schemas/v1BillingPeriod"
-          },
-          "cost": {
-            "$ref": "#/components/schemas/v1Cost"
-          },
-          "currency": {
-            "$ref": "#/components/schemas/v1Currency"
           },
           "currencyCode": {
             "description": "The 3-letter currency code defined in ISO 4217.",
@@ -737,41 +739,13 @@
           "currentRevenue": {
             "$ref": "#/components/schemas/v1Revenue"
           },
-          "customPrices": {
-            "items": {
-              "$ref": "#/components/schemas/v1CustomPriceMapping"
-            },
-            "title": "The custom price mapping for variable priced products in a package in the order",
-            "type": "array"
-          },
-          "initialRevenue": {
-            "$ref": "#/components/schemas/v1Revenue"
-          },
-          "isTrial": {
-            "title": "Only used when AppKey is the identifier",
-            "type": "boolean"
-          },
-          "nonBillable": {
-            "title": "Indicates whether this line item should be billable or not\nIf true, the item will not be billed",
-            "type": "boolean"
-          },
           "packageId": {
             "type": "string"
           },
           "quantity": {
+            "description": "The number of instances of the product to activate. Values greater than 1 are only honoured for products that support multiple activations; other products are activated once.",
             "format": "int64",
             "type": "string"
-          },
-          "retailSubscriptionGroupId": {
-            "title": "The retail subscription group id that this line item belongs to (if any)",
-            "type": "string"
-          },
-          "taxRateIds": {
-            "items": {
-              "type": "string"
-            },
-            "title": "The tax rate ids that apply to this line item",
-            "type": "array"
           }
         },
         "type": "object"
@@ -917,7 +891,7 @@
           },
           "statuses": {
             "items": {
-              "$ref": "#/components/schemas/salesordersV1Status"
+              "$ref": "#/components/schemas/salesordersv1Status"
             },
             "title": "Multiple status filter",
             "type": "array"
@@ -1015,7 +989,7 @@
             "type": "array"
           },
           "attachments": {
-            "description": "Optional. Attachments on the order.",
+            "description": "Optional. Files attached to the order for the fulfillment team.\nEach entry must reference a file hosted at a publicly reachable URL that the partner controls.\nVendasta does not copy or scan the file; the URL is stored as provided and opened by fulfillment staff.",
             "items": {
               "$ref": "#/components/schemas/v1Attachment"
             },
@@ -1036,7 +1010,7 @@
             "type": "array"
           },
           "contractDuration": {
-            "$ref": "#/components/schemas/salesV1Duration"
+            "$ref": "#/components/schemas/salesv1Duration"
           },
           "created": {
             "description": "Output only. Time the order was submitted by a salesperson.",
@@ -1045,14 +1019,14 @@
             "type": "string"
           },
           "customFields": {
-            "description": "Optional. Custom field answers for the packages.",
+            "description": "Optional. Answers to the custom fields defined in the partner's order configuration (Administration \u003e Order settings \u003e Default content).\nEach answer must use the field ID from that configuration; answers that do not match the configured fields are rejected.",
             "items": {
               "$ref": "#/components/schemas/v1CustomField"
             },
             "type": "array"
           },
           "customerAttachments": {
-            "description": "Optional. Customer attachments on the order.",
+            "description": "Optional. Files the customer attached to the order.\nEach entry must reference a file hosted at a publicly reachable URL that the partner controls.\nVendasta does not copy or scan the file; the URL is stored as provided.",
             "items": {
               "$ref": "#/components/schemas/v1Attachment"
             },
@@ -1064,14 +1038,6 @@
           },
           "customerRecipient": {
             "$ref": "#/components/schemas/v1CustomerRecipient"
-          },
-          "declinedReason": {
-            "title": "DEPRECATED: declined_reason is now added to the StatusHistoryItem\nThe reason the order was declined",
-            "type": "string"
-          },
-          "enforceContractTerm": {
-            "description": "Optional. Indicates whether to enforce the contract term.",
-            "type": "boolean"
           },
           "expiryDate": {
             "description": "Output only. The expiry date for the order.",
@@ -1109,21 +1075,12 @@
             "readOnly": true,
             "type": "string"
           },
-          "leasedToAutomations": {
-            "format": "date-time",
-            "title": "DEPRECATED: No longer supported",
-            "type": "string"
-          },
           "lineItems": {
             "description": "Optional. Line items that make up the order.",
             "items": {
               "$ref": "#/components/schemas/v1LineItem"
             },
             "type": "array"
-          },
-          "marketId": {
-            "description": "Optional. The market the order is being made under.",
-            "type": "string"
           },
           "notes": {
             "description": "Optional. Notes for the partner administrator from the salesperson.",
@@ -1147,28 +1104,6 @@
             "readOnly": true,
             "type": "string"
           },
-          "orderIsSmbPayable": {
-            "description": "Optional. Indicates whether the order should be charged to the SMB or not.",
-            "type": "boolean"
-          },
-          "origin": {
-            "$ref": "#/components/schemas/v1Origin"
-          },
-          "packages": {
-            "items": {
-              "$ref": "#/components/schemas/v1Package"
-            },
-            "title": "Packages in the order",
-            "type": "array"
-          },
-          "partnerId": {
-            "description": "Required. The partner the order is being made under.",
-            "type": "string"
-          },
-          "paymentMethodToken": {
-            "description": "Optional. An id used by BIY sales orders to associate a payment method.",
-            "type": "string"
-          },
           "productActivations": {
             "description": "Output only. The list of products with their corresponding activation status.",
             "items": {
@@ -1177,39 +1112,16 @@
             "readOnly": true,
             "type": "array"
           },
-          "products": {
-            "items": {
-              "$ref": "#/components/schemas/v1Product"
-            },
-            "title": "Products in the order",
-            "type": "array"
-          },
-          "quoteId": {
-            "description": "Optional. The id of the quote associated to the order if the order was created from a quote.",
-            "type": "string"
-          },
           "requestedActivation": {
             "description": "Optional. The requested activation date for the order's products.",
             "format": "date-time",
             "type": "string"
           },
-          "retailSubscriptionGroups": {
-            "additionalProperties": {
-              "$ref": "#/components/schemas/v1RetailSubscriptionGroup"
-            },
-            "description": "Output only. The retail subscription groups on the order.",
-            "readOnly": true,
-            "type": "object"
-          },
           "salesperson": {
             "$ref": "#/components/schemas/v1Salesperson"
           },
-          "salespersonId": {
-            "description": "Required. The salesperson who submitted the order.",
-            "type": "string"
-          },
           "status": {
-            "$ref": "#/components/schemas/salesordersV1Status"
+            "$ref": "#/components/schemas/salesordersv1Status"
           },
           "statusHistory": {
             "description": "Output only. The historical list of status updates that have taken place on the order.",
@@ -1236,8 +1148,6 @@
           }
         },
         "required": [
-          "salespersonId",
-          "partnerId",
           "businessId"
         ],
         "title": "Order",
@@ -1359,36 +1269,6 @@
         "title": "Product Activation",
         "type": "object"
       },
-      "v1RetailSubscriptionGroup": {
-        "properties": {
-          "displayOption": {
-            "$ref": "#/components/schemas/v1RetailSubscriptionGroupDisplayOption"
-          },
-          "iconUrl": {
-            "title": "The icon url of the retail subscription group",
-            "type": "string"
-          },
-          "name": {
-            "title": "The name of the retail subscription group",
-            "type": "string"
-          },
-          "sourceIdentifier": {
-            "title": "The source identifier of the retail subscription group",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "v1RetailSubscriptionGroupDisplayOption": {
-        "default": "DISPLAY_OPTION_INVALID",
-        "enum": [
-          "DISPLAY_OPTION_INVALID",
-          "SHOW_CONTENT_SHOW_PRICES",
-          "SHOW_CONTENT_HIDE_PRICES",
-          "HIDE_CONTENT_HIDE_PRICES"
-        ],
-        "type": "string"
-      },
       "v1Revenue": {
         "properties": {
           "revenueComponents": {
@@ -1507,7 +1387,7 @@
             "$ref": "#/components/schemas/v1Source"
           },
           "status": {
-            "$ref": "#/components/schemas/salesordersV1Status"
+            "$ref": "#/components/schemas/salesordersv1Status"
           },
           "userId": {
             "description": "Output only. The unique identifier of the user that updated the status.",
@@ -1594,7 +1474,8 @@
             "authorizationUrl": "https://sso-api-prod.apigateway.co/oauth2/auth",
             "scopes": {
               "order": "Allows the application to manage orders",
-              "order:read": "Allows the application view-only access to orders"
+              "order:read": "Allows the application view-only access to orders",
+              "purchase": "Allows the application to perform purchases within the platform"
             },
             "tokenUrl": "https://sso-api-prod.apigateway.co/oauth2/token"
           }
@@ -1605,7 +1486,7 @@
   },
   "info": {
     "title": "Sales Orders",
-    "version": "1.137.0"
+    "version": "1.138.0"
   },
   "openapi": "3.0.0",
   "paths": {
@@ -1637,7 +1518,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/googleRpcStatus"
+                  "$ref": "#/components/schemas/googlerpcStatus"
                 }
               }
             },
@@ -1652,6 +1533,54 @@
           }
         ],
         "summary": "Create Sales Order",
+        "tags": [
+          "SalesOrders"
+        ]
+      }
+    },
+    "/v1/order/create-and-activate": {
+      "post": {
+        "operationId": "SalesOrders_CreateAndActivateOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1CreateAndActivateOrderRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1CreateAndActivateOrderResponse"
+                }
+              }
+            },
+            "description": "A successful response."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/googlerpcStatus"
+                }
+              }
+            },
+            "description": "An unexpected error response."
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "purchase"
+            ]
+          }
+        ],
+        "summary": "Create and Activate Order",
         "tags": [
           "SalesOrders"
         ]
@@ -1685,7 +1614,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/googleRpcStatus"
+                  "$ref": "#/components/schemas/googlerpcStatus"
                 }
               }
             },
@@ -1726,7 +1655,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/googleRpcStatus"
+                  "$ref": "#/components/schemas/googlerpcStatus"
                 }
               }
             },
@@ -1767,7 +1696,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/googleRpcStatus"
+                  "$ref": "#/components/schemas/googlerpcStatus"
                 }
               }
             },
@@ -1816,7 +1745,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/googleRpcStatus"
+                  "$ref": "#/components/schemas/googlerpcStatus"
                 }
               }
             },
